@@ -1,34 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All communal establishments
-    type: BIGINT
-  - name: Number of residents
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - NHS Psychiatric
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - NHS Other
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Local authority - Childrens home
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Local authority - Other
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Housing association
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Other Nursing homes
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Other Residential care homes
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Other Childrens homes
-    type: BIGINT
-  - name: Residents living in - Medical and care establishments - Other - Other
-    type: BIGINT
-  - name: Residents living in - Other establishments
-    type: BIGINT
-  - name: Residents in communal establishments with limiting long-term illness - Medical and care establishments
-    type: BIGINT
-  - name: Residents in communal establishments with a limiting long-term illness Other establishments with limiting long-term illness
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

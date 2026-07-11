@@ -1,68 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Borough
+  - name: package_title
     type: VARCHAR
-  - name: Number votes-Conservatives
-    type: BIGINT
-  - name: Number votes-Labour
-    type: BIGINT
-  - name: Number votes-Liberal Democrats
-    type: BIGINT
-  - name: Number votes-Green
-    type: BIGINT
-  - name: Number votes-UKIP
-    type: BIGINT
-  - name: Number votes-BNP
-    type: BIGINT
-  - name: Number votes-Christian Peoples Alliance
-    type: BIGINT
-  - name: Number votes-English Democrats
-    type: BIGINT
-  - name: Number votes-Respect - The Unity Coalition
-    type: BIGINT
-  - name: Number votes-Peoples party for better government
-    type: BIGINT
-  - name: Number votes-TOTAL Good Votes
-    type: BIGINT
-  - name: Number spoils-Uncertain or Blank
-    type: BIGINT
-  - name: Number spoils-Voting for too many candidates
-    type: BIGINT
-  - name: Number spoils-Writing a mark by which the voter could be identified
-    type: BIGINT
-  - name: Number spoils-Lack of Official Mark
-    type: BIGINT
-  - name: Number spoils-TOTAL Spoils
-    type: BIGINT
-  - name: Electorate
-    type: BIGINT
-  - name: Ballot papers
-    type: BIGINT
-  - name: percent poll
-    type: DOUBLE
-  - name: Percent good votes-Conservatives
-    type: DOUBLE
-  - name: Percent good votes-Labour
-    type: DOUBLE
-  - name: Percent good votes-Liberal Democrats
-    type: DOUBLE
-  - name: Percent good votes-Green
-    type: DOUBLE
-  - name: Percent good votes-UKIP
-    type: DOUBLE
-  - name: Percent good votes-BNP
-    type: DOUBLE
-  - name: Percent good votes-Christian Peoples Alliance
-    type: DOUBLE
-  - name: Percent good votes-English Democrats
-    type: DOUBLE
-  - name: Percent good votes-Respect - The Unity Coalition
-    type: DOUBLE
-  - name: Percent good votes-Peoples party for better government
-    type: DOUBLE
-  - name: Percent good votes-TOTAL Good Votes
-    type: BIGINT
-  - name: TOTAL Spoils-as percent good votes
-    type: DOUBLE
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

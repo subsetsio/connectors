@@ -1,184 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Borough
+  - name: package_title
     type: VARCHAR
-  - name: Constituency
+  - name: resource_id
     type: VARCHAR
-  - name: London Mayor-1st Choice-Barnbrook Richard - British National Party
-    type: BIGINT
-  - name: London Mayor-1st Choice-Batten Gerard Joseph - UK Indpendence Party
-    type: BIGINT
-  - name: London Mayor-1st Choice-Berry Sian - Green Party
-    type: BIGINT
-  - name: London Mayor-1st Choice-Craig Alan - Christian Peoples Alliance and Christian Party
-    type: BIGINT
-  - name: London Mayor-1st Choice-German Lindsey Ann - Left List
-    type: BIGINT
-  - name: London Mayor-1st Choice-Johnson Boris - Conservative Party
-    type: BIGINT
-  - name: London Mayor-1st Choice-Livingstone Ken - The Labour Party Candidate
-    type: BIGINT
-  - name: London Mayor-1st Choice-McKenzie Winston Truman - Independent
-    type: BIGINT
-  - name: London Mayor-1st Choice-O_Connor Matt - English Democrats
-    type: BIGINT
-  - name: London Mayor-1st Choice-Paddick Brian Lenoard - Liberal Democrats
-    type: BIGINT
-  - name: London Mayor-1st Choice-TOTAL_Good
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-want of official mark
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-voting for too many
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-writing identifying voter
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-unmarked
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-uncertain
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-rejected in part
-    type: BIGINT
-  - name: London Mayor-1st Choice spoils-TOTAL_Spoils
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Barnbrook Richard - British National Party
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Batten Gerard Joseph - UK Indpendence Party
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Berry Sian - Green Party
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Craig Alan - Christian Peoples Alliance and Christian Party
-    type: BIGINT
-  - name: London Mayor-2nd Choice-German Lindsey Ann - Left List
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Johnson Boris - Conservative Party
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Livingstone Ken - The Labour Party Candidate
-    type: BIGINT
-  - name: London Mayor-2nd Choice-McKenzie Winston Truman - Independent
-    type: BIGINT
-  - name: London Mayor-2nd Choice-O_Connor Matt - English Democrats
-    type: BIGINT
-  - name: London Mayor-2nd Choice-Paddick Brian Lenoard - Liberal Democrats
-    type: BIGINT
-  - name: London Mayor-2nd Choice-TOTAL_Good
-    type: BIGINT
-  - name: London Mayor-2nd Choice spoils-unmarked
-    type: BIGINT
-  - name: London Mayor-2nd Choice spoils-voting for too many
-    type: BIGINT
-  - name: London Mayor-2nd Choice spoils-uncertain
-    type: BIGINT
-  - name: London Mayor-2nd Choice spoils-TOTAL_Spoils
-    type: BIGINT
-  - name: London Mayor-
-    type: BIGINT
-  - name: London Mayor-_2
-    type: DOUBLE
-  - name: London Member-
-    type: BIGINT
-  - name: London Member-_2
-    type: BIGINT
-  - name: London Member-_3
-    type: BIGINT
-  - name: London Member-_4
-    type: BIGINT
-  - name: London Member-_5
-    type: BIGINT
-  - name: London Member-_6
-    type: BIGINT
-  - name: London Member-_7
-    type: BIGINT
-  - name: London Member-_8
-    type: BIGINT
-  - name: London Member-_9
-    type: BIGINT
-  - name: London Member-_10
-    type: BIGINT
-  - name: London Member-_11
-    type: BIGINT
-  - name: London Member-_12
-    type: BIGINT
-  - name: London Member-_13
-    type: BIGINT
-  - name: London Member-_14
-    type: BIGINT
-  - name: London Member-_15
-    type: BIGINT
-  - name: London Member-Spoils-want of official mark
-    type: BIGINT
-  - name: London Member-Spoils-voting for too many
-    type: BIGINT
-  - name: London Member-Spoils-writing identifying voter
-    type: BIGINT
-  - name: London Member-Spoils-unmarked
-    type: BIGINT
-  - name: London Member-Spoils-uncertain
-    type: BIGINT
-  - name: London Member-Spoils-TOTAL_Spoils
-    type: BIGINT
-  - name: London Member-_16
-    type: DOUBLE
-  - name: Constituency Member-
-    type: BIGINT
-  - name: Constituency Member-_2
-    type: BIGINT
-  - name: Constituency Member-_3
-    type: BIGINT
-  - name: Constituency Member-_4
-    type: BIGINT
-  - name: Constituency Member-_5
-    type: BIGINT
-  - name: Constituency Member-_6
-    type: BIGINT
-  - name: Constituency Member-_7
-    type: BIGINT
-  - name: Constituency Member-_8
-    type: BIGINT
-  - name: Constituency Member-_9
-    type: BIGINT
-  - name: Constituency Member-_10
-    type: BIGINT
-  - name: Constituency Member-_11
-    type: BIGINT
-  - name: Constituency Member-_12
-    type: BIGINT
-  - name: Constituency Member-_13
-    type: BIGINT
-  - name: Constituency Member-Spoils-want of official mark
-    type: BIGINT
-  - name: Constituency Member-Spoils-voting for too many
-    type: BIGINT
-  - name: Constituency Member-Spoils-writing identifying voter
-    type: BIGINT
-  - name: Constituency Member-Spoils-unmarked
-    type: BIGINT
-  - name: Constituency Member-Spoils-uncertain
-    type: BIGINT
-  - name: Constituency Member-Spoils-TOTAL_Spoils
-    type: BIGINT
-  - name: Constituency Member-_14
+  - name: resource_name
     type: VARCHAR
-  - name: Constituency Member-_15
+  - name: resource_format
     type: VARCHAR
-  - name: Constituency Member-_16
+  - name: resource_url
     type: VARCHAR
-  - name: Constituency Member-_17
+  - name: member_path
     type: VARCHAR
-  - name: Constituency Member-_18
+  - name: sheet_name
     type: VARCHAR
-  - name: Constituency Member-_19
+  - name: source_row_number
     type: VARCHAR
-  - name: Constituency Member-_20
-    type: VARCHAR
-  - name: Constituency Member-_21
-    type: VARCHAR
-  - name: Constituency Member-_22
-    type: VARCHAR
-  - name: Constituency Member-_23
-    type: VARCHAR
-  - name: Constituency Member-_24
-    type: VARCHAR
-  - name: Constituency Member-_25
+  - name: data_json
     type: VARCHAR

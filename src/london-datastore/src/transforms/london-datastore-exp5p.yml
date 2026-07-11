@@ -1,102 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: pcd
+  - name: package_id
     type: VARCHAR
-  - name: pcd2
+  - name: package_title
     type: VARCHAR
-  - name: pcds
+  - name: resource_id
     type: VARCHAR
-  - name: dointr
-    type: BIGINT
-  - name: doterm
-    type: BIGINT
-  - name: oscty
+  - name: resource_name
     type: VARCHAR
-  - name: ced
+  - name: resource_format
     type: VARCHAR
-  - name: oslaua
+  - name: resource_url
     type: VARCHAR
-  - name: osward
+  - name: member_path
     type: VARCHAR
-  - name: parish
+  - name: sheet_name
     type: VARCHAR
-  - name: usertype
-    type: BIGINT
-  - name: oseast1m
-    type: BIGINT
-  - name: osnrth1m
-    type: BIGINT
-  - name: osgrdind
-    type: BIGINT
-  - name: oshlthau
+  - name: source_row_number
     type: VARCHAR
-  - name: nhser
-    type: VARCHAR
-  - name: ctry
-    type: VARCHAR
-  - name: rgn
-    type: VARCHAR
-  - name: streg
-    type: BIGINT
-  - name: pcon
-    type: VARCHAR
-  - name: eer
-    type: VARCHAR
-  - name: teclec
-    type: VARCHAR
-  - name: ttwa
-    type: VARCHAR
-  - name: pct
-    type: VARCHAR
-  - name: itl
-    type: VARCHAR
-  - name: statsward
-    type: VARCHAR
-  - name: oa01
-    type: VARCHAR
-  - name: casward
-    type: VARCHAR
-  - name: park
-    type: VARCHAR
-  - name: lsoa01
-    type: VARCHAR
-  - name: msoa01
-    type: VARCHAR
-  - name: ur01ind
-    type: BIGINT
-  - name: oac01
-    type: VARCHAR
-  - name: oa11
-    type: VARCHAR
-  - name: lsoa11
-    type: VARCHAR
-  - name: msoa11
-    type: VARCHAR
-  - name: wz11
-    type: VARCHAR
-  - name: ccg
-    type: VARCHAR
-  - name: bua11
-    type: VARCHAR
-  - name: buasd11
-    type: VARCHAR
-  - name: ru11ind
-    type: VARCHAR
-  - name: oac11
-    type: VARCHAR
-  - name: lat
-    type: DOUBLE
-  - name: long
-    type: DOUBLE
-  - name: lep1
-    type: VARCHAR
-  - name: lep2
-    type: VARCHAR
-  - name: pfa
-    type: VARCHAR
-  - name: imd
-    type: BIGINT
-  - name: calncv
-    type: VARCHAR
-  - name: stp
+  - name: data_json
     type: VARCHAR

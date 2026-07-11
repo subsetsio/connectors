@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Area
+  - name: package_title
     type: VARCHAR
-  - name: Total Properties in area 2006
-    type: BIGINT
-  - name: Total Properties within the floodplain 2006
-    type: BIGINT
-  - name: Percent of properties within a floodplain 2006
-    type: DOUBLE
-  - name: Rank of percent in floodplain in E_W out of 375 areas 2006
-    type: BIGINT
-  - name: Percent Properties in areas with a significant chance of flooding 2006
-    type: DOUBLE
-  - name: Percent Properties in areas with a moderate chance of flooding 2006
-    type: DOUBLE
-  - name: Percent Properties in areas with a low chance of flooding 2006
-    type: DOUBLE
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

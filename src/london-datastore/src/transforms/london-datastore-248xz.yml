@@ -1,32 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: GLA_ID
-    type: BIGINT
-  - name: Borough_Ref
-    type: BIGINT
-  - name: Name
+  - name: package_id
     type: VARCHAR
-  - name: Location
+  - name: package_title
     type: VARCHAR
-  - name: SuppliedPostcode
+  - name: resource_id
     type: VARCHAR
-  - name: NearestPostcode
+  - name: resource_name
     type: VARCHAR
-  - name: Borough
+  - name: resource_format
     type: VARCHAR
-  - name: Organisation
+  - name: resource_url
     type: VARCHAR
-  - name: Facilities
+  - name: member_path
     type: VARCHAR
-  - name: Grade
+  - name: sheet_name
     type: VARCHAR
-  - name: Comments
+  - name: source_row_number
     type: VARCHAR
-  - name: Easting
-    type: BIGINT
-  - name: Northing
-    type: BIGINT
-  - name: Latitude
-    type: DOUBLE
-  - name: Longitude
-    type: DOUBLE
+  - name: data_json
+    type: VARCHAR

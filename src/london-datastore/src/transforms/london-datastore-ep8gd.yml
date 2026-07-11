@@ -1,114 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Ward
+  - name: package_id
     type: VARCHAR
-  - name: Old Code
+  - name: package_title
     type: VARCHAR
-  - name: Borough
+  - name: resource_id
     type: VARCHAR
-  - name: Ward name
+  - name: resource_name
     type: VARCHAR
-  - name: BIRTHS_2002
+  - name: resource_format
     type: VARCHAR
-  - name: BIRTHS_2003
+  - name: resource_url
     type: VARCHAR
-  - name: BIRTHS_2004
+  - name: member_path
     type: VARCHAR
-  - name: BIRTHS_2005
+  - name: sheet_name
     type: VARCHAR
-  - name: BIRTHS_2006
+  - name: source_row_number
     type: VARCHAR
-  - name: BIRTHS_2007
+  - name: data_json
     type: VARCHAR
-  - name: BIRTHS_2008
-    type: VARCHAR
-  - name: BIRTHS_2009
-    type: VARCHAR
-  - name: BIRTHS_2010
-    type: VARCHAR
-  - name: BIRTHS_2011
-    type: VARCHAR
-  - name: BIRTHS_2012
-    type: VARCHAR
-  - name: BIRTHS_2013
-    type: VARCHAR
-  - name: BIRTHS_2014
-    type: BIGINT
-  - name: General Fertility Rate _GFR_2002
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2003
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2004
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2005
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2006
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2007
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2008
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2009
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2010
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2011
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2012
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2013
-    type: DOUBLE
-  - name: General Fertility Rate _GFR_2014
-    type: DOUBLE
-  - name: DEATHS_2002
-    type: VARCHAR
-  - name: DEATHS_2003
-    type: VARCHAR
-  - name: DEATHS_2004
-    type: VARCHAR
-  - name: DEATHS_2005
-    type: VARCHAR
-  - name: DEATHS_2006
-    type: VARCHAR
-  - name: DEATHS_2007
-    type: VARCHAR
-  - name: DEATHS_2008
-    type: VARCHAR
-  - name: DEATHS_2009
-    type: VARCHAR
-  - name: DEATHS_2010
-    type: VARCHAR
-  - name: DEATHS_2011
-    type: VARCHAR
-  - name: DEATHS_2012
-    type: VARCHAR
-  - name: DEATHS_2013
-    type: VARCHAR
-  - name: DEATHS_2014
-    type: BIGINT
-  - name: SMR_2002
-    type: DOUBLE
-  - name: SMR_2003
-    type: DOUBLE
-  - name: SMR_2004
-    type: DOUBLE
-  - name: SMR_2005
-    type: DOUBLE
-  - name: SMR_2006
-    type: DOUBLE
-  - name: SMR_2007
-    type: DOUBLE
-  - name: SMR_2008
-    type: DOUBLE
-  - name: SMR_2009
-    type: DOUBLE
-  - name: SMR_2010
-    type: DOUBLE
-  - name: SMR_2011
-    type: DOUBLE
-  - name: SMR_2012
-    type: DOUBLE
-  - name: SMR_2013
-    type: DOUBLE
-  - name: SMR_2014
-    type: DOUBLE

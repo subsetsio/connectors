@@ -1,22 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All people aged 16 and over in households
-    type: BIGINT
-  - name: People aged 16 and over living in households - Living in a couple Married or re-married
-    type: BIGINT
-  - name: People aged 16 and over living in households - Living in a couple - Cohabiting
-    type: BIGINT
-  - name: People aged 16 and over living in households - Not living in a couple - Single _-never married-
-    type: BIGINT
-  - name: People aged 16 and over living in households - Not living in a couple - Married or remarried
-    type: BIGINT
-  - name: People aged 16 and over living in households - Not living in a couple - Separated _-but still legally married-
-    type: BIGINT
-  - name: People aged 16 and over living in households - Not living in a couple - Divorced
-    type: BIGINT
-  - name: People aged 16 and over living in households - Not living in a couple - Widowed
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

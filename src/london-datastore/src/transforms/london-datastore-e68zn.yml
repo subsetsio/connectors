@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Stop_Code_LBSL
+  - name: package_id
     type: VARCHAR
-  - name: Bus_Stop_Code
+  - name: package_title
     type: VARCHAR
-  - name: Naptan_Atco
+  - name: resource_id
     type: VARCHAR
-  - name: Stop_Name
+  - name: resource_name
     type: VARCHAR
-  - name: Location_Easting
-    type: BIGINT
-  - name: Location_Northing
-    type: BIGINT
-  - name: Heading
-    type: BIGINT
-  - name: Stop_Area
+  - name: resource_format
     type: VARCHAR
-  - name: Virtual_Bus_Stop
-    type: BIGINT
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

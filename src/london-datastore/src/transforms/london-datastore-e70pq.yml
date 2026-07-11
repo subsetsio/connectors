@@ -1,126 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: hex_id
-    type: BIGINT
-  - name: hex_area_m2
-    type: DOUBLE
-  - name: geom_3857
+  - name: package_id
     type: VARCHAR
-  - name: so1_n_access_aodlocalparks_txt
+  - name: package_title
     type: VARCHAR
-  - name: so1_n_access_aod_distparks_txt
+  - name: resource_id
     type: VARCHAR
-  - name: so1_n_aod_nature_txt
+  - name: resource_name
     type: VARCHAR
-  - name: so1_n_gardens_txt
+  - name: resource_format
     type: VARCHAR
-  - name: so1_so4_so6_so7_so9_p_green_txt
+  - name: resource_url
     type: VARCHAR
-  - name: so2_n_access_waterside_txt
+  - name: member_path
     type: VARCHAR
-  - name: so2_so4_so6_p_bluecover_txt
+  - name: sheet_name
     type: VARCHAR
-  - name: so2_p_waterside_txt
+  - name: source_row_number
     type: VARCHAR
-  - name: so3_n_measures_txt
-    type: VARCHAR
-  - name: so3_p_apib_txt
-    type: VARCHAR
-  - name: so4_n_floodzones_txt
-    type: VARCHAR
-  - name: so4_n_lsws_txt
-    type: VARCHAR
-  - name: so5_n_riverqual_txt
-    type: VARCHAR
-  - name: so5_n_misconnection_txt
-    type: VARCHAR
-  - name: so5_n_road_runoff_txt
-    type: VARCHAR
-  - name: so5_p_riparian_txt
-    type: VARCHAR
-  - name: so6_n_heatspots_txt
-    type: VARCHAR
-  - name: so6_so7_so8_p_tree_txt
-    type: VARCHAR
-  - name: so7_n_no2_txt
-    type: VARCHAR
-  - name: so7_pm25_txt
-    type: VARCHAR
-  - name: so8_n_road_resi_txt
-    type: VARCHAR
-  - name: so8_n_rail_resi_txt
-    type: VARCHAR
-  - name: so9_n_cycle_txt
-    type: VARCHAR
-  - name: so9_n_strategicwalking_txt
-    type: VARCHAR
-  - name: so10_n_footfall_txt
-    type: VARCHAR
-  - name: so10_p_green_hs_txt
-    type: VARCHAR
-  - name: so10_p_tree_hs_txt
-    type: VARCHAR
-  - name: so10_p_aod_local_txt
-    type: VARCHAR
-  - name: health_n_imd_txt
-    type: VARCHAR
-  - name: social_n_resi_count_txt
-    type: VARCHAR
-  - name: social_n_ppl_under5_txt
-    type: VARCHAR
-  - name: social_n_ppl_over75_txt
-    type: VARCHAR
-  - name: social_n_ppl_engprof_txt
-    type: VARCHAR
-  - name: social_n_ppl_socialhous_txt
-    type: VARCHAR
-  - name: social_n_ppl_bame_txt
-    type: VARCHAR
-  - name: social_n_ppl_income_txt
-    type: VARCHAR
-  - name: social_n_overall_txt
-    type: VARCHAR
-  - name: so1_n_overall_txt
-    type: VARCHAR
-  - name: so1_p_overall_txt
-    type: VARCHAR
-  - name: so2_n_overall_txt
-    type: VARCHAR
-  - name: so2_p_overall_txt
-    type: VARCHAR
-  - name: so3_n_overall_txt
-    type: VARCHAR
-  - name: so3_p_overall_txt
-    type: VARCHAR
-  - name: so4_n_overall_txt
-    type: VARCHAR
-  - name: so4_p_overall_txt
-    type: VARCHAR
-  - name: so5_n_overall_txt
-    type: VARCHAR
-  - name: so5_p_overall_txt
-    type: VARCHAR
-  - name: so6_n_overall_txt
-    type: VARCHAR
-  - name: so6_p_overall_txt
-    type: VARCHAR
-  - name: so7_n_overall_txt
-    type: VARCHAR
-  - name: so7_p_overall_txt
-    type: VARCHAR
-  - name: so8_n_overall_txt
-    type: VARCHAR
-  - name: so8_p_overall_txt
-    type: VARCHAR
-  - name: so9_n_overall_txt
-    type: VARCHAR
-  - name: so9_p_overall_txt
-    type: VARCHAR
-  - name: so10_n_overall_txt
-    type: VARCHAR
-  - name: so10_p_overall_txt
-    type: VARCHAR
-  - name: overall_need_txt
-    type: VARCHAR
-  - name: overall_provision_txt
+  - name: data_json
     type: VARCHAR

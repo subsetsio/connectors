@@ -1,118 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Area
+  - name: package_title
     type: VARCHAR
-  - name: Blind people registered with _ who are - Total - 2000
+  - name: resource_id
     type: VARCHAR
-  - name: Blind people registered with _ who are - Mental illness only - 2000
+  - name: resource_name
     type: VARCHAR
-  - name: Blind people registered with _ who are - Learning disabilities only - 2000
+  - name: resource_format
     type: VARCHAR
-  - name: Blind people registered with _ who are - Physical disabilities only - 2000
+  - name: resource_url
     type: VARCHAR
-  - name: Blind people registered with _ who are - Deaf without speech - 2000
+  - name: member_path
     type: VARCHAR
-  - name: Blind people registered with _ who are - Deaf with speech - 2000
+  - name: sheet_name
     type: VARCHAR
-  - name: Blind people registered with _ who are - Hard of hearing - 2000
+  - name: source_row_number
     type: VARCHAR
-  - name: Blind people registered with _ who are - Mental illness _ other disabilities - 2000
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Learning disabilities _ other disabilities - 2000
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Physical disabilities _ other disabilities - 2000
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Total - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Mental illness only - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Learning disabilities only - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Physical disabilities only - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Deaf - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Hearing Impairment - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Mental illness _ other disabilities - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Learning disabilities _ other disabilities - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Physical disabilities _ other disabilities - 2003
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Total - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Mental health problems - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Learning disability - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Physical disability - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Deaf with speech - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Deaf without speech - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Hard of hearing - 2006
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Total - 2008
-    type: BIGINT
-  - name: Blind people registered with _ who are - Mental health problems - 2008
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Learning disability - 2008
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Physical disability - 2008
-    type: BIGINT
-  - name: Blind people registered with _ who are - Deaf with speech - 2008
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Deaf without speech - 2008
-    type: VARCHAR
-  - name: Blind people registered with _ who are - Hard of hearing - 2008
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Total - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Mental illness only - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Learning disabilities only - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Physical disabilities only - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Deaf - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Hearing Impairment - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Mental illness _ other disabilities - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Learning disabilities _ other disabilities - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Physical disabilities _ other disabilities - 2003
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Total - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Mental health problems - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Learning disability - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Physical disability - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Deaf with speech - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Deaf without speech - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Hard of hearing - 2006
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Total - 2008
-    type: BIGINT
-  - name: Partially sighted people registered with _ who are - Mental health - 2008
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Learning - 2008
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Physical - 2008
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Deaf with - 2008
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Deaf without speech - 2008
-    type: VARCHAR
-  - name: Partially sighted people registered with _ who are - Hard of hearing - 2008
+  - name: data_json
     type: VARCHAR

@@ -1,42 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Area
+  - name: package_title
     type: VARCHAR
-  - name: Local Units by Public or Private - All VAT and_or PAYE Based Local Units - Count - 2008
-    type: BIGINT
-  - name: Local Units by Public or Private - Public - Count - 2008
-    type: BIGINT
-  - name: Local Units by Public or Private - Public - Percentage - 2008
-    type: DOUBLE
-  - name: Local Units by Public or Private - Private - Multi Site - Count - 2008
-    type: BIGINT
-  - name: Local Units by Public or Private - Private - Multi Site - Percentage - 2008
-    type: DOUBLE
-  - name: Local Units by Public or Private - Private - Single Site with 1 or Less Person Employed - Count - 2008
-    type: BIGINT
-  - name: Local Units by Public or Private - Private - Single Site with 1 or Less Person Employed - Percentage - 2008
-    type: DOUBLE
-  - name: Local Units by Public or Private - Private - Single Site with More than 1 Person Employed - Count - 2008
-    type: BIGINT
-  - name: Local Units by Public or Private - Private - Single Site with More than 1 Person Employed - Percentage - 2008
-    type: DOUBLE
-  - name: Local Units by Public or Private - All VAT and_or PAYE Based Local Units - Count - 2009
-    type: BIGINT
-  - name: Local Units by Public or Private - Public - Count - 2009
-    type: BIGINT
-  - name: Local Units by Public or Private - Public - Percentage - 2009
-    type: DOUBLE
-  - name: Local Units by Public or Private - Private - Multi Site - Count - 2009
-    type: BIGINT
-  - name: Local Units by Public or Private - Private - Multi Site - Percentage - 2009
-    type: DOUBLE
-  - name: Local Units by Public or Private - Private - Single Site with 1 or Less Person Employed - Count - 2009
-    type: BIGINT
-  - name: Local Units by Public or Private - Private - Single Site with 1 or Less Person Employed - Percentage - 2009
-    type: DOUBLE
-  - name: Local Units by Public or Private - Private - Single Site with More than 1 Person Employed - Count - 2009
-    type: BIGINT
-  - name: Local Units by Public or Private - Private - Single Site with More than 1 Person Employed - Percentage - 2009
-    type: DOUBLE
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

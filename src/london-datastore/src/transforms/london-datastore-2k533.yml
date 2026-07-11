@@ -1,56 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Date
+  - name: package_id
     type: VARCHAR
-  - name: Hour
+  - name: package_title
     type: VARCHAR
-  - name: OP01
-    type: BIGINT
-  - name: Opening_Type_1
+  - name: resource_id
     type: VARCHAR
-  - name: OP02
+  - name: resource_name
     type: VARCHAR
-  - name: Opening_Type_2
+  - name: resource_format
     type: VARCHAR
-  - name: OP03
+  - name: resource_url
     type: VARCHAR
-  - name: Opening_Type_3
+  - name: member_path
     type: VARCHAR
-  - name: CL01
+  - name: sheet_name
     type: VARCHAR
-  - name: Close_Type_1
+  - name: source_row_number
     type: VARCHAR
-  - name: CL02
-    type: VARCHAR
-  - name: Close_Type_2
-    type: VARCHAR
-  - name: CL03
-    type: VARCHAR
-  - name: Close_Type_3
-    type: VARCHAR
-  - name: Resolution_Type_1
-    type: VARCHAR
-  - name: Resolution_Type_2
-    type: VARCHAR
-  - name: Ward
-    type: VARCHAR
-  - name: Ward_Code
-    type: VARCHAR
-  - name: Response_Time
-    type: BIGINT
-  - name: Duplicate
-    type: VARCHAR
-  - name: ASBCount
-    type: BIGINT
-  - name: Datetime
-    type: BIGINT
-  - name: Ward_WardCode
-    type: VARCHAR
-  - name: Safer_Neighborhood_Team_Name
-    type: VARCHAR
-  - name: Safer_Neighborhood_Team_Code
-    type: VARCHAR
-  - name: Safer_Neighborhood_Team_Borough_Name
-    type: VARCHAR
-  - name: Safer_Neighborhood_Team_Borough_Code
+  - name: data_json
     type: VARCHAR

@@ -1,53 +1,47 @@
-"""London Datastore connector — GLA DataPress (CKAN fork) data portal.
+"""London Datastore connector.
 
-Catalog connector. Each rank-active entity is a CKAN package that exposes
-exactly one CSV resource (the rank step restricted the build to single-CSV
-packages — the cleanly buildable, one-package-one-table core). For each
-package we resolve its current CSV resource via the CKAN `package_show`
-action API and stream the file into a uniform-keyed NDJSON raw asset; the
-SQL transform then publishes one Delta table per package.
-
-Strategy: stateless full re-pull. The whole corpus is a few-hundred small/
-mid CSVs; we re-fetch every refresh and overwrite. No watermark/cursor —
-there is no usable incremental filter (CKAN exposes metadata_modified only
-for sorting), and re-pulling picks up upstream revisions for free.
-
-Raw format: Parquet, one file per package with an explicit per-column schema
-inferred in Python. Each package's single CSV has a stable column set, so
-parquet fits. We infer each column as int64 / double / string from its values
-and write that exact schema — which keeps numeric columns properly typed while
-leaving time-of-day ("19:00") and date-like text as strings. That matters:
-DuckDB's read_json_auto would re-infer such strings as TIME, a type Delta Lake
-rejects; pinning string at the raw layer avoids that and is Delta-safe.
+Each download node is one accepted CKAN package. A package can contain one or
+more tabular resources with different schemas, so the raw asset is normalized
+to a fixed string-typed row table: package/resource metadata plus `data_json`,
+the original source row encoded as JSON.
 """
 
 from __future__ import annotations
 
-import csv
 import io
+import json
 import re
+import zipfile
+from collections.abc import Iterable
+from pathlib import PurePosixPath
 
+import pandas as pd
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    save_raw_parquet,
-    transient_retry,
-)
 from constants import ENTITY_IDS
-
-_INT64_MIN, _INT64_MAX = -(2 ** 63), 2 ** 63 - 1
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 SLUG = "london-datastore"
 PREFIX = f"{SLUG}-"
 API = "https://data.london.gov.uk/api/action"
 
+SUPPORTED_EXTENSIONS = {".csv", ".xls", ".xlsx", ".json"}
+TABULAR_FORMATS = {"csv", "xls", "xlsx", "json", "zip"}
+BASE_COLUMNS = [
+    "package_id",
+    "package_title",
+    "resource_id",
+    "resource_name",
+    "resource_format",
+    "resource_url",
+    "member_path",
+    "sheet_name",
+    "source_row_number",
+    "data_json",
+]
 
-@transient_retry()
+
 def _api(action: str, **params):
-    """Call a CKAN action endpoint, returning the `result` payload."""
     resp = get(f"{API}/{action}", params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
     body = resp.json()
@@ -56,147 +50,216 @@ def _api(action: str, **params):
     return body["result"]
 
 
-@transient_retry()
 def _download(url: str) -> bytes:
-    """Fetch a resource file's bytes."""
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
     return resp.content
 
 
-def _is_csv(resource: dict) -> bool:
-    fmt = (resource.get("format") or "").strip().lower()
-    if fmt == "csv":
+def _extension(url_or_name: str) -> str:
+    path = PurePosixPath(str(url_or_name).split("?", 1)[0].lower())
+    suffix = path.suffix
+    if suffix == ".gz":
+        return PurePosixPath(path.stem).suffix
+    return suffix
+
+
+def _resource_format(resource: dict) -> str:
+    fmt = str(resource.get("format") or "").strip().lower()
+    if fmt:
+        return fmt
+    ext = _extension(resource.get("url") or "")
+    return ext.lstrip(".")
+
+
+def _is_supported_resource(resource: dict) -> bool:
+    fmt = _resource_format(resource)
+    if fmt in TABULAR_FORMATS:
         return True
-    url = (resource.get("url") or "").split("?")[0].lower()
-    return url.endswith(".csv")
+    return _extension(resource.get("url") or "") in SUPPORTED_EXTENSIONS
 
 
-def _safe_name(raw: str, i: int) -> str:
-    """Sanitize a CSV header into a Delta/Parquet-safe column name. Characters
-    like , ; ( ) % & £ / break Delta's schema handling, so collapse anything
-    outside [alnum _ -] to underscore; keep it readable (words preserved)."""
-    name = re.sub(r"[^0-9A-Za-z _-]+", "_", (raw or "").strip())
-    name = re.sub(r"\s+", " ", name).strip()
-    name = re.sub(r"_+", "_", name).strip("_ ").strip()
-    return name or f"col_{i + 1}"
+def _safe_name(raw: object, fallback: str) -> str:
+    name = re.sub(r"[^0-9A-Za-z_]+", "_", str(raw or "").strip().lower())
+    name = re.sub(r"_+", "_", name).strip("_")
+    if not name:
+        name = fallback
+    if name[0].isdigit():
+        name = f"col_{name}"
+    return name
 
 
-def _clean_headers(names: list[str]) -> list[str]:
-    """Make column names safe, non-empty, and unique, preserving order."""
+def _dedupe(names: Iterable[object]) -> list[str]:
     used: set[str] = set()
     out: list[str] = []
     for i, raw in enumerate(names):
-        name = _safe_name(raw, i)
-        candidate = name
+        base = _safe_name(raw, f"col_{i + 1}")
+        candidate = base
         n = 1
-        while candidate in used:
+        while candidate in used or candidate in BASE_COLUMNS:
             n += 1
-            candidate = f"{name}_{n}"
+            candidate = f"{base}_{n}"
         used.add(candidate)
         out.append(candidate)
     return out
 
 
-def _decode(content: bytes) -> str:
-    for enc in ("utf-8-sig", "utf-8", "latin-1"):
-        try:
-            return content.decode(enc)
-        except UnicodeDecodeError:
-            continue
-    return content.decode("utf-8", "replace")
+def _stringify(value: object) -> str | None:
+    if pd.isna(value):
+        return None
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, ensure_ascii=True, sort_keys=True)
+    text = str(value).strip()
+    return text or None
 
 
-def _parse_columns(content: bytes) -> tuple[list[str], dict[str, list]]:
-    """Parse a CSV into (column order, {col: [str|None, ...]}). Lenient:
-    pads/truncates ragged rows to the header width, skips blank rows."""
-    reader = csv.reader(io.StringIO(_decode(content)))
-    try:
-        header = next(reader)
-    except StopIteration:
-        return [], {}
-    cols = _clean_headers(header)
-    ncol = len(cols)
-    data: dict[str, list] = {c: [] for c in cols}
-    for row in reader:
-        if not row or all(c == "" for c in row):
-            continue
-        vals = (row + [None] * ncol)[:ncol]
-        for i, c in enumerate(cols):
-            v = vals[i]
-            data[c].append(v if v not in ("", None) else None)
-    return cols, data
+def _rows_from_frame(frame: pd.DataFrame, *, sheet_name: str | None) -> list[dict]:
+    if frame.empty:
+        return []
+    frame = frame.dropna(how="all")
+    if frame.empty:
+        return []
+    frame.columns = _dedupe(frame.columns)
+    rows: list[dict] = []
+    for row_number, record in enumerate(frame.to_dict(orient="records"), start=1):
+        row = {col: _stringify(value) for col, value in record.items()}
+        if any(value is not None for value in row.values()):
+            row["source_row_number"] = str(row_number)
+            row["sheet_name"] = sheet_name
+            rows.append(row)
+    return rows
 
 
-def _is_int(v: str) -> bool:
-    s = v[1:] if v[:1] in ("+", "-") else v
-    if not s.isdigit():
-        return False
-    if len(s) > 1 and s[0] == "0":
-        return False  # leading-zero code (ward/postcode) — keep as string
-    return _INT64_MIN <= int(v) <= _INT64_MAX
+def _read_csv(content: bytes) -> list[dict]:
+    frame = pd.read_csv(
+        io.BytesIO(content),
+        dtype=str,
+        keep_default_na=False,
+        na_values=[],
+        encoding_errors="replace",
+    )
+    return _rows_from_frame(frame, sheet_name=None)
 
 
-def _is_float(v: str) -> bool:
-    if v.strip().lower() in ("nan", "inf", "-inf", "infinity", "-infinity"):
-        return False  # don't let these collapse a column to float
-    try:
-        float(v)
-        return True
-    except ValueError:
-        return False
+def _read_excel(content: bytes) -> list[dict]:
+    workbook = pd.read_excel(
+        io.BytesIO(content),
+        sheet_name=None,
+        dtype=str,
+        keep_default_na=False,
+    )
+    rows: list[dict] = []
+    for sheet_name, frame in workbook.items():
+        rows.extend(_rows_from_frame(frame, sheet_name=str(sheet_name)))
+    return rows
 
 
-def _column_array(values: list) -> pa.Array:
-    """Infer int64 / double / string for a column and build the typed array."""
-    nonnull = [v for v in values if v is not None]
-    if nonnull and all(_is_int(v) for v in nonnull):
-        return pa.array([int(v) if v is not None else None for v in values], type=pa.int64())
-    if nonnull and all(_is_float(v) for v in nonnull):
-        return pa.array([float(v) if v is not None else None for v in values], type=pa.float64())
-    return pa.array(values, type=pa.string())
+def _read_json(content: bytes) -> list[dict]:
+    data = json.loads(content.decode("utf-8-sig"))
+    if isinstance(data, dict):
+        for key in ("result", "results", "data", "records", "rows"):
+            if isinstance(data.get(key), list):
+                data = data[key]
+                break
+    if not isinstance(data, list):
+        data = [data]
+    frame = pd.json_normalize(data, sep="_")
+    return _rows_from_frame(frame, sheet_name=None)
+
+
+def _read_tabular(content: bytes, name: str) -> list[dict]:
+    ext = _extension(name)
+    if ext == ".csv":
+        return _read_csv(content)
+    if ext in {".xls", ".xlsx"}:
+        return _read_excel(content)
+    if ext == ".json":
+        return _read_json(content)
+    return []
+
+
+def _read_zip(content: bytes) -> list[dict]:
+    rows: list[dict] = []
+    with zipfile.ZipFile(io.BytesIO(content)) as archive:
+        for member in archive.infolist():
+            if member.is_dir() or _extension(member.filename) not in SUPPORTED_EXTENSIONS:
+                continue
+            member_rows = _read_tabular(archive.read(member), member.filename)
+            for row in member_rows:
+                row["member_path"] = member.filename
+            rows.extend(member_rows)
+    return rows
+
+
+def _resource_rows(resource: dict) -> list[dict]:
+    url = resource.get("url")
+    if not url:
+        return []
+    content = _download(url)
+    fmt = _resource_format(resource)
+    if fmt == "zip" or _extension(url) == ".zip":
+        return _read_zip(content)
+    return _read_tabular(content, url)
+
+
+def _table_from_rows(rows: list[dict]) -> pa.Table:
+    normalized = []
+    for row in rows:
+        data = {
+            key: value
+            for key, value in row.items()
+            if key not in BASE_COLUMNS and value is not None
+        }
+        normalized.append(
+            {
+                **{col: row.get(col) for col in BASE_COLUMNS if col != "data_json"},
+                "data_json": json.dumps(data, ensure_ascii=True, sort_keys=True),
+            }
+        )
+    schema = pa.schema([(col, pa.string()) for col in BASE_COLUMNS])
+    return pa.Table.from_pylist(normalized, schema=schema)
 
 
 def fetch_one(node_id: str) -> None:
-    asset = node_id  # the runtime passes the spec id; it IS the asset name
     entity_id = node_id[len(PREFIX):]
-    pkg = _api("package_show", id=entity_id)
-    csv_resources = [r for r in (pkg.get("resources") or []) if _is_csv(r)]
-    if not csv_resources:
-        raise RuntimeError(
-            f"{entity_id}: no CSV resource found — rank restricted the build to "
-            "single-CSV packages, so this means the package changed upstream"
-        )
-    # Single-CSV by rank construction; if the package gained resources, take
-    # the largest CSV so we publish the substantive table.
-    resource = max(csv_resources, key=lambda r: int(r.get("size") or 0))
-    content = _download(resource["url"])
-    cols, data = _parse_columns(content)
-    if not cols:
-        raise RuntimeError(f"{entity_id}: CSV had no header row")
-    arrays = [_column_array(data[c]) for c in cols]
-    table = pa.table({c: arr for c, arr in zip(cols, arrays)})
-    save_raw_parquet(table, asset)
+    package = _api("package_show", id=entity_id)
+    resources = [
+        resource
+        for resource in package.get("resources") or []
+        if _is_supported_resource(resource)
+    ]
+    if not resources:
+        raise RuntimeError(f"{entity_id}: no supported tabular resources")
+
+    rows: list[dict] = []
+    for resource in resources:
+        resource_rows = _resource_rows(resource)
+        for row in resource_rows:
+            row.update(
+                {
+                    "package_id": str(package.get("name") or entity_id),
+                    "package_title": str(package.get("title") or ""),
+                    "resource_id": str(resource.get("id") or ""),
+                    "resource_name": str(resource.get("name") or ""),
+                    "resource_format": _resource_format(resource),
+                    "resource_url": str(resource.get("url") or ""),
+                    "member_path": row.get("member_path"),
+                    "sheet_name": row.get("sheet_name"),
+                    "source_row_number": row.get("source_row_number"),
+                }
+            )
+        rows.extend(resource_rows)
+
+    if not rows:
+        raise RuntimeError(f"{entity_id}: supported resources produced no rows")
+    save_raw_parquet(_table_from_rows(rows), node_id)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(
-        id=f"{PREFIX}{eid.lower().replace('_', '-')}",
+        id=f"{PREFIX}{entity_id.lower().replace('_', '-')}",
         fn=fetch_one,
         kind="download",
     )
-    for eid in ENTITY_IDS
-]
-
-# One published Delta table per package: read the raw NDJSON view straight
-# through. The CSV is already one coherent table; the transform is a thin
-# pass-through (read_json_auto types the columns; an empty result fails the
-# node, which is the correctness gate on a truncated/empty download).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'SELECT * FROM "{spec.id}"',
-    )
-    for spec in DOWNLOAD_SPECS
+    for entity_id in ENTITY_IDS
 ]

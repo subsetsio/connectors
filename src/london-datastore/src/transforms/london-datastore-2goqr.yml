@@ -1,28 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area code
+  - name: package_id
     type: VARCHAR
-  - name: Area name
+  - name: package_title
     type: VARCHAR
-  - name: All Households
-    type: BIGINT
-  - name: Couple household with dependent children
-    type: BIGINT
-  - name: Couple household without dependent children
-    type: BIGINT
-  - name: Lone parent household
-    type: BIGINT
-  - name: One person household
-    type: BIGINT
-  - name: Other multi person household
-    type: BIGINT
-  - name: Couple household with dependent children_2
-    type: DOUBLE
-  - name: Couple household without dependent children_2
-    type: DOUBLE
-  - name: Lone parent household_2
-    type: DOUBLE
-  - name: One person household_2
-    type: DOUBLE
-  - name: Other multi person household_2
-    type: DOUBLE
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

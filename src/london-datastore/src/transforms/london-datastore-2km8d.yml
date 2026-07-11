@@ -1,22 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All households
-    type: BIGINT
-  - name: Households - Owner occupied - Owns outright
-    type: BIGINT
-  - name: Households - Owner occupied - Owns with a mortgage or loan
-    type: BIGINT
-  - name: Households - Owner occupied - Shared ownership
-    type: BIGINT
-  - name: Households - Rented from - Council _-local authority-
-    type: BIGINT
-  - name: Households - Rented from - Housing Association or Registered Social Landlord
-    type: BIGINT
-  - name: Households - Rented from - Private landlord or letting agency
-    type: BIGINT
-  - name: Households - Rented from - Other
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

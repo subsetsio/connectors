@@ -2,7 +2,7 @@ import json
 
 from subsets_utils import NodeSpec, configure_http, get, raw_writer
 
-from constants import SPEC_TO_TYPENAME
+from constants import SPEC_TO_TYPENAME, TYPE_NAME_SORT_FIELDS
 
 
 BASE_URL = "https://data.malariaatlas.org/geoserver/ows"
@@ -12,17 +12,22 @@ PAGE_SIZE = 10000
 def _feature_rows(type_name: str):
     start = 0
     while True:
+        params = {
+            "service": "WFS",
+            "version": "2.0.0",
+            "request": "GetFeature",
+            "typeNames": type_name,
+            "outputFormat": "application/json",
+            "count": PAGE_SIZE,
+        }
+        if start:
+            params["startIndex"] = start
+        sort_field = TYPE_NAME_SORT_FIELDS.get(type_name)
+        if sort_field:
+            params["sortBy"] = sort_field
         response = get(
             BASE_URL,
-            params={
-                "service": "WFS",
-                "version": "2.0.0",
-                "request": "GetFeature",
-                "typeNames": type_name,
-                "outputFormat": "application/json",
-                "count": PAGE_SIZE,
-                "startIndex": start,
-            },
+            params=params,
             timeout=(10.0, 180.0),
         )
         response.raise_for_status()

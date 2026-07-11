@@ -1,24 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: code
+  - name: package_id
     type: VARCHAR
-  - name: area
+  - name: package_title
     type: VARCHAR
-  - name: year
+  - name: resource_id
     type: VARCHAR
-  - name: total_incidents
+  - name: resource_name
     type: VARCHAR
-  - name: total_action_taken
+  - name: resource_format
     type: VARCHAR
-  - name: warning_letters
+  - name: resource_url
     type: VARCHAR
-  - name: fixed_penalty_notices
+  - name: member_path
     type: VARCHAR
-  - name: statutory_notices
+  - name: sheet_name
     type: VARCHAR
-  - name: formal_cautions
+  - name: source_row_number
     type: VARCHAR
-  - name: injunctions
-    type: VARCHAR
-  - name: prosecutions
+  - name: data_json
     type: VARCHAR

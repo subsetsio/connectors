@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Area
+  - name: package_title
     type: VARCHAR
-  - name: Percentage of vacants - 1998-99
-    type: BIGINT
-  - name: Percentage of vacants - 1999-00
-    type: BIGINT
-  - name: Percentage of vacants - 2000-01
-    type: BIGINT
-  - name: Percentage of vacants - 2001-02
-    type: BIGINT
-  - name: Percentage of vacants - 2002-03
-    type: BIGINT
-  - name: Percentage of vacants - 2003-04
-    type: BIGINT
-  - name: Percentage of vacants - 2004-05
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

@@ -1,92 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Authority
+  - name: package_title
     type: VARCHAR
-  - name: Eligible Electors
-    type: BIGINT
-  - name: Verified Ballots
-    type: BIGINT
-  - name: Turnout
-    type: DOUBLE
-  - name: Conservative Party-votes
-    type: BIGINT
-  - name: The Labour Party-votes
-    type: BIGINT
-  - name: Liberal Democrats-votes
-    type: BIGINT
-  - name: The Green Party-votes
-    type: BIGINT
-  - name: United Kingdom Independence Party-votes
-    type: BIGINT
-  - name: British National Party-votes
-    type: BIGINT
-  - name: Christian Party Proclaiming Christ_s Lordship-votes
-    type: BIGINT
-  - name: Jan Jananayagam-votes
-    type: BIGINT
-  - name: English Democrats Party-votes
-    type: BIGINT
-  - name: No2EU_ Yes To Democracy-votes
-    type: BIGINT
-  - name: Socialist Labour Party-votes
-    type: BIGINT
-  - name: Pro Democracy_ Libertas_eu-votes
-    type: BIGINT
-  - name: Jury Team-votes
-    type: BIGINT
-  - name: Steven Cheung-votes
-    type: BIGINT
-  - name: The Socialist Party of Great Britain-votes
-    type: BIGINT
-  - name: Yes 2 Europe-votes
-    type: BIGINT
-  - name: Sohale Rahman-votes
-    type: BIGINT
-  - name: Gene Alcantara-votes
-    type: BIGINT
-  - name: Haroon Saad-votes
-    type: BIGINT
-  - name: Total Party Votes
-    type: BIGINT
-  - name: Total Rejected Votes
-    type: BIGINT
-  - name: Conservative Party-percent good votes
-    type: DOUBLE
-  - name: The Labour Party-percent good votes
-    type: DOUBLE
-  - name: Liberal Democrats-percent good votes
-    type: DOUBLE
-  - name: The Green Party-percent good votes
-    type: DOUBLE
-  - name: United Kingdom Independence Party-percent good votes
-    type: DOUBLE
-  - name: British National Party-percent good votes
-    type: DOUBLE
-  - name: Christian Party Proclaiming Christ_s Lordship-percent good votes
-    type: DOUBLE
-  - name: Jan Jananayagam-percent good votes
-    type: DOUBLE
-  - name: English Democrats Party-percent good votes
-    type: DOUBLE
-  - name: No2EU_ Yes To Democracy-percent good votes
-    type: DOUBLE
-  - name: Socialist Labour Party-percent good votes
-    type: DOUBLE
-  - name: Pro Democracy_ Libertas_eu-percent good votes
-    type: DOUBLE
-  - name: Jury Team-percent good votes
-    type: DOUBLE
-  - name: Steven Cheung-percent good votes
-    type: DOUBLE
-  - name: The Socialist Party of Great Britain-percent good votes
-    type: DOUBLE
-  - name: Yes 2 Europe-percent good votes
-    type: DOUBLE
-  - name: Sohale Rahman-percent good votes
-    type: DOUBLE
-  - name: Gene Alcantara-percent good votes
-    type: DOUBLE
-  - name: Haroon Saad-percent good votes
-    type: DOUBLE
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

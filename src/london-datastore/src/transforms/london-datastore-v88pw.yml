@@ -1,34 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All males aged 16-74 in employment
-    type: BIGINT
-  - name: Males aged 16-74 in employment working _-hours a week-_ - Part-time - 1-5
-    type: BIGINT
-  - name: Males aged 16-74 in employment working _-hours a week-_ - Part-time - 6-15
-    type: BIGINT
-  - name: Males aged 16-74 in employment working _-hours a week-_ - Part-time - 16-30
-    type: BIGINT
-  - name: Males aged 16-74 in employment working _-hours a week-_ - Full-time - 31-37
-    type: BIGINT
-  - name: Males aged 16-74 in employment working _-hours a week-_ - Full-time - 38-48
-    type: BIGINT
-  - name: Males aged 16-74 in employment working _-hours a week - -_ Full-time - 49 or more
-    type: BIGINT
-  - name: All females aged 16-74 in employment
-    type: BIGINT
-  - name: Females aged 16-74 in employment working _-hours a week-_ - Part-time - 1-5
-    type: BIGINT
-  - name: Females aged 16-74 in employment working _-hours a week-_ - Part-time - 6-15
-    type: BIGINT
-  - name: Females aged 16-74 in employment working _-hours a week-_ - Part-time - 16-30
-    type: BIGINT
-  - name: Females aged 16-74 in employment working _-hours a week-_ - Full-time - 31-37
-    type: BIGINT
-  - name: Females aged 16-74 in employment working _-hours a week-_ - Full-time - 38-48
-    type: BIGINT
-  - name: Females aged 16-74 in employment working _-hours a week-_ - Full-time - 49 or more
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

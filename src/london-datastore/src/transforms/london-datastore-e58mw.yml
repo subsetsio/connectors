@@ -1,40 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All people
-    type: BIGINT
-  - name: People aged - 0 - 4
-    type: BIGINT
-  - name: People aged - 5 - 7
-    type: BIGINT
-  - name: People aged - 8 - 9
-    type: BIGINT
-  - name: People aged - 10 - 14
-    type: BIGINT
-  - name: People aged - 15
-    type: BIGINT
-  - name: People aged - 16 - 17
-    type: BIGINT
-  - name: People aged - 18 - 19
-    type: BIGINT
-  - name: People aged - 20 - 24
-    type: BIGINT
-  - name: People aged - 25 - 29
-    type: BIGINT
-  - name: People aged - 30 - 44
-    type: BIGINT
-  - name: People aged - 45 - 59
-    type: BIGINT
-  - name: People aged - 60 - 64
-    type: BIGINT
-  - name: People aged - 65 - 74
-    type: BIGINT
-  - name: People aged - 75 - 84
-    type: BIGINT
-  - name: People aged - 85 - 89
-    type: BIGINT
-  - name: People aged - 90 and over
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

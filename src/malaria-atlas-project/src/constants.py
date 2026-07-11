@@ -27,3 +27,12 @@ SPEC_TO_TYPENAME = {
     "malaria-atlas-project-malaria:202406-global-pv-parasite-rate-surveys": "Malaria:202406_Global_Pv_Parasite_Rate_Surveys",
     "malaria-atlas-project-vector-occurrence:201201-global-dominant-vector-surveys": "Vector_Occurrence:201201_Global_Dominant_Vector_Surveys",
 }
+
+TYPE_NAME_SORT_FIELDS = {
+    "Admin_Units:202403_Global_Admin_0": "gid",
+    "Admin_Units:202403_Global_Admin_1": "gid",
+    "Admin_Units:202403_Global_Admin_2": "gid",
+    "Admin_Units:202403_Global_Admin_3": "gid",
+    "Explorer:Anopheline_Data": "id",
+    "Vector_Occurrence:201201_Global_Dominant_Vector_Surveys": "id",
+}

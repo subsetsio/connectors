@@ -1,18 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Code
+  - name: package_id
     type: VARCHAR
-  - name: Area
+  - name: package_title
     type: VARCHAR
-  - name: Year
-    type: BIGINT
-  - name: Qualifications of working age population _16-64
+  - name: resource_id
     type: VARCHAR
-  - name: number
+  - name: resource_name
     type: VARCHAR
-  - name: denominator
+  - name: resource_format
     type: VARCHAR
-  - name: percent
+  - name: resource_url
     type: VARCHAR
-  - name: confidence
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
     type: VARCHAR

@@ -1,80 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: IncidentNumber
+  - name: package_id
     type: VARCHAR
-  - name: DateOfCall
+  - name: package_title
     type: VARCHAR
-  - name: CalYear
-    type: BIGINT
-  - name: TimeOfCall
+  - name: resource_id
     type: VARCHAR
-  - name: HourOfCall
-    type: BIGINT
-  - name: IncidentGroup
+  - name: resource_name
     type: VARCHAR
-  - name: StopCodeDescription
+  - name: resource_format
     type: VARCHAR
-  - name: SpecialServiceType
+  - name: resource_url
     type: VARCHAR
-  - name: PropertyCategory
+  - name: member_path
     type: VARCHAR
-  - name: PropertyType
+  - name: sheet_name
     type: VARCHAR
-  - name: AddressQualifier
+  - name: source_row_number
     type: VARCHAR
-  - name: Postcode_full
-    type: VARCHAR
-  - name: Postcode_district
-    type: VARCHAR
-  - name: UPRN
-    type: VARCHAR
-  - name: USRN
-    type: VARCHAR
-  - name: IncGeo_BoroughCode
-    type: VARCHAR
-  - name: IncGeo_BoroughName
-    type: VARCHAR
-  - name: ProperCase
-    type: VARCHAR
-  - name: IncGeo_WardCode
-    type: VARCHAR
-  - name: IncGeo_WardName
-    type: VARCHAR
-  - name: IncGeo_WardNameNew
-    type: VARCHAR
-  - name: Easting_m
-    type: VARCHAR
-  - name: Northing_m
-    type: VARCHAR
-  - name: Easting_rounded
-    type: BIGINT
-  - name: Northing_rounded
-    type: BIGINT
-  - name: Latitude
-    type: VARCHAR
-  - name: Longitude
-    type: VARCHAR
-  - name: FRS
-    type: VARCHAR
-  - name: IncidentStationGround
-    type: VARCHAR
-  - name: FirstPumpArriving_AttendanceTime
-    type: VARCHAR
-  - name: FirstPumpArriving_DeployedFromStation
-    type: VARCHAR
-  - name: SecondPumpArriving_AttendanceTime
-    type: VARCHAR
-  - name: SecondPumpArriving_DeployedFromStation
-    type: VARCHAR
-  - name: NumStationsWithPumpsAttending
-    type: VARCHAR
-  - name: NumPumpsAttending
-    type: VARCHAR
-  - name: PumpCount
-    type: BIGINT
-  - name: PumpMinutesRounded
-    type: BIGINT
-  - name: Notional Cost
-    type: BIGINT
-  - name: NumCalls
+  - name: data_json
     type: VARCHAR

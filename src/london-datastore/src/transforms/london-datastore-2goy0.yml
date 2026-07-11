@@ -1,12 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Boundary
+  - name: package_id
     type: VARCHAR
-  - name: Area_Ha
-    type: DOUBLE
-  - name: Updated
+  - name: package_title
     type: VARCHAR
-  - name: Source
+  - name: resource_id
     type: VARCHAR
-  - name: Comments
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
     type: VARCHAR

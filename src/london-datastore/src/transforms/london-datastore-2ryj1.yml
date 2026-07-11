@@ -1,46 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area code
+  - name: package_id
     type: VARCHAR
-  - name: Borough
+  - name: package_title
     type: VARCHAR
-  - name: Area name
+  - name: resource_id
     type: VARCHAR
-  - name: All people
+  - name: resource_name
     type: VARCHAR
-  - name: Christian
+  - name: resource_format
     type: VARCHAR
-  - name: Buddhist
+  - name: resource_url
     type: VARCHAR
-  - name: Hindu
+  - name: member_path
     type: VARCHAR
-  - name: Jewish
+  - name: sheet_name
     type: VARCHAR
-  - name: Muslim
+  - name: source_row_number
     type: VARCHAR
-  - name: Sikh
+  - name: data_json
     type: VARCHAR
-  - name: Other religions
-    type: VARCHAR
-  - name: No religion
-    type: VARCHAR
-  - name: Religion not stated
-    type: VARCHAR
-  - name: Christian_2
-    type: DOUBLE
-  - name: Buddhist_2
-    type: DOUBLE
-  - name: Hindu_2
-    type: DOUBLE
-  - name: Jewish_2
-    type: DOUBLE
-  - name: Muslim_2
-    type: DOUBLE
-  - name: Sikh_2
-    type: DOUBLE
-  - name: Other religions_2
-    type: DOUBLE
-  - name: No religion_2
-    type: DOUBLE
-  - name: Religion not stated_2
-    type: DOUBLE

@@ -1,54 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: IncidentNumber
+  - name: package_id
     type: VARCHAR
-  - name: FinalDescription _at time of mobilisation
+  - name: package_title
     type: VARCHAR
-  - name: DDDateTimeOfCall
+  - name: resource_id
     type: VARCHAR
-  - name: IncType
+  - name: resource_name
     type: VARCHAR
-  - name: Motive
+  - name: resource_format
     type: VARCHAR
-  - name: ActionParent _firefighting action
+  - name: resource_url
     type: VARCHAR
-  - name: Firefighting_ Action
+  - name: member_path
     type: VARCHAR
-  - name: PropertyType
+  - name: sheet_name
     type: VARCHAR
-  - name: ParentPropertyType
+  - name: source_row_number
     type: VARCHAR
-  - name: PropertyClass
+  - name: data_json
     type: VARCHAR
-  - name: AtStopDamageSpreadSize
-    type: VARCHAR
-  - name: OrganisationName
-    type: VARCHAR
-  - name: OrganisationDetail
-    type: VARCHAR
-  - name: SaonDescription
-    type: VARCHAR
-  - name: StreetDescriptor
-    type: VARCHAR
-  - name: PostCode
-    type: VARCHAR
-  - name: IncGeo_BoroughName
-    type: VARCHAR
-  - name: IncGeo_WardName
-    type: VARCHAR
-  - name: LondonBorough
-    type: VARCHAR
-  - name: MainCause
-    type: VARCHAR
-  - name: LocationFireStarted
-    type: VARCHAR
-  - name: LocationOfFirestartOther
-    type: VARCHAR
-  - name: MainCauseGroup
-    type: VARCHAR
-  - name: IgnitionSourceGroup
-    type: VARCHAR
-  - name: WereActiveSafetySystemsPresent
-    type: VARCHAR
-  - name: NumberOfFireFightingSystems
-    type: BIGINT

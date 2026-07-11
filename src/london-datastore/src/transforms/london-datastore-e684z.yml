@@ -1,18 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All households
-    type: BIGINT
-  - name: Households - No adults in employment - with dependent children
-    type: BIGINT
-  - name: Households - No adults in employment - without dependent children
-    type: BIGINT
-  - name: Households - With dependent children - All ages
-    type: BIGINT
-  - name: Households - With dependent children - Aged 0 - 4
-    type: BIGINT
-  - name: Households - With one or more person with a limiting long-term illness
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

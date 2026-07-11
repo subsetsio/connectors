@@ -1,40 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Area Code
+  - name: package_id
     type: VARCHAR
-  - name: Area Name
+  - name: package_title
     type: VARCHAR
-  - name: All people
-    type: BIGINT
-  - name: People in ethnic groups - White - British
-    type: BIGINT
-  - name: People in ethnic groups - White - Irish
-    type: BIGINT
-  - name: People in ethnic groups - White - Other White
-    type: BIGINT
-  - name: People in ethnic groups - Mixed - White and Black Caribbean
-    type: BIGINT
-  - name: People in ethnic groups - Mixed - White and Black African
-    type: BIGINT
-  - name: People in ethnic groups - Mixed - White and Asian
-    type: BIGINT
-  - name: People in ethnic groups - Mixed - Other Mixed
-    type: BIGINT
-  - name: People in ethnic groups - Asian or Asian British - Indian
-    type: BIGINT
-  - name: People in ethnic groups - Asian or Asian British - Pakistani
-    type: BIGINT
-  - name: People in ethnic groups - Asian or Asian British - Bangladeshi
-    type: BIGINT
-  - name: People in ethnic groups - Asian or Asian British - Other Asian
-    type: BIGINT
-  - name: People in ethnic groups - Black or Black British - Caribbean
-    type: BIGINT
-  - name: People in ethnic groups - Black or Black British - African
-    type: BIGINT
-  - name: People in ethnic groups - Black or Black British - Other Black
-    type: BIGINT
-  - name: People in ethnic groups - Chinese or other ethnic group - Chinese
-    type: BIGINT
-  - name: People in ethnic groups - Chinese or other ethnic group - Other Ethnic Group
-    type: BIGINT
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

@@ -1,32 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Project Name
+  - name: package_id
     type: VARCHAR
-  - name: TfL_Imp_Investment Programme flag
-    type: BIGINT
-  - name: Notional Capital
+  - name: package_title
     type: VARCHAR
-  - name: Previous _k
-    type: DOUBLE
-  - name: 2009_10 _k
-    type: DOUBLE
-  - name: 2010_2011 _k
-    type: DOUBLE
-  - name: 2011_2012 _k
-    type: DOUBLE
-  - name: 2012_2013 _k
-    type: DOUBLE
-  - name: 2013_2014 _k
-    type: DOUBLE
-  - name: 2014_2015 _k
-    type: DOUBLE
-  - name: 2015_2016 _k
-    type: DOUBLE
-  - name: 2016_2017 _k
-    type: DOUBLE
-  - name: 2017_2018 _k
-    type: DOUBLE
-  - name: RCC _k
-    type: DOUBLE
-  - name: Final Cost _k
-    type: DOUBLE
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

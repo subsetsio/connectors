@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Fleet No
+  - name: package_id
     type: VARCHAR
-  - name: Operational Status
+  - name: package_title
     type: VARCHAR
-  - name: LFB
+  - name: resource_id
     type: VARCHAR
-  - name: Make
+  - name: resource_name
     type: VARCHAR
-  - name: Model
+  - name: resource_format
     type: VARCHAR
-  - name: Type of Vehicle
+  - name: resource_url
     type: VARCHAR
-  - name: Vehicle Category
+  - name: member_path
     type: VARCHAR
-  - name: Reg Year
-    type: BIGINT
-  - name: Vehicle Life
-    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR

@@ -1,104 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
+key: []
+write_mode: overwrite
+sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
 columns:
-  - name: Old Code
+  - name: package_id
     type: VARCHAR
-  - name: New Code
+  - name: package_title
     type: VARCHAR
-  - name: Names
+  - name: resource_id
     type: VARCHAR
-  - name: Number of dwellings_ 2001
-    type: BIGINT
-  - name: Number of dwellings_ 2002
-    type: BIGINT
-  - name: Number of dwellings_ 2003
-    type: BIGINT
-  - name: Number of dwellings_ 2004
-    type: BIGINT
-  - name: Number of dwellings_ 2005
-    type: BIGINT
-  - name: Number of dwellings_ 2006
-    type: BIGINT
-  - name: Number of dwellings_ 2007
-    type: BIGINT
-  - name: Number of dwellings_ 2008
-    type: BIGINT
-  - name: Number of dwellings_ 2009
-    type: BIGINT
-  - name: Number of dwellings_ 2010
-    type: BIGINT
-  - name: Number of dwellings_ 2011
-    type: BIGINT
-  - name: Number of dwellings_ 2015
-    type: BIGINT
-  - name: dwellings in council tax bands A or B_ 2001
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2002
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2003
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2004
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2005
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2006
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2007
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2008
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2009
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2010
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2011
-    type: DOUBLE
-  - name: dwellings in council tax bands A or B_ 2015
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2001
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2002
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2003
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2004
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2005
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2006
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2007
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2008
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2009
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2010
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2011
-    type: DOUBLE
-  - name: dwellings in council tax bands C_ D or E_ 2015
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2001
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2002
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2003
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2004
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2005
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2006
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2007
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2008
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2009
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2010
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2011
-    type: DOUBLE
-  - name: dwellings in council tax bands F_ G or H_ 2015
-    type: DOUBLE
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: member_path
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: VARCHAR
+  - name: data_json
+    type: VARCHAR
