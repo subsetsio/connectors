@@ -30,7 +30,6 @@ import io
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -76,17 +75,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per cube. The transform is a thin parse-and-type
-# pass: pass every dimension column through unchanged and coerce VALUE to a
-# double (suppressed/non-numeric cells become NULL). Keeping all rows means a
-# transform only fails (0 rows) when the raw download was genuinely empty.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * REPLACE (TRY_CAST("VALUE" AS DOUBLE) AS "VALUE") FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

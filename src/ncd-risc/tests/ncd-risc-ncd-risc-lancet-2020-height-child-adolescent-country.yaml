@@ -1,0 +1,25 @@
+spec_id: ncd-risc-ncd-risc-lancet-2020-height-child-adolescent-country
+status: active
+coverage:
+  frozen: true
+  reason: >-
+    NCD-RisC child & adolescent height estimates from Lancet 2020: a fixed modelling-run snapshot. The year column ends at the publication's analysis horizon and never advances in place — a re-analysis is republished at a new path as a new catalog entity, so this raw download is frozen by design.
+tests:
+  - not_null: area
+    reason: every estimate row belongs to a country, region or the world; a null area means the area/Country column was not located during melt
+    certainty: 95
+  - not_null: year
+    reason: every NCD-RisC estimate is stamped with an observation year
+    certainty: 95
+  - not_null: metric
+    reason: the melt sets metric to the source estimate-column name; a null means an estimate column was dropped
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 1970, hi: current_year()}
+    reason: NCD-RisC series begin no earlier than the mid-1970s and cannot report beyond the current year
+    certainty: 85
+    points_outward: true
+  - row_count: {min: 100}
+    reason: even a single-area world file melts to hundreds of long rows (years x metrics x sexes); far fewer means a truncated or empty download
+    certainty: 90

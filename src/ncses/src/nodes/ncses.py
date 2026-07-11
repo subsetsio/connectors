@@ -26,9 +26,14 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 BASE = "https://ncses.nsf.gov/pubs"
+# NCSES Data Explorer metadata API. Every call requires a `key` query param or it
+# 400s; the site frontend sends the literal placeholder below and the backend
+# accepts it verbatim — it is NOT a secret/credential, so no env var is needed.
+META_API = "https://ncsesdata.nsf.gov/api/v1/metadata"
+META_KEY = "header.payload.signature"
 
 # Cell value classification.
 _NUM_RE = re.compile(r"^-?[\d,]*\.?\d+$")
@@ -261,6 +266,85 @@ def fetch_one(node_id: str) -> None:
     save_raw_ndjson(records, asset)
 
 
+# ---------------------------------------------------------------------------
+# Reference tables — the three catalog/taxonomy assets from the metadata API.
+# These are the joinable reference data (survey programs, topic taxonomy,
+# variable codebook), fetched as JSON from the REST metadata API rather than as
+# xlsx. Nested fields (topic lists, etc.) are JSON-encoded to strings so the raw
+# ndjson stays flat and SQL-readable.
+# ---------------------------------------------------------------------------
+
+
+@retry(
+    retry=retry_if_exception(_is_transient),
+    stop=stop_after_attempt(6),
+    wait=wait_exponential(min=4, max=120),
+    reraise=True,
+)
+def _meta_get(path: str, **params) -> dict:
+    params.setdefault("key", META_KEY)
+    resp = get(f"{META_API}/{path}", params=params, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.json()["body"]
+
+
+def _flatten(rec: dict) -> dict:
+    """JSON-encode nested list/dict values so the raw ndjson is a flat, typed
+    grid (DuckDB reads scalars cleanly; nested columns would otherwise become
+    awkward STRUCT/LIST types on the passthrough)."""
+    import json
+    out = {}
+    for k, v in rec.items():
+        out[k] = json.dumps(v, ensure_ascii=False) if isinstance(v, (list, dict)) else v
+    return out
+
+
+def _fetch_paged(path: str, **params) -> list:
+    """Walk Spring-Data pagination (body.content + body.last) to exhaustion."""
+    rows, page = [], 0
+    while True:
+        body = _meta_get(path, page=page, size=500, **params)
+        content = body.get("content", [])
+        rows.extend(content)
+        if body.get("last", True) or not content:
+            break
+        page += 1
+    return rows
+
+
+def fetch_surveys(node_id: str) -> None:
+    """Catalog of NCSES survey programs (one row per survey)."""
+    rows = [_flatten(r) for r in _fetch_paged("surveys", profile="summary")]
+    if not rows:
+        raise ValueError("surveys: metadata API returned 0 rows")
+    save_raw_ndjson(rows, node_id)
+
+
+def fetch_topics(node_id: str) -> None:
+    """Topic taxonomy, flattened to one row per leaf topic."""
+    body = _meta_get("topics")  # list of supertopics, each with nested `topics`
+    rows = []
+    for st in body:
+        super_topic = st.get("superTopic")
+        for t in st.get("topics", []) or []:
+            rows.append({
+                "superTopic": super_topic,
+                "topic": t.get("topic"),
+                "topicPath": t.get("topicPath"),
+            })
+    if not rows:
+        raise ValueError("topics: metadata API returned 0 rows")
+    save_raw_ndjson(rows, node_id)
+
+
+def fetch_variables(node_id: str) -> None:
+    """Variable codebook across all surveys (one row per universal variable)."""
+    rows = [_flatten(r) for r in _fetch_paged("variables", profile="summary")]
+    if not rows:
+        raise ValueError("variables: metadata API returned 0 rows")
+    save_raw_ndjson(rows, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id=f"ncses-{eid.lower().replace('_', '-')}",
@@ -268,15 +352,8 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# Passthrough publish: parsing/typing already happened in the fetch fn, so each
-# subset is its raw grid as-is (DuckDB infers column types from the ndjson).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
+] + [
+    NodeSpec(id="ncses-surveys", fn=fetch_surveys, kind="download"),
+    NodeSpec(id="ncses-topics", fn=fetch_topics, kind="download"),
+    NodeSpec(id="ncses-variables", fn=fetch_variables, kind="download"),
 ]

@@ -35,7 +35,6 @@ import zlib
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     configure_http,
@@ -277,15 +276,6 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-
-# --------------------------------------------------------------------------- #
-# Transform — thin publish of each table (all-string columns + case_year).
-# --------------------------------------------------------------------------- #
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are compiled file pairs under src/transforms/ (one thin
+# `SELECT *` publish per table, all-string columns + int case_year); the
+# module no longer declares TRANSFORM_SPECS.

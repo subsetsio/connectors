@@ -1,0 +1,20 @@
+spec_id: new-york-state-education-department-spg-state-hedi
+status: active
+tests:
+  - not_null: report_year
+    reason: report_year is injected from the source file's school year; every row has it.
+    certainty: 99
+  - column_type: {col: report_year, type: integer}
+    certainty: 99
+  - between: {col: report_year, lo: 1995, hi: 2027}
+    reason: NYSED publishes school years from the late 1990s through the current cycle.
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - row_count: {min: 50}
+    reason: statewide educator-level student-growth HEDI ratings span many thousands of rows per year.
+    certainty: 85
+  - not_null: educator_id
+    reason: column educator_id is the educator identifier present on every SPG statewide researcher-file row.
+    certainty: 80
+    severity: warn
