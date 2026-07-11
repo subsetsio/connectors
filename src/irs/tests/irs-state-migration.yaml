@@ -1,0 +1,22 @@
+spec_id: irs-state-migration
+status: active
+tests:
+  - not_null: year
+  - not_null: direction
+  - not_null: y2_statefips
+  - not_null: y1_statefips
+  - column_type: {col: year, type: integer}
+  - column_type: {col: n1, type: integer}
+  - column_type: {col: agi, type: float}
+  - enum: {col: direction, values: [inflow, outflow]}
+    certainty: 95
+  - between: {col: year, lo: 2005, hi: current_year()}
+    reason: migration files are annual year-pair extracts ending in the destination tax year
+    certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: IRS state migration data had reached the 2022-2023 year pair during research
+    points_outward: true
+    certainty: 75
+  - row_count: {min: 1000}
+    reason: state migration includes state-to-state flows in both directions across many year pairs
+    certainty: 85

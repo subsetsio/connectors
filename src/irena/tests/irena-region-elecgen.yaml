@@ -1,0 +1,25 @@
+spec_id: irena-region-elecgen
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: regional generation spans 10 regions, technologies, one data type, and annual years
+    certainty: 85
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - not_null: year
+  - not_null: region
+  - not_null: technology
+  - not_null: data_type
+  - not_null: value
+  - unique: [year, region, technology, data_type]
+    reason: one JSON-stat cell per full dimension combination after dropping null values
+    certainty: 95
+  - between: {col: year, lo: 2000, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: 2023}
+    reason: current IRENASTAT generation metadata exposes years through 2023
+    points_outward: true
+  - distinct_count: {col: region, min: 10, max: 10}
+    certainty: 95
+  - distinct_count: {col: technology, min: 10}
+    certainty: 90

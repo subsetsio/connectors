@@ -1,0 +1,14 @@
+spec_id: irs-corp-source-book
+status: active
+coverage:
+  frozen: true
+  reason: IRS Corporation Source Book flat-file CSV availability is a historical archive ending at file year 2013 in the probed source paths
+tests:
+  - not_null: file_year
+  - column_type: {col: file_year, type: integer}
+  - between: {col: file_year, lo: 2004, hi: 2013}
+    reason: the current source-book flat-file archive spans tax years 2004 through 2013
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: source book file 1 is a detailed industry by asset-size cross-tab across ten annual files
+    certainty: 75

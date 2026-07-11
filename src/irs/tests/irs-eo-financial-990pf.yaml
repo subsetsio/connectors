@@ -1,0 +1,20 @@
+spec_id: irs-eo-financial-990pf
+status: active
+tests:
+  - not_null: file_year
+  - not_null: ein
+  - column_type: {col: file_year, type: integer}
+  - column_type: {col: ein, type: string}
+  - matches: {col: ein, pattern: '^[0-9]{9}$'}
+    reason: Form 990-PF extracts are keyed to exempt organization EINs
+    certainty: 90
+  - between: {col: file_year, lo: 2020, hi: current_year()}
+    reason: current extract filenames are annual calendar-year files
+    certainty: 85
+  - freshness: {col: file_year, reaches: 2024}
+    reason: IRS Form 990-PF extracts had reached file year 2024 during research
+    points_outward: true
+    certainty: 75
+  - row_count: {min: 100000}
+    reason: Form 990-PF spans private foundation returns across multiple annual files
+    certainty: 75

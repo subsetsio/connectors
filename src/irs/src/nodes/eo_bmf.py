@@ -7,8 +7,6 @@ from __future__ import annotations
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec
-
 from utils import (
     BASE,
     _csv_dicts,
@@ -64,12 +62,3 @@ def fetch_bmf(node_id: str) -> None:
     if not found:
         raise RuntimeError(f"{asset}: discovered no EO BMF state files under {BASE}")
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="irs-eo-bmf", fn=fetch_bmf, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=f'SELECT * FROM "{s.id}"')
-    for s in DOWNLOAD_SPECS
-]

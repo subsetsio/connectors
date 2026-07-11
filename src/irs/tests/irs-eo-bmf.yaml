@@ -1,0 +1,22 @@
+spec_id: irs-eo-bmf
+status: active
+tests:
+  - not_null: ein
+  - not_null: name
+  - not_null: state
+  - not_null: subsection
+  - column_type: {col: ein, type: string}
+  - column_type: {col: asset_amt, type: integer}
+  - matches: {col: ein, pattern: '^[0-9]{9}$'}
+    reason: EO BMF EINs are nine-digit organization identifiers
+    certainty: 90
+  - matches: {col: state, pattern: '^[A-Z]{2}$'}
+    reason: state files carry two-letter state, territory, or international codes
+    certainty: 85
+  - freshness: {col: tax_period, reaches: '202401'}
+    reason: EO BMF is refreshed monthly; active organizations should include recent tax periods
+    points_outward: true
+    certainty: 65
+  - row_count: {min: 1000000}
+    reason: EO BMF is a national exempt-organization master file with millions of active and historical records
+    certainty: 85

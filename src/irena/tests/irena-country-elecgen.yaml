@@ -1,0 +1,26 @@
+spec_id: irena-country-elecgen
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: country generation spans hundreds of countries, technologies, grid connection, and annual years with sparse but substantial observations
+    certainty: 85
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - not_null: year
+  - not_null: country
+  - not_null: technology
+  - not_null: data_type
+  - not_null: grid_connection
+  - not_null: value
+  - unique: [year, country, technology, data_type, grid_connection]
+    reason: one JSON-stat cell per full dimension combination after dropping null values
+    certainty: 95
+  - between: {col: year, lo: 2000, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: 2023}
+    reason: current IRENASTAT generation metadata exposes years through 2023
+    points_outward: true
+  - distinct_count: {col: country, min: 200}
+    certainty: 90
+  - distinct_count: {col: technology, min: 15}
+    certainty: 90

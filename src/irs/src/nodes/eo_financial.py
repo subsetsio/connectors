@@ -8,8 +8,6 @@ conformed to it (missing cols -> null, extras dropped).
 
 from __future__ import annotations
 
-from subsets_utils import NodeSpec, SqlNodeSpec
-
 from utils import (
     BASE,
     _classify_wide,
@@ -55,14 +53,3 @@ def fetch_eo_financial(node_id: str) -> None:
     if not found:
         raise RuntimeError(f"{asset}: discovered no {form} extract zips under {BASE}")
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="irs-eo-financial-990", fn=fetch_eo_financial, kind="download"),
-    NodeSpec(id="irs-eo-financial-990ez", fn=fetch_eo_financial, kind="download"),
-    NodeSpec(id="irs-eo-financial-990pf", fn=fetch_eo_financial, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=f'SELECT * FROM "{s.id}"')
-    for s in DOWNLOAD_SPECS
-]

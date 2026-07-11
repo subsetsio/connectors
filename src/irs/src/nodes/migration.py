@@ -9,8 +9,6 @@ from __future__ import annotations
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec
-
 from utils import (
     BASE,
     _csv_dicts,
@@ -76,13 +74,3 @@ def fetch_migration(node_id: str) -> None:
     if not found:
         raise RuntimeError(f"{asset}: discovered no migration files under {BASE}")
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="irs-county-migration", fn=fetch_migration, kind="download"),
-    NodeSpec(id="irs-state-migration", fn=fetch_migration, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=f'SELECT * FROM "{s.id}"')
-    for s in DOWNLOAD_SPECS
-]

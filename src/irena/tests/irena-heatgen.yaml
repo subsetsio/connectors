@@ -1,0 +1,25 @@
+spec_id: irena-heatgen
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: heat generation covers dozens of countries, technologies, grid connection, and annual years
+    certainty: 80
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - not_null: year
+  - not_null: country
+  - not_null: technology
+  - not_null: grid_connection
+  - not_null: value
+  - unique: [year, country, technology, grid_connection]
+    reason: one JSON-stat cell per full dimension combination after dropping null values
+    certainty: 95
+  - between: {col: year, lo: 2000, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: 2023}
+    reason: current IRENASTAT heat metadata exposes years through 2023
+    points_outward: true
+  - distinct_count: {col: country, min: 40}
+    certainty: 85
+  - distinct_count: {col: technology, min: 8}
+    certainty: 85

@@ -8,8 +8,6 @@ per-column type schema; every other year is conformed to it.
 
 from __future__ import annotations
 
-from subsets_utils import NodeSpec, SqlNodeSpec
-
 from utils import (
     BASE,
     _classify_wide,
@@ -48,12 +46,3 @@ def fetch_corp_source_book(node_id: str) -> None:
     if not found:
         raise RuntimeError(f"{asset}: discovered no Corporation Source Book zips under {BASE}")
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="irs-corp-source-book", fn=fetch_corp_source_book, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=f'SELECT * FROM "{s.id}"')
-    for s in DOWNLOAD_SPECS
-]
