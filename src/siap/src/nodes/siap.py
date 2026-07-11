@@ -32,6 +32,7 @@ PECUARIO_NACIONAL_VIEW = "31AF5807-EB5F517E-74C6BB9A-E4EBD17F"
 
 
 AGRICOLA_MUNICIPAL_COLUMNS = (
+    "source_row_number",
     "source_year",
     "anio",
     "idestado",
@@ -177,7 +178,7 @@ RENAMES = {
 def _schema(columns: tuple[str, ...]) -> pa.Schema:
     fields = []
     for name in columns:
-        if name in {"source_year", "anio"}:
+        if name in {"source_row_number", "source_year", "anio"}:
             typ = pa.int64()
         elif name in NUMERIC_COLUMNS:
             typ = pa.float64()
@@ -212,6 +213,8 @@ def _read_year(view_id: str, year: int, columns: tuple[str, ...]) -> pd.DataFram
     df = df.loc[:, [c for c in df.columns if str(c).strip()]]
     df = df.rename(columns={c: RENAMES.get(str(c).strip(), str(c).strip()) for c in df.columns})
     df["source_year"] = year
+    if "source_row_number" in columns:
+        df["source_row_number"] = pd.Series(df.index, index=df.index) + 2
 
     missing = [c for c in columns if c not in df.columns]
     if missing:

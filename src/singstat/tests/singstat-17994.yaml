@@ -1,0 +1,13 @@
+spec_id: singstat-17994
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a rank-accepted recurring SingStat table always returns at least one series-period observation; empty raw means the resourceId is wrong or the tabledata endpoint changed.
+    certainty: 90
+    points_outward: true
+  - not_null: period
+    reason: every flattened row is one (series, period) pair; period is the column key the tabledata payload always provides.
+    certainty: 96
+  - not_null: series_no
+    reason: every observation belongs to a series row; seriesNo is always present in the tabledata response.
+    certainty: 96

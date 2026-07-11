@@ -1,29 +1,25 @@
 """SingStat (Singapore Department of Statistics) Table Builder connector.
 
-Mechanism: REST. Strategy: stateless full re-pull — one fetch per table
+Mechanism: REST. Strategy: stateless full re-pull - one fetch per table
 (resourceId). The catalog is enumerated upstream (rank); here every accepted
 resourceId gets one download spec that fetches its full table via
-GET /api/table/tabledata/{resourceId} (no limit = whole table) and one
-transform spec that publishes it as a long-format Delta table.
+GET /api/table/tabledata/{resourceId}.
 
-Each table's payload is row[].columns[] of period->value pairs across one or
+Each table's payload is row[].columns[] of period-to-value pairs across one or
 more series (rowText). We flatten to one row per (series, period) with a
 uniform schema: series_no, series_text, uom, period, value. Period formats are
 heterogeneous across tables (annual "1960", quarterly "2024 1Q", monthly
-"2024 Jan"), so period is kept as text; value is parsed to DOUBLE in the
-transform.
+"2024 Jan"), so period is kept as text.
 
-No incremental query support upstream (no global since/cursor) — re-fetch the
+No incremental query support upstream (no global since/cursor) - re-fetch the
 full table each refresh; cheap, full content per request.
 """
 
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 from constants import ENTITY_IDS
 
@@ -40,7 +36,7 @@ _HEADERS = {
 }
 
 # All-string schema: the raw is faithful to the source (values like "na", "-",
-# "s" are preserved as text); numeric coercion happens in the transform.
+# "s" are preserved as text); numeric coercion happens in compiled transforms.
 SCHEMA = pa.schema([
     ("series_no", pa.string()),
     ("series_text", pa.string()),
@@ -67,7 +63,6 @@ PAGE = 5000
 MAX_PAGES = 2000  # ~10M cells; a runaway guard, not an expected limit
 
 
-@transient_retry()
 def _fetch_tabledata(resource_id: str, offset: int) -> dict:
     resp = get(
         f"{BASE}/tabledata/{resource_id}",
@@ -110,7 +105,7 @@ def fetch_one(node_id: str) -> None:
         if pages >= MAX_PAGES:
             raise RuntimeError(
                 f"{resource_id}: exceeded {MAX_PAGES} pages (>{MAX_PAGES * PAGE} "
-                f"cells) — source larger than expected, refusing to truncate"
+                f"cells) - source larger than expected, refusing to truncate"
             )
 
     table = pa.Table.from_pylist(rows, schema=SCHEMA)
@@ -124,26 +119,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        key=("series_no", "period"),
-        temporal="period",
-        sql=f'''
-            SELECT
-                period,
-                series_no,
-                series_text,
-                uom,
-                TRY_CAST(value AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-              AND TRY_CAST(value AS DOUBLE) IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
