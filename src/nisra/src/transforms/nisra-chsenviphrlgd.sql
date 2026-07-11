@@ -1,1 +1,0 @@
-SELECT * REPLACE (TRY_CAST("VALUE" AS DOUBLE) AS "VALUE") FROM "nisra-chsenviphrlgd"
