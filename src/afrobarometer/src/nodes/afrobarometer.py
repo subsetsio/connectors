@@ -19,6 +19,7 @@ overwrite. Freshness/cadence is the maintain step's concern.
 """
 
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 import pyarrow as pa
 from subsets_utils import NodeSpec, list_raw_fragments, save_raw_parquet
@@ -76,6 +77,7 @@ VALUES_SCHEMA = pa.schema([
 ])
 
 VALUES_FRAGMENT_VARIABLES = 100    # commit progress often enough for CI continuation
+VALUES_WORKERS = 4                 # modest ODA concurrency; override with AFROBAROMETER_VALUES_WORKERS
 MAX_SKIP_FRACTION = 0.05           # systemic-failure guard for the values pull
 
 
@@ -218,6 +220,18 @@ def _parse_question(payload: dict, rec: dict):
     return out
 
 
+def _fetch_variable_rows(args):
+    sid, saids, vc, rec = args
+    rec = dict(rec, _vc=vc)
+    try:
+        payload = fetch_question_timeseries(sid, rec["qid"], rec["round_id"], saids)
+        if not payload.get("success"):
+            return vc, rec["qid"], [], True, None
+        return vc, rec["qid"], _parse_question(payload, rec), False, None
+    except Exception as exc:  # network/HTTP after retries, or bad shape
+        return vc, rec["qid"], [], True, "%s: %s" % (type(exc).__name__, exc)
+
+
 def fetch_values(node_id: str) -> None:
     """Long-format aggregated statistics across every survey variable.
 
@@ -243,6 +257,7 @@ def fetch_values(node_id: str) -> None:
     skipped = 0
     written = 0
     processed = 0
+    workers = max(1, int(os.environ.get("AFROBAROMETER_VALUES_WORKERS", VALUES_WORKERS)))
     for start in range(0, total, VALUES_FRAGMENT_VARIABLES):
         chunk = variables[start:start + VALUES_FRAGMENT_VARIABLES]
         end = start + len(chunk)
@@ -253,28 +268,24 @@ def fetch_values(node_id: str) -> None:
 
         rows = []
         chunk_skipped = 0
-        for i, (vc, rec) in enumerate(chunk, start=start):
-            rec = dict(rec, _vc=vc)
-            try:
-                payload = fetch_question_timeseries(
-                    sid, rec["qid"], rec["round_id"], saids
-                )
-                if not payload.get("success"):
-                    # App-level rejection (e.g. structure/admin variable that
-                    # cannot be cross-tabulated). Skip this variable.
+        tasks = [(sid, saids, vc, rec) for vc, rec in chunk]
+        with ThreadPoolExecutor(max_workers=min(workers, len(tasks))) as pool:
+            for vc, qid, variable_rows, was_skipped, error in pool.map(_fetch_variable_rows, tasks):
+                processed += 1
+                if was_skipped:
                     skipped += 1
                     chunk_skipped += 1
-                    continue
-                rows.extend(_parse_question(payload, rec))
-            except Exception as exc:  # network/HTTP after retries, or bad shape
-                skipped += 1
-                chunk_skipped += 1
-                print(
-                    "  ! skip variable %s (qid=%s): %s: %s"
-                    % (vc, rec["qid"], type(exc).__name__, exc)
-                )
+                if error:
+                    # App-level rejection (success=false) is common for some
+                    # structure/admin variables; only log transport/shape errors.
+                    print("  ! skip variable %s (qid=%s): %s" % (vc, qid, error))
+                rows.extend(variable_rows)
 
-            processed += 1
+                if skipped > processed * MAX_SKIP_FRACTION:
+                    raise RuntimeError(
+                        "skipped %d of %d processed variables (>%.0f%%) - likely a systemic ODA failure"
+                        % (skipped, processed, MAX_SKIP_FRACTION * 100)
+                    )
 
         table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
         save_raw_parquet(table, node_id, fragment=fragment)

@@ -28,11 +28,11 @@ def fetch(node_id: str) -> None:
     save_raw_ndjson(iter_entity_rows("subfields", _flat), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="openalex-subfields", fn=fetch, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openalex-subfields-transform",
         deps=["openalex-subfields"],

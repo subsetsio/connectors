@@ -34,11 +34,11 @@ def fetch(node_id: str) -> None:
     save_raw_ndjson(iter_entity_rows("sources", _flat), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="openalex-sources", fn=fetch, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openalex-sources-transform",
         deps=["openalex-sources"],
