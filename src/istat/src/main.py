@@ -14,10 +14,16 @@ no MaintainSpecs and every NodeSpec executes. That's the right default for
 the first crawl.
 """
 import sys
+import os
 from pathlib import Path
 
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# Istat enforces a hard 5 requests/minute per IP. Force serial DAG execution so
+# runner-level defaults cannot spawn siblings that block behind the shared
+# throttle lock and trip per-node watchdogs.
+os.environ["DAG_PARALLELISM"] = "1"
 
 from subsets_utils import load_nodes, validate_environment, run_health_tests
 

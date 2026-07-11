@@ -66,8 +66,8 @@ _STRUCTURE_TIMEOUT = (10.0, 180.0)
 _TOO_BIG = (httpx.RemoteProtocolError, httpx.ReadTimeout, httpx.WriteTimeout)
 
 # Cross-process global rate limiter. 13s spacing => ~4.6 req/min, under the
-# hard 5/min IP cap. The lock is held during the sleep so concurrent spawn
-# subprocesses (same IP) serialize instead of bursting.
+# hard 5/min IP cap. src/main.py also forces DAG_PARALLELISM=1 because queued
+# sibling specs can hit the runtime watchdog while waiting behind this lock.
 _MIN_INTERVAL = 13.0
 _THROTTLE_PATH = os.path.join(tempfile.gettempdir(), "istat_sdmx_throttle.lock")
 
