@@ -1,0 +1,17 @@
+spec_id: nbs-tanzania-targets
+status: active
+tests:
+  - not_null: target_id
+    certainty: 95
+  - not_null: target
+    reason: every SDG target carries a short title
+    certainty: 85
+  - unique: target_id
+    reason: the targets taxonomy is deduped across areas to one row per SDG target
+    certainty: 95
+  - matches: {col: target_id, pattern: "^[0-9]+\\.[0-9A-Za-z]+$"}
+    reason: target codes are goal.suffix, suffix numeric (1.1) or a letter (1.A)
+    certainty: 85
+  - row_count: {min: 169, max: 169}
+    reason: the UN SDG framework has 169 targets; a change means the corpus reshaped
+    certainty: 85

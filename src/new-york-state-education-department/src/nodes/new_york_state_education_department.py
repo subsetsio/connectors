@@ -31,7 +31,6 @@ import zipfile
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_writer,

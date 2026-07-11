@@ -1,0 +1,34 @@
+spec_id: nbs-tanzania-values
+status: active
+tests:
+  - not_null: indicator_id
+    certainty: 95
+  - not_null: area
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - enum: {col: area, values: [mainland, zanzibar]}
+    certainty: 95
+  - unique: [indicator_id, area, year, disaggregation]
+    reason: one observation per indicator x area x year x disaggregation slice (deduped in the fetch fn)
+    certainty: 90
+  - at_least: {col: year, expr: 2000}
+    reason: NBS SDG monitoring baseline is ~2000; earlier years signal a parse bug
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: observations are historical/current, not projections to SDG target years
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: today - 550d}
+    reason: annual SDG series with reporting lag; the latest year should reach within ~1.5y
+    points_outward: true
+    certainty: 75
+  - row_count: {min: 4000, max: 30000}
+    reason: ~7k observation rows across all reported indicators; bounds allow growth
+    certainty: 80
+  - distinct_count: {col: indicator_id, min: 100}
+    reason: many distinct indicators carry data
+    certainty: 80
