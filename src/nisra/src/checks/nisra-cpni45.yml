@@ -3,12 +3,16 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [value]
+key: [census_year, lgd2014, statistic]
 checks:
   - kind: unique
-    columns: [value]
+    columns: [census_year, lgd2014, statistic]
   - kind: not_null
-    col: value
+    col: census_year
+  - kind: not_null
+    col: lgd2014
+  - kind: not_null
+    col: statistic
   - kind: row_floor
     min: 12
 regression:
