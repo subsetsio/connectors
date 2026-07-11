@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-google-mobility-county-daily`. Regenerate after model-verify.
+key: [year, month, day, countyfips]
+temporal: year
+sort: [year, month, day, countyfips]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: countyfips
+    type: BIGINT
+  - name: gps_retail_and_recreation
+    type: VARCHAR
+  - name: gps_grocery_and_pharmacy
+    type: VARCHAR
+  - name: gps_parks
+    type: VARCHAR
+  - name: gps_transit_stations
+    type: VARCHAR
+  - name: gps_workplaces
+    type: VARCHAR
+  - name: gps_residential
+    type: VARCHAR
+  - name: gps_away_from_home
+    type: VARCHAR

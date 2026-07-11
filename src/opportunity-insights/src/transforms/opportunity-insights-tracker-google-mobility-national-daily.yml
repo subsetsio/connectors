@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-google-mobility-national-daily`. Regenerate after model-verify.
+key: [year, month, day]
+temporal: year
+sort: [year, month, day]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: gps_retail_and_recreation
+    type: DOUBLE
+  - name: gps_grocery_and_pharmacy
+    type: DOUBLE
+  - name: gps_parks
+    type: DOUBLE
+  - name: gps_transit_stations
+    type: DOUBLE
+  - name: gps_workplaces
+    type: DOUBLE
+  - name: gps_residential
+    type: DOUBLE
+  - name: gps_away_from_home
+    type: DOUBLE

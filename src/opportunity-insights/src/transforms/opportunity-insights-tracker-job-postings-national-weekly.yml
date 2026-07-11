@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-job-postings-national-weekly`. Regenerate after model-verify.
+# caution: Wide job postings table; columns encode industry and wage/occupation slices, so compare like-named measures rather than summing across all bg_posts* columns.
+key: [year, month, day_endofweek]
+temporal: year
+sort: [year, month, day_endofweek]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: bg_posts
+    type: DOUBLE
+  - name: bg_posts_ss30
+    type: DOUBLE
+  - name: bg_posts_ss55
+    type: DOUBLE
+  - name: bg_posts_ss60
+    type: DOUBLE
+  - name: bg_posts_ss65
+    type: DOUBLE
+  - name: bg_posts_ss70
+    type: DOUBLE
+  - name: bg_posts_jz1
+    type: DOUBLE
+  - name: bg_posts_jzgrp12
+    type: DOUBLE
+  - name: bg_posts_jz2
+    type: DOUBLE
+  - name: bg_posts_jz3
+    type: DOUBLE
+  - name: bg_posts_jzgrp345
+    type: DOUBLE
+  - name: bg_posts_jz4
+    type: DOUBLE
+  - name: bg_posts_jz5
+    type: DOUBLE

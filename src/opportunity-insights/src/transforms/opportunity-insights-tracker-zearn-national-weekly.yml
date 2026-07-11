@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-zearn-national-weekly`. Regenerate after model-verify.
+# caution: Wide student engagement table; columns encode engagement and badges by income segment and school-break status, so compare like-named measures rather than summing across all engagement and badges columns.
+key: [year, month, day_endofweek]
+temporal: year
+sort: [year, month, day_endofweek]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: engagement
+    type: VARCHAR
+  - name: badges
+    type: VARCHAR
+  - name: engagement_inchigh
+    type: VARCHAR
+  - name: badges_inchigh
+    type: VARCHAR
+  - name: engagement_inclow
+    type: VARCHAR
+  - name: badges_inclow
+    type: VARCHAR
+  - name: engagement_incmiddle
+    type: VARCHAR
+  - name: badges_incmiddle
+    type: VARCHAR
+  - name: break_engagement
+    type: VARCHAR
+  - name: break_badges
+    type: VARCHAR
+  - name: break_engagement_inchigh
+    type: VARCHAR
+  - name: break_badges_inchigh
+    type: VARCHAR
+  - name: break_engagement_inclow
+    type: VARCHAR
+  - name: break_badges_inclow
+    type: VARCHAR
+  - name: break_engagement_incmiddle
+    type: VARCHAR
+  - name: break_badges_incmiddle
+    type: VARCHAR

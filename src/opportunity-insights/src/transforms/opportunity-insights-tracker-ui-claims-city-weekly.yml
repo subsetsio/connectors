@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-ui-claims-city-weekly`. Regenerate after model-verify.
+key: [year, month, day_endofweek, cityid]
+temporal: year
+sort: [year, month, day_endofweek, cityid]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: cityid
+    type: BIGINT
+  - name: initclaims_count_regular
+    type: VARCHAR
+  - name: initclaims_rate_regular
+    type: VARCHAR

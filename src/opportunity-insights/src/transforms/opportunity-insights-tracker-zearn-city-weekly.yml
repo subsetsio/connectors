@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-zearn-city-weekly`. Regenerate after model-verify.
+key: [year, month, day_endofweek, cityid]
+temporal: year
+sort: [year, month, day_endofweek, cityid]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: cityid
+    type: BIGINT
+  - name: engagement
+    type: VARCHAR
+  - name: badges
+    type: VARCHAR
+  - name: break_engagement
+    type: VARCHAR
+  - name: break_badges
+    type: VARCHAR

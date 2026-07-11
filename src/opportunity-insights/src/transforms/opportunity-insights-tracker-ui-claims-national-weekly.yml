@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-ui-claims-national-weekly`. Regenerate after model-verify.
+# caution: Wide unemployment insurance claims table; columns encode program types and initial versus continued claims, so compare like-named measures rather than summing across all claims columns.
+key: [year, month, day_endofweek]
+temporal: year
+sort: [year, month, day_endofweek]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: initclaims_count_regular
+    type: BIGINT
+  - name: contclaims_count_regular
+    type: BIGINT
+  - name: initclaims_count_pua
+    type: VARCHAR
+  - name: contclaims_count_peuc
+    type: VARCHAR
+  - name: contclaims_count_pua
+    type: VARCHAR
+  - name: initclaims_count_combined
+    type: VARCHAR
+  - name: contclaims_count_combined
+    type: VARCHAR
+  - name: initclaims_rate_regular
+    type: DOUBLE
+  - name: contclaims_rate_regular
+    type: DOUBLE
+  - name: initclaims_rate_pua
+    type: VARCHAR
+  - name: contclaims_rate_peuc
+    type: VARCHAR
+  - name: contclaims_rate_pua
+    type: VARCHAR
+  - name: initclaims_rate_combined
+    type: VARCHAR
+  - name: contclaims_rate_combined
+    type: VARCHAR

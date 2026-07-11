@@ -1,0 +1,427 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-affinity-national-monthly`. Regenerate after model-verify.
+# caution: Wide consumer spending table; columns encode spending category and income segment, so compare like-named measures rather than summing across all spend_* columns.
+key: [year, month, day_endofmonth, freq]
+temporal: year
+sort: [year, month, day_endofmonth, freq]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofmonth
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: spend_all
+    type: VARCHAR
+  - name: spend_all_incmiddle
+    type: VARCHAR
+  - name: spend_all_q1
+    type: VARCHAR
+  - name: spend_all_q2
+    type: VARCHAR
+  - name: spend_all_q3
+    type: VARCHAR
+  - name: spend_all_q4
+    type: VARCHAR
+  - name: spend_aap
+    type: VARCHAR
+  - name: spend_aap_q1
+    type: VARCHAR
+  - name: spend_aap_q2
+    type: VARCHAR
+  - name: spend_aap_q3
+    type: VARCHAR
+  - name: spend_aap_q4
+    type: VARCHAR
+  - name: spend_acf
+    type: VARCHAR
+  - name: spend_acf_q1
+    type: VARCHAR
+  - name: spend_acf_q2
+    type: VARCHAR
+  - name: spend_acf_q3
+    type: VARCHAR
+  - name: spend_acf_q4
+    type: VARCHAR
+  - name: spend_aer
+    type: VARCHAR
+  - name: spend_aer_q1
+    type: VARCHAR
+  - name: spend_aer_q2
+    type: VARCHAR
+  - name: spend_aer_q3
+    type: VARCHAR
+  - name: spend_aer_q4
+    type: VARCHAR
+  - name: spend_apg
+    type: VARCHAR
+  - name: spend_apg_q1
+    type: VARCHAR
+  - name: spend_apg_q2
+    type: VARCHAR
+  - name: spend_apg_q3
+    type: VARCHAR
+  - name: spend_apg_q4
+    type: VARCHAR
+  - name: spend_durables
+    type: VARCHAR
+  - name: spend_durables_q1
+    type: VARCHAR
+  - name: spend_durables_q2
+    type: VARCHAR
+  - name: spend_durables_q3
+    type: VARCHAR
+  - name: spend_durables_q4
+    type: VARCHAR
+  - name: spend_gen
+    type: VARCHAR
+  - name: spend_gen_q1
+    type: VARCHAR
+  - name: spend_gen_q2
+    type: VARCHAR
+  - name: spend_gen_q3
+    type: VARCHAR
+  - name: spend_gen_q4
+    type: VARCHAR
+  - name: spend_grf
+    type: VARCHAR
+  - name: spend_grf_q1
+    type: VARCHAR
+  - name: spend_grf_q2
+    type: VARCHAR
+  - name: spend_grf_q3
+    type: VARCHAR
+  - name: spend_grf_q4
+    type: VARCHAR
+  - name: spend_hcs
+    type: VARCHAR
+  - name: spend_hcs_q1
+    type: VARCHAR
+  - name: spend_hcs_q2
+    type: VARCHAR
+  - name: spend_hcs_q3
+    type: VARCHAR
+  - name: spend_hcs_q4
+    type: VARCHAR
+  - name: spend_hic
+    type: VARCHAR
+  - name: spend_hic_q1
+    type: VARCHAR
+  - name: spend_hic_q2
+    type: VARCHAR
+  - name: spend_hic_q3
+    type: VARCHAR
+  - name: spend_hic_q4
+    type: VARCHAR
+  - name: spend_inpersonmisc
+    type: VARCHAR
+  - name: spend_inpersonmisc_q1
+    type: VARCHAR
+  - name: spend_inpersonmisc_q2
+    type: VARCHAR
+  - name: spend_inpersonmisc_q3
+    type: VARCHAR
+  - name: spend_inpersonmisc_q4
+    type: VARCHAR
+  - name: spend_nondurables
+    type: VARCHAR
+  - name: spend_nondurables_q1
+    type: VARCHAR
+  - name: spend_nondurables_q2
+    type: VARCHAR
+  - name: spend_nondurables_q3
+    type: VARCHAR
+  - name: spend_nondurables_q4
+    type: VARCHAR
+  - name: spend_remoteservices
+    type: VARCHAR
+  - name: spend_remoteservices_q1
+    type: VARCHAR
+  - name: spend_remoteservices_q2
+    type: VARCHAR
+  - name: spend_remoteservices_q3
+    type: VARCHAR
+  - name: spend_remoteservices_q4
+    type: VARCHAR
+  - name: spend_sgh
+    type: VARCHAR
+  - name: spend_sgh_q1
+    type: VARCHAR
+  - name: spend_sgh_q2
+    type: VARCHAR
+  - name: spend_sgh_q3
+    type: VARCHAR
+  - name: spend_sgh_q4
+    type: VARCHAR
+  - name: spend_tws
+    type: VARCHAR
+  - name: spend_tws_q1
+    type: VARCHAR
+  - name: spend_tws_q2
+    type: VARCHAR
+  - name: spend_tws_q3
+    type: VARCHAR
+  - name: spend_tws_q4
+    type: VARCHAR
+  - name: spend_inperson
+    type: VARCHAR
+  - name: spend_inperson_q1
+    type: VARCHAR
+  - name: spend_inperson_q2
+    type: VARCHAR
+  - name: spend_inperson_q3
+    type: VARCHAR
+  - name: spend_inperson_q4
+    type: VARCHAR
+  - name: spend_retail_no_grocery
+    type: VARCHAR
+  - name: spend_retail_no_grocery_q1
+    type: VARCHAR
+  - name: spend_retail_no_grocery_q2
+    type: VARCHAR
+  - name: spend_retail_no_grocery_q3
+    type: VARCHAR
+  - name: spend_retail_no_grocery_q4
+    type: VARCHAR
+  - name: spend_retail_w_grocery
+    type: VARCHAR
+  - name: spend_retail_w_grocery_q1
+    type: VARCHAR
+  - name: spend_retail_w_grocery_q2
+    type: VARCHAR
+  - name: spend_retail_w_grocery_q3
+    type: VARCHAR
+  - name: spend_retail_w_grocery_q4
+    type: VARCHAR
+  - name: spend_s_all
+    type: DOUBLE
+  - name: spend_s_all_incmiddle
+    type: DOUBLE
+  - name: spend_s_all_q1
+    type: DOUBLE
+  - name: spend_s_all_q2
+    type: DOUBLE
+  - name: spend_s_all_q3
+    type: DOUBLE
+  - name: spend_s_all_q4
+    type: DOUBLE
+  - name: spend_s_aap
+    type: DOUBLE
+  - name: spend_s_aap_q1
+    type: DOUBLE
+  - name: spend_s_aap_q2
+    type: DOUBLE
+  - name: spend_s_aap_q3
+    type: DOUBLE
+  - name: spend_s_aap_q4
+    type: DOUBLE
+  - name: spend_s_acf
+    type: DOUBLE
+  - name: spend_s_acf_q1
+    type: DOUBLE
+  - name: spend_s_acf_q2
+    type: DOUBLE
+  - name: spend_s_acf_q3
+    type: DOUBLE
+  - name: spend_s_acf_q4
+    type: DOUBLE
+  - name: spend_s_aer
+    type: DOUBLE
+  - name: spend_s_aer_q1
+    type: DOUBLE
+  - name: spend_s_aer_q2
+    type: DOUBLE
+  - name: spend_s_aer_q3
+    type: DOUBLE
+  - name: spend_s_aer_q4
+    type: DOUBLE
+  - name: spend_s_apg
+    type: DOUBLE
+  - name: spend_s_apg_q1
+    type: DOUBLE
+  - name: spend_s_apg_q2
+    type: DOUBLE
+  - name: spend_s_apg_q3
+    type: DOUBLE
+  - name: spend_s_apg_q4
+    type: DOUBLE
+  - name: spend_s_durables
+    type: DOUBLE
+  - name: spend_s_durables_q1
+    type: DOUBLE
+  - name: spend_s_durables_q2
+    type: DOUBLE
+  - name: spend_s_durables_q3
+    type: DOUBLE
+  - name: spend_s_durables_q4
+    type: DOUBLE
+  - name: spend_s_gen
+    type: DOUBLE
+  - name: spend_s_gen_q1
+    type: DOUBLE
+  - name: spend_s_gen_q2
+    type: DOUBLE
+  - name: spend_s_gen_q3
+    type: DOUBLE
+  - name: spend_s_gen_q4
+    type: DOUBLE
+  - name: spend_s_grf
+    type: DOUBLE
+  - name: spend_s_grf_q1
+    type: DOUBLE
+  - name: spend_s_grf_q2
+    type: DOUBLE
+  - name: spend_s_grf_q3
+    type: DOUBLE
+  - name: spend_s_grf_q4
+    type: DOUBLE
+  - name: spend_s_hcs
+    type: DOUBLE
+  - name: spend_s_hcs_q1
+    type: DOUBLE
+  - name: spend_s_hcs_q2
+    type: DOUBLE
+  - name: spend_s_hcs_q3
+    type: DOUBLE
+  - name: spend_s_hcs_q4
+    type: DOUBLE
+  - name: spend_s_hic
+    type: DOUBLE
+  - name: spend_s_hic_q1
+    type: DOUBLE
+  - name: spend_s_hic_q2
+    type: DOUBLE
+  - name: spend_s_hic_q3
+    type: DOUBLE
+  - name: spend_s_hic_q4
+    type: DOUBLE
+  - name: spend_s_inpersonmisc
+    type: DOUBLE
+  - name: spend_s_inpersonmisc_q1
+    type: DOUBLE
+  - name: spend_s_inpersonmisc_q2
+    type: DOUBLE
+  - name: spend_s_inpersonmisc_q3
+    type: DOUBLE
+  - name: spend_s_inpersonmisc_q4
+    type: DOUBLE
+  - name: spend_s_nondurables
+    type: DOUBLE
+  - name: spend_s_nondurables_q1
+    type: DOUBLE
+  - name: spend_s_nondurables_q2
+    type: DOUBLE
+  - name: spend_s_nondurables_q3
+    type: DOUBLE
+  - name: spend_s_nondurables_q4
+    type: DOUBLE
+  - name: spend_s_remoteservices
+    type: DOUBLE
+  - name: spend_s_remoteservices_q1
+    type: DOUBLE
+  - name: spend_s_remoteservices_q2
+    type: DOUBLE
+  - name: spend_s_remoteservices_q3
+    type: DOUBLE
+  - name: spend_s_remoteservices_q4
+    type: DOUBLE
+  - name: spend_s_sgh
+    type: DOUBLE
+  - name: spend_s_sgh_q1
+    type: DOUBLE
+  - name: spend_s_sgh_q2
+    type: DOUBLE
+  - name: spend_s_sgh_q3
+    type: DOUBLE
+  - name: spend_s_sgh_q4
+    type: DOUBLE
+  - name: spend_s_tws
+    type: DOUBLE
+  - name: spend_s_tws_q1
+    type: DOUBLE
+  - name: spend_s_tws_q2
+    type: DOUBLE
+  - name: spend_s_tws_q3
+    type: DOUBLE
+  - name: spend_s_tws_q4
+    type: DOUBLE
+  - name: spend_s_inperson
+    type: DOUBLE
+  - name: spend_s_inperson_q1
+    type: DOUBLE
+  - name: spend_s_inperson_q2
+    type: DOUBLE
+  - name: spend_s_inperson_q3
+    type: DOUBLE
+  - name: spend_s_inperson_q4
+    type: DOUBLE
+  - name: spend_s_retail_no_grocery
+    type: DOUBLE
+  - name: spend_s_retail_no_grocery_q1
+    type: DOUBLE
+  - name: spend_s_retail_no_grocery_q2
+    type: DOUBLE
+  - name: spend_s_retail_no_grocery_q3
+    type: DOUBLE
+  - name: spend_s_retail_no_grocery_q4
+    type: DOUBLE
+  - name: spend_s_retail_w_grocery
+    type: DOUBLE
+  - name: spend_s_retail_w_grocery_q1
+    type: DOUBLE
+  - name: spend_s_retail_w_grocery_q2
+    type: DOUBLE
+  - name: spend_s_retail_w_grocery_q3
+    type: DOUBLE
+  - name: spend_s_retail_w_grocery_q4
+    type: DOUBLE
+  - name: spend_19_all
+    type: DOUBLE
+  - name: spend_19_all_incmiddle
+    type: DOUBLE
+  - name: spend_19_all_q1
+    type: DOUBLE
+  - name: spend_19_all_q2
+    type: DOUBLE
+  - name: spend_19_all_q3
+    type: DOUBLE
+  - name: spend_19_all_q4
+    type: DOUBLE
+  - name: spend_19_aap
+    type: DOUBLE
+  - name: spend_19_acf
+    type: DOUBLE
+  - name: spend_19_aer
+    type: DOUBLE
+  - name: spend_19_apg
+    type: DOUBLE
+  - name: spend_19_durables
+    type: DOUBLE
+  - name: spend_19_gen
+    type: DOUBLE
+  - name: spend_19_grf
+    type: DOUBLE
+  - name: spend_19_hcs
+    type: DOUBLE
+  - name: spend_19_hic
+    type: DOUBLE
+  - name: spend_19_inpersonmisc
+    type: DOUBLE
+  - name: spend_19_nondurables
+    type: DOUBLE
+  - name: spend_19_remoteservices
+    type: DOUBLE
+  - name: spend_19_sgh
+    type: DOUBLE
+  - name: spend_19_tws
+    type: DOUBLE
+  - name: spend_19_inperson
+    type: DOUBLE
+  - name: spend_19_retail_no_grocery
+    type: DOUBLE
+  - name: spend_19_retail_w_grocery
+    type: DOUBLE
+  - name: provisional
+    type: BIGINT

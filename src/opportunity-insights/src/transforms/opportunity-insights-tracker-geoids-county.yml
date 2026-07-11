@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-geoids-county`. Regenerate after model-verify.
+key: [countyname, statename, stateabbrev]
+sort: [countyname, statename, stateabbrev]
+columns:
+  - name: countyfips
+    type: BIGINT
+  - name: countyname
+    type: VARCHAR
+  - name: cityid
+    type: BIGINT
+  - name: cityname
+    type: VARCHAR
+  - name: cz
+    type: BIGINT
+  - name: czname
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: statefips
+    type: BIGINT
+  - name: stateabbrev
+    type: VARCHAR
+  - name: county_pop2019
+    type: BIGINT

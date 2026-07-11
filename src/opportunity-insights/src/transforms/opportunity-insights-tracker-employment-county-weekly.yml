@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-employment-county-weekly`. Regenerate after model-verify.
+key: [year, month, day_endofweek, countyfips]
+temporal: year
+sort: [year, month, day_endofweek, countyfips]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: countyfips
+    type: BIGINT
+  - name: emp
+    type: VARCHAR
+  - name: emp_incq1
+    type: VARCHAR
+  - name: emp_incq2
+    type: VARCHAR
+  - name: emp_incq3
+    type: VARCHAR
+  - name: emp_incq4
+    type: VARCHAR
+  - name: emp_incmiddle
+    type: VARCHAR
+  - name: emp_incbelowmed
+    type: VARCHAR
+  - name: emp_incabovemed
+    type: VARCHAR

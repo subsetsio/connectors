@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-affinity-county-daily`. Regenerate after model-verify.
+key: [year, month, day, countyfips, freq]
+temporal: year
+sort: [year, month, day, countyfips, freq]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: countyfips
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: spend_all
+    type: VARCHAR
+  - name: provisional
+    type: DOUBLE

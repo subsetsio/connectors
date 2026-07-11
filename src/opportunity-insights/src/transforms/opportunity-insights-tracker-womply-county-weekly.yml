@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-womply-county-weekly`. Regenerate after model-verify.
+key: [year, month, day_endofweek, countyfips]
+temporal: year
+sort: [year, month, day_endofweek, countyfips]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: countyfips
+    type: BIGINT
+  - name: merchants_all
+    type: DOUBLE
+  - name: revenue_all
+    type: DOUBLE

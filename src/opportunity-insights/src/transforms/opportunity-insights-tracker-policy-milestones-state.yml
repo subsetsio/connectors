@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-policy-milestones-state`. Regenerate after model-verify.
+# caution: Policy milestone rows are events by state and policy description, not a regular time series; filter the policy_description column before counting policy timing.
+key: [date, policy_description, statename]
+temporal: date
+sort: [date, policy_description, statename]
+columns:
+  - name: statefips
+    type: BIGINT
+  - name: statename
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: policy_description
+    type: VARCHAR
+  - name: schools_first_closed
+    type: BIGINT
+  - name: nonessential_biz_first_closed
+    type: BIGINT
+  - name: stayathome_first_start
+    type: BIGINT

@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-covid-county-daily-2021`. Regenerate after model-verify.
+key: [year, month, day, countyfips]
+temporal: year
+sort: [year, month, day, countyfips]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: countyfips
+    type: BIGINT
+  - name: new_case_count
+    type: VARCHAR
+  - name: new_death_count
+    type: VARCHAR
+  - name: case_count
+    type: VARCHAR
+  - name: death_count
+    type: VARCHAR
+  - name: new_case_rate
+    type: VARCHAR
+  - name: case_rate
+    type: VARCHAR
+  - name: new_death_rate
+    type: VARCHAR
+  - name: death_rate
+    type: VARCHAR
+  - name: new_test_count
+    type: VARCHAR
+  - name: test_count
+    type: VARCHAR
+  - name: new_test_rate
+    type: VARCHAR
+  - name: test_rate
+    type: VARCHAR
+  - name: vaccine_count
+    type: VARCHAR
+  - name: fullvaccine_count
+    type: VARCHAR
+  - name: booster_first_count
+    type: VARCHAR
+  - name: new_vaccine_count
+    type: VARCHAR
+  - name: new_fullvaccine_count
+    type: VARCHAR
+  - name: new_booster_first_count
+    type: VARCHAR
+  - name: new_vaccine_rate
+    type: VARCHAR
+  - name: vaccine_rate
+    type: VARCHAR
+  - name: new_fullvaccine_rate
+    type: VARCHAR
+  - name: fullvaccine_rate
+    type: VARCHAR
+  - name: new_booster_first_rate
+    type: VARCHAR
+  - name: booster_first_rate
+    type: VARCHAR

@@ -1,0 +1,91 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-affinity-city-monthly`. Regenerate after model-verify.
+# caution: Wide consumer spending table; columns encode spending category and sometimes income segment, so compare like-named measures rather than summing across all spend_* columns.
+key: [year, month, day_endofmonth, cityid, freq]
+temporal: year
+sort: [year, month, day_endofmonth, cityid, freq]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofmonth
+    type: BIGINT
+  - name: cityid
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: spend_aap
+    type: DOUBLE
+  - name: spend_s_aap
+    type: DOUBLE
+  - name: spend_acf
+    type: DOUBLE
+  - name: spend_s_acf
+    type: DOUBLE
+  - name: spend_aer
+    type: DOUBLE
+  - name: spend_s_aer
+    type: DOUBLE
+  - name: spend_all
+    type: DOUBLE
+  - name: spend_s_all
+    type: DOUBLE
+  - name: spend_apg
+    type: DOUBLE
+  - name: spend_s_apg
+    type: DOUBLE
+  - name: spend_durables
+    type: DOUBLE
+  - name: spend_s_durables
+    type: DOUBLE
+  - name: spend_gen
+    type: DOUBLE
+  - name: spend_s_gen
+    type: DOUBLE
+  - name: spend_grf
+    type: DOUBLE
+  - name: spend_s_grf
+    type: DOUBLE
+  - name: spend_hcs
+    type: DOUBLE
+  - name: spend_s_hcs
+    type: DOUBLE
+  - name: spend_hic
+    type: DOUBLE
+  - name: spend_s_hic
+    type: DOUBLE
+  - name: spend_inpersonmisc
+    type: DOUBLE
+  - name: spend_s_inpersonmisc
+    type: DOUBLE
+  - name: spend_nondurables
+    type: DOUBLE
+  - name: spend_s_nondurables
+    type: DOUBLE
+  - name: spend_remoteservices
+    type: DOUBLE
+  - name: spend_s_remoteservices
+    type: DOUBLE
+  - name: spend_sgh
+    type: DOUBLE
+  - name: spend_s_sgh
+    type: DOUBLE
+  - name: spend_tws
+    type: DOUBLE
+  - name: spend_s_tws
+    type: DOUBLE
+  - name: spend_inperson
+    type: DOUBLE
+  - name: spend_s_inperson
+    type: DOUBLE
+  - name: spend_retail_no_grocery
+    type: DOUBLE
+  - name: spend_s_retail_no_grocery
+    type: DOUBLE
+  - name: spend_retail_w_grocery
+    type: DOUBLE
+  - name: spend_s_retail_w_grocery
+    type: DOUBLE
+  - name: provisional
+    type: BIGINT

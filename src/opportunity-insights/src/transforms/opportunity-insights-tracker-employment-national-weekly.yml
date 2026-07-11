@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opportunity-insights-tracker-employment-national-weekly`. Regenerate after model-verify.
+# caution: Wide employment table; columns encode income groups, industry slices, and weighting variants, so compare like-named measures rather than summing across all emp_* columns.
+key: [year, month, day_endofweek]
+temporal: year
+sort: [year, month, day_endofweek]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_endofweek
+    type: BIGINT
+  - name: emp
+    type: DOUBLE
+  - name: emp_incq1
+    type: DOUBLE
+  - name: emp_incq2
+    type: DOUBLE
+  - name: emp_incq3
+    type: DOUBLE
+  - name: emp_incq4
+    type: VARCHAR
+  - name: emp_incmiddle
+    type: DOUBLE
+  - name: emp_incbelowmed
+    type: DOUBLE
+  - name: emp_incabovemed
+    type: VARCHAR
+  - name: emp_subset_unweighted_q1
+    type: DOUBLE
+  - name: emp_subset_unweighted_q2
+    type: DOUBLE
+  - name: emp_subset_unweighted_q3
+    type: DOUBLE
+  - name: emp_subset_unweighted_q4
+    type: VARCHAR
+  - name: emp_subset_reweighted_q1
+    type: DOUBLE
+  - name: emp_subset_reweighted_q2
+    type: DOUBLE
+  - name: emp_subset_reweighted_q3
+    type: DOUBLE
+  - name: emp_retail
+    type: DOUBLE
+  - name: emp_s72
+    type: DOUBLE
+  - name: emp_retail_inclow
+    type: DOUBLE
+  - name: emp_retail_incmiddle
+    type: DOUBLE
+  - name: emp_retail_inchigh
+    type: VARCHAR
+  - name: emp_ss40
+    type: DOUBLE
+  - name: emp_ss60
+    type: DOUBLE
+  - name: emp_ss65
+    type: DOUBLE
+  - name: emp_ss70
+    type: DOUBLE
