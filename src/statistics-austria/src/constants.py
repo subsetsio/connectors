@@ -72,7 +72,6 @@ ENTITY_IDS = [
     'OGD__steuer_kst_KST_1',
     'OGD__steuer_kst_KST_2',
     'OGD__steuer_lst_ab_2008_2_LST_2',
-    'OGD__steuer_lst_ab_2008_4_LST_4',
     'OGD__steuer_lst_ab_2008_4_LST_4_1',
     'OGD__steuer_lst_ab_2021_2_LST_2_2',
     'OGD__steuer_lst_ab_2021_4_LST_4_2',
