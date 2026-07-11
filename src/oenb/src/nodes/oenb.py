@@ -16,6 +16,7 @@ skipped. Raw is streamed to ndjson.gz because dimension columns vary per record
 and a few datasets (balance of payments) fan out to many rows.
 """
 
+import math
 import xml.etree.ElementTree as ET
 
 import pyarrow as pa
@@ -137,6 +138,8 @@ def fetch_one(node_id: str) -> None:
                         try:
                             value = float(obs.get("value"))
                         except (TypeError, ValueError):
+                            continue
+                        if not math.isfinite(value):
                             continue
                         buf.append({
                             "hierid": hierid,
