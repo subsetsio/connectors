@@ -1,32 +1,36 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-external-trade-overview`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, area, flow, concept, datatype, unit, time_period, obs_status, conf_status, unit_measure, unit_mult, embargo_time, decimals, obs_value]
+sort: [dataflow, freq, area, flow, concept, datatype, unit, time_period, obs_status, conf_status, unit_measure, unit_mult, embargo_time, decimals, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: AREA
+  - name: area
     type: VARCHAR
-  - name: FLOW
+  - name: flow
     type: VARCHAR
-  - name: CONCEPT
+  - name: concept
     type: VARCHAR
-  - name: DATATYPE
+  - name: datatype
     type: VARCHAR
-  - name: UNIT
+  - name: unit
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: EMBARGO_TIME
-    type: VARCHAR
-  - name: DECIMALS
+  - name: time_period
     type: VARCHAR
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: conf_status
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: embargo_time
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

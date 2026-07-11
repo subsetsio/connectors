@@ -1,26 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-mir`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, mir_item, mir_sector, mir_instrument, mir_maturity, mir_quartile, mir_factor, time_period, obs_status, decimals, obs_value]
+temporal: time_period
+sort: [time_period, dataflow, freq, mir_item, mir_sector, mir_instrument, mir_maturity, mir_quartile, mir_factor, obs_status, decimals, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: MIR_ITEM
+  - name: mir_item
     type: VARCHAR
-  - name: MIR_SECTOR
+  - name: mir_sector
     type: VARCHAR
-  - name: MIR_INSTRUMENT
+  - name: mir_instrument
     type: VARCHAR
-  - name: MIR_MATURITY
+  - name: mir_maturity
     type: VARCHAR
-  - name: MIR_QUARTILE
+  - name: mir_quartile
     type: VARCHAR
-  - name: MIR_FACTOR
+  - name: mir_factor
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
+  - name: time_period
+    type: DATE
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

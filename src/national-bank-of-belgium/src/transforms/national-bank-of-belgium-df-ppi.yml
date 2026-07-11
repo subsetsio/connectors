@@ -1,24 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-ppi`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [obs_value, time_period, nbb_isti, freq, market_geo]
+sort: [obs_value, time_period, nbb_isti, freq, market_geo]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: INDEX_BASE
+  - name: index_base
+    type: BIGINT
+  - name: market_geo
     type: VARCHAR
-  - name: MARKET_GEO
-    type: VARCHAR
-  - name: NBB_ISTI
-    type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: DECIMALS
+  - name: nbb_isti
+    type: BIGINT
+  - name: time_period
     type: VARCHAR
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

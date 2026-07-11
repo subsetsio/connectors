@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-crednfc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_value, time_period, crednfc_unit, crednfc_maturity, freq]
+checks:
+  - kind: unique
+    columns: [obs_value, time_period, crednfc_unit, crednfc_maturity, freq]
+  - kind: not_null
+    col: obs_value
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: crednfc_unit
+  - kind: not_null
+    col: crednfc_maturity
+  - kind: not_null
+    col: freq
+  - kind: row_floor
+    min: 5364
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-cbsocbal`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_value, sector, cbsocbal_item, time_period, amnr]
+checks:
+  - kind: unique
+    columns: [obs_value, sector, cbsocbal_item, time_period, amnr]
+  - kind: not_null
+    col: obs_value
+  - kind: not_null
+    col: sector
+  - kind: not_null
+    col: cbsocbal_item
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: amnr
+  - kind: row_floor
+    min: 1014828
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

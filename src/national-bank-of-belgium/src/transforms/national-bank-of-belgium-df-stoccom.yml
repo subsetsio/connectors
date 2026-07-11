@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-stoccom`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [time_period, stoccom_item, obs_status, freq]
+sort: [time_period, stoccom_item, obs_status, freq]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: STOCCOM_ITEM
+  - name: stoccom_item
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: DECIMALS
+  - name: time_period
     type: VARCHAR
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

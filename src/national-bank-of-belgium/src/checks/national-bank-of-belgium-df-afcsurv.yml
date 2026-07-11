@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-afcsurv`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_value, time_period, afcsurv_indic, afcsurv_size, afcsurv_branch]
+checks:
+  - kind: unique
+    columns: [obs_value, time_period, afcsurv_indic, afcsurv_size, afcsurv_branch]
+  - kind: not_null
+    col: obs_value
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: afcsurv_indic
+  - kind: not_null
+    col: afcsurv_size
+  - kind: not_null
+    col: afcsurv_branch
+  - kind: row_floor
+    min: 1804
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

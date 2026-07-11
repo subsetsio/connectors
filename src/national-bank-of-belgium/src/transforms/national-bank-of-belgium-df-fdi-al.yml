@@ -1,28 +1,32 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-fdi-al`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, fdi_account, fdi_balance, fdi_direction, fdi_item, fdi_area, fdi_sector, time_period, unit_mult, obs_status, decimals, obs_value]
+sort: [dataflow, freq, fdi_account, fdi_balance, fdi_direction, fdi_item, fdi_area, fdi_sector, time_period, unit_mult, obs_status, decimals, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: FDI_ACCOUNT
+  - name: fdi_account
     type: VARCHAR
-  - name: FDI_BALANCE
+  - name: fdi_balance
     type: VARCHAR
-  - name: FDI_DIRECTION
+  - name: fdi_direction
     type: VARCHAR
-  - name: FDI_ITEM
+  - name: fdi_item
     type: VARCHAR
-  - name: FDI_AREA
+  - name: fdi_area
     type: VARCHAR
-  - name: FDI_SECTOR
+  - name: fdi_sector
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: DECIMALS
+  - name: time_period
     type: VARCHAR
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

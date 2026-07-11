@@ -1,22 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-shs-holder`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [time_period, shs_holder, freq, shs_type, unit_measure]
+sort: [time_period, shs_holder, freq, shs_type, unit_measure]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: SHS_TYPE
+  - name: shs_type
     type: VARCHAR
-  - name: SHS_HOLDER
+  - name: shs_holder
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: DECIMALS
+  - name: time_period
     type: VARCHAR
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: decimals
+    type: BIGINT

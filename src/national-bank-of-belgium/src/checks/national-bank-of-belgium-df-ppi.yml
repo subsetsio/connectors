@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-ppi`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_value, time_period, nbb_isti, freq, market_geo]
+checks:
+  - kind: unique
+    columns: [obs_value, time_period, nbb_isti, freq, market_geo]
+  - kind: not_null
+    col: obs_value
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: nbb_isti
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: market_geo
+  - kind: row_floor
+    min: 76431
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-reservbpm6`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [obs_value, time_period, bopreserv_item]
+temporal: time_period
+sort: [time_period, obs_value, bopreserv_item]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: BOPRESERV_ITEM
+  - name: bopreserv_item
     type: VARCHAR
-  - name: BOPBPM6_FLOW
+  - name: bopbpm6_flow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
+  - name: time_period
+    type: DATE
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: decimals
+    type: BIGINT

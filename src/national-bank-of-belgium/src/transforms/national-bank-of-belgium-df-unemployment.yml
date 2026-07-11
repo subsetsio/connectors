@@ -1,46 +1,50 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-unemployment`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, be_region, gender, inactivity, age, education, activity, services, nationality, adjustment, prof_group, employ_category, index_type, derivation, time_period, obs_status, unit_measure, unit_mult, compiling_org, decimals, obs_value]
+sort: [dataflow, freq, be_region, gender, inactivity, age, education, activity, services, nationality, adjustment, prof_group, employ_category, index_type, derivation, time_period, obs_status, unit_measure, unit_mult, compiling_org, decimals, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: BE_REGION
+  - name: be_region
     type: VARCHAR
-  - name: GENDER
+  - name: gender
     type: VARCHAR
-  - name: INACTIVITY
+  - name: inactivity
     type: VARCHAR
-  - name: AGE
+  - name: age
     type: VARCHAR
-  - name: EDUCATION
+  - name: education
+    type: BIGINT
+  - name: activity
     type: VARCHAR
-  - name: ACTIVITY
+  - name: services
     type: VARCHAR
-  - name: SERVICES
+  - name: nationality
     type: VARCHAR
-  - name: NATIONALITY
+  - name: adjustment
     type: VARCHAR
-  - name: ADJUSTMENT
+  - name: prof_group
     type: VARCHAR
-  - name: PROF_GROUP
+  - name: employ_category
+    type: BIGINT
+  - name: index_type
     type: VARCHAR
-  - name: EMPLOY_CATEGORY
+  - name: derivation
     type: VARCHAR
-  - name: INDEX_TYPE
-    type: VARCHAR
-  - name: DERIVATION
-    type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: COMPILING_ORG
-    type: VARCHAR
-  - name: DECIMALS
+  - name: time_period
     type: VARCHAR
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: compiling_org
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

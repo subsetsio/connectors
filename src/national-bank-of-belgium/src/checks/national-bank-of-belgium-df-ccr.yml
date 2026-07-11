@@ -1,0 +1,36 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-ccr`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataflow, freq, ccr_item, ccr_unit, ccr_regio, ccr_size, ccr_branch, time_period, obs_status, decimals, obs_value]
+checks:
+  - kind: unique
+    columns: [dataflow, freq, ccr_item, ccr_unit, ccr_regio, ccr_size, ccr_branch, time_period, obs_status, decimals, obs_value]
+  - kind: not_null
+    col: dataflow
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: ccr_item
+  - kind: not_null
+    col: ccr_unit
+  - kind: not_null
+    col: ccr_regio
+  - kind: not_null
+    col: ccr_size
+  - kind: not_null
+    col: ccr_branch
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: obs_status
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: obs_value
+  - kind: row_floor
+    min: 4432
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

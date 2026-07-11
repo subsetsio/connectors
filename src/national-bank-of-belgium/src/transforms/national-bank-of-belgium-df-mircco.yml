@@ -1,22 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-mircco`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [obs_value, time_period, mircco_instrument, mircco_maturity]
+temporal: time_period
+sort: [time_period, obs_value, mircco_instrument, mircco_maturity]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: MIRCCO_AREA
+  - name: mircco_area
     type: VARCHAR
-  - name: MIRCCO_SECTOR
+  - name: mircco_sector
+    type: BIGINT
+  - name: mircco_instrument
     type: VARCHAR
-  - name: MIRCCO_INSTRUMENT
+  - name: mircco_maturity
     type: VARCHAR
-  - name: MIRCCO_MATURITY
-    type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
+  - name: time_period
+    type: DATE
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

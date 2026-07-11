@@ -1,0 +1,40 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-fdi-sector`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataflow, freq, fdi_account, fdi_balance, fdi_direction, fdi_item, fdi_area, fdi_sector, time_period, unit_mult, obs_status, decimals, obs_value]
+checks:
+  - kind: unique
+    columns: [dataflow, freq, fdi_account, fdi_balance, fdi_direction, fdi_item, fdi_area, fdi_sector, time_period, unit_mult, obs_status, decimals, obs_value]
+  - kind: not_null
+    col: dataflow
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: fdi_account
+  - kind: not_null
+    col: fdi_balance
+  - kind: not_null
+    col: fdi_direction
+  - kind: not_null
+    col: fdi_item
+  - kind: not_null
+    col: fdi_area
+  - kind: not_null
+    col: fdi_sector
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: unit_mult
+  - kind: not_null
+    col: obs_status
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: obs_value
+  - kind: row_floor
+    min: 3216
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -29,7 +29,6 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_writer,
     transient_retry,
@@ -102,25 +101,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(e), fn=fetch_one, kind="download")
     for e in ENTITY_IDS
-]
-
-
-# One published Delta table per dataflow. Every value arrives as a string, so
-# keep all native dimension/attribute columns as-is, cast the observation value
-# to DOUBLE, and drop the suppressed/non-numeric observations. Reshaping beyond
-# this would need per-flow knowledge of the dimension list, which belongs
-# downstream.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                * EXCLUDE (OBS_VALUE),
-                TRY_CAST(OBS_VALUE AS DOUBLE) AS obs_value
-            FROM "{s.id}"
-            WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

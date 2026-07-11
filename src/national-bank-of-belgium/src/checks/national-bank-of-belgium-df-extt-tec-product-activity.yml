@@ -1,0 +1,62 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-extt-tec-product-activity`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataflow, table_identifier, freq, ref_area, counterpart_area, activity, number_empl, top_enterprises, number_partners, product, trade_population, flow, type_control, type_trader, exports_intensity, indicator, time_period, obs_status, conf_status, decimals, unit_mult, unit_measure, embargo_time, obs_value]
+checks:
+  - kind: unique
+    columns: [dataflow, table_identifier, freq, ref_area, counterpart_area, activity, number_empl, top_enterprises, number_partners, product, trade_population, flow, type_control, type_trader, exports_intensity, indicator, time_period, obs_status, conf_status, decimals, unit_mult, unit_measure, embargo_time, obs_value]
+  - kind: not_null
+    col: dataflow
+  - kind: not_null
+    col: table_identifier
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: ref_area
+  - kind: not_null
+    col: counterpart_area
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: number_empl
+  - kind: not_null
+    col: top_enterprises
+  - kind: not_null
+    col: number_partners
+  - kind: not_null
+    col: product
+  - kind: not_null
+    col: trade_population
+  - kind: not_null
+    col: flow
+  - kind: not_null
+    col: type_control
+  - kind: not_null
+    col: type_trader
+  - kind: not_null
+    col: exports_intensity
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: obs_status
+  - kind: not_null
+    col: conf_status
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: unit_mult
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: embargo_time
+  - kind: not_null
+    col: obs_value
+  - kind: row_floor
+    min: 12178
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

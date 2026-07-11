@@ -1,28 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-inr`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [time_period, obs_value, indicator, obs_status, unit_mult]
+temporal: time_period
+sort: [time_period, obs_value, indicator, obs_status, unit_mult]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: DATA_DOMAIN
+  - name: data_domain
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: INDICATOR
+  - name: indicator
     type: VARCHAR
-  - name: COUNTERPART_AREA
+  - name: counterpart_area
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: TIME_PERIOD
+  - name: time_period
     type: DATE
-  - name: COMMENT
-    type: VARCHAR
-  - name: BASE_PER
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: TIME_FORMAT
-    type: VARCHAR
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: comment
+    type: VARCHAR
+  - name: base_per
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: time_format
+    type: VARCHAR

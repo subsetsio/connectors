@@ -1,0 +1,46 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-exttradevlnat-overview`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataflow, reporting, country, product, flow, concept, datatype, freq, time_period, obs_status, conf_status, unit_measure, unit_mult, embargo_time, decimals, obs_value]
+checks:
+  - kind: unique
+    columns: [dataflow, reporting, country, product, flow, concept, datatype, freq, time_period, obs_status, conf_status, unit_measure, unit_mult, embargo_time, decimals, obs_value]
+  - kind: not_null
+    col: dataflow
+  - kind: not_null
+    col: reporting
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: product
+  - kind: not_null
+    col: flow
+  - kind: not_null
+    col: concept
+  - kind: not_null
+    col: datatype
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: obs_status
+  - kind: not_null
+    col: conf_status
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: unit_mult
+  - kind: not_null
+    col: embargo_time
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: obs_value
+  - kind: row_floor
+    min: 2388805
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

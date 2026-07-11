@@ -1,0 +1,40 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-mir`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataflow, freq, mir_item, mir_sector, mir_instrument, mir_maturity, mir_quartile, mir_factor, time_period, obs_status, decimals, obs_value]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [dataflow, freq, mir_item, mir_sector, mir_instrument, mir_maturity, mir_quartile, mir_factor, time_period, obs_status, decimals, obs_value]
+  - kind: not_null
+    col: dataflow
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: mir_item
+  - kind: not_null
+    col: mir_sector
+  - kind: not_null
+    col: mir_instrument
+  - kind: not_null
+    col: mir_maturity
+  - kind: not_null
+    col: mir_quartile
+  - kind: not_null
+    col: mir_factor
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: obs_status
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: obs_value
+  - kind: row_floor
+    min: 30642
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

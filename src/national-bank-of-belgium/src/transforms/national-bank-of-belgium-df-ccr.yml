@@ -1,24 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-ccr`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, ccr_item, ccr_unit, ccr_regio, ccr_size, ccr_branch, time_period, obs_status, decimals, obs_value]
+sort: [dataflow, freq, ccr_item, ccr_unit, ccr_regio, ccr_size, ccr_branch, time_period, obs_status, decimals, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: CCR_ITEM
+  - name: ccr_item
     type: VARCHAR
-  - name: CCR_UNIT
+  - name: ccr_unit
     type: VARCHAR
-  - name: CCR_REGIO
+  - name: ccr_regio
     type: VARCHAR
-  - name: CCR_SIZE
+  - name: ccr_size
     type: VARCHAR
-  - name: CCR_BRANCH
+  - name: ccr_branch
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: DECIMALS
+  - name: time_period
     type: VARCHAR
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

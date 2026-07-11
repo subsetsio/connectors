@@ -1,0 +1,38 @@
+# compiled by `hardened compile-checks` — post-publish audit of `national-bank-of-belgium-df-qnaiegsgeo-diss`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataflow, freq, type, ie, item, adjustment, time_period, obs_status, conf_status, unit_mult, decimals, obs_value]
+checks:
+  - kind: unique
+    columns: [dataflow, freq, type, ie, item, adjustment, time_period, obs_status, conf_status, unit_mult, decimals, obs_value]
+  - kind: not_null
+    col: dataflow
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: type
+  - kind: not_null
+    col: ie
+  - kind: not_null
+    col: item
+  - kind: not_null
+    col: adjustment
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: obs_status
+  - kind: not_null
+    col: conf_status
+  - kind: not_null
+    col: unit_mult
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: obs_value
+  - kind: row_floor
+    min: 2496
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

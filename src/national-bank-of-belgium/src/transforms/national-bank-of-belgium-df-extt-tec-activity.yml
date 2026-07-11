@@ -1,50 +1,54 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-extt-tec-activity`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, table_identifier, freq, ref_area, counterpart_area, activity, number_empl, top_enterprises, number_partners, product, trade_population, flow, type_control, type_trader, exports_intensity, indicator, time_period, obs_status, conf_status, decimals, unit_mult, unit_measure, embargo_time, obs_value]
+sort: [dataflow, table_identifier, freq, ref_area, counterpart_area, activity, number_empl, top_enterprises, number_partners, product, trade_population, flow, type_control, type_trader, exports_intensity, indicator, time_period, obs_status, conf_status, decimals, unit_mult, unit_measure, embargo_time, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: TABLE_IDENTIFIER
+  - name: table_identifier
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: COUNTERPART_AREA
+  - name: counterpart_area
     type: VARCHAR
-  - name: ACTIVITY
+  - name: activity
     type: VARCHAR
-  - name: NUMBER_EMPL
+  - name: number_empl
     type: VARCHAR
-  - name: TOP_ENTERPRISES
+  - name: top_enterprises
     type: VARCHAR
-  - name: NUMBER_PARTNERS
+  - name: number_partners
     type: VARCHAR
-  - name: PRODUCT
+  - name: product
     type: VARCHAR
-  - name: TRADE_POPULATION
+  - name: trade_population
     type: VARCHAR
-  - name: FLOW
+  - name: flow
     type: VARCHAR
-  - name: TYPE_CONTROL
+  - name: type_control
     type: VARCHAR
-  - name: TYPE_TRADER
+  - name: type_trader
     type: VARCHAR
-  - name: EXPORTS_INTENSITY
+  - name: exports_intensity
     type: VARCHAR
-  - name: INDICATOR
+  - name: indicator
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: EMBARGO_TIME
-    type: VARCHAR
+  - name: time_period
+    type: BIGINT
   - name: obs_value
-    type: DOUBLE
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: conf_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: embargo_time
+    type: VARCHAR

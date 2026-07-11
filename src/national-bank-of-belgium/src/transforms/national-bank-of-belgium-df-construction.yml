@@ -1,22 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-construction`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, construction_permit, construction_type, construction_geo, construction_item, time_period, obs_status, decimals, obs_value]
+temporal: time_period
+sort: [time_period, dataflow, freq, construction_permit, construction_type, construction_geo, construction_item, obs_status, decimals, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: CONSTRUCTION_PERMIT
+  - name: construction_permit
     type: VARCHAR
-  - name: CONSTRUCTION_TYPE
+  - name: construction_type
     type: VARCHAR
-  - name: CONSTRUCTION_GEO
+  - name: construction_geo
     type: VARCHAR
-  - name: CONSTRUCTION_ITEM
+  - name: construction_item
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
+  - name: time_period
+    type: DATE
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

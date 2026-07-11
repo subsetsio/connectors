@@ -1,26 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-belgium-df-pens-diss`. Regenerate after model-verify.
+# caution: Each table is one NBB.Stat SDMX dataflow; dimensions and attributes are source-specific codes, so filter the relevant dimensions before aggregating observations.
+key: [dataflow, freq, item, type, case, time_period, obs_status, unit_mult, conf_status, decimals, embargo_time, obs_value]
+sort: [dataflow, freq, item, type, case, time_period, obs_status, unit_mult, conf_status, decimals, embargo_time, obs_value]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: ITEM
+  - name: item
     type: VARCHAR
-  - name: TYPE
+  - name: type
     type: VARCHAR
-  - name: CASE
+  - name: case
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
-  - name: EMBARGO_TIME
-    type: VARCHAR
+  - name: time_period
+    type: BIGINT
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: conf_status
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: embargo_time
+    type: VARCHAR
