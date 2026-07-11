@@ -113,7 +113,9 @@ def _fetch(url: str, params: dict | None = None) -> dict:
 def _fetch_all_pages(entity: str, params: dict) -> list[dict]:
     """Follow the @odata.nextLink chain, returning every row for the query."""
     rows: list[dict] = []
-    data = _fetch(f"{BASE}/{entity}", params)
+    query = {"$top": 40000}
+    query.update(params)
+    data = _fetch(f"{BASE}/{entity}", query)
     rows.extend(data.get("value", []))
     nxt = data.get("@odata.nextLink")
     while nxt:

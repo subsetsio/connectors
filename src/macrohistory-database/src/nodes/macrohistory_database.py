@@ -16,7 +16,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -111,45 +110,5 @@ DOWNLOAD_SPECS = [
         id="macrohistory-database-jst-macrohistory-panel",
         fn=fetch_panel,
         kind="download",
-    ),
-]
-
-
-# One published subset: the JST panel, wide — year+country are the natural key,
-# every variable a typed column. The parquet is already typed; the transform is
-# a thin parse-and-type gate that fails loudly if the raw shape is wrong and
-# drops any fully-blank rows.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="macrohistory-database-jst-macrohistory-panel-transform",
-        deps=["macrohistory-database-jst-macrohistory-panel"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER)   AS year,
-                country,
-                iso,
-                CAST(ifs AS INTEGER)    AS ifs,
-                pop, rgdpmad, rgdpbarro, rconsbarro, gdp, iy, cpi, ca,
-                imports, exports, narrowm, money, stir, ltrate, hpnom,
-                unemp, wage, debtgdp, revenue, expenditure, xrusd,
-                tloans, tmort, thh, tbus, bdebt, lev, ltd, noncore,
-                CAST(crisisJST AS INTEGER)     AS crisisJST,
-                CAST(crisisJST_old AS INTEGER) AS crisisJST_old,
-                CAST(peg AS INTEGER)           AS peg,
-                CAST(peg_strict AS INTEGER)    AS peg_strict,
-                peg_type, peg_base, JSTtrilemmaIV,
-                eq_tr, housing_tr, bond_tr, bill_rate,
-                CAST(rent_ipolated AS INTEGER)            AS rent_ipolated,
-                CAST(housing_capgain_ipolated AS INTEGER) AS housing_capgain_ipolated,
-                housing_capgain, housing_rent_rtn, housing_rent_yd,
-                eq_capgain, eq_dp,
-                CAST(eq_capgain_interp AS INTEGER) AS eq_capgain_interp,
-                CAST(eq_tr_interp AS INTEGER)      AS eq_tr_interp,
-                CAST(eq_dp_interp AS INTEGER)      AS eq_dp_interp,
-                bond_rate, eq_div_rtn, capital_tr, risky_tr, safe_tr
-            FROM "macrohistory-database-jst-macrohistory-panel"
-            WHERE year IS NOT NULL AND country IS NOT NULL
-            ORDER BY country, year
-        ''',
     ),
 ]

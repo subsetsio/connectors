@@ -1,13 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `macrohistory-database-jst-macrohistory-panel`. Regenerate after model-verify.
+# caution: This is a wide annual panel: each row carries many macroeconomic series for the same country-year, so avoid summing across variables as if they were separate observations.
+key: [year, iso, country, peg_base, peg_type]
+temporal: year
+sort: [year, iso, country, peg_base, peg_type]
 columns:
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: country
     type: VARCHAR
   - name: iso
     type: VARCHAR
   - name: ifs
-    type: INTEGER
+    type: BIGINT
   - name: pop
     type: DOUBLE
   - name: rgdpmad
@@ -66,19 +71,19 @@ columns:
     type: DOUBLE
   - name: noncore
     type: DOUBLE
-  - name: crisisJST
-    type: INTEGER
-  - name: crisisJST_old
-    type: INTEGER
+  - name: crisisjst
+    type: BIGINT
+  - name: crisisjst_old
+    type: BIGINT
   - name: peg
-    type: INTEGER
+    type: BIGINT
   - name: peg_strict
-    type: INTEGER
+    type: BIGINT
   - name: peg_type
     type: VARCHAR
   - name: peg_base
     type: VARCHAR
-  - name: JSTtrilemmaIV
+  - name: jsttrilemmaiv
     type: DOUBLE
   - name: eq_tr
     type: DOUBLE
@@ -89,9 +94,9 @@ columns:
   - name: bill_rate
     type: DOUBLE
   - name: rent_ipolated
-    type: INTEGER
+    type: BIGINT
   - name: housing_capgain_ipolated
-    type: INTEGER
+    type: BIGINT
   - name: housing_capgain
     type: DOUBLE
   - name: housing_rent_rtn
@@ -103,11 +108,11 @@ columns:
   - name: eq_dp
     type: DOUBLE
   - name: eq_capgain_interp
-    type: INTEGER
+    type: BIGINT
   - name: eq_tr_interp
-    type: INTEGER
+    type: BIGINT
   - name: eq_dp_interp
-    type: INTEGER
+    type: BIGINT
   - name: bond_rate
     type: DOUBLE
   - name: eq_div_rtn
