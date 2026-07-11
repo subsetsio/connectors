@@ -80,20 +80,28 @@ def _download_to(url: str, path: str) -> None:
 
 
 def fetch_one(node_id: str) -> None:
-    """Download every Parquet resource of one CKAN package to local scratch,
+    """Download every data resource of one CKAN package to local scratch,
     union the per-year schemas via DuckDB, and stream a single raw parquet
-    asset named after the spec id."""
+    asset named after the spec id.
+
+    Parquet is preferred (already typed, columnar). A handful of packages ship
+    only the semicolon-delimited UTF-8 CSV variant (e.g. precipitacao-estacao);
+    for those we fall back to reading the CSVs with DuckDB's auto-typer."""
     asset = node_id
     pkg_id = SPEC_TO_PKG[node_id]
 
-    urls = _parquet_urls(pkg_id)
+    fmt, ext = "PARQUET", "parquet"
+    urls = _resource_urls(pkg_id, "PARQUET")
     if not urls:
-        # Every rank-accepted package advertised a PARQUET variant at collect
-        # time; none here means the source changed shape — fail loudly.
-        raise RuntimeError(f"{pkg_id}: no PARQUET resources found")
+        # No Parquet variant — fall back to the CSV variant (semicolon-delim,
+        # UTF-8 per research). Still fail loudly if the package has neither.
+        urls = _resource_urls(pkg_id, "CSV")
+        if not urls:
+            raise RuntimeError(f"{pkg_id}: no PARQUET or CSV resources found")
+        fmt, ext = "CSV", "csv"
 
     with tempfile.TemporaryDirectory(prefix=f"{asset}-") as tmp:
-        local_files = [os.path.join(tmp, f"{i:05d}.parquet") for i in range(len(urls))]
+        local_files = [os.path.join(tmp, f"{i:05d}.{ext}") for i in range(len(urls))]
         # The pooled httpx client is thread-safe; S3 per-request latency
         # dominates, so fetch in parallel. Exceptions propagate (fail the spec).
         with ThreadPoolExecutor(max_workers=8) as pool:
@@ -101,9 +109,15 @@ def fetch_one(node_id: str) -> None:
 
         con = duckdb.connect()
         file_list = "[" + ",".join("'" + p + "'" for p in local_files) + "]"
-        rel = con.sql(
-            f"SELECT * FROM read_parquet({file_list}, union_by_name=true)"
-        )
+        if fmt == "PARQUET":
+            rel = con.sql(
+                f"SELECT * FROM read_parquet({file_list}, union_by_name=true)"
+            )
+        else:
+            rel = con.sql(
+                f"SELECT * FROM read_csv({file_list}, delim=';', header=true, "
+                "union_by_name=true, sample_size=-1, all_varchar=false)"
+            )
 
         reader = rel.fetch_record_batch()
         wrote = False
@@ -114,7 +128,7 @@ def fetch_one(node_id: str) -> None:
                     wrote = True
         if not wrote:
             raise RuntimeError(
-                f"{pkg_id}: union of {len(urls)} parquet(s) was empty"
+                f"{pkg_id}: union of {len(urls)} {fmt} file(s) was empty"
             )
 
 
