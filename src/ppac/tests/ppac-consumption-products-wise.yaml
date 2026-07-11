@@ -1,6 +1,7 @@
 spec_id: ppac-consumption-products-wise
 status: active
 tests:
+  - freshness: {col: period, reaches: today - 120d}
   - not_null: item
     reason: every observation names its series/product (domestic POL consumption, products x months)
     certainty: 95

@@ -1,0 +1,9 @@
+spec_id: prio-40
+status: active
+coverage:
+  frozen: true
+  reason: PRIOGRID is fetched as the current versioned alpha release file; the connector fetches the full release snapshot.
+tests:
+  - row_count: {min: 1}
+    reason: the PRIOGRID parquet member should contain at least one data row
+    certainty: 95

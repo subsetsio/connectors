@@ -1,6 +1,7 @@
 spec_id: ppac-natural-gas-import
 status: active
 tests:
+  - freshness: {col: fiscal_year, reaches: "2024-25"}
   - not_null: metric
     certainty: 95
   - not_null: fiscal_year

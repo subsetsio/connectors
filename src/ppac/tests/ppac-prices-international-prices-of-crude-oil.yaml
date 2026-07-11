@@ -1,6 +1,7 @@
 spec_id: ppac-prices-international-prices-of-crude-oil
 status: active
 tests:
+  - freshness: {col: period, reaches: today - 120d}
   - not_null: item
     reason: every observation names its series/product (Indian basket crude price, monthly $/bbl)
     certainty: 95
@@ -18,8 +19,8 @@ tests:
     reason: the page exposes multiple series; a collapse to one means parse broke
     certainty: 80
     severity: warn
-  - row_count: {min: 8}
-    reason: recent financial years melted to long form; far fewer means the AjaxController returned empty
+  - row_count: {min: 3}
+    reason: current financial year crude price rows are published month-to-date; fewer than three months means the AjaxController likely returned empty
     certainty: 85
   - between: {col: value, lo: 1, hi: 250}
     reason: monthly crude basket price in $/bbl sits in low-hundreds

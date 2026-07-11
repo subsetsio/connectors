@@ -34,7 +34,6 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     raw_parquet_writer,
@@ -43,6 +42,10 @@ from subsets_utils import (
 
 PAGE_URL = "https://www.prio.org/data/{id}"
 CDN = "https://cdn.cloud.prio.org/files/{uuid}/{filename}"
+EXCEL_HEADER_ROWS = {
+    "14": 1,
+    "34": 4,
+}
 
 # Authoritative entity union (rank-accepted, >= publish threshold).
 from constants import ENTITY_IDS
@@ -61,14 +64,22 @@ RESOLVE = {
     "8":  ("geo-svac",              "zip",  "geosvac.csv"),
     "10": ("diadata data",          "zip",  "DIADATA Excel file.xls"),
     "11": ("petrodata v12 data",    "zip",  "Petrodata_Onshore_V1.2.xlsx"),
+    "14": ("boundary length dataset", "xls", None),
     "16": ("witches brew dataset",  "sav",  None),
+    "18": ("mirps data annual",      "dta",  None),
     "20": ("polyarchy v2 data",     "zip",  "polyarchy v2 dataset.csv"),
     "23": ("natresconfl",           "dta",  None),
+    "26": ("waricc dataset",         "xlsx", None),
+    "28": ("institutional variance dataset", "dta", None),
+    "29": ("religious cleavages dataset", "dta", None),
+    "30": ("location of armed conflict onset dataset", "xlsx", None),
     "31": ("conflictrecurrencedatabase", "csv", None),
     "32": ("usd 30 dataset",        "zip",  "events.xlsx"),
+    "34": ("pfos mapping dataset",  "xlsx", None),
     "35": ("area database data",    "csv",  None),
     "36": ("shdi-sgdi-total",       "csv",  None),
     "37": ("gdl-corruptiondata",    "csv",  None),
+    "38": ("gdl codes",             "xlsx", None),
     "39": ("omg_stata",             "zip",  "omg.dta"),
     "40": ("3_0_1",                 "zip",  "pg_timevarying.parquet"),
 }
@@ -132,9 +143,10 @@ def _zip_member(data: bytes, member_substr: str):
     return name, zf.read(name)
 
 
-def _read_dataframe(data: bytes, ext: str):
+def _read_dataframe(data: bytes, ext: str, page_id: str | None = None):
     import pandas as pd
 
+    header = EXCEL_HEADER_ROWS.get(page_id, 0)
     if ext == "csv":
         last = None
         for enc in ("utf-8", "latin-1"):
@@ -149,9 +161,9 @@ def _read_dataframe(data: bytes, ext: str):
                 last = e
         raise RuntimeError(f"csv parse failed: {last}")
     if ext == "xlsx":
-        return pd.read_excel(io.BytesIO(data), engine="openpyxl")
+        return pd.read_excel(io.BytesIO(data), engine="openpyxl", header=header)
     if ext == "xls":
-        return pd.read_excel(io.BytesIO(data), engine="xlrd")
+        return pd.read_excel(io.BytesIO(data), engine="xlrd", header=header)
     if ext == "dta":
         return pd.read_stata(io.BytesIO(data), convert_categoricals=False)
     if ext == "sav":
@@ -255,9 +267,9 @@ def fetch_one(node_id: str) -> None:
             return
         member_name, member_bytes = _zip_member(data, member)
         member_ext = member_name.rsplit(".", 1)[-1].lower()
-        df = _read_dataframe(member_bytes, member_ext)
+        df = _read_dataframe(member_bytes, member_ext, page_id)
     else:
-        df = _read_dataframe(data, ext)
+        df = _read_dataframe(data, ext, page_id)
 
     table = _to_table(df)
     save_raw_parquet(table, asset)
@@ -270,40 +282,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# Per-dataset grain declarations (purely declarative; keyed by spec id).
-# Keys come only from profile-verified unique columns; annual/subnational
-# panels get a temporal period but no key (composite grain not verified unique).
-_GRAIN = {
-    "prio-1":  dict(temporal="year"),          # annual battle-deaths panel
-    "prio-3":  dict(temporal="year"),          # annual onset (country-year)
-    "prio-4":  dict(temporal="year"),          # armed conflict dataset (conflict-year)
-    "prio-5":  dict(temporal="year"),          # conflict sites (conflict-year)
-    "prio-6":  dict(key=("eventid",)),         # georeferenced events
-    "prio-7":  dict(key=("eventid",), temporal="eventdate"),
-    "prio-8":  dict(key=("gedid",), temporal="date_start"),
-    "prio-10": dict(temporal="disc"),          # diamond location register
-    "prio-11": dict(),                          # petroleum location register (timeless)
-    "prio-16": dict(temporal="year"),
-    "prio-20": dict(temporal="year"),          # polyarchy (country-year)
-    "prio-23": dict(key=("conflepid",), temporal="ependdate"),
-    "prio-31": dict(),                          # conflict recurrence (no clean period)
-    "prio-32": dict(key=("eventid",)),
-    "prio-35": dict(temporal="year"),          # subnational area panel
-    "prio-36": dict(temporal="year"),          # subnational HDI panel
-    "prio-37": dict(temporal="year"),          # subnational corruption panel
-    "prio-39": dict(key=("spell_id",), temporal="start_year"),
-    "prio-40": dict(key=("pgid", "measurement_date"), temporal="measurement_date"),
-}
-
-# One published Delta table per dataset: a thin pass over the parsed raw.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        **_GRAIN.get(s.id, {}),
-    )
-    for s in DOWNLOAD_SPECS
 ]

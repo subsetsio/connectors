@@ -1,6 +1,7 @@
 spec_id: ppac-consumption-active-domestic-customers
 status: active
 tests:
+  - freshness: {col: as_of, reaches: today - 2y}
   - not_null: state
     certainty: 95
   - not_null: value

@@ -1,6 +1,7 @@
 spec_id: ppac-infrastructure-installed-refinery-capacity
 status: active
 tests:
+  - freshness: {col: as_of, reaches: today - 2y}
   - not_null: refinery
     certainty: 95
   - not_null: capacity

@@ -1,0 +1,9 @@
+spec_id: prio-11
+status: active
+coverage:
+  frozen: true
+  reason: PRIO publishes this dataset as a versioned historical snapshot; the connector fetches the current full file.
+tests:
+  - row_count: {min: 1}
+    reason: the PETRODATA workbook should contain at least one data row
+    certainty: 95

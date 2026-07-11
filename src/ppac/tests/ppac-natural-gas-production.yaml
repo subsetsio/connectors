@@ -1,6 +1,7 @@
 spec_id: ppac-natural-gas-production
 status: active
 tests:
+  - freshness: {col: period, reaches: today - 120d}
   - not_null: item
     reason: every observation names its series/product (natural gas gross/net production by field)
     certainty: 95

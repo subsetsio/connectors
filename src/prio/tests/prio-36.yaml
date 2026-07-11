@@ -1,0 +1,9 @@
+spec_id: prio-36
+status: active
+coverage:
+  frozen: true
+  reason: PRIO hosts a versioned Global Data Lab mirror snapshot; the connector fetches the current full file.
+tests:
+  - row_count: {min: 1}
+    reason: the GDL subnational HDI CSV should contain at least one data row
+    certainty: 95

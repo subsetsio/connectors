@@ -1,6 +1,7 @@
 spec_id: ppac-production-crude-processing
 status: active
 tests:
+  - freshness: {col: period, reaches: today - 120d}
   - not_null: item
     reason: every observation names its series/product (crude processed by refinery)
     certainty: 95

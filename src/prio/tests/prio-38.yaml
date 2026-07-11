@@ -1,0 +1,9 @@
+spec_id: prio-38
+status: active
+coverage:
+  frozen: true
+  reason: PRIO hosts a versioned Global Data Lab coding snapshot; the connector fetches the current full workbook.
+tests:
+  - row_count: {min: 1}
+    reason: the GDL coding workbook should contain at least one data row
+    certainty: 95
