@@ -16,7 +16,7 @@ because the SQL transform can only read parquet — the transform is then a thin
 type/clean pass that publishes one Delta table per dataset.
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 from constants import ENTITY_IDS
 from utils import (
@@ -52,24 +52,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE)    AS date,
-                subtable,
-                series,
-                CAST(value AS DOUBLE) AS value,
-                frequency,
-                unit
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND series IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
