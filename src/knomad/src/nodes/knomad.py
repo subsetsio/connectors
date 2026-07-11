@@ -24,10 +24,8 @@ import io
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 CSV_URL = "https://data360files.worldbank.org/data360-data/data/WB_KNOMAD/{indicator}.csv"
@@ -57,7 +55,6 @@ def _indicator_from_node_id(node_id: str) -> str:
     return node_id[len("knomad-"):].upper().replace("-", "_")
 
 
-@transient_retry()
 def _fetch_csv(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -89,83 +86,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="knomad-wb-knomad-mro", fn=fetch_one, kind="download"),
     NodeSpec(id="knomad-wb-knomad-bre", fn=fetch_one, kind="download"),
     NodeSpec(id="knomad-wb-knomad-mig", fn=fetch_one, kind="download"),
-]
-
-
-# --- transforms: one published Delta table per subset ---------------------
-
-# 2D flow indicators (MRI, MRO): country x year time series.
-def _flow_sql(dep: str) -> str:
-    return f'''
-        SELECT
-            REF_AREA                            AS country_code,
-            REF_AREA_LABEL                      AS country,
-            CAST(TIME_PERIOD AS INTEGER)        AS year,
-            TRY_CAST(OBS_VALUE AS DOUBLE)       AS value_usd_million,
-            UNIT_MEASURE_LABEL                  AS unit,
-            INDICATOR_LABEL                     AS indicator,
-            OBS_STATUS                          AS obs_status
-        FROM "{dep}"
-        WHERE OBS_VALUE IS NOT NULL
-          AND TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-          AND TRY_CAST(TIME_PERIOD AS INTEGER) IS NOT NULL
-    '''
-
-
-# 3D bilateral matrices (BRE, MIG): origin x destination corridor.
-# REF_AREA is the indicator's primary country; COMP_BREAKDOWN_1 carries the
-# counterpart country, code-prefixed 'WB_KNOMAD_' (stripped here to ISO3).
-# `unit_sql` is a SQL expression for the unit column: for remittances the
-# source's UNIT_MEASURE_LABEL ('US dollars') is correct, but the migration
-# matrix is mislabeled 'US dollars' upstream when the values are person counts,
-# so MIG passes a corrected literal instead of carrying the wrong source label.
-def _bilateral_sql(dep: str, value_col: str, unit_sql: str) -> str:
-    return f'''
-        SELECT
-            REF_AREA                                          AS country_code,
-            REF_AREA_LABEL                                    AS country,
-            REPLACE(COMP_BREAKDOWN_1, 'WB_KNOMAD_', '')       AS counterpart_code,
-            COMP_BREAKDOWN_1_LABEL                            AS counterpart,
-            CAST(TIME_PERIOD AS INTEGER)                      AS year,
-            TRY_CAST(OBS_VALUE AS DOUBLE)                     AS {value_col},
-            {unit_sql}                                        AS unit,
-            INDICATOR_LABEL                                   AS indicator,
-            OBS_STATUS                                        AS obs_status
-        FROM "{dep}"
-        WHERE OBS_VALUE IS NOT NULL
-          AND TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-          AND COMP_BREAKDOWN_1 NOT IN ('_T', '_Z')
-          AND TRY_CAST(TIME_PERIOD AS INTEGER) IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="knomad-wb-knomad-mri-transform",
-        deps=["knomad-wb-knomad-mri"],
-        key=("country_code", "year"),
-        temporal="year",
-        sql=_flow_sql("knomad-wb-knomad-mri"),
-    ),
-    SqlNodeSpec(
-        id="knomad-wb-knomad-mro-transform",
-        deps=["knomad-wb-knomad-mro"],
-        key=("country_code", "year"),
-        temporal="year",
-        sql=_flow_sql("knomad-wb-knomad-mro"),
-    ),
-    SqlNodeSpec(
-        id="knomad-wb-knomad-bre-transform",
-        deps=["knomad-wb-knomad-bre"],
-        key=("country_code", "counterpart_code", "year"),
-        temporal="year",
-        sql=_bilateral_sql("knomad-wb-knomad-bre", "remittance_usd_million", "UNIT_MEASURE_LABEL"),
-    ),
-    SqlNodeSpec(
-        id="knomad-wb-knomad-mig-transform",
-        deps=["knomad-wb-knomad-mig"],
-        key=("country_code", "counterpart_code", "year"),
-        temporal="year",
-        sql=_bilateral_sql("knomad-wb-knomad-mig", "migrant_stock", "'persons'"),
-    ),
 ]

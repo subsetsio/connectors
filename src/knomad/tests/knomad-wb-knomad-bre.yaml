@@ -1,25 +1,23 @@
 spec_id: knomad-wb-knomad-bre
 status: active
+coverage:
+  frozen: true
+  reason: KNOMAD's Data360 mirror is a static post-wind-down corpus; this bilateral remittance matrix is a fixed 2021 release.
 tests:
-  - not_null: country_code
-  - not_null: counterpart_code
-  - not_null: year
-  - not_null: remittance_usd_million
-  - column_type: {col: year, type: integer}
-  - column_type: {col: remittance_usd_million, type: float}
-  - at_least: {col: year, expr: 2021}
-    reason: bilateral remittance matrix is published for reference year 2021
-    certainty: 85
-    severity: warn
-  - at_most: {col: year, expr: current_year()}
-    reason: observation year cannot exceed the current calendar year
-    certainty: 85
-    points_outward: true
-    severity: warn
-  - at_least: {col: remittance_usd_million, expr: 0}
-    reason: corridor remittance flows are non-negative US$ million
-    certainty: 85
-    severity: warn
+  - not_null: REF_AREA
+  - not_null: COMP_BREAKDOWN_1
+  - not_null: TIME_PERIOD
+  - not_null: OBS_VALUE
+  - column_type: {col: REF_AREA, type: string}
+  - column_type: {col: COMP_BREAKDOWN_1, type: string}
+  - column_type: {col: TIME_PERIOD, type: string}
+  - column_type: {col: OBS_VALUE, type: string}
+  - matches: {col: TIME_PERIOD, pattern: "^[0-9]{4}$"}
+    reason: KNOMAD bilateral remittance estimates are annual observations.
+    certainty: 90
+  - enum: {col: INDICATOR, values: ["WB_KNOMAD_BRE"]}
+    reason: each bulk CSV is one Data360 indicator file.
+    certainty: 95
   - row_count: {min: 9000}
-    reason: ~10619 origin-destination corridor cells observed for 2021
+    reason: the 2021 corridor matrix should contain about 10619 observed cells.
     certainty: 80
