@@ -29,11 +29,9 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     save_raw_parquet,
-    transient_retry,
 )
 
 SEARCH_URL = "https://apis.datos.gob.ar/series/api/search/"
@@ -72,7 +70,6 @@ VALUES_SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _get_json(url: str, params: dict) -> dict:
     resp = get(url, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -208,44 +205,4 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="indec-indec-series", fn=fetch_series_catalog, kind="download"),
     NodeSpec(id="indec-indec-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="indec-indec-series-transform",
-        deps=["indec-indec-series"],
-        key=("series_id",),
-        temporal="time_index_end",
-        sql='''
-            SELECT
-                series_id,
-                title,
-                description,
-                frequency,
-                units,
-                CAST(time_index_start AS DATE) AS time_index_start,
-                CAST(time_index_end   AS DATE) AS time_index_end,
-                dataset_title,
-                dataset_source,
-                dataset_theme,
-                dataset_publisher
-            FROM "indec-indec-series"
-            WHERE series_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indec-indec-values-transform",
-        deps=["indec-indec-values"],
-        key=("series_id", "date"),
-        temporal="date",
-        sql='''
-            SELECT DISTINCT
-                series_id,
-                CAST(date AS DATE)    AS date,
-                CAST(value AS DOUBLE) AS value
-            FROM "indec-indec-values"
-            WHERE value IS NOT NULL
-              AND series_id IS NOT NULL
-        ''',
-    ),
 ]
