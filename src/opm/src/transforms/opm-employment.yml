@@ -4,7 +4,8 @@
 # caution: Several code columns have companion label columns in the same table; preserve both when grouping so source code systems remain auditable.
 key: []
 temporal: source_publish_date
-sort: [source_publish_date]
+# Omit physical sorting for this very large table; the sorted publish exceeded
+# the runner's temp storage while materializing the Delta output.
 columns:
   - name: accession_category
     type: VARCHAR

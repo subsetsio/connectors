@@ -1,4 +1,7 @@
 spec_id: philadelphia-fed-partisan-conflict-index
+coverage:
+  frozen: true
+  reason: The Philadelphia Fed sunsetted the Partisan Conflict Index as of July 2025 and keeps the data posted for archival use.
 status: active
 tests:
   - not_null: date
@@ -11,7 +14,3 @@ tests:
   - row_count: {min: 400}
     reason: monthly history starts in the early 1980s.
     certainty: 90
-  - freshness: {col: date, reaches: today - 120d}
-    reason: the index is monthly; allow a quarter of slack.
-    certainty: 80
-    points_outward: true
