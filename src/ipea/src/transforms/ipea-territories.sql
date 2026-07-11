@@ -1,5 +1,5 @@
 SELECT
-    NULLIF(NIVNOME, '')               AS geo_level,
+    NIVNOME                           AS geo_level,
     TERCODIGO                         AS territory_code,
     TERNOME                           AS territory_name,
     TERNOMEPADRAO                     AS normalized_name,
