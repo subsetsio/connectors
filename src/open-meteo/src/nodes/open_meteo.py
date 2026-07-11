@@ -11,6 +11,9 @@ Products (one DOWNLOAD_SPEC + one TRANSFORM_SPEC each):
   - climate-projections  downscaled CMIP6 daily projections, 1950-2050
   - flood                GloFAS daily river discharge, 1984-present
   - air-quality          CAMS hourly air quality, 2013-present
+  - forecast             operational daily weather forecast, recent past + 16 days
+  - marine               marine wave forecast, 7 days hourly
+  - locations            curated location reference table
 
 Fetch shape: stateless full re-pull. Each refresh re-fetches every location's
 full window in one request (start_date..end_date) and overwrites. There is no
@@ -28,7 +31,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     save_raw_parquet,
@@ -84,6 +86,10 @@ ARCHIVE_DAILY_VARS = [
 CLIMATE_DAILY_VARS = ["temperature_2m_max"]
 FLOOD_DAILY_VARS = ["river_discharge"]
 AIR_QUALITY_HOURLY_VARS = ["pm10", "pm2_5", "ozone"]
+FORECAST_DAILY_VARS = [
+    "temperature_2m_max", "temperature_2m_min", "precipitation_sum",
+]
+MARINE_HOURLY_VARS = ["wave_height", "wave_period", "wave_direction"]
 
 
 def _today_utc():
@@ -234,77 +240,59 @@ def fetch_air_quality(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+def fetch_forecast(node_id: str) -> None:
+    asset = node_id
+    _prepare_node(node_id)
+    schema = _location_schema(pa.string(), "date", FORECAST_DAILY_VARS)
+    rows = []
+    for name, country, lat, lon in LOCATIONS:
+        block = _fetch_point(
+            "https://api.open-meteo.com/v1/forecast", lat, lon, "daily",
+            FORECAST_DAILY_VARS, {"past_days": 7, "forecast_days": 16})
+        rows.extend(_rows_for_point(
+            block, FORECAST_DAILY_VARS, "date",
+            {"name": name, "country": country, "latitude": lat, "longitude": lon}))
+    table = pa.Table.from_pylist(rows, schema=schema)
+    save_raw_parquet(table, asset)
+
+
+def fetch_marine(node_id: str) -> None:
+    asset = node_id
+    _prepare_node(node_id)
+    schema = _location_schema(pa.string(), "time", MARINE_HOURLY_VARS)
+    rows = []
+    for name, country, lat, lon in LOCATIONS:
+        block = _fetch_point(
+            "https://marine-api.open-meteo.com/v1/marine", lat, lon, "hourly",
+            MARINE_HOURLY_VARS, {"forecast_days": 7})
+        rows.extend(_rows_for_point(
+            block, MARINE_HOURLY_VARS, "time",
+            {"name": name, "country": country, "latitude": lat, "longitude": lon}))
+    table = pa.Table.from_pylist(rows, schema=schema)
+    save_raw_parquet(table, asset)
+
+
+def fetch_locations(node_id: str) -> None:
+    schema = pa.schema([
+        ("name", pa.string()),
+        ("country", pa.string()),
+        ("latitude", pa.float64()),
+        ("longitude", pa.float64()),
+    ])
+    rows = [
+        {"name": name, "country": country, "latitude": lat, "longitude": lon}
+        for name, country, lat, lon in LOCATIONS
+    ]
+    table = pa.Table.from_pylist(rows, schema=schema)
+    save_raw_parquet(table, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="open-meteo-archive-daily", fn=fetch_archive_daily, kind="download"),
     NodeSpec(id="open-meteo-climate-projections", fn=fetch_climate_projections, kind="download"),
     NodeSpec(id="open-meteo-flood", fn=fetch_flood, kind="download"),
     NodeSpec(id="open-meteo-air-quality", fn=fetch_air_quality, kind="download"),
-]
-
-
-# ---- transforms: one published Delta table per subset -----------------------
-
-def _daily_cast(variables: list) -> str:
-    return ",\n            ".join(f'CAST({v} AS DOUBLE) AS {v}' for v in variables)
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="open-meteo-archive-daily-transform",
-        deps=["open-meteo-archive-daily"],
-        sql=f'''
-        SELECT
-            name,
-            country,
-            CAST(latitude AS DOUBLE)  AS latitude,
-            CAST(longitude AS DOUBLE) AS longitude,
-            CAST(date AS DATE)        AS date,
-            {_daily_cast(ARCHIVE_DAILY_VARS)}
-        FROM "open-meteo-archive-daily"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="open-meteo-climate-projections-transform",
-        deps=["open-meteo-climate-projections"],
-        sql=f'''
-        SELECT
-            name,
-            country,
-            CAST(latitude AS DOUBLE)  AS latitude,
-            CAST(longitude AS DOUBLE) AS longitude,
-            model,
-            CAST(date AS DATE)        AS date,
-            {_daily_cast(CLIMATE_DAILY_VARS)}
-        FROM "open-meteo-climate-projections"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="open-meteo-flood-transform",
-        deps=["open-meteo-flood"],
-        sql=f'''
-        SELECT
-            name,
-            country,
-            CAST(latitude AS DOUBLE)  AS latitude,
-            CAST(longitude AS DOUBLE) AS longitude,
-            CAST(date AS DATE)        AS date,
-            {_daily_cast(FLOOD_DAILY_VARS)}
-        FROM "open-meteo-flood"
-        WHERE river_discharge IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="open-meteo-air-quality-transform",
-        deps=["open-meteo-air-quality"],
-        sql=f'''
-        SELECT
-            name,
-            country,
-            CAST(latitude AS DOUBLE)  AS latitude,
-            CAST(longitude AS DOUBLE) AS longitude,
-            CAST(time AS TIMESTAMP)   AS time,
-            {_daily_cast(AIR_QUALITY_HOURLY_VARS)}
-        FROM "open-meteo-air-quality"
-        ''',
-    ),
+    NodeSpec(id="open-meteo-forecast", fn=fetch_forecast, kind="download"),
+    NodeSpec(id="open-meteo-locations", fn=fetch_locations, kind="download"),
+    NodeSpec(id="open-meteo-marine", fn=fetch_marine, kind="download"),
 ]

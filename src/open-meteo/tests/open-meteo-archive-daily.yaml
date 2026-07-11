@@ -1,6 +1,10 @@
 spec_id: open-meteo-archive-daily
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 14d}
+    reason: ERA5 archive has several days of source latency but should reach recent dates
+    certainty: 90
+    points_outward: true
   - not_null: name
     certainty: 99
   - not_null: date

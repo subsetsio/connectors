@@ -33,7 +33,6 @@ import logging
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -179,49 +178,4 @@ def fetch_organizations(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="open-government-canada-datasets", fn=fetch_datasets, kind="download"),
     NodeSpec(id="open-government-canada-organizations", fn=fetch_organizations, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="open-government-canada-datasets-transform",
-        deps=["open-government-canada-datasets"],
-        sql='''
-            SELECT
-                CAST(dataset_id AS VARCHAR)              AS dataset_id,
-                CAST(name AS VARCHAR)                    AS name,
-                CAST(title AS VARCHAR)                   AS title,
-                CAST(organization AS VARCHAR)            AS organization,
-                CAST(subjects AS VARCHAR)                AS subjects,
-                CAST(keywords AS VARCHAR)                AS keywords,
-                CAST(license_id AS VARCHAR)              AS license_id,
-                CAST(resource_formats AS VARCHAR)        AS resource_formats,
-                CAST(num_resources AS INTEGER)           AS num_resources,
-                CAST(notes AS VARCHAR)                   AS notes,
-                TRY_CAST(metadata_created AS TIMESTAMP)  AS metadata_created,
-                TRY_CAST(metadata_modified AS TIMESTAMP) AS metadata_modified,
-                TRY_CAST(portal_release_date AS DATE)    AS portal_release_date
-            FROM "open-government-canada-datasets"
-            WHERE dataset_id IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY dataset_id ORDER BY metadata_modified DESC NULLS LAST
-            ) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="open-government-canada-organizations-transform",
-        deps=["open-government-canada-organizations"],
-        sql='''
-            SELECT
-                CAST(org_id AS VARCHAR)        AS org_id,
-                CAST(name AS VARCHAR)          AS name,
-                CAST(title AS VARCHAR)         AS title,
-                CAST(package_count AS INTEGER) AS package_count,
-                CAST(state AS VARCHAR)         AS state,
-                CAST(type AS VARCHAR)          AS type,
-                TRY_CAST(created AS TIMESTAMP) AS created
-            FROM "open-government-canada-organizations"
-            WHERE org_id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY org_id ORDER BY package_count DESC NULLS LAST) = 1
-        ''',
-    ),
 ]

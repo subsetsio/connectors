@@ -1,0 +1,29 @@
+spec_id: open-meteo-marine
+status: active
+tests:
+  - freshness: {col: time, reaches: today}
+    reason: marine forecast includes the current forecast cycle
+    certainty: 95
+    points_outward: true
+  - not_null: name
+    certainty: 99
+  - not_null: time
+    certainty: 99
+  - unique: [name, time]
+    reason: one hourly marine forecast row per (city, timestamp)
+    certainty: 95
+  - distinct_count: {col: name, min: 4, max: 6}
+    certainty: 90
+  - row_count: {min: 700}
+    reason: ~6 cities x 168 hourly rows for a 7-day marine forecast
+    certainty: 85
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+  - between: {col: wave_height, lo: 0, hi: 40}
+    reason: wave heights are non-negative and extreme significant wave heights remain below this guardrail
+    certainty: 85
+    severity: warn
+  - between: {col: wave_direction, lo: 0, hi: 360}
+    reason: wave direction is degrees
+    certainty: 90
+    severity: warn

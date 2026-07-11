@@ -1,5 +1,8 @@
 spec_id: open-meteo-climate-projections
 status: active
+coverage:
+  frozen: true
+  reason: CMIP6 projection corpus is a fixed daily 1950-2050 projection window for the selected model.
 tests:
   - not_null: name
     certainty: 99
@@ -7,13 +10,13 @@ tests:
     certainty: 99
   - not_null: date
     certainty: 99
-  - enum: {col: model, values: [MRI_AGCM3_2_S, EC_Earth3P_HR, MPI_ESM1_2_XR]}
-    reason: exactly the three CMIP6 models we request
+  - enum: {col: model, values: [MRI_AGCM3_2_S]}
+    reason: exactly the one CMIP6 model we request to stay inside the free-tier call budget
     certainty: 95
   - unique: [name, model, date]
     reason: one projection row per (city, model, date)
     certainty: 95
-  - distinct_count: {col: name, min: 18, max: 24}
+  - distinct_count: {col: name, min: 4, max: 6}
     certainty: 90
   - between: {col: latitude, lo: -90, hi: 90}
     certainty: 99
@@ -29,6 +32,6 @@ tests:
     reason: projections begin in 1950
     certainty: 95
     points_outward: true
-  - row_count: {min: 1500000}
-    reason: ~24 cities x 3 models x ~36.9k days (1950-2050)
+  - row_count: {min: 200000}
+    reason: ~6 cities x 1 model x ~36.9k days (1950-2050)
     certainty: 85

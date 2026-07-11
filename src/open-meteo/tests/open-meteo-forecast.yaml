@@ -1,0 +1,29 @@
+spec_id: open-meteo-forecast
+status: active
+tests:
+  - freshness: {col: date, reaches: today}
+    reason: operational forecast includes the current forecast cycle
+    certainty: 95
+    points_outward: true
+  - not_null: name
+    certainty: 99
+  - not_null: date
+    certainty: 99
+  - unique: [name, date]
+    reason: one daily forecast row per (city, date)
+    certainty: 95
+  - distinct_count: {col: name, min: 4, max: 6}
+    certainty: 90
+  - row_count: {min: 100}
+    reason: ~6 cities x 23 daily rows (7 past + 16 forecast)
+    certainty: 85
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+  - between: {col: temperature_2m_max, lo: -90, hi: 60}
+    reason: physical near-surface daily max air temperature range on Earth
+    certainty: 90
+    severity: warn
+  - at_least: {col: precipitation_sum, expr: 0}
+    reason: precipitation totals are non-negative
+    certainty: 95
+    severity: warn

@@ -1,6 +1,10 @@
 spec_id: open-meteo-flood
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 7d}
+    reason: GloFAS daily API should reach recent dates
+    certainty: 85
+    points_outward: true
   - not_null: name
     certainty: 99
   - not_null: date
@@ -8,7 +12,7 @@ tests:
   - unique: [name, date]
     reason: one daily discharge row per (city, date)
     certainty: 95
-  - distinct_count: {col: name, min: 18, max: 24}
+  - distinct_count: {col: name, min: 4, max: 6}
     certainty: 90
   - at_least: {col: river_discharge, expr: 0}
     reason: river discharge is a non-negative flow rate (m3/s)
@@ -19,6 +23,6 @@ tests:
     severity: warn
   - between: {col: latitude, lo: -90, hi: 90}
     certainty: 99
-  - row_count: {min: 150000}
-    reason: ~24 cities x ~15k days (1984-present)
+  - row_count: {min: 60000}
+    reason: ~6 cities x ~15k days (1984-present)
     certainty: 85

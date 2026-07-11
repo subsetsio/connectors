@@ -1,0 +1,17 @@
+spec_id: open-meteo-locations
+status: active
+tests:
+  - not_null: name
+    certainty: 99
+  - not_null: country
+    certainty: 99
+  - unique: name
+    reason: curated location names are stable identifiers in this connector
+    certainty: 99
+  - row_count: {min: 6, max: 6}
+    reason: exactly the six curated globally distributed cities in constants.py
+    certainty: 99
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 99
