@@ -14,7 +14,7 @@ tests:
   - column_type: {col: cells, type: string}
     certainty: 99
   - at_least: {col: n_cols, expr: 1}
-    reason: rows with zero non-empty cells are dropped in the transform
+    reason: rows with zero non-empty cells are dropped downstream
     certainty: 99
   - row_count: {min: 1}
     reason: this publication exposes at least one parseable CSV/XLS/XLSX/ODS attachment
