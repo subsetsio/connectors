@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-swob-partner-stations`. Regenerate after model-verify.
+key: [iata_id, feature_id, msc_id, data_attribution_notice_fr, data_attribution_notice_en]
+sort: [iata_id, feature_id, msc_id, data_attribution_notice_fr, data_attribution_notice_en]
+columns:
+  - name: feature_id
+    type: VARCHAR
+  - name: iata_id
+    type: VARCHAR
+  - name: name_fr
+    type: VARCHAR
+  - name: name_en
+    type: VARCHAR
+  - name: province_territory
+    type: VARCHAR
+  - name: auto_man
+    type: VARCHAR
+  - name: icao_id
+    type: VARCHAR
+  - name: wmo_id
+    type: BIGINT
+  - name: msc_id
+    type: VARCHAR
+  - name: dst_time
+    type: VARCHAR
+  - name: std_time
+    type: VARCHAR
+  - name: data_provider_en
+    type: VARCHAR
+  - name: data_provider_fr
+    type: VARCHAR
+  - name: data_attribution_notice_en
+    type: VARCHAR
+  - name: data_attribution_notice_fr
+    type: VARCHAR
+  - name: geometry_type
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE

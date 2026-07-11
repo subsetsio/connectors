@@ -1,0 +1,71 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-climate-daily`. Regenerate after model-verify.
+# caution: Daily rows are station-day observations; do not aggregate across stations without first choosing the station geography or network intended for the analysis.
+key: [climate_id, date]
+temporal: date
+sort: [date, climate_id]
+columns:
+  - name: climate_id
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: province_code
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: year
+    type: INTEGER
+  - name: month
+    type: INTEGER
+  - name: day
+    type: INTEGER
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: data_quality
+    type: VARCHAR
+  - name: max_temp
+    type: DOUBLE
+  - name: max_temp_flag
+    type: VARCHAR
+  - name: min_temp
+    type: DOUBLE
+  - name: min_temp_flag
+    type: VARCHAR
+  - name: mean_temp
+    type: DOUBLE
+  - name: mean_temp_flag
+    type: VARCHAR
+  - name: heat_deg_days
+    type: DOUBLE
+  - name: heat_deg_days_flag
+    type: VARCHAR
+  - name: cool_deg_days
+    type: DOUBLE
+  - name: cool_deg_days_flag
+    type: VARCHAR
+  - name: total_rain
+    type: DOUBLE
+  - name: total_rain_flag
+    type: VARCHAR
+  - name: total_snow
+    type: DOUBLE
+  - name: total_snow_flag
+    type: VARCHAR
+  - name: total_precip
+    type: DOUBLE
+  - name: total_precip_flag
+    type: VARCHAR
+  - name: snow_on_grnd
+    type: DOUBLE
+  - name: snow_on_grnd_flag
+    type: VARCHAR
+  - name: dir_of_max_gust
+    type: DOUBLE
+  - name: dir_of_max_gust_flag
+    type: VARCHAR
+  - name: spd_of_max_gust
+    type: VARCHAR
+  - name: spd_of_max_gust_flag
+    type: VARCHAR

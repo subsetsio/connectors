@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "feature_id",
+    CAST("LATITUDE" AS DOUBLE) AS latitude,
+    CAST("LONGITUDE" AS DOUBLE) AS longitude,
+    "STATION_NAME" AS station_name,
+    "CLIMATE_IDENTIFIER" AS climate_identifier,
+    "ID" AS id,
+    strptime("LOCAL_DATE", '%Y-%m')::DATE AS local_date,
+    "LAST_UPDATED" AS last_updated,
+    "PROVINCE_CODE" AS province_code,
+    "ENG_PROVINCE_NAME" AS eng_province_name,
+    "FRE_PROVINCE_NAME" AS fre_province_name,
+    "LOCAL_YEAR" AS local_year,
+    "LOCAL_MONTH" AS local_month,
+    "NORMAL_MEAN_TEMPERATURE" AS normal_mean_temperature,
+    "MEAN_TEMPERATURE" AS mean_temperature,
+    "DAYS_WITH_VALID_MEAN_TEMP" AS days_with_valid_mean_temp,
+    "MIN_TEMPERATURE" AS min_temperature,
+    "DAYS_WITH_VALID_MIN_TEMP" AS days_with_valid_min_temp,
+    "MAX_TEMPERATURE" AS max_temperature,
+    "DAYS_WITH_VALID_MAX_TEMP" AS days_with_valid_max_temp,
+    "NORMAL_PRECIPITATION" AS normal_precipitation,
+    "TOTAL_PRECIPITATION" AS total_precipitation,
+    "DAYS_WITH_VALID_PRECIP" AS days_with_valid_precip,
+    "DAYS_WITH_PRECIP_GE_1MM" AS days_with_precip_ge_1mm,
+    "NORMAL_SNOWFALL" AS normal_snowfall,
+    "TOTAL_SNOWFALL" AS total_snowfall,
+    "DAYS_WITH_VALID_SNOWFALL" AS days_with_valid_snowfall,
+    "SNOW_ON_GROUND_LAST_DAY" AS snow_on_ground_last_day,
+    "NORMAL_SUNSHINE" AS normal_sunshine,
+    "BRIGHT_SUNSHINE" AS bright_sunshine,
+    "DAYS_WITH_VALID_SUNSHINE" AS days_with_valid_sunshine,
+    "COOLING_DEGREE_DAYS" AS cooling_degree_days,
+    "HEATING_DEGREE_DAYS" AS heating_degree_days,
+    "STN_ID" AS stn_id,
+    "geometry_type",
+    "longitude_1",
+    "latitude_1"
+FROM "environment-and-climate-change-canada-climate-monthly"

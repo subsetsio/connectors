@@ -1,0 +1,80 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-climate-monthly`. Regenerate after model-verify.
+key: [feature_id]
+temporal: local_date
+sort: [local_date, feature_id]
+columns:
+  - name: feature_id
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: station_name
+    type: VARCHAR
+  - name: climate_identifier
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: local_date
+    type: DATE
+  - name: last_updated
+    type: TIMESTAMP
+  - name: province_code
+    type: VARCHAR
+  - name: eng_province_name
+    type: VARCHAR
+  - name: fre_province_name
+    type: VARCHAR
+  - name: local_year
+    type: BIGINT
+  - name: local_month
+    type: BIGINT
+  - name: normal_mean_temperature
+    type: DOUBLE
+  - name: mean_temperature
+    type: DOUBLE
+  - name: days_with_valid_mean_temp
+    type: BIGINT
+  - name: min_temperature
+    type: DOUBLE
+  - name: days_with_valid_min_temp
+    type: BIGINT
+  - name: max_temperature
+    type: DOUBLE
+  - name: days_with_valid_max_temp
+    type: BIGINT
+  - name: normal_precipitation
+    type: DOUBLE
+  - name: total_precipitation
+    type: DOUBLE
+  - name: days_with_valid_precip
+    type: BIGINT
+  - name: days_with_precip_ge_1mm
+    type: BIGINT
+  - name: normal_snowfall
+    type: DOUBLE
+  - name: total_snowfall
+    type: DOUBLE
+  - name: days_with_valid_snowfall
+    type: BIGINT
+  - name: snow_on_ground_last_day
+    type: JSON
+  - name: normal_sunshine
+    type: JSON
+  - name: bright_sunshine
+    type: JSON
+  - name: days_with_valid_sunshine
+    type: JSON
+  - name: cooling_degree_days
+    type: DOUBLE
+  - name: heating_degree_days
+    type: DOUBLE
+  - name: stn_id
+    type: BIGINT
+  - name: geometry_type
+    type: VARCHAR
+  - name: longitude_1
+    type: DOUBLE
+  - name: latitude_1
+    type: DOUBLE

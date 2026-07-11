@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "feature_id",
+    "STN_ID" AS stn_id,
+    "STATION_NAME" AS station_name,
+    "PROV_STATE_TERR_CODE" AS prov_state_terr_code,
+    "ENG_PROV_NAME" AS eng_prov_name,
+    "FRE_PROV_NAME" AS fre_prov_name,
+    "COUNTRY" AS country,
+    "LATITUDE" AS latitude,
+    "LONGITUDE" AS longitude,
+    "TIMEZONE" AS timezone,
+    CAST("ELEVATION" AS DOUBLE) AS elevation,
+    "CLIMATE_IDENTIFIER" AS climate_identifier,
+    "TC_IDENTIFIER" AS tc_identifier,
+    CAST("WMO_IDENTIFIER" AS BIGINT) AS wmo_identifier,
+    "STATION_TYPE" AS station_type,
+    "NORMAL_CODE" AS normal_code,
+    "PUBLICATION_CODE" AS publication_code,
+    "DISPLAY_CODE" AS display_code,
+    "ENG_STN_OPERATOR_ACRONYM" AS eng_stn_operator_acronym,
+    "FRE_STN_OPERATOR_ACRONYM" AS fre_stn_operator_acronym,
+    "ENG_STN_OPERATOR_NAME" AS eng_stn_operator_name,
+    "FRE_STN_OPERATOR_NAME" AS fre_stn_operator_name,
+    "FIRST_DATE" AS first_date,
+    "LAST_DATE" AS last_date,
+    "HLY_FIRST_DATE" AS hly_first_date,
+    "HLY_LAST_DATE" AS hly_last_date,
+    "DLY_FIRST_DATE" AS dly_first_date,
+    "DLY_LAST_DATE" AS dly_last_date,
+    "MLY_FIRST_DATE" AS mly_first_date,
+    "MLY_LAST_DATE" AS mly_last_date,
+    "HAS_MONTHLY_SUMMARY" AS has_monthly_summary,
+    "HAS_NORMALS_DATA" AS has_normals_data,
+    "HAS_HOURLY_DATA" AS has_hourly_data,
+    "geometry_type",
+    "longitude_1",
+    "latitude_1"
+FROM "environment-and-climate-change-canada-climate-stations"

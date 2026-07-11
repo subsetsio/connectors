@@ -1,0 +1,78 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-climate-stations`. Regenerate after model-verify.
+key: [feature_id]
+temporal: first_date
+sort: [first_date, feature_id]
+columns:
+  - name: feature_id
+    type: VARCHAR
+  - name: stn_id
+    type: BIGINT
+  - name: station_name
+    type: VARCHAR
+  - name: prov_state_terr_code
+    type: VARCHAR
+  - name: eng_prov_name
+    type: VARCHAR
+  - name: fre_prov_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: latitude
+    type: BIGINT
+  - name: longitude
+    type: BIGINT
+  - name: timezone
+    type: VARCHAR
+  - name: elevation
+    type: DOUBLE
+  - name: climate_identifier
+    type: VARCHAR
+  - name: tc_identifier
+    type: VARCHAR
+  - name: wmo_identifier
+    type: BIGINT
+  - name: station_type
+    type: VARCHAR
+  - name: normal_code
+    type: VARCHAR
+  - name: publication_code
+    type: BIGINT
+  - name: display_code
+    type: BIGINT
+  - name: eng_stn_operator_acronym
+    type: VARCHAR
+  - name: fre_stn_operator_acronym
+    type: VARCHAR
+  - name: eng_stn_operator_name
+    type: VARCHAR
+  - name: fre_stn_operator_name
+    type: VARCHAR
+  - name: first_date
+    type: TIMESTAMP
+  - name: last_date
+    type: TIMESTAMP
+  - name: hly_first_date
+    type: TIMESTAMP
+  - name: hly_last_date
+    type: TIMESTAMP
+  - name: dly_first_date
+    type: TIMESTAMP
+  - name: dly_last_date
+    type: TIMESTAMP
+  - name: mly_first_date
+    type: TIMESTAMP
+  - name: mly_last_date
+    type: TIMESTAMP
+  - name: has_monthly_summary
+    type: VARCHAR
+  - name: has_normals_data
+    type: VARCHAR
+  - name: has_hourly_data
+    type: VARCHAR
+  - name: geometry_type
+    type: VARCHAR
+  - name: longitude_1
+    type: DOUBLE
+  - name: latitude_1
+    type: DOUBLE

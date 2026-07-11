@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-ltce-snowfall`. Regenerate after model-verify.
+key: [feature_id]
+temporal: record_begin
+sort: [record_begin, feature_id]
+columns:
+  - name: feature_id
+    type: VARCHAR
+  - name: wxo_city_code
+    type: VARCHAR
+  - name: virtual_station_name_e
+    type: VARCHAR
+  - name: virtual_station_name_f
+    type: VARCHAR
+  - name: virtual_climate_id
+    type: VARCHAR
+  - name: local_month
+    type: BIGINT
+  - name: local_day
+    type: BIGINT
+  - name: record_snowfall
+    type: DOUBLE
+  - name: record_snowfall_yr
+    type: BIGINT
+  - name: prev_record_snowfall
+    type: DOUBLE
+  - name: prev_record_snowfall_yr
+    type: BIGINT
+  - name: first_snowfall
+    type: DOUBLE
+  - name: first_snowfall_year
+    type: BIGINT
+  - name: second_snowfall
+    type: DOUBLE
+  - name: second_snowfall_year
+    type: BIGINT
+  - name: third_snowfall
+    type: DOUBLE
+  - name: third_snowfall_year
+    type: BIGINT
+  - name: fourth_snowfall
+    type: DOUBLE
+  - name: fourth_snowfall_year
+    type: BIGINT
+  - name: fifth_snowfall
+    type: DOUBLE
+  - name: fifth_snowfall_year
+    type: BIGINT
+  - name: province_code
+    type: VARCHAR
+  - name: record_begin
+    type: TIMESTAMP
+  - name: record_end
+    type: TIMESTAMP
+  - name: identifier
+    type: VARCHAR
+  - name: geometry_type
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE

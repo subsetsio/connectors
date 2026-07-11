@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-aqhi-stations`. Regenerate after model-verify.
+key: [feature_id]
+sort: [feature_id]
+columns:
+  - name: feature_id
+    type: VARCHAR
+  - name: eccc_administrative_zone
+    type: VARCHAR
+  - name: eccc_administrative_zone_name_en
+    type: VARCHAR
+  - name: eccc_administrative_zone_name_fr
+    type: VARCHAR
+  - name: location_name_en
+    type: VARCHAR
+  - name: location_name_fr
+    type: VARCHAR
+  - name: location_id
+    type: VARCHAR
+  - name: url_msc_datamart_observation
+    type: VARCHAR
+  - name: url_msc_datamart_forecast
+    type: VARCHAR
+  - name: geometry_type
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: station
+    type: "STRUCT(\"0\" STRUCT(napsid VARCHAR, nameEn VARCHAR, nameFr VARCHAR), \"1\" STRUCT(napsid VARCHAR, nameEn VARCHAR, nameFr VARCHAR), \"2\" STRUCT(napsid VARCHAR, nameEn VARCHAR, nameFr VARCHAR), \"3\" STRUCT(napsid VARCHAR, nameEn VARCHAR, nameFr VARCHAR), \"4\" STRUCT(napsid VARCHAR, nameEn VARCHAR, nameFr VARCHAR))"

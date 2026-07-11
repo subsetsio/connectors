@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-and-climate-change-canada-hydrometric-stations`. Regenerate after model-verify.
+key: [station_name, feature_id, identifier, station_number, contributor_fr]
+sort: [station_name, feature_id, identifier, station_number, contributor_fr]
+columns:
+  - name: feature_id
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: identifier
+    type: VARCHAR
+  - name: station_number
+    type: VARCHAR
+  - name: prov_terr_state_loc
+    type: VARCHAR
+  - name: status_en
+    type: VARCHAR
+  - name: status_fr
+    type: VARCHAR
+  - name: contributor_en
+    type: VARCHAR
+  - name: contributor_fr
+    type: VARCHAR
+  - name: vertical_datum
+    type: VARCHAR
+  - name: real_time
+    type: BIGINT
+  - name: rhbn
+    type: BIGINT
+  - name: drainage_area_gross
+    type: DOUBLE
+  - name: drainage_area_effect
+    type: DOUBLE
+  - name: geometry_type
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
