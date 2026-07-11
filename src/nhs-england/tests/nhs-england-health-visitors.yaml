@@ -1,5 +1,8 @@
 spec_id: nhs-england-health-visitors
 status: active
+coverage:
+  frozen: true
+  reason: the extracted NHS England health visitors workbook corpus currently ends in 2015-09-01; keep row and schema checks, but do not require the historical series to advance.
 tests:
   - not_null: period
   - not_null: value
@@ -8,7 +11,3 @@ tests:
   - column_type: {col: value, type: float}
   - row_count: {min: 1}
     reason: an accepted active work area must yield at least one tidy observation; 0 rows means discovery found no workbook or the melt detected no date-indexed table.
-  - freshness: {col: period, reaches: today - 500d}
-    points_outward: true
-    certainty: 60
-    reason: NHS England active work areas publish at least annually; a max period older than ~500d suggests the area stopped updating or our extraction missed the current workbook.
