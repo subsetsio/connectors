@@ -1,0 +1,25 @@
+spec_id: philadelphia-fed-spf-error-statistics
+status: active
+tests:
+  - not_null: variable
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: variable, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: series, type: string}
+  - column_type: {col: horizon, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [variable, date, series, horizon]
+    reason: each source workbook contributes one row per variable, period, source series, and forecast step.
+    certainty: 85
+  - distinct_count: {col: variable, min: 12}
+    reason: the SPF variable pages expose error-statistics workbooks for many macro variables.
+    certainty: 85
+  - row_count: {min: 50000}
+    reason: error-statistics workbooks cross multiple variables, periods, series families, and forecast steps.
+    certainty: 80
+  - freshness: {col: date, reaches: "2025-Q1"}
+    reason: SPF forecast-error source workbooks should include recent forecast periods.
+    certainty: 75
+    points_outward: true

@@ -1,0 +1,21 @@
+spec_id: philadelphia-fed-livingston-survey
+status: active
+tests:
+  - not_null: survey_date
+  - not_null: variable
+  - not_null: horizon
+  - not_null: value
+  - column_type: {col: survey_date, type: string}
+  - column_type: {col: variable, type: string}
+  - column_type: {col: horizon, type: string}
+  - column_type: {col: value, type: float}
+  - unique: [survey_date, variable, horizon]
+    reason: Livingston mean forecasts have one value per survey date, variable, and horizon.
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: semiannual Livingston history spans decades and multiple forecast variables.
+    certainty: 85
+  - freshness: {col: survey_date, reaches: today - 400d}
+    reason: Livingston is semiannual; allow more than one missed release before flagging staleness.
+    certainty: 80
+    points_outward: true

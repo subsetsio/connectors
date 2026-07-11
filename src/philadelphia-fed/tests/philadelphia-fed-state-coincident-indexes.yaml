@@ -1,0 +1,22 @@
+spec_id: philadelphia-fed-state-coincident-indexes
+status: active
+tests:
+  - not_null: date
+  - not_null: state
+  - not_null: coincident_index
+  - column_type: {col: date, type: string}
+  - column_type: {col: state, type: string}
+  - column_type: {col: coincident_index, type: float}
+  - unique: [date, state]
+    reason: state coincident indexes have one monthly value per state.
+    certainty: 95
+  - distinct_count: {col: state, min: 50}
+    reason: the source covers all states and may include an aggregate.
+    certainty: 95
+  - row_count: {min: 25000}
+    reason: monthly values for 50 states since 1979 produce more than 25k rows.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 120d}
+    reason: state coincident indexes are monthly; allow a quarter of slack.
+    certainty: 85
+    points_outward: true

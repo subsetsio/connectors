@@ -1,0 +1,17 @@
+spec_id: philadelphia-fed-partisan-conflict-index
+status: active
+tests:
+  - not_null: date
+  - not_null: partisan_conflict_index
+  - column_type: {col: date, type: string}
+  - column_type: {col: partisan_conflict_index, type: float}
+  - unique: date
+    reason: the Partisan Conflict Index publishes one monthly value per date.
+    certainty: 95
+  - row_count: {min: 400}
+    reason: monthly history starts in the early 1980s.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 120d}
+    reason: the index is monthly; allow a quarter of slack.
+    certainty: 80
+    points_outward: true

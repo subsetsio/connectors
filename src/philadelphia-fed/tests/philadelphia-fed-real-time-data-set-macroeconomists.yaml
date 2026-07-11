@@ -1,0 +1,24 @@
+spec_id: philadelphia-fed-real-time-data-set-macroeconomists
+status: active
+tests:
+  - not_null: variable
+  - not_null: period
+  - column_type: {col: variable, type: string}
+  - column_type: {col: period, type: string}
+  - column_type: {col: first_release, type: float}
+  - column_type: {col: second_release, type: float}
+  - column_type: {col: third_release, type: float}
+  - column_type: {col: most_recent, type: float}
+  - unique: [variable, period]
+    reason: first/second/third release files are collapsed to one row per variable and observation period.
+    certainty: 90
+  - distinct_count: {col: variable, min: 40}
+    reason: the RTDSM first/second/third index currently exposes many macro variables.
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: dozens of variables across monthly/quarterly histories should produce many rows.
+    certainty: 85
+  - freshness: {col: period, reaches: "2025-Q1"}
+    reason: RTDSM first/second/third release data should include recent macroeconomic periods; use a quarterly string bound.
+    certainty: 75
+    points_outward: true

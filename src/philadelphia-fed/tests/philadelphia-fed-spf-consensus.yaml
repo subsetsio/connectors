@@ -1,0 +1,31 @@
+spec_id: philadelphia-fed-spf-consensus
+status: active
+tests:
+  - not_null: survey_date
+  - not_null: variable
+  - not_null: horizon
+  - not_null: statistic
+  - not_null: measure
+  - not_null: value
+  - column_type: {col: survey_date, type: string}
+  - column_type: {col: variable, type: string}
+  - column_type: {col: horizon, type: string}
+  - column_type: {col: statistic, type: string}
+  - column_type: {col: measure, type: string}
+  - column_type: {col: value, type: float}
+  - enum: {col: statistic, values: [mean, median]}
+    reason: this node combines mean and median response workbooks.
+    certainty: 95
+  - enum: {col: measure, values: [level, growth]}
+    reason: this node combines level and growth workbooks.
+    certainty: 95
+  - unique: [survey_date, variable, horizon, statistic, measure]
+    reason: SPF consensus has one value per survey quarter, variable, horizon, statistic, and measure.
+    certainty: 90
+  - row_count: {min: 30000}
+    reason: SPF consensus combines many variables, horizons, survey quarters, and four workbooks.
+    certainty: 85
+  - freshness: {col: survey_date, reaches: "2025-Q1"}
+    reason: quarterly SPF consensus files should include recent survey quarters.
+    certainty: 80
+    points_outward: true

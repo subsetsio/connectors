@@ -1,0 +1,17 @@
+spec_id: philadelphia-fed-ads-business-conditions
+status: active
+tests:
+  - not_null: date
+  - not_null: ads_index
+  - column_type: {col: date, type: string}
+  - column_type: {col: ads_index, type: float}
+  - unique: date
+    reason: ADS publishes one daily index value per date.
+    certainty: 95
+  - row_count: {min: 15000}
+    reason: daily ADS history starts in 1960, so a healthy pull has many thousands of observations.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 14d}
+    reason: ADS is a current daily business conditions index; max date should be near the latest run.
+    certainty: 85
+    points_outward: true

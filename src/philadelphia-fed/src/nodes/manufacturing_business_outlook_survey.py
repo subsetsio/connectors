@@ -47,11 +47,11 @@ def fetch_manufacturing_business_outlook_survey(node_id: str) -> None:
     _write(rows, _MBOS_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-manufacturing-business-outlook-survey", fn=fetch_manufacturing_business_outlook_survey, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-manufacturing-business-outlook-survey-transform",
         deps=["philadelphia-fed-manufacturing-business-outlook-survey"],

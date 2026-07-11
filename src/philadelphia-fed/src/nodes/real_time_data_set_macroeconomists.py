@@ -61,11 +61,11 @@ def fetch_real_time_data_set_macroeconomists(node_id: str) -> None:
     _write(rows, _RTDSM_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-real-time-data-set-macroeconomists", fn=fetch_real_time_data_set_macroeconomists, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-real-time-data-set-macroeconomists-transform",
         deps=["philadelphia-fed-real-time-data-set-macroeconomists"],

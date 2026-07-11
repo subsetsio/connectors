@@ -1,0 +1,19 @@
+spec_id: philadelphia-fed-manufacturing-business-outlook-survey
+status: active
+tests:
+  - not_null: date
+  - not_null: indicator
+  - not_null: diffusion_index
+  - column_type: {col: date, type: string}
+  - column_type: {col: indicator, type: string}
+  - column_type: {col: diffusion_index, type: float}
+  - unique: [date, indicator]
+    reason: MBOS diffusion history has one value per month and indicator.
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: monthly MBOS history starts in the late 1960s and includes multiple indicators.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 90d}
+    reason: MBOS is monthly, so max date should be within roughly three months.
+    certainty: 85
+    points_outward: true

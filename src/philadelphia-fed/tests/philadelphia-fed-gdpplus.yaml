@@ -1,0 +1,19 @@
+spec_id: philadelphia-fed-gdpplus
+status: active
+tests:
+  - not_null: period
+  - not_null: vintage_date
+  - not_null: gdpplus
+  - column_type: {col: period, type: string}
+  - column_type: {col: vintage_date, type: string}
+  - column_type: {col: gdpplus, type: float}
+  - row_count: {min: 10000}
+    reason: GDPplus is a real-time vintage matrix with many periods crossed by many vintages.
+    certainty: 85
+  - distinct_count: {col: vintage_date, min: 100}
+    reason: the workbook carries a long history of release vintages, not only the latest column.
+    certainty: 85
+  - freshness: {col: vintage_date, reaches: today - 120d}
+    reason: GDPplus updates as output data are released; the latest vintage should be recent.
+    certainty: 80
+    points_outward: true

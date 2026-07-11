@@ -1,0 +1,26 @@
+spec_id: philadelphia-fed-spf-dispersion
+status: active
+tests:
+  - not_null: survey_date
+  - not_null: variable
+  - not_null: horizon
+  - not_null: measure
+  - not_null: value
+  - column_type: {col: survey_date, type: string}
+  - column_type: {col: variable, type: string}
+  - column_type: {col: horizon, type: string}
+  - column_type: {col: measure, type: string}
+  - column_type: {col: value, type: float}
+  - enum: {col: measure, values: [p25, p75, d1]}
+    reason: dispersion workbook reports the 25th percentile, 75th percentile, and D1 spread.
+    certainty: 95
+  - unique: [survey_date, variable, horizon, measure]
+    reason: SPF dispersion has one value per survey quarter, variable, horizon, and dispersion measure.
+    certainty: 90
+  - row_count: {min: 20000}
+    reason: dispersion spans many SPF variables, horizons, and survey quarters.
+    certainty: 85
+  - freshness: {col: survey_date, reaches: "2025-Q1"}
+    reason: quarterly SPF dispersion files should include recent survey quarters.
+    certainty: 80
+    points_outward: true

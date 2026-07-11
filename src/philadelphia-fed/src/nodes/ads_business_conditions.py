@@ -34,11 +34,11 @@ def fetch_ads_business_conditions(node_id: str) -> None:
     _write(rows, _ADS_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-ads-business-conditions", fn=fetch_ads_business_conditions, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-ads-business-conditions-transform",
         deps=["philadelphia-fed-ads-business-conditions"],

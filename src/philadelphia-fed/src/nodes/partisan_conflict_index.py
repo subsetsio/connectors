@@ -37,11 +37,11 @@ def fetch_partisan_conflict_index(node_id: str) -> None:
     _write(rows, _PARTISAN_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-partisan-conflict-index", fn=fetch_partisan_conflict_index, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-partisan-conflict-index-transform",
         deps=["philadelphia-fed-partisan-conflict-index"],

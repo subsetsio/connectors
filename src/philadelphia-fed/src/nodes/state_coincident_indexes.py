@@ -36,11 +36,11 @@ def fetch_state_coincident_indexes(node_id: str) -> None:
     _write(rows, _COINCIDENT_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-state-coincident-indexes", fn=fetch_state_coincident_indexes, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-state-coincident-indexes-transform",
         deps=["philadelphia-fed-state-coincident-indexes"],

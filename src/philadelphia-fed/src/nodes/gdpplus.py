@@ -45,11 +45,11 @@ def fetch_gdpplus(node_id: str) -> None:
     _write(rows, _GDPPLUS_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-gdpplus", fn=fetch_gdpplus, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-gdpplus-transform",
         deps=["philadelphia-fed-gdpplus"],

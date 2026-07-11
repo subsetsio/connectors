@@ -1,0 +1,17 @@
+spec_id: philadelphia-fed-spf-anxious-index
+status: active
+tests:
+  - not_null: survey_date
+  - not_null: anxious_index
+  - column_type: {col: survey_date, type: string}
+  - column_type: {col: anxious_index, type: float}
+  - unique: survey_date
+    reason: the Anxious Index has one value per SPF survey quarter.
+    certainty: 95
+  - row_count: {min: 200}
+    reason: quarterly SPF history starts in 1968Q4.
+    certainty: 90
+  - freshness: {col: survey_date, reaches: "2025-Q1"}
+    reason: the quarterly SPF Anxious Index should include recent survey quarters.
+    certainty: 80
+    points_outward: true

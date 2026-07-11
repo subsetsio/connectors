@@ -1,0 +1,22 @@
+spec_id: philadelphia-fed-atsix
+status: active
+tests:
+  - not_null: date
+  - not_null: horizon_months
+  - not_null: expected_inflation
+  - column_type: {col: date, type: string}
+  - column_type: {col: horizon_months, type: integer}
+  - column_type: {col: expected_inflation, type: float}
+  - unique: [date, horizon_months]
+    reason: ATSIX has one inflation-expectation value per date and forecast horizon.
+    certainty: 90
+  - distinct_count: {col: horizon_months, min: 10}
+    reason: the term structure covers many horizons from short maturities to 10 years.
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: monthly vintage history across multiple horizons should produce thousands of rows.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: ATSIX is a recurring monthly/quarterly-updated expectations series; a max date older than a quarter is suspicious.
+    certainty: 75
+    points_outward: true

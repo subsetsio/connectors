@@ -40,11 +40,11 @@ def fetch_atsix(node_id: str) -> None:
     _write(rows, _ATSIX_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-atsix", fn=fetch_atsix, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-atsix-transform",
         deps=["philadelphia-fed-atsix"],

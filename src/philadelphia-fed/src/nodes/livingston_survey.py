@@ -45,11 +45,11 @@ def fetch_livingston_survey(node_id: str) -> None:
     _write(rows, _LIVINGSTON_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-livingston-survey", fn=fetch_livingston_survey, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-livingston-survey-transform",
         deps=["philadelphia-fed-livingston-survey"],

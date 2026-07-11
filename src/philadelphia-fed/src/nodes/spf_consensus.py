@@ -56,11 +56,11 @@ def fetch_spf_consensus(node_id: str) -> None:
     _write(rows, _SPF_SCHEMA, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="philadelphia-fed-spf-consensus", fn=fetch_spf_consensus, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="philadelphia-fed-spf-consensus-transform",
         deps=["philadelphia-fed-spf-consensus"],
