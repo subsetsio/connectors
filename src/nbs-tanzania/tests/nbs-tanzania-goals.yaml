@@ -1,0 +1,19 @@
+spec_id: nbs-tanzania-goals
+status: active
+tests:
+  - not_null: goal_id
+    certainty: 95
+  - not_null: goal
+    reason: every SDG goal carries a title
+    certainty: 90
+  - unique: goal_id
+    reason: the goals taxonomy is deduped across areas to one row per SDG goal
+    certainty: 95
+  - column_type: {col: goal_id, type: integer}
+    certainty: 95
+  - between: {col: goal_id, lo: 1, hi: 17}
+    reason: the 17 UN Sustainable Development Goals
+    certainty: 95
+  - row_count: {min: 17, max: 17}
+    reason: exactly 17 SDGs; more or fewer means the taxonomy dedup or the corpus changed
+    certainty: 90

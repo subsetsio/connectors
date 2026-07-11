@@ -335,15 +335,7 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Transform: publish one Delta table per subset. The download already converted
-# Access -> typed NDJSON (numeric where unambiguous, identifiers kept as strings),
-# so the transform is a thin pass-through over the auto-typed view. DuckDB's
-# read_json_auto reads the gzipped NDJSON behind each dep view.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are NOT declared here — they are COMPILED from the settled model
+# (`compile-transforms --write`) into src/transforms/<table>.sql|.yml pairs, one
+# per published subset (a thin pass-through over the auto-typed NDJSON view). The
+# module-level TRANSFORM_SPECS list is retired.

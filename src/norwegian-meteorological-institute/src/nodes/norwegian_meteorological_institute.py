@@ -1,11 +1,45 @@
+"""Norwegian Meteorological Institute (api.met.no WeatherAPI) — raw fetches.
+
+One download spec per accepted product. The accepted set is exactly the
+products that return SQL-readable tabular data (JSON / XML / fixed-width
+numeric text); imagery, GRIB/METGM binary grids, weather charts, and
+free-text bulletins were rejected upstream at accept.
+
+Fetch strategy per product family:
+
+- Point-forecast products (locationforecast, nowcast, oceanforecast,
+  airqualityforecast, subseasonal, sunrise) are queried by lat/lon. There is
+  no entity universe inside a product, so we pull a fixed curated location set
+  (src/constants.py) every run and overwrite — forecasts are rewritten each
+  cycle, so full re-pull is the only correct shape.
+- spotwind is a single XML product covering all regions x flight levels.
+- metalerts is the full current-alert GeoJSON feed.
+- tidalwater is a fixed-width numeric water-level table per harbor.
+- iceberg is a growing archive of daily iceberg-observation snapshots
+  (one dated file each, immutable once published). Fetched incrementally:
+  each date is a fragment, and dates already committed to the raw manifest
+  are skipped, so only new days are pulled on a refresh.
+"""
+
 import json
-from datetime import datetime, timezone
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta, timezone
 
-from subsets_utils import NodeSpec, get, save_raw_ndjson
+import httpx
 
+from subsets_utils import (
+    NodeSpec,
+    get,
+    list_raw_fragments,
+    save_raw_ndjson,
+    transient_retry,
+)
 
 BASE = "https://api.met.no/weatherapi"
 SLUG = "norwegian-meteorological-institute"
+
+# sunrise is astronomy: how many days ahead to enumerate per location.
+SUNRISE_WINDOW_DAYS = 10
 
 
 def _fetched_at() -> str:
@@ -16,15 +50,26 @@ def _json_dumps(value) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
 
 
-def _get_json(url: str):
-    resp = get(url, timeout=(10.0, 120.0))
+@transient_retry()
+def _get(url: str, **kwargs):
+    resp = get(url, timeout=(10.0, 120.0), **kwargs)
     resp.raise_for_status()
+    return resp
+
+
+def _is_permanent_4xx(err: httpx.HTTPStatusError) -> bool:
+    """A location outside a product's domain returns a 4xx (not 429) — skip it."""
+    r = err.response
+    return r is not None and 400 <= r.status_code < 500 and r.status_code != 429
+
+
+def _get_json(url: str, **kwargs):
+    resp = _get(url, **kwargs)
     return resp.json(), resp
 
 
-def _get_text(url: str) -> tuple[str, object]:
-    resp = get(url, timeout=(10.0, 120.0))
-    resp.raise_for_status()
+def _get_text(url: str, **kwargs) -> tuple[str, object]:
+    resp = _get(url, **kwargs)
     return resp.text, resp
 
 
@@ -33,6 +78,209 @@ def _available(product: str, version: str) -> list[dict]:
     if not isinstance(data, list):
         raise ValueError(f"{product}: expected available.json list, got {type(data).__name__}")
     return data
+
+
+# --------------------------------------------------------------------------- #
+# METJSON point-forecast products (shared timeseries shape)
+# --------------------------------------------------------------------------- #
+
+_WINDOW_BLOCKS = ("next_1_hours", "next_6_hours", "next_12_hours", "next_24_hours")
+
+
+def _flatten_metjson(name: str, lat: float, lon: float, doc: dict, fetched_at: str) -> list[dict]:
+    """Flatten a METJSON forecast document into one row per timeseries step."""
+    props = doc.get("properties") or {}
+    updated_at = (props.get("meta") or {}).get("updated_at")
+    rows = []
+    for step in props.get("timeseries") or []:
+        row = {
+            "location": name,
+            "lat": lat,
+            "lon": lon,
+            "time": step.get("time"),
+            "updated_at": updated_at,
+            "fetched_at": fetched_at,
+        }
+        data = step.get("data") or {}
+        instant = ((data.get("instant") or {}).get("details")) or {}
+        for k, v in instant.items():
+            row[k] = v
+        for block in _WINDOW_BLOCKS:
+            blk = data.get(block)
+            if not blk:
+                continue
+            symbol = (blk.get("summary") or {}).get("symbol_code")
+            if symbol is not None:
+                row[f"{block}_symbol_code"] = symbol
+            for k, v in (blk.get("details") or {}).items():
+                row[f"{block}_{k}"] = v
+        rows.append(row)
+    return rows
+
+
+def _fetch_point_forecast(node_id: str, path: str, locations) -> None:
+    fetched_at = _fetched_at()
+    rows: list[dict] = []
+    for name, lat, lon in locations:
+        url = f"{BASE}/{path}?lat={lat:.4f}&lon={lon:.4f}"
+        try:
+            doc, _ = _get_json(url)
+        except httpx.HTTPStatusError as err:
+            if _is_permanent_4xx(err):
+                continue  # location outside this product's domain
+            raise
+        rows.extend(_flatten_metjson(name, lat, lon, doc, fetched_at))
+    save_raw_ndjson(rows, node_id)
+
+
+def fetch_locationforecast(node_id: str) -> None:
+    from constants import LAND_LOCATIONS
+
+    _fetch_point_forecast(node_id, "locationforecast/2.0/compact", LAND_LOCATIONS)
+
+
+def fetch_nowcast(node_id: str) -> None:
+    from constants import LAND_LOCATIONS
+
+    _fetch_point_forecast(node_id, "nowcast/2.0/complete", LAND_LOCATIONS)
+
+
+def fetch_oceanforecast(node_id: str) -> None:
+    from constants import SEA_LOCATIONS
+
+    _fetch_point_forecast(node_id, "oceanforecast/2.0/complete", SEA_LOCATIONS)
+
+
+def fetch_subseasonal(node_id: str) -> None:
+    from constants import LAND_LOCATIONS
+
+    _fetch_point_forecast(node_id, "subseasonal/1.0/complete", LAND_LOCATIONS)
+
+
+# --------------------------------------------------------------------------- #
+# airqualityforecast — data.time[] with a variables map
+# --------------------------------------------------------------------------- #
+
+
+def fetch_airqualityforecast(node_id: str) -> None:
+    from constants import LAND_LOCATIONS
+
+    fetched_at = _fetched_at()
+    rows: list[dict] = []
+    for name, lat, lon in LAND_LOCATIONS:
+        url = f"{BASE}/airqualityforecast/0.1/?lat={lat:.4f}&lon={lon:.4f}"
+        try:
+            doc, _ = _get_json(url)
+        except httpx.HTTPStatusError as err:
+            if _is_permanent_4xx(err):
+                continue
+            raise
+        for step in (doc.get("data") or {}).get("time") or []:
+            row = {
+                "location": name,
+                "lat": lat,
+                "lon": lon,
+                "from_time": step.get("from"),
+                "to_time": step.get("to"),
+                "fetched_at": fetched_at,
+            }
+            for var, obj in (step.get("variables") or {}).items():
+                if isinstance(obj, dict):
+                    row[var] = obj.get("value")
+            rows.append(row)
+    save_raw_ndjson(rows, node_id)
+
+
+# --------------------------------------------------------------------------- #
+# sunrise — one astronomy document per (location, date)
+# --------------------------------------------------------------------------- #
+
+
+def _sunrise_event(props: dict, key: str) -> dict:
+    ev = props.get(key) or {}
+    return {
+        f"{key}_time": ev.get("time"),
+        f"{key}_azimuth": ev.get("azimuth"),
+        f"{key}_elevation": ev.get("disc_centre_elevation"),
+        f"{key}_visible": ev.get("visible"),
+    }
+
+
+def fetch_sunrise(node_id: str) -> None:
+    from constants import LAND_LOCATIONS
+
+    fetched_at = _fetched_at()
+    today = datetime.now(timezone.utc).date()
+    dates = [(today + timedelta(days=d)).isoformat() for d in range(SUNRISE_WINDOW_DAYS)]
+    rows: list[dict] = []
+    for name, lat, lon in LAND_LOCATIONS:
+        for date in dates:
+            url = f"{BASE}/sunrise/3.0/sun?lat={lat:.4f}&lon={lon:.4f}&date={date}"
+            try:
+                doc, _ = _get_json(url)
+            except httpx.HTTPStatusError as err:
+                if _is_permanent_4xx(err):
+                    continue
+                raise
+            props = doc.get("properties") or {}
+            row = {
+                "location": name,
+                "lat": lat,
+                "lon": lon,
+                "date": date,
+                "body": props.get("body"),
+                "fetched_at": fetched_at,
+            }
+            for key in ("sunrise", "sunset", "solarnoon", "solarmidnight"):
+                row.update(_sunrise_event(props, key))
+            rows.append(row)
+    save_raw_ndjson(rows, node_id)
+
+
+# --------------------------------------------------------------------------- #
+# spotwind — single XML product (region x valid time x flight level)
+# --------------------------------------------------------------------------- #
+
+
+def _spot_num(value):
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def fetch_spotwind(node_id: str) -> None:
+    fetched_at = _fetched_at()
+    text, _ = _get_text(f"{BASE}/spotwind/1.1/")
+    root = ET.fromstring(text)
+    rows: list[dict] = []
+    for product in root.iter("product"):
+        observation = product.get("observation")
+        for time_el in product.iter("time"):
+            valid = time_el.get("valid")
+            for loc in time_el.iter("location"):
+                loc_name = loc.get("name")
+                for sw in loc.iter("spotWind"):
+                    rows.append(
+                        {
+                            "observation": observation,
+                            "valid_time": valid,
+                            "location": loc_name,
+                            "flight_level": _spot_num(sw.get("flightlevel")),
+                            "wind_direction": _spot_num(sw.get("windDirection")),
+                            "wind_speed": _spot_num(sw.get("windSpeed")),
+                            "temperature": _spot_num(sw.get("temperature")),
+                            "fetched_at": fetched_at,
+                        }
+                    )
+    save_raw_ndjson(rows, node_id)
+
+
+# --------------------------------------------------------------------------- #
+# metalerts — current weather-alert GeoJSON feed
+# --------------------------------------------------------------------------- #
 
 
 def fetch_metalerts(node_id: str) -> None:
@@ -69,79 +317,19 @@ def fetch_metalerts(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
-def fetch_textforecast(node_id: str) -> None:
-    rows = []
-    fetched_at = _fetched_at()
-    for item in _available("textforecast", "3.0"):
-        forecast = (item.get("params") or {}).get("forecast")
-        uri = item.get("uri")
-        if not forecast or not uri:
-            raise ValueError(f"textforecast available item missing forecast or uri: {item!r}")
-        data, resp = _get_json(uri)
-        features = data.get("features") or []
-        if not features:
-            rows.append(
-                {
-                    "forecast": forecast,
-                    "feature_index": None,
-                    "lang": data.get("lang"),
-                    "last_change": data.get("lastChange") or resp.headers.get("last-modified"),
-                    "geometry_type": None,
-                    "geometry_json": None,
-                    "properties_json": None,
-                    "fetched_at": fetched_at,
-                }
-            )
-            continue
-        for idx, feature in enumerate(features):
-            props = feature.get("properties") or {}
-            rows.append(
-                {
-                    "forecast": forecast,
-                    "feature_index": idx,
-                    "lang": data.get("lang"),
-                    "last_change": data.get("lastChange") or resp.headers.get("last-modified"),
-                    "geometry_type": (feature.get("geometry") or {}).get("type"),
-                    "geometry_json": _json_dumps(feature.get("geometry")),
-                    "properties_json": _json_dumps(props),
-                    "fetched_at": fetched_at,
-                }
-            )
-    save_raw_ndjson(rows, node_id)
+# --------------------------------------------------------------------------- #
+# tidalwater — fixed-width numeric water-level table per harbor
+# --------------------------------------------------------------------------- #
 
 
-def fetch_aviationforecast(node_id: str) -> None:
-    rows = []
-    fetched_at = _fetched_at()
-    for item in _available("aviationforecast", "2.0"):
-        uri = item.get("uri")
-        endpoint = item.get("endpoint")
-        params = item.get("params") or {}
-        if not uri or not endpoint:
-            raise ValueError(f"aviationforecast available item missing endpoint or uri: {item!r}")
-        text, resp = _get_text(uri)
-        rows.append(
-            {
-                "endpoint": endpoint,
-                "icao": params.get("icao"),
-                "wmoheader": params.get("wmoheader"),
-                "updated": item.get("updated") or resp.headers.get("last-modified"),
-                "content": text,
-                "content_length": len(text),
-                "fetched_at": fetched_at,
-            }
-        )
-    save_raw_ndjson(rows, node_id)
-
-
-def _parse_float(value: str) -> float | None:
+def _parse_float(value: str):
     try:
         return float(value)
     except (TypeError, ValueError):
         return None
 
 
-def _parse_tidal_rows(harbor: str, updated: str | None, text: str, fetched_at: str) -> list[dict]:
+def _parse_tidal_rows(harbor: str, updated, text: str, fetched_at: str) -> list[dict]:
     rows = []
     in_table = False
     for line in text.splitlines():
@@ -187,13 +375,71 @@ def fetch_tidalwater(node_id: str) -> None:
         if not harbor or not uri:
             raise ValueError(f"tidalwater available item missing harbor or uri: {item!r}")
         text, resp = _get_text(uri)
-        rows.extend(_parse_tidal_rows(harbor, item.get("updated") or resp.headers.get("last-modified"), text, fetched_at))
+        rows.extend(
+            _parse_tidal_rows(harbor, item.get("updated") or resp.headers.get("last-modified"), text, fetched_at)
+        )
     save_raw_ndjson(rows, node_id)
 
 
+# --------------------------------------------------------------------------- #
+# iceberg — growing archive of daily iceberg-observation snapshots
+# --------------------------------------------------------------------------- #
+
+
+def _iceberg_available_dates() -> list[str]:
+    data, _ = _get_json(f"{BASE}/iceberg/0.1/available.json")
+    dates = []
+    for item in data if isinstance(data, list) else []:
+        date = (item.get("params") or {}).get("date")
+        if date:
+            dates.append(date)
+    return sorted(set(dates))
+
+
+def fetch_iceberg(node_id: str) -> None:
+    done = set(list_raw_fragments(node_id, "ndjson.zst").keys())
+    for date in _iceberg_available_dates():
+        fragment = date.replace("-", "")
+        if fragment in done:
+            continue  # already committed on a prior run — immutable, skip
+        fetched_at = _fetched_at()
+        try:
+            doc, _ = _get_json(f"{BASE}/iceberg/0.1/?date={date}")
+        except httpx.HTTPStatusError as err:
+            if _is_permanent_4xx(err):
+                continue
+            raise
+        rows = []
+        for feature in doc.get("features") or []:
+            geom = feature.get("geometry") or {}
+            coords = geom.get("coordinates") or [None, None]
+            props = feature.get("properties") or {}
+            rows.append(
+                {
+                    "date": date,
+                    "instant": (feature.get("when") or {}).get("instant"),
+                    "lon": coords[0] if len(coords) > 0 else None,
+                    "lat": coords[1] if len(coords) > 1 else None,
+                    "brgare": props.get("BRGARE"),
+                    "ia_bcn": props.get("IA_BCN"),
+                    "ia_bln": props.get("IA_BLN"),
+                    "ais_chk": props.get("ais_chk"),
+                    "title": props.get("title"),
+                    "fetched_at": fetched_at,
+                }
+            )
+        save_raw_ndjson(rows, node_id, fragment=fragment)
+
+
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-aviationforecast", fn=fetch_aviationforecast, kind="download"),
+    NodeSpec(id=f"{SLUG}-airqualityforecast", fn=fetch_airqualityforecast, kind="download"),
+    NodeSpec(id=f"{SLUG}-iceberg", fn=fetch_iceberg, kind="download"),
+    NodeSpec(id=f"{SLUG}-locationforecast", fn=fetch_locationforecast, kind="download"),
     NodeSpec(id=f"{SLUG}-metalerts", fn=fetch_metalerts, kind="download"),
-    NodeSpec(id=f"{SLUG}-textforecast", fn=fetch_textforecast, kind="download"),
+    NodeSpec(id=f"{SLUG}-nowcast", fn=fetch_nowcast, kind="download"),
+    NodeSpec(id=f"{SLUG}-oceanforecast", fn=fetch_oceanforecast, kind="download"),
+    NodeSpec(id=f"{SLUG}-spotwind", fn=fetch_spotwind, kind="download"),
+    NodeSpec(id=f"{SLUG}-subseasonal", fn=fetch_subseasonal, kind="download"),
+    NodeSpec(id=f"{SLUG}-sunrise", fn=fetch_sunrise, kind="download"),
     NodeSpec(id=f"{SLUG}-tidalwater", fn=fetch_tidalwater, kind="download"),
 ]
