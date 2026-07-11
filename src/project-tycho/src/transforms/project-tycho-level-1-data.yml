@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `project-tycho-level-1-data`. Regenerate after model-verify.
+# caution: The source includes both state and city location rows; filter loc_type before geographic aggregation.
+# caution: The raw table contains a small number of exact duplicate observation rows, so aggregate with care.
+key: []
+temporal: epi_week
+sort: [epi_week]
+columns:
+  - name: epi_week
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: loc
+    type: VARCHAR
+  - name: loc_type
+    type: VARCHAR
+  - name: disease
+    type: VARCHAR
+  - name: cases
+    type: VARCHAR
+  - name: incidence_per_100000
+    type: DOUBLE

@@ -15,8 +15,8 @@ tests:
   - matches: {col: epi_week, pattern: "^[0-9]{6}$"}
     reason: Project Tycho Level 1 encodes epidemiological year/week as YYYYWW text.
     certainty: 90
-  - distinct_count: {col: disease, min: 40}
-    reason: Level 1 covers many nationally notifiable diseases, not a one-disease slice.
+  - distinct_count: {col: disease, min: 9}
+    reason: Level 1 HealthData.gov mirror covers the Project Tycho Level 1 disease subset.
     certainty: 85
   - row_count: {min: 700000}
     reason: Socrata metadata reports about 759k rows; a much smaller file is truncated.

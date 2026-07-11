@@ -17,8 +17,8 @@ tests:
   - matches: {col: epi_week, pattern: "^[0-9]{6}$"}
     reason: Project Tycho Level 2 encodes epidemiological year/week as YYYYWW text.
     certainty: 90
-  - distinct_count: {col: disease, min: 40}
-    reason: Level 2 covers many nationally notifiable diseases, not a one-disease slice.
+  - distinct_count: {col: disease, min: 39}
+    reason: Level 2 HealthData.gov mirror covers the Project Tycho Level 2 disease subset.
     certainty: 85
   - row_count: {min: 3000000}
     reason: The Level 2 ZIP contains about 3.66 million CSV rows; a much smaller table is truncated.

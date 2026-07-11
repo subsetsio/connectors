@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `project-tycho-level-2-data`. Regenerate after model-verify.
+# caution: The source includes both state and city location rows; filter loc_type before geographic aggregation.
+# caution: Rows mix CASES and DEATHS event types; filter event before aggregating counts.
+# caution: The raw table contains a small number of exact duplicate observation rows, so aggregate with care.
+key: []
+temporal: from_date
+sort: [from_date]
+columns:
+  - name: epi_week
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: loc
+    type: VARCHAR
+  - name: loc_type
+    type: VARCHAR
+  - name: disease
+    type: VARCHAR
+  - name: event
+    type: VARCHAR
+  - name: number
+    type: BIGINT
+  - name: from_date
+    type: DATE
+  - name: to_date
+    type: DATE
+  - name: url
+    type: VARCHAR
