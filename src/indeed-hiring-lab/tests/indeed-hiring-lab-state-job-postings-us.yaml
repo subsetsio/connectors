@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-state-job-postings-us
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: US state postings is a daily panel across states.
+    certainty: 85
+  - not_null: date
+  - not_null: state
+  - unique: [date, state]
+    reason: one index row per state-date.
+    certainty: 90
+  - distinct_count: {col: state, min: 50}
+    reason: US state file should cover the states and DC.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true

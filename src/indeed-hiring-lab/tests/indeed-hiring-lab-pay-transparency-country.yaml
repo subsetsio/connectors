@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-pay-transparency-country
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: pay transparency country data is a monthly country panel.
+    certainty: 75
+  - not_null: date
+  - not_null: country_code
+  - unique: [date, country_code]
+    reason: one pay transparency row per country-month.
+    certainty: 90
+  - distinct_count: {col: country_code, min: 5}
+    reason: pay transparency tracker covers several markets.
+    certainty: 75
+  - freshness: {col: date, reaches: today - 120d}
+    reason: pay transparency is a lower-cadence tracker; a max date older than about four months indicates staleness.
+    certainty: 75
+    points_outward: true

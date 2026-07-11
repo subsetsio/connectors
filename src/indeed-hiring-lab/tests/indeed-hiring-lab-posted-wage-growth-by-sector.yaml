@@ -1,0 +1,21 @@
+spec_id: indeed-hiring-lab-posted-wage-growth-by-sector
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: posted wage growth by sector is a monthly country-sector panel.
+    certainty: 80
+  - not_null: jobcountry
+  - not_null: country
+  - not_null: sector
+  - not_null: month
+  - not_null: month_date
+  - unique: [jobcountry, sector, month]
+    reason: one wage-growth row per country, sector, and month.
+    certainty: 90
+  - distinct_count: {col: sector, min: 20}
+    reason: wage sector table should cover the broad Indeed sector taxonomy.
+    certainty: 80
+  - freshness: {col: month_date, reaches: today - 90d}
+    reason: wage tracker is monthly; a max month older than about three months indicates staleness.
+    certainty: 85
+    points_outward: true

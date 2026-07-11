@@ -1,0 +1,19 @@
+spec_id: indeed-hiring-lab-metro-job-postings-us
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: US metro postings is a daily panel over hundreds of CBSAs.
+    certainty: 85
+  - not_null: date
+  - not_null: metro
+  - not_null: cbsa_code
+  - unique: [date, cbsa_code]
+    reason: one index row per CBSA-date.
+    certainty: 90
+  - distinct_count: {col: cbsa_code, min: 300}
+    reason: the US metro panel should cover hundreds of CBSAs.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true

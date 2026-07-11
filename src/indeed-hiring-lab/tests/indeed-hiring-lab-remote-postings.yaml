@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-remote-postings
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: remote postings is a daily panel across several countries.
+    certainty: 80
+  - not_null: date
+  - not_null: jobcountry
+  - unique: [date, jobcountry]
+    reason: one remote-postings share per country-date.
+    certainty: 90
+  - distinct_count: {col: jobcountry, min: 5}
+    reason: remote tracker covers several country markets.
+    certainty: 80
+  - freshness: {col: date, reaches: today - 30d}
+    reason: Indeed documents remote work data as daily.
+    certainty: 85
+    points_outward: true

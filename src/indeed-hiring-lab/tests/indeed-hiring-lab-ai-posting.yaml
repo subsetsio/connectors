@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-ai-posting
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: AI posting shares are daily observations across multiple markets.
+    certainty: 80
+  - not_null: date
+  - not_null: jobcountry
+  - unique: [date, jobcountry]
+    reason: AI tracker has one posting-share row per date and country.
+    certainty: 90
+  - distinct_count: {col: jobcountry, min: 5}
+    reason: Hiring Lab AI tracker covers several countries, not just one market.
+    certainty: 80
+  - freshness: {col: date, reaches: today - 30d}
+    reason: Indeed documents AI job postings data as daily.
+    certainty: 85
+    points_outward: true

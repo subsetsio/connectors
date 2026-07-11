@@ -1,0 +1,17 @@
+spec_id: indeed-hiring-lab-posted-wage-growth-by-country
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: posted wage growth by country is a monthly panel across multiple countries.
+    certainty: 80
+  - not_null: jobcountry
+  - not_null: country
+  - not_null: month
+  - not_null: month_date
+  - unique: [jobcountry, month]
+    reason: one wage-growth row per country-month.
+    certainty: 90
+  - freshness: {col: month_date, reaches: today - 90d}
+    reason: wage tracker is monthly; a max month older than about three months indicates staleness.
+    certainty: 85
+    points_outward: true

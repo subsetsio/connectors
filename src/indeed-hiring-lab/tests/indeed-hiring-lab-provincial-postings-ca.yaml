@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-provincial-postings-ca
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: Canadian provincial postings is a daily province panel.
+    certainty: 85
+  - not_null: date
+  - not_null: province
+  - unique: [date, province]
+    reason: one index row per province-date.
+    certainty: 90
+  - distinct_count: {col: province, min: 10}
+    reason: Canadian province file should cover most provinces and territories.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true

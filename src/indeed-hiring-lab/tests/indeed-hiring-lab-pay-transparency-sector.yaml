@@ -1,0 +1,19 @@
+spec_id: indeed-hiring-lab-pay-transparency-sector
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: pay transparency sector data is a monthly country-sector panel.
+    certainty: 75
+  - not_null: date
+  - not_null: country_code
+  - not_null: sector
+  - unique: [date, country_code, sector]
+    reason: one pay transparency row per country, sector, and month.
+    certainty: 90
+  - distinct_count: {col: sector, min: 20}
+    reason: sector table should cover the same broad Indeed sector taxonomy.
+    certainty: 75
+  - freshness: {col: date, reaches: today - 120d}
+    reason: pay transparency is a lower-cadence tracker; a max date older than about four months indicates staleness.
+    certainty: 75
+    points_outward: true

@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-regional-gb
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: GB regional postings is a daily region panel.
+    certainty: 85
+  - not_null: date
+  - not_null: region
+  - unique: [date, region]
+    reason: one index row per region-date.
+    certainty: 90
+  - distinct_count: {col: region, min: 10}
+    reason: GB regional file should cover multiple UK regions.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true

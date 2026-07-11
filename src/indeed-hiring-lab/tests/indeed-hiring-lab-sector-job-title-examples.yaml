@@ -1,0 +1,14 @@
+spec_id: indeed-hiring-lab-sector-job-title-examples
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: sector title examples is the codebook for the broad Indeed sector taxonomy.
+    certainty: 85
+  - not_null: sector
+  - not_null: job_titles
+  - unique: sector
+    reason: one example-title list per sector.
+    certainty: 90
+  - distinct_count: {col: sector, min: 20}
+    reason: codebook should cover the broad sector taxonomy used by sector-level tables.
+    certainty: 85

@@ -1,0 +1,18 @@
+spec_id: indeed-hiring-lab-city-postings-gb
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: GB city postings is a daily panel over many cities.
+    certainty: 85
+  - not_null: date
+  - not_null: cities
+  - unique: [date, cities]
+    reason: one index observation per city-date.
+    certainty: 90
+  - distinct_count: {col: cities, min: 20}
+    reason: the GB city panel covers many cities.
+    certainty: 80
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true

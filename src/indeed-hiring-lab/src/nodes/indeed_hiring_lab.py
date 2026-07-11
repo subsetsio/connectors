@@ -16,11 +16,11 @@ from the CSV) and the SQL transform does the typed parse/cast.
 
 import csv
 import io
+from datetime import datetime
 
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -46,6 +46,9 @@ SOURCES = {
     ),
     "indeed-hiring-lab-state-job-postings-us": (
         "job_postings_tracker", "master", ["US/state_job_postings_us.csv"],
+    ),
+    "indeed-hiring-lab-sector-job-title-examples": (
+        "job_postings_tracker", "master", ["sector-job-title-examples.csv"],
     ),
     "indeed-hiring-lab-provincial-postings-ca": (
         "job_postings_tracker", "master", ["CA/provincial_postings_ca.csv"],
@@ -99,7 +102,10 @@ def fetch_one(node_id: str) -> None:
         reader = csv.DictReader(io.StringIO(text))
         for row in reader:
             # keep raw string values; the transform does typed casting
-            rows.append({(k.strip() if k else k): v for k, v in row.items()})
+            clean_row = {(k.strip() if k else k): v for k, v in row.items()}
+            if clean_row.get("month"):
+                clean_row["month_date"] = datetime.strptime(clean_row["month"], "%b-%y").date().isoformat()
+            rows.append(clean_row)
     if not rows:
         raise AssertionError(f"{node_id}: 0 rows parsed from {paths}")
     save_raw_ndjson(rows, node_id)
@@ -107,184 +113,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=sid, fn=fetch_one, kind="download") for sid in SOURCES
-]
-
-# --- transforms: one published Delta table per subset, typed parse from raw ndjson ---
-
-_JPI_INDEX = "indeed_job_postings_index"
-
-# subnational job-postings index tables: (spec_id, raw geo column, published geo column)
-_SUBNATIONAL = [
-    ("indeed-hiring-lab-metro-job-postings-ca", '"Metro"', "metro"),
-    ("indeed-hiring-lab-state-job-postings-us", '"state"', "state"),
-    ("indeed-hiring-lab-provincial-postings-ca", '"province"', "province"),
-    ("indeed-hiring-lab-city-postings-gb", '"cities"', "city"),
-    ("indeed-hiring-lab-regional-gb", '"region"', "region"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="indeed-hiring-lab-aggregate-job-postings-transform",
-        deps=["indeed-hiring-lab-aggregate-job-postings"],
-        sql=f'''
-            SELECT
-                TRY_CAST("date" AS DATE)                          AS date,
-                "jobcountry"                                      AS jobcountry,
-                TRY_CAST("indeed_job_postings_index_SA" AS DOUBLE)  AS index_sa,
-                TRY_CAST("indeed_job_postings_index_NSA" AS DOUBLE) AS index_nsa,
-                "variable"                                        AS variable
-            FROM "indeed-hiring-lab-aggregate-job-postings"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-job-postings-by-sector-transform",
-        deps=["indeed-hiring-lab-job-postings-by-sector"],
-        sql=f'''
-            SELECT
-                TRY_CAST("date" AS DATE)                       AS date,
-                "jobcountry"                                   AS jobcountry,
-                TRY_CAST("{_JPI_INDEX}" AS DOUBLE)             AS index,
-                "variable"                                     AS variable,
-                "display_name"                                 AS sector
-            FROM "indeed-hiring-lab-job-postings-by-sector"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-metro-job-postings-us-transform",
-        deps=["indeed-hiring-lab-metro-job-postings-us"],
-        sql=f'''
-            SELECT
-                TRY_CAST("date" AS DATE)               AS date,
-                "metro"                                AS metro,
-                TRY_CAST("cbsa_code" AS INTEGER)       AS cbsa_code,
-                TRY_CAST("{_JPI_INDEX}" AS DOUBLE)     AS index
-            FROM "indeed-hiring-lab-metro-job-postings-us"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-ai-posting-transform",
-        deps=["indeed-hiring-lab-ai-posting"],
-        sql='''
-            SELECT
-                TRY_CAST("date" AS DATE)                  AS date,
-                "jobcountry"                              AS jobcountry,
-                TRY_CAST("AI_share_postings" AS DOUBLE)   AS ai_share_postings
-            FROM "indeed-hiring-lab-ai-posting"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-remote-postings-transform",
-        deps=["indeed-hiring-lab-remote-postings"],
-        sql='''
-            SELECT
-                TRY_CAST("date" AS DATE)                      AS date,
-                "jobcountry"                                  AS jobcountry,
-                TRY_CAST("remote_share_postings" AS DOUBLE)   AS remote_share_postings
-            FROM "indeed-hiring-lab-remote-postings"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-remote-postings-sector-transform",
-        deps=["indeed-hiring-lab-remote-postings-sector"],
-        sql='''
-            SELECT
-                TRY_CAST("date" AS DATE)                      AS date,
-                "jobcountry"                                  AS jobcountry,
-                "normtitlecategory_consistent"               AS sector,
-                TRY_CAST("remote_share_postings" AS DOUBLE)   AS remote_share_postings
-            FROM "indeed-hiring-lab-remote-postings-sector"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-remote-searches-transform",
-        deps=["indeed-hiring-lab-remote-searches"],
-        sql='''
-            SELECT
-                TRY_CAST("date" AS DATE)                      AS date,
-                "jobcountry"                                  AS jobcountry,
-                TRY_CAST("remote_share_searches" AS DOUBLE)   AS remote_share_searches
-            FROM "indeed-hiring-lab-remote-searches"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-pay-transparency-country-transform",
-        deps=["indeed-hiring-lab-pay-transparency-country"],
-        sql='''
-            SELECT
-                TRY_CAST("date" AS DATE)                          AS date,
-                "country_code"                                    AS country_code,
-                "country"                                         AS country,
-                TRY_CAST("pay_transparency_pct" AS DOUBLE)        AS pay_transparency_pct,
-                TRY_CAST("pay_transparency_pct_3ma" AS DOUBLE)    AS pay_transparency_pct_3ma
-            FROM "indeed-hiring-lab-pay-transparency-country"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-pay-transparency-sector-transform",
-        deps=["indeed-hiring-lab-pay-transparency-sector"],
-        sql='''
-            SELECT
-                TRY_CAST("date" AS DATE)                          AS date,
-                "country_code"                                    AS country_code,
-                "country"                                         AS country,
-                "sector"                                          AS sector,
-                TRY_CAST("pay_transparency_pct" AS DOUBLE)        AS pay_transparency_pct,
-                TRY_CAST("pay_transparency_pct_3ma" AS DOUBLE)    AS pay_transparency_pct_3ma
-            FROM "indeed-hiring-lab-pay-transparency-sector"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-posted-wage-growth-by-country-transform",
-        deps=["indeed-hiring-lab-posted-wage-growth-by-country"],
-        sql='''
-            SELECT
-                "jobcountry"                                              AS jobcountry,
-                "country"                                                 AS country,
-                CAST(try_strptime("month", '%b-%y') AS DATE)              AS month,
-                TRY_CAST("n_obs" AS BIGINT)                               AS n_obs,
-                TRY_CAST("posted_wage_growth_yoy" AS DOUBLE)              AS posted_wage_growth_yoy,
-                TRY_CAST("posted_wage_growth_yoy_3moavg" AS DOUBLE)       AS posted_wage_growth_yoy_3moavg
-            FROM "indeed-hiring-lab-posted-wage-growth-by-country"
-            WHERE try_strptime("month", '%b-%y') IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="indeed-hiring-lab-posted-wage-growth-by-sector-transform",
-        deps=["indeed-hiring-lab-posted-wage-growth-by-sector"],
-        sql='''
-            SELECT
-                "jobcountry"                                              AS jobcountry,
-                "country"                                                 AS country,
-                "sector"                                                  AS sector,
-                CAST(try_strptime("month", '%b-%y') AS DATE)              AS month,
-                TRY_CAST("n_obs" AS BIGINT)                               AS n_obs,
-                TRY_CAST("posted_wage_growth_yoy" AS DOUBLE)              AS posted_wage_growth_yoy,
-                TRY_CAST("posted_wage_growth_yoy_3moavg" AS DOUBLE)       AS posted_wage_growth_yoy_3moavg
-            FROM "indeed-hiring-lab-posted-wage-growth-by-sector"
-            WHERE try_strptime("month", '%b-%y') IS NOT NULL
-        ''',
-    ),
-] + [
-    SqlNodeSpec(
-        id=f"{sid}-transform",
-        deps=[sid],
-        sql=f'''
-            SELECT
-                TRY_CAST("date" AS DATE)               AS date,
-                {geo_raw}                              AS {geo_out},
-                TRY_CAST("{_JPI_INDEX}" AS DOUBLE)     AS index
-            FROM "{sid}"
-            WHERE TRY_CAST("date" AS DATE) IS NOT NULL
-        ''',
-    )
-    for sid, geo_raw, geo_out in _SUBNATIONAL
 ]

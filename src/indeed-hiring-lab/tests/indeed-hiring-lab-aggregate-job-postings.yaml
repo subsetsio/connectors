@@ -1,0 +1,19 @@
+spec_id: indeed-hiring-lab-aggregate-job-postings
+status: active
+tests:
+  - row_count: {min: 20000}
+    reason: weekly-refreshed daily national job postings history across 11 markets should contain tens of thousands of rows.
+    certainty: 85
+  - not_null: date
+  - not_null: jobcountry
+  - not_null: variable
+  - unique: [date, jobcountry, variable]
+    reason: aggregate index has one row per date, market, and variable.
+    certainty: 90
+  - distinct_count: {col: jobcountry, min: 10}
+    reason: source publishes aggregate files for 11 country/area codes.
+    certainty: 95
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true

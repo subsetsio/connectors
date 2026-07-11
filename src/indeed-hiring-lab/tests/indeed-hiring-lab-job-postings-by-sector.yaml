@@ -1,0 +1,19 @@
+spec_id: indeed-hiring-lab-job-postings-by-sector
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: sector job postings is a daily country-sector panel across six markets.
+    certainty: 85
+  - not_null: date
+  - not_null: jobcountry
+  - not_null: display_name
+  - unique: [date, jobcountry, display_name, variable]
+    reason: one row per country, sector display name, variable, and date.
+    certainty: 85
+  - distinct_count: {col: display_name, min: 20}
+    reason: Indeed sector taxonomy contains dozens of normalized title sectors.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 30d}
+    reason: job postings tracker is daily and refreshed weekly.
+    certainty: 90
+    points_outward: true
