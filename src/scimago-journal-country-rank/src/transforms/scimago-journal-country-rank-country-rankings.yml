@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `scimago-journal-country-rank-country-rankings`. Regenerate after model-verify.
+# caution: Country names include territories and other SCImago reporting areas; use the `region` column when separating regional groups from country-level comparisons.
+key: [country, year, region]
+temporal: year
+sort: [year, country, region]
+columns:
+  - name: year
+    type: BIGINT
+  - name: rank
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: documents
+    type: BIGINT
+  - name: citable_documents
+    type: BIGINT
+  - name: citations
+    type: BIGINT
+  - name: self_citations
+    type: BIGINT
+  - name: citations_per_document
+    type: DOUBLE
+  - name: h_index
+    type: BIGINT

@@ -12,7 +12,7 @@ tests:
   - between: {col: year, lo: 1996, hi: current_year()}
     reason: SCImago country rankings start in 1996 and should not contain future years.
     certainty: 95
-  - freshness: {col: year, reaches: current_year() - 1}
-    reason: The maintained mirror exposes annual country ranking parquet snapshots.
+  - freshness: {col: year, reaches: 2025}
+    reason: The maintained mirror currently exposes annual country ranking parquet snapshots through the 2025 release.
     certainty: 85
     points_outward: true

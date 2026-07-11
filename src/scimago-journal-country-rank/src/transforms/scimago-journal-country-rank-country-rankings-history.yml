@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `scimago-journal-country-rank-country-rankings-history`. Regenerate after model-verify.
+# caution: Rows are cumulative over the workbook coverage window, not annual observations; do not combine these metrics with the annual country rankings without accounting for the coverage years.
+key: [country]
+sort: [country]
+columns:
+  - name: coverage_start_year
+    type: BIGINT
+  - name: coverage_end_year
+    type: BIGINT
+  - name: rank
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: documents
+    type: BIGINT
+  - name: citable_documents
+    type: BIGINT
+  - name: citations
+    type: BIGINT
+  - name: self_citations
+    type: BIGINT
+  - name: citations_per_document
+    type: DOUBLE
+  - name: h_index
+    type: BIGINT

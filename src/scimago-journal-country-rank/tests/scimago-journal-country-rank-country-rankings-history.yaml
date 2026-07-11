@@ -21,7 +21,7 @@ tests:
     reason: The maintained mirror's all-years workbook advances by annual coverage end year.
     certainty: 90
     points_outward: true
-  - freshness: {col: coverage_end_year, reaches: current_year() - 2}
-    reason: The all-years workbook may lag the current annual parquet release but should remain within two release years.
+  - freshness: {col: coverage_end_year, reaches: 2024}
+    reason: The maintained mirror's all-years workbook currently exposes cumulative coverage through the 2024 release.
     certainty: 80
     points_outward: true

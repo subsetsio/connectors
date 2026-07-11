@@ -1,0 +1,59 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `scimago-journal-country-rank-journal-rankings`. Regenerate after model-verify.
+# caution: Journal rankings are annual source-title observations; `categories` and `areas` can contain multiple classifications in a single row.
+key: [year, sourceid]
+temporal: year
+sort: [year, sourceid]
+columns:
+  - name: year
+    type: BIGINT
+  - name: rank
+    type: BIGINT
+  - name: sourceid
+    type: BIGINT
+  - name: title
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: issn
+    type: VARCHAR
+  - name: publisher
+    type: VARCHAR
+  - name: open_access
+    type: VARCHAR
+  - name: open_access_diamond
+    type: VARCHAR
+  - name: sjr
+    type: DOUBLE
+  - name: sjr_best_quartile
+    type: VARCHAR
+  - name: h_index
+    type: BIGINT
+  - name: total_docs_year
+    type: BIGINT
+  - name: total_docs_3years
+    type: BIGINT
+  - name: total_refs
+    type: BIGINT
+  - name: total_citations_3years
+    type: BIGINT
+  - name: citable_docs_3years
+    type: BIGINT
+  - name: citations_doc_2years
+    type: DOUBLE
+  - name: ref_doc
+    type: DOUBLE
+  - name: percent_female
+    type: DOUBLE
+  - name: overton
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: coverage
+    type: VARCHAR
+  - name: categories
+    type: VARCHAR
+  - name: areas
+    type: VARCHAR
