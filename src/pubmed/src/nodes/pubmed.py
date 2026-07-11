@@ -25,7 +25,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     list_raw_fragments,
@@ -258,27 +257,4 @@ def fetch_citations(node_id: str):
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="pubmed-citations", fn=fetch_citations, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="pubmed-citations-transform",
-        deps=["pubmed-citations"],
-        key=("pmid",),
-        temporal="pub_date",
-        sql='''
-            SELECT
-                pmid,
-                title,
-                abstract,
-                journal,
-                pub_date,
-                TRY_CAST(regexp_extract(pub_date, '^(\\d{4})', 1) AS INTEGER) AS pub_year,
-                authors,
-                mesh_terms
-            FROM "pubmed-citations"
-            WHERE pmid IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY pmid ORDER BY pub_date DESC) = 1
-        ''',
-    ),
 ]
