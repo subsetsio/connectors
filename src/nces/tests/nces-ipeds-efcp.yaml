@@ -1,5 +1,8 @@
 spec_id: nces-ipeds-efcp
 status: active
+coverage:
+  frozen: true
+  reason: NCES IPEDS complete-data-file bulk ZIPs for EFCP are available through EF2022CP.zip, but EF2023CP.zip and EF2024CP.zip return 404 as of 2026-07-11; treat this table as a discontinued/frozen IPEDS component.
 tests:
   - not_null: UNITID
     reason: IPEDS complete data files are keyed on UNITID (the institution id); every row carries one.
@@ -13,8 +16,4 @@ tests:
   - at_most: {col: year, expr: current_year()}
     reason: a collection year cannot exceed the current calendar year.
     certainty: 90
-    points_outward: true
-  - freshness: {col: year, reaches: 2023}
-    reason: IPEDS releases provisional files ~1yr after the collection year; the newest available collection is 2024, so the load must reach at least 2023. A shortfall means the recent-year fetch broke or the source stopped releasing.
-    certainty: 70
     points_outward: true
