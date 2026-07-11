@@ -1,0 +1,166 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `opm-accessions`. Regenerate after model-verify.
+# caution: Rows are source aggregate/personnel-action records rather than a unique dimensional cube; aggregate only after filtering to the intended source_year, source_month, source_version, and personnel-action dimensions.
+# caution: Several code columns have companion label columns in the same table; preserve both when grouping so source code systems remain auditable.
+key: []
+temporal: source_publish_date
+sort: [source_publish_date]
+columns:
+  - name: accession_category
+    type: VARCHAR
+  - name: accession_category_code
+    type: VARCHAR
+  - name: age_bracket
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: agency_code
+    type: VARCHAR
+  - name: agency_subelement
+    type: VARCHAR
+  - name: agency_subelement_code
+    type: VARCHAR
+  - name: annualized_adjusted_basic_pay
+    type: VARCHAR
+  - name: appointment_not_to_exceed_date
+    type: DATE
+  - name: appointment_type
+    type: VARCHAR
+  - name: appointment_type_code
+    type: VARCHAR
+  - name: bargaining_unit
+    type: VARCHAR
+  - name: bargaining_unit_code
+    type: VARCHAR
+  - name: bargaining_unit_status
+    type: VARCHAR
+  - name: cfo_act_agency_indicator
+    type: VARCHAR
+  - name: consolidated_statistical_area
+    type: VARCHAR
+  - name: consolidated_statistical_area_code
+    type: VARCHAR
+  - name: core_based_statistical_area
+    type: VARCHAR
+  - name: core_based_statistical_area_code
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: department
+    type: VARCHAR
+  - name: department_code
+    type: VARCHAR
+  - name: drp_indicator
+    type: VARCHAR
+  - name: duty_station_city
+    type: VARCHAR
+  - name: duty_station_code
+    type: VARCHAR
+  - name: duty_station_country
+    type: VARCHAR
+  - name: duty_station_country_code
+    type: VARCHAR
+  - name: duty_station_county
+    type: VARCHAR
+  - name: duty_station_county_code
+    type: VARCHAR
+  - name: duty_station_state
+    type: VARCHAR
+  - name: duty_station_state_abbreviation
+    type: VARCHAR
+  - name: duty_station_state_code
+    type: VARCHAR
+  - name: duty_station_state_country_territory_code
+    type: VARCHAR
+  - name: education_level
+    type: VARCHAR
+  - name: education_level_bracket
+    type: VARCHAR
+  - name: education_level_code
+    type: VARCHAR
+  - name: flsa_category
+    type: VARCHAR
+  - name: flsa_category_code
+    type: VARCHAR
+  - name: grade
+    type: VARCHAR
+  - name: length_of_service_years
+    type: DOUBLE
+  - name: locality_pay_area
+    type: VARCHAR
+  - name: locality_pay_area_code
+    type: VARCHAR
+  - name: nsftp_indicator
+    type: VARCHAR
+  - name: occupational_category
+    type: VARCHAR
+  - name: occupational_category_code
+    type: VARCHAR
+  - name: occupational_group
+    type: VARCHAR
+  - name: occupational_group_code
+    type: VARCHAR
+  - name: occupational_series
+    type: VARCHAR
+  - name: occupational_series_code
+    type: VARCHAR
+  - name: pathways_group
+    type: VARCHAR
+  - name: pay_basis
+    type: VARCHAR
+  - name: pay_basis_code
+    type: VARCHAR
+  - name: pay_plan
+    type: VARCHAR
+  - name: pay_plan_code
+    type: VARCHAR
+  - name: personnel_action_effective_date_yyyymm
+    type: BIGINT
+  - name: personnel_office_identifier_code
+    type: VARCHAR
+  - name: position_occupied
+    type: VARCHAR
+  - name: position_occupied_code
+    type: VARCHAR
+  - name: service_computation_date_leave
+    type: DATE
+  - name: separation_category
+    type: VARCHAR
+  - name: separation_category_code
+    type: VARCHAR
+  - name: snapshot_yyyymm
+    type: VARCHAR
+  - name: stem_occupation
+    type: VARCHAR
+  - name: stem_occupation_type
+    type: VARCHAR
+  - name: step_or_rate_type
+    type: VARCHAR
+  - name: step_or_rate_type_code
+    type: VARCHAR
+  - name: supervisory_status
+    type: VARCHAR
+  - name: supervisory_status_code
+    type: VARCHAR
+  - name: tenure
+    type: VARCHAR
+  - name: tenure_code
+    type: VARCHAR
+  - name: veteran_indicator
+    type: VARCHAR
+  - name: work_schedule
+    type: VARCHAR
+  - name: work_schedule_code
+    type: VARCHAR
+  - name: source_family
+    type: VARCHAR
+  - name: source_filename
+    type: VARCHAR
+  - name: source_publish_date
+    type: TIMESTAMP
+  - name: source_year
+    type: SMALLINT
+  - name: source_month
+    type: TINYINT
+  - name: source_version
+    type: SMALLINT
