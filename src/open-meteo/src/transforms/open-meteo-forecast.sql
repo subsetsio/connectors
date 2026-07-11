@@ -1,10 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Operational forecast rows are forward-looking and ephemeral; each refresh replaces the current forecast horizon rather than extending a stable history.
 SELECT
-    name,
-    country,
-    CAST(latitude AS DOUBLE) AS latitude,
-    CAST(longitude AS DOUBLE) AS longitude,
-    CAST(date AS DATE) AS date,
-    CAST(temperature_2m_max AS DOUBLE) AS temperature_2m_max,
-    CAST(temperature_2m_min AS DOUBLE) AS temperature_2m_min,
-    CAST(precipitation_sum AS DOUBLE) AS precipitation_sum
+    "name",
+    "country",
+    "latitude",
+    "longitude",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "temperature_2m_max",
+    "temperature_2m_min",
+    "precipitation_sum"
 FROM "open-meteo-forecast"

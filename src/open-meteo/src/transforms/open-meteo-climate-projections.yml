@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [name, model, date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-meteo-climate-projections`. Regenerate after model-verify.
+# caution: Rows are model-specific CMIP6 projections; filter or group by `model` before comparing or aggregating scenarios.
+key: [date, country, name]
 temporal: date
-sort: [date, name, model]
+sort: [date, country, name]
 columns:
   - name: name
     type: VARCHAR

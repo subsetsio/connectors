@@ -1,5 +1,8 @@
 spec_id: open-government-canada-organizations
 status: active
+coverage:
+  frozen: true
+  reason: Organization records are a current CKAN publisher directory; the `created` timestamp is row inception metadata, not an observation freshness axis.
 tests:
   - not_null: org_id
     reason: every organization has a stable CKAN id; it is the table's primary key

@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [name, date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-meteo-flood`. Regenerate after model-verify.
+# caution: River discharge is sampled at the connector's curated locations and only rows with a source-reported discharge value are published.
+key: [date, country, name]
 temporal: date
-sort: [date, name]
+sort: [date, country, name]
 columns:
   - name: name
     type: VARCHAR

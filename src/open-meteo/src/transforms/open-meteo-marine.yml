@@ -1,6 +1,9 @@
-key: [name, time]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-meteo-marine`. Regenerate after model-verify.
+# caution: Marine wave rows are forecast-only and ephemeral; each refresh replaces the current forecast horizon rather than extending a stable history.
+key: [time, country, name]
 temporal: time
-sort: [time, name]
+sort: [time, country, name]
 columns:
   - name: name
     type: VARCHAR

@@ -1,10 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Marine wave rows are forecast-only and ephemeral; each refresh replaces the current forecast horizon rather than extending a stable history.
 SELECT
-    name,
-    country,
-    CAST(latitude AS DOUBLE) AS latitude,
-    CAST(longitude AS DOUBLE) AS longitude,
-    CAST(time AS TIMESTAMP) AS time,
-    CAST(wave_height AS DOUBLE) AS wave_height,
-    CAST(wave_period AS DOUBLE) AS wave_period,
-    CAST(wave_direction AS DOUBLE) AS wave_direction
+    "name",
+    "country",
+    "latitude",
+    "longitude",
+    CAST("time" AS TIMESTAMP) AS time,
+    "wave_height",
+    "wave_period",
+    "wave_direction"
 FROM "open-meteo-marine"

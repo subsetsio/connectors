@@ -1,11 +1,16 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: ERA5 archive values are sampled only at the connector's curated locations, not every Open-Meteo coordinate.
 SELECT
-    name,
-    country,
-    CAST(latitude AS DOUBLE)  AS latitude,
-    CAST(longitude AS DOUBLE) AS longitude,
-    CAST(date AS DATE)        AS date,
-    CAST(temperature_2m_max AS DOUBLE) AS temperature_2m_max,
-    CAST(temperature_2m_min AS DOUBLE) AS temperature_2m_min,
-    CAST(temperature_2m_mean AS DOUBLE) AS temperature_2m_mean,
-    CAST(precipitation_sum AS DOUBLE) AS precipitation_sum
+    "name",
+    "country",
+    "latitude",
+    "longitude",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "temperature_2m_max",
+    "temperature_2m_min",
+    "temperature_2m_mean",
+    "precipitation_sum"
 FROM "open-meteo-archive-daily"

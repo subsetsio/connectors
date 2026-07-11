@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [name, time]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-meteo-air-quality`. Regenerate after model-verify.
+# caution: Hourly CAMS air-quality data combines historical reanalysis with a short forward forecast window; use `time` to separate historical observations from forward-looking values.
+key: [time, country, name]
 temporal: time
-sort: [time, name]
+sort: [time, country, name]
 columns:
   - name: name
     type: VARCHAR

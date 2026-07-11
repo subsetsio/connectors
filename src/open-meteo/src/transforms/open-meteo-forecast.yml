@@ -1,6 +1,9 @@
-key: [name, date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-meteo-forecast`. Regenerate after model-verify.
+# caution: Operational forecast rows are forward-looking and ephemeral; each refresh replaces the current forecast horizon rather than extending a stable history.
+key: [date, country, name]
 temporal: date
-sort: [date, name]
+sort: [date, country, name]
 columns:
   - name: name
     type: VARCHAR

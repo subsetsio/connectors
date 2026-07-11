@@ -1,9 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: River discharge is sampled at the connector's curated locations and only rows with a source-reported discharge value are published.
 SELECT
-    name,
-    country,
-    CAST(latitude AS DOUBLE)  AS latitude,
-    CAST(longitude AS DOUBLE) AS longitude,
-    CAST(date AS DATE)        AS date,
-    CAST(river_discharge AS DOUBLE) AS river_discharge
+    "name",
+    "country",
+    "latitude",
+    "longitude",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "river_discharge"
 FROM "open-meteo-flood"
-WHERE river_discharge IS NOT NULL
