@@ -1,6 +1,9 @@
 spec_id: ofr-tff
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 45d}
+    reason: TFF positioning series update with a reporting lag; the latest observation should remain within about six weeks.
+    certainty: 85
   - not_null: mnemonic
     reason: every observation belongs to a series mnemonic
     certainty: 99

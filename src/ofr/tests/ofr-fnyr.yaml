@@ -1,6 +1,9 @@
 spec_id: ofr-fnyr
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 14d}
+    reason: NY Fed reference-rate series are daily business-day data; the latest observation should remain within about two weeks.
+    certainty: 90
   - not_null: mnemonic
     reason: every observation belongs to a series mnemonic
     certainty: 99

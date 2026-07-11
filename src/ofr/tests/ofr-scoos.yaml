@@ -1,6 +1,9 @@
 spec_id: ofr-scoos
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 180d}
+    reason: SCOOS survey indicators are quarterly with publication lag; the latest observation should remain within about two quarters.
+    certainty: 85
   - not_null: mnemonic
     reason: every observation belongs to a series mnemonic
     certainty: 99

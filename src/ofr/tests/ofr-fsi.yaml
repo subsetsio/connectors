@@ -1,6 +1,9 @@
 spec_id: ofr-fsi
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 14d}
+    reason: OFR FSI is daily business-day data; the latest observation should remain within about two weeks.
+    certainty: 90
   - not_null: date
     reason: every FSI row is dated
     certainty: 99

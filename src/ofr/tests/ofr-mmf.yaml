@@ -1,6 +1,9 @@
 spec_id: ofr-mmf
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 90d}
+    reason: money market fund series include monthly observations with publication lag; the latest observation should remain within about three months.
+    certainty: 85
   - not_null: mnemonic
     reason: every observation belongs to a series mnemonic
     certainty: 99
