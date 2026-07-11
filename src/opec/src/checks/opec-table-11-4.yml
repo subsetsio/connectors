@@ -1,6 +1,7 @@
 # compiled by `hardened compile-checks` — post-publish audit of `opec-table-11-4`.
-# Grain/temporal from the transform contract, row floor from the measured
-# profile. Regenerate after model-verify or a transform contract change.
+# Grain/temporal from the transform contract. Row floor is authored for the
+# published latest-vintage shape because the raw profile contains multiple
+# report vintages per series/period.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
 key: [series, period]
@@ -13,7 +14,7 @@ checks:
   - kind: not_null
     col: period
   - kind: row_floor
-    min: 4361
+    min: 650
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
