@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `jepx-spot-market`. Regenerate after model-verify.
+# caution: Each row is one half-hour delivery slot; daily or longer summaries should aggregate across all slots for each delivery_date rather than treating prices as daily observations.
+key: [delivery_date, slot]
+temporal: delivery_date
+sort: [delivery_date, slot]
+columns:
+  - name: delivery_date
+    type: DATE
+  - name: slot
+    type: SMALLINT
+  - name: sell_bid_volume_kwh
+    type: DOUBLE
+  - name: buy_bid_volume_kwh
+    type: DOUBLE
+  - name: contract_volume_kwh
+    type: DOUBLE
+  - name: system_price
+    type: DOUBLE
+  - name: area_price_hokkaido
+    type: DOUBLE
+  - name: area_price_tohoku
+    type: DOUBLE
+  - name: area_price_tokyo
+    type: DOUBLE
+  - name: area_price_chubu
+    type: DOUBLE
+  - name: area_price_hokuriku
+    type: DOUBLE
+  - name: area_price_kansai
+    type: DOUBLE
+  - name: area_price_chugoku
+    type: DOUBLE
+  - name: area_price_shikoku
+    type: DOUBLE
+  - name: area_price_kyushu
+    type: DOUBLE
