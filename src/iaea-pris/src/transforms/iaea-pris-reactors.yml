@@ -1,46 +1,73 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `iaea-pris-reactors`. Regenerate after model-verify.
+# caution: Country names and reactor attributes reflect PRIS reactor metadata as published for each unit; use the PRIS reactor_id as the stable join key to annual performance rows.
+key: [reactor_id]
+temporal: construction_start_date
+sort: [construction_start_date, reactor_id]
 columns:
   - name: reactor_id
     type: BIGINT
+    description: Stable PRIS reactor identifier.
   - name: name
     type: VARCHAR
+    description: Reactor unit name as published by PRIS.
   - name: alternate_name
     type: VARCHAR
+    description: Alternate reactor unit name published by PRIS, when available.
   - name: country
     type: VARCHAR
+    description: Country or territory name associated with the reactor in PRIS.
   - name: country_code
     type: VARCHAR
+    description: PRIS country code associated with the reactor.
   - name: status
     type: VARCHAR
+    description: PRIS lifecycle status for the reactor unit.
   - name: reactor_type
     type: VARCHAR
+    description: Reactor technology type reported by PRIS, such as PWR, BWR, or PHWR.
   - name: model
     type: VARCHAR
+    description: Reactor model or design family reported by PRIS, when available.
   - name: reference_unit_power_mwe
     type: DOUBLE
+    description: Reference unit power reported by PRIS, in megawatts electric.
   - name: design_net_capacity_mwe
     type: DOUBLE
+    description: Design net capacity reported by PRIS, in megawatts electric.
   - name: gross_capacity_mwe
     type: DOUBLE
+    description: Gross capacity reported by PRIS, in megawatts electric.
   - name: thermal_capacity_mwt
     type: DOUBLE
+    description: Thermal capacity reported by PRIS, in megawatts thermal.
   - name: construction_start_date
     type: DATE
+    description: Date reactor construction started, as reported by PRIS.
   - name: first_criticality_date
     type: DATE
+    description: Date of first criticality, as reported by PRIS.
   - name: first_grid_connection_date
     type: DATE
+    description: Date of first connection to the electrical grid, as reported by PRIS.
   - name: commercial_operation_date
     type: DATE
+    description: Date commercial operation began, as reported by PRIS.
   - name: long_term_shutdown_date
     type: DATE
+    description: Date long-term shutdown began, as reported by PRIS, when applicable.
   - name: permanent_shutdown_date
     type: DATE
+    description: Date permanent shutdown occurred, as reported by PRIS, when applicable.
   - name: lifetime_electricity_supplied_twh
     type: DOUBLE
+    description: Lifetime electricity supplied by the reactor through the PRIS reporting period, in terawatt-hours.
   - name: lifetime_operation_factor_pct
     type: DOUBLE
+    description: Lifetime operation factor reported by PRIS, in percent.
   - name: lifetime_energy_availability_factor_pct
     type: DOUBLE
+    description: Lifetime energy availability factor reported by PRIS, in percent.
   - name: lifetime_load_factor_pct
     type: DOUBLE
+    description: Lifetime load factor reported by PRIS, in percent.

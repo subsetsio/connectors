@@ -1,18 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `iaea-pris-performance`. Regenerate after model-verify.
+# caution: Each row is an annual observation for one reactor; join to iaea-pris-reactors on reactor_id before aggregating by country, reactor type, or status.
+key: [reactor_id, year]
+temporal: year
+sort: [year, reactor_id]
 columns:
   - name: reactor_id
     type: BIGINT
+    description: PRIS reactor identifier; joins to iaea-pris-reactors.reactor_id.
   - name: year
     type: BIGINT
+    description: Calendar year of the annual performance observation.
   - name: electricity_supplied_gwh
     type: DOUBLE
+    description: Electricity supplied by the reactor during the year, in gigawatt-hours.
   - name: reference_unit_power_mw
     type: DOUBLE
+    description: PRIS reference unit power for the reactor, in megawatts electric.
   - name: annual_time_on_line_h
     type: DOUBLE
+    description: Time the reactor was on line during the year, in hours.
   - name: operation_factor_pct
     type: DOUBLE
+    description: Annual operation factor reported by PRIS, in percent.
   - name: energy_availability_factor_pct
     type: DOUBLE
+    description: Annual energy availability factor reported by PRIS, in percent.
   - name: load_factor_pct
     type: DOUBLE
+    description: Annual load factor reported by PRIS, in percent.
