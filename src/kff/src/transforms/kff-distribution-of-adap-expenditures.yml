@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kff-distribution-of-adap-expenditures`. Regenerate after model-verify.
+# caution: Each row is one cell from a KFF State Health Facts indicator table; do not sum across metrics or locations without first selecting the desired metric/timeframe and excluding aggregate locations when appropriate.
+key: [location, timeframe, col_index, metric]
+temporal: timeframe
+sort: [timeframe, location, col_index, metric]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: timeframe
+    type: BIGINT
+  - name: col_index
+    type: INTEGER
+  - name: metric
+    type: VARCHAR
+  - name: value_raw
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

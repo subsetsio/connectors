@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kff-intensivist-physicians-critical-care-nurses-and-second-line-critical-care-physicians-per-10000-adults`. Regenerate after model-verify.
+# caution: Each row is one cell from a KFF State Health Facts indicator table; do not sum across metrics or locations without first selecting the desired metric/timeframe and excluding aggregate locations when appropriate.
+# caution: KFF renders duplicate rows for some location/timeframe/metric cells in this table, so the raw table is intentionally keyless; count rows rather than treating rows as unique observations.
+key: []
+temporal: timeframe
+columns:
+  - name: location
+    type: VARCHAR
+  - name: timeframe
+    type: VARCHAR
+  - name: col_index
+    type: INTEGER
+  - name: metric
+    type: VARCHAR
+  - name: value_raw
+    type: DOUBLE
+  - name: value
+    type: DOUBLE

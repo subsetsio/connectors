@@ -1,2 +1,5 @@
 spec_id: kff-alcohol-induced-deaths-and-death-rates-per-100000-population-by-sex
 status: deferred
+coverage:
+  frozen: true
+  reason: KFF State Health Facts indicator pages are source-dependent historical/current snapshots with no uniform machine-readable release cadence; each connector run refetches the complete page, but no per-indicator freshness SLA is asserted.
