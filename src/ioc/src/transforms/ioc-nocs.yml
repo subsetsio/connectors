@@ -1,7 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `ioc-nocs`. Regenerate after model-verify.
-key: [edition, noc_code]
-sort: [edition, noc_code]
+key: [source_url, archive_timestamp, edition, games]
+sort: [source_url, archive_timestamp, edition, games]
 columns:
   - name: edition
     type: VARCHAR
@@ -14,4 +14,4 @@ columns:
   - name: archive_timestamp
     type: BIGINT
   - name: payload
-    type: "STRUCT(nocBio STRUCT(organisationId VARCHAR, isHistoric BOOLEAN, anthem STRUCT(title VARCHAR, composer VARCHAR, inducted VARCHAR), membership STRUCT(officialNocName VARCHAR), interest STRUCT(ocFlagBearer VARCHAR[], highlights VARCHAR), officials STRUCT(nocPresident VARCHAR), participation STRUCT(firstOGAppearance VARCHAR, numOGAppearance VARCHAR), ocFlagBearers STRUCT(code VARCHAR, TVName VARCHAR, \"name\" VARCHAR, shortName VARCHAR, givenName VARCHAR, familyName VARCHAR, birthDate DATE, height BIGINT, image STRUCT(imageType VARCHAR, imageExtension VARCHAR, imageVersion VARCHAR), mainFunction STRUCT(functionCode VARCHAR, category VARCHAR, description VARCHAR), personGender STRUCT(code VARCHAR, description VARCHAR), disciplines STRUCT(code VARCHAR, description VARCHAR, descriptionOrder BIGINT)[], organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR, protocolOrder BIGINT, descriptionOrder BIGINT, longDescriptionOrder BIGINT))[]))"
+    type: "STRUCT(nocBio STRUCT(organisationId VARCHAR, isHistoric BOOLEAN, membership STRUCT(officialNocName VARCHAR, foundingDate VARCHAR, dateIOCRecognition VARCHAR), interest STRUCT(ocFlagBearer VARCHAR[], highlights VARCHAR, addInformation VARCHAR), officials STRUCT(nocPresident VARCHAR, nocGenSecretary VARCHAR, iocMembers VARCHAR, iocExecBoard VARCHAR), participation STRUCT(firstOGAppearance VARCHAR, numOGAppearance VARCHAR, summary VARCHAR), ocFlagBearers STRUCT(code VARCHAR, TVName VARCHAR, \"name\" VARCHAR, shortName VARCHAR, givenName VARCHAR, familyName VARCHAR, birthDate DATE, height BIGINT, image STRUCT(imageType VARCHAR, imageExtension VARCHAR, imageVersion VARCHAR), mainFunction STRUCT(functionCode VARCHAR, category VARCHAR, description VARCHAR), personGender STRUCT(code VARCHAR, description VARCHAR), disciplines STRUCT(code VARCHAR, description VARCHAR, descriptionOrder BIGINT)[], organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR, protocolOrder BIGINT, descriptionOrder BIGINT, longDescriptionOrder BIGINT))[], anthem STRUCT(title VARCHAR, composer VARCHAR, inducted VARCHAR)))"

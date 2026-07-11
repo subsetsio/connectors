@@ -20,7 +20,9 @@ Fetch dispatch, per dataset:
   no-parameter call succeeds (~34 of them).
 * WINDOWED (adaptive year -> month) — datasets whose no-parameter call returns
   HTTP 400 "dataset too large". We fetch a year at a time via start/end; if a
-  single year is itself too large, that year is split into calendar months.
+  single year is itself too large, that year is split into calendar months; if
+  a month is still too large (observed for `osb`), the month is paged with
+  limit/offset.
   Each written window is a raw *fragment* of the one logical asset (the
   transform's dep view spans all fragments). Incremental by year with a
   one-year overlap to absorb revisions; a persisted watermark makes backfill a
@@ -66,6 +68,7 @@ STATE_VERSION = 1
 OVERLAP_YEARS = 1               # re-fetch current + prior year each refresh
 DEFAULT_FLOOR_YEAR = 2000       # windowing lower bound when no entrydate is known
 FX_FLOOR_YEAR = 1996            # earliest FX history observed on exchange_site
+PAGE_LIMIT = 10000              # NBU limit/offset fallback for oversized windows
 
 # Catalog apikod -> actual statdirectory endpoint segment, where they differ.
 MNEMONIC = {"cashflow": "casflow", "q_survey": "qsurvey"}
@@ -131,6 +134,10 @@ def _range_url(mnemonic: str, start: str, end: str) -> str:
     return f"{STATDIR}{mnemonic}?start={start}&end={end}&json"
 
 
+def _paged_url(url: str, offset: int, limit: int = PAGE_LIMIT) -> str:
+    return f"{url}&offset={offset}&limit={limit}"
+
+
 # --------------------------------------------------------------------------- #
 # Fetch strategies
 # --------------------------------------------------------------------------- #
@@ -148,9 +155,29 @@ def _fetch_year_by_month(node_id: str, mnemonic: str, year: int) -> None:
         last = calendar.monthrange(year, month)[1]
         start = f"{year:04d}{month:02d}01"
         end = f"{year:04d}{month:02d}{last:02d}"
-        rows = _get_rows(_range_url(mnemonic, start, end))
-        if rows:
-            save_raw_ndjson(rows, node_id, fragment=f"{year:04d}{month:02d}")
+        fragment = f"{year:04d}{month:02d}"
+        url = _range_url(mnemonic, start, end)
+        try:
+            rows = _get_rows(url)
+            if rows:
+                save_raw_ndjson(rows, node_id, fragment=fragment)
+        except _TooLarge:
+            _fetch_paginated_window(node_id, url, fragment)
+
+
+def _fetch_paginated_window(node_id: str, url: str, fragment: str) -> None:
+    """Fetch an oversized start/end window with limit/offset pages."""
+    offset = 0
+    page = 0
+    while True:
+        rows = _get_rows(_paged_url(url, offset))
+        if not rows:
+            return
+        save_raw_ndjson(rows, node_id, fragment=f"{fragment}-{page:04d}")
+        if len(rows) < PAGE_LIMIT:
+            return
+        page += 1
+        offset += PAGE_LIMIT
 
 
 def _fetch_windowed(node_id: str, mnemonic: str, *, force_month: bool) -> None:

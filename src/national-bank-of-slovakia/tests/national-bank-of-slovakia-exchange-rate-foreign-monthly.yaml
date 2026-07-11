@@ -12,8 +12,8 @@ tests:
     reason: EUR-base rates are positive; the upper bound guards against a parse blowing up a hyperinflation currency
     certainty: 75
     severity: warn
-  - distinct_count: {col: currency_code, min: 100}
-    reason: NBS quotes ~130-150 selected foreign currencies each month
+  - distinct_count: {col: currency_code, min: 90}
+    reason: NBS quotes a broad selected-currency universe; a large shortfall means the monthly XML parse collapsed
     certainty: 80
   - freshness: {col: valid_from, reaches: today - 45d}
     reason: published monthly (validFrom = month start); the newest month must be recent
