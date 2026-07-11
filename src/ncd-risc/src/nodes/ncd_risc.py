@@ -33,7 +33,6 @@ import zipfile
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,
@@ -238,27 +237,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# ---- transform: one uniform thin pass per asset ----------------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(area AS VARCHAR)   AS area,
-                CAST(iso AS VARCHAR)    AS iso,
-                CAST(sex AS VARCHAR)    AS sex,
-                CAST(year AS INTEGER)   AS year,
-                CAST(age AS VARCHAR)    AS age,
-                CAST(metric AS VARCHAR) AS metric,
-                CAST(value AS DOUBLE)   AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

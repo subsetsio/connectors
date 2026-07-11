@@ -1,12 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [currency, date]
+temporal: date
+sort: [date, currency]
 columns:
   - name: currency
     type: VARCHAR
+    description: ISO currency code quoted against the Rwandan franc.
   - name: date
     type: DATE
+    description: Quotation date.
   - name: buying_rate
     type: DOUBLE
+    description: BNR buying reference rate in RWF per unit of foreign currency.
   - name: average_rate
     type: DOUBLE
+    description: BNR average reference rate in RWF per unit of foreign currency.
   - name: selling_rate
     type: DOUBLE
+    description: BNR selling reference rate in RWF per unit of foreign currency.

@@ -65,6 +65,15 @@ ENTITY_META = {
     "ipeds-c-b": "C2024_B",
     "ipeds-c-c": "C2024_C",
     "ipeds-cdep": "C2024DEP",
+    # COST1/COST2/DRVCOST are IPEDS Data Center virtual/custom tables: the
+    # catalog lists them but no complete-data-file bulk zip is published for
+    # any collection year (verified 404 across 2020-2024 while sibling
+    # IC_AY/DRVIC/FLAGS return 200). The fetch fn raises (no files found) and
+    # these three carry standing waivers (permanently-dead upstream for the
+    # ipeds_bulk mechanism); the table-file names below are the catalog's.
+    "ipeds-cost1": "COST1_2024",
+    "ipeds-cost2": "COST2_2024",
+    "ipeds-drvcost": "DRVCOST2024",
     "ipeds-drvadm": "DRVADM2024",
     "ipeds-drval": "DRVAL2024",
     "ipeds-drvc": "DRVC2024",

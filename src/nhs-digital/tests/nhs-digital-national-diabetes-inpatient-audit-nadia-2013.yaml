@@ -1,0 +1,21 @@
+spec_id: nhs-digital-national-diabetes-inpatient-audit-nadia-2013
+status: active
+tests:
+  - not_null: value
+    reason: fetch drops null/empty cells before writing, so every melted row carries a value
+    certainty: 99
+  - not_null: source_file
+    reason: every melted row is tagged with the file (and sheet/member) it came from
+    certainty: 99
+  - not_null: column
+    reason: header cells fall back to col_<n> when blank, so column is always populated
+    certainty: 99
+  - column_type: {col: row_index, type: integer}
+    reason: row_index is the 1-based ordinal of the source row, written as int64
+    certainty: 95
+  - column_type: {col: value, type: string}
+    reason: cells are melted to string; typing is deferred to the model stage
+    certainty: 95
+  - row_count: {min: 20}
+    reason: an NHS audit package melts to hundreds+ of non-null cells; <20 means the parse/unzip broke
+    certainty: 85

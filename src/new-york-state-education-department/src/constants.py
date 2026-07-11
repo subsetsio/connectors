@@ -89,8 +89,11 @@ ENTITY_CONFIG = {
     "src-expenditures-per-pupil":       ("essa",       r"^Expenditures per Pupil$"),
     # Student-growth (SPG) HEDI researcher files live in the same eval DBs as the
     # APPR researcher files (2012-13..2015-16 only — that APPR/SPG regime ended).
+    # 12-13 names the statewide table SPG_STATE_RESEARCHER_..., 13-14/14-15 rename
+    # it SPG_STATEWIDE_RESEARCHER_... (identical schema); 15-16 restructured it to
+    # SPG_DATA_* and is left out (mirrors the APPR researcher-file entities).
     "spg-district-hedi":                ("eval",       r"^SPG_DISTRICT_RESEARCHER"),
-    "spg-state-hedi":                   ("eval",       r"^SPG_STATE_RESEARCHER"),
+    "spg-state-hedi":                   ("eval",       r"^SPG_STATE(WIDE)?_RESEARCHER"),
     # Shared institution-reference tables. downloads.php has no 'shared-reference'
     # path segment — these tables are bundled inside the per-year enrollment DBs
     # (alongside 'BEDS Day Enrollment' / 'Demographic Factors'), so discover them

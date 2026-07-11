@@ -1,0 +1,15 @@
+spec_id: norges-bank-cbc-instruments
+status: active
+tests:
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation has a time period; nulls mean the CSV component columns were misaligned during parsing
+    certainty: 95
+  - column_type: {col: TIME_PERIOD, type: string}
+    reason: raw is unparsed SDMX CSV; TIME_PERIOD kept as string because grain varies by dataflow (daily date, year, quarter, datetime)
+    certainty: 90
+  - not_null: ISIN
+    reason: each central-bank-certificate instrument row is keyed by its ISIN; a null means the CSV component columns misaligned
+    certainty: 85
+  - row_count: {min: 15}
+    reason: outstanding central-bank certificate instruments (~44 rows observed); a near-empty table means a broken pull
+    certainty: 70

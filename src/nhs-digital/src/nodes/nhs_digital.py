@@ -9,18 +9,19 @@ digital.nhs.uk) are dead or Cloudflare-gated and are skipped.
 
 Each accepted entity is one CKAN *package* — a statistical publication that
 bundles several heterogeneous files (tidy CSVs, Excel workbooks, zipped CSVs)
-with differing column lists. The implement contract publishes exactly one Delta
+with differing column lists. The download contract publishes exactly one Delta
 table per package, so every file in a package is melted to a single uniform
 long schema: (source_file, row_index, column, value). This is robust to the
 bundle's heterogeneity (no cross-file schema drift) and keeps the published
 table queryable: filter on `column` / `source_file` to recover any field.
+Transforms are NOT authored here — the model stage compiles them from the
+profiled raw.
 
 Fetch shape: stateless full re-pull. The live corpus is small (after excluding
-the multi-hundred-GB GP-prescribing package, which is not publishable as one
-table through this stale mirror) so every refresh re-fetches the package's
-current resource set and overwrites. No watermark/cursor — the catalogue
-exposes no usable incremental filter, and full re-pull picks up revisions for
-free.
+the multi-hundred-GB GP-prescribing package, deferred at accept) so every
+refresh re-fetches the package's current resource set and overwrites. No
+watermark/cursor — the catalogue exposes no usable incremental filter, and full
+re-pull picks up revisions for free.
 """
 import io
 import math
@@ -30,9 +31,9 @@ import zipfile
 import pandas as pd
 import pyarrow as pa
 
+from constants import ENTITY_IDS
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     transient_retry,
@@ -41,24 +42,6 @@ from subsets_utils import (
 CKAN = "https://ckan.publishing.service.gov.uk/api/3/action"
 _DATA_EXT = re.compile(r"\.(csv|xlsx|xls|zip)$", re.I)
 _FLUSH_ROWS = 200_000
-
-# The entity union (rank-active packages). Copied from
-# data/sources/nhs-digital/work/entity_union.json.
-ENTITY_IDS = [
-    "general_pharmaceutical_services",
-    "national-audit-of-pulmonary-hypertension-12th-annual-report-2020-21",
-    "national-audit-of-pulmonary-hypertension-13th-annual-report-2021-22",
-    "national-diabetes-audit-2020-21-type-1-diabetes",
-    "national-diabetes-audit-report-1-care-processes-and-treatment-targets-2016-17",
-    "national-diabetes-audit-report-1-care-processes-and-treatment-targets-2017-18-full-report",
-    "national-diabetes-foot-care-audit-2014-2018",
-    "national-diabetes-inpatient-audit-nadia-2018",
-    "national-diabetes-inpatient-audit-nadia-2019",
-    "national-diabetes-inpatient-safety-audit-ndisa-2018-2021",
-    "national-diabetes-transition-audit-2011-2017",
-    "ndfa-interval-review-july-2014-march-2021",
-    "nhs-outcomes-framework-indicators",
-]
 
 
 def _node_id(entity_id: str) -> str:
@@ -224,21 +207,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download") for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                source_file,
-                row_index,
-                "column",
-                value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
