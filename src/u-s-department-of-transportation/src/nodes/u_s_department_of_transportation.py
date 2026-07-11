@@ -14,7 +14,7 @@ heterogeneous schema, so the connector publishes the source columns as-is
 
 import json
 
-from subsets_utils import NodeSpec, get, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, raw_writer
 from constants import ENTITY_IDS
 
 PREFIX = "u-s-department-of-transportation-"
@@ -59,4 +59,16 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Weekly refresh cadence per connector maintenance.json; raw "
+            "Socrata snapshot present in manifest and newer than 7 days"
+        ),
+        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
