@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `groningen-growth-and-development-centre-10.34894-ybt7dm`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [isic, year, iso3, var]
+temporal: year
+checks:
+  - kind: unique
+    columns: [isic, year, iso3, var]
+  - kind: not_null
+    col: isic
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: iso3
+  - kind: not_null
+    col: var
+  - kind: row_floor
+    min: 347087
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
