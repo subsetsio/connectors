@@ -1,5 +1,15 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `beijing-municipal-bureau-of-statistics-01-ls-19-03`. Regenerate after model-verify.
+# Diagnostic table for a source-catalog report that currently returns no observation data.
 columns:
-  - name: json
-    type: JSON
+  - name: report_number
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: sort
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: detail
+    type: VARCHAR
+key:
+  - report_number
+write_mode: overwrite

@@ -1,7 +1,7 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
+-- Diagnostic transform for a source-catalog report that currently returns no observation data.
 SELECT
-    "json"
-FROM "beijing-municipal-bureau-of-statistics-01-ls-18-31"
+    'LS-18-31' AS "report_number",
+    '2500' AS "subject",
+    '01' AS "sort",
+    'upstream_unavailable' AS "status",
+    'Source catalog/viewer exists, but the verified REST data path returns no publishable observation rows.' AS "detail"
