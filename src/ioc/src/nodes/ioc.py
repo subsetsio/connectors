@@ -27,6 +27,7 @@ overwritten every run; no watermark (the data is immutable).
 """
 import gzip
 import json
+from json import JSONDecodeError
 
 import pyarrow as pa
 
@@ -80,6 +81,14 @@ def _get_json(url: str, **kwargs):
     return json.loads(body)
 
 
+def _response_json(resp) -> object | None:
+    try:
+        return resp.json()
+    except JSONDecodeError as exc:
+        print(f"[ioc] skipped non-JSON response from {resp.url}: {exc}")
+        return None
+
+
 def _live_url(comp: str) -> str:
     return f"https://olympics.com/{comp}/data/CIS_MedalNOCs~lang=ENG~comp={comp}.json"
 
@@ -91,20 +100,26 @@ def _cdx_latest(prefix: str, comp: str, languages: tuple[str, ...] = ("ENG",)) -
     # The Wayback corpus is not path-consistent: several PG2024 JSON files are
     # archived below /OG2024/data/ while carrying comp=PG2024 in the filename.
     for path_comp, _games in EDITIONS:
-        resp = get(
-            "https://web.archive.org/cdx/search/cdx",
-            params={
-                "url": f"olympics.com/{path_comp}/data/{prefix}",
-                "matchType": "prefix",
-                "output": "json",
-                "fl": "timestamp,original",
-                "filter": "statuscode:200",
-                "collapse": "urlkey",
-            },
-            timeout=(10.0, 120.0),
-        )
-        resp.raise_for_status()
-        data = resp.json()
+        try:
+            resp = get(
+                "https://web.archive.org/cdx/search/cdx",
+                params={
+                    "url": f"olympics.com/{path_comp}/data/{prefix}",
+                    "matchType": "prefix",
+                    "output": "json",
+                    "fl": "timestamp,original",
+                    "filter": "statuscode:200",
+                    "collapse": "urlkey",
+                },
+                timeout=(10.0, 120.0),
+            )
+            resp.raise_for_status()
+            data = _response_json(resp)
+        except Exception as exc:  # noqa: BLE001 - CDX is a best-effort archive index.
+            print(f"[ioc] CDX search failed for {path_comp}/{prefix}: {type(exc).__name__}: {exc}")
+            continue
+        if not isinstance(data, list) or len(data) < 2:
+            continue
         for ts, orig in data[1:]:
             if "%7B" in orig or "{code}" in orig:
                 continue
@@ -133,7 +148,7 @@ def _wayback_json(ts: str, orig: str) -> dict:
 def _try_wayback_json(ts: str, orig: str) -> dict | None:
     try:
         return _wayback_json(ts, orig)
-    except json.JSONDecodeError as exc:
+    except JSONDecodeError as exc:
         print(f"[ioc] skipped non-JSON archived payload {orig} at {ts}: {exc}")
         return None
 
