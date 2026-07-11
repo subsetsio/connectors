@@ -1,0 +1,9 @@
+spec_id: port-of-la-geed-7eey
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed film permit tracking table for 2014
+tests:
+  - row_count: {min: 20}
+  - not_null: harbor_tracking_no
+  - not_null: production_co_title

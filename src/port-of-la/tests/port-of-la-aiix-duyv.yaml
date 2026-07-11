@@ -1,0 +1,9 @@
+spec_id: port-of-la-aiix-duyv
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed historical emissions-reduction table for 2005-2012
+tests:
+  - row_count: {min: 8}
+  - not_null: date_name
+  - not_null: nox_change_since_2005

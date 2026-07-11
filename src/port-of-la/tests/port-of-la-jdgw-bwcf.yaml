@@ -1,0 +1,9 @@
+spec_id: port-of-la-jdgw-bwcf
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed annual financial report table for FY12-FY13
+tests:
+  - row_count: {min: 90}
+  - not_null: account_category
+  - not_null: fy_2013

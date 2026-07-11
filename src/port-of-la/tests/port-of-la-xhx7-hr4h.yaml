@@ -1,0 +1,9 @@
+spec_id: port-of-la-xhx7-hr4h
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed single audit report table for 2013
+tests:
+  - row_count: {min: 40}
+  - not_null: grant_project_description
+  - not_null: federal_entitlement_amount

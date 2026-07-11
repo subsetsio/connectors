@@ -1,0 +1,9 @@
+spec_id: port-of-la-38a8-tm7u
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed historical TEU statistics table
+tests:
+  - row_count: {min: 30}
+  - not_null: year
+  - not_null: teus_in_million

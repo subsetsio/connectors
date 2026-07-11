@@ -1,0 +1,9 @@
+spec_id: port-of-la-b3i5-86hy
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed historical port air quality table for 2006-2013
+tests:
+  - row_count: {min: 8}
+  - not_null: year
+  - not_null: ec

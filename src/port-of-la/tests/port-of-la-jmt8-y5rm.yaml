@@ -1,0 +1,9 @@
+spec_id: port-of-la-jmt8-y5rm
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed cruise passenger table for 1990-2014
+tests:
+  - row_count: {min: 25}
+  - not_null: year
+  - not_null: passengers

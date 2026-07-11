@@ -7,7 +7,7 @@ resource id fetched via the SODA JSON endpoint
 
 Fetch shape: stateless full re-pull. Every dataset in scope is a small static
 historical table (tens to ~100 rows), so each refresh re-pulls the whole table
-in one paginated request and overwrites. No watermark/cursor — these tables no
+in one paginated request and overwrites. No watermark/cursor - these tables no
 longer update and full re-pull is trivially cheap. SODA returns every field as
 a JSON string and some columns are sparsely populated, so raw is saved as NDJSON
 and the transform SQL does the typing/casting.
@@ -22,7 +22,7 @@ from subsets_utils import (
 BASE = "https://data.lacity.org/resource"
 PAGE_SIZE = 50000  # all datasets here are far smaller than one page
 
-# The entity union — rank-active Port-of-LA datasets (Socrata 4x4 ids).
+# The entity union - rank-active Port-of-LA datasets (Socrata 4x4 ids).
 # Copied from data/sources/port-of-la/work/entity_union.json.
 ENTITY_IDS = [
     "2t3h-my34",  # Emission from Port Operations (2005-2012)
@@ -73,7 +73,7 @@ def fetch_one(node_id: str) -> None:
         if len(page) < PAGE_SIZE:
             break
         offset += PAGE_SIZE
-        if offset > 5_000_000:  # safety ceiling — these tables are tiny
+        if offset > 5_000_000:  # safety ceiling - these tables are tiny
             raise RuntimeError(
                 f"{resource_id}: exceeded {offset} rows; source grew unexpectedly"
             )

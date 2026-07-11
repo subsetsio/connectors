@@ -1,0 +1,9 @@
+spec_id: port-of-la-i9rh-q5gx
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed historical MMRT tonnage table
+tests:
+  - row_count: {min: 35}
+  - not_null: year
+  - not_null: total

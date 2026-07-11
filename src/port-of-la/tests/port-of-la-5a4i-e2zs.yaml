@@ -1,0 +1,9 @@
+spec_id: port-of-la-5a4i-e2zs
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed historical short-ton tonnage table for 1920-1970
+tests:
+  - row_count: {min: 50}
+  - not_null: year
+  - not_null: tons

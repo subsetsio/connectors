@@ -1,0 +1,9 @@
+spec_id: port-of-la-s2gq-nz3r
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed workers compensation new-claims table
+tests:
+  - row_count: {min: 18}
+  - not_null: harbor_department
+  - not_null: net_total

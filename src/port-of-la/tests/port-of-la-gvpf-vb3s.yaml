@@ -1,0 +1,9 @@
+spec_id: port-of-la-gvpf-vb3s
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed workers compensation light-duty hours table
+tests:
+  - row_count: {min: 15}
+  - not_null: harbor
+  - not_null: ytd_totals

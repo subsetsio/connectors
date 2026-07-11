@@ -1,0 +1,9 @@
+spec_id: port-of-la-tsuv-4rgh
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed monthly TEU count table ending in the historical Socrata mirror
+tests:
+  - row_count: {min: 90}
+  - not_null: date
+  - not_null: monthly_total_teus

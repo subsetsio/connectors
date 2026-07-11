@@ -1,0 +1,9 @@
+spec_id: port-of-la-du8q-hww5
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed adopted-budget table for 2010-2014
+tests:
+  - row_count: {min: 200}
+  - not_null: fiscal_year
+  - not_null: account_name

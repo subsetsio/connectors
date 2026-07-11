@@ -1,0 +1,9 @@
+spec_id: port-of-la-2t3h-my34
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed historical emissions table for 2005-2012
+tests:
+  - row_count: {min: 8}
+  - not_null: ei_year
+  - not_null: nox_tpy

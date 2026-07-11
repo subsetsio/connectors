@@ -1,0 +1,9 @@
+spec_id: port-of-la-v3my-p6u5
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed workers compensation benefits expenditures table
+tests:
+  - row_count: {min: 18}
+  - not_null: harbor_department
+  - not_null: fy_total

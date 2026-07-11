@@ -1,0 +1,9 @@
+spec_id: port-of-la-s5jy-jcce
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed ADP project table
+tests:
+  - row_count: {min: 900}
+  - not_null: incrementalid
+  - not_null: adpnumber

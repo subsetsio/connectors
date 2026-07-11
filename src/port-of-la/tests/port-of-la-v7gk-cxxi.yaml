@@ -1,0 +1,9 @@
+spec_id: port-of-la-v7gk-cxxi
+status: active
+coverage:
+  frozen: true
+  reason: source publishes a fixed quarterly financial statement table for 2013-2014
+tests:
+  - row_count: {min: 90}
+  - not_null: accounts_category
+  - not_null: as_of_march_2014
