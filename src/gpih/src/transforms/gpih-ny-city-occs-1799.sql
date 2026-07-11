@@ -4,11 +4,11 @@
 -- durable edits belong in the model stage, not here.
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 SELECT
-    "__sheet__" AS sheet,
-    "ID" AS id,
-    "Last Name" AS last_name,
-    "First Name" AS first_name,
-    "Occupation" AS occupation,
+    "__sheet__" AS "sheet",
+    "ID" AS "id",
+    "Last Name" AS "last_name",
+    "First Name" AS "first_name",
+    "Occupation" AS "occupation",
     "code",
     "c5",
     "c6",

@@ -4,10 +4,10 @@
 -- durable edits belong in the model stage, not here.
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 SELECT
-    "__sheet__" AS sheet,
-    "Item" AS item,
-    "Hispanic family" AS hispanic_family,
-    "Mestizo family" AS mestizo_family,
+    "__sheet__" AS "sheet",
+    "Item" AS "item",
+    "Hispanic family" AS "hispanic_family",
+    "Mestizo family" AS "mestizo_family",
     "1680",
     "1720",
     "1740",

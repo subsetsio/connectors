@@ -5,8 +5,8 @@
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 -- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
 SELECT
-    "__sheet__" AS sheet,
-    "Series starts" AS series_starts,
+    "__sheet__" AS "sheet",
+    "Series starts" AS "series_starts",
     "1913",
     "1960",
     "1835",
@@ -15,7 +15,7 @@ SELECT
     "1818",
     "1818_2",
     "1960_3",
-    "starts 1270" AS starts_1270,
+    "starts 1270" AS "starts_1270",
     "1860",
     "1960_4",
     "1860_2",

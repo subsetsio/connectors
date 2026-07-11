@@ -5,13 +5,13 @@
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 -- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
 SELECT
-    "__sheet__" AS sheet,
+    "__sheet__" AS "sheet",
     "year",
     "month",
-    "$/cord" AS cord,
+    "$/cord" AS "cord",
     "cords",
-    "$/unit" AS unit,
-    "Location" AS location,
-    "Notes" AS notes,
-    "Source" AS source
+    "$/unit" AS "unit",
+    "Location" AS "location",
+    "Notes" AS "notes",
+    "Source" AS "source"
 FROM "gpih-firewood-prices-pennsylvania-1861-1870"

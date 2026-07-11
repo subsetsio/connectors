@@ -1,0 +1,15 @@
+spec_id: inter-parliamentary-union-elections
+status: active
+tests:
+  - row_count: {min: 2500}
+    reason: historical election corpus was about 2960 rows when cataloged.
+    certainty: 90
+  - not_null: election_code
+  - unique: election_code
+    reason: election_code is the source identifier for election events.
+    certainty: 95
+  - freshness: {col: election_date, reaches: today - 730d}
+    reason: the global election corpus should include recent parliamentary elections.
+    certainty: 80
+    points_outward: true
+

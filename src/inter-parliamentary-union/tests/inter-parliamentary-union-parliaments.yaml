@@ -1,0 +1,11 @@
+spec_id: inter-parliamentary-union-parliaments
+status: active
+tests:
+  - row_count: {min: 190}
+    reason: IPU has one parliament record for nearly every country.
+    certainty: 95
+  - not_null: parliament_code
+  - unique: parliament_code
+    reason: parliament_code is the source identifier for parliaments.
+    certainty: 95
+

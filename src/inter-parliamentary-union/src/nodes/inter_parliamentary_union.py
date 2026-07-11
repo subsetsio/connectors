@@ -21,6 +21,8 @@ Raw is saved as NDJSON (drift-safe given the heterogeneous source); the SQL
 transforms read it back through DuckDB and do a thin parse/cast pass.
 """
 
+import json
+
 import pyarrow  # noqa: F401  (kept available for parity with other connectors)
 
 from subsets_utils import (
@@ -92,6 +94,14 @@ def _scalar(v):
     if isinstance(v, (str, int, float, bool)) or v is None:
         return v
     return None                                  # lists / nested -> drop
+
+
+def _metadata_value(v):
+    """Keep metadata SQL-friendly while preserving nested lists as JSON text."""
+    scalar = _scalar(v)
+    if scalar is not None or v is None:
+        return scalar
+    return json.dumps(v, ensure_ascii=False, sort_keys=True)
 
 
 def _unwrap(attr):
@@ -171,6 +181,26 @@ REPORTS = {
     "report-elections": "elections",
 }
 
+METADATA = {
+    "fields": ("metadata/fields", [
+        "field_id", "entity_type", "data_type", "field_name", "description",
+        "short_description", "label", "timeseries_update_frequency",
+        "timeseries_type", "is_comparable", "is_explorable",
+        "is_parliament_page", "data_entry_format", "is_timeseries",
+        "is_searchable", "timeseries_from_date", "cardinality", "is_private",
+        "is_mandatory", "timeseries_validity", "is_bicameral_only",
+        "taxonomy_key", "is_multiple", "is_translated", "is_computed", "unit",
+        "max_length", "decimals_precision",
+    ]),
+    "groups": ("metadata/groups", [
+        "group_name", "group_label", "group_description", "group_parent",
+        "group_type", "group_sort_order", "group_fields",
+    ]),
+    "taxonomies": ("metadata/taxonomies", [
+        "key", "name", "description", "terms",
+    ]),
+}
+
 # Columns dropped from report rows (nested / internal, not SQL-friendly).
 _REPORT_DROP = {"_id", "chamber_contact"}
 
@@ -225,6 +255,21 @@ def fetch_one(node_id: str) -> None:
         save_raw_ndjson(out, asset)
         return
 
+    if suffix in METADATA:
+        api_path, keys = METADATA[suffix]
+        rows_raw = _fetch_all_list(api_path)
+        out = []
+        for r in rows_raw:
+            if not isinstance(r, dict):
+                continue
+            row = {k: _metadata_value(r.get(k)) for k in keys}
+            if suffix == "taxonomies":
+                terms = r.get("terms")
+                row["term_count"] = len(terms) if isinstance(terms, list) else 0
+            out.append(row)
+        save_raw_ndjson(out, asset)
+        return
+
     raise ValueError(f"unknown entity suffix: {suffix!r}")
 
 
@@ -232,10 +277,10 @@ def fetch_one(node_id: str) -> None:
 
 # Entity union (rank-active). node-suffix per entry; derives the spec id.
 ENTITY_SUFFIXES = [
-    "chambers", "countries", "elections", "parliaments", "people",
-    "political-parties", "report-age-brackets", "report-elections",
+    "chambers", "countries", "elections", "fields", "groups", "parliaments",
+    "people", "political-parties", "report-age-brackets", "report-elections",
     "report-secretaries-general", "report-speakers", "report-women-ranking",
-    "report-women-speakers", "specialized-bodies",
+    "report-women-speakers", "specialized-bodies", "taxonomies",
 ]
 
 DOWNLOAD_SPECS = [
@@ -252,6 +297,9 @@ _PK = {
     "people": "person_code",
     "political-parties": "political_party_code",
     "specialized-bodies": "specialized_body_code",
+    "fields": "field_id",
+    "groups": "group_name",
+    "taxonomies": "key",
     "report-women-ranking": "country_code",
     "report-age-brackets": "chamber_code",
     "report-elections": "chamber_code",

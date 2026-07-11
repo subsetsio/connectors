@@ -1,0 +1,11 @@
+spec_id: inter-parliamentary-union-people
+status: active
+tests:
+  - row_count: {min: 4000}
+    reason: people catalogue had about 4400 office-holder records when cataloged.
+    certainty: 90
+  - not_null: person_code
+  - unique: person_code
+    reason: person_code is the source identifier for people.
+    certainty: 90
+

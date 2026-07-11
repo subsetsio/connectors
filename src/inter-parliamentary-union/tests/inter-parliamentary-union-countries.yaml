@@ -1,0 +1,12 @@
+spec_id: inter-parliamentary-union-countries
+status: active
+tests:
+  - row_count: {min: 190}
+    reason: IPU covers the global country/parliament universe.
+    certainty: 95
+  - not_null: country_code
+  - unique: country_code
+    reason: one row per country code.
+    certainty: 95
+  - distinct_count: {col: country_code, min: 190}
+

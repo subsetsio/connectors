@@ -12,16 +12,34 @@ from __future__ import annotations
 import csv
 import io
 
-from subsets_utils import NodeSpec, configure_http, get, save_raw_ndjson
+import httpx
+from subsets_utils import NodeSpec, save_raw_ndjson
 
 from constants import ENTITY_IDS, SPEC_TO_PACKAGE
 
 CKAN_ACTION = "https://catalogodatos.gub.uy/api/3/action"
 PREFIX = "instituto-nacional-de-estad-stica-"
+HEADERS = {"User-Agent": "subsets.io instituto-nacional-de-estad-stica connector"}
+
+
+def _get(url: str, **kwargs) -> httpx.Response:
+    """Fetch through a no-verify client; Uruguay CKAN serves a broken TLS chain."""
+    timeout = kwargs.pop("timeout", httpx.Timeout(connect=10.0, read=180.0, write=30.0, pool=10.0))
+    with httpx.Client(
+        headers=HEADERS,
+        timeout=timeout,
+        follow_redirects=True,
+        verify=False,
+    ) as client:
+        return client.get(url, **kwargs)
 
 
 def _api(action: str, **params) -> dict:
-    resp = get(f"{CKAN_ACTION}/{action}", params=params, timeout=(10.0, 120.0))
+    resp = _get(
+        f"{CKAN_ACTION}/{action}",
+        params=params,
+        timeout=httpx.Timeout(connect=10.0, read=120.0, write=30.0, pool=10.0),
+    )
     resp.raise_for_status()
     payload = resp.json()
     if not payload.get("success"):
@@ -39,7 +57,7 @@ def _decode_csv(content: bytes) -> str:
 
 
 def _fetch_csv(url: str) -> str:
-    resp = get(url, timeout=(10.0, 180.0))
+    resp = _get(url, timeout=httpx.Timeout(connect=10.0, read=180.0, write=30.0, pool=10.0))
     resp.raise_for_status()
     return _decode_csv(resp.content)
 
@@ -74,7 +92,6 @@ def _rows_from_resource(package_id: str, resource: dict) -> list[dict]:
 
 
 def fetch_one(node_id: str) -> None:
-    configure_http(verify=False)
     package_id = SPEC_TO_PACKAGE.get(node_id)
     if package_id is None:
         raise RuntimeError(f"unknown node id: {node_id}")

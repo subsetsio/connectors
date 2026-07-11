@@ -1,0 +1,11 @@
+spec_id: inter-parliamentary-union-report-women-ranking
+status: active
+tests:
+  - row_count: {min: 190}
+    reason: women-ranking report covers the country universe.
+    certainty: 95
+  - not_null: country_code
+  - unique: country_code
+    reason: one ranking row per country.
+    certainty: 90
+

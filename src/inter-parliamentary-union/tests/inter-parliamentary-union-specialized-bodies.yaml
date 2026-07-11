@@ -1,0 +1,11 @@
+spec_id: inter-parliamentary-union-specialized-bodies
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: specialized-body catalogue had about 1350 rows when cataloged.
+    certainty: 90
+  - not_null: specialized_body_code
+  - unique: specialized_body_code
+    reason: specialized_body_code is the source identifier for specialized bodies.
+    certainty: 90
+

@@ -4,10 +4,10 @@
 -- durable edits belong in the model stage, not here.
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 SELECT
-    "__sheet__" AS sheet,
-    "Year" AS year,
+    "__sheet__" AS "sheet",
+    "Year" AS "year",
     "education",
-    "tive expend." AS tive_expend,
+    "tive expend." AS "tive_expend",
     "schools",
     "schools_2",
     "schools_3",

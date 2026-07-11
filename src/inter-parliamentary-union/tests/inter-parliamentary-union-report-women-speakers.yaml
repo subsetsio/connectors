@@ -1,0 +1,9 @@
+spec_id: inter-parliamentary-union-report-women-speakers
+status: active
+tests:
+  - row_count: {min: 40}
+    reason: report lists chambers currently headed by a woman speaker.
+    certainty: 80
+  - not_null: chamber_code
+  - distinct_count: {col: chamber_code, min: 40}
+

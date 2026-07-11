@@ -4,8 +4,8 @@
 -- durable edits belong in the model stage, not here.
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 SELECT
-    "__sheet__" AS sheet,
+    "__sheet__" AS "sheet",
     "year",
-    "unskilled average wage rate (w)" AS unskilled_average_wage_rate_w,
-    "unskilled wage rate - 25th percentile (w_25)" AS unskilled_wage_rate_25th_percentile_w_25
+    "unskilled average wage rate (w)" AS "unskilled_average_wage_rate_w",
+    "unskilled wage rate - 25th percentile (w_25)" AS "unskilled_wage_rate_25th_percentile_w_25"
 FROM "gpih-wages-haute-volta-1919-1932-marlous-van-waijenburg"

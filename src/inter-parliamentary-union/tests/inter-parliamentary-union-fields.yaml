@@ -1,0 +1,11 @@
+spec_id: inter-parliamentary-union-fields
+status: active
+tests:
+  - row_count: {min: 450}
+    reason: IPU field metadata catalogue had about 505 fields when cataloged.
+    certainty: 90
+  - not_null: field_id
+  - unique: field_id
+    reason: field_id is the source identifier for field metadata.
+    certainty: 95
+

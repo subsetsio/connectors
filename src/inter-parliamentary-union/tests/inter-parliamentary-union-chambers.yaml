@@ -1,0 +1,13 @@
+spec_id: inter-parliamentary-union-chambers
+status: active
+tests:
+  - row_count: {min: 250}
+    reason: IPU has one row per parliamentary chamber, about 280 chambers.
+    certainty: 95
+  - not_null: chamber_code
+  - unique: chamber_code
+    reason: chamber_code is the source identifier for chambers.
+    certainty: 95
+  - not_null: country_code
+    severity: warn
+

@@ -1,0 +1,11 @@
+spec_id: inter-parliamentary-union-groups
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: IPU field-group catalogue had about 126 groups when cataloged.
+    certainty: 90
+  - not_null: group_name
+  - unique: group_name
+    reason: group_name is the source identifier for field groups.
+    certainty: 90
+

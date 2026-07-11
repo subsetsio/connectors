@@ -5,16 +5,16 @@
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 -- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
 SELECT
-    "__sheet__" AS sheet,
+    "__sheet__" AS "sheet",
     "1",
-    "Barley s/bu" AS barley_s_bu,
+    "Barley s/bu" AS "barley_s_bu",
     "12",
     "bushel",
     "liter",
-    "35.239" AS 35_239,
-    "1 bushel =" AS 1_bushel,
+    "35.239" AS "35_239",
+    "1 bushel =" AS "1_bushel",
     "c7",
-    "35.239 liters" AS 35_239_liters,
+    "35.239 liters" AS "35_239_liters",
     "c9",
     "c10",
     "pence",

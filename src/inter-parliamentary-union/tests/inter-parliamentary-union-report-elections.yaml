@@ -1,0 +1,9 @@
+spec_id: inter-parliamentary-union-report-elections
+status: active
+tests:
+  - row_count: {min: 250}
+    reason: latest-election report has one row per parliamentary chamber.
+    certainty: 90
+  - not_null: chamber_code
+  - distinct_count: {col: chamber_code, min: 250}
+

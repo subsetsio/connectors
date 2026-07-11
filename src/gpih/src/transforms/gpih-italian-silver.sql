@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
 SELECT
-    "__sheet__" AS sheet,
+    "__sheet__" AS "sheet",
     "1252",
     "35",
     "70",

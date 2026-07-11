@@ -1,0 +1,9 @@
+spec_id: inter-parliamentary-union-report-speakers
+status: active
+tests:
+  - row_count: {min: 250}
+    reason: speakers report has roughly one row per chamber, including vacancies.
+    certainty: 90
+  - not_null: chamber_code
+  - distinct_count: {col: chamber_code, min: 250}
+

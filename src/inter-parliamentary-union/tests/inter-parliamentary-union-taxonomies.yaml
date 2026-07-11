@@ -1,0 +1,10 @@
+spec_id: inter-parliamentary-union-taxonomies
+status: active
+tests:
+  - row_count: {min: 60}
+    reason: controlled-vocabulary catalogue had about 74 taxonomies when cataloged.
+    certainty: 90
+  - not_null: key
+  - unique: key
+    reason: key is the source identifier for taxonomies.
+    certainty: 95
