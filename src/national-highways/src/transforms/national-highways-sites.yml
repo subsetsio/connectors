@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-highways-sites`. Regenerate after model-verify.
+# caution: The register includes both active and inactive monitoring sites; filter status when current live coverage is required.
+key: [site_id]
+sort: [site_id]
+columns:
+  - name: site_id
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: status
+    type: VARCHAR

@@ -18,7 +18,7 @@ tests:
     certainty: 85
     points_outward: true
     severity: warn
-  - freshness: {col: year, reaches: current_year() - 2}
+  - freshness: {col: year, reaches: today - 2y}
     reason: data lands ~1 month in arrears, so the latest full annual year should be within 2 years
     points_outward: true
   - distinct_count: {col: site_id, min: 3000}

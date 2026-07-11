@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-highways-annual-reports`. Regenerate after model-verify.
+# caution: Each row is a monthly summary for one monitoring site; ADT and AWT columns are separate measures over different daily windows and should not be summed together.
+key: [site_id, year, month_num]
+temporal: year
+sort: [year, site_id, month_num]
+columns:
+  - name: site_id
+    type: BIGINT
+  - name: year
+    type: INTEGER
+  - name: month_num
+    type: INTEGER
+  - name: month_name
+    type: VARCHAR
+  - name: adt_24hour
+    type: DOUBLE
+  - name: adt_24hour_large_vehicle_pct
+    type: DOUBLE
+  - name: awt_24hour
+    type: DOUBLE
+  - name: awt_24hour_large_vehicle_pct
+    type: DOUBLE
+  - name: adt_18hour
+    type: DOUBLE
+  - name: adt_18hour_large_vehicle_pct
+    type: DOUBLE
+  - name: awt_18hour
+    type: DOUBLE
+  - name: awt_18hour_large_vehicle_pct
+    type: DOUBLE
+  - name: adt_16hour
+    type: DOUBLE
+  - name: adt_16hour_large_vehicle_pct
+    type: DOUBLE
+  - name: awt_16hour
+    type: DOUBLE
+  - name: awt_16hour_large_vehicle_pct
+    type: DOUBLE
+  - name: adt_12hour
+    type: DOUBLE
+  - name: adt_12hour_large_vehicle_pct
+    type: DOUBLE
+  - name: awt_12hour
+    type: DOUBLE
+  - name: awt_12hour_large_vehicle_pct
+    type: DOUBLE
