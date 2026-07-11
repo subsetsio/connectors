@@ -50,7 +50,6 @@ from curl_cffi import requests as cffi_requests
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -522,27 +521,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"rbnz-{eid.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="date",
-        sql=f'''
-            SELECT DISTINCT
-                CAST(date AS DATE)     AS date,
-                series_code,
-                option,
-                indicator_label,
-                series_id,
-                series_name,
-                unit,
-                CAST(value AS DOUBLE)  AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND date IS NOT NULL
-            ORDER BY date, indicator_label
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
