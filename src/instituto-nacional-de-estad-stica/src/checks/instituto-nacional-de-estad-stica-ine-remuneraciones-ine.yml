@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-nacional-de-estad-stica-ine-remuneraciones-ine`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [remuneracion_mensual_nominal, source_row_number, denominacion_del_cargo, tipo_de_cargo, source_resource_id]
+checks:
+  - kind: unique
+    columns: [remuneracion_mensual_nominal, source_row_number, denominacion_del_cargo, tipo_de_cargo, source_resource_id]
+  - kind: not_null
+    col: remuneracion_mensual_nominal
+  - kind: not_null
+    col: source_row_number
+  - kind: not_null
+    col: denominacion_del_cargo
+  - kind: not_null
+    col: tipo_de_cargo
+  - kind: not_null
+    col: source_resource_id
+  - kind: row_floor
+    min: 53
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

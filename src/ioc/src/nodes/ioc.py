@@ -1,4 +1,4 @@
-"""IOC (olympics.com) connector — Olympic medal table by NOC.
+"""IOC (olympics.com) connector.
 
 Source & mechanism (see research `odf_json`): the IOC publishes its results as
 static JSON files (the web materialisation of the Olympic Data Feed) on the
@@ -32,8 +32,8 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
+    save_raw_ndjson,
     save_raw_parquet,
     transient_retry,
 )
@@ -86,29 +86,44 @@ def _live_url(comp: str) -> str:
     return f"https://olympics.com/{comp}/data/CIS_MedalNOCs~lang=ENG~comp={comp}.json"
 
 
-def _wayback_latest(comp: str) -> dict:
-    """Newest archived CIS_MedalNOCs (ENG) snapshot for `comp`, via CDX + id_."""
+def _cdx_latest(prefix: str, comp: str, languages: tuple[str, ...] = ("ENG",)) -> list[tuple[str, str]]:
+    """Return latest Wayback timestamp per archived ODF URL under `prefix`."""
     resp = get(
         "https://web.archive.org/cdx/search/cdx",
         params={
-            "url": f"olympics.com/{comp}/data/CIS_MedalNOCs",
+            "url": f"olympics.com/{comp}/data/{prefix}",
             "matchType": "prefix",
             "output": "json",
             "fl": "timestamp,original",
             "filter": "statuscode:200",
         },
-        timeout=(10.0, 60.0),
+        timeout=(10.0, 120.0),
     )
     resp.raise_for_status()
-    rows = resp.json()[1:]  # drop header row
-    cands = [
-        (ts, orig)
-        for ts, orig in rows
-        if "lang=ENG" in orig and f"comp={comp}" in orig
-    ]
+    data = resp.json()
+    if len(data) <= 1:
+        return []
+    latest: dict[str, str] = {}
+    for ts, orig in data[1:]:
+        if f"comp={comp}" not in orig:
+            continue
+        if languages and not any(f"lang={lang}" in orig for lang in languages):
+            continue
+        if ts > latest.get(orig, ""):
+            latest[orig] = ts
+    return [(ts, orig) for orig, ts in sorted(latest.items())]
+
+
+def _wayback_latest(comp: str) -> dict:
+    """Newest archived CIS_MedalNOCs (ENG) snapshot for `comp`, via CDX + id_."""
+    cands = _cdx_latest("CIS_MedalNOCs", comp)
     if not cands:
         raise RuntimeError(f"no archived CIS_MedalNOCs ENG snapshot for {comp}")
     ts, orig = max(cands, key=lambda x: x[0])  # latest = final frozen table
+    return _get_json(f"https://web.archive.org/web/{ts}id_/{orig}")
+
+
+def _wayback_json(ts: str, orig: str) -> dict:
     return _get_json(f"https://web.archive.org/web/{ts}id_/{orig}")
 
 
@@ -174,33 +189,101 @@ def fetch_medal_table(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="ioc-medal-table", fn=fetch_medal_table, kind="download"),
-]
+def fetch_disciplines(node_id: str) -> None:
+    rows = []
+    for comp, games in EDITIONS:
+        cands = _cdx_latest("GLO_Disciplines", comp, languages=("ENG", "EN"))
+        if not cands:
+            print(f"[ioc] no archived GLO_Disciplines payloads for {comp}; skipping")
+            continue
+        ts, orig = max(cands, key=lambda x: x[0])
+        payload = _wayback_json(ts, orig)
+        rows.append({
+            "edition": comp,
+            "games": games,
+            "source_url": orig,
+            "archive_timestamp": ts,
+            "payload": payload,
+        })
+    if not rows:
+        raise RuntimeError("ioc-disciplines: no archived discipline payloads fetched")
+    save_raw_ndjson(rows, node_id)
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ioc-medal-table-transform",
-        deps=["ioc-medal-table"],
-        sql='''
-            SELECT
-                edition,
-                games,
-                noc_code,
-                noc_name,
-                sport,
-                gender,
-                CAST(gold   AS BIGINT) AS gold,
-                CAST(silver AS BIGINT) AS silver,
-                CAST(bronze AS BIGINT) AS bronze,
-                CAST(total  AS BIGINT) AS total,
-                CAST(rank   AS BIGINT) AS rank,
-                CAST(rank_total AS BIGINT) AS rank_total
-            FROM "ioc-medal-table"
-            WHERE noc_code IS NOT NULL
-              AND sport IS NOT NULL
-              AND gender IS NOT NULL
-        ''',
-        key=("edition", "noc_code", "sport", "gender"),
-    ),
+
+def fetch_nocs(node_id: str) -> None:
+    rows = []
+    for comp, games in EDITIONS:
+        for ts, orig in _cdx_latest("GLO_NocBio", comp):
+            payload = _wayback_json(ts, orig)
+            noc = payload.get("nocBio") or {}
+            rows.append({
+                "edition": comp,
+                "games": games,
+                "noc_code": noc.get("organisationId"),
+                "source_url": orig,
+                "archive_timestamp": ts,
+                "payload": payload,
+            })
+    if not rows:
+        raise RuntimeError("ioc-nocs: no archived NOC biography payloads fetched")
+    save_raw_ndjson(rows, node_id)
+
+
+def _extract_event_code(orig: str) -> str | None:
+    marker = "~event="
+    if marker not in orig:
+        return None
+    return orig.split(marker, 1)[1].split("~", 1)[0]
+
+
+def fetch_event_results(node_id: str) -> None:
+    rows = []
+    for comp, games in EDITIONS:
+        for ts, orig in _cdx_latest("GLO_EventRanking", comp):
+            payload = _wayback_json(ts, orig)
+            rows.append({
+                "edition": comp,
+                "games": games,
+                "event_code": _extract_event_code(orig),
+                "source_url": orig,
+                "archive_timestamp": ts,
+                "payload": payload,
+            })
+    if not rows:
+        raise RuntimeError("ioc-event-results: no archived event ranking payloads fetched")
+    save_raw_ndjson(rows, node_id)
+
+
+def _extract_athlete_code(orig: str) -> str | None:
+    marker = "~code="
+    if marker not in orig:
+        return None
+    return orig.split(marker, 1)[1].split("~", 1)[0]
+
+
+def fetch_athletes(node_id: str) -> None:
+    rows = []
+    for comp, games in EDITIONS:
+        for ts, orig in _cdx_latest("CIS_Bio_Athlete", comp):
+            payload = _wayback_json(ts, orig)
+            person = payload.get("person") or {}
+            rows.append({
+                "edition": comp,
+                "games": games,
+                "athlete_code": person.get("code") or _extract_athlete_code(orig),
+                "source_url": orig,
+                "archive_timestamp": ts,
+                "payload": payload,
+            })
+    if not rows:
+        raise RuntimeError("ioc-athletes: no archived athlete biography payloads fetched")
+    save_raw_ndjson(rows, node_id)
+
+
+DOWNLOAD_SPECS = [
+    NodeSpec(id="ioc-athletes", fn=fetch_athletes, kind="download"),
+    NodeSpec(id="ioc-disciplines", fn=fetch_disciplines, kind="download"),
+    NodeSpec(id="ioc-event-results", fn=fetch_event_results, kind="download"),
+    NodeSpec(id="ioc-medal-table", fn=fetch_medal_table, kind="download"),
+    NodeSpec(id="ioc-nocs", fn=fetch_nocs, kind="download"),
 ]

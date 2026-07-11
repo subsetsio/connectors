@@ -1,0 +1,14 @@
+spec_id: ioc-nocs
+status: active
+coverage:
+  frozen: true
+  reason: Paris 2024 NOC biography/reference files are closed archive snapshots.
+tests:
+  - row_count: {min: 100}
+    reason: the Olympic edition alone has more than 100 NOC biography files.
+    certainty: 90
+  - not_null: noc_code
+  - not_null: edition
+  - unique: [edition, noc_code]
+    reason: one NOC biography row per Games edition and NOC code.
+    certainty: 90

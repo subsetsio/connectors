@@ -1,0 +1,15 @@
+spec_id: ioc-event-results
+status: active
+coverage:
+  frozen: true
+  reason: Paris 2024 event-ranking files are closed archive snapshots.
+tests:
+  - row_count: {min: 100}
+    reason: Paris 2024 has hundreds of event ranking files in the archived feed.
+    certainty: 85
+  - not_null: event_code
+  - not_null: edition
+  - unique: [edition, event_code, source_url]
+    reason: each archived event-ranking URL is fetched once per edition.
+    certainty: 90
+

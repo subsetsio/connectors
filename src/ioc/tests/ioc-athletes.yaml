@@ -1,0 +1,15 @@
+spec_id: ioc-athletes
+status: active
+coverage:
+  frozen: true
+  reason: Paris 2024 Olympic/Paralympic ODF archive is closed; athlete biographies are fetched from final Wayback snapshots.
+tests:
+  - row_count: {min: 1000}
+    reason: Paris 2024 athlete biography corpus should contain thousands of competitors.
+    certainty: 80
+  - not_null: athlete_code
+  - not_null: edition
+  - unique: [edition, athlete_code]
+    reason: one biography row per Games edition and athlete code.
+    certainty: 85
+

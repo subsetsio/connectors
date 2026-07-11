@@ -1,0 +1,20 @@
+spec_id: ioc-medal-table
+status: active
+coverage:
+  frozen: true
+  reason: Paris 2024 Olympic and Paralympic medal tables are final closed Games results.
+tests:
+  - row_count: {min: 100}
+    reason: combined Olympic and Paralympic medal tables should include NOC by sport/gender rows.
+    certainty: 90
+  - not_null: edition
+  - not_null: noc_code
+  - not_null: sport
+  - not_null: gender
+  - unique: [edition, noc_code, sport, gender]
+    reason: medal table grain is one row per edition, NOC, sport and gender.
+    certainty: 90
+  - between: {col: total, lo: 0, hi: 1000}
+    reason: medal counts are non-negative and bounded at this grain.
+    certainty: 90
+

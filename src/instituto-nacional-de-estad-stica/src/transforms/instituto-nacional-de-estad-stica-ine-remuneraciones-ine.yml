@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-nacional-de-estad-stica-ine-remuneraciones-ine`. Regenerate after model-verify.
+# caution: This table combines remuneration rows from more than one source CSV resource; preserve source resource context when comparing salary categories.
+key: [remuneracion_mensual_nominal, source_row_number, denominacion_del_cargo, tipo_de_cargo, source_resource_id]
+sort: [remuneracion_mensual_nominal, source_row_number, denominacion_del_cargo, tipo_de_cargo, source_resource_id]
+columns:
+  - name: oid
+    type: VARCHAR
+  - name: tipo_organismo
+    type: VARCHAR
+  - name: inciso
+    type: VARCHAR
+  - name: ue
+    type: VARCHAR
+  - name: nombre_inciso
+    type: VARCHAR
+  - name: nombre_ue
+    type: VARCHAR
+  - name: nombre_organismo
+    type: JSON
+  - name: tipo_de_cargo
+    type: VARCHAR
+  - name: denominacion_del_cargo
+    type: VARCHAR
+  - name: escalafon
+    type: VARCHAR
+  - name: grado
+    type: BIGINT
+  - name: remuneracion_mensual_nominal
+    type: BIGINT
+  - name: partida_alimentacion
+    type: BIGINT
+  - name: total_mensual
+    type: BIGINT
+  - name: observaciones
+    type: VARCHAR
+  - name: source_package_id
+    type: VARCHAR
+  - name: source_resource_id
+    type: UUID
+  - name: source_resource_name
+    type: VARCHAR
+  - name: source_resource_url
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT

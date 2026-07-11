@@ -1,0 +1,14 @@
+spec_id: ioc-disciplines
+status: active
+coverage:
+  frozen: true
+  reason: Paris 2024 ODF discipline reference files are closed archive snapshots.
+tests:
+  - row_count: {min: 1}
+    reason: at least the Olympic Games edition publishes a discipline reference payload.
+    certainty: 90
+  - not_null: edition
+  - unique: edition
+    reason: the raw asset stores one discipline reference envelope per fetched edition.
+    certainty: 80
+

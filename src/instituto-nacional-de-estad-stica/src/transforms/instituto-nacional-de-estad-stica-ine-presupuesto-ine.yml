@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-nacional-de-estad-stica-ine-presupuesto-ine`. Regenerate after model-verify.
+# caution: Rows are budget-execution line items; avoid summing across execution, project, auxiliary, and assignment dimensions unless that aggregation is intended.
+key: [ejecucion, source_row_number, proyecto, auxiliar, asignacion]
+sort: [ejecucion, source_row_number, proyecto, auxiliar, asignacion]
+columns:
+  - name: oid
+    type: VARCHAR
+  - name: tipo_organismo
+    type: VARCHAR
+  - name: inciso
+    type: VARCHAR
+  - name: ue
+    type: VARCHAR
+  - name: nombre_inciso
+    type: VARCHAR
+  - name: nombre_ue
+    type: VARCHAR
+  - name: nombre_organismo
+    type: JSON
+  - name: division
+    type: JSON
+  - name: departamento
+    type: JSON
+  - name: programa
+    type: BIGINT
+  - name: proyecto
+    type: BIGINT
+  - name: ano
+    type: BIGINT
+  - name: mes
+    type: JSON
+  - name: tipo_de_gasto
+    type: BIGINT
+  - name: auxiliar
+    type: BIGINT
+  - name: fuente_de_financiamiento
+    type: JSON
+  - name: asignacion
+    type: VARCHAR
+  - name: ejecucion
+    type: BIGINT
+  - name: source_package_id
+    type: VARCHAR
+  - name: source_resource_id
+    type: UUID
+  - name: source_resource_name
+    type: VARCHAR
+  - name: source_resource_url
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
