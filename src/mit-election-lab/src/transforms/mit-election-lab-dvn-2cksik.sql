@@ -6,8 +6,8 @@
 SELECT
     CAST("cnn_code" AS BIGINT) AS cnn_code,
     "state",
-    "day",
-    "time",
+    CAST("day" AS DATE) AS day,
+    CAST("time" AS TIME) AS time,
     "office",
     "candidate",
     "party",

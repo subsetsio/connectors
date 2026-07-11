@@ -26,7 +26,7 @@ SELECT
     CAST("state_fips" AS BIGINT) AS state_fips,
     CAST("state_cen" AS BIGINT) AS state_cen,
     CAST("state_ic" AS BIGINT) AS state_ic,
-    "date",
+    CAST("date" AS DATE) AS date,
     CAST("readme_check" AS BOOLEAN) AS readme_check,
     CAST("magnitude" AS BIGINT) AS magnitude
 FROM "mit-election-lab-dvn-eokngw"

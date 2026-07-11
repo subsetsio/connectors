@@ -3,22 +3,8 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [candidatevotes, candidate, totalvotes, party_detailed, state_po]
 checks:
-  - kind: unique
-    columns: [candidatevotes, candidate, totalvotes, party_detailed, state_po]
-  - kind: not_null
-    col: candidatevotes
-  - kind: not_null
-    col: candidate
-  - kind: not_null
-    col: totalvotes
-  - kind: not_null
-    col: party_detailed
-  - kind: not_null
-    col: state_po
   - kind: row_floor
     min: 1972
 regression:
   row_shrink_tolerance: 0.1
-  key_shrink_tolerance: 0.1

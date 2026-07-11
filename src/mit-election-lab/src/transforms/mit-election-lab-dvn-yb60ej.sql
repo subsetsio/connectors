@@ -5,7 +5,7 @@
 -- caution: Senate county-level results are county observations; filter by election context before summing or comparing vote totals.
 SELECT
     CAST("year" AS BIGINT) AS year,
-    "date",
+    CAST("date" AS DATE) AS date,
     "state",
     "state_po",
     CAST("state_fips" AS BIGINT) AS state_fips,
