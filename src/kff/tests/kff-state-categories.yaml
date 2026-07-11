@@ -1,0 +1,15 @@
+spec_id: kff-state-categories
+status: active
+tests:
+  - row_count: {min: 200}
+    reason: KFF State Health Facts has a sizeable topic taxonomy; a small count means pagination or endpoint shape broke.
+    certainty: 90
+  - not_null: id
+  - not_null: name
+  - not_null: slug
+  - column_type: {col: id, type: integer}
+  - column_type: {col: parent, type: integer}
+  - column_type: {col: count, type: integer}
+  - unique: id
+    reason: WordPress taxonomy term ids are unique.
+    certainty: 95

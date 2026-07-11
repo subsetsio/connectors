@@ -35,13 +35,11 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
-# --- entity union (836 indicator slugs) ----------------------------------
+# --- entity union (indicator slugs + reference taxonomy) -----------------
 from constants import ENTITY_IDS
 
 _URL = "https://www.kff.org/state-health-policy-data/state-indicator/{slug}/"
@@ -55,6 +53,14 @@ SCHEMA = pa.schema([
     ("value", pa.float64()),
 ])
 
+CATEGORY_SCHEMA = pa.schema([
+    ("id", pa.int64()),
+    ("name", pa.string()),
+    ("slug", pa.string()),
+    ("parent", pa.int64()),
+    ("count", pa.int64()),
+])
+
 # figure h3 labels that are documentation, not data tables
 _META_FIGURES = {"notes", "sources", "definitions", "methodology"}
 # cell tokens that mean "no value"
@@ -64,11 +70,16 @@ _NULL_TOKENS = {
 }
 
 
-@transient_retry()
 def _fetch_html(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.text
+
+
+def _fetch_json(url: str):
+    resp = get(url, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.json()
 
 
 def _clean_value(raw: str):
@@ -143,6 +154,33 @@ def _parse_rows(html_text: str):
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     slug = node_id[len("kff-"):]
+    if slug == "state-categories":
+        rows = []
+        page = 1
+        while True:
+            url = (
+                "https://www.kff.org/wp-json/wp/v2/state-category"
+                f"?per_page=100&page={page}&_fields=id,name,slug,parent,count"
+            )
+            batch = _fetch_json(url)
+            if not batch:
+                break
+            for item in batch:
+                rows.append({
+                    "id": item["id"],
+                    "name": _html.unescape(item.get("name") or "").strip(),
+                    "slug": item.get("slug"),
+                    "parent": item.get("parent"),
+                    "count": item.get("count"),
+                })
+            if len(batch) < 100:
+                break
+            page += 1
+        if not rows:
+            raise ValueError(f"{asset}: no category terms fetched")
+        save_raw_parquet(pa.Table.from_pylist(rows, schema=CATEGORY_SCHEMA), asset)
+        return
+
     url = _URL.format(slug=slug)
     html_text = _fetch_html(url)
     rows = _parse_rows(html_text)
@@ -162,23 +200,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="timeframe",
-        sql=f'''
-            SELECT
-                location,
-                timeframe,
-                col_index,
-                metric,
-                value_raw,
-                value
-            FROM "{s.id}"
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
