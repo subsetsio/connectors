@@ -6,19 +6,61 @@ module is the single owner of DOWNLOAD_SPECS for the factory harness.
 
 from subsets_utils import NodeSpec
 
-from nodes.concepts import fetch as fetch_concepts
-from nodes.domains import fetch as fetch_domains
-from nodes.fields import fetch as fetch_fields
-from nodes.funders import fetch as fetch_funders
-from nodes.institutions import fetch as fetch_institutions
-from nodes.keywords import fetch as fetch_keywords
-from nodes.publishers import fetch as fetch_publishers
-from nodes.sdgs import fetch as fetch_sdgs
-from nodes.sources import fetch as fetch_sources
-from nodes.subfields import fetch as fetch_subfields
-from nodes.topics import fetch as fetch_topics
-from nodes.works_by_dimension_year import fetch as fetch_works_by_dimension_year
-from nodes.works_by_year import fetch as fetch_works_by_year
+from nodes import concepts, domains, fields, funders, institutions, keywords
+from nodes import publishers, sdgs, sources, subfields, topics
+from nodes import works_by_dimension_year, works_by_year
+
+
+def fetch_concepts(node_id: str) -> None:
+    concepts.fetch(node_id)
+
+
+def fetch_domains(node_id: str) -> None:
+    domains.fetch(node_id)
+
+
+def fetch_fields(node_id: str) -> None:
+    fields.fetch(node_id)
+
+
+def fetch_funders(node_id: str) -> None:
+    funders.fetch(node_id)
+
+
+def fetch_institutions(node_id: str) -> None:
+    institutions.fetch(node_id)
+
+
+def fetch_keywords(node_id: str) -> None:
+    keywords.fetch(node_id)
+
+
+def fetch_publishers(node_id: str) -> None:
+    publishers.fetch(node_id)
+
+
+def fetch_sdgs(node_id: str) -> None:
+    sdgs.fetch(node_id)
+
+
+def fetch_sources(node_id: str) -> None:
+    sources.fetch(node_id)
+
+
+def fetch_subfields(node_id: str) -> None:
+    subfields.fetch(node_id)
+
+
+def fetch_topics(node_id: str) -> None:
+    topics.fetch(node_id)
+
+
+def fetch_works_by_dimension_year(node_id: str) -> None:
+    works_by_dimension_year.fetch(node_id)
+
+
+def fetch_works_by_year(node_id: str) -> None:
+    works_by_year.fetch(node_id)
 
 
 DOWNLOAD_SPECS = [
