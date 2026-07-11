@@ -300,62 +300,9 @@ def fetch_performance(node_id: str) -> None:
 # Specs
 # ---------------------------------------------------------------------------
 
-from subsets_utils import NodeSpec, SqlNodeSpec  # noqa: E402
+from subsets_utils import NodeSpec  # noqa: E402
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="iaea-pris-reactors", fn=fetch_reactors, kind="download"),
     NodeSpec(id="iaea-pris-performance", fn=fetch_performance, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="iaea-pris-reactors-transform",
-        deps=["iaea-pris-reactors"],
-        sql='''
-            SELECT
-                reactor_id,
-                name,
-                alternate_name,
-                country,
-                country_code,
-                status,
-                reactor_type,
-                model,
-                reference_unit_power_mwe,
-                design_net_capacity_mwe,
-                gross_capacity_mwe,
-                thermal_capacity_mwt,
-                CAST(construction_start_date    AS DATE) AS construction_start_date,
-                CAST(first_criticality_date     AS DATE) AS first_criticality_date,
-                CAST(first_grid_connection_date AS DATE) AS first_grid_connection_date,
-                CAST(commercial_operation_date  AS DATE) AS commercial_operation_date,
-                CAST(long_term_shutdown_date    AS DATE) AS long_term_shutdown_date,
-                CAST(permanent_shutdown_date    AS DATE) AS permanent_shutdown_date,
-                lifetime_electricity_supplied_twh,
-                lifetime_operation_factor_pct,
-                lifetime_energy_availability_factor_pct,
-                lifetime_load_factor_pct
-            FROM "iaea-pris-reactors"
-            WHERE name IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="iaea-pris-performance-transform",
-        deps=["iaea-pris-performance"],
-        sql='''
-            SELECT
-                reactor_id,
-                year,
-                electricity_supplied_gwh,
-                reference_unit_power_mw,
-                annual_time_on_line_h,
-                operation_factor_pct,
-                energy_availability_factor_pct,
-                load_factor_pct
-            FROM "iaea-pris-performance"
-            WHERE electricity_supplied_gwh IS NOT NULL
-               OR annual_time_on_line_h IS NOT NULL
-               OR load_factor_pct IS NOT NULL
-        ''',
-    ),
 ]

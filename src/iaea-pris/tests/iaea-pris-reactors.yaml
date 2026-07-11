@@ -30,3 +30,7 @@ tests:
     certainty: 70
     points_outward: true
     severity: warn
+  - freshness: {col: construction_start_date, reaches: today - 4000d}
+    reason: The reactor registry should include recently started construction projects; this is a conservative freshness proxy for the PRIS reactor-level corpus because construction_start_date is the detected temporal axis.
+    certainty: 70
+    points_outward: true

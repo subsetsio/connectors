@@ -26,6 +26,10 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: 2024}
+    reason: PRIS publishes annual reactor performance; by mid-2026 the public corpus should include at least the 2024 reporting year.
+    certainty: 85
+    points_outward: true
   - between: {col: load_factor_pct, lo: 0, hi: 120}
     reason: annual load factor is a percentage; uprated units can slightly exceed 100, but values far outside 0-120 signal a column mis-map.
     certainty: 75
