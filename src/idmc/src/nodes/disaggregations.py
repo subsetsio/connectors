@@ -5,7 +5,7 @@ GeoJSON FeatureCollection (httpx follows the redirect and decompresses
 transparently).
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import BASE, CLIENT_ID, get_json, join_field
 
 _DISAGG_RENAME = {
@@ -64,10 +64,6 @@ def fetch_disaggregations(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="idmc-disaggregations", fn=fetch_disaggregations, kind="download"),
-]
-
 _SQL_DISAGG = """
 SELECT
     CAST(id AS BIGINT) AS id,
@@ -106,7 +102,3 @@ SELECT
 FROM "idmc-disaggregations"
 WHERE id IS NOT NULL
 """
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="idmc-disaggregations-transform", deps=["idmc-disaggregations"], sql=_SQL_DISAGG),
-]

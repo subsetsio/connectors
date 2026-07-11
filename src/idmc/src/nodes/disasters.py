@@ -1,6 +1,6 @@
 """IDMC disasters — GIDD disaster figures, per event = country-year-hazard (~29.7k)."""
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import fetch_gidd, join_field
 
 
@@ -12,10 +12,6 @@ def fetch_disasters(node_id: str) -> None:
         r["event_codes_type"] = join_field(r.get("event_codes_type"))
     save_raw_ndjson(rows, node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="idmc-disasters", fn=fetch_disasters, kind="download"),
-]
 
 _SQL_DISASTERS = """
 SELECT
@@ -40,7 +36,3 @@ SELECT
 FROM "idmc-disasters"
 WHERE iso3 IS NOT NULL AND year IS NOT NULL
 """
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="idmc-disasters-transform", deps=["idmc-disasters"], sql=_SQL_DISASTERS),
-]

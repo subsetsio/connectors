@@ -4,7 +4,7 @@ The IDU endpoint 302s to a short-lived pre-signed S3 URL serving a gzip payload
 (httpx follows the redirect and decompresses transparently).
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import BASE, CLIENT_ID, get_json
 
 
@@ -14,10 +14,6 @@ def fetch_idu(node_id: str) -> None:
         raise AssertionError(f"idus/all: expected a JSON array, got {type(data).__name__}")
     save_raw_ndjson(data, node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="idmc-idu", fn=fetch_idu, kind="download"),
-]
 
 _SQL_IDU = """
 SELECT
@@ -51,7 +47,3 @@ SELECT
 FROM "idmc-idu"
 WHERE id IS NOT NULL
 """
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="idmc-idu-transform", deps=["idmc-idu"], sql=_SQL_IDU),
-]

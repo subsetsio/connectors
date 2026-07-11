@@ -1,16 +1,12 @@
 """IDMC conflicts — GIDD conflict/violence figures, per country-year (~1019 rows)."""
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import fetch_gidd
 
 
 def fetch_conflicts(node_id: str) -> None:
     save_raw_ndjson(fetch_gidd("conflicts"), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="idmc-conflicts", fn=fetch_conflicts, kind="download"),
-]
 
 _SQL_CONFLICTS = """
 SELECT
@@ -24,7 +20,3 @@ SELECT
 FROM "idmc-conflicts"
 WHERE iso3 IS NOT NULL AND year IS NOT NULL
 """
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="idmc-conflicts-transform", deps=["idmc-conflicts"], sql=_SQL_CONFLICTS),
-]
