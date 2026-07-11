@@ -1,0 +1,14 @@
+key: [patent_id, project_id]
+columns:
+  - name: patent_id
+    type: VARCHAR
+    description: USPTO patent number of the patent acknowledging NIH support (source string; may carry a letter prefix for reissues/designs).
+  - name: patent_title
+    type: VARCHAR
+    description: Title of the patent.
+  - name: project_id
+    type: VARCHAR
+    description: NIH core project number that supported the patent — foreign key to nih-project.core_project_num.
+  - name: patent_org_name
+    type: VARCHAR
+    description: Name of the organization/assignee associated with the patent.

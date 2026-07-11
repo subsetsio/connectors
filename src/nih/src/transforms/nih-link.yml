@@ -1,0 +1,8 @@
+key: [pmid, project_number]
+columns:
+  - name: pmid
+    type: BIGINT
+    description: PubMed identifier of the publication — foreign key to nih-publication.pmid.
+  - name: project_number
+    type: VARCHAR
+    description: NIH full project number the publication is linked to — foreign key to nih-project.full_project_num.
