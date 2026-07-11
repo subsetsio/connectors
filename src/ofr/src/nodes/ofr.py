@@ -22,7 +22,6 @@ import io
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -189,65 +188,4 @@ def _fn_for(entity_id):
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=_fn_for(eid), kind="download")
     for eid in ENTITY_IDS
-]
-
-# id helpers for the transforms below
-_FSI_ID = _spec_id("FSI")
-_CATALOG_ID = _spec_id("ofr-series-catalog")
-
-
-def _transform_sql(download_id):
-    if download_id == _FSI_ID:
-        return f'''
-            SELECT
-                CAST(date AS DATE) AS date,
-                ofr_fsi, credit, equity_valuation, safe_assets, funding,
-                volatility, united_states, other_advanced_economies, emerging_markets
-            FROM "{download_id}"
-            WHERE date IS NOT NULL
-            ORDER BY date
-        '''
-    if download_id == _CATALOG_ID:
-        return f'''
-            SELECT
-                mnemonic, dataset, monitor, name, subtype,
-                frequency, unit_type, unit_name,
-                TRY_CAST(NULLIF(start_date, '') AS DATE) AS start_date
-            FROM "{download_id}"
-            WHERE mnemonic IS NOT NULL
-        '''
-    # long-format dataset table
-    return f'''
-        SELECT
-            CAST(date AS DATE) AS date,
-            mnemonic,
-            CAST(value AS DOUBLE) AS value
-        FROM "{download_id}"
-        WHERE value IS NOT NULL AND date IS NOT NULL
-    '''
-
-
-def _key_for(download_id):
-    if download_id == _FSI_ID:
-        return ("date",)              # one wide row per date
-    if download_id == _CATALOG_ID:
-        return ("mnemonic",)          # one row per series
-    return ("mnemonic", "date")       # long-format: one obs per series per date
-
-
-def _temporal_for(download_id):
-    if download_id == _CATALOG_ID:
-        return "start_date"           # series-coverage start (only date column)
-    return "date"
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        key=_key_for(s.id),
-        temporal=_temporal_for(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

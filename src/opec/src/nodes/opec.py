@@ -35,7 +35,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     save_raw_parquet,
@@ -302,52 +301,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"opec-{eid}", fn=fetch_one, kind="download")
     for eid in _TABLES
-]
-
-
-# --- transforms: one published Delta table per sheet -----------------------
-# Dedup to the most-recent reporting vintage per (series, period); build a clean
-# series label from section+item. 0 rows fails the node (correctness gate).
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        WITH ranked AS (
-            SELECT
-                CASE WHEN section IS NULL OR section = ''
-                     THEN item ELSE section || ' - ' || item END  AS series,
-                section,
-                item,
-                period,
-                frequency,
-                CAST(period_start AS DATE)  AS period_start,
-                CAST(value AS DOUBLE)       AS value,
-                report_period,
-                CAST(report_date AS DATE)   AS report_date,
-                table_title,
-                row_number() OVER (
-                    PARTITION BY
-                        CASE WHEN section IS NULL OR section = ''
-                             THEN item ELSE section || ' - ' || item END,
-                        period
-                    ORDER BY report_date DESC
-                ) AS rn
-            FROM "{download_id}"
-            WHERE value IS NOT NULL AND period IS NOT NULL
-        )
-        SELECT series, section, item, period, frequency, period_start,
-               value, report_period, report_date, table_title
-        FROM ranked
-        WHERE rn = 1
-        ORDER BY series, period_start
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        key=("series", "period"),
-        temporal="period_start",
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
