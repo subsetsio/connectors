@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `office-of-rail-and-road-table-3122`. Regenerate after model-verify.
+# caution: Source spreadsheets are normalized to a long format; row_label, column, block, sheet, and row_dim carry table-specific dimensions and may include totals or subtotals, so filter the relevant labels before aggregating.
+key: [value, row_label, column]
+sort: [value, row_label, column]
 columns:
   - name: sheet
     type: VARCHAR
@@ -8,7 +12,7 @@ columns:
     type: VARCHAR
   - name: row_label
     type: VARCHAR
-  - name: column_name
+  - name: column
     type: VARCHAR
   - name: col_index
     type: BIGINT

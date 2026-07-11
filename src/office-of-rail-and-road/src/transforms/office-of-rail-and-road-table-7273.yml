@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `office-of-rail-and-road-table-7273`. Regenerate after model-verify.
+# caution: Source spreadsheets are normalized to a long format; row_label, column, block, sheet, and row_dim carry table-specific dimensions and may include totals or subtotals, so filter the relevant labels before aggregating.
+key: []
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: block
+    type: VARCHAR
+  - name: row_dim
+    type: VARCHAR
+  - name: row_label
+    type: VARCHAR
+  - name: column
+    type: VARCHAR
+  - name: col_index
+    type: BIGINT
+  - name: value
+    type: VARCHAR
+  - name: value_num
+    type: DOUBLE
