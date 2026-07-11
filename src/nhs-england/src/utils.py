@@ -382,7 +382,7 @@ def _tidy_point_in_time(raw: pd.DataFrame, source_file: str, sheet: str) -> list
     nrows, ncols = raw.shape
     for hrow in range(min(nrows, 40)):
         headers = [_clean(raw.iat[hrow, c]) for c in range(ncols)]
-        if sum(bool(h) for h in headers) < 3:
+        if sum(bool(h) for h in headers) < 2:
             continue
         out = []
         for r in range(hrow + 1, nrows):
@@ -390,7 +390,9 @@ def _tidy_point_in_time(raw: pd.DataFrame, source_file: str, sheet: str) -> list
             for c in range(ncols):
                 value = _to_float(raw.iat[r, c])
                 if value is not None:
-                    header = headers[c] or f"col{c}"
+                    header = headers[c]
+                    if not header:
+                        continue
                     prefix = " - ".join(row_parts)
                     series = f"{prefix} - {header}" if prefix else header
                     out.append((series, period, value))
@@ -398,7 +400,7 @@ def _tidy_point_in_time(raw: pd.DataFrame, source_file: str, sheet: str) -> list
                     part = _clean(raw.iat[r, c])
                     if part and not _parse_period(part):
                         row_parts.append(part)
-        if len(out) >= 3:
+        if out:
             return out
     return []
 
