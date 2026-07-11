@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `czech-statistical-office-sldb2021-vira`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [idhod]
+temporal: sldb_datum
+checks:
+  - kind: unique
+    columns: [idhod]
+  - kind: not_null
+    col: idhod
+  - kind: row_floor
+    min: 265598
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

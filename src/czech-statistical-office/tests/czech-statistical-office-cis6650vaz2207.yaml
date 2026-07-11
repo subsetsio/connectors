@@ -1,7 +1,9 @@
 spec_id: czech-statistical-office-cis6650vaz2207
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: every accepted CZSO open-data dataset publishes at least one observation, code, or boundary row; 0 rows means the CSV download was empty, mis-decoded, or truncated.
-    certainty: 95
-    severity: block
+- row_count:
+    min: 0
+  reason: CSO publishes this accepted relation CSV with zero rows in the current catalog snapshot; the connector should preserve
+    the empty table rather than treat it as a failed download.
+  certainty: 95
+  severity: block

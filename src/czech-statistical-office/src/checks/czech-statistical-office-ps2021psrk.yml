@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `czech-statistical-office-ps2021psrk`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [prijmeni, pochlasu, pocproc, jmeno, porcislo]
+checks:
+  - kind: unique
+    columns: [prijmeni, pochlasu, pocproc, jmeno, porcislo]
+  - kind: not_null
+    col: prijmeni
+  - kind: not_null
+    col: pochlasu
+  - kind: not_null
+    col: pocproc
+  - kind: not_null
+    col: jmeno
+  - kind: not_null
+    col: porcislo
+  - kind: row_floor
+    min: 2631
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

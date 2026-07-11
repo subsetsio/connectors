@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `czech-statistical-office-sldb2021-obybyty-poloha-druhdomu`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [idhod, uzemi_kod, uzemi_txt, hodnota, poloha_kod]
+temporal: sldb_datum
+checks:
+  - kind: unique
+    columns: [idhod, uzemi_kod, uzemi_txt, hodnota, poloha_kod]
+  - kind: not_null
+    col: idhod
+  - kind: not_null
+    col: uzemi_kod
+  - kind: not_null
+    col: uzemi_txt
+  - kind: not_null
+    col: hodnota
+  - kind: not_null
+    col: poloha_kod
+  - kind: row_floor
+    min: 147928
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

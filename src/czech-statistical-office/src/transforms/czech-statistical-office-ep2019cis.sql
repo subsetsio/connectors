@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified for this upstream table; treat rows as source observations and avoid assuming uniqueness without applying source-specific dimensions.
+SELECT
+    "source_member",
+    CAST("OBEC_PREZ" AS BIGINT) AS obec_prez,
+    "NAZEVOBCE" AS nazevobce,
+    CAST("NSTRANA" AS BIGINT) AS nstrana,
+    "NAZEV_STRN" AS nazev_strn,
+    "ZKRATKAN30" AS zkratkan30,
+    "ZKRATKAN8" AS zkratkan8,
+    CAST("NUMNUTS" AS BIGINT) AS numnuts,
+    "NUTS" AS nuts,
+    "NAZEVNUTS" AS nazevnuts,
+    CAST("KODCIS" AS BIGINT) AS kodcis,
+    CAST("CHODNOTA" AS BIGINT) AS chodnota,
+    CAST("PSTRANA" AS BIGINT) AS pstrana,
+    "NAZEV_STRP" AS nazev_strp,
+    "ZKRATKAP30" AS zkratkap30,
+    "ZKRATKAP8" AS zkratkap8,
+    CAST("VSTRANA" AS BIGINT) AS vstrana,
+    "NAZEVCELK" AS nazevcelk,
+    "NAZEV_STRV" AS nazev_strv,
+    "ZKRATKAV30" AS zkratkav30,
+    "ZKRATKAV8" AS zkratkav8,
+    CAST("POCSTR_SLO" AS BIGINT) AS pocstr_slo,
+    "SLOZENI" AS slozeni,
+    "ZKRATKA_OF" AS zkratka_of,
+    "TYPVS" AS typvs,
+    "PLNYNAZEV" AS plnynazev,
+    "ZKRATKA2" AS zkratka2,
+    CAST("KODZEME" AS BIGINT) AS kodzeme,
+    "NAZZEMECZ" AS nazzemecz,
+    "NAZZEMEEN" AS nazzemeen,
+    "NAZZKRCZ" AS nazzkrcz,
+    "NAZZKREN" AS nazzkren,
+    "ZKRATKA3" AS zkratka3,
+    CAST("KRAJ" AS BIGINT) AS kraj,
+    CAST("OKRES" AS BIGINT) AS okres,
+    CAST("CPOU" AS BIGINT) AS cpou,
+    CAST("OBEC" AS BIGINT) AS obec,
+    CAST("ORP" AS BIGINT) AS orp,
+    CAST("MINOKRSEK1" AS BIGINT) AS minokrsek1,
+    CAST("MAXOKRSEK1" AS BIGINT) AS maxokrsek1
+FROM "czech-statistical-office-ep2019cis"

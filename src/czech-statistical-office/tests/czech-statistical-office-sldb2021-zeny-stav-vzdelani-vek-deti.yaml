@@ -1,7 +1,13 @@
 spec_id: czech-statistical-office-sldb2021-zeny-stav-vzdelani-vek-deti
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: every accepted CZSO open-data dataset publishes at least one observation, code, or boundary row; 0 rows means the CSV download was empty, mis-decoded, or truncated.
-    certainty: 95
-    severity: block
+- row_count:
+    min: 1
+  reason: every accepted CZSO open-data dataset publishes at least one observation, code, or boundary row; 0 rows means the
+    CSV download was empty, mis-decoded, or truncated.
+  certainty: 95
+  severity: block
+coverage:
+  frozen: true
+  reason: The CSO raw file is treated as a source-published snapshot for this connector; `sldb_datum` is an observation-period
+    column, not a reliable publication-cadence signal across this heterogeneous catalog.

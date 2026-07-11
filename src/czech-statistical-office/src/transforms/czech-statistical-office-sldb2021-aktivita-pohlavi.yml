@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-sldb2021-aktivita-pohlavi`. Regenerate after model-verify.
+key: [idhod]
+temporal: sldb_datum
+sort: [sldb_datum, idhod]
+columns:
+  - name: idhod
+    type: BIGINT
+  - name: hodnota
+    type: BIGINT
+  - name: ukaz_kod
+    type: BIGINT
+  - name: aktivita_cis
+    type: BIGINT
+  - name: aktivita_kod
+    type: BIGINT
+  - name: aktivita_struktura
+    type: VARCHAR
+  - name: pohlavi_cis
+    type: BIGINT
+  - name: pohlavi_kod
+    type: BIGINT
+  - name: uzemi_cis
+    type: BIGINT
+  - name: uzemi_kod
+    type: BIGINT
+  - name: sldb_rok
+    type: BIGINT
+  - name: sldb_datum
+    type: DATE
+  - name: ukaz_txt
+    type: VARCHAR
+  - name: ekonaktiv_txt
+    type: VARCHAR
+  - name: pohlavi_txt
+    type: VARCHAR
+  - name: uzemi_txt
+    type: VARCHAR
+  - name: uzemi_typ
+    type: VARCHAR

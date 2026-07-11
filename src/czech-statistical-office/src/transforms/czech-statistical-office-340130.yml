@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-340130`. Regenerate after model-verify.
+key: [idhod, hodnota, vuzemi_kod, vuzemi_txt, rok]
+temporal: casref_do
+sort: [casref_do, idhod, hodnota, vuzemi_kod, vuzemi_txt, rok]
+columns:
+  - name: source_member
+    type: VARCHAR
+  - name: idhod
+    type: BIGINT
+  - name: hodnota
+    type: BIGINT
+  - name: stapro_kod
+    type: BIGINT
+  - name: mj_cis
+    type: BIGINT
+  - name: mj_kod
+    type: BIGINT
+  - name: velskup_cis
+    type: BIGINT
+  - name: velskup_kod
+    type: BIGINT
+  - name: vuzemi_cis
+    type: BIGINT
+  - name: vuzemi_kod
+    type: BIGINT
+  - name: rok
+    type: BIGINT
+  - name: casref_do
+    type: DATE
+  - name: vuzemi_txt
+    type: VARCHAR
+  - name: stapro_txt
+    type: VARCHAR
+  - name: mj_txt
+    type: VARCHAR
+  - name: velskup_txt
+    type: VARCHAR

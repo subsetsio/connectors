@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `czech-statistical-office-cis149`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [text]
+temporal: admplod
+checks:
+  - kind: unique
+    columns: [text]
+  - kind: not_null
+    col: text
+  - kind: row_floor
+    min: 39
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

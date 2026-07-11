@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-res-pf-nace`. Regenerate after model-verify.
+# caution: No stable row identifier was verified for this upstream table; treat rows as source observations and avoid assuming uniqueness without applying source-specific dimensions.
+key: []
+temporal: datplat
+sort: [datplat]
+columns:
+  - name: ico
+    type: VARCHAR
+  - name: zdrud
+    type: BIGINT
+  - name: kodcis
+    type: BIGINT
+  - name: hodn
+    type: VARCHAR
+  - name: datplat
+    type: DATE
+  - name: ddatpakt
+    type: DATE
+  - name: priznak
+    type: VARCHAR

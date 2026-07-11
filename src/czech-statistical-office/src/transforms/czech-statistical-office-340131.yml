@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-340131`. Regenerate after model-verify.
+# caution: No stable row identifier was verified for this upstream table; treat rows as source observations and avoid assuming uniqueness without applying source-specific dimensions.
+key: []
+temporal: casref_od
+sort: [casref_od]
+columns:
+  - name: idhod
+    type: BIGINT
+  - name: hodnota
+    type: BIGINT
+  - name: vuk
+    type: VARCHAR
+  - name: vuk_text
+    type: VARCHAR
+  - name: vuzemi_cis
+    type: BIGINT
+  - name: vuzemi_kod
+    type: VARCHAR
+  - name: vuzemi_txt
+    type: VARCHAR
+  - name: rok
+    type: BIGINT
+  - name: casref_od
+    type: DATE
+  - name: casref_do
+    type: DATE
+  - name: er_kod
+    type: VARCHAR

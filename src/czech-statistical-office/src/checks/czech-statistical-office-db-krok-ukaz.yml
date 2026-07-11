@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `czech-statistical-office-db-krok-ukaz`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [nazev, kodukaz, okruh, platiod, platido]
+checks:
+  - kind: unique
+    columns: [nazev, kodukaz, okruh, platiod, platido]
+  - kind: not_null
+    col: nazev
+  - kind: not_null
+    col: kodukaz
+  - kind: not_null
+    col: okruh
+  - kind: not_null
+    col: platiod
+  - kind: not_null
+    col: platido
+  - kind: row_floor
+    min: 630
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

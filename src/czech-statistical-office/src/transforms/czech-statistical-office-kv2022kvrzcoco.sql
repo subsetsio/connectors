@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified for this upstream table; treat rows as source observations and avoid assuming uniqueness without applying source-specific dimensions.
+SELECT
+    CAST("DATUMVOLEB" AS BIGINT) AS datumvoleb,
+    CAST("KRAJ" AS BIGINT) AS kraj,
+    CAST("OKRES" AS BIGINT) AS okres,
+    CAST("TYPZASTUP" AS BIGINT) AS typzastup,
+    CAST("DRUHZASTUP" AS BIGINT) AS druhzastup,
+    CAST("KODZASTUP" AS BIGINT) AS kodzastup,
+    "NAZEVZAST" AS nazevzast,
+    CAST("OBEC" AS BIGINT) AS obec,
+    "NAZEVOBCE" AS nazevobce,
+    CAST("ORP" AS BIGINT) AS orp,
+    CAST("CPOU" AS BIGINT) AS cpou,
+    CAST("REGURAD" AS BIGINT) AS regurad,
+    CAST("OBVODY" AS BIGINT) AS obvody,
+    CAST("COBVODU" AS BIGINT) AS cobvodu,
+    CAST("MANDATY" AS BIGINT) AS mandaty,
+    CAST("POCOBYV" AS BIGINT) AS pocobyv,
+    CAST("MINOKRSEK1" AS BIGINT) AS minokrsek1,
+    CAST("MAXOKRSEK1" AS BIGINT) AS maxokrsek1,
+    CAST("MINOKRSEK2" AS BIGINT) AS minokrsek2,
+    CAST("MAXOKRSEK2" AS BIGINT) AS maxokrsek2,
+    CAST("MINOKRSEK3" AS BIGINT) AS minokrsek3,
+    CAST("MAXOKRSEK3" AS BIGINT) AS maxokrsek3,
+    CAST("MINOKRSEK4" AS BIGINT) AS minokrsek4,
+    CAST("MAXOKRSEK4" AS BIGINT) AS maxokrsek4,
+    CAST("MINOKRSEK5" AS BIGINT) AS minokrsek5,
+    CAST("MAXOKRSEK5" AS BIGINT) AS maxokrsek5,
+    CAST("MINOKRSEK6" AS BIGINT) AS minokrsek6,
+    CAST("MAXOKRSEK6" AS BIGINT) AS maxokrsek6,
+    CAST("MINOKRSEK7" AS BIGINT) AS minokrsek7,
+    CAST("MAXOKRSEK7" AS BIGINT) AS maxokrsek7,
+    CAST("MINOKRSEK8" AS BIGINT) AS minokrsek8,
+    CAST("MAXOKRSEK8" AS BIGINT) AS maxokrsek8,
+    CAST("MINOKRSEK9" AS BIGINT) AS minokrsek9,
+    CAST("MAXOKRSEK9" AS BIGINT) AS maxokrsek9,
+    CAST("MINOKRSE10" AS BIGINT) AS minokrse10,
+    CAST("MAXOKRSE10" AS BIGINT) AS maxokrse10,
+    CAST("TYPDUVODU" AS BIGINT) AS typduvodu,
+    CAST("POCET_VS" AS BIGINT) AS pocet_vs,
+    CAST("STAV_OBCE" AS BIGINT) AS stav_obce
+FROM "czech-statistical-office-kv2022kvrzcoco"

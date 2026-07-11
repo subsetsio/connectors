@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-200076`. Regenerate after model-verify.
+key: [hodnota, idhod, obdobiod, obdobido, rok]
+temporal: obdobiod
+sort: [obdobiod, hodnota, idhod, obdobido, rok]
+columns:
+  - name: idhod
+    type: BIGINT
+  - name: hodnota
+    type: BIGINT
+  - name: stapro_kod
+    type: BIGINT
+  - name: mj_cis
+    type: BIGINT
+  - name: mj_kod
+    type: VARCHAR
+  - name: misto_cis
+    type: BIGINT
+  - name: misto_kod
+    type: VARCHAR
+  - name: stavprace_cis
+    type: BIGINT
+  - name: stavprace_kod
+    type: VARCHAR
+  - name: obdobiod
+    type: TIMESTAMP
+  - name: obdobido
+    type: TIMESTAMP
+  - name: ctvrtleti
+    type: BIGINT
+  - name: rok
+    type: BIGINT
+  - name: uzemi_cis
+    type: BIGINT
+  - name: uzemi_kod
+    type: BIGINT
+  - name: stapro_txt
+    type: VARCHAR
+  - name: mj_txt
+    type: VARCHAR
+  - name: misto_txt
+    type: VARCHAR
+  - name: stavprace_txt
+    type: VARCHAR

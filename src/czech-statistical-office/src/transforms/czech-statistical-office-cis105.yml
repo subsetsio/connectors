@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-cis105`. Regenerate after model-verify.
+# caution: No stable row identifier was verified for this upstream table; treat rows as source observations and avoid assuming uniqueness without applying source-specific dimensions.
+key: []
+temporal: admplod
+sort: [admplod]
+columns:
+  - name: kodjaz
+    type: VARCHAR
+  - name: akrcis
+    type: VARCHAR
+  - name: kodcis
+    type: BIGINT
+  - name: chodnota
+    type: VARCHAR
+  - name: zkrtext
+    type: VARCHAR
+  - name: text
+    type: VARCHAR
+  - name: admplod
+    type: DATE
+  - name: admnepo
+    type: DATE
+  - name: kodrso
+    type: BIGINT

@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-statistical-office-sldb2021-vyjizdka-vsichni-cil-pohlavi`. Regenerate after model-verify.
+key: [idhod, hodnota, bydliste_kod, bydliste_txt, bydliste_typ]
+temporal: sldb_datum
+sort: [sldb_datum, idhod, hodnota, bydliste_kod, bydliste_txt, bydliste_typ]
+columns:
+  - name: idhod
+    type: BIGINT
+  - name: hodnota
+    type: BIGINT
+  - name: ukaz_kod
+    type: BIGINT
+  - name: aktivita_cis
+    type: BIGINT
+  - name: aktivita_kod
+    type: BIGINT
+  - name: bydliste_cis
+    type: BIGINT
+  - name: bydliste_kod
+    type: BIGINT
+  - name: cil_dojizdky_cis
+    type: BIGINT
+  - name: cil_dojizdky_kod
+    type: BIGINT
+  - name: pohlavi_cis
+    type: BIGINT
+  - name: pohlavi_kod
+    type: BIGINT
+  - name: sldb_rok
+    type: BIGINT
+  - name: sldb_datum
+    type: DATE
+  - name: ukaz_txt
+    type: VARCHAR
+  - name: aktivita_txt
+    type: VARCHAR
+  - name: bydliste_txt
+    type: VARCHAR
+  - name: bydliste_typ
+    type: VARCHAR
+  - name: cil_dojizdky_txt
+    type: VARCHAR
+  - name: cil_dojizdky_typ
+    type: VARCHAR
+  - name: pohlavi_txt
+    type: VARCHAR
