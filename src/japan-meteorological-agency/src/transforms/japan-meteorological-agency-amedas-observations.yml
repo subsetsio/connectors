@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `japan-meteorological-agency-amedas-observations`. Regenerate after model-verify.
+# caution: This is a recent operational snapshot from JMA's bosai surface, not a historical archive; compare observations only within the retained rolling window.
+key: [station_id, observed_at, element]
+temporal: observed_at
+sort: [observed_at, station_id, element]
 columns:
   - name: station_id
-    type: VARCHAR
+    type: BIGINT
   - name: observed_at
-    type: TIMESTAMPTZ
+    type: TIMESTAMP
   - name: element
     type: VARCHAR
   - name: value

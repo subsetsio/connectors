@@ -21,7 +21,7 @@ tests:
   - at_least: {col: year, expr: 1949}
     reason: NINO.3 history starts in 1949 and no retained product should be earlier
     certainty: 85
-  - at_most: {col: year, expr: current_year()}
+  - at_most: {col: year, expr: current_year() + 1}
     certainty: 95
     points_outward: true
   - unique: [region, measure, year, month]

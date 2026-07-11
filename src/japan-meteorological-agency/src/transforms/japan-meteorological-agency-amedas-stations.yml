@@ -1,8 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `japan-meteorological-agency-amedas-stations`. Regenerate after model-verify.
+key: [station_id]
+sort: [station_id]
 columns:
   - name: station_id
-    type: VARCHAR
-  - name: station_type
+    type: BIGINT
+  - name: type
     type: VARCHAR
   - name: elems
     type: VARCHAR

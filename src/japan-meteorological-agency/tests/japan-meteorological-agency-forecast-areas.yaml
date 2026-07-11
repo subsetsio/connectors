@@ -10,8 +10,8 @@ tests:
   - column_type: {col: level, type: string}
   - enum: {col: level, values: ["centers", "offices", "class10s", "class20s"]}
     certainty: 98
-  - unique: code
-    reason: JMA area codes identify one area record across taxonomy levels
+  - unique: [code, level]
+    reason: JMA area codes identify one area record within each taxonomy level
     certainty: 95
   - nullable: {col: name_en, max_null_frac: 0.05}
     reason: the public area taxonomy normally carries English names for nearly all areas

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `japan-meteorological-agency-forecast-areas`. Regenerate after model-verify.
+# caution: The table mixes forecast geography levels; filter `level` before treating rows as comparable areas.
+key: [code, level]
+sort: [code, level]
 columns:
   - name: code
     type: VARCHAR

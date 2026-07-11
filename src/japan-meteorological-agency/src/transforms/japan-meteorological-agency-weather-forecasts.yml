@@ -1,11 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `japan-meteorological-agency-weather-forecasts`. Regenerate after model-verify.
+# caution: This is an operational forecast product: rows are forward-looking values issued at `report_datetime`, and later runs replace the active forecast horizon rather than extending a permanent history.
+key: [office_code, report_datetime, area_code, element, valid_time]
+temporal: report_datetime
+sort: [report_datetime, office_code, area_code, element, valid_time]
 columns:
   - name: office_code
     type: VARCHAR
   - name: publishing_office
     type: VARCHAR
   - name: report_datetime
-    type: TIMESTAMPTZ
+    type: TIMESTAMP
   - name: area_code
     type: VARCHAR
   - name: area_name
@@ -13,6 +18,6 @@ columns:
   - name: element
     type: VARCHAR
   - name: valid_time
-    type: TIMESTAMPTZ
+    type: TIMESTAMP
   - name: value
     type: VARCHAR

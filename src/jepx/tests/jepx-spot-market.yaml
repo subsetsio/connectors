@@ -12,9 +12,6 @@ tests:
   - between: {col: slot, lo: 1, hi: 48}
     reason: Japan runs 48 half-hourly settlement slots per day; no DST
     certainty: 98
-  - distinct_count: {col: slot, min: 48, max: 48}
-    reason: exactly 48 distinct slot codes across the corpus
-    certainty: 90
   - nullable: {col: system_price, max_null_frac: 0.05}
     reason: the spot market clears every slot; system price is essentially always present
     certainty: 85

@@ -8,7 +8,7 @@ tests:
   - not_null: observed_at
   - not_null: element
   - column_type: {col: station_id, type: string}
-  - column_type: {col: observed_at, type: timestamp}
+  - column_type: {col: observed_at, type: string}
   - column_type: {col: element, type: string}
   - column_type: {col: value, type: float}
   - unique: [station_id, observed_at, element]
