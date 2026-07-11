@@ -82,12 +82,12 @@ def _csv_product_url(entity_id: str) -> str:
     raise RuntimeError(f"{entity_id}: no packaged CSV product found in Melodi catalog")
 
 
-def _get_range(url: str, start: int, end: int) -> bytes:
+def _request_range(url: str, start: int, end: int) -> httpx.Response:
     expected = end - start + 1
     last_error: BaseException | None = None
     for _ in range(RANGE_ATTEMPTS):
         try:
-            resp = get(
+            resp = httpx.get(
                 url,
                 headers={
                     "Accept": "application/octet-stream",
@@ -105,19 +105,18 @@ def _get_range(url: str, start: int, end: int) -> bytes:
                     f"range {start}-{end} returned {len(resp.content)} bytes, "
                     f"expected {expected}"
                 )
-            return resp.content
+            return resp
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = exc
     raise RuntimeError(f"{url}: failed range {start}-{end}") from last_error
 
 
+def _get_range(url: str, start: int, end: int) -> bytes:
+    return _request_range(url, start, end).content
+
+
 def _download_packaged_zip(url: str) -> bytes:
-    first = get(
-        url,
-        headers={"Accept": "application/octet-stream", "Range": "bytes=0-0"},
-        timeout=(10.0, 60.0),
-    )
-    first.raise_for_status()
+    first = _request_range(url, 0, 0)
     content_range = first.headers.get("content-range") or ""
     match = re.match(r"bytes 0-0/(\d+)$", content_range)
     if first.status_code != 206 or not match:
