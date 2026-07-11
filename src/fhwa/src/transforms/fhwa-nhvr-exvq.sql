@@ -14,4 +14,4 @@ SELECT
     pattern_text,
     system_number
 FROM "fhwa-nhvr-exvq"
-WHERE preferred_physical_name IS NOT NULL
+WHERE data_element_name IS NOT NULL AND preferred_physical_name IS NOT NULL

@@ -6,9 +6,15 @@
 key: [state, hpms_toll_id, name_of_toll_facility]
 checks:
   - kind: unique
-    columns: [hpms_toll_id]
+    columns: [state, hpms_toll_id, name_of_toll_facility]
+  - kind: not_null
+    col: state
   - kind: not_null
     col: hpms_toll_id
+  - kind: not_null
+    col: name_of_toll_facility
+  - kind: row_floor
+    min: 263
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
