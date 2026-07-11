@@ -1,6 +1,7 @@
 spec_id: inpe-focos-brasil-bioma-mensal
 status: active
 tests:
+  - freshness: {col: ano, reaches: 2025}
   - not_null: ano
   - not_null: mes
   - not_null: bioma

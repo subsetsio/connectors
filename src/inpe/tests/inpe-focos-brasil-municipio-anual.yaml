@@ -1,6 +1,7 @@
 spec_id: inpe-focos-brasil-municipio-anual
 status: active
 tests:
+  - freshness: {col: ano, reaches: 2025}
   - not_null: ano
   - not_null: estado
   - not_null: municipio
@@ -15,6 +16,6 @@ tests:
   - unique: [ano, estado, municipio]
     reason: one row per municipality-year; the same municipio name recurs across states, so estado is part of the key
     certainty: 96
-  - distinct_count: {col: municipio, min: 1000, max: 5570}
-    reason: Brazil has ~5570 municipalities; not every one records a fire every year, so the count of distinct names is well below that but in the thousands
+  - distinct_count: {col: municipio, min: 1000, max: 6500}
+    reason: INPE stores municipality labels rather than stable codes, so spelling and historical-name variation can exceed the current ~5570 municipalities while remaining in the low thousands
     certainty: 75
