@@ -2,7 +2,8 @@
 # of raw asset `irs-eo-bmf`. Regenerate after model-verify.
 # caution: This is the current Business Master File snapshot, not a filing history; financial return tables carry annual filing facts.
 key: [ein]
-sort: [ein]
+temporal: tax_period
+sort: [tax_period, ein]
 columns:
   - name: ein
     type: VARCHAR

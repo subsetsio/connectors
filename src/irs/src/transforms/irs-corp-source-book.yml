@@ -2,6 +2,7 @@
 # of raw asset `irs-corp-source-book`. Regenerate after model-verify.
 # caution: Rows are aggregate cross-tabulations, not individual corporation records; the asset-size and industry classes already include totals, so filter to one classification level before summing.
 key: [file_year, tab_num, indy_cd, ac]
+temporal: file_year
 sort: [file_year, tab_num, indy_cd, ac]
 columns:
   - name: file_year

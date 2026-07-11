@@ -1,7 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `irs-zipcode-income`. Regenerate after model-verify.
-# caution: AGI class 0 is the all-returns total; do not sum it together with AGI classes 1 through 6.
+# caution: Rows are split by IRS AGI-size class; filter or intentionally aggregate AGI classes before comparing ZIP Codes or years.
 key: []
+temporal: tax_year
+sort: [tax_year]
 columns:
   - name: tax_year
     type: INTEGER

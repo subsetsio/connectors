@@ -3,6 +3,8 @@
 # caution: The file year is the IRS extract year and can differ from the organization's tax period; use tax_pd when analyzing fiscal periods.
 # caution: A small number of full Form 990 extract rows have duplicate or missing tax-period identifiers, so the raw table is published without a declared unique key.
 key: []
+temporal: file_year
+sort: [file_year]
 columns:
   - name: file_year
     type: INTEGER

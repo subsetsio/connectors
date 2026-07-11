@@ -2,6 +2,7 @@
 # of raw asset `irs-eo-financial-990pf`. Regenerate after model-verify.
 # caution: The file year is the IRS extract year and can differ from the private foundation's tax period; use tax_prd when analyzing fiscal periods.
 key: [file_year, ein, tax_prd]
+temporal: file_year
 sort: [file_year, ein, tax_prd]
 columns:
   - name: file_year
