@@ -1,0 +1,8 @@
+spec_id: national-bank-of-slovakia-dsw-subject-union
+status: active
+tests:
+  - not_null: subject_code
+  - not_null: successor_subject_code
+  - row_count: {min: 1}
+    reason: the mergers/successions table is small (~12 rows) but non-empty
+    certainty: 70

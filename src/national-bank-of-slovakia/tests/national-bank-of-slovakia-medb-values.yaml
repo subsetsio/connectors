@@ -1,0 +1,17 @@
+spec_id: national-bank-of-slovakia-medb-values
+status: active
+tests:
+  - not_null: date
+  - not_null: value
+  - column_type: {col: value, type: float}
+  - enum: {col: frequency, values: [M, Q, A]}
+    reason: the three Level sheets melted are Monthly / Quarterly / Annual
+  - distinct_count: {col: series_key, min: 4000}
+    reason: ~6300 distinct series_keys across the three frequency sheets; a large shortfall means a sheet failed to melt
+    certainty: 80
+  - row_count: {min: 400000}
+    reason: the melted M/Q/A Level sheets yield ~900k observations; far fewer means a sheet melted empty
+    certainty: 80
+  - freshness: {col: date, reaches: today - 400d}
+    reason: MEDB carries forecast periods out to ~2030, so max(date) is always well ahead of today; a stale max means the bulk XLSX failed to refresh
+    points_outward: true

@@ -1,0 +1,13 @@
+spec_id: national-bank-of-slovakia-dsw-report-data
+status: active
+tests:
+  - not_null: period
+  - not_null: subject_code
+  - not_null: val_type
+  - column_type: {col: num_value, type: float}
+  - row_count: {min: 100000}
+    reason: the DSW report CSV carries ~340k reported values back to 2005
+    certainty: 80
+  - freshness: {col: period, reaches: today - 90d}
+    reason: supervised-entity reporting is refreshed regularly; the newest period reached within the last quarter (observed max ~2 days old)
+    points_outward: true

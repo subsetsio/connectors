@@ -62,7 +62,7 @@ SITE_BATCH = 30
 # HTTP helpers
 # ---------------------------------------------------------------------------
 @sleep_and_retry
-@limits(calls=40, period=60)  # conservative pace to stay under the undocumented throttle
+@limits(calls=20, period=60)  # conservative pace to stay under the undocumented throttle
 def _rate_limited_get(path: str, params: dict | None = None) -> httpx.Response:
     return get(f"{BASE}/{path}", params=params, timeout=(10.0, 120.0))
 

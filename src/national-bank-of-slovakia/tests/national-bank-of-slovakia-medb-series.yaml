@@ -1,0 +1,17 @@
+spec_id: national-bank-of-slovakia-medb-series
+status: active
+tests:
+  - not_null: timeseries_id
+  - column_type: {col: timeseries_id, type: string}
+  - unique: timeseries_id
+    reason: one row per MEDB time series; timeSeriesId is the source's own series id
+    certainty: 90
+  - coverage: {col: timeseries_id, expected: 4369, tolerance: 0.05}
+    reason: the medb_timeseries Elasticsearch index enumerates ~4369 series; fetching fewer means paging silently broke
+    certainty: 85
+  - nullable: {col: name_en, max_null_frac: 0.05}
+    reason: nearly every series carries an English name; a high null rate means the join or field name drifted
+    certainty: 80
+  - distinct_count: {col: macrosector_id, min: 5, max: 20}
+    reason: the taxonomy has 8 macro-sectors; a collapse to 0-1 means the taxonomy join broke
+    certainty: 80

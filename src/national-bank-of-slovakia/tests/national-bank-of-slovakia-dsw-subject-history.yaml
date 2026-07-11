@@ -1,0 +1,10 @@
+spec_id: national-bank-of-slovakia-dsw-subject-history
+status: active
+tests:
+  - not_null: subject_code
+  - row_count: {min: 50}
+    reason: the subject name/grouping history table lists ~170 effective-dated subject records
+    certainty: 75
+  - distinct_count: {col: subject_code, min: 40}
+    reason: dozens of distinct supervised subjects appear in the history
+    certainty: 70
