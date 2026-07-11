@@ -25,10 +25,12 @@ fails whole is re-fetched as a union of time windows, bisected until each window
 is small enough to serve (_iter_rows).
 """
 import csv
+from functools import lru_cache
 import io
 import os
 import tempfile
 import time
+import xml.etree.ElementTree as ET
 
 import httpx
 
@@ -55,7 +57,8 @@ _MAX_REQUESTS_PER_FLOW = 200
 # timeout, so keep that probe short and let the existing time-window bisection
 # do the real download work.
 _FULL_PROBE_TIMEOUT = (10.0, 45.0)
-_WINDOW_TIMEOUT = (10.0, 600.0)
+_WINDOW_TIMEOUT = (10.0, 120.0)
+_STRUCTURE_TIMEOUT = (10.0, 180.0)
 
 # Exceptions that mean "the server could not generate this response" -- i.e. the
 # window is too big, so split it. Raised by get() only after its own transient
@@ -70,6 +73,12 @@ _THROTTLE_PATH = os.path.join(tempfile.gettempdir(), "istat_sdmx_throttle.lock")
 
 # Drop SDMX free-text annotation columns (mostly empty, not analytically useful).
 _DROP_PREFIX = "NOTE_"
+_STR_NS = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"
+
+# Avoid splitting on geographic codelists unless there is no other choice: some
+# Istat territory lists have >10k codes and would take days under the rate cap.
+_MAX_SPLIT_CODES = 300
+_PREFERRED_SPLIT_DIMS = ("FREQ", "DATA_TYPE", "DESTINATION_WINEGRAPES")
 
 
 def _throttle() -> None:
@@ -153,6 +162,107 @@ def _fetch_csv(
     return resp.text
 
 
+def _lname(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+@lru_cache(maxsize=256)
+def _flow_structure(flow_id: str) -> tuple[dict, ...]:
+    """Return non-time dimensions with their codelist values for one flow."""
+    _throttle()
+    df_resp = get(
+        f"{BASE}/dataflow/IT1/{flow_id}/1.0",
+        headers={"Accept": "application/xml"},
+        timeout=_STRUCTURE_TIMEOUT,
+    )
+    df_resp.raise_for_status()
+    root = ET.fromstring(df_resp.text)
+    dsd = None
+    for el in root.iter():
+        if _lname(el.tag) == "Ref" and el.get("class") == "DataStructure":
+            dsd = el.attrib
+            break
+    if not dsd or not dsd.get("id"):
+        raise RuntimeError(f"{flow_id}: dataflow did not expose a DSD reference")
+
+    _throttle()
+    dsd_resp = get(
+        f"{BASE}/datastructure/IT1/{dsd['id']}/{dsd.get('version') or '1.0'}",
+        params={"references": "all"},
+        headers={"Accept": "application/xml"},
+        timeout=_STRUCTURE_TIMEOUT,
+    )
+    dsd_resp.raise_for_status()
+    root = ET.fromstring(dsd_resp.text)
+
+    codelists = {}
+    for cl in root.findall(f".//{{{_STR_NS}}}Codelist"):
+        cid = cl.get("id")
+        if not cid:
+            continue
+        codelists[cid] = [c.get("id") for c in cl.findall(f"{{{_STR_NS}}}Code") if c.get("id")]
+
+    dims = []
+    for dim in root.findall(
+        f".//{{{_STR_NS}}}DataStructure/{{{_STR_NS}}}DataStructureComponents/"
+        f"{{{_STR_NS}}}DimensionList/{{{_STR_NS}}}Dimension"
+    ):
+        did = dim.get("id")
+        if not did:
+            continue
+        clid = None
+        for el in dim.iter():
+            if _lname(el.tag) == "Ref" and el.get("class") == "Codelist":
+                clid = el.get("id")
+                break
+        dims.append({"id": did, "codes": tuple(codelists.get(clid, ()))})
+    return tuple(dims)
+
+
+def _split_dimensions(flow_id: str) -> list[dict]:
+    dims = list(_flow_structure(flow_id))
+    candidates = [
+        d for d in dims
+        if d["codes"] and 1 < len(d["codes"]) <= _MAX_SPLIT_CODES
+    ]
+    rank = {name: i for i, name in enumerate(_PREFERRED_SPLIT_DIMS)}
+    candidates.sort(key=lambda d: (rank.get(d["id"], 99), len(d["codes"])))
+    return candidates
+
+
+def _key_for_dim(dims: list[dict], dim_id: str, code: str) -> str:
+    parts = ["" for _ in dims]
+    for i, dim in enumerate(dims):
+        if dim["id"] == dim_id:
+            parts[i] = code
+            break
+    return ".".join(parts)
+
+
+def _fetch_csv_keyed(flow_id: str, key: str, start: str, end: str) -> str | None:
+    params = {"detail": "dataonly", "dimensionAtObservation": "TIME_PERIOD"}
+    if start:
+        params["startPeriod"] = start
+    if end:
+        params["endPeriod"] = end
+    _throttle()
+    resp = get(
+        f"{BASE}/data/IT1,{flow_id},1.0/{key}/ALL/",
+        params=params,
+        headers={"Accept": CSV_ACCEPT},
+        timeout=_WINDOW_TIMEOUT,
+    )
+    if resp.status_code == 404 and "NoRecordsFound" in resp.text[:400]:
+        return None
+    if resp.status_code == 422:
+        body = resp.text[:400]
+        if "NoRecordsFound" in body:
+            return None
+        raise _DeadFlow(f"{flow_id}: {body.strip()}")
+    resp.raise_for_status()
+    return resp.text
+
+
 def _iter_rows(flow_id: str):
     """Yield every observation of `flow_id`, splitting into time windows if the
     server can't serve the flow whole."""
@@ -173,10 +283,47 @@ def _iter_rows(flow_id: str):
                 yield from split_years(lo, mid)
                 yield from split_years(mid + 1, hi)
             else:
-                yield from split_months(lo)
+                yielded = yield from split_compact_dims(str(lo), str(hi))
+                if not yielded:
+                    yield from split_months(lo)
             return
         if text is not None:
             yield from _rows(text)
+
+    def split_compact_dims(start: str, end: str):
+        """Split an otherwise-too-large time window by a compact DSD dimension.
+
+        This is mainly for annual dataflows where TIME_PERIOD cannot be divided
+        further. It also avoids the municipal REF_AREA fan-out unless no compact
+        dimensions exist.
+        """
+        try:
+            dims = _split_dimensions(flow_id)
+        except Exception as exc:
+            print(f"[istat] {flow_id}: could not inspect DSD for dimension split: {exc}")
+            return False
+
+        for dim in dims:
+            seen = 0
+            print(
+                f"[istat] {flow_id}: splitting {start}..{end} by {dim['id']} "
+                f"({len(dim['codes'])} codes)"
+            )
+            for code in dim["codes"]:
+                key = _key_for_dim(list(_flow_structure(flow_id)), dim["id"], code)
+                try:
+                    text = _fetch_csv_keyed(flow_id, key, start, end)
+                except _TOO_BIG:
+                    seen = 0
+                    break
+                if text is None:
+                    continue
+                for row in _rows(text):
+                    seen += 1
+                    yield row
+            if seen:
+                return True
+        return False
 
     def split_months(year: int):
         # Only reached when a single YEAR was too big to serve, so the year holds
