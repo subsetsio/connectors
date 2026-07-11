@@ -217,6 +217,7 @@ def _read_year(view_id: str, year: int, columns: tuple[str, ...]) -> pd.DataFram
     if missing:
         raise AssertionError(f"{view_id} {year}: missing expected columns {missing}")
     df = df.loc[:, list(columns)].copy()
+    df = df[df["anio"].astype(str).str.strip() != ""].copy()
 
     for col in columns:
         if col in {"source_year", "anio"}:

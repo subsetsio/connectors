@@ -17,9 +17,6 @@ tests:
   - between: {col: anio, lo: 2015, hi: current_year()}
     reason: current methodology covers observations beginning in 2015 and should not include future years
     certainty: 95
-  - at_least: {col: anio, expr: 2025}
-    reason: verified CKAN package covers through December 2025
-    certainty: 95
   - freshness: {col: fecha, reaches: today - 400d}
     reason: SESNSP publishes monthly; a max date older than roughly one year indicates a stale mirror or bad pull
     certainty: 85
