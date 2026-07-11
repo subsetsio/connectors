@@ -5,26 +5,39 @@ India-geo-blocked and expose only form-driven Excel "standard reports" with no
 API (see research). The Ministry of Health & Family Welfare republishes the same
 HMIS data on the data.gov.in OGD platform, which we use here.
 
-Scope — the `hmis-values` subset. data.gov.in carries ~1304 HMIS-titled resources;
-they are heterogeneous. This connector publishes the one homogeneous, comparable
-family: the **"Item-wise HMIS report of <GEO> for <FY>"** reports (~334 resources,
-financial years 2008-09 onward). Each report is a wide table of monthly counts of
-routine health-service indicators (ANC, deliveries, immunisation, family planning,
-disease/NCD counts, …). Two layouts occur: an older 17-column layout (one value per
-month) and a newer 69-column layout (each month split into total / public(A) /
-private(B) / urban(C) / rural(D)). All-India reports carry per-STATE rows (`state`
-column); per-state reports carry per-DISTRICT rows (`district` column). We normalise
-both layouts into one long schema (one row per geography × indicator × type × month,
-with the public/private/urban/rural breakdown kept as columns). The ~970 remaining
-HMIS-titled resources are small bespoke indicator tables with idiosyncratic schemas
-and are out of scope for this subset.
+Two published subsets, one per accepted collect entity:
 
-Fetch shape: the single `hmis-values` download node enumerates the item-wise family
-at runtime and pulls each report. Reports are immutable historical snapshots, so it
-uses the batched (firehose) pattern — one parquet batch per resource, a watermark of
-completed resource ids in state — which makes the long backfill resumable if a run is
-interrupted. There is no incremental query on the data endpoint; new financial years
-appear as new resources and are picked up automatically.
+- ``hmis-reports`` — the catalog of Item-wise HMIS reports (one row per report:
+  resource id, geography, financial year, publisher, column count). Reference
+  data, joinable to ``hmis-values`` on ``resource_id``.
+- ``hmis-values`` — the long-format observations. data.gov.in carries ~1304
+  HMIS-titled resources; they are heterogeneous. We publish the one homogeneous,
+  comparable family: the **"Item-wise HMIS report of <GEO> for <FY>"** reports
+  (financial years 2008-09 onward). Each report is a wide table of monthly counts
+  of routine health-service indicators (ANC, deliveries, immunisation, family
+  planning, disease/NCD counts, ...). Two layouts occur: an older 17-column layout
+  (one value per month) and a newer 69-column layout (each month split into
+  total / public(A) / private(B) / urban(C) / rural(D)). All-India reports carry
+  per-STATE rows (``state`` column); per-state reports carry per-DISTRICT rows
+  (``district`` column). We normalise both layouts into one long schema (one row
+  per geography x indicator x type x month, keeping the public/private/urban/rural
+  breakdown as columns). The remaining HMIS-titled resources are small bespoke
+  indicator tables with idiosyncratic schemas and are out of scope for this subset.
+
+Auth: the data.gov.in OGD API requires an ``api-key`` query parameter. The public
+sample key is NOT usable in production — it hard-caps ``limit`` at 10 rows/request
+(silently truncating multi-thousand-row reports) and its globally-shared quota
+429-throttles CI egress IPs within a few hundred requests. A registered (free)
+key MUST be supplied via the ``DATA_GOV_IN_API_KEY`` environment variable.
+
+Fetch shape: ``hmis-values`` enumerates the item-wise family at runtime and pulls
+each report. Reports are immutable historical snapshots, so it uses the batched
+(firehose) pattern — one parquet batch per resource, a watermark of completed
+resource ids in state — which makes the long backfill resumable if a run is
+interrupted. There is no incremental query on the data endpoint; new financial
+years appear as new resources and are picked up automatically. Pagination advances
+by the number of rows actually returned (never a fixed step), so a server-side
+``limit`` cap can never silently skip rows.
 """
 
 from __future__ import annotations
@@ -37,7 +50,6 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -48,7 +60,6 @@ from subsets_utils import (
 SLUG = "national-health-mission-hmis"
 STATE_VERSION = 1
 
-_SAMPLE_KEY = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"
 _LISTS = "https://api.data.gov.in/lists"
 _RESOURCE = "https://api.data.gov.in/resource/{}"
 _PAGE = 1000
@@ -83,26 +94,46 @@ SCHEMA = pa.schema([
     ("rural", pa.float64()),
 ])
 
+CATALOG_SCHEMA = pa.schema([
+    ("resource_id", pa.string()),
+    ("title", pa.string()),
+    ("geography", pa.string()),
+    ("financial_year", pa.string()),
+    ("fy_start_year", pa.int64()),
+    ("org_type", pa.string()),
+    ("org", pa.string()),
+    ("sector", pa.string()),
+    ("catalog_uuid", pa.string()),
+    ("num_columns", pa.int64()),
+    ("created_epoch", pa.int64()),
+    ("updated_epoch", pa.int64()),
+])
+
 
 def _api_key() -> str:
-    return os.environ.get("DATA_GOV_IN_API_KEY") or _SAMPLE_KEY
+    key = os.environ.get("DATA_GOV_IN_API_KEY")
+    if not key:
+        raise RuntimeError(
+            "DATA_GOV_IN_API_KEY is not set — a registered data.gov.in OGD API key is "
+            "required to fetch National Health Mission HMIS. The public sample key hard-caps "
+            "limit at 10 rows/request and 429-throttles CI IPs; it silently corrupts the "
+            "backfill and must not be used."
+        )
+    return key
 
 
-# The public sample key is unthrottled per-IP from a residential address, but
-# the data.gov.in edge rate-limits shared CI egress IPs (GitHub Actions) hard:
-# an unpaced ~40 req/s crawl 429s within seconds. A registered DATA_GOV_IN_API_KEY
-# would raise the ceiling, but pacing + 429-tolerant retry keeps the connector
-# self-sufficient on the fallback key. ratelimit is per-process; this node is the
-# only spec, so one process owns the whole budget.
+# The registered key has generous limits, but pace politely on a large fan-out.
+# ratelimit is per-process; each spec runs in its own process, so this bounds the
+# node that owns it. Use ~80% headroom below any documented ceiling.
 @sleep_and_retry
-@limits(calls=3, period=1)
+@limits(calls=8, period=1)
 def _http_get(url: str, params: dict):
     return get(url, params=params, timeout=(10.0, 120.0))
 
 
-# Long, 429-tolerant retry so a throttle window (which resets on a timer per the
-# X-Ratelimit-Reset header) is ridden out rather than failing the backfill.
-@transient_retry(attempts=15, min_wait=10, max_wait=300)
+# Long, 429-tolerant retry so a throttle window is ridden out rather than failing
+# the backfill (the response carries X-Ratelimit-Reset; transient_retry backs off).
+@transient_retry(attempts=12, min_wait=10, max_wait=300)
 def _get_json(url: str, params: dict) -> dict:
     resp = _http_get(url, params)
     resp.raise_for_status()
@@ -129,6 +160,20 @@ def _clean(v):
         return None
     s = str(v).strip().strip("'").strip()
     return s or None
+
+
+def _join_list(v):
+    if isinstance(v, list):
+        s = ", ".join(str(x) for x in v if x)
+        return s or None
+    return _clean(v)
+
+
+def _to_int(v):
+    try:
+        return int(v)
+    except (TypeError, ValueError):
+        return None
 
 
 def _to_float(v):
@@ -166,8 +211,8 @@ def _classify_col(field_id: str):
     return None
 
 
-def _list_item_wise_resources() -> list[tuple[str, str]]:
-    """Enumerate the item-wise HMIS report family (resource_id, title)."""
+def _list_item_wise_records() -> list[dict]:
+    """Enumerate the item-wise HMIS report family — full /lists records."""
     out, offset = [], 0
     while True:
         doc = _get_json(_LISTS, {
@@ -182,13 +227,16 @@ def _list_item_wise_resources() -> list[tuple[str, str]]:
         recs = doc.get("records", []) or []
         for r in recs:
             title = r.get("title", "") or ""
-            rid = r.get("index_name")
-            if rid and _ITEM_WISE_RE.match(title):
-                out.append((rid, title))
+            if r.get("index_name") and _ITEM_WISE_RE.match(title):
+                out.append(r)
         total = int(doc.get("total") or 0)
-        offset += _PAGE
+        # advance by rows actually returned — never a fixed step — so a server-side
+        # limit cap can never make us skip a window of the catalog.
+        offset += len(recs)
         if not recs or offset >= total:
             break
+        if offset > _PAGINATION_CEILING:
+            raise RuntimeError("runaway pagination enumerating HMIS /lists")
     return out
 
 
@@ -204,7 +252,9 @@ def _fetch_report_rows(resource_id: str) -> list[dict]:
         recs = doc.get("records", []) or []
         rows.extend(recs)
         total = int(doc.get("total") or 0)
-        offset += _PAGE
+        # advance by rows actually returned — guards against a limit cap silently
+        # skipping rows (a fixed `offset += _PAGE` step would).
+        offset += len(recs)
         if not recs or offset >= total:
             break
         if offset > _PAGINATION_CEILING:
@@ -251,27 +301,55 @@ def _melt(rows: list[dict], resource_id: str, financial_year, fy_start_year, geo
     return out
 
 
+def fetch_hmis_reports(node_id: str) -> None:
+    """The catalog of Item-wise HMIS reports (reference data, one row per report)."""
+    records = _list_item_wise_records()
+    if not records:
+        raise RuntimeError("no Item-wise HMIS report resources found on data.gov.in (filter/feed changed?)")
+    rows = []
+    for r in records:
+        title = r.get("title", "") or ""
+        fy, fy_start = _parse_fy(title)
+        rows.append({
+            "resource_id": r.get("index_name"),
+            "title": title,
+            "geography": _parse_geo(title),
+            "financial_year": fy,
+            "fy_start_year": fy_start,
+            "org_type": _clean(r.get("org_type")),
+            "org": _join_list(r.get("org")),
+            "sector": _join_list(r.get("sector")),
+            "catalog_uuid": _clean(r.get("catalog_uuid")),
+            "num_columns": len(r.get("field") or []),
+            "created_epoch": _to_int(r.get("created")),
+            "updated_epoch": _to_int(r.get("updated")),
+        })
+    table = pa.Table.from_pylist(rows, schema=CATALOG_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
 def fetch_hmis_values(node_id: str) -> None:
     """Pull every Item-wise HMIS report, normalise to long, write one parquet
     batch per report. Resumable via a watermark of completed resource ids."""
-    resources = _list_item_wise_resources()
-    if not resources:
+    records = _list_item_wise_records()
+    if not records:
         raise RuntimeError("no Item-wise HMIS report resources found on data.gov.in (filter/feed changed?)")
 
     # Raw is run-scoped (<connector>/runs/<run_id>/raw/...) but state is
     # connector-scoped, so the done-set is only a valid resume signal *within*
     # one run id (a supervisor self-retrigger chain shares it). A fresh run id
-    # means fresh run-scoped raw, so reset the watermark and re-fetch in full —
-    # otherwise we'd skip resources whose batches live in a previous run's dir.
+    # means fresh run-scoped raw, so reset the watermark and re-fetch in full.
     run_id = os.environ.get("RUN_ID")
     state = load_state(node_id)
     if state.get("schema_version") != STATE_VERSION or state.get("run_id") != run_id:
         state = {"schema_version": STATE_VERSION, "run_id": run_id, "done": []}
     done = set(state.get("done", []))
 
-    for resource_id, title in resources:
+    for r in records:
+        resource_id = r.get("index_name")
         if resource_id in done:
             continue
+        title = r.get("title", "") or ""
         financial_year, fy_start_year = _parse_fy(title)
         geo = _parse_geo(title)
         rows = _fetch_report_rows(resource_id)
@@ -285,52 +363,6 @@ def fetch_hmis_values(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id=f"{SLUG}-hmis-reports", fn=fetch_hmis_reports, kind="download"),
     NodeSpec(id=f"{SLUG}-hmis-values", fn=fetch_hmis_values, kind="download"),
-]
-
-_MONTH_NUM = """
-    CASE month
-        WHEN 'january' THEN 1 WHEN 'february' THEN 2 WHEN 'march' THEN 3
-        WHEN 'april' THEN 4 WHEN 'may' THEN 5 WHEN 'june' THEN 6
-        WHEN 'july' THEN 7 WHEN 'august' THEN 8 WHEN 'september' THEN 9
-        WHEN 'october' THEN 10 WHEN 'november' THEN 11 WHEN 'december' THEN 12
-    END
-"""
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-hmis-values-transform",
-        deps=[f"{SLUG}-hmis-values"],
-        sql=f'''
-            SELECT
-                make_date(
-                    fy_start_year + CASE WHEN month IN ('january','february','march') THEN 1 ELSE 0 END,
-                    {_MONTH_NUM},
-                    1
-                )                              AS period,
-                financial_year,
-                level,
-                state,
-                district,
-                s_no,
-                parameter,
-                type,
-                total,
-                public,
-                private,
-                urban,
-                rural
-            FROM "{SLUG}-hmis-values"
-            WHERE fy_start_year IS NOT NULL
-              AND month IS NOT NULL
-              AND state IS NOT NULL
-              AND parameter IS NOT NULL
-              AND (total IS NOT NULL OR public IS NOT NULL OR private IS NOT NULL
-                   OR urban IS NOT NULL OR rural IS NOT NULL)
-            QUALIFY row_number() OVER (
-                PARTITION BY level, state, district, s_no, type, period
-                ORDER BY resource_id
-            ) = 1
-        ''',
-    ),
 ]

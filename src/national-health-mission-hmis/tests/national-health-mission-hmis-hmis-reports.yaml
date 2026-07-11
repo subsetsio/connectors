@@ -1,0 +1,25 @@
+spec_id: national-health-mission-hmis-hmis-reports
+status: active
+tests:
+  - not_null: resource_id
+    reason: the data.gov.in resource UUID is the catalog primary key and the join key to hmis-values
+    certainty: 95
+  - unique: resource_id
+    reason: one row per Item-wise HMIS report resource; a duplicate means the enumeration double-counted a resource
+    certainty: 90
+  - not_null: title
+    reason: every catalog row carries the report title it was parsed from
+    certainty: 95
+  - not_null: geography
+    reason: the report title always names a geography ("... of <GEO> for <FY>"); a null means the title parse failed
+    certainty: 85
+  - column_type: {col: fy_start_year, type: integer}
+    certainty: 90
+  - between: {col: fy_start_year, lo: 2008, hi: current_year()}
+    reason: HMIS on data.gov.in starts at financial year 2008-09; nothing should predate it or be a future fiscal year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: num_columns, expr: 1}
+    reason: every item-wise report exposes a non-empty column schema
+    certainty: 90

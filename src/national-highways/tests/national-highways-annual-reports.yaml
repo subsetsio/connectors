@@ -1,0 +1,30 @@
+spec_id: national-highways-annual-reports
+status: active
+tests:
+  - not_null: site_id
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month_num, type: integer}
+  - unique: [site_id, year, month_num]
+    reason: one ADT/AWT row per site per year per month; dupes mean overlapping windows were not deduped or a batch was re-appended
+    certainty: 90
+  - between: {col: month_num, lo: 1, hi: 12}
+    certainty: 95
+  - between: {col: year, lo: 2016, hi: 2100}
+    reason: annual data begins ~2017 per API probing; upper bound loose
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: annual statistics are historical/in-arrears — no future years
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: current_year() - 2}
+    reason: data lands ~1 month in arrears, so the latest full annual year should be within 2 years
+    points_outward: true
+  - distinct_count: {col: site_id, min: 3000}
+    reason: annual coverage is legitimately partial (inactive/new sites lack annual data), but a healthy full-network pull covers many thousands of sites; far fewer means the site enumeration or batching broke
+    certainty: 80
+  - median_between: {col: adt_24hour, lo: 100, hi: 300000}
+    reason: 24-hour average daily traffic per site, sanity band on the count magnitude
+    certainty: 55
+    severity: warn

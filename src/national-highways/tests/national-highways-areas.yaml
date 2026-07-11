@@ -1,0 +1,16 @@
+spec_id: national-highways-areas
+status: active
+tests:
+  - not_null: area_id
+  - column_type: {col: area_id, type: string}
+  - unique: area_id
+    reason: /areas is the DBFO/regional area register — one row per area id
+    certainty: 95
+  - not_null: name
+  - row_count: {min: 20, max: 60}
+    reason: probing saw 25 areas; the set is small and stable
+    certainty: 90
+  - between: {col: x_latitude, lo: 49, hi: 56}
+    reason: area bounding-box corners lie within the GB latitude band
+    certainty: 80
+    severity: warn

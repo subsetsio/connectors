@@ -1,0 +1,21 @@
+spec_id: national-highways-sites
+status: active
+tests:
+  - not_null: site_id
+  - column_type: {col: site_id, type: string}
+  - unique: site_id
+    reason: /sites is the site register — one row per monitoring site id
+    certainty: 95
+  - row_count: {min: 19000}
+    reason: probing saw 20,076 sites; a large shortfall means the bulk GET was truncated
+    certainty: 90
+  - enum: {col: status, values: [Active, Inactive]}
+    reason: only Active/Inactive observed while probing; a new value is worth learning, not an alarm
+    certainty: 70
+    severity: warn
+  - between: {col: latitude, lo: 49, hi: 56}
+    reason: sites are on the English strategic road network — GB latitude band
+    certainty: 85
+  - between: {col: longitude, lo: -8, hi: 2}
+    reason: GB longitude band
+    certainty: 85
