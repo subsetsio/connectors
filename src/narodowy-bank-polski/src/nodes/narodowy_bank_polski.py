@@ -18,7 +18,7 @@ _CURRENCY_SCHEMA = pa.schema([
 ])
 
 _MID_SCHEMA = pa.schema([
-    ("date", pa.string()),
+    ("date", pa.date32()),
     ("table", pa.string()),
     ("code", pa.string()),
     ("currency", pa.string()),
@@ -26,7 +26,7 @@ _MID_SCHEMA = pa.schema([
 ])
 
 _BIDASK_SCHEMA = pa.schema([
-    ("date", pa.string()),
+    ("date", pa.date32()),
     ("code", pa.string()),
     ("currency", pa.string()),
     ("bid", pa.float64()),
@@ -34,7 +34,7 @@ _BIDASK_SCHEMA = pa.schema([
 ])
 
 _GOLD_SCHEMA = pa.schema([
-    ("date", pa.string()),
+    ("date", pa.date32()),
     ("price_pln_per_g", pa.float64()),
 ])
 
@@ -64,43 +64,47 @@ def fetch_currencies(node_id: str) -> None:
 
 def fetch_mid(node_id: str) -> None:
     """Tables A + B mid reference rates, long format."""
-    rows = []
+    by_key: dict[tuple[date, str, str], dict] = {}
     for table in ("A", "B"):
         for day in _fetch_windows(
             f"exchangerates/tables/{table}/{{start}}/{{end}}/", _FX_START
         ):
-            eff = day["effectiveDate"]
+            eff = date.fromisoformat(day["effectiveDate"])
             for rate in day["rates"]:
-                rows.append({
+                key = (eff, table, rate["code"])
+                by_key[key] = {
                     "date": eff,
                     "table": table,
                     "code": rate["code"],
                     "currency": rate.get("currency") or rate.get("country"),
                     "mid": rate["mid"],
-                })
+                }
+    rows = [by_key[key] for key in sorted(by_key)]
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_MID_SCHEMA), node_id)
 
 
 def fetch_bid_ask(node_id: str) -> None:
     """Table C buy/sell rates, long format."""
-    rows = []
+    by_key: dict[tuple[date, str], dict] = {}
     for day in _fetch_windows("exchangerates/tables/C/{start}/{end}/", _FX_START):
-        eff = day["effectiveDate"]
+        eff = date.fromisoformat(day["effectiveDate"])
         for rate in day["rates"]:
-            rows.append({
+            key = (eff, rate["code"])
+            by_key[key] = {
                 "date": eff,
                 "code": rate["code"],
                 "currency": rate.get("currency") or rate.get("country"),
                 "bid": rate["bid"],
                 "ask": rate["ask"],
-            })
+            }
+    rows = [by_key[key] for key in sorted(by_key)]
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_BIDASK_SCHEMA), node_id)
 
 
 def fetch_gold(node_id: str) -> None:
     """NBP accounting price of gold, long format."""
     rows = [
-        {"date": item["data"], "price_pln_per_g": item["cena"]}
+        {"date": date.fromisoformat(item["data"]), "price_pln_per_g": item["cena"]}
         for item in _fetch_windows("cenyzlota/{start}/{end}/", _GOLD_START)
     ]
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_GOLD_SCHEMA), node_id)
