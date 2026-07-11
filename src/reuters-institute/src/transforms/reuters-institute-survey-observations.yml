@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reuters-institute-survey-observations`. Regenerate after model-verify.
+# caution: Rows include demographic split aggregates as well as all-respondent totals; filter split variables before aggregating results across demographic groups.
+key: [option_id, country_code, year, split_value, question_id]
+temporal: year
+sort: [year, option_id, country_code, split_value, question_id]
+columns:
+  - name: question_id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: country_code
+    type: VARCHAR
+  - name: option_id
+    type: VARCHAR
+  - name: split_var
+    type: VARCHAR
+  - name: split_value
+    type: VARCHAR
+  - name: pct
+    type: DOUBLE
+  - name: base_unwt_calc
+    type: BIGINT
