@@ -1,0 +1,40 @@
+spec_id: mpa-singapore-d-56f64b2d5a31eb0ee465cc51e83ac60a
+status: active
+tests:
+- not_null: date
+  reason: every row carries its observation period; a null date means the period parse failed
+  certainty: 95
+- column_type:
+    col: date
+    type: date
+  reason: the fetch fn normalizes the source month/year string to a period-end date32
+  certainty: 95
+- unique: date
+  reason: one row per date; duplicates mean a full-snapshot CSV was appended instead of overwritten
+  certainty: 90
+- between:
+    col: date
+    lo: '1995-01-01'
+    hi: today
+  reason: monthly series begins 1995 on data.gov.sg; no observation can post-date the run
+  certainty: 90
+- freshness:
+    col: date
+    reaches: today - 100d
+  reason: MPA refreshes this monthly series continuously; a stale max means the feed stopped advancing (bound allows for period-end dating + publication lag)
+  certainty: 80
+  points_outward: true
+- row_count:
+    min: 350
+  reason: monthly coverage since 1995 implies at least this many rows; far fewer means a truncated download
+  certainty: 75
+- column_type:
+    col: number_of_vessels
+    type: float
+  reason: number_of_vessels is a numeric measure coerced to float64 in the fetch fn
+  certainty: 90
+- column_type:
+    col: gross_tonnage
+    type: float
+  reason: gross_tonnage is a numeric measure coerced to float64 in the fetch fn
+  certainty: 90

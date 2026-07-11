@@ -5,29 +5,42 @@ statistics on Singapore's national open-data portal (data.gov.sg). Each dataset
 is a distinct table fetched the same way: the v2 list-rows endpoint with cursor
 pagination. No auth, no documented rate limit.
 
-Two raw shapes come back, and the fetch fn auto-detects which by the presence
-of a `DataSeries` label column:
-  - **Wide** (the vast majority): a `DataSeries` label column plus one column
-    per time period ('2026Apr' monthly, '20261Q' quarterly, '2026' annual) —
-    up to ~660 period columns. DuckDB's JSON reader collapses objects with
-    >200 keys into a single MAP column, so wide rows are **unpivoted to long**
-    (data_series, period_raw, value_raw) here in Python before saving raw. The
-    compiled SQL transform then normalises the period and casts the value.
-  - **Long**: already row-per-observation (e.g. date, value); the vault_id row
-    index is dropped and the rest is saved as-is.
+Every accepted MAS dataset arrives **wide**: a `DataSeries` label column (the
+series name) plus one column per time period. Three period label formats occur,
+one per dataset frequency:
+  - monthly   `2026Apr`  (YYYYMon)
+  - quarterly `20261Q`   (YYYY<q>Q)
+  - annual    `2026`     (YYYY)
+
+The fetch unpivots each wide row to one observation per (series, period) and
+normalises it into clean, typed columns so the raw is directly SQL-readable and
+the compiled transform is near-identity:
+  - `data_series` (string)  — trimmed series label
+  - `period`      (date)    — the period's END date (month-end / quarter-end /
+                              Dec-31), matching the "End Of Period" semantics of
+                              most MAS series and giving a sortable temporal key
+  - `value`       (double)  — numeric value; the source's non-numeric markers
+                              ('na', '-', blank, thousands commas) are parsed to
+                              null/number and null cells are dropped
 
 Transforms are NOT authored here — the model stage profiles this raw and
 compiles the per-table transform (src/transforms/<table>.sql + .yml).
 
-Fetch strategy: stateless full re-pull every run (the whole MAS corpus is a few
-thousand rows per dataset, cheap to refetch; this picks up SingStat revisions
-for free). No incremental filter is offered by list-rows anyway.
+Fetch strategy: stateless full re-pull every run (each MAS dataset is a few
+thousand cells, cheap to refetch; this picks up SingStat revisions for free).
+list-rows offers no incremental filter anyway.
 """
+
+import calendar
+import re
+from datetime import date
+
+import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     get,
-    save_raw_ndjson,
+    save_raw_parquet,
     transient_retry,
 )
 
@@ -37,6 +50,18 @@ _MAX_PAGES = 10000  # safety ceiling; raises on hit (pagination loop guard)
 
 # The accept-accepted entity union: one MAS dataset id per published subset.
 from constants import ENTITY_IDS
+
+_SCHEMA = pa.schema([
+    ("data_series", pa.string()),
+    ("period", pa.date32()),
+    ("value", pa.float64()),
+])
+
+_MONTHS = {
+    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
+    "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12,
+}
+_NULL_MARKERS = {"", "na", "n.a.", "nan", "-", "--", "n/a"}
 
 
 def _spec_id(dataset_id: str) -> str:
@@ -49,6 +74,39 @@ _ID_BY_SPEC = {_spec_id(d): d for d in ENTITY_IDS}
 
 
 # ── Download ──────────────────────────────────────────────────────────
+
+
+def _month_end(year: int, month: int) -> date:
+    return date(year, month, calendar.monthrange(year, month)[1])
+
+
+def _period_end(label: str):
+    """Normalise a MAS period column label to its END date, or None if the
+    key is not a recognised period column (e.g. a stray metadata column)."""
+    label = label.strip()
+    m = re.fullmatch(r"(\d{4})([A-Z][a-z]{2})", label)  # monthly 2026Apr
+    if m:
+        mo = _MONTHS.get(m.group(2))
+        return _month_end(int(m.group(1)), mo) if mo else None
+    m = re.fullmatch(r"(\d{4})([1-4])Q", label)  # quarterly 20261Q
+    if m:
+        return _month_end(int(m.group(1)), int(m.group(2)) * 3)
+    m = re.fullmatch(r"(\d{4})", label)  # annual 2026
+    if m:
+        return date(int(m.group(1)), 12, 31)
+    return None
+
+
+def _num(raw):
+    if raw is None:
+        return None
+    s = str(raw).strip().replace(",", "")
+    if s.lower() in _NULL_MARKERS:
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
 
 
 @transient_retry()
@@ -80,35 +138,42 @@ def _fetch_all_rows(dataset_id: str) -> list:
     return rows
 
 
-def _unpivot(rows: list) -> list:
-    """Wide -> long: (data_series, period_raw, value_raw), one row per cell.
-
-    Values are kept as raw strings ('na'/'-'/'' included); the transform casts
-    and nulls them. vault_id (a row index) is dropped.
-    """
-    out = []
+def _observations(rows: list) -> dict:
+    """Wide -> long. Returns column-oriented dict for pa.Table; one row per
+    (data_series, period) cell with a numeric value (null cells dropped)."""
+    series_col, period_col, value_col = [], [], []
     for row in rows:
         series = row.get("DataSeries")
-        for key, val in row.items():
+        series = series.strip() if isinstance(series, str) else series
+        if not series:
+            continue
+        for key, raw in row.items():
             if key in ("vault_id", "DataSeries"):
                 continue
-            out.append({
-                "data_series": series,
-                "period_raw": key,
-                "value_raw": None if val is None else str(val),
-            })
-    return out
+            period = _period_end(key)
+            if period is None:
+                continue
+            value = _num(raw)
+            if value is None:
+                continue
+            series_col.append(series)
+            period_col.append(period)
+            value_col.append(value)
+    return {"data_series": series_col, "period": period_col, "value": value_col}
 
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     dataset_id = _ID_BY_SPEC[node_id]
     rows = _fetch_all_rows(dataset_id)
-    if rows and "DataSeries" in rows[0]:
-        records = _unpivot(rows)
-    else:
-        records = [{k: v for k, v in r.items() if k != "vault_id"} for r in rows]
-    save_raw_ndjson(records, asset)
+    cols = _observations(rows)
+    if not cols["data_series"]:
+        raise RuntimeError(
+            f"{dataset_id}: no numeric observations parsed from {len(rows)} rows "
+            f"— response shape may have changed"
+        )
+    table = pa.table(cols, schema=_SCHEMA)
+    save_raw_parquet(table, asset)
 
 
 DOWNLOAD_SPECS = [

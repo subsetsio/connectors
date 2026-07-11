@@ -20,7 +20,7 @@ import openpyxl
 import pyarrow as pa
 
 from subsets_utils import (
-    NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry,
+    NodeSpec, get, save_raw_parquet, transient_retry,
 )
 from constants import ENTITY_META
 
@@ -474,18 +474,5 @@ DOWNLOAD_SPECS = [
     for sid in ENTITY_META
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT series, period, year, part, CAST(date AS DATE) AS date, value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY series, period, part ORDER BY value DESC
-            ) = 1
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are NOT defined here — they live as compiled .sql/.yml pairs under
+# src/transforms/ (one per published table), which is what the runtime loads.

@@ -33,7 +33,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -284,27 +283,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per publication: a thin pass over the row extraction,
-# dropping any all-empty rows. Uniform across all subsets (uniform raw schema).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        key=(),
-        sql=f'''
-            SELECT
-                attachment_filename,
-                attachment_title,
-                content_type,
-                sheet_name,
-                CAST(row_index AS BIGINT) AS row_index,
-                CAST(n_cols AS BIGINT) AS n_cols,
-                cells
-            FROM "{s.id}"
-            WHERE n_cols > 0
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

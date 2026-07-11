@@ -1,0 +1,45 @@
+spec_id: mpa-singapore-d-4f5abbf4486bf8e52bbed3be56dde562
+status: active
+tests:
+- not_null: date
+  reason: every row carries its observation period; a null date means the period parse failed
+  certainty: 95
+- column_type:
+    col: date
+    type: date
+  reason: the fetch fn normalizes the source month/year string to a period-end date32
+  certainty: 95
+- unique:
+  - date
+  - bunker_type
+  reason: one row per date + bunker_type; duplicates mean a full-snapshot CSV was appended instead of overwritten
+  certainty: 90
+- between:
+    col: date
+    lo: '1995-01-01'
+    hi: today
+  reason: monthly series begins 1995 on data.gov.sg; no observation can post-date the run
+  certainty: 90
+- freshness:
+    col: date
+    reaches: today - 100d
+  reason: MPA refreshes this monthly series continuously; a stale max means the feed stopped advancing (bound allows for period-end dating + publication lag)
+  certainty: 80
+  points_outward: true
+- row_count:
+    min: 2000
+  reason: monthly coverage since 1995 implies at least this many rows; far fewer means a truncated download
+  certainty: 75
+- not_null: bunker_type
+  reason: bunker_type is a breakdown dimension present on every row
+  certainty: 90
+- distinct_count:
+    col: bunker_type
+    min: 4
+  reason: the source publishes several bunker_type categories; a collapse to one means the dimension was lost
+  certainty: 75
+- column_type:
+    col: bunker_sales
+    type: float
+  reason: bunker_sales is a numeric measure coerced to float64 in the fetch fn
+  certainty: 90
