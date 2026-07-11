@@ -1,10 +1,19 @@
-key: [valid_from, country, currency_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-slovakia-exchange-rate-foreign-monthly`. Regenerate after model-verify.
+# caution: These are monthly rates for selected foreign currencies not covered by the ECB daily feed; they should not be mixed with daily ECB reference rates without aligning frequency.
+key: [valid_from, country, currency_name, currency_code, month_number]
 temporal: valid_from
-sort: [valid_from, currency_code]
+sort: [valid_from, country, currency_name, currency_code, month_number]
 columns:
-  - {name: valid_from,    type: DATE,    description: "Month the rate is valid from (month start)"}
-  - {name: month_number,  type: INTEGER, description: "Calendar month number (1-12)"}
-  - {name: country,       type: VARCHAR, description: "Country name, English"}
-  - {name: currency_code, type: VARCHAR, description: "ISO currency code"}
-  - {name: currency_name, type: VARCHAR, description: "Currency name, English"}
-  - {name: value,         type: DOUBLE,  description: "Units of the foreign currency per 1 EUR (NBS selected-currency reference rate)"}
+  - name: valid_from
+    type: DATE
+  - name: month_number
+    type: INTEGER
+  - name: country
+    type: VARCHAR
+  - name: currency_code
+    type: VARCHAR
+  - name: currency_name
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

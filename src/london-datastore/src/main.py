@@ -13,6 +13,7 @@ Authoring order is download → maintain. Before maintain has run, there are
 no MaintainSpecs and every NodeSpec executes. That's the right default for
 the first crawl.
 """
+import os
 import sys
 from pathlib import Path
 
@@ -23,6 +24,13 @@ from subsets_utils import load_nodes, validate_environment
 
 
 def main():
+    if os.environ.get("GITHUB_ACTIONS"):
+        try:
+            current_budget = float(os.environ.get("DAG_TIME_BUDGET", "0") or 0)
+        except ValueError:
+            current_budget = 0
+        if current_budget <= 0 or current_budget > 1800:
+            os.environ["DAG_TIME_BUDGET"] = "1800"
     validate_environment()
     workflow = load_nodes()
     workflow.run()

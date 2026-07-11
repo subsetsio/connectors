@@ -1,13 +1,27 @@
-key: []
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-slovakia-dsw-subject-union`. Regenerate after model-verify.
+key: [subject_code]
+sort: [subject_code]
 columns:
-  - {name: subject_code,             type: VARCHAR, description: "Predecessor supervised subject code"}
-  - {name: successor_subject_code,   type: VARCHAR, description: "Successor subject code after the merger/union"}
-  - {name: union_date,               type: VARCHAR, description: "Date of the merger/succession (dd.mm.yyyy)"}
-  - {name: subject_name_act,         type: VARCHAR, description: "Predecessor current name"}
-  - {name: subject_name_hist,        type: VARCHAR, description: "Predecessor historical name"}
-  - {name: succ_subject_name_act,    type: VARCHAR, description: "Successor current name"}
-  - {name: succ_subject_name_hist,   type: VARCHAR, description: "Successor historical name"}
-  - {name: deputy_subject_name,      type: VARCHAR, description: "Predecessor managing subject name"}
-  - {name: succ_deputy_subject_name, type: VARCHAR, description: "Successor managing subject name"}
-  - {name: grp_parent_name,          type: VARCHAR, description: "Parent group name"}
-  - {name: grp_name,                 type: VARCHAR, description: "Group name"}
+  - name: subject_code
+    type: VARCHAR
+  - name: successor_subject_code
+    type: VARCHAR
+  - name: union_date
+    type: VARCHAR
+  - name: subject_name_act
+    type: VARCHAR
+  - name: subject_name_hist
+    type: VARCHAR
+  - name: succ_subject_name_act
+    type: VARCHAR
+  - name: succ_subject_name_hist
+    type: VARCHAR
+  - name: deputy_subject_name
+    type: VARCHAR
+  - name: succ_deputy_subject_name
+    type: VARCHAR
+  - name: grp_parent_name
+    type: VARCHAR
+  - name: grp_name
+    type: VARCHAR

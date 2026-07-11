@@ -1,13 +1,19 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are reported values by supervised subject, value type, currency, and reporting period, but the source does not expose a verified row identifier; avoid assuming uniqueness when aggregating.
+-- caution: The table carries both current and historical subject/group labels. Use the subject history reference table when effective-dated names or group membership matter.
 SELECT
-    CAST(period              AS DATE)    AS period,
-    CAST(subject_code        AS VARCHAR) AS subject_code,
-    CAST(val_type            AS VARCHAR) AS val_type,
-    CAST(currency            AS VARCHAR) AS currency,
-    CAST(num_value           AS DOUBLE)  AS num_value,
-    CAST(subject_name_act    AS VARCHAR) AS subject_name_act,
-    CAST(subject_name_hist   AS VARCHAR) AS subject_name_hist,
-    CAST(deputy_subject_code AS VARCHAR) AS deputy_subject_code,
-    CAST(deputy_subject_name AS VARCHAR) AS deputy_subject_name,
-    CAST(grp_name            AS VARCHAR) AS grp_name,
-    CAST(grp_parent_name     AS VARCHAR) AS grp_parent_name
+    "period",
+    "subject_code",
+    "val_type",
+    "currency",
+    "num_value",
+    "subject_name_act",
+    "subject_name_hist",
+    "deputy_subject_code",
+    "deputy_subject_name",
+    "grp_name",
+    "grp_parent_name"
 FROM "national-bank-of-slovakia-dsw-report-data"

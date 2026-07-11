@@ -1,12 +1,17 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The table mixes monthly, quarterly, and annual observations; filter `frequency` before time-series comparisons or aggregations.
+-- caution: The source workbook values do not carry the MEDB catalog `timeseries_id`; the derived `series_key` is not unique across the catalog, so this table is intentionally keyless.
 SELECT
-    CAST(frequency    AS VARCHAR) AS frequency,
-    CAST(series_key   AS VARCHAR) AS series_key,
-    CAST(classcode    AS VARCHAR) AS classcode,
-    CAST(variable     AS VARCHAR) AS variable,
-    CAST(detail       AS VARCHAR) AS detail,
-    CAST(source       AS VARCHAR) AS source,
-    CAST(period_label AS VARCHAR) AS period_label,
-    CAST(date         AS DATE)    AS date,
-    CAST(value        AS DOUBLE)  AS value
+    "frequency",
+    "series_key",
+    "classcode",
+    "variable",
+    "detail",
+    "source",
+    "period_label",
+    "date",
+    "value"
 FROM "national-bank-of-slovakia-medb-values"
-WHERE value IS NOT NULL

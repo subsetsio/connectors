@@ -1,15 +1,32 @@
-key: []
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-slovakia-dsw-subject-history`. Regenerate after model-verify.
+# caution: This is an effective-dated name and grouping history. Join on subject codes and validity ranges when reconstructing a reporting-period view.
+key: [subject_name_hist]
+sort: [subject_name_hist]
 columns:
-  - {name: deputy_subject_code, type: VARCHAR, description: "Managing/parent subject code"}
-  - {name: deputy_subject_name, type: VARCHAR, description: "Managing/parent subject name"}
-  - {name: subject_code,        type: VARCHAR, description: "Supervised subject code"}
-  - {name: subject_name_act,    type: VARCHAR, description: "Current name of the subject"}
-  - {name: subject_name_hist,   type: VARCHAR, description: "Historical name of the subject"}
-  - {name: name_from,           type: VARCHAR, description: "Name validity start (dd.mm.yyyy)"}
-  - {name: name_till,           type: VARCHAR, description: "Name validity end (dd.mm.yyyy)"}
-  - {name: valid_from,          type: VARCHAR, description: "Subject record validity start (dd.mm.yyyy)"}
-  - {name: valid_till,          type: VARCHAR, description: "Subject record validity end (dd.mm.yyyy)"}
-  - {name: grp_parent_name,     type: VARCHAR, description: "Parent group name"}
-  - {name: grp_name,            type: VARCHAR, description: "Group name"}
-  - {name: in_grp_from,         type: VARCHAR, description: "Group membership start (dd.mm.yyyy)"}
-  - {name: in_grp_till,         type: VARCHAR, description: "Group membership end (dd.mm.yyyy)"}
+  - name: deputy_subject_code
+    type: VARCHAR
+  - name: deputy_subject_name
+    type: VARCHAR
+  - name: subject_code
+    type: VARCHAR
+  - name: subject_name_act
+    type: VARCHAR
+  - name: subject_name_hist
+    type: VARCHAR
+  - name: name_from
+    type: VARCHAR
+  - name: name_till
+    type: VARCHAR
+  - name: valid_from
+    type: VARCHAR
+  - name: valid_till
+    type: VARCHAR
+  - name: grp_parent_name
+    type: VARCHAR
+  - name: grp_name
+    type: VARCHAR
+  - name: in_grp_from
+    type: VARCHAR
+  - name: in_grp_till
+    type: VARCHAR

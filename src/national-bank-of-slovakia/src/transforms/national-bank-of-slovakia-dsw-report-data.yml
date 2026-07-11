@@ -1,15 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-slovakia-dsw-report-data`. Regenerate after model-verify.
+# caution: Rows are reported values by supervised subject, value type, currency, and reporting period, but the source does not expose a verified row identifier; avoid assuming uniqueness when aggregating.
+# caution: The table carries both current and historical subject/group labels. Use the subject history reference table when effective-dated names or group membership matter.
 key: []
 temporal: period
-sort: [period, subject_code]
+sort: [period]
 columns:
-  - {name: period,              type: DATE,    description: "Reporting date of the value"}
-  - {name: subject_code,        type: VARCHAR, description: "NBS-supervised subject (entity) code"}
-  - {name: val_type,            type: VARCHAR, description: "Reported value-type / metric code"}
-  - {name: currency,            type: VARCHAR, description: "Currency of the reported value (e.g. SKK, EUR)"}
-  - {name: num_value,           type: DOUBLE,  description: "Reported numeric value"}
-  - {name: subject_name_act,    type: VARCHAR, description: "Current name of the supervised subject"}
-  - {name: subject_name_hist,   type: VARCHAR, description: "Historical name of the subject at reporting time"}
-  - {name: deputy_subject_code, type: VARCHAR, description: "Managing/parent subject code"}
-  - {name: deputy_subject_name, type: VARCHAR, description: "Managing/parent subject name"}
-  - {name: grp_name,            type: VARCHAR, description: "Subject group name"}
-  - {name: grp_parent_name,     type: VARCHAR, description: "Parent group name"}
+  - name: period
+    type: DATE
+  - name: subject_code
+    type: VARCHAR
+  - name: val_type
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: num_value
+    type: DOUBLE
+  - name: subject_name_act
+    type: VARCHAR
+  - name: subject_name_hist
+    type: VARCHAR
+  - name: deputy_subject_code
+    type: VARCHAR
+  - name: deputy_subject_name
+    type: VARCHAR
+  - name: grp_name
+    type: VARCHAR
+  - name: grp_parent_name
+    type: VARCHAR

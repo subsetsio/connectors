@@ -1,13 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-slovakia-medb-values`. Regenerate after model-verify.
+# caution: The table mixes monthly, quarterly, and annual observations; filter `frequency` before time-series comparisons or aggregations.
+# caution: The source workbook values do not carry the MEDB catalog `timeseries_id`; the derived `series_key` is not unique across the catalog, so this table is intentionally keyless.
 key: []
 temporal: date
-sort: [date, series_key]
+sort: [date]
 columns:
-  - {name: frequency,    type: VARCHAR, description: "Observation frequency: M (monthly), Q (quarterly), A (annual)"}
-  - {name: series_key,   type: VARCHAR, description: "Synthetic series key: frequency|variable|detail. NOT unique per real series (same variable+detail can recur across sub-areas), so this table is keyless"}
-  - {name: classcode,    type: VARCHAR, description: "Short class/mnemonic code from the MEDB workbook"}
-  - {name: variable,     type: VARCHAR, description: "Series name, English"}
-  - {name: detail,       type: VARCHAR, description: "Series detail tag: [geo, freq, adjustment, unit]"}
-  - {name: source,       type: VARCHAR, description: "Data source/authority for the series"}
-  - {name: period_label, type: VARCHAR, description: "Original period label from the workbook (e.g. '1Q93', '2008-01', '1993')"}
-  - {name: date,         type: DATE,    description: "Period start date (month/quarter/year start). Includes forecast periods out to ~2030"}
-  - {name: value,        type: DOUBLE,  description: "Observed (or forecast) value in the unit given by `detail`"}
+  - name: frequency
+    type: VARCHAR
+  - name: series_key
+    type: VARCHAR
+  - name: classcode
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: detail
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE

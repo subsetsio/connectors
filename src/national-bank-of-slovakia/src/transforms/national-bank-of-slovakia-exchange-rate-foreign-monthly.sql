@@ -1,9 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: These are monthly rates for selected foreign currencies not covered by the ECB daily feed; they should not be mixed with daily ECB reference rates without aligning frequency.
 SELECT
-    CAST(valid_from    AS DATE)    AS valid_from,
-    CAST(month_number  AS INTEGER) AS month_number,
-    CAST(country       AS VARCHAR) AS country,
-    CAST(currency_code AS VARCHAR) AS currency_code,
-    CAST(currency_name AS VARCHAR) AS currency_name,
-    CAST(value         AS DOUBLE)  AS value
+    "valid_from",
+    "month_number",
+    "country",
+    "currency_code",
+    "currency_name",
+    "value"
 FROM "national-bank-of-slovakia-exchange-rate-foreign-monthly"
-WHERE value IS NOT NULL
