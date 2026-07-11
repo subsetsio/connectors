@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-efbn-tender-results-efb`. Regenerate after model-verify.
+# caution: Exchange Fund Bills tender rows can repeat by issue date and tenor segment; the source does not publish an issue identifier in this endpoint, so the pass-through table is intentionally keyless.
+key: []
+temporal: issue_date
+sort: [issue_date]
+columns:
+  - name: issue_date
+    type: DATE
+  - name: average_yield_accepted
+    type: DOUBLE
+  - name: amount_applied
+    type: DOUBLE
+  - name: over_subscription
+    type: DOUBLE
+  - name: segment
+    type: VARCHAR

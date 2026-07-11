@@ -1,0 +1,33 @@
+key: [commodity_id]
+sort: [commodity_id]
+columns:
+  - name: commodity_id
+    type: BIGINT
+    description: HMRC commodity identifier.
+  - name: cn8_code
+    type: VARCHAR
+    description: Combined Nomenclature 8-digit commodity code.
+  - name: hs2_code
+    type: VARCHAR
+    description: Harmonized System 2-digit chapter code.
+  - name: hs4_code
+    type: VARCHAR
+    description: Harmonized System 4-digit heading code.
+  - name: hs6_code
+    type: VARCHAR
+    description: Harmonized System 6-digit subheading code.
+  - name: hs2_description
+    type: VARCHAR
+    description: Description of the HS2 chapter.
+  - name: hs4_description
+    type: VARCHAR
+    description: Description of the HS4 heading.
+  - name: hs6_description
+    type: VARCHAR
+    description: Description of the HS6 subheading.
+  - name: sitc_commodity_code
+    type: VARCHAR
+    description: Related SITC commodity code.
+  - name: cn8_long_description
+    type: VARCHAR
+    description: Long description of the CN8 commodity.

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-hkd-interest-rates-effective`. Regenerate after model-verify.
+key: [effect_date]
+temporal: effect_date
+sort: [effect_date]
+columns:
+  - name: effect_date
+    type: DATE
+  - name: dr_1w
+    type: DOUBLE
+  - name: dr_1m
+    type: DOUBLE
+  - name: dr_3m
+    type: DOUBLE
+  - name: dr_6m
+    type: DOUBLE
+  - name: dr_12m
+    type: DOUBLE
+  - name: savings_deposit_rate
+    type: DOUBLE
+  - name: best_lending_rate
+    type: DOUBLE

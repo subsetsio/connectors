@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-efbn-outstanding-remaining-tenor`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: efb_1y_or_below
+    type: BIGINT
+  - name: efn_1y_or_below
+    type: BIGINT
+  - name: efn_1yto3y
+    type: BIGINT
+  - name: efn_3yto5y
+    type: BIGINT
+  - name: efn_5yto7y
+    type: BIGINT
+  - name: efn_7yto10y
+    type: BIGINT
+  - name: efn_10y
+    type: BIGINT
+  - name: efn_subtotal
+    type: BIGINT
+  - name: efbn_total
+    type: BIGINT

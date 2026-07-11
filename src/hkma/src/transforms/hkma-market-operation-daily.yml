@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-market-operation-daily`. Regenerate after model-verify.
+key: [end_of_day]
+temporal: end_of_day
+sort: [end_of_day]
+columns:
+  - name: end_of_day
+    type: DATE
+  - name: market_activities
+    type: HUGEINT
+  - name: interest_payment
+    type: HUGEINT
+  - name: discount_window_reversal
+    type: HUGEINT
+  - name: discount_window_activities
+    type: BIGINT
+  - name: closing_balance
+    type: BIGINT

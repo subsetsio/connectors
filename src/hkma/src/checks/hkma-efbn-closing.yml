@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `hkma-efbn-closing`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [maturity, issue_no, segment]
+temporal: end_of_date
+checks:
+  - kind: unique
+    columns: [maturity, issue_no, segment]
+  - kind: not_null
+    col: maturity
+  - kind: not_null
+    col: issue_no
+  - kind: not_null
+    col: segment
+  - kind: row_floor
+    min: 34
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

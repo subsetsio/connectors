@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-govbond-outstanding-remaining-tenor`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: institutional_1y_or_below
+    type: DOUBLE
+  - name: institutional_1yto3y
+    type: DOUBLE
+  - name: institutional_3yto5y
+    type: DOUBLE
+  - name: institutional_5yto7y
+    type: DOUBLE
+  - name: institutional_over7y
+    type: DOUBLE
+  - name: institutional_subtotal
+    type: DOUBLE
+  - name: retail_1y_or_below
+    type: DOUBLE
+  - name: retail_1yto3y
+    type: DOUBLE
+  - name: retail_3yto5y
+    type: BIGINT
+  - name: retail_5yto7y
+    type: BIGINT
+  - name: retail_subtotal
+    type: DOUBLE
+  - name: total
+    type: DOUBLE

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-market-operation-periodaverage`. Regenerate after model-verify.
+# caution: The upstream period-average endpoint contains a duplicate reporting period in the raw feed, so the pass-through table is intentionally keyless.
+key: []
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: specific_data
+    type: VARCHAR
+  - name: market_activities_injection
+    type: BIGINT
+  - name: market_activities_withdrawal
+    type: HUGEINT
+  - name: interest_payment
+    type: HUGEINT
+  - name: discount_window_reversal_injection
+    type: BIGINT
+  - name: discount_window_reversal_withdrawal
+    type: HUGEINT
+  - name: discount_window_activities_lending
+    type: BIGINT
+  - name: discount_window_activities_borrowing
+    type: HUGEINT
+  - name: closing_balance
+    type: BIGINT

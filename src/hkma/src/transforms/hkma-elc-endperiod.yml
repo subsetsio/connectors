@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-elc-endperiod`. Regenerate after model-verify.
+key: [name_tc, name_en, end_of_month, type_tc, type_en]
+temporal: end_of_month
+sort: [end_of_month, name_tc, name_en, type_tc, type_en]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: type_en
+    type: VARCHAR
+  - name: name_en
+    type: VARCHAR
+  - name: type_tc
+    type: VARCHAR
+  - name: name_tc
+    type: VARCHAR
+  - name: liability_bank_outhk_hkd
+    type: BIGINT
+  - name: liability_bank_outhk_fc
+    type: BIGINT
+  - name: claim_bank_outhk_hkd
+    type: BIGINT
+  - name: claim_bank_outhk_fc
+    type: BIGINT
+  - name: liability_nbc_outhk_hkd
+    type: BIGINT
+  - name: liability_nbc_outhk_fc
+    type: BIGINT
+  - name: claim_nbc_outhk_hkd
+    type: BIGINT
+  - name: claim_nbc_outhk_fc
+    type: BIGINT

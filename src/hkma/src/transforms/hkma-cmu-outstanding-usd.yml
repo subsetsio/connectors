@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-cmu-outstanding-usd`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: fixed_rate_1y_or_below
+    type: DOUBLE
+  - name: fixed_rate_1yto3y
+    type: DOUBLE
+  - name: fixed_rate_3yto5y
+    type: DOUBLE
+  - name: fixed_rate_5yto7y
+    type: BIGINT
+  - name: fixed_rate_7y
+    type: BIGINT
+  - name: fixed_rate_subtotal
+    type: DOUBLE
+  - name: floating_rate_1y_or_below
+    type: DOUBLE
+  - name: floating_rate_1yto3y
+    type: DOUBLE
+  - name: floating_rate_3yto5y
+    type: DOUBLE
+  - name: floating_rate_5yto7y
+    type: BIGINT
+  - name: floating_rate_7y
+    type: BIGINT
+  - name: floating_rate_subtotal
+    type: DOUBLE
+  - name: total
+    type: DOUBLE

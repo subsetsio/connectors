@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-govbond-outstanding-list`. Regenerate after model-verify.
+key: [issue_number]
+temporal: expected_maturity_date
+sort: [expected_maturity_date, issue_number]
+columns:
+  - name: expected_maturity_date
+    type: DATE
+  - name: original_maturity
+    type: VARCHAR
+  - name: issue_number
+    type: VARCHAR
+  - name: isin_code
+    type: VARCHAR
+  - name: stock_code
+    type: BIGINT
+  - name: coupon
+    type: VARCHAR
+  - name: outstanding_size
+    type: DOUBLE
+  - name: institutional_retail
+    type: VARCHAR

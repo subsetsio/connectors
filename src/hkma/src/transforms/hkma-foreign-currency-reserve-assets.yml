@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-foreign-currency-reserve-assets`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: fc_resv_assets_ef
+    type: DOUBLE
+  - name: fc_resv_assets_lf
+    type: BIGINT
+  - name: fc_resv_assets_total
+    type: DOUBLE
+  - name: unsettle_fx_contracts_ef
+    type: HUGEINT
+  - name: unsettle_fx_contracts_lf
+    type: HUGEINT
+  - name: unsettle_fx_contracts_total
+    type: HUGEINT
+  - name: fc_assets_fx_contracts_ef
+    type: BIGINT
+  - name: fc_assets_fx_contracts_lf
+    type: BIGINT
+  - name: fc_assets_fx_contracts_total
+    type: BIGINT

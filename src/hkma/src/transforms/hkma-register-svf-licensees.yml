@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-register-svf-licensees`. Regenerate after model-verify.
+key: [licence_no]
+temporal: effective_date
+sort: [effective_date, licence_no]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: local_address
+    type: VARCHAR
+  - name: licence_no
+    type: VARCHAR
+  - name: effective_date
+    type: DATE
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: segment
+    type: VARCHAR

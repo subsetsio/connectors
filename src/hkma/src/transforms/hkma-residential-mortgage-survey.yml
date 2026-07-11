@@ -1,0 +1,88 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-residential-mortgage-survey`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: outstanding_loans_amt
+    type: BIGINT
+  - name: outstanding_loans_amt_mom
+    type: DOUBLE
+  - name: outstanding_loans_amt_yoy
+    type: DOUBLE
+  - name: outstanding_loans_cofin_gf_amt
+    type: BIGINT
+  - name: outstanding_loans_cofin_gf
+    type: BIGINT
+  - name: outstanding_loans_cofin_ps_amt
+    type: BIGINT
+  - name: outstanding_loans_cofin_ps
+    type: BIGINT
+  - name: delinquency_ratio
+    type: DOUBLE
+  - name: delinquency_ratio_6mth
+    type: DOUBLE
+  - name: resch_loan_ratio
+    type: BIGINT
+  - name: new_loans_app_received
+    type: BIGINT
+  - name: new_loans_app_received_mom
+    type: DOUBLE
+  - name: new_loans_drawn_amt
+    type: BIGINT
+  - name: new_loans_drawn_amt_mom
+    type: DOUBLE
+  - name: new_loans_drawn
+    type: BIGINT
+  - name: new_loans_drawn_mom
+    type: DOUBLE
+  - name: new_loans_approved_amt
+    type: BIGINT
+  - name: new_loans_approved_amt_mom
+    type: DOUBLE
+  - name: new_loans_approved
+    type: BIGINT
+  - name: new_loans_approved_mom
+    type: DOUBLE
+  - name: new_loans_approved_avg_size
+    type: DOUBLE
+  - name: new_loans_approved_lv_ratio
+    type: DOUBLE
+  - name: new_loans_approved_contra_life
+    type: BIGINT
+  - name: new_loans_approved_cofin_amt
+    type: BIGINT
+  - name: new_loans_approved_cofin
+    type: BIGINT
+  - name: new_loans_approved_pt_amt_pri
+    type: BIGINT
+  - name: new_loans_approved_pt_amt_sec
+    type: BIGINT
+  - name: new_loans_approved_pt_amt_refin
+    type: BIGINT
+  - name: new_loans_approved_pt_primkt
+    type: BIGINT
+  - name: new_loans_approved_pt_secmkt
+    type: BIGINT
+  - name: new_loans_approved_pt_refin
+    type: BIGINT
+  - name: new_loans_approved_undrawn_amt
+    type: BIGINT
+  - name: new_loans_approved_undrawn
+    type: BIGINT
+  - name: ir_new_loans_approved_hibor
+    type: DOUBLE
+  - name: ir_new_loans_approved_blr
+    type: DOUBLE
+  - name: ir_new_loans_approved_fixed
+    type: DOUBLE
+  - name: ir_new_loans_approved_other
+    type: DOUBLE
+  - name: loan_wo_amt
+    type: BIGINT
+  - name: loan_wo_12mth_amt
+    type: BIGINT
+  - name: loan_wo_12mth_pa_outstand_loans
+    type: VARCHAR

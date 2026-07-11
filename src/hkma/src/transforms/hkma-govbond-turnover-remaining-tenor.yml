@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-govbond-turnover-remaining-tenor`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: remain_1y_or_below_val
+    type: DOUBLE
+  - name: remain_1y_or_below_vol
+    type: BIGINT
+  - name: remain_1yto3y_val
+    type: DOUBLE
+  - name: remain_1yto3y_vol
+    type: BIGINT
+  - name: remain_3yto5y_val
+    type: DOUBLE
+  - name: remain_3yto5y_vol
+    type: BIGINT
+  - name: remain_5yto7y_val
+    type: DOUBLE
+  - name: remain_5yto7y_vol
+    type: BIGINT
+  - name: remain_7yto10y_val
+    type: DOUBLE
+  - name: remain_7yto10y_vol
+    type: BIGINT
+  - name: remain_10yto15y_val
+    type: DOUBLE
+  - name: remain_10yto15y_vol
+    type: BIGINT
+  - name: remain_total_val
+    type: BIGINT
+  - name: remain_total_vol
+    type: JSON

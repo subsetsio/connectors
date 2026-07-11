@@ -1,0 +1,36 @@
+key: [commodity_sitc_id]
+sort: [commodity_sitc_id]
+columns:
+  - name: commodity_sitc_id
+    type: INTEGER
+    description: HMRC SITC commodity identifier.
+  - name: sitc_code
+    type: VARCHAR
+    description: Standard International Trade Classification code.
+  - name: sitc_1_code
+    type: VARCHAR
+    description: SITC section code.
+  - name: sitc_2_code
+    type: VARCHAR
+    description: SITC division code.
+  - name: sitc_3_code
+    type: VARCHAR
+    description: SITC group code.
+  - name: sitc_4_code
+    type: VARCHAR
+    description: SITC subgroup code.
+  - name: sitc_1_description
+    type: VARCHAR
+    description: Description of the SITC section.
+  - name: sitc_2_description
+    type: VARCHAR
+    description: Description of the SITC division.
+  - name: sitc_3_description
+    type: VARCHAR
+    description: Description of the SITC group.
+  - name: sitc_4_description
+    type: VARCHAR
+    description: Description of the SITC subgroup.
+  - name: sitc_description
+    type: VARCHAR
+    description: Description of the SITC commodity.

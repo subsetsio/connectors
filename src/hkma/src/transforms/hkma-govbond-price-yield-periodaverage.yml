@@ -1,0 +1,218 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-govbond-price-yield-periodaverage`. Regenerate after model-verify.
+key: [end_of_month, segment]
+temporal: end_of_month
+sort: [end_of_month, segment]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: ind_pricing_2y
+    type: DOUBLE
+  - name: ind_pricing_3y
+    type: DOUBLE
+  - name: ind_pricing_5y
+    type: DOUBLE
+  - name: ind_pricing_10y
+    type: DOUBLE
+  - name: ind_pricing_15y
+    type: DOUBLE
+  - name: ind_pricing_20y
+    type: DOUBLE
+  - name: closing_ref_rate_2y
+    type: DOUBLE
+  - name: closing_ref_rate_3y
+    type: DOUBLE
+  - name: closing_ref_rate_5y
+    type: DOUBLE
+  - name: closing_ref_rate_10y
+    type: DOUBLE
+  - name: closing_ref_rate_15y
+    type: DOUBLE
+  - name: closing_ref_rate_20y
+    type: DOUBLE
+  - name: segment
+    type: VARCHAR
+  - name: ind_pricing_10gb2706
+    type: DOUBLE
+  - name: ind_pricing_10gb2901
+    type: DOUBLE
+  - name: ind_pricing_15gb3007
+    type: DOUBLE
+  - name: ind_pricing_15gb3203
+    type: DOUBLE
+  - name: ind_pricing_15gb3403
+    type: DOUBLE
+  - name: ind_pricing_15gb3603
+    type: DOUBLE
+  - name: ind_pricing_15gb3801
+    type: DOUBLE
+  - name: ind_pricing_20gb4205
+    type: DOUBLE
+  - name: closing_ref_rate_10gb2706
+    type: DOUBLE
+  - name: closing_ref_rate_10gb2901
+    type: DOUBLE
+  - name: closing_ref_rate_15gb3007
+    type: DOUBLE
+  - name: closing_ref_rate_15gb3203
+    type: DOUBLE
+  - name: closing_ref_rate_15gb3403
+    type: DOUBLE
+  - name: closing_ref_rate_15gb3603
+    type: DOUBLE
+  - name: closing_ref_rate_15gb3801
+    type: DOUBLE
+  - name: closing_ref_rate_20gb4205
+    type: DOUBLE
+  - name: ind_pricing_02gb1109
+    type: DOUBLE
+  - name: ind_pricing_02gb1203
+    type: DOUBLE
+  - name: ind_pricing_02gb1209
+    type: DOUBLE
+  - name: ind_pricing_02gb1303
+    type: DOUBLE
+  - name: ind_pricing_02gb1309
+    type: DOUBLE
+  - name: ind_pricing_02gb1403
+    type: DOUBLE
+  - name: ind_pricing_05gb1411
+    type: DOUBLE
+  - name: ind_pricing_03gb1505
+    type: DOUBLE
+  - name: ind_pricing_05gb1512
+    type: DOUBLE
+  - name: ind_pricing_03gb1605
+    type: DOUBLE
+  - name: ind_pricing_05gb1612
+    type: DOUBLE
+  - name: ind_pricing_03gb1704
+    type: DOUBLE
+  - name: ind_pricing_03gb1711
+    type: DOUBLE
+  - name: ind_pricing_05gb1802
+    type: DOUBLE
+  - name: ind_pricing_05gb1902
+    type: DOUBLE
+  - name: ind_pricing_10gb2001
+    type: DOUBLE
+  - name: ind_pricing_05gb2002
+    type: DOUBLE
+  - name: ind_pricing_05gb2011
+    type: DOUBLE
+  - name: ind_pricing_10gb2108
+    type: DOUBLE
+  - name: ind_pricing_05gb2205
+    type: DOUBLE
+  - name: ind_pricing_01gh2211
+    type: BIGINT
+  - name: ind_pricing_10gb2301
+    type: DOUBLE
+  - name: ind_pricing_01gh2302
+    type: BIGINT
+  - name: ind_pricing_01gh2305
+    type: BIGINT
+  - name: ind_pricing_01gh2308
+    type: BIGINT
+  - name: ind_pricing_03gb2310
+    type: DOUBLE
+  - name: ind_pricing_01gh2311
+    type: DOUBLE
+  - name: ind_pricing_01gh2402
+    type: BIGINT
+  - name: ind_pricing_03gb2404
+    type: DOUBLE
+  - name: ind_pricing_01gh2405
+    type: BIGINT
+  - name: ind_pricing_10gb2408
+    type: DOUBLE
+  - name: ind_pricing_01gh2408
+    type: BIGINT
+  - name: ind_pricing_01gh2411
+    type: BIGINT
+  - name: ind_pricing_01gh2502
+    type: BIGINT
+  - name: ind_pricing_03gb2504
+    type: DOUBLE
+  - name: ind_pricing_01gh2505
+    type: BIGINT
+  - name: ind_pricing_01gh2508
+    type: BIGINT
+  - name: ind_pricing_10gb2601
+    type: DOUBLE
+  - name: closing_ref_rate_02gb1109
+    type: DOUBLE
+  - name: closing_ref_rate_02gb1203
+    type: DOUBLE
+  - name: closing_ref_rate_02gb1209
+    type: DOUBLE
+  - name: closing_ref_rate_02gb1303
+    type: DOUBLE
+  - name: closing_ref_rate_02gb1309
+    type: DOUBLE
+  - name: closing_ref_rate_02gb1403
+    type: DOUBLE
+  - name: closing_ref_rate_05gb1411
+    type: DOUBLE
+  - name: closing_ref_rate_03gb1505
+    type: DOUBLE
+  - name: closing_ref_rate_05gb1512
+    type: DOUBLE
+  - name: closing_ref_rate_03gb1605
+    type: DOUBLE
+  - name: closing_ref_rate_05gb1612
+    type: DOUBLE
+  - name: closing_ref_rate_03gb1704
+    type: DOUBLE
+  - name: closing_ref_rate_03gb1711
+    type: DOUBLE
+  - name: closing_ref_rate_05gb1802
+    type: DOUBLE
+  - name: closing_ref_rate_05gb1902
+    type: DOUBLE
+  - name: closing_ref_rate_10gb2001
+    type: DOUBLE
+  - name: closing_ref_rate_05gb2002
+    type: DOUBLE
+  - name: closing_ref_rate_05gb2011
+    type: DOUBLE
+  - name: closing_ref_rate_10gb2108
+    type: DOUBLE
+  - name: closing_ref_rate_05gb2205
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2211
+    type: BIGINT
+  - name: closing_ref_rate_10gb2301
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2302
+    type: BIGINT
+  - name: closing_ref_rate_01gh2305
+    type: BIGINT
+  - name: closing_ref_rate_01gh2308
+    type: BIGINT
+  - name: closing_ref_rate_03gb2310
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2311
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2402
+    type: BIGINT
+  - name: closing_ref_rate_03gb2404
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2405
+    type: BIGINT
+  - name: closing_ref_rate_10gb2408
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2408
+    type: BIGINT
+  - name: closing_ref_rate_01gh2411
+    type: BIGINT
+  - name: closing_ref_rate_01gh2502
+    type: BIGINT
+  - name: closing_ref_rate_03gb2504
+    type: DOUBLE
+  - name: closing_ref_rate_01gh2505
+    type: BIGINT
+  - name: closing_ref_rate_01gh2508
+    type: BIGINT
+  - name: closing_ref_rate_10gb2601
+    type: DOUBLE

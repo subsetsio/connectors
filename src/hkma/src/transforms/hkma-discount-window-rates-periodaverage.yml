@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-discount-window-rates-periodaverage`. Regenerate after model-verify.
+# caution: The upstream period-average endpoint contains a duplicate reporting period in the raw feed, so the pass-through table is intentionally keyless.
+key: []
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: specific_data
+    type: VARCHAR
+  - name: liquid_adj_facility_bid_rate
+    type: DOUBLE
+  - name: disc_window_base_rate
+    type: DOUBLE
+  - name: overnight_hibor
+    type: DOUBLE
+  - name: "1m_hibor_fixing"
+    type: DOUBLE
+  - name: liquid_adj_window_offer_rate
+    type: DOUBLE

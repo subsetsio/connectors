@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-govbond-outstanding-original-maturity`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: institutional_2y
+    type: DOUBLE
+  - name: institutional_3y
+    type: DOUBLE
+  - name: institutional_5y
+    type: DOUBLE
+  - name: institutional_10y
+    type: DOUBLE
+  - name: institutional_15y
+    type: DOUBLE
+  - name: institutional_subtotal
+    type: DOUBLE
+  - name: retail_3y
+    type: DOUBLE
+  - name: retail_subtotal
+    type: JSON
+  - name: total
+    type: DOUBLE

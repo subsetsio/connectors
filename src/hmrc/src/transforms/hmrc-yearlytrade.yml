@@ -1,0 +1,22 @@
+key: [trader_id, commodity_id, year, trade_type_id]
+temporal: year
+sort: [year, trader_id, commodity_id, trade_type_id]
+columns:
+  - name: trader_id
+    type: BIGINT
+    description: HMRC trader identifier.
+  - name: commodity_id
+    type: BIGINT
+    description: HMRC commodity identifier.
+  - name: year
+    type: INTEGER
+    description: Calendar year.
+  - name: trade_type_id
+    type: SMALLINT
+    description: HMRC trade type identifier.
+  - name: import_months
+    type: VARCHAR
+    description: Months with import activity in HMRC yearly trader disclosure.
+  - name: export_months
+    type: VARCHAR
+    description: Months with export activity in HMRC yearly trader disclosure.

@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-exchange-fund-position`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: unaudited_figures
+    type: VARCHAR
+  - name: assets_fc
+    type: BIGINT
+  - name: assets_hkd
+    type: BIGINT
+  - name: assets_total
+    type: BIGINT
+  - name: liab_cert_of_indebt
+    type: BIGINT
+  - name: liab_gov_iss_curr_notes
+    type: BIGINT
+  - name: liab_banking_system_bal
+    type: BIGINT
+  - name: liab_ef_bills_notes_iss
+    type: BIGINT
+  - name: liab_fiscal_resv
+    type: BIGINT
+  - name: liab_other_instit
+    type: BIGINT
+  - name: liab_pla_bank_oth_fin_instit
+    type: BIGINT
+  - name: liab_govfunds_statubodies
+    type: BIGINT
+  - name: liab_subsidiaries
+    type: BIGINT
+  - name: liab_other
+    type: HUGEINT
+  - name: liab_total
+    type: BIGINT
+  - name: fund_equity
+    type: BIGINT

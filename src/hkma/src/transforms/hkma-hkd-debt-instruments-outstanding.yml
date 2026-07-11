@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-hkd-debt-instruments-outstanding`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: fixed_rate_1y_or_less
+    type: DOUBLE
+  - name: fixed_rate_more_than_1y_to_3y
+    type: DOUBLE
+  - name: fixed_rate_more_than_3y_to_5y
+    type: DOUBLE
+  - name: fixed_rate_more_than_5y
+    type: DOUBLE
+  - name: floating_rate_1y_or_less
+    type: DOUBLE
+  - name: floating_rate_more_than_1y_to_3y
+    type: DOUBLE
+  - name: floating_rate_more_than_3y_to_5y
+    type: DOUBLE
+  - name: floating_rate_more_than_5y
+    type: DOUBLE
+  - name: osamt_total
+    type: DOUBLE

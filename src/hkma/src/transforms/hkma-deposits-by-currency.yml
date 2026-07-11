@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-deposits-by-currency`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: fc_swap_deposits
+    type: DOUBLE
+  - name: deposits_hkd
+    type: DOUBLE
+  - name: deposits_usd
+    type: DOUBLE
+  - name: deposits_nonusd_fc
+    type: DOUBLE
+  - name: deposits_all_fc
+    type: DOUBLE
+  - name: deposits_all
+    type: DOUBLE

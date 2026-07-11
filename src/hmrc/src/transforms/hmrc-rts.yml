@@ -1,0 +1,28 @@
+key: [month_id, flow_type_id, gov_region_id, country_id, commodity_sitc2_id]
+temporal: month
+sort: [month, flow_type_id, gov_region_id, country_id, commodity_sitc2_id]
+columns:
+  - name: month_id
+    type: INTEGER
+    description: HMRC month identifier in YYYYMM form.
+  - name: month
+    type: DATE
+    description: First day of the regional trade statistics month.
+  - name: flow_type_id
+    type: SMALLINT
+    description: HMRC flow type identifier.
+  - name: gov_region_id
+    type: INTEGER
+    description: HMRC government region identifier.
+  - name: country_id
+    type: INTEGER
+    description: HMRC country identifier.
+  - name: commodity_sitc2_id
+    type: INTEGER
+    description: HMRC SITC 2-digit commodity identifier.
+  - name: value
+    type: DOUBLE
+    description: Trade value reported by HMRC.
+  - name: net_mass
+    type: DOUBLE
+    description: Net mass reported by HMRC.

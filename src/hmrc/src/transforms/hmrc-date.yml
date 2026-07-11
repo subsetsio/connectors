@@ -1,0 +1,22 @@
+key: [month_id]
+temporal: month
+sort: [month, month_id]
+columns:
+  - name: month_id
+    type: INTEGER
+    description: HMRC month identifier in YYYYMM form.
+  - name: month
+    type: DATE
+    description: First day of the calendar month represented by month_id.
+  - name: year
+    type: INTEGER
+    description: Calendar year.
+  - name: month_numeric
+    type: INTEGER
+    description: Calendar month number from 1 to 12.
+  - name: quarter_numeric
+    type: INTEGER
+    description: Calendar quarter number from 1 to 4.
+  - name: month_name
+    type: VARCHAR
+    description: English calendar month name.

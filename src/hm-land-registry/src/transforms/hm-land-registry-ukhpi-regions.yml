@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hm-land-registry-ukhpi-regions`. Regenerate after model-verify.
+key: [region_name]
+sort: [region_name]
+columns:
+  - name: region_slug
+    type: VARCHAR
+    description: Slug used in the Land Registry UKHPI region URL.
+  - name: region_uri
+    type: VARCHAR
+    description: Linked-data URI for the UKHPI region.
+  - name: region_name
+    type: VARCHAR
+    description: English label for the UKHPI region.
+  - name: region_type
+    type: VARCHAR
+    description: Pipe-separated Ordnance Survey administrative geography type names, where provided.

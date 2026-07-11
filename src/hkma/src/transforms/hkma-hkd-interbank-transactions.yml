@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-hkd-interbank-transactions`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: transinhk_plcmt_brwg
+    type: BIGINT
+  - name: transinhk_swap
+    type: BIGINT
+  - name: transinhk_total
+    type: BIGINT
+  - name: transouthk_plcmt_brwg
+    type: BIGINT
+  - name: transouthk_swap
+    type: BIGINT
+  - name: transouthk_total
+    type: BIGINT
+  - name: alltrans_plcmt_brwg
+    type: BIGINT
+  - name: alltrans_swap
+    type: BIGINT
+  - name: alltrans_total
+    type: BIGINT

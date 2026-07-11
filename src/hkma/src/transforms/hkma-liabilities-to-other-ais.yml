@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-liabilities-to-other-ais`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: pay_on_dem_money_call_hkd
+    type: DOUBLE
+  - name: pay_on_dem_money_call_fc
+    type: DOUBLE
+  - name: pay_on_dem_money_call_total
+    type: DOUBLE
+  - name: repay_or_call_in_3m_hkd
+    type: DOUBLE
+  - name: repay_or_call_in_3m_fc
+    type: DOUBLE
+  - name: repay_or_call_in_3m_total
+    type: DOUBLE
+  - name: repay_or_call_oth_than_3m_hkd
+    type: DOUBLE
+  - name: repay_or_call_oth_than_3m_fc
+    type: DOUBLE
+  - name: repay_or_call_oth_than_3m_total
+    type: DOUBLE
+  - name: total_loans_hkd
+    type: DOUBLE
+  - name: total_loans_fc
+    type: DOUBLE
+  - name: total_loans
+    type: DOUBLE

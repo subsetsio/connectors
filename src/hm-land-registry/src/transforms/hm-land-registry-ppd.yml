@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hm-land-registry-ppd`. Regenerate after model-verify.
+# caution: Contains individual sale transactions, not a complete housing stock table; aggregate only as transaction activity for the covered sale records.
+key: [transaction_id]
+temporal: date_of_transfer
+sort: [date_of_transfer, transaction_id]
+columns:
+  - name: transaction_id
+    type: VARCHAR
+    description: HM Land Registry transaction identifier.
+  - name: price
+    type: BIGINT
+    description: Sale price in pounds sterling.
+  - name: date_of_transfer
+    type: DATE
+    description: Date the property transfer was registered as completed.
+  - name: postcode
+    type: VARCHAR
+    description: Property postcode, where available.
+  - name: property_type
+    type: VARCHAR
+    description: Source property type code.
+  - name: old_new
+    type: VARCHAR
+    description: Source code indicating whether the property was newly built or established.
+  - name: duration
+    type: VARCHAR
+    description: Source tenure code for freehold or leasehold duration.
+  - name: paon
+    type: VARCHAR
+    description: Primary addressable object name or number.
+  - name: saon
+    type: VARCHAR
+    description: Secondary addressable object name or number, where present.
+  - name: street
+    type: VARCHAR
+    description: Street name.
+  - name: locality
+    type: VARCHAR
+    description: Locality name.
+  - name: town_city
+    type: VARCHAR
+    description: Town or city name.
+  - name: district
+    type: VARCHAR
+    description: Local authority district name.
+  - name: county
+    type: VARCHAR
+    description: County name.
+  - name: ppd_category_type
+    type: VARCHAR
+    description: Price Paid Data category type code.
+  - name: record_status
+    type: VARCHAR
+    description: Record status code from the Price Paid Data file.

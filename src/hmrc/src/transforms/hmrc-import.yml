@@ -1,0 +1,16 @@
+key: [trader_id, commodity_id, month_id]
+temporal: month
+sort: [month, trader_id, commodity_id]
+columns:
+  - name: trader_id
+    type: BIGINT
+    description: HMRC trader identifier.
+  - name: commodity_id
+    type: BIGINT
+    description: HMRC commodity identifier.
+  - name: month_id
+    type: INTEGER
+    description: HMRC month identifier in YYYYMM form.
+  - name: month
+    type: DATE
+    description: First day of the import month.

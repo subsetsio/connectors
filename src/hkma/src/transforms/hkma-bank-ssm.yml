@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-bank-ssm`. Regenerate after model-verify.
+# caution: Self-service machine locator rows can repeat across address, machine type, service hours, and coordinates; the source does not publish a stable row identifier, so the pass-through table is intentionally keyless.
+key: []
+columns:
+  - name: district
+    type: VARCHAR
+  - name: bank_name
+    type: VARCHAR
+  - name: type_of_machine
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: service_hours
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE

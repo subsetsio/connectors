@@ -1,0 +1,117 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hm-land-registry-ukhpi`. Regenerate after model-verify.
+# caution: Rows include multiple geographic levels, from countries and regions to local authorities; filter geography before aggregating across regions.
+key: [ref_date, ref_month, region_name, region_slug]
+temporal: ref_month
+sort: [ref_month, ref_date, region_name, region_slug]
+columns:
+  - name: region_slug
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: ref_month
+    type: DATE
+  - name: ref_date
+    type: DATE
+  - name: averageprice
+    type: BIGINT
+  - name: averagepricecash
+    type: BIGINT
+  - name: averagepricedetached
+    type: BIGINT
+  - name: averagepriceexistingproperty
+    type: BIGINT
+  - name: averagepricefirsttimebuyer
+    type: BIGINT
+  - name: averagepriceflatmaisonette
+    type: BIGINT
+  - name: averagepriceformerowneroccupier
+    type: BIGINT
+  - name: averagepricemortgage
+    type: BIGINT
+  - name: averagepricenewbuild
+    type: BIGINT
+  - name: averagepricesa
+    type: JSON
+  - name: averagepricesemidetached
+    type: BIGINT
+  - name: averagepriceterraced
+    type: BIGINT
+  - name: housepriceindex
+    type: DOUBLE
+  - name: housepriceindexcash
+    type: DOUBLE
+  - name: housepriceindexdetached
+    type: DOUBLE
+  - name: housepriceindexexistingproperty
+    type: DOUBLE
+  - name: housepriceindexfirsttimebuyer
+    type: DOUBLE
+  - name: housepriceindexflatmaisonette
+    type: DOUBLE
+  - name: housepriceindexformerowneroccupier
+    type: DOUBLE
+  - name: housepriceindexmortgage
+    type: DOUBLE
+  - name: housepriceindexnewbuild
+    type: DOUBLE
+  - name: housepriceindexsa
+    type: JSON
+  - name: housepriceindexsemidetached
+    type: DOUBLE
+  - name: housepriceindexterraced
+    type: DOUBLE
+  - name: percentageannualchange
+    type: DOUBLE
+  - name: percentageannualchangecash
+    type: DOUBLE
+  - name: percentageannualchangedetached
+    type: DOUBLE
+  - name: percentageannualchangeexistingproperty
+    type: DOUBLE
+  - name: percentageannualchangefirsttimebuyer
+    type: DOUBLE
+  - name: percentageannualchangeflatmaisonette
+    type: DOUBLE
+  - name: percentageannualchangeformerowneroccupier
+    type: DOUBLE
+  - name: percentageannualchangemortgage
+    type: DOUBLE
+  - name: percentageannualchangenewbuild
+    type: DOUBLE
+  - name: percentageannualchangesemidetached
+    type: DOUBLE
+  - name: percentageannualchangeterraced
+    type: DOUBLE
+  - name: percentagechange
+    type: DOUBLE
+  - name: percentagechangecash
+    type: DOUBLE
+  - name: percentagechangedetached
+    type: DOUBLE
+  - name: percentagechangeexistingproperty
+    type: DOUBLE
+  - name: percentagechangefirsttimebuyer
+    type: DOUBLE
+  - name: percentagechangeflatmaisonette
+    type: DOUBLE
+  - name: percentagechangeformerowneroccupier
+    type: DOUBLE
+  - name: percentagechangemortgage
+    type: DOUBLE
+  - name: percentagechangenewbuild
+    type: DOUBLE
+  - name: percentagechangesemidetached
+    type: DOUBLE
+  - name: percentagechangeterraced
+    type: DOUBLE
+  - name: salesvolume
+    type: BIGINT
+  - name: salesvolumecash
+    type: BIGINT
+  - name: salesvolumeexistingproperty
+    type: BIGINT
+  - name: salesvolumemortgage
+    type: BIGINT
+  - name: salesvolumenewbuild
+    type: BIGINT

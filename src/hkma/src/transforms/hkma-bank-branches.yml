@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-bank-branches`. Regenerate after model-verify.
+key: [address, latitude, branch_name, district, bank_name]
+sort: [address, latitude, branch_name, district, bank_name]
+columns:
+  - name: district
+    type: VARCHAR
+  - name: bank_name
+    type: VARCHAR
+  - name: branch_name
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: service_hours
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: barrier_free_access
+    type: VARCHAR
+  - name: barrier_free_access_code
+    type: JSON

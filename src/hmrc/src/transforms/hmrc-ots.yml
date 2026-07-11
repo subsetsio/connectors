@@ -1,0 +1,37 @@
+key: [month_id, flow_type_id, suppression_index, commodity_id, commodity_sitc_id, country_id, port_id]
+temporal: month
+sort: [month, flow_type_id, country_id, commodity_id, port_id]
+columns:
+  - name: month_id
+    type: INTEGER
+    description: HMRC month identifier in YYYYMM form.
+  - name: month
+    type: DATE
+    description: First day of the trade statistics month.
+  - name: flow_type_id
+    type: SMALLINT
+    description: HMRC flow type identifier.
+  - name: suppression_index
+    type: SMALLINT
+    description: HMRC suppression marker for protected or suppressed values.
+  - name: commodity_id
+    type: BIGINT
+    description: HMRC CN8 commodity identifier.
+  - name: commodity_sitc_id
+    type: INTEGER
+    description: HMRC SITC commodity identifier.
+  - name: country_id
+    type: INTEGER
+    description: HMRC country identifier.
+  - name: port_id
+    type: INTEGER
+    description: HMRC port identifier.
+  - name: value
+    type: DOUBLE
+    description: Trade value reported by HMRC.
+  - name: net_mass
+    type: DOUBLE
+    description: Net mass reported by HMRC.
+  - name: supp_unit
+    type: DOUBLE
+    description: Supplementary unit quantity reported by HMRC.

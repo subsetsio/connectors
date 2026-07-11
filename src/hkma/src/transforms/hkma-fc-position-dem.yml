@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-fc-position-dem`. Regenerate after model-verify.
+key: [end_of_month]
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_month
+    type: DATE
+  - name: spot_assets
+    type: BIGINT
+  - name: forward_purchases
+    type: BIGINT
+  - name: spot_liabilities
+    type: BIGINT
+  - name: forward_sales
+    type: BIGINT
+  - name: net_spot_position
+    type: HUGEINT
+  - name: net_forward_position
+    type: HUGEINT
+  - name: open_position
+    type: HUGEINT

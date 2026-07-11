@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-banking-complaints-progress`. Regenerate after model-verify.
+# caution: Combines `new` half-yearly complaint progress rows and `old` monthly legacy rows in one segmented endpoint; use the segment-specific period column before time-series analysis.
+key: []
+temporal: end_of_month
+sort: [end_of_month]
+columns:
+  - name: end_of_half_year
+    type: VARCHAR
+  - name: conduct_related_r
+    type: BIGINT
+  - name: conduct_related_c
+    type: BIGINT
+  - name: general_bank_r
+    type: BIGINT
+  - name: general_bank_c
+    type: BIGINT
+  - name: total_cur_r
+    type: BIGINT
+  - name: total_cur_c
+    type: BIGINT
+  - name: segment
+    type: VARCHAR
+  - name: end_of_month
+    type: DATE
+  - name: conduct_related_last_mth_p
+    type: BIGINT
+  - name: conduct_related_cur_mth_r
+    type: BIGINT
+  - name: conduct_related_cur_mth_c
+    type: BIGINT
+  - name: conduct_related_cur_mth_p
+    type: BIGINT
+  - name: general_bank_last_mth_p
+    type: BIGINT
+  - name: general_bank_cur_mth_r
+    type: BIGINT
+  - name: general_bank_cur_mth_c
+    type: BIGINT
+  - name: general_bank_cur_mth_p
+    type: BIGINT
+  - name: total_last_mth_p
+    type: BIGINT
+  - name: total_cur_mth_r
+    type: BIGINT
+  - name: total_cur_mth_c
+    type: BIGINT
+  - name: total_cur_mth_p
+    type: BIGINT

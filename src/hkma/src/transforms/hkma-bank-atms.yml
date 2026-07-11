@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-bank-atms`. Regenerate after model-verify.
+# caution: ATM locator rows can repeat across address, machine capability, and coordinates; the source does not publish a stable row identifier, so the pass-through table is intentionally keyless.
+key: []
+columns:
+  - name: district
+    type: VARCHAR
+  - name: bank_name
+    type: VARCHAR
+  - name: type_of_machine
+    type: VARCHAR
+  - name: function
+    type: VARCHAR
+  - name: currencies_supported
+    type: VARCHAR
+  - name: barrier_free_access
+    type: VARCHAR
+  - name: network
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: service_hours
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: function_code
+    type: JSON
+  - name: barrier_free_access_code
+    type: JSON

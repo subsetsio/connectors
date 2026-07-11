@@ -1,6 +1,12 @@
 spec_id: hkma-govbond-outstanding-list
 status: active
 tests:
+- freshness:
+    col: expected_maturity_date
+    reaches: today - 365d
+  reason: expected_maturity_date is a bond attribute, not the source publication date; the current outstanding list should include live or future maturities.
+  certainty: 70
+  points_outward: true
 - not_null: isin_code
 - row_count:
     min: 1

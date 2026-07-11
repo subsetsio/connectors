@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-efbn-indicative-price`. Regenerate after model-verify.
+key: [issue_no, segment]
+temporal: end_of_date
+sort: [end_of_date, issue_no, segment]
+columns:
+  - name: end_of_date
+    type: DATE
+  - name: term
+    type: VARCHAR
+  - name: issue_no
+    type: VARCHAR
+  - name: yield
+    type: DOUBLE
+  - name: price
+    type: DOUBLE
+  - name: segment
+    type: VARCHAR
+  - name: maturity
+    type: DATE
+  - name: coupon
+    type: DOUBLE

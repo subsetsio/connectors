@@ -1,0 +1,11 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    strptime("end_of_month", '%Y-%m')::DATE AS end_of_month,
+    "demand_savings_deposits",
+    "time_deposits",
+    "total_deposits",
+    "no_of_ais_engaged"
+FROM "hkma-deposits-by-type-cny"

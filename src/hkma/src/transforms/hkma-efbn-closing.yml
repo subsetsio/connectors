@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-efbn-closing`. Regenerate after model-verify.
+key: [maturity, issue_no, segment]
+temporal: end_of_date
+sort: [end_of_date, maturity, issue_no, segment]
+columns:
+  - name: end_of_date
+    type: DATE
+  - name: issue_no
+    type: VARCHAR
+  - name: maturity
+    type: DATE
+  - name: yield
+    type: DOUBLE
+  - name: segment
+    type: VARCHAR
+  - name: coupon
+    type: DOUBLE
+  - name: price
+    type: DOUBLE

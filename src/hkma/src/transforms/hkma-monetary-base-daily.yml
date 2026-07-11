@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-monetary-base-daily`. Regenerate after model-verify.
+key: [end_of_day]
+temporal: end_of_day
+sort: [end_of_day]
+columns:
+  - name: end_of_day
+    type: DATE
+  - name: cert_of_indebt
+    type: BIGINT
+  - name: gov_notes_coins_circulation
+    type: DOUBLE
+  - name: aggr_balance_bf_disc_win
+    type: HUGEINT
+  - name: outstanding_efbn
+    type: BIGINT
+  - name: ow_lb_bf_disc_win
+    type: DOUBLE
+  - name: mb_bf_disc_win_total
+    type: DOUBLE

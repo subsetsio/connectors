@@ -1,6 +1,12 @@
 spec_id: hkma-register-svf-licensees
 status: active
 tests:
+- freshness:
+    col: effective_date
+    reaches: today - 900d
+  reason: effective_date is the licence effective date, not an update timestamp; the register changes only when licence status changes, so a broad slack avoids treating a stable register as stale.
+  certainty: 60
+  points_outward: true
 - not_null: licence_no
 - row_count:
     min: 1

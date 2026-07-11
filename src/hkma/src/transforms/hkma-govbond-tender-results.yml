@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hkma-govbond-tender-results`. Regenerate after model-verify.
+key: [issue_date, issue_number, expected_maturity_date, segment, ni_ro]
+temporal: issue_date
+sort: [issue_date, issue_number, expected_maturity_date, segment, ni_ro]
+columns:
+  - name: issue_number
+    type: VARCHAR
+  - name: ni_ro
+    type: VARCHAR
+  - name: issue_date
+    type: DATE
+  - name: expected_maturity_date
+    type: DATE
+  - name: coupon
+    type: DOUBLE
+  - name: average_yield_accepted
+    type: DOUBLE
+  - name: amount_applied
+    type: DOUBLE
+  - name: amount_allotted
+    type: DOUBLE
+  - name: bid_to_cover_ratio
+    type: DOUBLE
+  - name: segment
+    type: VARCHAR
