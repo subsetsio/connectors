@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `paho-core-indicator-values`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [paho_indicator_id, spatial_dim_type, spatial_dim, time_dim_type, time_dim]
+temporal: published_at
+checks:
+  - kind: unique
+    columns: [paho_indicator_id, spatial_dim_type, spatial_dim, time_dim_type, time_dim]
+  - kind: not_null
+    col: paho_indicator_id
+  - kind: not_null
+    col: spatial_dim_type
+  - kind: not_null
+    col: spatial_dim
+  - kind: not_null
+    col: time_dim_type
+  - kind: not_null
+    col: time_dim
+  - kind: row_floor
+    min: 172009
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

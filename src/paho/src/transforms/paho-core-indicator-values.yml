@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `paho-core-indicator-values`. Regenerate after model-verify.
+# caution: The table mixes countries, territories, and regional aggregates in the spatial dimension; filter `spatial_dim_type` and `spatial_dim` before aggregating.
+# caution: Indicators use different units and statistic types; filter or group by `paho_indicator_id` and `type_statistics` before comparing numeric values.
+key: [paho_indicator_id, spatial_dim_type, spatial_dim, time_dim_type, time_dim]
+temporal: published_at
+sort: [published_at, paho_indicator_id, spatial_dim_type, spatial_dim, time_dim_type, time_dim]
+columns:
+  - name: paho_indicator_id
+    type: BIGINT
+  - name: indicator_name
+    type: VARCHAR
+  - name: nombre_indicador
+    type: VARCHAR
+  - name: spatial_dim_type
+    type: VARCHAR
+  - name: spatial_dim
+    type: VARCHAR
+  - name: spatial_dim_en
+    type: VARCHAR
+  - name: spatial_dim_es
+    type: VARCHAR
+  - name: time_dim_type
+    type: VARCHAR
+  - name: time_dim
+    type: BIGINT
+  - name: numeric_value
+    type: DOUBLE
+  - name: value_as_string
+    type: VARCHAR
+  - name: low
+    type: DOUBLE
+  - name: high
+    type: DOUBLE
+  - name: technical_note
+    type: VARCHAR
+  - name: nota_tecnica
+    type: VARCHAR
+  - name: data_source_type
+    type: VARCHAR
+  - name: data_source_specific
+    type: VARCHAR
+  - name: data_provider_type
+    type: VARCHAR
+  - name: data_provider_specific
+    type: VARCHAR
+  - name: data_secondary_source
+    type: VARCHAR
+  - name: type_statistics
+    type: VARCHAR
+  - name: public_private
+    type: VARCHAR
+  - name: public_private_sp
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: preliminary
+    type: BIGINT
+  - name: published_at
+    type: DATE
+  - name: accessed_at
+    type: DATE
