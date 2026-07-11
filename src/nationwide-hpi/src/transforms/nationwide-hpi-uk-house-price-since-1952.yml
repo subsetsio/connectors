@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nationwide-hpi-uk-house-price-since-1952`. Regenerate after model-verify.
+# caution: The category column includes the published long-run UK series and any companion breakdowns exposed in the source file; compare values within one measure rather than summing categories.
+key: [date, category, measure]
+temporal: date
+sort: [date, category, measure]
 columns:
   - name: date
     type: DATE

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nationwide-hpi-ftb-hper-by-region`. Regenerate after model-verify.
+# caution: The category column is the published regional breakdown; compare values within one measure rather than summing categories.
+key: [date, category, measure]
+temporal: date
+sort: [date, category, measure]
 columns:
   - name: date
     type: DATE
