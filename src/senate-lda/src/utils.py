@@ -19,11 +19,10 @@ from subsets_utils import (
     save_raw_ndjson,
     load_state,
     save_state,
-    transient_retry,
 )
 
 API_BASE = "https://lda.senate.gov/api/v1"
-STATE_VERSION = 1
+STATE_VERSION = 2
 
 # Earliest posting year per endpoint (filings from 1999, LD-203 from 2008).
 MIN_YEAR = {"filings": 1999, "contributions": 2008}
@@ -61,7 +60,6 @@ def _throttle() -> None:
     _last_call[0] = time.monotonic()
 
 
-@transient_retry(attempts=8)
 def _fetch(url: str, params: dict, headers: dict) -> dict:
     _throttle()
     resp = get(url, params=params, headers=headers, timeout=(10.0, 120.0))
@@ -137,7 +135,7 @@ def _crawl_dated(asset: str, endpoint: str, flatten) -> None:
 
         # Write raw FIRST, then advance state (a crash between loses only rework).
         if rows:
-            save_raw_ndjson(rows, f"{asset}-{y:04d}-{m:02d}")
+            save_raw_ndjson(rows, asset, fragment=f"{y:04d}-{m:02d}")
 
         if (y, m) != cur:
             # Past month complete and immutable — advance the resume pointer.
@@ -172,7 +170,7 @@ def _crawl_paged(asset: str, endpoint: str, flatten) -> None:
         has_next = bool(data.get("next"))
 
         if buf and (len(buf) >= REF_BATCH_ROWS or not has_next):
-            save_raw_ndjson(buf, f"{asset}-p{batch_start:05d}-p{page:05d}")
+            save_raw_ndjson(buf, asset, fragment=f"p{batch_start:05d}-p{page:05d}")
             buf = []
             save_state(asset, {"schema_version": STATE_VERSION, "next_page": page + 1})
             batch_start = page + 1

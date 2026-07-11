@@ -62,7 +62,12 @@ BASE = "https://euvdservices.enisa.europa.eu/api"
 PAGE_SIZE = 100  # server caps `size` at 100 regardless of what is requested
 PAGES_PER_FRAGMENT = 500  # ~50k records per flush; bounds both RSS and rework on interrupt
 MAX_PAGES = 20_000  # safety ceiling (~5x today's corpus). Raises; never truncates.
-STATE_VERSION = 1
+# Per-node so a stale continuation watermark can be invalidated for one crawl
+# without forcing the other long /api/search asset to restart.
+STATE_VERSION = {
+    "enisa-vulnerabilities": 1,
+    "enisa-affected-products": 2,
+}
 TS_FORMAT = "%b %d, %Y, %I:%M:%S %p"
 
 # Descriptive UA — the default UA tripped the EUVD WAF under sustained load.
@@ -189,7 +194,8 @@ def _crawl_search(node_id: str, schema: pa.Schema, to_rows) -> None:
     configure_http(headers={"User-Agent": USER_AGENT})
 
     state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
+    state_version = STATE_VERSION.get(node_id, 1)
+    if state.get("schema_version") != state_version:
         state = {}
     page = int(state.get("next_page") or 0)
 
@@ -205,7 +211,7 @@ def _crawl_search(node_id: str, schema: pa.Schema, to_rows) -> None:
         save_state(
             node_id,
             {
-                "schema_version": STATE_VERSION,
+                "schema_version": state_version,
                 "next_page": next_page,
                 "updated_at": datetime.now(tz=timezone.utc).isoformat(),
             },
