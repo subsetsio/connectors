@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openprescribing-measures`. Regenerate after model-verify.
+# caution: This is the measure-definition catalog only; it does not contain monthly measure observations by organisation.
+key: [measure_id]
+temporal: date_reviewed
+sort: [date_reviewed, measure_id]
+columns:
+  - name: measure_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: why_it_matters
+    type: VARCHAR
+  - name: tags
+    type: VARCHAR
+  - name: numerator_short
+    type: VARCHAR
+  - name: denominator_short
+    type: VARCHAR
+  - name: is_percentage
+    type: BOOLEAN
+  - name: is_cost_based
+    type: BOOLEAN
+  - name: low_is_good
+    type: BOOLEAN
+  - name: numerator_type
+    type: VARCHAR
+  - name: denominator_type
+    type: VARCHAR
+  - name: measure_type
+    type: VARCHAR
+  - name: measure_complexity
+    type: VARCHAR
+  - name: date_reviewed
+    type: DATE

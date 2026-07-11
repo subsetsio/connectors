@@ -125,7 +125,9 @@ def _to_int(value) -> int | None:
 def _iter_rows(data: bytes, meta: dict):
     """Yield normalised rows from one CSV's bytes, projected onto the core
     schema. Skips files with no recognisable `votes` column."""
-    reader = csv.DictReader(io.StringIO(data.decode("utf-8", errors="replace")))
+    reader = csv.DictReader(
+        io.StringIO(data.decode("utf-8", errors="replace"), newline="")
+    )
     if not reader.fieldnames:
         return
     # Map normalised header -> original header (header casing/spacing varies).
@@ -168,7 +170,7 @@ def fetch_one(node_id: str) -> None:
     with raw_parquet_writer(asset, SCHEMA) as writer:
         with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as tar:
             for member in tar:
-                if not member.isfile() or not member.name.endswith(".csv"):
+                if not member.isfile() or not member.name.lower().endswith(".csv"):
                     continue
                 fname = member.name.rsplit("/", 1)[-1]
                 if not _DATE_PREFIX.match(fname):

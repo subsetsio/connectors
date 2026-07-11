@@ -1,5 +1,7 @@
 spec_id: openprescribing-measures
 tests:
+  - freshness: {col: date_reviewed, reaches: today - 3y}
+    reason: measure definitions are peer-reviewed reference records; a three-year bound flags a stale catalog without expecting monthly observation cadence
   - not_null: measure_id
     reason: every repo definition file has a slug; null means parse broke
     certainty: 98

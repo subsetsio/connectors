@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openprescribing-bnf-codes`. Regenerate after model-verify.
+# caution: This table contains BNF codes observed in measure numerator and denominator filters, not the complete British National Formulary hierarchy.
+key: [bnf_code, name, level]
+sort: [bnf_code, name, level]
+columns:
+  - name: bnf_code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: code_length
+    type: BIGINT
+  - name: level
+    type: VARCHAR
