@@ -37,14 +37,15 @@ from __future__ import annotations
 
 import csv
 import io
-import json
+
+import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     get,
     post,
     get_client,
-    raw_writer,
+    raw_parquet_writer,
     transient_retry,
 )
 from constants import ENTITY_IDS, ENTITY_DOIS
@@ -70,6 +71,7 @@ GUESTBOOK = {
 # Generous per-request timeout: precinct files reach a few GB and stream slowly.
 DL_TIMEOUT = 600.0
 META_TIMEOUT = 120.0
+PARQUET_BATCH_ROWS = 50_000
 
 
 # --------------------------------------------------------------------------- #
@@ -168,30 +170,46 @@ class _ByteIterStream(io.RawIOBase):
 
 @transient_retry()
 def _download_file_to_batch(file_id: int, delim: str, gated: bool, batch_asset: str) -> int:
-    """Stream one source file → one ndjson.gz batch (string values, verbatim).
+    """Stream one source file → one parquet batch (string values, verbatim).
     Idempotent: a retry truncates and rewrites the batch from scratch."""
     client = get_client()
     url = _signed_url(file_id) if gated else f"{BASE}/access/datafile/{file_id}"
     n_rows = 0
-    with raw_writer(batch_asset, "ndjson.gz", mode="wt", compression="gzip") as out:
-        with client.stream("GET", url, timeout=DL_TIMEOUT) as resp:
-            resp.raise_for_status()
-            text = io.TextIOWrapper(
-                _ByteIterStream(resp.iter_bytes()), encoding="utf-8", newline=""
-            )
-            reader = csv.reader(text, delimiter=delim)
-            try:
-                header = next(reader)
-            except StopIteration:
-                return 0
-            header = [h.strip().strip('"') for h in header]
+
+    with client.stream("GET", url, timeout=DL_TIMEOUT) as resp:
+        resp.raise_for_status()
+        text = io.TextIOWrapper(
+            _ByteIterStream(resp.iter_bytes()), encoding="utf-8", newline=""
+        )
+        reader = csv.reader(text, delimiter=delim)
+        try:
+            header = next(reader)
+        except StopIteration:
+            return 0
+
+        header = [h.strip().strip('"') for h in header]
+        schema = pa.schema([(h, pa.string()) for h in header])
+        ncol = len(header)
+        cols = [[] for _ in header]
+
+        def flush(writer) -> None:
+            arrays = [pa.array(c, type=pa.string()) for c in cols]
+            writer.write_table(pa.Table.from_arrays(arrays, schema=schema))
+            for c in cols:
+                c.clear()
+
+        with raw_parquet_writer(batch_asset, schema) as writer:
             for row in reader:
                 if not row:
                     continue
-                rec = {header[i]: row[i] for i in range(min(len(header), len(row)))}
-                out.write(json.dumps(rec, ensure_ascii=False))
-                out.write("\n")
+                row = (row + [""] * ncol)[:ncol]
+                for i, value in enumerate(row):
+                    cols[i].append(value if value != "" else None)
                 n_rows += 1
+                if n_rows % PARQUET_BATCH_ROWS == 0:
+                    flush(writer)
+            if n_rows % PARQUET_BATCH_ROWS:
+                flush(writer)
     return n_rows
 
 
