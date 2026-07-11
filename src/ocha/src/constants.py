@@ -20,6 +20,19 @@ ENTITY_PATHS = {
     "food-security-nutrition-poverty-food-security": "food-security-nutrition-poverty/food-security",
     "food-security-nutrition-poverty-poverty-rate": "food-security-nutrition-poverty/poverty-rate",
     "geography-infrastructure-baseline-population": "geography-infrastructure/baseline-population",
+    # metadata / lookup reference tables (metadata/<name>)
+    "metadata-admin1": "metadata/admin1",
+    "metadata-admin2": "metadata/admin2",
+    "metadata-currency": "metadata/currency",
+    "metadata-data-availability": "metadata/data-availability",
+    "metadata-dataset": "metadata/dataset",
+    "metadata-location": "metadata/location",
+    "metadata-org": "metadata/org",
+    "metadata-org-type": "metadata/org-type",
+    "metadata-resource": "metadata/resource",
+    "metadata-sector": "metadata/sector",
+    "metadata-wfp-commodity": "metadata/wfp-commodity",
+    "metadata-wfp-market": "metadata/wfp-market",
 }
 
 ENTITY_IDS = list(ENTITY_PATHS)

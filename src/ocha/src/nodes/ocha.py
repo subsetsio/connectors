@@ -9,8 +9,9 @@ Fetch shape: stateless full re-pull (shape 1). Every refresh pages the whole
 endpoint via offset/limit and overwrites the raw NDJSON. HAPI exposes no
 changed-since cursor (only value filters), and the per-endpoint corpora are
 modest, so a full re-pull each run is correct and picks up upstream revisions
-for free. Raw is NDJSON because the 13 endpoints have heterogeneous schemas and
-one generic fetch fn serves all of them; the transform re-types on read.
+for free. Raw is NDJSON because the 25 endpoints (13 thematic + 12 metadata/
+lookup reference tables) have heterogeneous schemas and one generic fetch fn
+serves all of them; the transform re-types on read.
 
 Auth: every request needs an app_identifier. It is NOT a human-provisioned
 secret — it is base64 of 'application:email' (here 'subsets:nathan@subsets.io'),
@@ -19,7 +20,7 @@ self-generated via the API's own /encode_app_identifier endpoint.
 
 import json
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 
 from constants import ENTITY_IDS, ENTITY_PATHS
 
@@ -77,28 +78,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"ocha-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# Thin parse-and-type pass shared by every subset: keep all of HAPI's already-clean
-# columns, but coerce the reference_period bounds to real TIMESTAMPs. Every HAPI v2
-# thematic endpoint carries reference_period_start / reference_period_end.
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            * EXCLUDE (reference_period_start, reference_period_end),
-            CAST(reference_period_start AS TIMESTAMP) AS reference_period_start,
-            CAST(reference_period_end   AS TIMESTAMP) AS reference_period_end
-        FROM "{download_id}"
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        temporal="reference_period_start",
-    )
-    for s in DOWNLOAD_SPECS
 ]

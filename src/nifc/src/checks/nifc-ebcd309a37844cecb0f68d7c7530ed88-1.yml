@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nifc-ebcd309a37844cecb0f68d7c7530ed88-1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id, entityid, projectname, county, unit]
+checks:
+  - kind: unique
+    columns: [id, entityid, projectname, county, unit]
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: entityid
+  - kind: not_null
+    col: projectname
+  - kind: not_null
+    col: county
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 59
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

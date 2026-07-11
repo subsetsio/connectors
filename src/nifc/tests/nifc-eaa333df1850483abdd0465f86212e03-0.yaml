@@ -4,4 +4,7 @@
 # monotonicity) are authored as compiled post-publish checks (compile-checks)
 # once the model stage settles each table's grain + temporal column.
 spec_id: nifc-eaa333df1850483abdd0465f86212e03-0
+coverage:
+  frozen: true
+  reason: IMSR Final Occurrence Historical is a finalized historical incident layer; post_date_textformat is source record metadata, not a recurring publication date that should advance on a cadence.
 status: deferred

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nifc-405814902c9e411cb4384c49d694e82b-0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sourceglobalid, globalid, irwinid, incidentname, localincidentidentifier]
+checks:
+  - kind: unique
+    columns: [sourceglobalid, globalid, irwinid, incidentname, localincidentidentifier]
+  - kind: not_null
+    col: sourceglobalid
+  - kind: not_null
+    col: globalid
+  - kind: not_null
+    col: irwinid
+  - kind: not_null
+    col: incidentname
+  - kind: not_null
+    col: localincidentidentifier
+  - kind: row_floor
+    min: 13225
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
