@@ -1,0 +1,21 @@
+spec_id: johns-hopkins-csse-covid-19-data-lookup-table
+status: active
+tests:
+  - not_null: uid
+    reason: UID is the primary geography identifier in UID_ISO_FIPS_LookUp_Table.csv.
+    certainty: 95
+  - not_null: country_region
+    reason: every geography row belongs to a country/region.
+    certainty: 90
+  - not_null: combined_key
+    reason: Combined_Key is the source-provided display key for each geography row.
+    certainty: 85
+  - unique: uid
+    reason: the lookup table has one row per UID geography.
+    certainty: 90
+  - row_count: {min: 4000}
+    reason: the table contains global country/province rows plus US county rows, a little over 4000 geographies.
+    certainty: 80
+  - column_type: {col: population, type: string}
+    reason: raw lookup values are kept as strings and typed in the transform/model stage.
+    certainty: 95

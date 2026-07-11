@@ -15,6 +15,7 @@ Four subsets, each fetched via the stable raw.githubusercontent.com CSV URLs:
                            a canonical set before writing.
   * daily_reports_us     — per-day US state-level snapshot CSVs concatenated,
                            likewise header-normalized.
+  * lookup_table         — UID/ISO/FIPS geography reference table.
 
 The wide time-series files are melted row-by-row (streaming) so memory stays
 bounded; the daily reports are ~1100 small files each, fetched sequentially and
@@ -27,7 +28,7 @@ import io
 import json
 from datetime import date, timedelta
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 
 BASE = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data"
 
@@ -251,6 +252,51 @@ def fetch_daily_reports_us(node_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Geography lookup
+# ---------------------------------------------------------------------------
+
+_LOOKUP_KEYS = [
+    "uid", "iso2", "iso3", "code3", "fips", "admin2", "province_state",
+    "country_region", "lat", "long", "combined_key", "population",
+]
+
+_LOOKUP_MAP = {
+    "uid": "uid",
+    "iso2": "iso2",
+    "iso3": "iso3",
+    "code3": "code3",
+    "fips": "fips",
+    "admin2": "admin2",
+    "province_state": "province_state",
+    "country_region": "country_region",
+    "lat": "lat",
+    "long_": "long",
+    "combined_key": "combined_key",
+    "population": "population",
+}
+
+
+def fetch_lookup_table(node_id: str) -> None:
+    text = _get_text(f"{BASE}/UID_ISO_FIPS_LookUp_Table.csv")
+    if text is None:
+        raise RuntimeError("expected lookup file missing: UID_ISO_FIPS_LookUp_Table.csv")
+    reader = csv.reader(io.StringIO(text))
+    header = next(reader)
+    header[0] = header[0].lstrip("\ufeff")
+    idx_to_key = [_LOOKUP_MAP.get(h.strip().lower()) for h in header]
+
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as out:
+        for row in reader:
+            rec = dict.fromkeys(_LOOKUP_KEYS)
+            for i, cell in enumerate(row):
+                if i < len(idx_to_key):
+                    key = idx_to_key[i]
+                    if key:
+                        rec[key] = cell if cell != "" else None
+            out.write(json.dumps(rec) + "\n")
+
+
+# ---------------------------------------------------------------------------
 # Specs
 # ---------------------------------------------------------------------------
 
@@ -258,99 +304,12 @@ _TS_GLOBAL = f"{SLUG}-time-series-global"
 _TS_US = f"{SLUG}-time-series-us"
 _DR_GLOBAL = f"{SLUG}-daily-reports-global"
 _DR_US = f"{SLUG}-daily-reports-us"
+_LOOKUP = f"{SLUG}-lookup-table"
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_TS_GLOBAL, fn=fetch_time_series_global, kind="download"),
     NodeSpec(id=_TS_US, fn=fetch_time_series_us, kind="download"),
     NodeSpec(id=_DR_GLOBAL, fn=fetch_daily_reports_global, kind="download"),
     NodeSpec(id=_DR_US, fn=fetch_daily_reports_us, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_TS_GLOBAL}-transform",
-        deps=[_TS_GLOBAL],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE)                          AS date,
-                country_region,
-                province_state,
-                TRY_CAST(lat AS DOUBLE)                     AS lat,
-                TRY_CAST(long AS DOUBLE)                    AS long,
-                metric,
-                TRY_CAST(TRY_CAST(value AS DOUBLE) AS BIGINT) AS value
-            FROM "{_TS_GLOBAL}"
-            WHERE value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_TS_US}-transform",
-        deps=[_TS_US],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE)                          AS date,
-                uid,
-                iso2,
-                iso3,
-                fips,
-                admin2,
-                province_state,
-                combined_key,
-                TRY_CAST(lat AS DOUBLE)                     AS lat,
-                TRY_CAST(long AS DOUBLE)                    AS long,
-                TRY_CAST(TRY_CAST(population AS DOUBLE) AS BIGINT) AS population,
-                metric,
-                TRY_CAST(TRY_CAST(value AS DOUBLE) AS BIGINT) AS value
-            FROM "{_TS_US}"
-            WHERE value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_DR_GLOBAL}-transform",
-        deps=[_DR_GLOBAL],
-        sql=f'''
-            SELECT
-                CAST(report_date AS DATE)                   AS date,
-                fips,
-                admin2,
-                province_state,
-                country_region,
-                combined_key,
-                TRY_CAST(lat AS DOUBLE)                     AS lat,
-                TRY_CAST(long AS DOUBLE)                    AS long,
-                TRY_CAST(TRY_CAST(confirmed AS DOUBLE) AS BIGINT) AS confirmed,
-                TRY_CAST(TRY_CAST(deaths AS DOUBLE) AS BIGINT)    AS deaths,
-                TRY_CAST(TRY_CAST(recovered AS DOUBLE) AS BIGINT) AS recovered,
-                TRY_CAST(TRY_CAST(active AS DOUBLE) AS BIGINT)    AS active,
-                TRY_CAST(incident_rate AS DOUBLE)          AS incident_rate,
-                TRY_CAST(case_fatality_ratio AS DOUBLE)    AS case_fatality_ratio
-            FROM "{_DR_GLOBAL}"
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_DR_US}-transform",
-        deps=[_DR_US],
-        sql=f'''
-            SELECT
-                CAST(report_date AS DATE)                   AS date,
-                province_state,
-                country_region,
-                uid,
-                iso3,
-                fips,
-                TRY_CAST(lat AS DOUBLE)                     AS lat,
-                TRY_CAST(long AS DOUBLE)                    AS long,
-                TRY_CAST(TRY_CAST(confirmed AS DOUBLE) AS BIGINT) AS confirmed,
-                TRY_CAST(TRY_CAST(deaths AS DOUBLE) AS BIGINT)    AS deaths,
-                TRY_CAST(TRY_CAST(recovered AS DOUBLE) AS BIGINT) AS recovered,
-                TRY_CAST(TRY_CAST(active AS DOUBLE) AS BIGINT)    AS active,
-                TRY_CAST(incident_rate AS DOUBLE)          AS incident_rate,
-                TRY_CAST(TRY_CAST(total_test_results AS DOUBLE) AS BIGINT) AS total_test_results,
-                TRY_CAST(TRY_CAST(people_hospitalized AS DOUBLE) AS BIGINT) AS people_hospitalized,
-                TRY_CAST(case_fatality_ratio AS DOUBLE)    AS case_fatality_ratio,
-                TRY_CAST(testing_rate AS DOUBLE)           AS testing_rate,
-                TRY_CAST(hospitalization_rate AS DOUBLE)   AS hospitalization_rate
-            FROM "{_DR_US}"
-        ''',
-    ),
+    NodeSpec(id=_LOOKUP, fn=fetch_lookup_table, kind="download"),
 ]
