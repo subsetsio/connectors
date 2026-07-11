@@ -16,3 +16,7 @@ tests:
     certainty: 80
   - at_least: {col: earthquake_count, expr: 0}
     certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: KNMI's Groningen earthquake facts include a current-year bucket even before the year is complete.
+    certainty: 80
+    points_outward: true

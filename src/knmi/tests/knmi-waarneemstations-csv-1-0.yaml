@@ -17,3 +17,7 @@ tests:
   - between: {col: longitude, lo: -6.0, hi: 8.0}
     certainty: 75
     severity: warn
+  - freshness: {col: start_date, reaches: today - 3y}
+    reason: station metadata is a maintained snapshot; recent station lifecycle start dates indicate the catalogue is not stale.
+    certainty: 60
+    points_outward: true

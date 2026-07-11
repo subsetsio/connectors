@@ -1,5 +1,8 @@
 spec_id: knmi-ice-thickness-observations-1-0
 status: active
+coverage:
+  frozen: true
+  reason: historical ice-thickness observation sample ending in 2012; it is not a continuously advancing observation feed.
 tests:
   - not_null: location
   - not_null: date

@@ -15,3 +15,7 @@ tests:
     certainty: 80
   - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     certainty: 90
+  - freshness: {col: date, reaches: today - 400d}
+    reason: the homogenized daily temperature file is maintained, but finalization can lag the live observation date.
+    certainty: 75
+    points_outward: true

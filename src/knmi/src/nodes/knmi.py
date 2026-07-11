@@ -26,7 +26,7 @@ import tempfile
 import time
 
 import pyarrow as pa  # noqa: F401  (kept for parity; raw is ndjson)
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_ndjson
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_ndjson
 
 from constants import ANON_API_KEY, CONFIG, ENTITY_IDS
 
@@ -292,93 +292,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"knmi-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# ---- transforms: one published Delta table per subset ------------------------
-
-_SQL = {
-    "knmi-aardbevingen-cijfers-1": '''
-        SELECT CAST(year AS INTEGER) AS year,
-               CAST(magnitude AS DOUBLE) AS magnitude,
-               CAST(earthquake_count AS BIGINT) AS earthquake_count
-        FROM "{dep}"
-        WHERE year IS NOT NULL AND earthquake_count IS NOT NULL
-    ''',
-    "knmi-waarneemstations-csv-1-0": '''
-        SELECT CAST(station_id AS INTEGER) AS station_id,
-               wsi, location, station_type,
-               TRY_CAST(start_date AS DATE) AS start_date,
-               TRY_CAST(stop_date AS DATE) AS stop_date,
-               CAST(height_m AS DOUBLE) AS height_m,
-               CAST(latitude AS DOUBLE) AS latitude,
-               CAST(longitude AS DOUBLE) AS longitude,
-               CAST(pos_x AS DOUBLE) AS pos_x,
-               CAST(pos_y AS DOUBLE) AS pos_y
-        FROM "{dep}"
-        WHERE station_id IS NOT NULL
-    ''',
-    "knmi-homogenization-daily-temperature-principal-stations-netherlands-1-0": '''
-        SELECT station, variable,
-               CAST(date AS DATE) AS date,
-               CAST(original AS DOUBLE) AS original,
-               CAST(version1 AS DOUBLE) AS version1,
-               CAST(version2 AS DOUBLE) AS version2
-        FROM "{dep}"
-        WHERE date IS NOT NULL
-    ''',
-    "knmi-ice-thickness-observations-1-0": '''
-        SELECT location,
-               CAST(year AS INTEGER) AS year,
-               TRY_STRPTIME(date, '%m/%d/%Y')::DATE AS obs_date,
-               CAST(latitude AS DOUBLE) AS latitude,
-               CAST(longitude AS DOUBLE) AS longitude,
-               NULLIF(CAST(water_depth_m AS DOUBLE), 999) AS water_depth_m,
-               NULLIF(CAST(ice_depth_cm AS DOUBLE), 999) AS ice_depth_cm,
-               NULLIF(CAST(snow_depth_cm AS DOUBLE), 999) AS snow_depth_cm,  -- 999 = KNMI missing-value code
-               observer
-        FROM "{dep}"
-        WHERE date IS NOT NULL
-    ''',
-}
-
-_MATRIX_SQL = '''
-    SELECT location, metric, period, CAST(value AS DOUBLE) AS value
-    FROM "{dep}"
-    WHERE value IS NOT NULL
-'''
-
-
-def _sql_for(dep_id: str) -> str:
-    return _SQL.get(dep_id, _MATRIX_SQL).format(dep=dep_id)
-
-
-# Per-subset grain (key) and freshness period (temporal), keyed by dep id.
-_MATRIX_KEY = ("location", "metric", "period")
-_KEY = {
-    "knmi-aardbevingen-cijfers-1": ("year", "magnitude"),
-    "knmi-waarneemstations-csv-1-0": ("station_id",),
-    "knmi-homogenization-daily-temperature-principal-stations-netherlands-1-0":
-        ("station", "variable", "date"),
-    "knmi-climate-normals-1991-2020-climate-normals-by-station-1": _MATRIX_KEY,
-    "knmi-climate-normals-1991-2020-day-normals-by-station-1": _MATRIX_KEY,
-    "knmi-climate-normals-1991-2020-per-10-days-by-station-1": _MATRIX_KEY,
-    "knmi-climate-normals-1991-2020-precipitation-normals-by-district-1": _MATRIX_KEY,
-}
-_TEMPORAL = {
-    "knmi-aardbevingen-cijfers-1": "year",
-    "knmi-homogenization-daily-temperature-principal-stations-netherlands-1-0": "date",
-    "knmi-ice-thickness-observations-1-0": "obs_date",
-}
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_sql_for(s.id),
-        **({"key": _KEY[s.id]} if s.id in _KEY else {}),
-        **({"temporal": _TEMPORAL[s.id]} if s.id in _TEMPORAL else {}),
-    )
-    for s in DOWNLOAD_SPECS
 ]
