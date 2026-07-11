@@ -9,7 +9,7 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import ROW_RE, STATION_BASE, discover_station_slugs, fetch_text
 
 _NUM_RE = re.compile(r"-?\d+(?:\.\d+)?")
@@ -86,29 +86,3 @@ def fetch_observations(node_id: str) -> None:
         raise AssertionError("parsed 0 observation rows across all stations")
     table = pa.Table.from_pylist(rows, schema=OBS_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="met-office-observations", fn=fetch_observations, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="met-office-observations-transform",
-        deps=["met-office-observations"],
-        sql='''
-            SELECT DISTINCT
-                station,
-                CAST(year AS INTEGER)  AS year,
-                CAST(month AS INTEGER) AS month,
-                make_date(CAST(year AS INTEGER), CAST(month AS INTEGER), 1) AS date,
-                tmax_degc,
-                tmin_degc,
-                CAST(af_days AS INTEGER) AS af_days,
-                rain_mm,
-                sun_hours,
-                provisional
-            FROM "met-office-observations"
-        ''',
-    ),
-]

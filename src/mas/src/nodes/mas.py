@@ -15,13 +15,17 @@ one per dataset frequency:
 The fetch unpivots each wide row to one observation per (series, period) and
 normalises it into clean, typed columns so the raw is directly SQL-readable and
 the compiled transform is near-identity:
-  - `data_series` (string)  — trimmed series label
-  - `period`      (date)    — the period's END date (month-end / quarter-end /
-                              Dec-31), matching the "End Of Period" semantics of
-                              most MAS series and giving a sortable temporal key
-  - `value`       (double)  — numeric value; the source's non-numeric markers
-                              ('na', '-', blank, thousands commas) are parsed to
-                              null/number and null cells are dropped
+  - `data_series_id` (int)   — source row id (`vault_id`), needed because some
+                               MAS tables repeat display labels in different
+                               hierarchy branches
+  - `data_series`    (string) — trimmed series label
+  - `period`         (date)   — the period's END date (month-end / quarter-end /
+                                Dec-31), matching the "End Of Period" semantics
+                                of most MAS series and giving a sortable
+                                temporal key
+  - `value`          (double) — numeric value; the source's non-numeric markers
+                                ('na', '-', blank, thousands commas) are parsed
+                                to null/number and null cells are dropped
 
 Transforms are NOT authored here — the model stage profiles this raw and
 compiles the per-table transform (src/transforms/<table>.sql + .yml).
@@ -52,6 +56,7 @@ _MAX_PAGES = 10000  # safety ceiling; raises on hit (pagination loop guard)
 from constants import ENTITY_IDS
 
 _SCHEMA = pa.schema([
+    ("data_series_id", pa.int64()),
     ("data_series", pa.string()),
     ("period", pa.date32()),
     ("value", pa.float64()),
@@ -140,12 +145,17 @@ def _fetch_all_rows(dataset_id: str) -> list:
 
 def _observations(rows: list) -> dict:
     """Wide -> long. Returns column-oriented dict for pa.Table; one row per
-    (data_series, period) cell with a numeric value (null cells dropped)."""
-    series_col, period_col, value_col = [], [], []
+    (data_series_id, period) cell with a numeric value (null cells dropped)."""
+    series_id_col, series_col, period_col, value_col = [], [], [], []
     for row in rows:
         series = row.get("DataSeries")
         series = series.strip() if isinstance(series, str) else series
-        if not series:
+        series_id = row.get("vault_id")
+        try:
+            series_id = int(series_id)
+        except (TypeError, ValueError):
+            series_id = None
+        if not series or series_id is None:
             continue
         for key, raw in row.items():
             if key in ("vault_id", "DataSeries"):
@@ -156,10 +166,16 @@ def _observations(rows: list) -> dict:
             value = _num(raw)
             if value is None:
                 continue
+            series_id_col.append(series_id)
             series_col.append(series)
             period_col.append(period)
             value_col.append(value)
-    return {"data_series": series_col, "period": period_col, "value": value_col}
+    return {
+        "data_series_id": series_id_col,
+        "data_series": series_col,
+        "period": period_col,
+        "value": value_col,
+    }
 
 
 def fetch_one(node_id: str) -> None:

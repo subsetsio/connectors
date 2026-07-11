@@ -8,7 +8,7 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import ROW_RE, STATION_BASE, discover_station_slugs, fetch_text
 
 
@@ -61,27 +61,3 @@ def fetch_stations(node_id: str) -> None:
         raise AssertionError("parsed 0 station metadata records")
     table = pa.Table.from_pylist(rows, schema=STATION_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="met-office-stations", fn=fetch_stations, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="met-office-stations-transform",
-        deps=["met-office-stations"],
-        sql='''
-            SELECT
-                station,
-                name,
-                lat,
-                lon,
-                CAST(altitude_m AS INTEGER) AS altitude_m,
-                CAST(start_year AS INTEGER) AS start_year,
-                CAST(end_year AS INTEGER)   AS end_year,
-                location
-            FROM "met-office-stations"
-        ''',
-    ),
-]

@@ -10,7 +10,7 @@ scraping anchor links on the HTML index page each run.
 """
 import re
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 INDEX_URL = "https://www.metoffice.gov.uk/research/climate/maps-and-data/historic-station-data"
 STATION_BASE = "https://www.metoffice.gov.uk/pub/data/weather/uk/climate/stationdata"
@@ -20,7 +20,6 @@ STATION_HREF = re.compile(r"stationdata/([a-z]+)data\.txt", re.IGNORECASE)
 ROW_RE = re.compile(r"^\s*(\d{4})\s+(\d{1,2})\b(.*)$")
 
 
-@transient_retry()
 def fetch_text(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
