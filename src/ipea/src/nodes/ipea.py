@@ -68,7 +68,7 @@ TERRITORIES_SCHEMA = pa.schema([
     ("TERCODIGO", pa.string()),
     ("TERNOME", pa.string()),
     ("TERNOMEPADRAO", pa.string()),
-    ("TERCAPITAL", pa.int64()),
+    ("TERCAPITAL", pa.bool_()),
     ("TERAREA", pa.float64()),
     ("NIVAMC", pa.bool_()),
 ])
