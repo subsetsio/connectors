@@ -12,7 +12,7 @@ tests:
   - distinct_count: {col: jobcountry, min: 5}
     reason: remote tracker covers several country markets.
     certainty: 80
-  - freshness: {col: date, reaches: today - 30d}
-    reason: Indeed documents remote work data as daily.
+  - freshness: {col: date, reaches: today - 60d}
+    reason: Remote work tracker data currently publishes through the latest complete month; data older than about two months indicates staleness.
     certainty: 85
     points_outward: true

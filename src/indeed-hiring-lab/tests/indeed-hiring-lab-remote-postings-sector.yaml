@@ -13,7 +13,7 @@ tests:
   - distinct_count: {col: normtitlecategory_consistent, min: 20}
     reason: sector table should cover the broad Indeed sector taxonomy.
     certainty: 80
-  - freshness: {col: date, reaches: today - 30d}
-    reason: Indeed documents remote work data as daily.
+  - freshness: {col: date, reaches: today - 60d}
+    reason: Remote work tracker data currently publishes through the latest complete month; data older than about two months indicates staleness.
     certainty: 85
     points_outward: true
