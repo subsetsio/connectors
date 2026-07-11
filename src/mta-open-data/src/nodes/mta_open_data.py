@@ -16,8 +16,9 @@ origin-destination tables run to ~120M rows) — the single streamed export is t
 efficient bulk path for those (no deep-offset pagination), and transient_retry
 restarts a dropped stream.
 
-Transform: one thin SqlNodeSpec per dataset — ``SELECT * FROM "<download>"`` over
-the CSV view (DuckDB ``read_csv_auto``), published 1:1 as a Delta table.
+Raw is one gzip'd CSV per dataset (``csv.gz``) — SQL-readable via DuckDB's
+``read_csv_auto``. Transforms are not authored here; the model stage compiles
+one published Delta table per dataset from the profiled raw.
 """
 
 import os
@@ -75,13 +76,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

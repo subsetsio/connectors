@@ -28,6 +28,7 @@ ENTITY_META = {
     'monetary-authority-of-macao-4-domestic-interbank-market--cheques-and-bills-presented': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'Cheques and Bills Presented'},
     'monetary-authority-of-macao-4-domestic-interbank-market--cheques-and-bills-returned': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'Cheques and Bills Returned'},
     'monetary-authority-of-macao-4-domestic-interbank-market--int-liab-by-maturity-new': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'Int Liab. - By Maturity (New)'},
+    'monetary-authority-of-macao-4-domestic-interbank-market--int-liab-by-maturity-old': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'Int Liab. - By Maturity (Old)'},
     'monetary-authority-of-macao-4-domestic-interbank-market--interbank-liabs-by-type': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'Interbank Liabs. - By Type'},
     'monetary-authority-of-macao-4-domestic-interbank-market--m-bills': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'M-Bills'},
     'monetary-authority-of-macao-4-domestic-interbank-market--swaps': {"endpoint": 'mfs', "stem": '4_Domestic_Interbank_Market', "sheet": 'Swaps'},
