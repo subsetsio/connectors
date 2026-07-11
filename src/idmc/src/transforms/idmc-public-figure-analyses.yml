@@ -1,14 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idmc-public-figure-analyses`. Regenerate after model-verify.
+# caution: This table contains methodology and caveat text for public figures, not displacement observations to aggregate as a time series.
+key: [description, iso3, year, figure_cause_name, figure_category_name]
+temporal: year
+sort: [year, description, iso3, figure_cause_name, figure_category_name]
 columns:
   - name: iso3
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: figure_cause
-    type: INTEGER
+    type: BIGINT
   - name: figure_cause_name
     type: VARCHAR
   - name: figure_category
-    type: INTEGER
+    type: BIGINT
   - name: figure_category_name
     type: VARCHAR
   - name: description

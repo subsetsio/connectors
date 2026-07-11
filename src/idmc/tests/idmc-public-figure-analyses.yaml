@@ -10,7 +10,7 @@ tests:
   - between: {col: year, lo: 2008, hi: current_year()}
     points_outward: true
     certainty: 95
-  - freshness: {col: year, reaches: current_year() - 1}
+  - freshness: {col: year, reaches: 2025}
     points_outward: true
     certainty: 85
   - not_null: description

@@ -1,14 +1,18 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This wide country-year table combines conflict and disaster measures; avoid summing it together with the separate conflict or disaster tables.
 SELECT
-    iso3,
-    country_name,
-    CAST(year AS INTEGER) AS year,
-    CAST(conflict_new_displacement AS BIGINT) AS conflict_new_displacement,
-    CAST(conflict_new_displacement_rounded AS BIGINT) AS conflict_new_displacement_rounded,
-    CAST(conflict_total_displacement AS BIGINT) AS conflict_total_displacement,
-    CAST(conflict_total_displacement_rounded AS BIGINT) AS conflict_total_displacement_rounded,
-    CAST(disaster_new_displacement AS BIGINT) AS disaster_new_displacement,
-    CAST(disaster_new_displacement_rounded AS BIGINT) AS disaster_new_displacement_rounded,
-    CAST(disaster_total_displacement AS BIGINT) AS disaster_total_displacement,
-    CAST(disaster_total_displacement_rounded AS BIGINT) AS disaster_total_displacement_rounded
+    "iso3",
+    "country_name",
+    "year",
+    "conflict_new_displacement",
+    "conflict_new_displacement_rounded",
+    "conflict_total_displacement",
+    "conflict_total_displacement_rounded",
+    "disaster_new_displacement",
+    "disaster_new_displacement_rounded",
+    "disaster_total_displacement",
+    "disaster_total_displacement_rounded"
 FROM "idmc-displacements"
-WHERE iso3 IS NOT NULL AND year IS NOT NULL

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idmc-idu`. Regenerate after model-verify.
+# caution: Internal Displacement Updates are near-real-time preliminary event records and should not be treated as final validated GIDD annual totals.
+key: [id]
+temporal: displacement_date
+sort: [displacement_date, id]
 columns:
   - name: id
     type: BIGINT
@@ -10,6 +15,8 @@ columns:
     type: DOUBLE
   - name: longitude
     type: DOUBLE
+  - name: centroid
+    type: VARCHAR
   - name: role
     type: VARCHAR
   - name: displacement_type
@@ -25,13 +32,19 @@ columns:
   - name: displacement_end_date
     type: DATE
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: event_id
     type: BIGINT
   - name: event_name
     type: VARCHAR
   - name: event_codes
     type: VARCHAR
+  - name: event_code_types
+    type: VARCHAR
+  - name: event_start_date
+    type: DATE
+  - name: event_end_date
+    type: DATE
   - name: category
     type: VARCHAR
   - name: subcategory
@@ -40,11 +53,19 @@ columns:
     type: VARCHAR
   - name: subtype
     type: VARCHAR
+  - name: standard_popup_text
+    type: VARCHAR
+  - name: standard_info_text
+    type: VARCHAR
+  - name: old_id
+    type: JSON
   - name: sources
     type: VARCHAR
   - name: source_url
     type: VARCHAR
   - name: locations_name
+    type: VARCHAR
+  - name: locations_coordinates
     type: VARCHAR
   - name: locations_accuracy
     type: VARCHAR

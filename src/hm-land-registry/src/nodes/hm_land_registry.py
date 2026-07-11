@@ -7,10 +7,10 @@ Three publishable assets, one DOWNLOAD_SPEC each:
   columns), one parquet *fragment* per year of the single logical asset, so the
   transform's dep view globs every year automatically. Per-year files keep peak
   memory bounded vs the 5.4GB pp-complete.csv.
-- ``hm-land-registry-ukhpi`` — UK House Price Index monthly indicators. Regions
-  are enumerated from SPARQL, each region's full monthly series is paged from
-  the linked-data API and flattened (51 canonical measures), streamed to one
-  ndjson.gz asset.
+- ``hm-land-registry-ukhpi`` — UK House Price Index monthly indicators. The
+  latest GOV.UK full-file CSV is discovered from the UKHPI reports collection
+  and normalized into the same measure names exposed by the linked-data API,
+  then streamed to one ndjson.gz asset.
 - ``hm-land-registry-ukhpi-regions`` — the region reference taxonomy (slug, uri,
   english name, admin-geo type) joinable to the UKHPI series via region_slug.
 
@@ -22,8 +22,11 @@ Licence: Open Government Licence v3.0 (attribution required).
 
 from __future__ import annotations
 
+import csv
+import html
 import io
 import json
+import re
 from datetime import datetime, timezone
 
 import httpx
@@ -112,11 +115,14 @@ def fetch_ppd(node_id: str) -> None:
 # UK House Price Index (UKHPI)
 # --------------------------------------------------------------------------- #
 
-_UKHPI_REGION_URL = "https://landregistry.data.gov.uk/data/ukhpi/region/{slug}.json"
-_SPARQL_URL = "https://landregistry.data.gov.uk/landregistry/query"
-_UKHPI_PAGE_SIZE = 500
-_UKHPI_MAX_PAGES = 200  # safety ceiling per region (~700 records today)
-_ADMINGEO = "http://data.ordnancesurvey.co.uk/ontology/admingeo/"
+_UKHPI_COLLECTION_API = (
+    "https://www.gov.uk/api/content/government/collections/uk-house-price-index-reports"
+)
+_UKHPI_FULL_FILE_RE = re.compile(
+    r"https://publicdata\.landregistry\.gov\.uk/[^\"' <]+"
+    r"UK-HPI-full-file-[^\"' <]+\.csv[^\"' <]*"
+)
+_ONS_GEOGRAPHY_URI = "https://statistics.data.gov.uk/id/statistical-geography/{code}"
 
 # The 51 canonical UKHPI measures (union across regions). Every row is filled
 # with all of them (null when a region lacks one) so the raw schema is stable.
@@ -147,93 +153,135 @@ _UKHPI_MEASURES = [
 ]
 
 
-def _sparql(query: str) -> list[dict]:
-    resp = request(
-        _SPARQL_URL,
-        params={"query": query},
-        headers={"Accept": "application/sparql-results+json"},
-        timeout=(10.0, 240.0),
-    )
-    return resp.json()["results"]["bindings"]
+_UKHPI_CSV_MAP = {
+    "AveragePrice": "averagePrice",
+    "AveragePriceSA": "averagePriceSA",
+    "DetachedPrice": "averagePriceDetached",
+    "SemiDetachedPrice": "averagePriceSemiDetached",
+    "TerracedPrice": "averagePriceTerraced",
+    "FlatPrice": "averagePriceFlatMaisonette",
+    "CashPrice": "averagePriceCash",
+    "MortgagePrice": "averagePriceMortgage",
+    "FTBPrice": "averagePriceFirstTimeBuyer",
+    "FOOPrice": "averagePriceFormerOwnerOccupier",
+    "NewPrice": "averagePriceNewBuild",
+    "OldPrice": "averagePriceExistingProperty",
+    "Index": "housePriceIndex",
+    "IndexSA": "housePriceIndexSA",
+    "DetachedIndex": "housePriceIndexDetached",
+    "SemiDetachedIndex": "housePriceIndexSemiDetached",
+    "TerracedIndex": "housePriceIndexTerraced",
+    "FlatIndex": "housePriceIndexFlatMaisonette",
+    "CashIndex": "housePriceIndexCash",
+    "MortgageIndex": "housePriceIndexMortgage",
+    "FTBIndex": "housePriceIndexFirstTimeBuyer",
+    "FOOIndex": "housePriceIndexFormerOwnerOccupier",
+    "NewIndex": "housePriceIndexNewBuild",
+    "OldIndex": "housePriceIndexExistingProperty",
+    "1m%Change": "percentageChange",
+    "Detached1m%Change": "percentageChangeDetached",
+    "SemiDetached1m%Change": "percentageChangeSemiDetached",
+    "Terraced1m%Change": "percentageChangeTerraced",
+    "Flat1m%Change": "percentageChangeFlatMaisonette",
+    "Cash1m%Change": "percentageChangeCash",
+    "Mortgage1m%Change": "percentageChangeMortgage",
+    "FTB1m%Change": "percentageChangeFirstTimeBuyer",
+    "FOO1m%Change": "percentageChangeFormerOwnerOccupier",
+    "New1m%Change": "percentageChangeNewBuild",
+    "Old1m%Change": "percentageChangeExistingProperty",
+    "12m%Change": "percentageAnnualChange",
+    "Detached12m%Change": "percentageAnnualChangeDetached",
+    "SemiDetached12m%Change": "percentageAnnualChangeSemiDetached",
+    "Terraced12m%Change": "percentageAnnualChangeTerraced",
+    "Flat12m%Change": "percentageAnnualChangeFlatMaisonette",
+    "Cash12m%Change": "percentageAnnualChangeCash",
+    "Mortgage12m%Change": "percentageAnnualChangeMortgage",
+    "FTB12m%Change": "percentageAnnualChangeFirstTimeBuyer",
+    "FOO12m%Change": "percentageAnnualChangeFormerOwnerOccupier",
+    "New12m%Change": "percentageAnnualChangeNewBuild",
+    "Old12m%Change": "percentageAnnualChangeExistingProperty",
+    "SalesVolume": "salesVolume",
+    "CashSalesVolume": "salesVolumeCash",
+    "MortgageSalesVolume": "salesVolumeMortgage",
+    "NewSalesVolume": "salesVolumeNewBuild",
+    "OldSalesVolume": "salesVolumeExistingProperty",
+}
 
 
-def _region_slugs() -> list[str]:
-    bindings = _sparql(
-        "PREFIX ukhpi: <http://landregistry.data.gov.uk/def/ukhpi/> "
-        "SELECT DISTINCT ?r WHERE { ?o ukhpi:refRegion ?r } ORDER BY ?r"
-    )
-    slugs = [b["r"]["value"].rsplit("/", 1)[-1] for b in bindings]
-    if len(slugs) < 300:
+def _latest_ukhpi_full_file_url() -> str:
+    collection = request(
+        _UKHPI_COLLECTION_API,
+        headers={"Accept": "application/json"},
+        timeout=(10.0, 60.0),
+    ).json()
+    documents = collection.get("links", {}).get("documents", [])
+    data_docs = [
+        d for d in documents
+        if "data downloads" in d.get("title", "").lower() and d.get("api_url")
+    ]
+    if not data_docs:
+        raise RuntimeError("UKHPI: GOV.UK reports collection has no data-download document")
+    data_docs.sort(key=lambda d: d.get("public_updated_at", ""), reverse=True)
+
+    report = request(
+        data_docs[0]["api_url"],
+        headers={"Accept": "application/json"},
+        timeout=(10.0, 60.0),
+    ).json()
+    body = html.unescape(report.get("details", {}).get("body", ""))
+    match = _UKHPI_FULL_FILE_RE.search(body)
+    if not match:
         raise RuntimeError(
-            f"UKHPI: SPARQL returned only {len(slugs)} region slugs (expected >=300)"
-            " — region enumeration broke"
+            f"UKHPI: latest data-download page {data_docs[0]['api_url']} "
+            "has no full-file CSV link"
         )
-    return slugs
+    return match.group(0).split("?", 1)[0]
 
 
-def _region_name(item: dict) -> str | None:
-    rr = item.get("refRegion") or {}
-    label = rr.get("label")
-    if isinstance(label, list) and label:
-        return label[0].get("_value")
-    if isinstance(label, str):
-        return label
-    return None
+def _csv_number(value: str | None) -> int | float | None:
+    if value is None:
+        return None
+    value = value.strip().replace(",", "")
+    if not value:
+        return None
+    number = float(value)
+    return int(number) if number.is_integer() else number
 
 
-def _region_rows(slug: str):
-    """Yield flattened monthly rows for one region across all pages."""
-    url = _UKHPI_REGION_URL.format(slug=slug)
-    seen = 0
-    for page in range(_UKHPI_MAX_PAGES):
-        resp = request(
-            url,
-            params={"_view": "all", "_pageSize": _UKHPI_PAGE_SIZE, "_page": page},
-            headers={"Accept": "application/json"},
-            timeout=(10.0, 180.0),
-        )
-        result = resp.json()["result"]
-        items = result.get("items", [])
-        if not items:
-            break
-        total = result.get("totalResults")
-        for it in items:
-            ref_month = it.get("refMonth")
-            row = {
-                "region_slug": slug,
-                "region_name": _region_name(it),
-                "ref_month": ref_month,
-                # Full-ISO month-start date: a stable temporal column the raw
-                # freshness test can compare against `today - Nd` without the
-                # length-mismatch that lexicographic "YYYY-MM" comparison hits.
-                "ref_date": f"{ref_month}-01" if ref_month else None,
-            }
-            for m in _UKHPI_MEASURES:
-                row[m] = it.get(m)
-            yield row
-        seen += len(items)
-        if total is not None and seen >= total:
-            break
-    else:
-        raise RuntimeError(
-            f"UKHPI: region {slug!r} hit the {_UKHPI_MAX_PAGES}-page safety cap"
-        )
+def _ukhpi_rows_from_csv(text: str):
+    for item in csv.DictReader(io.StringIO(text)):
+        date = datetime.strptime(item["Date"], "%d/%m/%Y").date()
+        ref_month = date.strftime("%Y-%m")
+        row = {
+            "region_slug": item["AreaCode"],
+            "region_name": item["RegionName"],
+            "ref_month": ref_month,
+            # Full-ISO month-start date: a stable temporal column the raw
+            # freshness test can compare against `today - Nd` without the
+            # length-mismatch that lexicographic "YYYY-MM" comparison hits.
+            "ref_date": date.isoformat(),
+        }
+        for measure in _UKHPI_MEASURES:
+            row[measure] = None
+        for source_col, measure in _UKHPI_CSV_MAP.items():
+            row[measure] = _csv_number(item.get(source_col))
+        yield row
 
 
 def fetch_ukhpi(node_id: str) -> None:
-    """Enumerate regions, page each region's monthly series, and stream all
-    rows to one ndjson.gz asset (`hm-land-registry-ukhpi`)."""
-    slugs = _region_slugs()
-    asset = node_id  # "hm-land-registry-ukhpi"
+    """Fetch the GOV.UK full-file CSV and stream monthly rows to ndjson.gz."""
+    url = _latest_ukhpi_full_file_url()
+    resp = request(url, timeout=(10.0, 180.0))
     total_rows = 0
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
-        for slug in slugs:
-            for row in _region_rows(slug):
-                f.write(json.dumps(row) + "\n")
-                total_rows += 1
-    print(f"[ukhpi] {len(slugs)} regions, {total_rows} rows -> {asset}")
+    regions: set[str] = set()
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as f:
+        for row in _ukhpi_rows_from_csv(resp.text):
+            regions.add(row["region_slug"])
+            f.write(json.dumps(row) + "\n")
+            total_rows += 1
+    print(f"[ukhpi] {len(regions)} regions, {total_rows} rows from {url} -> {node_id}")
     if total_rows == 0:
-        raise RuntimeError("UKHPI: wrote 0 rows — region API shape changed")
+        raise RuntimeError("UKHPI: wrote 0 rows — GOV.UK full-file CSV shape changed")
 
 
 # --------------------------------------------------------------------------- #
@@ -249,44 +297,26 @@ _REGIONS_SCHEMA = pa.schema([
 
 
 def fetch_ukhpi_regions(node_id: str) -> None:
-    """Fetch the UKHPI region reference: one row per region with its english
-    label and admin-geo type(s). Enumerated from SPARQL over the same refRegion
-    universe the UKHPI series uses, so region_slug reconciles 1:1."""
-    bindings = _sparql(
-        "PREFIX ukhpi: <http://landregistry.data.gov.uk/def/ukhpi/> "
-        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-        "SELECT ?r ?label ?type WHERE { "
-        "  { SELECT DISTINCT ?r WHERE { ?o ukhpi:refRegion ?r } } "
-        "  OPTIONAL { ?r rdfs:label ?label FILTER(lang(?label) = \"en\") } "
-        f"  OPTIONAL {{ ?r a ?type FILTER(STRSTARTS(STR(?type), \"{_ADMINGEO}\")) }} "
-        "}"
-    )
-    regions: dict[str, dict] = {}
-    for b in bindings:
-        uri = b["r"]["value"]
-        slug = uri.rsplit("/", 1)[-1]
-        d = regions.setdefault(slug, {"uri": uri, "labels": set(), "types": set()})
-        if "label" in b:
-            d["labels"].add(b["label"]["value"])
-        if "type" in b:
-            local = b["type"]["value"].rsplit("/", 1)[-1]
-            if local:
-                d["types"].add(local)
+    """Build the UKHPI region reference from the same full-file CSV."""
+    url = _latest_ukhpi_full_file_url()
+    resp = request(url, timeout=(10.0, 180.0))
+    regions: dict[str, str] = {}
+    for item in csv.DictReader(io.StringIO(resp.text)):
+        regions[item["AreaCode"]] = item["RegionName"]
 
     if len(regions) < 300:
         raise RuntimeError(
-            f"UKHPI regions: SPARQL returned only {len(regions)} regions "
+            f"UKHPI regions: full-file CSV returned only {len(regions)} regions "
             "(expected >=300) — region enumeration broke"
         )
 
     rows = []
-    for slug in sorted(regions):
-        d = regions[slug]
+    for code, name in sorted(regions.items()):
         rows.append({
-            "region_slug": slug,
-            "region_uri": d["uri"],
-            "region_name": next(iter(sorted(d["labels"])), None),
-            "region_type": "|".join(sorted(d["types"])),
+            "region_slug": code,
+            "region_uri": _ONS_GEOGRAPHY_URI.format(code=code),
+            "region_name": name,
+            "region_type": "",
         })
     table = pa.Table.from_pylist(rows, schema=_REGIONS_SCHEMA)
     save_raw_parquet(table, node_id)

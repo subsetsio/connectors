@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idmc-disaggregations`. Regenerate after model-verify.
+# caution: Rows are geo-located disaggregated figures and can represent subnational locations or event fragments, not independent country-year totals.
+key: [id]
+temporal: event_start_date
+sort: [event_start_date, id]
 columns:
   - name: id
     type: BIGINT
@@ -11,7 +16,7 @@ columns:
   - name: figure_cause
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: figure_category
     type: VARCHAR
   - name: figure_unit
