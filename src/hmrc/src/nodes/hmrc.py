@@ -66,11 +66,11 @@ from subsets_utils import (
 )
 
 BASE = "https://api.uktradeinfo.com"
-REFRESH_PERIODS = 6      # always re-fetch the newest N periods each leg (revisions)
 NODE_BUDGET_S = 2700     # ~45 min of fetching per fact node per leg, then checkpoint
                          # (returns needs_continuation). Six fact nodes run
                          # sequentially under the runner's ~5.75h leg deadline, so
                          # 6 x 45min leaves comfortable margin; see module docstring.
+PAGE_SIZE = 10000        # smaller payloads avoid long single-response stalls on OTS
 
 # ---------------------------------------------------------------------------
 # HTTP: rate-limited GET wrapped in a transient-only retry with backoff.
@@ -113,7 +113,7 @@ def _fetch(url: str, params: dict | None = None) -> dict:
 def _fetch_all_pages(entity: str, params: dict) -> list[dict]:
     """Follow the @odata.nextLink chain, returning every row for the query."""
     rows: list[dict] = []
-    query = {"$top": 40000}
+    query = {"$top": PAGE_SIZE}
     query.update(params)
     data = _fetch(f"{BASE}/{entity}", query)
     rows.extend(data.get("value", []))
@@ -250,30 +250,94 @@ def _date_values(field: str) -> list[int]:
     return vals
 
 
-def _run_partitioned(node_id: str, entity: str, field: str, periods: list[int]) -> bool:
+def _run_partitioned(
+    node_id: str,
+    entity: str,
+    field: str,
+    periods: list[int] | list[tuple[int, int]],
+) -> bool:
     """Fetch outstanding periods into per-period manifest fragments, newest-first.
-    Skip periods already committed (resume via the manifest), except the newest
-    REFRESH_PERIODS which are always re-fetched to capture revisions. Empty
-    periods are committed as 0-row fragments so they count as done. Stops after
-    NODE_BUDGET_S and returns True (needs continuation) if work remains, else
-    False (this entity is fully drained for now)."""
-    periods = sorted(set(int(p) for p in periods))
+    Skip periods already committed (resume via the manifest). Empty periods are
+    committed with a 0-row completion fragment so they count as done. Stops
+    after NODE_BUDGET_S and returns True (needs continuation) if work remains,
+    else False (this entity is fully drained for now)."""
+    periods = sorted(set(periods))
     done = set(list_raw_fragments(node_id, "parquet").keys())
-    refresh = set(periods[-REFRESH_PERIODS:])
     worklist = [p for p in reversed(periods)                 # newest-first
-                if p in refresh or str(p) not in done]
-    schema = SCHEMAS[entity]
-
+                if f"{_fragment_name(p)}-complete" not in done]
     t0 = time.monotonic()
     processed = 0
     for period in worklist:
-        rows = _fetch_all_pages(entity, {"$filter": f"{field} eq {period}"})
-        table = pa.Table.from_pylist(rows, schema=schema)    # 0 rows => empty period marked done
-        save_raw_parquet(table, node_id, fragment=str(period))  # atomic per period
+        fragment = _fragment_name(period)
+        if _fetch_partition_pages(
+            node_id,
+            entity,
+            schema=SCHEMAS[entity],
+            base_fragment=fragment,
+            field=field,
+            period=period,
+            t0=t0,
+        ):
+            return True
         processed += 1
         if time.monotonic() - t0 > NODE_BUDGET_S:
             break
     return processed < len(worklist)  # True => more periods remain, continue next leg
+
+
+def _fetch_partition_pages(
+    node_id: str,
+    entity: str,
+    *,
+    schema: pa.Schema,
+    base_fragment: str,
+    field: str,
+    period: int | tuple[int, int],
+    t0: float,
+) -> bool:
+    """Fetch one period in page fragments. True means stop and continue later."""
+    done = set(list_raw_fragments(node_id, "parquet").keys())
+    complete_fragment = f"{base_fragment}-complete"
+    if complete_fragment in done:
+        return False
+
+    page_prefix = f"{base_fragment}-page-"
+    page_numbers = [
+        int(name.rsplit("-", 1)[-1])
+        for name in done
+        if name.startswith(page_prefix) and name.rsplit("-", 1)[-1].isdigit()
+    ]
+    page_number = max(page_numbers, default=-1) + 1
+
+    while True:
+        if isinstance(period, tuple):
+            month_id, flow_type_id = period
+            filters = f"{field} eq {month_id} and FlowTypeId eq {flow_type_id}"
+        else:
+            filters = f"{field} eq {period}"
+        rows = _fetch(f"{BASE}/{entity}", {
+            "$filter": filters,
+            "$top": PAGE_SIZE,
+            "$skip": page_number * PAGE_SIZE,
+        }).get("value", [])
+        if not rows:
+            save_raw_parquet(pa.Table.from_pylist([], schema=schema), node_id, fragment=complete_fragment)
+            return False
+        page_fragment = f"{page_prefix}{page_number:05d}"
+        table = pa.Table.from_pylist(rows, schema=schema)    # 0 rows => empty period marked done
+        save_raw_parquet(table, node_id, fragment=page_fragment)
+        page_number += 1
+        if len(rows) < PAGE_SIZE:
+            save_raw_parquet(pa.Table.from_pylist([], schema=schema), node_id, fragment=complete_fragment)
+            return False
+        if time.monotonic() - t0 > NODE_BUDGET_S:
+            return True
+
+
+def _fragment_name(period: int | tuple[int, int]) -> str:
+    if isinstance(period, tuple):
+        return f"{period[0]}-flow-{period[1]}"
+    return str(period)
 
 
 # ---------------------------------------------------------------------------
@@ -289,7 +353,11 @@ def fetch_full(node_id: str) -> None:
 
 def fetch_monthly(node_id: str) -> bool:
     entity = MONTHLY[node_id]
-    return _run_partitioned(node_id, entity, "MonthId", _date_values("MonthId"))
+    month_ids = _date_values("MonthId")
+    if entity == "OTS":
+        periods = [(month_id, flow_type_id) for month_id in month_ids for flow_type_id in (1, 2, 3, 4)]
+        return _run_partitioned(node_id, entity, "MonthId", periods)
+    return _run_partitioned(node_id, entity, "MonthId", month_ids)
 
 
 def fetch_yearly(node_id: str) -> bool:

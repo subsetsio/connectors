@@ -1,5 +1,5 @@
 {
   "cadence_days": 30,
   "paused": false,
-  "cadence_note": "HMRC publishes UK overseas trade statistics monthly via uktradeinfo.com (OTS/RTS updated each month for data ~5-6 weeks prior); see https://www.uktradeinfo.com/trade-data/. A 30-day cadence re-fetches the newest periods (the fetch fn always re-pulls the trailing REFRESH_PERIODS months to capture routine revisions)."
+  "cadence_note": "HMRC publishes UK overseas trade statistics monthly via uktradeinfo.com (OTS/RTS updated each month for data ~5-6 weeks prior); see https://www.uktradeinfo.com/trade-data/. A 30-day cadence checks for newly published periods; existing committed period/page fragments are treated as complete by the raw manifest."
 }
