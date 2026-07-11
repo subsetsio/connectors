@@ -1,8 +1,11 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(edition AS VARCHAR) AS edition,
-    CAST(games AS VARCHAR) AS games,
-    CAST(archive_timestamp AS VARCHAR) AS archive_timestamp,
-    CAST(source_url AS VARCHAR) AS source_url,
-    CAST(to_json(payload) AS VARCHAR) AS payload_json
+    "edition",
+    "games",
+    "source_url",
+    CAST("archive_timestamp" AS BIGINT) AS archive_timestamp,
+    "payload"
 FROM "ioc-disciplines"
-

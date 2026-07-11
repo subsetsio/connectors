@@ -1,21 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ioc-nocs`. Regenerate after model-verify.
 key: [edition, noc_code]
 sort: [edition, noc_code]
 columns:
   - name: edition
     type: VARCHAR
-    description: ODF competition code, e.g. OG2024.
   - name: games
     type: VARCHAR
-    description: Games family label.
   - name: noc_code
     type: VARCHAR
-    description: IOC/ODF National Olympic Committee code.
-  - name: archive_timestamp
-    type: VARCHAR
-    description: Wayback Machine capture timestamp used for the raw payload.
   - name: source_url
     type: VARCHAR
-    description: Original olympics.com ODF JSON URL.
-  - name: payload_json
-    type: VARCHAR
-    description: Original nested GLO_NocBio JSON payload as text.
+  - name: archive_timestamp
+    type: BIGINT
+  - name: payload
+    type: "STRUCT(nocBio STRUCT(organisationId VARCHAR, isHistoric BOOLEAN, anthem STRUCT(title VARCHAR, composer VARCHAR, inducted VARCHAR), membership STRUCT(officialNocName VARCHAR), interest STRUCT(ocFlagBearer VARCHAR[], highlights VARCHAR), officials STRUCT(nocPresident VARCHAR), participation STRUCT(firstOGAppearance VARCHAR, numOGAppearance VARCHAR), ocFlagBearers STRUCT(code VARCHAR, TVName VARCHAR, \"name\" VARCHAR, shortName VARCHAR, givenName VARCHAR, familyName VARCHAR, birthDate DATE, height BIGINT, image STRUCT(imageType VARCHAR, imageExtension VARCHAR, imageVersion VARCHAR), mainFunction STRUCT(functionCode VARCHAR, category VARCHAR, description VARCHAR), personGender STRUCT(code VARCHAR, description VARCHAR), disciplines STRUCT(code VARCHAR, description VARCHAR, descriptionOrder BIGINT)[], organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR, protocolOrder BIGINT, descriptionOrder BIGINT, longDescriptionOrder BIGINT))[]))"

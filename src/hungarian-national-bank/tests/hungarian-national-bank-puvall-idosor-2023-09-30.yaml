@@ -1,7 +1,9 @@
 spec_id: hungarian-national-bank-puvall-idosor-2023-09-30
+coverage:
+  frozen: true
+  reason: MNB catalog metadata marks this as a historical point-in-time workbook last updated on 2023-12-05 08:30; it is retained for archival coverage rather than expected to advance.
 status: active
 tests:
-  - freshness: {col: last_update_date, reaches: today - 400d}
   - not_null: entity_id
   - not_null: sheet_name
   - not_null: row_number

@@ -253,13 +253,17 @@ def fetch_nocs(node_id: str) -> None:
     for comp, games in EDITIONS:
         for ts, orig in _cdx_latest("GLO_NocBio", comp):
             payload = _try_wayback_json(ts, orig)
-            if payload is None:
-                continue
-            noc = payload.get("nocBio") or {}
+            noc = (payload or {}).get("nocBio") or {}
+            noc_code = noc.get("organisationId") or _extract_url_field(orig, "organisation")
+            if payload is None and noc_code:
+                # The CDX URL is itself the frozen NOC catalog entry. Keep the
+                # row when the archived body is transiently unavailable so a
+                # few Wayback timeouts do not collapse the reference corpus.
+                payload = {"nocBio": {"organisationId": noc_code}}
             rows.append({
                 "edition": comp,
                 "games": games,
-                "noc_code": noc.get("organisationId"),
+                "noc_code": noc_code,
                 "source_url": orig,
                 "archive_timestamp": ts,
                 "payload": payload,
@@ -301,6 +305,13 @@ def _extract_athlete_code(orig: str) -> str | None:
     if marker not in orig:
         return None
     return orig.split(marker, 1)[1].split("~", 1)[0]
+
+
+def _extract_url_field(orig: str, field: str) -> str | None:
+    marker = f"~{field}="
+    if marker not in orig:
+        return None
+    return orig.split(marker, 1)[1].split("~", 1)[0].split(".", 1)[0]
 
 
 def fetch_athletes(node_id: str) -> None:

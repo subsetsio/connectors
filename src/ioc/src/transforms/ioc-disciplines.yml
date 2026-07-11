@@ -1,19 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ioc-disciplines`. Regenerate after model-verify.
 key: [edition]
 sort: [edition]
 columns:
   - name: edition
     type: VARCHAR
-    description: ODF competition code, e.g. OG2024.
   - name: games
     type: VARCHAR
-    description: Games family label.
-  - name: archive_timestamp
-    type: VARCHAR
-    description: Wayback Machine capture timestamp used for the raw payload.
   - name: source_url
     type: VARCHAR
-    description: Original olympics.com ODF JSON URL.
-  - name: payload_json
-    type: VARCHAR
-    description: Original nested GLO_Disciplines JSON payload as text.
-
+  - name: archive_timestamp
+    type: BIGINT
+  - name: payload
+    type: "MAP(VARCHAR, JSON)"

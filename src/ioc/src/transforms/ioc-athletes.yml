@@ -1,22 +1,17 @@
-key: [edition, athlete_code]
-sort: [edition, athlete_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ioc-athletes`. Regenerate after model-verify.
+key: [source_url]
+sort: [source_url]
 columns:
   - name: edition
     type: VARCHAR
-    description: ODF competition code, e.g. OG2024.
   - name: games
     type: VARCHAR
-    description: Games family label.
   - name: athlete_code
     type: VARCHAR
-    description: IOC/ODF athlete identifier.
-  - name: archive_timestamp
-    type: VARCHAR
-    description: Wayback Machine capture timestamp used for the raw payload.
   - name: source_url
     type: VARCHAR
-    description: Original olympics.com ODF JSON URL.
-  - name: payload_json
-    type: VARCHAR
-    description: Original nested CIS_Bio_Athlete JSON payload as text.
-
+  - name: archive_timestamp
+    type: BIGINT
+  - name: payload
+    type: "STRUCT(person STRUCT(code VARCHAR, audioFile STRUCT(audioType VARCHAR), image STRUCT(imageType VARCHAR, imageExtension VARCHAR, imageVersion VARCHAR), organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR, protocolOrder BIGINT, descriptionOrder BIGINT, longDescriptionOrder BIGINT), nationality STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR), personGender STRUCT(description VARCHAR), disciplines STRUCT(code VARCHAR, description VARCHAR, descriptionOrder BIGINT)[], birthDate DATE, height BIGINT, weight BIGINT, givenName VARCHAR, familyName VARCHAR, olympicSolidarity BOOLEAN, status STRUCT(description VARCHAR), registeredEvents STRUCT(\"event\" STRUCT(code VARCHAR, longDescription VARCHAR, \"order\" BIGINT, rankings STRUCT(athlete_code VARCHAR, rk_Rank VARCHAR, rk_ResultType VARCHAR, rk_Type VARCHAR, rk_RankEqual VARCHAR, rk_IRM VARCHAR, team_code VARCHAR, teamAthletes STRUCT(athlete_code VARCHAR)[], participant STRUCT(athletes STRUCT(person STRUCT(code VARCHAR))[]))[]))[], medals STRUCT(medal_type VARCHAR, event_code VARCHAR)[], schedules STRUCT(code VARCHAR, nocs VARCHAR[], startDate TIMESTAMP, unitNum VARCHAR, discipline STRUCT(code VARCHAR, description VARCHAR), eventUnit STRUCT(code VARCHAR, resultRSC VARCHAR, longDescription VARCHAR, \"type\" VARCHAR, scheduled VARCHAR, \"order\" VARCHAR, medal BIGINT, description VARCHAR, shortDescription VARCHAR, phase STRUCT(code VARCHAR, \"event\" STRUCT(code VARCHAR))), status STRUCT(description VARCHAR, code VARCHAR), venue STRUCT(description VARCHAR), \"location\" STRUCT(shortDescription VARCHAR, description VARCHAR, locationOrder BIGINT), result STRUCT(items STRUCT(resultDataText VARCHAR, participant STRUCT(code VARCHAR, \"name\" VARCHAR, shortName VARCHAR, __typename VARCHAR, organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR), mainFunction STRUCT(category VARCHAR)))[]), \"start\" STRUCT(sortOrder BIGINT, startOrder BIGINT, participant STRUCT(code VARCHAR, TVName VARCHAR, shortTVName VARCHAR), organisation STRUCT(code VARCHAR))[])[], participantBio STRUCT(organisationId VARCHAR, gender VARCHAR, isHistoric BOOLEAN, placeofBirth VARCHAR, countryofBirth STRUCT(code VARCHAR, description VARCHAR), placeofResidence VARCHAR, countryofResidence STRUCT(code VARCHAR, description VARCHAR), highlights STRUCT(\"type\" VARCHAR, \"value\" VARCHAR)[], interest STRUCT(nickname VARCHAR, hobbies VARCHAR, occupation VARCHAR, education VARCHAR, \"family\" VARCHAR, langSpoken VARCHAR, coach VARCHAR, debut VARCHAR, \"start\" VARCHAR, reason VARCHAR, ambition VARCHAR, milestones VARCHAR, hero VARCHAR, influence VARCHAR, philosophy VARCHAR, award VARCHAR, addInformation VARCHAR, extendedBios STRUCT(\"type\" VARCHAR, code VARCHAR, \"value\" VARCHAR)[], clubName VARCHAR, sportingRelatives VARCHAR, memorable VARCHAR, training VARCHAR, injuries VARCHAR, ritual VARCHAR, otherSports VARCHAR, prevNames VARCHAR, natTeam VARCHAR, positionStyle VARCHAR, hand VARCHAR, natLeague VARCHAR, appointment VARCHAR, otherRole VARCHAR, prevRole VARCHAR, music VARCHAR, choreographer VARCHAR, winLoss VARCHAR)), mainFunction STRUCT(functionCode VARCHAR, category VARCHAR, description VARCHAR), teamCodes VARCHAR[], records STRUCT(\"order\" BIGINT, recordCode VARCHAR, discipline STRUCT(code VARCHAR), record STRUCT(description VARCHAR, \"order\" BIGINT), recordType STRUCT(recordType VARCHAR, description VARCHAR), recordData STRUCT(\"current\" BOOLEAN, historic BOOLEAN, \"order\" BIGINT, result VARCHAR, place VARCHAR, country VARCHAR, recordDate DATE, competitor STRUCT(code VARCHAR))[])[], coachTeamCodes VARCHAR, medalsCoach STRUCT(medal_type VARCHAR, event_code VARCHAR)[], medicalClass STRUCT(classCode VARCHAR, description VARCHAR)))"

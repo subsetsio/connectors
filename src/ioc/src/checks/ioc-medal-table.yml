@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ioc-medal-table`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [noc_code, noc_name, sport, gender, edition]
+checks:
+  - kind: unique
+    columns: [noc_code, noc_name, sport, gender, edition]
+  - kind: not_null
+    col: noc_code
+  - kind: not_null
+    col: noc_name
+  - kind: not_null
+    col: sport
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: edition
+  - kind: row_floor
+    min: 810
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

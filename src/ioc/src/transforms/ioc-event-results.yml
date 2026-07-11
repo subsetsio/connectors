@@ -1,22 +1,18 @@
-key: [edition, event_code, source_url]
-sort: [edition, event_code, source_url]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ioc-event-results`. Regenerate after model-verify.
+# caution: Each row is one nested event-ranking payload, not one competitor placing; consumers must parse payload_json before aggregating placements or medals.
+key: [source_url]
+sort: [source_url]
 columns:
   - name: edition
     type: VARCHAR
-    description: ODF competition code, e.g. OG2024.
   - name: games
     type: VARCHAR
-    description: Games family label.
   - name: event_code
     type: VARCHAR
-    description: IOC/ODF event identifier parsed from the source URL.
-  - name: archive_timestamp
-    type: VARCHAR
-    description: Wayback Machine capture timestamp used for the raw payload.
   - name: source_url
     type: VARCHAR
-    description: Original olympics.com ODF JSON URL.
-  - name: payload_json
-    type: VARCHAR
-    description: Original nested GLO_EventRanking JSON payload as text.
-
+  - name: archive_timestamp
+    type: BIGINT
+  - name: payload
+    type: "STRUCT(\"event\" STRUCT(rankings STRUCT(event_code VARCHAR, rank VARCHAR, rk_RankEqual VARCHAR, sortOrder BIGINT, rk_Type VARCHAR, athlete_code VARCHAR, participant STRUCT(code VARCHAR, \"current\" BOOLEAN, \"name\" VARCHAR, shortName VARCHAR, givenName VARCHAR, familyName VARCHAR, mainFunction STRUCT(category VARCHAR), organisation STRUCT(\"type\" VARCHAR, description VARCHAR, longDescription VARCHAR, code VARCHAR), __typename VARCHAR, teamType VARCHAR), team_code VARCHAR, teamAthletes STRUCT(\"order\" BIGINT, participant STRUCT(code VARCHAR, \"name\" VARCHAR, shortName VARCHAR, __typename VARCHAR, givenName VARCHAR, familyName VARCHAR, mainFunction STRUCT(category VARCHAR), personGender STRUCT(code VARCHAR, description VARCHAR), medicalClass STRUCT(classCode VARCHAR, description VARCHAR)))[], rk_IRM VARCHAR, rk_Played VARCHAR, rk_Won VARCHAR, rk_Lost VARCHAR, resultType VARCHAR, rk_Result VARCHAR, extendedResults STRUCT(er_value VARCHAR, er_code VARCHAR, er_pos VARCHAR, \"extensions\" STRUCT(ere_value VARCHAR, ere_code VARCHAR)[])[], rk_Diff VARCHAR, rk_Tied VARCHAR)[], phases STRUCT(\"type\" VARCHAR, description VARCHAR, shortDescription VARCHAR, longDescription VARCHAR, \"order\" VARCHAR, units STRUCT(\"type\" VARCHAR, scheduled VARCHAR, \"order\" VARCHAR, medal BIGINT, description VARCHAR, shortDescription VARCHAR, longDescription VARCHAR, result STRUCT(schedule STRUCT(startDate TIMESTAMP), eventUnitCode VARCHAR, date TIMESTAMP, extendedInfos STRUCT(ei_code VARCHAR, ei_value VARCHAR)[], items STRUCT(sortOrder BIGINT, startSortOrder BIGINT, startOrder VARCHAR, itemType VARCHAR, bib VARCHAR, resultType VARCHAR, resultData VARCHAR, resultDataText VARCHAR, resultWLT VARCHAR, athleteCode VARCHAR, extendedResults STRUCT(er_code VARCHAR, er_type VARCHAR, er_value VARCHAR, er_pos VARCHAR, er_irm VARCHAR)[], participant STRUCT(code VARCHAR, \"name\" VARCHAR, shortName VARCHAR, __typename VARCHAR, givenName VARCHAR, familyName VARCHAR, mainFunction STRUCT(category VARCHAR), organisation STRUCT(\"type\" VARCHAR, code VARCHAR, description VARCHAR, longDescription VARCHAR)), teamAthletes STRUCT(eventUnitEntries STRUCT(eue_value VARCHAR, eue_code VARCHAR, eue_type VARCHAR)[], athlete STRUCT(code VARCHAR, personGender STRUCT(code VARCHAR), \"name\" VARCHAR, shortName VARCHAR, givenName VARCHAR, familyName VARCHAR, __typename VARCHAR, mainFunction STRUCT(category VARCHAR), organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR), medicalClass STRUCT(classCode VARCHAR, description VARCHAR)))[], medalType VARCHAR, resultRank BIGINT, recordIndicators STRUCT(ri_order BIGINT, ri_code VARCHAR, ri_recordtype VARCHAR, record STRUCT(recordCode VARCHAR, \"event\" VARCHAR, \"order\" BIGINT, description VARCHAR), recordType STRUCT(code VARCHAR, recordType VARCHAR, discipline VARCHAR, \"group\" VARCHAR, description VARCHAR), ri_equalled VARCHAR)[], teamCode VARCHAR, qualificationMark VARCHAR, resultIrm VARCHAR, diff VARCHAR, resultResultItems STRUCT(\"order\" BIGINT, eventUnitCode VARCHAR, rank BIGINT, sortOrder BIGINT, resValue VARCHAR, resType VARCHAR)[])[], periods STRUCT(period_code VARCHAR, home STRUCT(score VARCHAR, periodScore VARCHAR, participant STRUCT(code VARCHAR)), away STRUCT(score VARCHAR, periodScore VARCHAR, participant STRUCT(code VARCHAR)))[]))[], phaseResult STRUCT(phaseCode VARCHAR, items STRUCT(itemType VARCHAR, bib VARCHAR, resultType VARCHAR, resultRank VARCHAR, resultData VARCHAR, qualificationMark VARCHAR, athleteCode VARCHAR, participant STRUCT(code VARCHAR), teamCode VARCHAR, diff VARCHAR, resultIrm VARCHAR)[]), cumulative STRUCT(documentCode VARCHAR, results STRUCT(resultRank BIGINT, resultData VARCHAR, resultType VARCHAR, items STRUCT(eventUnitCode VARCHAR, extendedResults STRUCT(er_code VARCHAR, er_value VARCHAR, er_rank VARCHAR, er_rankequal VARCHAR)[])[], participant STRUCT(code VARCHAR, \"name\" VARCHAR, shortName VARCHAR, __typename VARCHAR, organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR), mainFunction STRUCT(category VARCHAR)), resultIrm VARCHAR, teamAthletes STRUCT(participantCode STRUCT(code VARCHAR, \"name\" VARCHAR, shortName VARCHAR, __typename VARCHAR, mainFunction STRUCT(category VARCHAR), organisation STRUCT(code VARCHAR, description VARCHAR, longDescription VARCHAR)), \"order\" BIGINT, bib VARCHAR)[])[]))[]))"

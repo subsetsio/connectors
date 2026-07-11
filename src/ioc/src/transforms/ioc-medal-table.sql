@@ -1,17 +1,19 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows mix all-sports totals with sport-level rows and all-gender totals with gender-specific rows; filter sport and gender before summing medal counts.
 SELECT
-    edition,
-    games,
-    noc_code,
-    noc_name,
-    sport,
-    gender,
-    CAST(gold   AS BIGINT) AS gold,
-    CAST(silver AS BIGINT) AS silver,
-    CAST(bronze AS BIGINT) AS bronze,
-    CAST(total  AS BIGINT) AS total,
-    CAST(rank   AS BIGINT) AS rank,
-    CAST(rank_total AS BIGINT) AS rank_total
+    "edition",
+    "games",
+    "noc_code",
+    "noc_name",
+    "sport",
+    "gender",
+    "gold",
+    "silver",
+    "bronze",
+    "total",
+    "rank",
+    "rank_total"
 FROM "ioc-medal-table"
-WHERE noc_code IS NOT NULL
-  AND sport IS NOT NULL
-  AND gender IS NOT NULL

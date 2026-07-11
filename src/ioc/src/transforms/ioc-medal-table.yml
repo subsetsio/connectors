@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [edition, noc_code, sport, gender]
-sort: [edition, noc_code, sport, gender]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ioc-medal-table`. Regenerate after model-verify.
+# caution: Rows mix all-sports totals with sport-level rows and all-gender totals with gender-specific rows; filter sport and gender before summing medal counts.
+key: [noc_code, noc_name, sport, gender, edition]
+sort: [noc_code, noc_name, sport, gender, edition]
 columns:
   - name: edition
     type: VARCHAR
