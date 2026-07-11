@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inform-inform-subnational-scores`. Regenerate after model-verify.
+# caution: The source includes exact duplicated subnational score rows for some workflow, geography, and indicator combinations, so this raw score table is intentionally keyless.
+# caution: Geographic identifiers are regional or admin-unit codes rather than country ISO3 codes; use inform-countries category fields before mixing with country-level scores.
+key: []
+columns:
+  - name: workflow_id
+    type: BIGINT
+  - name: workflow_name
+    type: VARCHAR
+  - name: workflow_group_name
+    type: VARCHAR
+  - name: gna_year
+    type: INTEGER
+  - name: score_family
+    type: VARCHAR
+  - name: geo_id
+    type: VARCHAR
+  - name: indicator_id
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: indicator_score
+    type: DOUBLE
+  - name: node_level
+    type: INTEGER
+  - name: validity_year
+    type: INTEGER
+  - name: unit
+    type: VARCHAR
+  - name: note
+    type: VARCHAR

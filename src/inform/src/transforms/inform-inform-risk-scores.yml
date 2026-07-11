@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inform-inform-risk-scores`. Regenerate after model-verify.
+# caution: The source includes duplicated score rows for some workflow, geography, and indicator combinations, so this raw score table is intentionally keyless.
+# caution: This table contains the full INFORM indicator hierarchy, including composite nodes and component indicators; filter by node_level or indicator_id before aggregating scores.
+key: []
+columns:
+  - name: workflow_id
+    type: BIGINT
+  - name: workflow_name
+    type: VARCHAR
+  - name: workflow_group_name
+    type: VARCHAR
+  - name: gna_year
+    type: INTEGER
+  - name: score_family
+    type: VARCHAR
+  - name: geo_id
+    type: VARCHAR
+  - name: indicator_id
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: indicator_score
+    type: DOUBLE
+  - name: node_level
+    type: INTEGER
+  - name: validity_year
+    type: INTEGER
+  - name: unit
+    type: VARCHAR
+  - name: note
+    type: VARCHAR

@@ -14,8 +14,8 @@ tests:
     certainty: 99
   - column_type: {col: country_name, type: string}
     certainty: 99
-  - unique: iso3
-    reason: the API uses one row per geography/admin-unit code
+  - unique: [iso3, category_type, country_name]
+    reason: INFORM can reuse geography codes across regional catalogs; the source row is identified by code, category, and display name
     certainty: 90
   - distinct_count: {col: category_type, min: 2}
     reason: the reference table includes ADMIN0 countries and lower-level admin units

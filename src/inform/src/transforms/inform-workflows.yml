@@ -1,0 +1,58 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inform-workflows`. Regenerate after model-verify.
+key: [workflow_id]
+temporal: workflow_date
+sort: [workflow_date, workflow_id]
+columns:
+  - name: workflow_id
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: workflow_group_name
+    type: VARCHAR
+  - name: system
+    type: VARCHAR
+  - name: gna_year
+    type: INTEGER
+  - name: workflow_date
+    type: TIMESTAMP
+  - name: gna_from_date
+    type: TIMESTAMP
+  - name: gna_to_date
+    type: TIMESTAMP
+  - name: flag_methodology_approved
+    type: TIMESTAMP
+  - name: flag_data_saved
+    type: TIMESTAMP
+  - name: flag_gna_published
+    type: TIMESTAMP
+  - name: author
+    type: VARCHAR
+  - name: comments
+    type: VARCHAR
+  - name: workflow_compare_id
+    type: BIGINT
+  - name: version
+    type: VARCHAR
+  - name: geometry_filename
+    type: VARCHAR
+  - name: use_prediction
+    type: BOOLEAN
+  - name: methodology_id
+    type: BIGINT
+  - name: methodology_description
+    type: VARCHAR
+  - name: category_info
+    type: VARCHAR
+  - name: model_type
+    type: VARCHAR
+  - name: iso3
+    type: VARCHAR
+  - name: new_workflow_group_name
+    type: VARCHAR
+  - name: new_system_name
+    type: VARCHAR
+  - name: is_reference
+    type: BOOLEAN
+  - name: score_family
+    type: VARCHAR

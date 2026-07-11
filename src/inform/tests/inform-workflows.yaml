@@ -19,8 +19,8 @@ tests:
     certainty: 99
   - enum: {col: score_family, values: ["global", "subnational"]}
     certainty: 99
-  - between: {col: gna_year, lo: 2010, hi: current_year()}
-    reason: INFORM public workflow history starts in the 2010s and should not exceed the current year
+  - between: {col: gna_year, lo: 2009, hi: 2100}
+    reason: INFORM workflow metadata includes backcast and projection years alongside current releases
     certainty: 90
   - freshness: {col: gna_year, reaches: 2025}
     reason: INFORM publishes current or prior-year release models; stale workflow discovery means new releases are missing

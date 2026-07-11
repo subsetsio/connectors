@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inform-countries`. Regenerate after model-verify.
+# caution: The `iso3` field contains both country ISO3 codes and source-specific subnational/admin-unit codes; filter or join with category_type before treating rows as countries.
+key: [iso3, category_type, country_name]
+sort: [iso3, category_type, country_name]
+columns:
+  - name: continent
+    type: VARCHAR
+  - name: category_type
+    type: VARCHAR
+  - name: admin_level
+    type: VARCHAR
+  - name: category_info
+    type: VARCHAR
+  - name: income_value
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: iso3
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: iso_group
+    type: VARCHAR

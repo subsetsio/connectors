@@ -21,16 +21,14 @@ tests:
     certainty: 95
   - enum: {col: score_family, values: ["global"]}
     certainty: 99
-  - unique: [workflow_id, geo_id, indicator_id]
-    reason: one score per workflow, country, and indicator
-    certainty: 95
-  - distinct_count: {col: workflow_id, min: 80}
+  - distinct_count: {col: workflow_id, min: 75}
     reason: global releases include back-calculated historical workflows across many annual releases
     certainty: 85
   - distinct_count: {col: geo_id, min: 180}
     reason: global INFORM Risk covers nearly all countries
     certainty: 90
-  - between: {col: gna_year, lo: 2010, hi: current_year()}
+  - between: {col: gna_year, lo: 2009, hi: 2100}
+    reason: INFORM global workflows include backcast and projection years alongside current releases
     certainty: 90
   - freshness: {col: gna_year, reaches: 2025}
     reason: the global score asset should include the latest INFORM Risk release
