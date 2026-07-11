@@ -1,0 +1,23 @@
+spec_id: ipea-territories
+status: active
+tests:
+  - not_null: TERCODIGO
+    reason: TERCODIGO is the territory code used to join regional series values
+    certainty: 90
+  - not_null: TERNOME
+    reason: every territory should carry a display name
+    certainty: 95
+  - column_type: {col: TERCODIGO, type: string}
+    certainty: 95
+  - column_type: {col: TERAREA, type: float}
+    reason: territory area is numeric when present
+    certainty: 85
+  - unique: TERCODIGO
+    reason: Territorios returns one row per territory code
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: probed geography dimension has ~19k rows; far fewer means the endpoint changed or was truncated
+    certainty: 90
+  - distinct_count: {col: NIVNOME, min: 10}
+    reason: territories span countries, states, municipalities, regions, and historical AMC levels
+    certainty: 85

@@ -58,6 +58,22 @@ VALUES_SCHEMA = pa.schema([
     ("TERCODIGO", pa.string()),   # territory code (Regional-base series)
 ])
 
+THEMES_SCHEMA = pa.schema([
+    ("TEMCODIGO", pa.int64()),
+    ("TEMCODIGO_PAI", pa.int64()),
+    ("TEMNOME", pa.string()),
+])
+
+TERRITORIES_SCHEMA = pa.schema([
+    ("NIVNOME", pa.string()),
+    ("TERCODIGO", pa.string()),
+    ("TERNOME", pa.string()),
+    ("TERNOMEPADRAO", pa.string()),
+    ("TERCAPITAL", pa.int64()),
+    ("TERAREA", pa.float64()),
+    ("NIVAMC", pa.bool_()),
+])
+
 
 @transient_retry()
 def _get_json(url: str):
@@ -130,8 +146,42 @@ def fetch_values(node_id: str) -> None:
         raise AssertionError("ipea-values: no series returned any observations")
 
 
+def fetch_themes(node_id: str) -> None:
+    """ipea-themes — hierarchical subject taxonomy for series metadata."""
+    rows = _get_json(f"{BASE}/Temas")["value"]
+    table = pa.Table.from_pylist(
+        [{
+            "TEMCODIGO": r.get("TEMCODIGO"),
+            "TEMCODIGO_PAI": r.get("TEMCODIGO_PAI"),
+            "TEMNOME": r.get("TEMNOME"),
+        } for r in rows],
+        schema=THEMES_SCHEMA,
+    )
+    save_raw_parquet(table, node_id)
+
+
+def fetch_territories(node_id: str) -> None:
+    """ipea-territories — geographic dimension used by Regional series."""
+    rows = _get_json(f"{BASE}/Territorios")["value"]
+    table = pa.Table.from_pylist(
+        [{
+            "NIVNOME": r.get("NIVNOME"),
+            "TERCODIGO": r.get("TERCODIGO"),
+            "TERNOME": r.get("TERNOME"),
+            "TERNOMEPADRAO": r.get("TERNOMEPADRAO"),
+            "TERCAPITAL": r.get("TERCAPITAL"),
+            "TERAREA": r.get("TERAREA"),
+            "NIVAMC": r.get("NIVAMC"),
+        } for r in rows],
+        schema=TERRITORIES_SCHEMA,
+    )
+    save_raw_parquet(table, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="ipea-series", fn=fetch_series, kind="download"),
+    NodeSpec(id="ipea-territories", fn=fetch_territories, kind="download"),
+    NodeSpec(id="ipea-themes", fn=fetch_themes, kind="download"),
     NodeSpec(id="ipea-values", fn=fetch_values, kind="download"),
 ]
 

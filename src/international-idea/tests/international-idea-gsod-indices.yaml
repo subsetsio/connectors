@@ -22,8 +22,8 @@ tests:
   - between: {col: ID_year, lo: 1975, hi: current_year()}
     reason: GSoD country-year coverage begins in 1975 and should not include future observations
     certainty: 90
-  - freshness: {col: ID_year, reaches: current_year() - 2}
-    reason: GSoD is updated annually; the current release should reach at least the prior two calendar years
+  - freshness: {col: ID_year, reaches: 2021}
+    reason: the public GSoD API currently exposes country-year observations through 2021; newer years are not returned by the API endpoint
     certainty: 85
     points_outward: true
   - nullable: {col: A_01, max_null_frac: 0.1}

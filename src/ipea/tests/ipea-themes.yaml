@@ -1,0 +1,20 @@
+spec_id: ipea-themes
+status: active
+tests:
+  - not_null: TEMCODIGO
+    reason: TEMCODIGO is the primary key of the theme taxonomy
+    certainty: 99
+  - not_null: TEMNOME
+    reason: every theme should carry a display name
+    certainty: 95
+  - column_type: {col: TEMCODIGO, type: integer}
+    certainty: 95
+  - column_type: {col: TEMCODIGO_PAI, type: integer}
+    reason: parent theme code is nullable but numeric when present
+    certainty: 90
+  - unique: TEMCODIGO
+    reason: Temas returns one record per theme code
+    certainty: 95
+  - row_count: {min: 30}
+    reason: probed taxonomy has 66 themes; far fewer means the endpoint changed or was truncated
+    certainty: 90
