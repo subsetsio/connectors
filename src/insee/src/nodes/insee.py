@@ -29,12 +29,6 @@ from __future__ import annotations
 import json
 
 import httpx
-from tenacity import (
-    retry,
-    retry_if_exception,
-    stop_after_attempt,
-    wait_exponential,
-)
 
 from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, raw_writer
 
@@ -50,41 +44,32 @@ BASE_URL = "https://api.insee.fr/melodi"
 # while staying large enough that the 30 req/min rate limit, not request count,
 # stays the throughput bound.
 PAGE_SIZE = 10000
+MIN_PAGE_SIZE = 1000
 MAX_PAGES = 10000   # safety ceiling (~100M obs/datacube); largest real datacube ~1430 pages
 
 from constants import ENTITY_IDS
 
-_TRANSIENT_EXC = (
-    httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
-    httpx.WriteTimeout, httpx.PoolTimeout, httpx.RemoteProtocolError, httpx.ProxyError,
-)
-
-
-def _is_transient(exc: BaseException) -> bool:
-    if isinstance(exc, _TRANSIENT_EXC):
-        return True
-    # A truncated/incomplete body (connection cut mid-stream on large pages)
-    # surfaces as a JSON decode error on resp.json() despite a 200 — transient,
-    # so retry rather than failing the node.
-    if isinstance(exc, json.JSONDecodeError):
-        return True
-    if isinstance(exc, httpx.HTTPStatusError):
-        code = exc.response.status_code
-        return code == 429 or 500 <= code < 600
-    return False
-
-
-@retry(
-    retry=retry_if_exception(_is_transient),
-    stop=stop_after_attempt(10),          # 429s under cross-process contention need headroom
-    wait=wait_exponential(min=4, max=120),
-    reraise=True,
-)
 def _get_json(url: str, params: dict | None = None) -> dict:
     resp = get(url, params=params, headers={"Accept": "application/json"},
                timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
+
+
+def _page_params(offset: int, page_size: int) -> dict:
+    return {"maxResult": page_size, "page": (offset // page_size) + 1}
+
+
+def _can_shrink_page(exc: BaseException, page_size: int) -> bool:
+    if page_size <= MIN_PAGE_SIZE:
+        return False
+    if isinstance(exc, httpx.HTTPStatusError):
+        code = exc.response.status_code
+        return code == 429 or 500 <= code < 600
+    # A truncated/incomplete body (connection cut mid-stream on large pages)
+    # surfaces as a JSON decode error on resp.json() despite a 200. Smaller
+    # pages materially reduce that failure mode.
+    return isinstance(exc, json.JSONDecodeError)
 
 
 def _entity_id_from_node(node_id: str) -> str:
@@ -120,7 +105,8 @@ def fetch_one(node_id: str) -> None:
     entity_id = _entity_id_from_node(node_id)
 
     url = f"{BASE_URL}/data/{entity_id}"
-    params: dict | None = {"maxResult": PAGE_SIZE, "page": 1}
+    page_size = PAGE_SIZE
+    offset = 0
     total = 0
     pages = 0
 
@@ -132,16 +118,28 @@ def fetch_one(node_id: str) -> None:
                     f"{asset}: exceeded MAX_PAGES={MAX_PAGES} for {entity_id} "
                     "— source grew past expectations; raise the ceiling deliberately"
                 )
-            doc = _get_json(url, params)
-            for obs in doc.get("observations") or []:
+            try:
+                doc = _get_json(url, _page_params(offset, page_size))
+            except (httpx.HTTPStatusError, json.JSONDecodeError) as exc:
+                if not _can_shrink_page(exc, page_size):
+                    raise
+                next_size = max(MIN_PAGE_SIZE, page_size // 2)
+                print(
+                    f"  {asset}: page at offset {offset} failed with "
+                    f"{type(exc).__name__}; retrying with maxResult={next_size}"
+                )
+                page_size = next_size
+                continue
+
+            observations = doc.get("observations") or []
+            for obs in observations:
                 fh.write(json.dumps(_flatten(obs), ensure_ascii=False))
                 fh.write("\n")
-                total += 1
+            total += len(observations)
+            offset += len(observations)
             paging = doc.get("paging") or {}
-            nxt = paging.get("next")
-            if not nxt or paging.get("isLast"):
+            if not paging.get("next") or paging.get("isLast"):
                 break
-            url, params = nxt, None  # next URL already carries maxResult + page
 
     print(f"  {asset}: wrote {total} observations across {pages} page(s)")
 

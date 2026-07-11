@@ -1,6 +1,6 @@
 """Philippine Statistics Authority — OpenSTAT (PXWeb v1) connector.
 
-One published Delta table per PXWeb leaf table. A catalog connector: every
+One raw asset per PXWeb leaf table. A catalog connector: every
 download node shares one generic ``fetch_one`` that recovers the verbatim
 PXWeb path from its spec id (via ``constants.ENTITY_PATHS``), pulls the whole
 table, and writes tidy long-format rows (one row per cell: a column per
@@ -14,11 +14,7 @@ the server's per-query cell ceiling: the published ``?config`` advertises
 of <= ``CHUNK_CELLS`` cells (binary-splitting the largest dimension) and stream
 each block as a parquet row group, so even the largest cross-tabs (~1.9M cells)
 stay memory-bounded. Rate limit: config says 10 calls / 10s; we self-throttle to
-8/10s and lean on ``transient_retry`` for 429/5xx.
-
-The transform is a thin generic pass: ``SELECT * ... WHERE value IS NOT NULL``
-per table — dimension columns differ table to table, so the published schema
-mirrors each table's own dimensions.
+8/10s and rely on ``subsets_utils`` HTTP retries for transient failures.
 """
 
 import math
@@ -29,10 +25,8 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
-    transient_retry,
     raw_parquet_writer,
 )
 from constants import ENTITY_PATHS
@@ -42,6 +36,17 @@ BASE = "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/"
 
 # Real per-query cell ceiling is ~50k–100k (probed); 40k leaves safe margin.
 CHUNK_CELLS = 40000
+
+HTTP_HEADERS = {
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Origin": "https://openstat.psa.gov.ph",
+    "Referer": "https://openstat.psa.gov.ph/PXWeb/pxweb/en/DB/",
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    ),
+}
 
 # spec id -> verbatim case-sensitive PXWeb path. Spec ids are SLUG + entity id,
 # and entity ids are already lower/dash slugs, so no further transform is needed.
@@ -55,19 +60,17 @@ def _tick() -> None:
     return None
 
 
-@transient_retry()  # retries transient network errors + 429 + 5xx, then reraises
 def _get_json(url: str):
     _tick()
-    r = get(url, timeout=(10.0, 120.0), headers={"User-Agent": "subsets-psa-connector"})
+    r = get(url, timeout=(10.0, 120.0), headers=HTTP_HEADERS)
     r.raise_for_status()  # a 4xx (e.g. 403 over-limit) is a bug -> propagate
     return r.json()
 
 
-@transient_retry()
 def _post_json(url: str, payload: dict):
     _tick()
     r = post(url, json=payload, timeout=(10.0, 180.0),
-             headers={"User-Agent": "subsets-psa-connector"})
+             headers=HTTP_HEADERS)
     r.raise_for_status()
     return r.json()
 
@@ -205,14 +208,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_PATHS
-]
-
-# Thin generic publish: mirror each table's dimensions, drop null observations.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]
