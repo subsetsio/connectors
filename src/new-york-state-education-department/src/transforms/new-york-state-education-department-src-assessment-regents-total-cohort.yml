@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-src-assessment-regents-total-cohort`. Regenerate after model-verify.
+# caution: Total Cohort Regents rows measure cohort-based Regents outcomes, not annual exam administrations.
+key: [report_year, entity_cd, entity_name, subgroup_name, subject, cohort]
+sort: [report_year, entity_cd, entity_name, subgroup_name, subject, cohort]
 columns:
   - name: report_year
     type: BIGINT

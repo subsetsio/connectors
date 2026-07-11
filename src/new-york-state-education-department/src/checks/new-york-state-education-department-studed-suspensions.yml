@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `new-york-state-education-department-studed-suspensions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [report_year, entity_cd, entity_name, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [report_year, entity_cd, entity_name, year]
+  - kind: not_null
+    col: report_year
+  - kind: not_null
+    col: entity_cd
+  - kind: not_null
+    col: entity_name
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 56452
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

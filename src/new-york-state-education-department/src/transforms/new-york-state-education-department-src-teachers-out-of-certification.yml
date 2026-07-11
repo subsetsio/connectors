@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-src-teachers-out-of-certification`. Regenerate after model-verify.
+# caution: Rows combine overall and poverty-subset out-of-certification measures; low- and high-poverty subsets should not be treated as complete additive partitions.
+key: [report_year, institution_id, entity_cd, entity_name, year]
+temporal: year
+sort: [year, report_year, institution_id, entity_cd, entity_name]
 columns:
   - name: report_year
     type: BIGINT
   - name: institution_id
-    type: VARCHAR
+    type: BIGINT
   - name: entity_cd
     type: VARCHAR
   - name: entity_name

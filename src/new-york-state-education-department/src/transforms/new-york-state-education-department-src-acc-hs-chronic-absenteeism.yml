@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-src-acc-hs-chronic-absenteeism`. Regenerate after model-verify.
+# caution: Chronic absenteeism rows are subgroup accountability aggregates; do not add overlapping subgroups as independent populations.
+key: [entity_name, entity_cd, subgroup_name, report_year, year]
+temporal: year
+sort: [year, entity_name, entity_cd, subgroup_name, report_year]
 columns:
   - name: report_year
     type: BIGINT

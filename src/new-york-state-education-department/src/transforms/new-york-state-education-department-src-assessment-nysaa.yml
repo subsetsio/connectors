@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-src-assessment-nysaa`. Regenerate after model-verify.
+# caution: NYSAA rows are alternate-assessment aggregates; interpret subject and subgroup dimensions before comparing counts.
+key: [entity_name, entity_cd, subject, year, report_year]
+temporal: year
+sort: [year, entity_name, entity_cd, subject, report_year]
 columns:
   - name: report_year
     type: BIGINT

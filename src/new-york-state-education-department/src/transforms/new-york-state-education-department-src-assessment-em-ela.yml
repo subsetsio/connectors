@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-src-assessment-em-ela`. Regenerate after model-verify.
+# caution: Rows are assessment aggregates by grade or assessment name and subgroup; overlapping subgroups should not be summed.
+key: [report_year, entity_cd, entity_name, year, assessment_name, subgroup_name]
+temporal: year
+sort: [year, report_year, entity_cd, entity_name, assessment_name, subgroup_name]
 columns:
   - name: report_year
     type: BIGINT

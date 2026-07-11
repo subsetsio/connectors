@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `mhclg-government-statistical-data-sets-immigration-system-statistics-regional-and-local-authority-data`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cells, attachment_filename, attachment_title, sheet_name, content_type]
+checks:
+  - kind: unique
+    columns: [cells, attachment_filename, attachment_title, sheet_name, content_type]
+  - kind: not_null
+    col: cells
+  - kind: not_null
+    col: attachment_filename
+  - kind: not_null
+    col: attachment_title
+  - kind: not_null
+    col: sheet_name
+  - kind: not_null
+    col: content_type
+  - kind: row_floor
+    min: 3036
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

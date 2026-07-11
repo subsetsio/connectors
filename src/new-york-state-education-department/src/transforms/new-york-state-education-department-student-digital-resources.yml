@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-student-digital-resources`. Regenerate after model-verify.
+# caution: Digital equity survey rows are subgroup aggregates with many related count and percentage fields; overlapping subgroup rows should not be summed.
+key: [report_year, school_year, state_district_id, lea_institution_id, state_location_id, school_institution_id, subgroup_code]
+sort: [report_year, school_year, state_district_id, lea_institution_id, state_location_id, school_institution_id, subgroup_code]
 columns:
   - name: report_year
     type: BIGINT
@@ -7,13 +11,13 @@ columns:
   - name: state_district_id
     type: VARCHAR
   - name: lea_institution_id
-    type: VARCHAR
+    type: BIGINT
   - name: district_name
     type: VARCHAR
   - name: state_location_id
     type: VARCHAR
   - name: school_institution_id
-    type: VARCHAR
+    type: BIGINT
   - name: location_name
     type: VARCHAR
   - name: subgroup_code

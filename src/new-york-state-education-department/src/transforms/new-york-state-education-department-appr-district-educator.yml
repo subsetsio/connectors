@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-appr-district-educator`. Regenerate after model-verify.
+# caution: Historical APPR researcher data covers the former 2012-13 through 2015-16 evaluation regime and should not be treated as current educator evaluation coverage.
+key: [report_year, district_beds, educator_id]
+sort: [report_year, district_beds, educator_id]
 columns:
   - name: report_year
     type: BIGINT
@@ -11,7 +15,7 @@ columns:
   - name: per_pupil_expenditure
     type: VARCHAR
   - name: educator_id
-    type: VARCHAR
+    type: BIGINT
   - name: overall_composite_score
     type: VARCHAR
   - name: overall_composite_rating

@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-appr-state-educator`. Regenerate after model-verify.
+# caution: Statewide APPR researcher data has no district identifier and covers the former 2012-13 through 2015-16 evaluation regime.
+key: []
 columns:
   - name: report_year
     type: BIGINT
   - name: educator_id
-    type: VARCHAR
+    type: BIGINT
   - name: role
     type: VARCHAR
   - name: grade

@@ -1,11 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-education-department-assessment-3-8-ela-math`. Regenerate after model-verify.
+# caution: Rows are aggregate assessment results by entity, subject or grade, and subgroup; do not sum across overlapping subgroups.
+key: []
+temporal: school_year
+sort: [school_year]
 columns:
   - name: report_year
     type: BIGINT
   - name: school_year
-    type: VARCHAR
+    type: DATE
   - name: nrc_code
-    type: VARCHAR
+    type: BIGINT
   - name: nrc_desc
     type: VARCHAR
   - name: county_code

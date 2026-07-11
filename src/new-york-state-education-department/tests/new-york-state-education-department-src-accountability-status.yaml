@@ -18,3 +18,8 @@ tests:
     reason: column entity_cd is the institution or educator identifier for this table; non-null on every data row.
     certainty: 80
     severity: warn
+  - freshness: {col: year, reaches: 2025}
+    reason: NYSED publishes annual school-year snapshots; the latest data should reach through the latest expected published school year.
+    certainty: 80
+    points_outward: true
+

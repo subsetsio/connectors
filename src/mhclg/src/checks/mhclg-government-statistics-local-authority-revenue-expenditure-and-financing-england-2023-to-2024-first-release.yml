@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `mhclg-government-statistics-local-authority-revenue-expenditure-and-financing-england-2023-to-2024-first-release`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cells, sheet_name, attachment_filename, attachment_title]
+checks:
+  - kind: unique
+    columns: [cells, sheet_name, attachment_filename, attachment_title]
+  - kind: not_null
+    col: cells
+  - kind: not_null
+    col: sheet_name
+  - kind: not_null
+    col: attachment_filename
+  - kind: not_null
+    col: attachment_title
+  - kind: row_floor
+    min: 180
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

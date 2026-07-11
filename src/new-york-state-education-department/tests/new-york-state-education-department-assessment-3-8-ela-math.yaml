@@ -1,5 +1,8 @@
 spec_id: new-york-state-education-department-assessment-3-8-ela-math
 status: active
+coverage:
+  frozen: true
+  reason: Standalone grades 3-8 ELA and Math Access database ends with 2020-21; later years are covered by the Report Card assessment tables.
 tests:
   - not_null: report_year
     reason: report_year is injected from the source file's school year; every row has it.

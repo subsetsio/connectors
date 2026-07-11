@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `new-york-state-education-department-appr-district-educator`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [report_year, district_beds, educator_id]
+checks:
+  - kind: unique
+    columns: [report_year, district_beds, educator_id]
+  - kind: not_null
+    col: report_year
+  - kind: not_null
+    col: district_beds
+  - kind: not_null
+    col: educator_id
+  - kind: row_floor
+    min: 256649
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

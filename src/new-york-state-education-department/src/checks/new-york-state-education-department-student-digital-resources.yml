@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `new-york-state-education-department-student-digital-resources`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [report_year, school_year, state_district_id, lea_institution_id, state_location_id, school_institution_id, subgroup_code]
+checks:
+  - kind: unique
+    columns: [report_year, school_year, state_district_id, lea_institution_id, state_location_id, school_institution_id, subgroup_code]
+  - kind: not_null
+    col: report_year
+  - kind: not_null
+    col: school_year
+  - kind: not_null
+    col: state_district_id
+  - kind: not_null
+    col: lea_institution_id
+  - kind: not_null
+    col: state_location_id
+  - kind: not_null
+    col: school_institution_id
+  - kind: not_null
+    col: subgroup_code
+  - kind: row_floor
+    min: 56153
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

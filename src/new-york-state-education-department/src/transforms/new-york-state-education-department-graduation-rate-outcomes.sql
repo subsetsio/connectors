@@ -1,1 +1,46 @@
-SELECT * FROM "new-york-state-education-department-graduation-rate-outcomes"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Graduation outcomes are cohort aggregates with overlapping subgroup rows and multiple membership definitions; filter membership and subgroup before summing.
+SELECT
+    "report_year",
+    "report_school_year",
+    CAST("aggregation_index" AS BIGINT) AS aggregation_index,
+    "aggregation_type",
+    "aggregation_code",
+    "aggregation_name",
+    "entity_inactive_date",
+    "lea_beds",
+    "lea_name",
+    CAST("nrc_code" AS BIGINT) AS nrc_code,
+    "nrc_desc",
+    "county_code",
+    "county_name",
+    CAST("nyc_ind" AS BIGINT) AS nyc_ind,
+    "boces_code",
+    "boces_name",
+    CAST("membership_code" AS BIGINT) AS membership_code,
+    "membership_key",
+    "membership_desc",
+    "subgroup_code",
+    "subgroup_name",
+    "enroll_cnt",
+    "grad_cnt",
+    "grad_pct",
+    "local_cnt",
+    "local_pct",
+    "reg_cnt",
+    "reg_pct",
+    "reg_adv_cnt",
+    "reg_adv_pct",
+    "non_diploma_credential_cnt",
+    "non_diploma_credential_pct",
+    "still_enr_cnt",
+    "still_enr_pct",
+    "ged_cnt",
+    "ged_pct",
+    "dropout_cnt",
+    "dropout_pct",
+    "institution_id"
+FROM "new-york-state-education-department-graduation-rate-outcomes"

@@ -1,1 +1,52 @@
-SELECT * FROM "new-york-state-education-department-ap-ib-assessment"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows mix statewide, county, district, and institution aggregation levels; filter aggregation_type and related geography columns before summing counts.
+SELECT
+    "report_year",
+    "aggregation_type",
+    "aggregation_code",
+    "aggregation_name",
+    CAST("needs_resource_code" AS BIGINT) AS needs_resource_code,
+    "needs_resource_desc",
+    "county_code",
+    "county_desc",
+    "subgroup_code",
+    "subgroup_name",
+    "student_gender",
+    "ethnic_desc",
+    CAST("swd_ind" AS BIGINT) AS swd_ind,
+    CAST("ell_ind" AS BIGINT) AS ell_ind,
+    CAST("eco_dis_ind" AS BIGINT) AS eco_dis_ind,
+    "apib_ind",
+    "state_code",
+    "item_desc",
+    "item_subject_area",
+    "student_cnt",
+    "proficient_student_cnt",
+    "assessment_cnt",
+    "level1_cnt",
+    "level2_cnt",
+    "level3_cnt",
+    "level4_cnt",
+    "level5_cnt",
+    "level6_cnt",
+    "level7_cnt",
+    "grade_level",
+    "tested_student_cnt",
+    "total_exempt",
+    "homeless_ind",
+    "foster_ind",
+    "armed_ind",
+    "report_school_year",
+    "aggregation_index",
+    "inst_id",
+    "lea_beds",
+    "lea_name",
+    "nrc_code",
+    "nrc_desc",
+    "county_name",
+    "nyc_ind",
+    "subject_area"
+FROM "new-york-state-education-department-ap-ib-assessment"
