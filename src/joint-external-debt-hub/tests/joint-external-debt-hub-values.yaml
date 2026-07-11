@@ -1,0 +1,22 @@
+spec_id: joint-external-debt-hub-values
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: 28 quarterly country panels should produce hundreds of thousands of raw observation rows including null values.
+    certainty: 90
+  - not_null: country_code
+  - not_null: series_code
+  - not_null: time_label
+  - column_type: {col: value, type: float}
+  - between: {col: year, lo: 1990, hi: current_year()}
+    reason: JEDH is a quarterly historical panel and should not contain future observation years.
+    certainty: 85
+  - between: {col: quarter, lo: 1, hi: 4}
+    certainty: 95
+  - coverage: {col: series_code, expected: 28}
+    reason: collect/research found 28 JEDH series and the values fetch must include every listed series.
+    certainty: 95
+  - freshness: {col: period_start, reaches: today - 455d}
+    reason: JEDH is updated quarterly; this allows publication lag while still catching a stale pull.
+    certainty: 80
+    points_outward: true

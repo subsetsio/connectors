@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country_code, series_code, time_label]
+temporal: period_start
+sort: [period_start, country_code, series_code]
 columns:
   - name: country_code
     type: VARCHAR

@@ -1,0 +1,15 @@
+spec_id: joint-external-debt-hub-series
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: JEDH currently publishes 28 external-debt series; a count below 20 indicates a broken catalog pull.
+    certainty: 95
+  - not_null: series_code
+  - not_null: series_name
+  - unique: series_code
+    reason: the World Bank indicator id is the stable identifier for each JEDH series.
+    certainty: 95
+  - distinct_count: {col: source_id, min: 1, max: 1}
+    reason: all rows should come from World Bank DataBank source 54.
+    certainty: 95
+
