@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `port-of-la-xhx7-hr4h`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [grant_project_description, grant_number_pass_through_grantor_s_number, federal_cfda_number]
+checks:
+  - kind: unique
+    columns: [grant_project_description, grant_number_pass_through_grantor_s_number, federal_cfda_number]
+  - kind: not_null
+    col: grant_project_description
+  - kind: not_null
+    col: grant_number_pass_through_grantor_s_number
+  - kind: not_null
+    col: federal_cfda_number
+  - kind: row_floor
+    min: 21
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `port-of-la-i9rh-q5gx`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, total, dry_bulk]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, total, dry_bulk]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: total
+  - kind: not_null
+    col: dry_bulk
+  - kind: row_floor
+    min: 19
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

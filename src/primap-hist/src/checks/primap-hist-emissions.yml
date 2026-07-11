@@ -1,0 +1,32 @@
+# compiled by `hardened compile-checks` — post-publish audit of `primap-hist-emissions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [source, scenario, provenance, area, entity, unit, category, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [source, scenario, provenance, area, entity, unit, category, year]
+  - kind: not_null
+    col: source
+  - kind: not_null
+    col: scenario
+  - kind: not_null
+    col: provenance
+  - kind: not_null
+    col: area
+  - kind: not_null
+    col: entity
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: category
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 6499901
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

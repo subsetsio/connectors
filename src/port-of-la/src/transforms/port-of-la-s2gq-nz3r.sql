@@ -1,19 +1,23 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The source includes duplicate fiscal-year rows, and for some years both partial and fuller rows are present; deduplicate or choose a fiscal-year row deliberately before fiscal-year analysis.
 SELECT
-    harbor_department,
-    TRY_CAST(jul AS DOUBLE) AS jul,
-    TRY_CAST(aug AS DOUBLE) AS aug,
-    TRY_CAST(sept AS DOUBLE) AS sept,
-    TRY_CAST(oct AS DOUBLE) AS oct,
-    TRY_CAST(nov AS DOUBLE) AS nov,
-    TRY_CAST(dec AS DOUBLE) AS dec,
-    TRY_CAST(jan AS DOUBLE) AS jan,
-    TRY_CAST(feb AS DOUBLE) AS feb,
-    TRY_CAST(mar AS DOUBLE) AS mar,
-    TRY_CAST(apr AS DOUBLE) AS apr,
-    TRY_CAST(may AS DOUBLE) AS may,
-    TRY_CAST(jun AS DOUBLE) AS jun,
-    TRY_CAST(total AS DOUBLE) AS total,
-    TRY_CAST(adjustment AS DOUBLE) AS adjustment,
-    TRY_CAST(net_total AS DOUBLE) AS net_total
+    "harbor_department",
+    CAST("jul" AS BIGINT) AS jul,
+    CAST("aug" AS BIGINT) AS aug,
+    CAST("sept" AS BIGINT) AS sept,
+    CAST("oct" AS BIGINT) AS oct,
+    CAST("nov" AS BIGINT) AS nov,
+    CAST("dec" AS BIGINT) AS dec,
+    CAST("jan" AS BIGINT) AS jan,
+    CAST("feb" AS BIGINT) AS feb,
+    CAST("mar" AS BIGINT) AS mar,
+    CAST("apr" AS BIGINT) AS apr,
+    CAST("may" AS BIGINT) AS may,
+    CAST("jun" AS BIGINT) AS jun,
+    CAST("total" AS BIGINT) AS total,
+    CAST("adjustment" AS BIGINT) AS adjustment,
+    CAST("net_total" AS BIGINT) AS net_total
 FROM "port-of-la-s2gq-nz3r"
-WHERE harbor_department IS NOT NULL

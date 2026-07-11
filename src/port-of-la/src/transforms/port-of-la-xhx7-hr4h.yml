@@ -1,21 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `port-of-la-xhx7-hr4h`. Regenerate after model-verify.
+key: [grant_project_description, grant_number_pass_through_grantor_s_number, federal_cfda_number]
+sort: [grant_project_description, grant_number_pass_through_grantor_s_number, federal_cfda_number]
 columns:
   - name: grant_project_description
     type: VARCHAR
   - name: federal_cfda_number
-    type: VARCHAR
+    type: DOUBLE
   - name: grant_number_pass_through_grantor_s_number
     type: VARCHAR
   - name: federal_entitlement_amount
-    type: DOUBLE
+    type: BIGINT
   - name: grant_receivable_as_of_7_1_2012
-    type: DOUBLE
-  - name: grant_receivable_prior_year_adjustment
-    type: DOUBLE
+    type: VARCHAR
   - name: grant_revenue_received
-    type: DOUBLE
+    type: VARCHAR
   - name: federal_grant_expenditures
-    type: DOUBLE
-  - name: federal_grant_pass_through_liability
-    type: DOUBLE
+    type: VARCHAR
   - name: grant_receivable_as_of_6_30_2013
-    type: DOUBLE
+    type: VARCHAR
+  - name: grant_receivable_prior_year_adjustment
+    type: VARCHAR
+  - name: federal_grant_pass_through_liability
+    type: VARCHAR

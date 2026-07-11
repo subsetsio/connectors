@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `primap-hist-emissions`. Regenerate after model-verify.
+# caution: The table mixes countries, territories, gas baskets, source variants, scenarios, provenance methods, and IPCC categories; filter these dimensions before aggregating values.
+key: [source, scenario, provenance, area, entity, unit, category, year]
+temporal: year
+sort: [year, source, scenario, provenance, area, entity, unit, category]
+columns:
+  - name: source
+    type: VARCHAR
+    description: PRIMAP-hist data source variant for the observation.
+  - name: scenario
+    type: VARCHAR
+    description: PRIMAP-hist scenario code for the observation.
+  - name: provenance
+    type: VARCHAR
+    description: Provenance or extrapolation method assigned by PRIMAP-hist.
+  - name: area
+    type: VARCHAR
+    description: ISO3-style country or territory area code used by PRIMAP-hist.
+  - name: entity
+    type: VARCHAR
+    description: Emitted greenhouse gas, gas basket, or Kyoto basket entity code.
+  - name: unit
+    type: VARCHAR
+    description: Unit of the emissions value as published by PRIMAP-hist.
+  - name: category
+    type: VARCHAR
+    description: IPCC 2006 PRIMAP category code for the emissions sector or aggregate.
+  - name: year
+    type: SMALLINT
+    description: Calendar year of the annual emissions observation.
+  - name: value
+    type: DOUBLE
+    description: Emissions value for the selected area, entity, category, source, scenario, provenance, unit, and year.
+  - name: release_version
+    type: VARCHAR
+    description: PRIMAP-hist Zenodo release version fetched by the connector.
+  - name: release_doi
+    type: VARCHAR
+    description: DOI of the Zenodo release fetched by the connector.

@@ -1,14 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `port-of-la-tsuv-4rgh`. Regenerate after model-verify.
+key: [month_year]
+temporal: date
+sort: [date, month_year]
 columns:
-  - name: date
-    type: DATE
   - name: month_year
     type: VARCHAR
+  - name: date
+    type: TIMESTAMP
   - name: monthly_total_teus
     type: DOUBLE
   - name: cytd_total_teus
     type: DOUBLE
   - name: previous_year_cytd
     type: DOUBLE
-  - name: pct_change_total_teus_cytd
+  - name: change_total_teus_cytd
     type: DOUBLE

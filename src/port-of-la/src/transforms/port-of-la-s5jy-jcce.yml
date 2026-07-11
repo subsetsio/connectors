@@ -1,6 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `port-of-la-s5jy-jcce`. Regenerate after model-verify.
+key: [incrementalid, adpnumber, adpreceiveddate, applicant, adpstatus]
+temporal: adpreceiveddate
+sort: [adpreceiveddate, incrementalid, adpnumber, applicant, adpstatus]
 columns:
   - name: incrementalid
-    type: VARCHAR
+    type: BIGINT
   - name: adpnumber
     type: VARCHAR
   - name: adpstatus
@@ -16,66 +21,60 @@ columns:
   - name: projecttype
     type: VARCHAR
   - name: adpreceiveddate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: adpsenttodivisiondate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: emdreceiveddate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: engpermitreceiveddate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: engpermitreceiveddatena
-    type: VARCHAR
+    type: BOOLEAN
   - name: adpcompletiondate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: typeofcdp
     type: VARCHAR
   - name: typeofexemption
     type: VARCHAR
   - name: cdpnumber
     type: VARCHAR
-  - name: cdpsentdatetoapplicant
-    type: VARCHAR
   - name: cdpsentdatetoapplicantna
-    type: VARCHAR
-  - name: cdpreceiveddate
-    type: VARCHAR
+    type: BOOLEAN
   - name: cdpreceiveddatena
-    type: VARCHAR
-  - name: publichearingdate
-    type: VARCHAR
+    type: BOOLEAN
   - name: publichearingdatena
-    type: VARCHAR
-  - name: bhcapprovaldate
-    type: VARCHAR
+    type: BOOLEAN
   - name: bhcapprovaldatena
-    type: VARCHAR
+    type: BOOLEAN
   - name: appealablecdp
-    type: VARCHAR
-  - name: endofappealperioddate
-    type: VARCHAR
+    type: BIGINT
   - name: endofappealperioddatena
-    type: VARCHAR
-  - name: costalcommapprovaldate
-    type: VARCHAR
+    type: BOOLEAN
   - name: costalcommapprovaldatena
-    type: VARCHAR
-  - name: cdpsentdatetodivsions
-    type: VARCHAR
+    type: BOOLEAN
   - name: cdpsentdatetodivsionsna
-    type: VARCHAR
+    type: BOOLEAN
   - name: riskanalysis
-    type: VARCHAR
-  - name: senttolafd
-    type: VARCHAR
-  - name: lafd10dayreview
-    type: VARCHAR
+    type: BIGINT
   - name: reporttoapplicant
-    type: VARCHAR
+    type: TIMESTAMP
   - name: reporttoapplicantna
-    type: VARCHAR
+    type: BOOLEAN
+  - name: cancellationflag
+    type: BOOLEAN
   - name: notes
     type: VARCHAR
-  - name: cancellationflag
-    type: VARCHAR
+  - name: cdpsentdatetoapplicant
+    type: TIMESTAMP
+  - name: cdpreceiveddate
+    type: TIMESTAMP
+  - name: bhcapprovaldate
+    type: TIMESTAMP
   - name: cdpfoldername
     type: VARCHAR
+  - name: publichearingdate
+    type: TIMESTAMP
+  - name: endofappealperioddate
+    type: TIMESTAMP
+  - name: cdpsentdatetodivsions
+    type: TIMESTAMP

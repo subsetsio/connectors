@@ -1,7 +1,10 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(year AS INTEGER) AS year,
-    TRY_CAST(ship_calls AS INTEGER) AS ship_calls,
-    TRY_CAST(passengers AS BIGINT) AS passengers,
-    TRY_CAST(passengers_per_ship AS INTEGER) AS passengers_per_ship
+    CAST("year" AS BIGINT) AS year,
+    CAST("ship_calls" AS BIGINT) AS ship_calls,
+    CAST("passengers" AS BIGINT) AS passengers,
+    CAST("passengers_per_ship" AS BIGINT) AS passengers_per_ship
 FROM "port-of-la-jmt8-y5rm"
-WHERE year IS NOT NULL
