@@ -1,5 +1,8 @@
-key: [series_code]
-sort: [series_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `joint-external-debt-hub-series`. Regenerate after model-verify.
+# caution: Series codes are SDMX-style identifiers and may not be unique in the raw catalog; use the series name as the catalog row identity and keep the code as a join/filter attribute.
+key: [series_name]
+sort: [series_name]
 columns:
   - name: series_code
     type: VARCHAR
@@ -8,7 +11,7 @@ columns:
   - name: unit
     type: VARCHAR
   - name: source_id
-    type: VARCHAR
+    type: BIGINT
   - name: source_name
     type: VARCHAR
   - name: source_note
@@ -17,4 +20,3 @@ columns:
     type: VARCHAR
   - name: topics_json
     type: VARCHAR
-
