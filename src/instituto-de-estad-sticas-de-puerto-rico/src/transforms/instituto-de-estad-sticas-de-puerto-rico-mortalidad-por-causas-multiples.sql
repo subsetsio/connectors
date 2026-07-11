@@ -5,5 +5,5 @@
 SELECT
     "source_resource",
     "source_file",
-    "- 1 -" AS 1
+    "- 1 -" AS "1"
 FROM "instituto-de-estad-sticas-de-puerto-rico-mortalidad-por-causas-multiples"
