@@ -1,0 +1,16 @@
+# faithful pass-through of raw asset `singstat-m213381`. Regenerate after model-verify.
+# caution: SingStat period values are source-formatted strings whose format varies by table frequency.
+key: [series_no, period]
+temporal: period
+sort: [period, series_no]
+columns:
+  - name: period
+    type: VARCHAR
+  - name: series_no
+    type: VARCHAR
+  - name: series_text
+    type: VARCHAR
+  - name: uom
+    type: VARCHAR
+  - name: value
+    type: VARCHAR
