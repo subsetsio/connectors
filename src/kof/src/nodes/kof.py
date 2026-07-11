@@ -6,7 +6,7 @@ the /public/* namespace (no auth). Each accepted subset is a public KOF
 GET /public/collections/<name>?format=json, returns the entire bundle as
 {series_key: [{date, value}, ...]} — full history, no pagination.
 
-Fetch shape: stateless full re-pull. The whole public corpus is ~44 small
+Fetch shape: stateless full re-pull. The whole public corpus is ~59 small
 collections (largest ~13MB / ~310k observations), so we re-fetch each
 collection in full every run and overwrite — revisions and late corrections
 are picked up for free. No watermark, no cursor.
@@ -25,13 +25,7 @@ intra-month cadence without inventing day labels the source did not provide.
 """
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    save_raw_parquet,
-    transient_retry,
-)
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 BASE = "https://datenservice.kof.ethz.ch/api/v1/public"
 
@@ -57,7 +51,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _fetch_collection(name: str) -> dict:
     resp = get(
         f"{BASE}/collections/{name}",
@@ -112,37 +105,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per collection: long-format (series_key, period,
-# date, value). The date string is mixed-grain — 'YYYY' (annual), 'YYYY-MM'
-# (monthly/quarterly), 'YYYY-MM-DD' (daily) — normalized to a DATE here while
-# the original string is preserved as `period`. Null observations are dropped.
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            series_key,
-            obs_index,
-            date AS period,
-            CASE
-                WHEN length(date) = 4  THEN try_strptime(date || '-01-01', '%Y-%m-%d')
-                WHEN length(date) = 7  THEN try_strptime(date || '-01', '%Y-%m-%d')
-                ELSE                        try_strptime(date, '%Y-%m-%d')
-            END::DATE AS date,
-            CAST(value AS DOUBLE) AS value
-        FROM "{download_id}"
-        WHERE value IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        key=("series_key", "obs_index"),
-        temporal="date",
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
