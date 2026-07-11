@@ -28,15 +28,18 @@ from subsets_utils import (
 )
 
 BASE = "https://keelinglabsites.ucsd.edu/websitedataco2/"
+EARLY_LAJOLLA_BASE = (
+    "https://www.scrippsco2.ucsd.edu/assets/data/atmospheric/stations/in_situ_co2"
+)
 
 # --- entity (subset) -> source CSV filenames (the rank-accepted entity union) ---
 # Station-folded families list one CSV per sampling station; all share a schema.
 NODE_FILES = {
     'scripps-co2-bats': ['BATS.csv'],
     'scripps-co2-berm': ['BERM.csv'],
-    'scripps-co2-early-lajolla-co2-halfhourly-1958-1962': ['Early_LaJolla_CO2_halfhourly_1958-1962.csv'],
-    'scripps-co2-early-lajolla-co2-monthly-1957-1962': ['Early_LaJolla_CO2_weekly_monthly_1957-1962.csv'],
-    'scripps-co2-early-lajolla-co2-weekly-minima-1957-1962': ['Early_LaJolla_CO2_weekly_minima_1957-1962.csv'],
+    'scripps-co2-early-lajolla-co2-halfhourly-1958-1962': [f'{EARLY_LAJOLLA_BASE}/halfhourly/Early_LaJolla_CO2_halfhourly_1958-1962.csv'],
+    'scripps-co2-early-lajolla-co2-monthly-1957-1962': [f'{EARLY_LAJOLLA_BASE}/monthly/Early_LaJolla_CO2_weekly_monthly_1957-1962.csv'],
+    'scripps-co2-early-lajolla-co2-weekly-minima-1957-1962': [f'{EARLY_LAJOLLA_BASE}/weekly/Early_LaJolla_CO2_weekly_minima_1957-1962.csv'],
     'scripps-co2-hawi': ['HAWI.csv'],
     'scripps-co2-daily-flask-c13': ['daily_flask_c13_alt.csv', 'daily_flask_c13_bat.csv', 'daily_flask_c13_bcs.csv', 'daily_flask_c13_chr.csv', 'daily_flask_c13_cms.csv', 'daily_flask_c13_fan.csv', 'daily_flask_c13_hip.csv', 'daily_flask_c13_ker.csv', 'daily_flask_c13_kor.csv', 'daily_flask_c13_kum.csv', 'daily_flask_c13_lab.csv', 'daily_flask_c13_ljo.csv', 'daily_flask_c13_mhd.csv', 'daily_flask_c13_mko.csv', 'daily_flask_c13_mlo.csv', 'daily_flask_c13_nzd.csv', 'daily_flask_c13_psa.csv', 'daily_flask_c13_ptb.csv', 'daily_flask_c13_sam.csv', 'daily_flask_c13_spo.csv', 'daily_flask_c13_stp.csv'],
     'scripps-co2-daily-flask-c14': ['daily_flask_c14_alt.csv', 'daily_flask_c14_bat.csv', 'daily_flask_c14_bcs.csv', 'daily_flask_c14_chr.csv', 'daily_flask_c14_cms.csv', 'daily_flask_c14_fan.csv', 'daily_flask_c14_hip.csv', 'daily_flask_c14_ker.csv', 'daily_flask_c14_kor.csv', 'daily_flask_c14_kum.csv', 'daily_flask_c14_lab.csv', 'daily_flask_c14_ljo.csv', 'daily_flask_c14_mhd.csv', 'daily_flask_c14_mko.csv', 'daily_flask_c14_mlo.csv', 'daily_flask_c14_nzd.csv', 'daily_flask_c14_psa.csv', 'daily_flask_c14_ptb.csv', 'daily_flask_c14_sam.csv', 'daily_flask_c14_spo.csv', 'daily_flask_c14_stp.csv'],
@@ -82,6 +85,12 @@ def _download(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.text
+
+
+def _source_url(filename: str) -> str:
+    if filename.startswith(("http://", "https://")):
+        return filename
+    return BASE + filename
 
 
 # --------------------------------------------------------------------------- #
@@ -379,7 +388,7 @@ def fetch_one(node_id: str) -> None:
     rows = []
     for filename in NODE_FILES[node_id]:
         station = _station_of(filename, family) if with_station else None
-        text = _download(BASE + filename)
+        text = _download(_source_url(filename))
         for line in text.splitlines():
             s = line.lstrip()
             if not s or s[0] in ('"', "%"):

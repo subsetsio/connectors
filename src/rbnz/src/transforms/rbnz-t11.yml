@@ -1,12 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `rbnz-t11`. Regenerate after model-verify.
+key: [date, series_name, indicator_label, series_id]
 temporal: date
-sort: [date]
+sort: [date, series_name, indicator_label, series_id]
 columns:
-  - name: date
-    type: DATE
   - name: series_code
     type: VARCHAR
   - name: option
+    type: VARCHAR
+  - name: file_stem
+    type: VARCHAR
+  - name: sheet
     type: VARCHAR
   - name: indicator_label
     type: VARCHAR
@@ -16,5 +20,7 @@ columns:
     type: VARCHAR
   - name: unit
     type: VARCHAR
+  - name: date
+    type: DATE
   - name: value
     type: DOUBLE

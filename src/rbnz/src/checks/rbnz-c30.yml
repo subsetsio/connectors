@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `rbnz-c30`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, indicator_label, series_id, series_name, unit]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, indicator_label, series_id, series_name, unit]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: indicator_label
+  - kind: not_null
+    col: series_id
+  - kind: not_null
+    col: series_name
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 4119
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
