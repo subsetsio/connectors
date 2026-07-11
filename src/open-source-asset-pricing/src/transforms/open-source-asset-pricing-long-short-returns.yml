@@ -1,8 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, predictor]
+temporal: date
+sort: [date, predictor]
 columns:
   - name: date
     type: DATE
+    description: Monthly observation date for the portfolio return.
   - name: predictor
     type: VARCHAR
+    description: Chen-Zimmermann predictor acronym from the signal documentation.
   - name: ret
     type: DOUBLE
+    description: Monthly long-short portfolio return for the predictor.

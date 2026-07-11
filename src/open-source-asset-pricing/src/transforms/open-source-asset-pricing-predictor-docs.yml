@@ -1,32 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [predictor]
+sort: [predictor]
 columns:
   - name: predictor
     type: VARCHAR
+    description: Chen-Zimmermann predictor or placebo acronym.
   - name: description
     type: VARCHAR
+    description: Source description of the replicated signal.
   - name: signal_category
     type: VARCHAR
+    description: Source signal classification, such as Predictor or Placebo.
   - name: economic_category
     type: VARCHAR
+    description: Economic category assigned by the source.
   - name: form_category
     type: VARCHAR
+    description: Signal form category assigned by the source.
   - name: data_category
     type: VARCHAR
+    description: Input data category assigned by the source.
   - name: authors
     type: VARCHAR
+    description: Authors of the original paper or study.
   - name: year
     type: INTEGER
+    description: Publication year of the original paper or study.
   - name: journal
     type: VARCHAR
+    description: Journal or venue of the original paper where reported.
   - name: predicted_sign
     type: INTEGER
+    description: Source sign convention for the predictor's expected return relation.
   - name: in_sample_return
     type: DOUBLE
+    description: In-sample return statistic reported in the source codebook.
   - name: t_stat
     type: DOUBLE
+    description: In-sample t-statistic reported in the source codebook.
   - name: stock_weight
     type: VARCHAR
+    description: Portfolio stock-weighting convention from the source codebook.
   - name: sample_start_year
     type: INTEGER
+    description: First sample year reported for the source study.
   - name: sample_end_year
     type: INTEGER
+    description: Last sample year reported for the source study.

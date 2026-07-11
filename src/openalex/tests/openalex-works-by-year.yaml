@@ -1,0 +1,15 @@
+spec_id: openalex-works-by-year
+status: active
+tests:
+  - not_null: publication_year
+  - unique: publication_year
+  - row_count: {min: 50}
+  - column_type: {col: publication_year, type: integer}
+  - column_type: {col: works_count, type: integer}
+  - between: {col: publication_year, lo: 1500, hi: current_year()}
+    certainty: 90
+    points_outward: true
+  - freshness: {col: publication_year, reaches: current_year()}
+    reason: OpenAlex /works group_by should include current-year publications.
+    certainty: 85
+    points_outward: true

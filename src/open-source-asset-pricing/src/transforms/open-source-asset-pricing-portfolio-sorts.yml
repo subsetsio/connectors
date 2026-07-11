@@ -1,16 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [predictor, port, date]
+temporal: date
+sort: [date, predictor, port]
 columns:
   - name: predictor
     type: VARCHAR
+    description: Chen-Zimmermann predictor acronym used to sort the portfolio.
   - name: port
     type: VARCHAR
+    description: Portfolio leg label, including sorted legs and long-short legs.
   - name: date
     type: DATE
+    description: Monthly observation date for the portfolio return.
   - name: ret
     type: DOUBLE
+    description: Monthly return for this predictor-sorted portfolio leg.
   - name: signal_lag
     type: DOUBLE
+    description: Signal lag used in portfolio construction.
   - name: n_long
     type: BIGINT
+    description: Number of firms in the long side when reported by the source.
   - name: n_short
     type: BIGINT
+    description: Number of firms in the short side when reported by the source.

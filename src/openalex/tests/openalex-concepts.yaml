@@ -1,0 +1,11 @@
+spec_id: openalex-concepts
+status: active
+tests:
+  - not_null: id
+  - unique: id
+  - row_count: {min: 60000}
+  - column_type: {col: works_count, type: integer}
+  - freshness: {col: updated_date, reaches: today - 400d}
+    reason: OpenAlex snapshot reference entities should include records updated within the last public snapshot cycle.
+    certainty: 80
+    points_outward: true

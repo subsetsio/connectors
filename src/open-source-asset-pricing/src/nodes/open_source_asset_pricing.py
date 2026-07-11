@@ -23,7 +23,6 @@ import re
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -242,64 +241,4 @@ DOWNLOAD_SPECS = [
              fn=fetch_long_short_returns, kind="download"),
     NodeSpec(id="open-source-asset-pricing-portfolio-sorts",
              fn=fetch_portfolio_sorts, kind="download"),
-]
-
-
-# ---------------------------------------------------------------------------
-# Transforms — one published Delta table per subset.
-# ---------------------------------------------------------------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="open-source-asset-pricing-predictor-docs-transform",
-        deps=["open-source-asset-pricing-predictor-docs"],
-        sql='''
-            SELECT
-                "Acronym"                       AS predictor,
-                "LongDescription"               AS description,
-                "Cat.Signal"                    AS signal_category,
-                "Cat.Economic"                  AS economic_category,
-                "Cat.Form"                      AS form_category,
-                "Cat.Data"                      AS data_category,
-                "Authors"                       AS authors,
-                TRY_CAST("Year" AS INTEGER)     AS year,
-                "Journal"                       AS journal,
-                TRY_CAST("Sign" AS INTEGER)     AS predicted_sign,
-                TRY_CAST("Return" AS DOUBLE)    AS in_sample_return,
-                TRY_CAST("T-Stat" AS DOUBLE)    AS t_stat,
-                "Stock Weight"                  AS stock_weight,
-                TRY_CAST("SampleStartYear" AS INTEGER) AS sample_start_year,
-                TRY_CAST("SampleEndYear" AS INTEGER)   AS sample_end_year
-            FROM "open-source-asset-pricing-predictor-docs"
-            WHERE "Acronym" IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="open-source-asset-pricing-long-short-returns-transform",
-        deps=["open-source-asset-pricing-long-short-returns"],
-        sql='''
-            SELECT
-                CAST(date AS DATE) AS date,
-                predictor,
-                CAST(ret AS DOUBLE) AS ret
-            FROM "open-source-asset-pricing-long-short-returns"
-            WHERE ret IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="open-source-asset-pricing-portfolio-sorts-transform",
-        deps=["open-source-asset-pricing-portfolio-sorts"],
-        sql='''
-            SELECT
-                signalname AS predictor,
-                port,
-                CAST(date AS DATE) AS date,
-                CAST(ret AS DOUBLE) AS ret,
-                CAST(signallag AS DOUBLE) AS signal_lag,
-                CAST(Nlong AS BIGINT) AS n_long,
-                CAST(Nshort AS BIGINT) AS n_short
-            FROM "open-source-asset-pricing-portfolio-sorts"
-            WHERE ret IS NOT NULL
-        ''',
-    ),
 ]

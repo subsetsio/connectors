@@ -13,6 +13,10 @@ tests:
   - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     reason: month-end dates serialized YYYY-MM-DD in the raw wide file
     certainty: 85
+  - freshness: {col: date, reaches: today - 800d}
+    reason: source publishes annual releases; the current October 2025 release carries data through December 2024
+    certainty: 85
+    points_outward: true
   - distinct_count: {col: predictor, min: 150, max: 260}
     reason: ~212 predictors have a long-short return column in PredictorLSretWide
     certainty: 85
