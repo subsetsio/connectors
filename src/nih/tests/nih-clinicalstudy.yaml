@@ -1,0 +1,26 @@
+spec_id: nih-clinicalstudy
+status: active
+# Raw is stringly-typed NDJSON with four columns: CORE_PROJECT_NUMBER,
+# CLINICALTRIALS_GOV_ID, STUDY, STUDY_STATUS. One all-years file (no per-year
+# partition), no time dimension, so no freshness assertion (the clinical-studies
+# export carries no year column).
+tests:
+  - column_type: {col: CLINICALTRIALS_GOV_ID, type: string}
+    reason: fetch writes every value as a JSON string; the transform TRY_CASTs later
+    certainty: 90
+  - nullable: {col: CLINICALTRIALS_GOV_ID, max_null_frac: 0.01}
+    reason: >-
+      The ClinicalTrials.gov NCT id identifies the study and is the reason the
+      row exists in the export; it is present on essentially every row.
+    certainty: 85
+  - nullable: {col: CORE_PROJECT_NUMBER, max_null_frac: 0.02}
+    reason: >-
+      CORE_PROJECT_NUMBER links the study to the NIH project that funded it; near
+      fully populated in an NIH-linked clinical-studies file.
+    certainty: 80
+  - row_count: {min: 25000}
+    reason: >-
+      The all-years NIH-linked clinical-studies file carried ~39k rows at probe
+      time and grows slowly. A count far below 25k means the single file did not
+      download in full.
+    certainty: 85

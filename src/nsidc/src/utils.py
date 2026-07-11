@@ -9,6 +9,7 @@ table (the monthly-extent CSV encodes it as the region code N/S).
 """
 from __future__ import annotations
 
+import csv
 import io
 from datetime import date
 

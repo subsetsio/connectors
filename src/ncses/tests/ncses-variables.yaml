@@ -1,0 +1,11 @@
+spec_id: ncses-variables
+status: active
+tests:
+  - not_null: universalId
+  - unique: universalId
+    reason: variable codebook; universalId uniquely identifies each variable across surveys
+    certainty: 95
+  - not_null: variableName
+  - row_count: {min: 900}
+    reason: metadata API reported 1146 variables at probe time; allow shrinkage
+    certainty: 85

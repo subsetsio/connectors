@@ -1,0 +1,45 @@
+spec_id: nber-macrohistory-values
+
+# The NBER Macrohistory Database is a closed historical archive — pre-WWI and
+# interwar economic series whose newest observations are mid-20th-century. The
+# corpus does not advance, so the temporal `date` column carries no wall-clock
+# freshness assertion; it is declared frozen instead.
+coverage:
+  frozen: true
+  reason: >-
+    NBER Macrohistory is a closed historical database (pre-WWI + interwar series);
+    the newest observations are mid-20th-century and the corpus does not advance.
+
+tests:
+  - coverage: {col: series_id, expected: 3491, tolerance: 0.10}
+    reason: >-
+      Values cover the same ~3491 series as the catalog; distinct series_id may fall
+      a little short of that because a series whose file is entirely missing-data
+      emits zero rows, hence the wider tolerance.
+    certainty: 80
+
+  - row_count: {min: 100000}
+    reason: >-
+      ~3500 series, many monthly and spanning decades, yield hundreds of thousands of
+      (series, date, value) observations after dropping missing-data sentinels.
+    certainty: 70
+
+  - not_null: series_id
+    reason: Every observation is emitted under the series stem it was parsed from.
+    certainty: 95
+
+  - not_null: date
+    reason: Each row's period is normalized to a YYYY-MM-01 date string during parsing.
+    certainty: 95
+
+  - not_null: value
+    reason: The parser drops unparseable tokens and the 1E-37 missing-data sentinel, so emitted values are always present.
+    certainty: 90
+
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-01$'}
+    reason: Annual/quarterly/monthly periods are all mapped to the first day of the representative month (YYYY-MM-01).
+    certainty: 90
+
+  - enum: {col: frequency, values: [annual, monthly, quarterly]}
+    reason: Frequency is decoded from the a/m/q filename prefix; unknown-prefix files are skipped.
+    certainty: 90

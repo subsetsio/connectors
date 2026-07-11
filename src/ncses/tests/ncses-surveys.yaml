@@ -1,0 +1,10 @@
+spec_id: ncses-surveys
+status: active
+tests:
+  - not_null: survey
+  - unique: survey
+    reason: one row per NCSES survey program; `survey` is its abbreviation key
+    certainty: 95
+  - row_count: {min: 8}
+    reason: metadata API listed 11 survey programs at probe time; allow for retirement
+    certainty: 85

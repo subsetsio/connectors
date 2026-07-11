@@ -1,0 +1,26 @@
+spec_id: nih-link
+status: active
+# Raw is stringly-typed NDJSON with exactly two columns: PMID and
+# PROJECT_NUMBER (the publication-to-project link table). Year is only the file
+# partition, NOT a row column, so the raw carries no temporal dimension and no
+# freshness assertion is possible or required here.
+tests:
+  - column_type: {col: PMID, type: string}
+    reason: fetch writes every value as a JSON string; the transform TRY_CASTs later
+    certainty: 90
+  - nullable: {col: PMID, max_null_frac: 0.01}
+    reason: >-
+      PMID is one half of the link key; every link row references a PubMed id,
+      so it is populated on essentially every row.
+    certainty: 85
+  - nullable: {col: PROJECT_NUMBER, max_null_frac: 0.01}
+    reason: >-
+      PROJECT_NUMBER is the other half of the link key (the NIH full project
+      number); every link row references a project, so it is near-fully populated.
+    certainty: 85
+  - row_count: {min: 1500000}
+    reason: >-
+      46 calendar years (1980-2025) of publication-to-project links, ~300k in a
+      recent year alone; the full corpus runs into the millions. A far smaller
+      count means yearly link files silently failed to download.
+    certainty: 85

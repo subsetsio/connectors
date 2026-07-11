@@ -1,0 +1,11 @@
+spec_id: ncses-topics
+status: active
+tests:
+  - not_null: topicPath
+  - unique: topicPath
+    reason: flattened to one row per leaf topic; topicPath is the fully-qualified unique path
+    certainty: 95
+  - not_null: superTopic
+  - row_count: {min: 20}
+    reason: ~39 leaf topics under 11 supertopics at probe time
+    certainty: 80

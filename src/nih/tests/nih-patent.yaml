@@ -1,0 +1,27 @@
+spec_id: nih-patent
+status: active
+# Raw is stringly-typed NDJSON with four columns: PATENT_ID, PATENT_TITLE,
+# PROJECT_ID, PATENT_ORG_NAME. One all-years file (no per-year partition), no
+# time dimension, so no freshness assertion (patents carry no year column in the
+# ExPORTER export).
+tests:
+  - column_type: {col: PATENT_ID, type: string}
+    reason: fetch writes every value as a JSON string; the transform TRY_CASTs later
+    certainty: 90
+  - nullable: {col: PATENT_ID, max_null_frac: 0.01}
+    reason: >-
+      PATENT_ID is the USPTO patent number and the record key; it is present on
+      essentially every row.
+    certainty: 85
+  - nullable: {col: PROJECT_ID, max_null_frac: 0.02}
+    reason: >-
+      PROJECT_ID links the patent to the NIH project that supported it; this is
+      the reason the row exists in the ExPORTER patent file, so it is near-fully
+      populated.
+    certainty: 80
+  - row_count: {min: 60000}
+    reason: >-
+      The all-years patents-citing-NIH-support file carried ~92k rows at probe
+      time and grows slowly. A count far below 60k means the single file did not
+      download in full.
+    certainty: 85
