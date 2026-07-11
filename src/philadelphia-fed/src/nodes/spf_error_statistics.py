@@ -81,6 +81,11 @@ def _series_and_horizon(col: str) -> tuple[str, int | None]:
             return base, int(step)
         except ValueError:
             return base, None
+    if col.startswith("Realiz"):
+        try:
+            return "Realiz", int(col.removeprefix("Realiz"))
+        except ValueError:
+            return col, None
     return col, None
 
 
