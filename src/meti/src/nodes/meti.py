@@ -14,6 +14,7 @@ import html.parser
 import io
 import posixpath
 import re
+import time
 from urllib.parse import urldefrag, urljoin, urlparse
 
 import openpyxl
@@ -25,14 +26,37 @@ from subsets_utils import NodeSpec, get, save_raw_ndjson
 SLUG = "meti"
 _HOST = "www.meti.go.jp"
 _OFFICE_EXTS = (".xlsx", ".xls", ".csv")
+
+# www.meti.go.jp sits behind AWS WAF (CloudFront). It blocks bot-like User-Agents
+# outright (403) and, under load / from low-reputation IPs, escalates to a JS
+# "challenge" (HTTP 202 or 405 with an `x-amzn-waf-action: challenge` header and
+# an empty body). A plain HTTP client cannot solve that challenge, so the only
+# levers are (1) a full, realistic browser fingerprint and (2) staying polite:
+# a small inter-request delay plus exponential backoff on any WAF response, which
+# lets rate-based reputation recover between attempts. Headers must stay ASCII.
 _HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (compatible; subsets.io connector; "
-        "https://subsets.io)"
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     ),
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "ja,en-US;q=0.8,en;q=0.7",
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,image/apng,*/*;q=0.8"
+    ),
+    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+    "Sec-Ch-Ua": '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
 }
+_WAF_ACTION_HEADER = "x-amzn-waf-action"
+_WAF_STATUS = {202, 405, 403}
+_FETCH_ATTEMPTS = 5
+_REQUEST_DELAY = 0.7  # polite spacing between requests within a spec
 _LINK_HINT = re.compile(
     r"(data|download|result|statistics|statistical|table|excel|csv|xls|"
     r"統計表|調査の結果|結果|データ|ダウンロード|時系列)",
