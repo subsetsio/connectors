@@ -2,6 +2,7 @@
 # Copied from data/sources/instituto-nacional-de-estad-sticas/work/entity_union.json.
 # These are the rank-accepted, data-queryable dataflow ids.
 ENTITY_IDS = [
+    "DF_BGREIMPROMSP",
     "DF_BGYHDEP_CISE",
     "DF_BGYHDEP_CISE_EDAD",
     "DF_BGYHDEP_CISE_EDU",
@@ -61,7 +62,11 @@ ENTITY_IDS = [
     "DF_NMIC_RAMA_SEXO",
     "DF_NMIC_SEXO",
     "DF_NOCU_SEXO",
+    "DF_NP65MAS_SEXO",
+    "DF_NPEDADJUB_SEXO",
+    "DF_NPENSIONAUTO_SEXO",
     "DF_NPGUM_CONTRIB_SEXO",
+    "DF_NPGU_SEXO",
     "DF_NSOLICSC_RAMA",
     "DF_NSOLICSC_SEXO",
     "DF_NSOLICSC_TDCON",
@@ -117,7 +122,9 @@ ENTITY_IDS = [
     "DF_TEA_EDAD",
     "DF_TEA_EDU",
     "DF_TEA_SEXO",
+    "DF_TESTYMEDIOOCU_SEXO_CISE",
     "DF_TEL",
+    "DF_TIC_SEXO",
     "DF_TLOF_SEXO",
     "DF_TMICI_EDAD",
     "DF_TMICI_EDU",

@@ -1,0 +1,12 @@
+spec_id: instituto-nacional-de-estad-stica-ine-marco-juridico-ine
+status: active
+coverage:
+  frozen: true
+  reason: the CKAN package is an administrative legal-framework snapshot last modified in 2018; no current cadence is published
+tests:
+  - row_count: {min: 1}
+    reason: the package has a CSV resource for the legal framework and the fetcher raises on zero rows
+    certainty: 95
+  - not_null: __source_resource_id
+    reason: every raw row is enriched with the CKAN resource id it came from
+    certainty: 95

@@ -1,0 +1,12 @@
+spec_id: instituto-nacional-de-estad-stica-ine-presupuesto-ine
+status: active
+coverage:
+  frozen: true
+  reason: the CKAN package contains 2016-2017 budget execution CSV snapshots and no current cadence is published
+tests:
+  - row_count: {min: 1}
+    reason: the package has CSV resources for budget execution and the fetcher raises on zero rows
+    certainty: 95
+  - not_null: __source_resource_id
+    reason: every raw row is enriched with the CKAN resource id it came from
+    certainty: 95
