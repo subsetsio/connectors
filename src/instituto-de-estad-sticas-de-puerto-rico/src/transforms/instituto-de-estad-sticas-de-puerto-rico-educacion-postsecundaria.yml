@@ -1,11 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-educacion-postsecundaria`. Regenerate after model-verify.
+key: [addr]
+sort: [addr]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
   - name: unitid
-    type: VARCHAR
+    type: BIGINT
   - name: instnm
     type: VARCHAR
   - name: addr
@@ -17,21 +20,21 @@ columns:
   - name: zip
     type: VARCHAR
   - name: fips
-    type: VARCHAR
+    type: BIGINT
   - name: obereg
-    type: VARCHAR
+    type: BIGINT
   - name: chfnm
     type: VARCHAR
   - name: chftitle
     type: VARCHAR
   - name: gentele
-    type: VARCHAR
+    type: DOUBLE
   - name: ein
-    type: VARCHAR
+    type: BIGINT
   - name: opeid
     type: VARCHAR
   - name: opeflag
-    type: VARCHAR
+    type: BIGINT
   - name: webaddr
     type: VARCHAR
   - name: adminurl
@@ -41,92 +44,92 @@ columns:
   - name: applurl
     type: VARCHAR
   - name: sector
-    type: VARCHAR
+    type: BIGINT
   - name: iclevel
-    type: VARCHAR
+    type: BIGINT
   - name: control
-    type: VARCHAR
+    type: BIGINT
   - name: hloffer
-    type: VARCHAR
+    type: BIGINT
   - name: ugoffer
-    type: VARCHAR
+    type: BIGINT
   - name: groffer
-    type: VARCHAR
+    type: BIGINT
   - name: hdegofr1
-    type: VARCHAR
+    type: BIGINT
   - name: deggrant
-    type: VARCHAR
+    type: BIGINT
   - name: hbcu
-    type: VARCHAR
+    type: BIGINT
   - name: hospital
-    type: VARCHAR
+    type: BIGINT
   - name: medical
-    type: VARCHAR
+    type: BIGINT
   - name: tribal
-    type: VARCHAR
+    type: BIGINT
   - name: locale
-    type: VARCHAR
+    type: BIGINT
   - name: openpubl
-    type: VARCHAR
+    type: BIGINT
   - name: act
     type: VARCHAR
   - name: newid
-    type: VARCHAR
+    type: BIGINT
   - name: deathyr
-    type: VARCHAR
+    type: BIGINT
   - name: closedat
-    type: VARCHAR
+    type: BIGINT
   - name: cyactive
-    type: VARCHAR
+    type: BIGINT
   - name: postsec
-    type: VARCHAR
+    type: BIGINT
   - name: pseflag
-    type: VARCHAR
+    type: BIGINT
   - name: pset4flg
-    type: VARCHAR
+    type: BIGINT
   - name: rptmth
-    type: VARCHAR
+    type: BIGINT
   - name: ialias
     type: VARCHAR
   - name: instcat
-    type: VARCHAR
+    type: BIGINT
   - name: ccbasic
-    type: VARCHAR
+    type: BIGINT
   - name: ccipug
-    type: VARCHAR
+    type: BIGINT
   - name: ccipgrad
-    type: VARCHAR
+    type: BIGINT
   - name: ccugprof
-    type: VARCHAR
+    type: BIGINT
   - name: ccenrprf
-    type: VARCHAR
+    type: BIGINT
   - name: ccsizset
-    type: VARCHAR
+    type: BIGINT
   - name: carnegie
-    type: VARCHAR
+    type: BIGINT
   - name: tenursys
-    type: VARCHAR
+    type: BIGINT
   - name: landgrnt
-    type: VARCHAR
+    type: BIGINT
   - name: instsize
-    type: VARCHAR
+    type: BIGINT
   - name: cbsa
-    type: VARCHAR
+    type: BIGINT
   - name: cbsatype
-    type: VARCHAR
+    type: BIGINT
   - name: csa
-    type: VARCHAR
+    type: BIGINT
   - name: necta
-    type: VARCHAR
+    type: BIGINT
   - name: longitud
-    type: VARCHAR
+    type: DOUBLE
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: countycd
-    type: VARCHAR
+    type: BIGINT
   - name: countynm
     type: VARCHAR
   - name: cngdstcd
-    type: VARCHAR
+    type: BIGINT
   - name: dfrcgid
-    type: VARCHAR
+    type: BIGINT

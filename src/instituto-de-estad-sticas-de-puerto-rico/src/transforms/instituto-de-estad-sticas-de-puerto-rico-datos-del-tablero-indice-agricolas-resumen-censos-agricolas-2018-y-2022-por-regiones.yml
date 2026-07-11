@@ -1,22 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-datos-del-tablero-indice-agricolas-resumen-censos-agricolas-2018-y-2022-por-regiones`. Regenerate after model-verify.
+key: [fincas, producto, regi_n_agr_cola, a_o]
+sort: [fincas, producto, regi_n_agr_cola, a_o]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Región Agrícola
+  - name: regi_n_agr_cola
     type: VARCHAR
-  - name: Producto
+  - name: producto
     type: VARCHAR
-  - name: Año
+  - name: a_o
+    type: BIGINT
+  - name: fincas
+    type: BIGINT
+  - name: cosecha
+    type: BIGINT
+  - name: unidad
     type: VARCHAR
-  - name: Fincas
-    type: VARCHAR
-  - name: Cosecha
-    type: VARCHAR
-  - name: Unidad
-    type: VARCHAR
-  - name: Ventas
-    type: VARCHAR
-  - name: Conteo
-    type: VARCHAR
+  - name: ventas
+    type: BIGINT
+  - name: conteo
+    type: BIGINT

@@ -1,74 +1,77 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-frs`. Regenerate after model-verify.
+key: [frs_facility_detail_report_url]
+sort: [frs_facility_detail_report_url]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: FRS_FACILITY_DETAIL_REPORT_URL
+  - name: frs_facility_detail_report_url
     type: VARCHAR
-  - name: REGISTRY_ID
+  - name: registry_id
+    type: BIGINT
+  - name: primary_name
     type: VARCHAR
-  - name: PRIMARY_NAME
+  - name: location_address
     type: VARCHAR
-  - name: LOCATION_ADDRESS
+  - name: supplemental_location
     type: VARCHAR
-  - name: SUPPLEMENTAL_LOCATION
+  - name: city_name
     type: VARCHAR
-  - name: CITY_NAME
+  - name: county_name
     type: VARCHAR
-  - name: COUNTY_NAME
+  - name: fips_code
     type: VARCHAR
-  - name: FIPS_CODE
+  - name: state_code
     type: VARCHAR
-  - name: STATE_CODE
+  - name: state_name
     type: VARCHAR
-  - name: STATE_NAME
+  - name: country_name
     type: VARCHAR
-  - name: COUNTRY_NAME
+  - name: postal_code
     type: VARCHAR
-  - name: POSTAL_CODE
+  - name: federal_facility_code
     type: VARCHAR
-  - name: FEDERAL_FACILITY_CODE
+  - name: federal_agency_name
     type: VARCHAR
-  - name: FEDERAL_AGENCY_NAME
+  - name: tribal_land_code
     type: VARCHAR
-  - name: TRIBAL_LAND_CODE
+  - name: tribal_land_name
     type: VARCHAR
-  - name: TRIBAL_LAND_NAME
+  - name: congressional_dist_num
+    type: BIGINT
+  - name: census_block_code
+    type: BIGINT
+  - name: huc_code
+    type: BIGINT
+  - name: epa_region_code
     type: VARCHAR
-  - name: CONGRESSIONAL_DIST_NUM
+  - name: site_type_name
     type: VARCHAR
-  - name: CENSUS_BLOCK_CODE
+  - name: location_description
     type: VARCHAR
-  - name: HUC_CODE
+  - name: create_date
     type: VARCHAR
-  - name: EPA_REGION_CODE
+  - name: update_date
     type: VARCHAR
-  - name: SITE_TYPE_NAME
+  - name: us_mexico_border_ind
     type: VARCHAR
-  - name: LOCATION_DESCRIPTION
+  - name: pgm_sys_acrnms
     type: VARCHAR
-  - name: CREATE_DATE
+  - name: latitude83
+    type: DOUBLE
+  - name: longitude83
+    type: DOUBLE
+  - name: conveyor
     type: VARCHAR
-  - name: UPDATE_DATE
+  - name: collect_desc
     type: VARCHAR
-  - name: US_MEXICO_BORDER_IND
+  - name: accuracy_value
+    type: BIGINT
+  - name: ref_point_desc
     type: VARCHAR
-  - name: PGM_SYS_ACRNMS
+  - name: hdatum_desc
     type: VARCHAR
-  - name: LATITUDE83
-    type: VARCHAR
-  - name: LONGITUDE83
-    type: VARCHAR
-  - name: CONVEYOR
-    type: VARCHAR
-  - name: COLLECT_DESC
-    type: VARCHAR
-  - name: ACCURACY_VALUE
-    type: VARCHAR
-  - name: REF_POINT_DESC
-    type: VARCHAR
-  - name: HDATUM_DESC
-    type: VARCHAR
-  - name: SOURCE_DESC
+  - name: source_desc
     type: VARCHAR

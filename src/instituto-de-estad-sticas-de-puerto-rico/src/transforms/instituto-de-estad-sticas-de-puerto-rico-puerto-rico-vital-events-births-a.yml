@@ -1,72 +1,74 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-puerto-rico-vital-events-births-a`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: ChildCityBirthPlace
+  - name: childcitybirthplace
     type: VARCHAR
-  - name: ChildCountryBirthPlace
+  - name: childcountrybirthplace
     type: VARCHAR
-  - name: ChildGender
+  - name: childgender
     type: VARCHAR
-  - name: ChildBirthDate
+  - name: childbirthdate
     type: VARCHAR
-  - name: ChildBirthPlace
+  - name: childbirthplace
     type: VARCHAR
-  - name: Facility
+  - name: facility
     type: VARCHAR
-  - name: MotherBirthDate
+  - name: motherbirthdate
     type: VARCHAR
-  - name: MotherBirthPlace
+  - name: motherbirthplace
     type: VARCHAR
-  - name: MotherBirthCountry
+  - name: motherbirthcountry
     type: VARCHAR
-  - name: MotherResidenceCity
+  - name: motherresidencecity
     type: VARCHAR
-  - name: MotherResidenceCountry
+  - name: motherresidencecountry
     type: VARCHAR
-  - name: FatherBirthDate
+  - name: fatherbirthdate
     type: VARCHAR
-  - name: wasMotherMarriaged
+  - name: wasmothermarriaged
     type: VARCHAR
-  - name: Paternity
+  - name: paternity
     type: VARCHAR
-  - name: MotherEducation
+  - name: mothereducation
     type: VARCHAR
-  - name: FatherEducation
+  - name: fathereducation
     type: VARCHAR
-  - name: WicParticipant
+  - name: wicparticipant
     type: VARCHAR
-  - name: PreviousBirthLiving
+  - name: previousbirthliving
     type: VARCHAR
-  - name: PreviousBirthDeath
+  - name: previousbirthdeath
     type: VARCHAR
-  - name: TotalFetalDeath
+  - name: totalfetaldeath
     type: VARCHAR
-  - name: LastLiveBirthMonth
+  - name: lastlivebirthmonth
     type: VARCHAR
-  - name: LastLiveBirthYear
+  - name: lastlivebirthyear
     type: VARCHAR
-  - name: LastAbortFetalDeathMonth
+  - name: lastabortfetaldeathmonth
     type: VARCHAR
-  - name: LastAbortFetalDeathYear
+  - name: lastabortfetaldeathyear
     type: VARCHAR
-  - name: MedicalPlan
+  - name: medicalplan
     type: VARCHAR
-  - name: MotherLastPeriodDate
+  - name: motherlastperioddate
     type: VARCHAR
-  - name: ApgarScore5Min
+  - name: apgarscore5min
+    type: BIGINT
+  - name: apgarscore10min
+    type: BIGINT
+  - name: birthtype
     type: VARCHAR
-  - name: ApgarScore10Min
+  - name: birthorder
     type: VARCHAR
-  - name: BirthType
+  - name: childlivingatreport
+    type: BIGINT
+  - name: motherage
     type: VARCHAR
-  - name: BirthOrder
-    type: VARCHAR
-  - name: ChildLivingAtReport
-    type: VARCHAR
-  - name: MotherAge
-    type: VARCHAR
-  - name: FatherAge
+  - name: fatherage
     type: VARCHAR

@@ -1,1 +1,41 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-educacion-de-individuos-con-impedimentos-idea"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    "Year" AS year,
+    "State" AS state,
+    CAST("Written, Signed Complaints (WSC) Total (1)" AS BIGINT) AS written_signed_complaints_wsc_total_1,
+    CAST("WSC with Reports Issued Total (1.1)" AS BIGINT) AS wsc_with_reports_issued_total_1_1,
+    CAST("WSC Reports with Findings (1.1a)" AS BIGINT) AS wsc_reports_with_findings_1_1a,
+    CAST("WSC Reports within Timeline (1.1b)" AS BIGINT) AS wsc_reports_within_timeline_1_1b,
+    CAST("WSC Reports within Extended Timelines (1.1c)" AS BIGINT) AS wsc_reports_within_extended_timelines_1_1c,
+    CAST("WSC Pending Total (1.2)" AS BIGINT) AS wsc_pending_total_1_2,
+    CAST("WSC Pending a Due Process Hearing (1.2a)" AS BIGINT) AS wsc_pending_a_due_process_hearing_1_2a,
+    CAST("WSC Withdrawn or Dismissed(1.3)" AS BIGINT) AS wsc_withdrawn_or_dismissed_1_3,
+    CAST("Mediation Requests Total (2)" AS BIGINT) AS mediation_requests_total_2,
+    CAST("Mediations Held Total (2.1)" AS BIGINT) AS mediations_held_total_2_1,
+    CAST("Mediations Held Related to Due Process Complaints(2.1a)" AS BIGINT) AS mediations_held_related_to_due_process_complaints_2_1a,
+    CAST("Mediation Agreements Related to Due Process Complaints (2.1ai)" AS BIGINT) AS mediation_agreements_related_to_due_process_complaints_2_1ai,
+    CAST("Mediations Held Not Related to Due Process Complaints (2.1b)" AS BIGINT) AS mediations_held_not_related_to_due_process_complaints_2_1b,
+    CAST("Mediation Agreements Not Related to Due Process Complaints (2.1bi)" AS BIGINT) AS mediation_agreements_not_related_to_due_process_complaints_2_1bi,
+    CAST("Mediations Pending (2.2)" AS BIGINT) AS mediations_pending_2_2,
+    CAST("Mediations Withdrawn or Not Held (2.3)" AS BIGINT) AS mediations_withdrawn_or_not_held_2_3,
+    "Due Process Complaints (DPC) Total (3)" AS due_process_complaints_dpc_total_3,
+    CAST("DPC Resolution Meetings Total (3.1)" AS BIGINT) AS dpc_resolution_meetings_total_3_1,
+    CAST("DPC Resolution Meetings - Written Settlement Agreements (3.1a)" AS BIGINT) AS dpc_resolution_meetings_written_settlement_agreements_3_1a,
+    "DPC Hearings (fully adjudicated) Total (3.2)" AS dpc_hearings_fully_adjudicated_total_3_2,
+    CAST("DPC Written Decisions within Timeline (3.2a)" AS BIGINT) AS dpc_written_decisions_within_timeline_3_2a,
+    CAST("DPC Written Decisions within Extended Timelines (3.2b)" AS BIGINT) AS dpc_written_decisions_within_extended_timelines_3_2b,
+    CAST("DPC Pending (3.3)" AS BIGINT) AS dpc_pending_3_3,
+    CAST("DPC Withdrawn or Dismissed (3.4)" AS BIGINT) AS dpc_withdrawn_or_dismissed_3_4,
+    CAST("Expedited Due Process Complaints (EDPC) Total (4)" AS BIGINT) AS expedited_due_process_complaints_edpc_total_4,
+    CAST("EDPC Resulted in a Resolution Meeting Total (4.1)" AS BIGINT) AS edpc_resulted_in_a_resolution_meeting_total_4_1,
+    CAST("EDPC Resolution Meetings - Written Settlement Agreements (4.1a)" AS BIGINT) AS edpc_resolution_meetings_written_settlement_agreements_4_1a,
+    CAST("EDPC Expedited Hearings (fully adjudicated) Total (4.2)" AS BIGINT) AS edpc_expedited_hearings_fully_adjudicated_total_4_2,
+    CAST("EDPC Expedited Hearings - Change of Placement Ordered (4.2a)" AS BIGINT) AS edpc_expedited_hearings_change_of_placement_ordered_4_2a,
+    CAST("EDPC Pending (4.3)" AS BIGINT) AS edpc_pending_4_3,
+    CAST("EDPC Withdrawn or Dismissed (4.4)" AS BIGINT) AS edpc_withdrawn_or_dismissed_4_4
+FROM "instituto-de-estad-sticas-de-puerto-rico-educacion-de-individuos-con-impedimentos-idea"

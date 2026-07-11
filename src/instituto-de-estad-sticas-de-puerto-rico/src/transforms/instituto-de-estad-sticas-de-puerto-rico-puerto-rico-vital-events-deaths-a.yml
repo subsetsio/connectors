@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-puerto-rico-vital-events-deaths-a`. Regenerate after model-verify.
+key: [controlnumber]
+sort: [controlnumber]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: InscriptionYear
+  - name: inscriptionyear
+    type: BIGINT
+  - name: controlnumber
+    type: BIGINT
+  - name: deceasegender
     type: VARCHAR
-  - name: ControlNumber
+  - name: deceasedeathdate
     type: VARCHAR
-  - name: DeceaseGender
+  - name: deceasebirthdate
     type: VARCHAR
-  - name: DeceaseDeathDate
+  - name: age
     type: VARCHAR
-  - name: DeceaseBirthDate
+  - name: deceasedeathplace
     type: VARCHAR
-  - name: Age
+  - name: deceasecitydeathplace
     type: VARCHAR
-  - name: DeceaseDeathPlace
+  - name: deceasecountrydeathplace
     type: VARCHAR
-  - name: DeceaseCityDeathPlace
+  - name: deceasemaritalstatus
     type: VARCHAR
-  - name: DeceaseCountryDeathPlace
+  - name: deceasecityresidenceplace
     type: VARCHAR
-  - name: DeceaseMaritalStatus
+  - name: deceasecountryresidenceplace
     type: VARCHAR
-  - name: DeceaseCityResidencePlace
+  - name: deceaseeducation
     type: VARCHAR
-  - name: DeceaseCountryResidencePlace
+  - name: autopsy
     type: VARCHAR
-  - name: DeceaseEducation
+  - name: birthplace
     type: VARCHAR
-  - name: Autopsy
-    type: VARCHAR
-  - name: BirthPlace
-    type: VARCHAR
-  - name: RegistrationDate
+  - name: registrationdate
     type: VARCHAR

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-cartografia-censal-tiger`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [arid, tlid, tohn, fromhn, source_file]
+checks:
+  - kind: unique
+    columns: [arid, tlid, tohn, fromhn, source_file]
+  - kind: not_null
+    col: arid
+  - kind: not_null
+    col: tlid
+  - kind: not_null
+    col: tohn
+  - kind: not_null
+    col: fromhn
+  - kind: not_null
+    col: source_file
+  - kind: row_floor
+    min: 95365
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,14 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-organizaciones-sin-fines-de-lucro-con-exenciones-otorgadas-por-hacienda`. Regenerate after model-verify.
+key: [col_0]
+temporal: fecha_de_efectividad
+sort: [fecha_de_efectividad, col_0]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
   - name: col_0
+    type: BIGINT
+  - name: organizaci_n
     type: VARCHAR
-  - name: Organización
+  - name: n_mero_de_exenci_n
     type: VARCHAR
-  - name: Número.de.exención
-    type: VARCHAR
-  - name: Fecha.de.efectividad
-    type: VARCHAR
+  - name: fecha_de_efectividad
+    type: DATE

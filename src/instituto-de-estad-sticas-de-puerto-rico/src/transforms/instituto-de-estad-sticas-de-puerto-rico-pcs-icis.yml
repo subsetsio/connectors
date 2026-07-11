@@ -1,90 +1,94 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-pcs-icis`. Regenerate after model-verify.
+key: []
+temporal: v_pcs_permit_facilities_permit_expired_date
+sort: [v_pcs_permit_facilities_permit_expired_date]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.NPDES
+  - name: v_pcs_permit_facilities_npdes
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.INACTIVE_CODE
+  - name: v_pcs_permit_facilities_inactive_code
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.INACTIVE_DATE
+  - name: v_pcs_permit_facilities_inactive_date
+    type: DATE
+  - name: v_pcs_permit_facilities_latitude
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.LATITUDE
+  - name: v_pcs_permit_facilities_longitude
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.LONGITUDE
+  - name: v_pcs_permit_facilities_loc_street_1
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.LOC_STREET_1
+  - name: v_pcs_permit_facilities_loc_street_2
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.LOC_STREET_2
+  - name: v_pcs_permit_facilities_loc_city
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.LOC_CITY
+  - name: v_pcs_permit_facilities_loc_state
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.LOC_STATE
+  - name: v_pcs_permit_facilities_permit_expired_date
+    type: DATE
+  - name: v_pcs_permit_facilities_permit_issued_date
+    type: DATE
+  - name: v_pcs_permit_facilities_type_of_permit_issued
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.PERMIT_EXPIRED_DATE
+  - name: code_expansion_for_type_of_permit_issued
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.PERMIT_ISSUED_DATE
+  - name: v_pcs_permit_facilities_flow_rate
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.TYPE_OF_PERMIT_ISSUED
+  - name: v_pcs_permit_facilities_industry_class
     type: VARCHAR
-  - name: Code Expansion for Type of Permit Issued
+  - name: code_expansion_for_industrial_classification
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.FLOW_RATE
+  - name: v_pcs_permit_facilities_major_discharge_indicator
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.INDUSTRY_CLASS
+  - name: v_pcs_permit_facilities_mileage_ind
     type: VARCHAR
-  - name: Code Expansion for Industrial Classification
+  - name: v_pcs_permit_facilities_receiving_waters
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.MAJOR_DISCHARGE_INDICATOR
+  - name: v_pcs_permit_facilities_recvng_stream_class_code
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.MILEAGE_IND
+  - name: code_expansion_for_receiving_stream_classification_code
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.RECEIVING_WATERS
+  - name: v_pcs_permit_facilities_river_basin
+    type: BIGINT
+  - name: code_expansion_for_river_basin
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.RECVNG_STREAM_CLASS_CODE
+  - name: v_pcs_permit_facilities_stream_segment
     type: VARCHAR
-  - name: Code Expansion for Receiving Stream Classification Code
+  - name: v_pcs_permit_facilities_type_of_ownership
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.RIVER_BASIN
+  - name: code_expansion_for_type_of_ownership
     type: VARCHAR
-  - name: Code Expansion for River Basin
+  - name: v_pcs_permit_facilities_usgs_hydro_basin_code
+    type: BIGINT
+  - name: code_expansion_for_usgs_water_basin_code
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.STREAM_SEGMENT
+  - name: pcs_effl_lim_concentr_conc_avg_limit
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.TYPE_OF_OWNERSHIP
+  - name: pcs_effl_lim_concentr_conc_max_limit
     type: VARCHAR
-  - name: Code Expansion for Type of Ownership
+  - name: pcs_effl_lim_concentr_conc_unit_code
     type: VARCHAR
-  - name: V_PCS_PERMIT_FACILITIES.USGS_HYDRO_BASIN_CODE
+  - name: code_expansion_for_unit_code_for_concentration
     type: VARCHAR
-  - name: Code Expansion for USGS Water Basin Code
+  - name: pcs_effl_lim_qty_qty_avg_limit
     type: VARCHAR
-  - name: PCS_EFFL_LIM_CONCENTR.CONC_AVG_LIMIT
+  - name: pcs_effl_lim_qty_qty_max_limit
     type: VARCHAR
-  - name: PCS_EFFL_LIM_CONCENTR.CONC_MAX_LIMIT
+  - name: pcs_effl_lim_qty_qty_unit_code
     type: VARCHAR
-  - name: PCS_EFFL_LIM_CONCENTR.CONC_UNIT_CODE
+  - name: pcs_dmr_measurement_concentr_avg
     type: VARCHAR
-  - name: Code Expansion for Unit Code for Concentration
+  - name: pcs_dmr_measurement_concentr_max
     type: VARCHAR
-  - name: PCS_EFFL_LIM_QTY.QTY_AVG_LIMIT
+  - name: pcs_dmr_measurement_concentr_min
     type: VARCHAR
-  - name: PCS_EFFL_LIM_QTY.QTY_MAX_LIMIT
+  - name: pcs_dmr_measurement_qty_avg
     type: VARCHAR
-  - name: PCS_EFFL_LIM_QTY.QTY_UNIT_CODE
+  - name: pcs_dmr_measurement_qty_max
     type: VARCHAR
-  - name: PCS_DMR_MEASUREMENT.CONCENTR_AVG
+  - name: pcs_dmr_measurement_quantity_unit_code
     type: VARCHAR
-  - name: PCS_DMR_MEASUREMENT.CONCENTR_MAX
-    type: VARCHAR
-  - name: PCS_DMR_MEASUREMENT.CONCENTR_MIN
-    type: VARCHAR
-  - name: PCS_DMR_MEASUREMENT.QTY_AVG
-    type: VARCHAR
-  - name: PCS_DMR_MEASUREMENT.QTY_MAX
-    type: VARCHAR
-  - name: PCS_DMR_MEASUREMENT.QUANTITY_UNIT_CODE
-    type: VARCHAR
-  - name: Code Expansion for Quantity Unit Code
+  - name: code_expansion_for_quantity_unit_code
     type: VARCHAR

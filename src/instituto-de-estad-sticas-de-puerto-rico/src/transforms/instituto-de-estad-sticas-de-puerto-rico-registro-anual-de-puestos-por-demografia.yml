@@ -1,468 +1,471 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-registro-anual-de-puestos-por-demografia`. Regenerate after model-verify.
+key: [nb_entidad, nu_entidad, clasificaci_n, anofiscal]
+sort: [nb_entidad, nu_entidad, clasificaci_n, anofiscal]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: NU_ENTIDAD
-    type: VARCHAR
-  - name: Clasificación
-    type: VARCHAR
-  - name: AnoFiscal
-    type: VARCHAR
-  - name: NB_ENTIDAD
-    type: VARCHAR
-  - name: FechaTran
-    type: VARCHAR
-  - name: FechaCierre
-    type: VARCHAR
-  - name: Estatus
-    type: VARCHAR
-  - name: CarreraParcialM
-    type: VARCHAR
-  - name: CarreraParcialF
-    type: VARCHAR
-  - name: CarreraCompletoM
-    type: VARCHAR
-  - name: CarreraCompletoF
-    type: VARCHAR
-  - name: CarreraNoGraduadoM
-    type: VARCHAR
-  - name: CarreraNoGraduadoF
-    type: VARCHAR
-  - name: CarreraGraduadoM
-    type: VARCHAR
-  - name: CarreraGraduadoF
-    type: VARCHAR
-  - name: CarreraPostSecundarioM
-    type: VARCHAR
-  - name: CarreraPostSecundarioF
-    type: VARCHAR
-  - name: CarreraAsociadoM
-    type: VARCHAR
-  - name: CarreraAsociadoF
-    type: VARCHAR
-  - name: CarreraBachM
-    type: VARCHAR
-  - name: CarreraBachF
-    type: VARCHAR
-  - name: CarreraGradosProM
-    type: VARCHAR
-  - name: CarreraGradosProF
-    type: VARCHAR
-  - name: CarreraMaestriaM
-    type: VARCHAR
-  - name: CarreraMaestriaF
-    type: VARCHAR
-  - name: CarreraDoctoradoM
-    type: VARCHAR
-  - name: CarreraDoctoradoF
-    type: VARCHAR
-  - name: ConfianzaReinstParcialM
-    type: VARCHAR
-  - name: ConfianzaReinstParcialF
-    type: VARCHAR
-  - name: ConfianzaReinstCompletoM
-    type: VARCHAR
-  - name: ConfianzaReinstCompletoF
-    type: VARCHAR
-  - name: ConfianzaReinstNoGraduadoM
-    type: VARCHAR
-  - name: ConfianzaReinstNoGraduadoF
-    type: VARCHAR
-  - name: ConfianzaReinstGraduadoM
-    type: VARCHAR
-  - name: ConfianzaReinstGraduadoF
-    type: VARCHAR
-  - name: ConfianzaReinstPostSecundarioM
-    type: VARCHAR
-  - name: ConfianzaReinstPostSecundarioF
-    type: VARCHAR
-  - name: ConfianzaReinstAsociadoM
-    type: VARCHAR
-  - name: ConfianzaReinstAsociadoF
-    type: VARCHAR
-  - name: ConfianzaReinstBachM
-    type: VARCHAR
-  - name: ConfianzaReinstBachF
-    type: VARCHAR
-  - name: ConfianzaReinstGradosProM
-    type: VARCHAR
-  - name: ConfianzaReinstGradosProF
-    type: VARCHAR
-  - name: ConfianzaReinstMaestriaM
-    type: VARCHAR
-  - name: ConfianzaReinstMaestriaF
-    type: VARCHAR
-  - name: ConfianzaReinstDoctoradoM
-    type: VARCHAR
-  - name: ConfianzaReinstDoctoradoF
-    type: VARCHAR
-  - name: ConfianzaNoReinstParcialM
-    type: VARCHAR
-  - name: ConfianzaNoReinstParcialF
-    type: VARCHAR
-  - name: ConfianzaNoReinstCompletoM
-    type: VARCHAR
-  - name: ConfianzaNoReinstCompletoF
-    type: VARCHAR
-  - name: ConfianzaNoReinstNoGraduadoM
-    type: VARCHAR
-  - name: ConfianzaNoReinstNoGraduadoF
-    type: VARCHAR
-  - name: ConfianzaNoReinstGraduadoM
-    type: VARCHAR
-  - name: ConfianzaNoReinstGraduadoF
-    type: VARCHAR
-  - name: ConfianzaNoReinstPostSecundarioM
-    type: VARCHAR
-  - name: ConfianzaNoReinstPostSecundarioF
-    type: VARCHAR
-  - name: ConfianzaNoReinstAsociadoM
-    type: VARCHAR
-  - name: ConfianzaNoReinstAsociadoF
-    type: VARCHAR
-  - name: ConfianzaNoReinstBachM
-    type: VARCHAR
-  - name: ConfianzaNoReinstBachF
-    type: VARCHAR
-  - name: ConfianzaNoReinstGradosProM
-    type: VARCHAR
-  - name: ConfianzaNoReinstGradosProF
-    type: VARCHAR
-  - name: ConfianzaNoReinstMaestriaM
-    type: VARCHAR
-  - name: ConfianzaNoReinstMaestriaF
-    type: VARCHAR
-  - name: ConfianzaNoReinstDoctoradoM
-    type: VARCHAR
-  - name: ConfianzaNoReinstDoctoradoF
-    type: VARCHAR
-  - name: TransitorioParcialM
-    type: VARCHAR
-  - name: TransitorioParcialF
-    type: VARCHAR
-  - name: TransitorioCompletoM
-    type: VARCHAR
-  - name: TransitorioCompletoF
-    type: VARCHAR
-  - name: TransitorioNoGraduadoM
-    type: VARCHAR
-  - name: TransitorioNoGraduadoF
-    type: VARCHAR
-  - name: TransitorioGraduadoM
-    type: VARCHAR
-  - name: TransitorioGraduadoF
-    type: VARCHAR
-  - name: TransitorioPostSecundarioM
-    type: VARCHAR
-  - name: TransitorioPostSecundarioF
-    type: VARCHAR
-  - name: TransitorioAsociadoM
-    type: VARCHAR
-  - name: TransitorioAsociadoF
-    type: VARCHAR
-  - name: TransitorioBachM
-    type: VARCHAR
-  - name: TransitorioBachF
-    type: VARCHAR
-  - name: TransitorioGradosProM
-    type: VARCHAR
-  - name: TransitorioGradosProF
-    type: VARCHAR
-  - name: TransitorioMaestriaM
-    type: VARCHAR
-  - name: TransitorioMaestriaF
-    type: VARCHAR
-  - name: TransitorioDoctoradoM
-    type: VARCHAR
-  - name: TransitorioDoctoradoF
-    type: VARCHAR
-  - name: IrregularParcialM
-    type: VARCHAR
-  - name: IrregularParcialF
-    type: VARCHAR
-  - name: IrregularCompletoM
-    type: VARCHAR
-  - name: IrregularCompletoF
-    type: VARCHAR
-  - name: IrregularNoGraduadoM
-    type: VARCHAR
-  - name: IrregularNoGraduadoF
-    type: VARCHAR
-  - name: IrregularGraduadoM
-    type: VARCHAR
-  - name: IrregularGraduadoF
-    type: VARCHAR
-  - name: IrregularPostSecundarioM
-    type: VARCHAR
-  - name: IrregularPostSecundarioF
-    type: VARCHAR
-  - name: IrregularAsociadoM
-    type: VARCHAR
-  - name: IrregularAsociadoF
-    type: VARCHAR
-  - name: IrregularBachM
-    type: VARCHAR
-  - name: IrregularBachF
-    type: VARCHAR
-  - name: IrregularGradosProM
-    type: VARCHAR
-  - name: IrregularGradosProF
-    type: VARCHAR
-  - name: IrregularMaestriaM
-    type: VARCHAR
-  - name: IrregularMaestriaF
-    type: VARCHAR
-  - name: IrregularDoctoradoM
-    type: VARCHAR
-  - name: IrregularDoctoradoF
-    type: VARCHAR
-  - name: OtrosParcialM
-    type: VARCHAR
-  - name: OtrosParcialF
-    type: VARCHAR
-  - name: OtrosCompletoM
-    type: VARCHAR
-  - name: OtrosCompletoF
-    type: VARCHAR
-  - name: OtrosNoGraduadoM
-    type: VARCHAR
-  - name: OtrosNoGraduadoF
-    type: VARCHAR
-  - name: OtrosGraduadoM
-    type: VARCHAR
-  - name: OtrosGraduadoF
-    type: VARCHAR
-  - name: OtrosPostSecundarioM
-    type: VARCHAR
-  - name: OtrosPostSecundarioF
-    type: VARCHAR
-  - name: OtrosAsociadoM
-    type: VARCHAR
-  - name: OtrosAsociadoF
-    type: VARCHAR
-  - name: OtrosBachM
-    type: VARCHAR
-  - name: OtrosBachF
-    type: VARCHAR
-  - name: OtrosGradosProM
-    type: VARCHAR
-  - name: OtrosGradosProF
-    type: VARCHAR
-  - name: OtrosMaestriaM
-    type: VARCHAR
-  - name: OtrosMaestriaF
-    type: VARCHAR
-  - name: OtrosDoctoradoM
-    type: VARCHAR
-  - name: OtrosDoctoradoF
-    type: VARCHAR
-  - name: NuevoM
-    type: VARCHAR
-  - name: NuevoF
-    type: VARCHAR
-  - name: ReingresadoM
-    type: VARCHAR
-  - name: ReingresadoF
-    type: VARCHAR
-  - name: AscendidoM
-    type: VARCHAR
-  - name: AscendidoF
-    type: VARCHAR
-  - name: TrasladadoM
-    type: VARCHAR
-  - name: TrasladadoF
-    type: VARCHAR
-  - name: ReinstaladoM
-    type: VARCHAR
-  - name: ReinstaladoF
-    type: VARCHAR
-  - name: HabilitadoM
-    type: VARCHAR
-  - name: HabilitadoF
-    type: VARCHAR
-  - name: RenuncianteM
-    type: VARCHAR
-  - name: RenuncianteF
-    type: VARCHAR
-  - name: CesanteadoM
-    type: VARCHAR
-  - name: CesanteadoF
-    type: VARCHAR
-  - name: TerminoContratoM
-    type: VARCHAR
-  - name: TerminoContratoF
-    type: VARCHAR
-  - name: DestituidoM
-    type: VARCHAR
-  - name: DestituidoF
-    type: VARCHAR
-  - name: RetiradoM
-    type: VARCHAR
-  - name: RetiradoF
-    type: VARCHAR
-  - name: ImpedimentoSinAcomodoM
-    type: VARCHAR
-  - name: ImpedimentoSinAcomodoF
-    type: VARCHAR
-  - name: ImpedimentoAcomodoM
-    type: VARCHAR
-  - name: ImpedimentoAcomodoF
-    type: VARCHAR
-  - name: PensionadoTransitorioM
-    type: VARCHAR
-  - name: PensionadoTransitorioF
-    type: VARCHAR
-  - name: PensionadoContratoM
-    type: VARCHAR
-  - name: PensionadoContratoF
-    type: VARCHAR
-  - name: DiscrimenEdadM
-    type: VARCHAR
-  - name: DiscrimenEdadF
-    type: VARCHAR
-  - name: DiscrimenImpedimentoM
-    type: VARCHAR
-  - name: DiscrimenImpedimentoF
-    type: VARCHAR
-  - name: DiscrimenPoliticoM
-    type: VARCHAR
-  - name: DiscrimenPoliticoF
-    type: VARCHAR
-  - name: DiscrimenReligiosoM
-    type: VARCHAR
-  - name: DiscrimenReligiosoF
-    type: VARCHAR
-  - name: DiscrimenSexoM
-    type: VARCHAR
-  - name: DiscrimenSexoF
-    type: VARCHAR
-  - name: DiscrimenNacionalidadM
-    type: VARCHAR
-  - name: DiscrimenNacionalidadF
-    type: VARCHAR
-  - name: DiscrimenOrientacionSexualM
-    type: VARCHAR
-  - name: DiscrimenOrientacionSexualF
-    type: VARCHAR
-  - name: DiscrimenOtroM
-    type: VARCHAR
-  - name: DiscrimenOtroF
-    type: VARCHAR
-  - name: RetribucionMRangoA
-    type: VARCHAR
-  - name: RetribucionFRangoA
-    type: VARCHAR
-  - name: RetribucionMRangoB
-    type: VARCHAR
-  - name: RetribucionFRangoB
-    type: VARCHAR
-  - name: RetribucionMRangoC
-    type: VARCHAR
-  - name: RetribucionFRangoC
-    type: VARCHAR
-  - name: RetribucionMRangoD
-    type: VARCHAR
-  - name: RetribucionFRangoD
-    type: VARCHAR
-  - name: RetribucionMRangoE
-    type: VARCHAR
-  - name: RetribucionFRangoE
-    type: VARCHAR
-  - name: RetribucionMRangoF
-    type: VARCHAR
-  - name: RetribucionFRangoF
-    type: VARCHAR
-  - name: RetribucionMRangoG
-    type: VARCHAR
-  - name: RetribucionFRangoG
-    type: VARCHAR
-  - name: RetribucionMRangoH
-    type: VARCHAR
-  - name: RetribucionFRangoH
-    type: VARCHAR
-  - name: RetribucionMRangoI
-    type: VARCHAR
-  - name: RetribucionFRangoI
-    type: VARCHAR
-  - name: RetribucionMRangoJ
-    type: VARCHAR
-  - name: RetribucionFRangoJ
-    type: VARCHAR
-  - name: RetribucionMRangoK
-    type: VARCHAR
-  - name: RetribucionFRangoK
-    type: VARCHAR
-  - name: AnosServicioMRangoA
-    type: VARCHAR
-  - name: AnosServicioFRangoA
-    type: VARCHAR
-  - name: AnosServicioMRangoB
-    type: VARCHAR
-  - name: AnosServicioFRangoB
-    type: VARCHAR
-  - name: AnosServicioMRangoC
-    type: VARCHAR
-  - name: AnosServicioFRangoC
-    type: VARCHAR
-  - name: AnosServicioMRangoD
-    type: VARCHAR
-  - name: AnosServicioFRangoD
-    type: VARCHAR
-  - name: AnosServicioMRangoE
-    type: VARCHAR
-  - name: AnosServicioFRangoE
-    type: VARCHAR
-  - name: AnosServicioMRangoF
-    type: VARCHAR
-  - name: AnosServicioFRangoF
-    type: VARCHAR
-  - name: AnosServicioMRangoG
-    type: VARCHAR
-  - name: AnosServicioFRangoG
-    type: VARCHAR
-  - name: AnosServicioMRangoH
-    type: VARCHAR
-  - name: AnosServicioFRangoH
-    type: VARCHAR
-  - name: AnosServicioMRangoI
-    type: VARCHAR
-  - name: AnosServicioFRangoI
-    type: VARCHAR
-  - name: EdadMRangoA
-    type: VARCHAR
-  - name: EdadFRangoA
-    type: VARCHAR
-  - name: EdadMRangoB
-    type: VARCHAR
-  - name: EdadFRangoB
-    type: VARCHAR
-  - name: EdadMRangoC
-    type: VARCHAR
-  - name: EdadFRangoC
-    type: VARCHAR
-  - name: EdadMRangoD
-    type: VARCHAR
-  - name: EdadFRangoD
-    type: VARCHAR
-  - name: EdadMRangoE
-    type: VARCHAR
-  - name: EdadFRangoE
-    type: VARCHAR
-  - name: EdadMRangoF
-    type: VARCHAR
-  - name: EdadFRangoF
-    type: VARCHAR
-  - name: EdadMRangoG
-    type: VARCHAR
-  - name: EdadFRangoG
-    type: VARCHAR
-  - name: EdadMRangoH
-    type: VARCHAR
-  - name: EdadFRangoH
-    type: VARCHAR
-  - name: PreparadoNombre
-    type: VARCHAR
-  - name: PreparadoPuesto
+  - name: nu_entidad
+    type: BIGINT
+  - name: clasificaci_n
+    type: VARCHAR
+  - name: anofiscal
+    type: VARCHAR
+  - name: nb_entidad
+    type: VARCHAR
+  - name: fechatran
+    type: VARCHAR
+  - name: fechacierre
+    type: VARCHAR
+  - name: estatus
+    type: BIGINT
+  - name: carreraparcialm
+    type: BIGINT
+  - name: carreraparcialf
+    type: BIGINT
+  - name: carreracompletom
+    type: BIGINT
+  - name: carreracompletof
+    type: BIGINT
+  - name: carreranograduadom
+    type: BIGINT
+  - name: carreranograduadof
+    type: BIGINT
+  - name: carreragraduadom
+    type: BIGINT
+  - name: carreragraduadof
+    type: BIGINT
+  - name: carrerapostsecundariom
+    type: BIGINT
+  - name: carrerapostsecundariof
+    type: BIGINT
+  - name: carreraasociadom
+    type: BIGINT
+  - name: carreraasociadof
+    type: BIGINT
+  - name: carrerabachm
+    type: BIGINT
+  - name: carrerabachf
+    type: BIGINT
+  - name: carreragradosprom
+    type: BIGINT
+  - name: carreragradosprof
+    type: BIGINT
+  - name: carreramaestriam
+    type: BIGINT
+  - name: carreramaestriaf
+    type: BIGINT
+  - name: carreradoctoradom
+    type: BIGINT
+  - name: carreradoctoradof
+    type: BIGINT
+  - name: confianzareinstparcialm
+    type: BIGINT
+  - name: confianzareinstparcialf
+    type: BIGINT
+  - name: confianzareinstcompletom
+    type: BIGINT
+  - name: confianzareinstcompletof
+    type: BIGINT
+  - name: confianzareinstnograduadom
+    type: BIGINT
+  - name: confianzareinstnograduadof
+    type: BIGINT
+  - name: confianzareinstgraduadom
+    type: BIGINT
+  - name: confianzareinstgraduadof
+    type: BIGINT
+  - name: confianzareinstpostsecundariom
+    type: BIGINT
+  - name: confianzareinstpostsecundariof
+    type: BIGINT
+  - name: confianzareinstasociadom
+    type: BIGINT
+  - name: confianzareinstasociadof
+    type: BIGINT
+  - name: confianzareinstbachm
+    type: BIGINT
+  - name: confianzareinstbachf
+    type: BIGINT
+  - name: confianzareinstgradosprom
+    type: BIGINT
+  - name: confianzareinstgradosprof
+    type: BIGINT
+  - name: confianzareinstmaestriam
+    type: BIGINT
+  - name: confianzareinstmaestriaf
+    type: BIGINT
+  - name: confianzareinstdoctoradom
+    type: BIGINT
+  - name: confianzareinstdoctoradof
+    type: BIGINT
+  - name: confianzanoreinstparcialm
+    type: BIGINT
+  - name: confianzanoreinstparcialf
+    type: BIGINT
+  - name: confianzanoreinstcompletom
+    type: BIGINT
+  - name: confianzanoreinstcompletof
+    type: BIGINT
+  - name: confianzanoreinstnograduadom
+    type: BIGINT
+  - name: confianzanoreinstnograduadof
+    type: BIGINT
+  - name: confianzanoreinstgraduadom
+    type: BIGINT
+  - name: confianzanoreinstgraduadof
+    type: BIGINT
+  - name: confianzanoreinstpostsecundariom
+    type: BIGINT
+  - name: confianzanoreinstpostsecundariof
+    type: BIGINT
+  - name: confianzanoreinstasociadom
+    type: BIGINT
+  - name: confianzanoreinstasociadof
+    type: BIGINT
+  - name: confianzanoreinstbachm
+    type: BIGINT
+  - name: confianzanoreinstbachf
+    type: BIGINT
+  - name: confianzanoreinstgradosprom
+    type: BIGINT
+  - name: confianzanoreinstgradosprof
+    type: BIGINT
+  - name: confianzanoreinstmaestriam
+    type: BIGINT
+  - name: confianzanoreinstmaestriaf
+    type: BIGINT
+  - name: confianzanoreinstdoctoradom
+    type: BIGINT
+  - name: confianzanoreinstdoctoradof
+    type: BIGINT
+  - name: transitorioparcialm
+    type: BIGINT
+  - name: transitorioparcialf
+    type: BIGINT
+  - name: transitoriocompletom
+    type: BIGINT
+  - name: transitoriocompletof
+    type: BIGINT
+  - name: transitorionograduadom
+    type: BIGINT
+  - name: transitorionograduadof
+    type: BIGINT
+  - name: transitoriograduadom
+    type: BIGINT
+  - name: transitoriograduadof
+    type: BIGINT
+  - name: transitoriopostsecundariom
+    type: BIGINT
+  - name: transitoriopostsecundariof
+    type: BIGINT
+  - name: transitorioasociadom
+    type: BIGINT
+  - name: transitorioasociadof
+    type: BIGINT
+  - name: transitoriobachm
+    type: BIGINT
+  - name: transitoriobachf
+    type: BIGINT
+  - name: transitoriogradosprom
+    type: BIGINT
+  - name: transitoriogradosprof
+    type: BIGINT
+  - name: transitoriomaestriam
+    type: BIGINT
+  - name: transitoriomaestriaf
+    type: BIGINT
+  - name: transitoriodoctoradom
+    type: BIGINT
+  - name: transitoriodoctoradof
+    type: BIGINT
+  - name: irregularparcialm
+    type: BIGINT
+  - name: irregularparcialf
+    type: BIGINT
+  - name: irregularcompletom
+    type: BIGINT
+  - name: irregularcompletof
+    type: BIGINT
+  - name: irregularnograduadom
+    type: BIGINT
+  - name: irregularnograduadof
+    type: BIGINT
+  - name: irregulargraduadom
+    type: BIGINT
+  - name: irregulargraduadof
+    type: BIGINT
+  - name: irregularpostsecundariom
+    type: BIGINT
+  - name: irregularpostsecundariof
+    type: BIGINT
+  - name: irregularasociadom
+    type: BIGINT
+  - name: irregularasociadof
+    type: BIGINT
+  - name: irregularbachm
+    type: BIGINT
+  - name: irregularbachf
+    type: BIGINT
+  - name: irregulargradosprom
+    type: BIGINT
+  - name: irregulargradosprof
+    type: BIGINT
+  - name: irregularmaestriam
+    type: BIGINT
+  - name: irregularmaestriaf
+    type: BIGINT
+  - name: irregulardoctoradom
+    type: BIGINT
+  - name: irregulardoctoradof
+    type: BIGINT
+  - name: otrosparcialm
+    type: BIGINT
+  - name: otrosparcialf
+    type: BIGINT
+  - name: otroscompletom
+    type: BIGINT
+  - name: otroscompletof
+    type: BIGINT
+  - name: otrosnograduadom
+    type: BIGINT
+  - name: otrosnograduadof
+    type: BIGINT
+  - name: otrosgraduadom
+    type: BIGINT
+  - name: otrosgraduadof
+    type: BIGINT
+  - name: otrospostsecundariom
+    type: BIGINT
+  - name: otrospostsecundariof
+    type: BIGINT
+  - name: otrosasociadom
+    type: BIGINT
+  - name: otrosasociadof
+    type: BIGINT
+  - name: otrosbachm
+    type: BIGINT
+  - name: otrosbachf
+    type: BIGINT
+  - name: otrosgradosprom
+    type: BIGINT
+  - name: otrosgradosprof
+    type: BIGINT
+  - name: otrosmaestriam
+    type: BIGINT
+  - name: otrosmaestriaf
+    type: BIGINT
+  - name: otrosdoctoradom
+    type: BIGINT
+  - name: otrosdoctoradof
+    type: BIGINT
+  - name: nuevom
+    type: BIGINT
+  - name: nuevof
+    type: BIGINT
+  - name: reingresadom
+    type: BIGINT
+  - name: reingresadof
+    type: BIGINT
+  - name: ascendidom
+    type: BIGINT
+  - name: ascendidof
+    type: BIGINT
+  - name: trasladadom
+    type: BIGINT
+  - name: trasladadof
+    type: BIGINT
+  - name: reinstaladom
+    type: BIGINT
+  - name: reinstaladof
+    type: BIGINT
+  - name: habilitadom
+    type: BIGINT
+  - name: habilitadof
+    type: BIGINT
+  - name: renunciantem
+    type: BIGINT
+  - name: renunciantef
+    type: BIGINT
+  - name: cesanteadom
+    type: BIGINT
+  - name: cesanteadof
+    type: BIGINT
+  - name: terminocontratom
+    type: BIGINT
+  - name: terminocontratof
+    type: BIGINT
+  - name: destituidom
+    type: BIGINT
+  - name: destituidof
+    type: BIGINT
+  - name: retiradom
+    type: BIGINT
+  - name: retiradof
+    type: BIGINT
+  - name: impedimentosinacomodom
+    type: BIGINT
+  - name: impedimentosinacomodof
+    type: BIGINT
+  - name: impedimentoacomodom
+    type: BIGINT
+  - name: impedimentoacomodof
+    type: BIGINT
+  - name: pensionadotransitoriom
+    type: BIGINT
+  - name: pensionadotransitoriof
+    type: BIGINT
+  - name: pensionadocontratom
+    type: BIGINT
+  - name: pensionadocontratof
+    type: BIGINT
+  - name: discrimenedadm
+    type: BIGINT
+  - name: discrimenedadf
+    type: BIGINT
+  - name: discrimenimpedimentom
+    type: BIGINT
+  - name: discrimenimpedimentof
+    type: BIGINT
+  - name: discrimenpoliticom
+    type: BIGINT
+  - name: discrimenpoliticof
+    type: BIGINT
+  - name: discrimenreligiosom
+    type: BIGINT
+  - name: discrimenreligiosof
+    type: BIGINT
+  - name: discrimensexom
+    type: BIGINT
+  - name: discrimensexof
+    type: BIGINT
+  - name: discrimennacionalidadm
+    type: BIGINT
+  - name: discrimennacionalidadf
+    type: BIGINT
+  - name: discrimenorientacionsexualm
+    type: BIGINT
+  - name: discrimenorientacionsexualf
+    type: BIGINT
+  - name: discrimenotrom
+    type: BIGINT
+  - name: discrimenotrof
+    type: BIGINT
+  - name: retribucionmrangoa
+    type: BIGINT
+  - name: retribucionfrangoa
+    type: BIGINT
+  - name: retribucionmrangob
+    type: BIGINT
+  - name: retribucionfrangob
+    type: BIGINT
+  - name: retribucionmrangoc
+    type: BIGINT
+  - name: retribucionfrangoc
+    type: BIGINT
+  - name: retribucionmrangod
+    type: BIGINT
+  - name: retribucionfrangod
+    type: BIGINT
+  - name: retribucionmrangoe
+    type: BIGINT
+  - name: retribucionfrangoe
+    type: BIGINT
+  - name: retribucionmrangof
+    type: BIGINT
+  - name: retribucionfrangof
+    type: BIGINT
+  - name: retribucionmrangog
+    type: BIGINT
+  - name: retribucionfrangog
+    type: BIGINT
+  - name: retribucionmrangoh
+    type: BIGINT
+  - name: retribucionfrangoh
+    type: BIGINT
+  - name: retribucionmrangoi
+    type: BIGINT
+  - name: retribucionfrangoi
+    type: BIGINT
+  - name: retribucionmrangoj
+    type: BIGINT
+  - name: retribucionfrangoj
+    type: BIGINT
+  - name: retribucionmrangok
+    type: BIGINT
+  - name: retribucionfrangok
+    type: BIGINT
+  - name: anosserviciomrangoa
+    type: BIGINT
+  - name: anosserviciofrangoa
+    type: BIGINT
+  - name: anosserviciomrangob
+    type: BIGINT
+  - name: anosserviciofrangob
+    type: BIGINT
+  - name: anosserviciomrangoc
+    type: BIGINT
+  - name: anosserviciofrangoc
+    type: BIGINT
+  - name: anosserviciomrangod
+    type: BIGINT
+  - name: anosserviciofrangod
+    type: BIGINT
+  - name: anosserviciomrangoe
+    type: BIGINT
+  - name: anosserviciofrangoe
+    type: BIGINT
+  - name: anosserviciomrangof
+    type: BIGINT
+  - name: anosserviciofrangof
+    type: BIGINT
+  - name: anosserviciomrangog
+    type: BIGINT
+  - name: anosserviciofrangog
+    type: BIGINT
+  - name: anosserviciomrangoh
+    type: BIGINT
+  - name: anosserviciofrangoh
+    type: BIGINT
+  - name: anosserviciomrangoi
+    type: BIGINT
+  - name: anosserviciofrangoi
+    type: BIGINT
+  - name: edadmrangoa
+    type: BIGINT
+  - name: edadfrangoa
+    type: BIGINT
+  - name: edadmrangob
+    type: BIGINT
+  - name: edadfrangob
+    type: BIGINT
+  - name: edadmrangoc
+    type: BIGINT
+  - name: edadfrangoc
+    type: BIGINT
+  - name: edadmrangod
+    type: BIGINT
+  - name: edadfrangod
+    type: BIGINT
+  - name: edadmrangoe
+    type: BIGINT
+  - name: edadfrangoe
+    type: BIGINT
+  - name: edadmrangof
+    type: BIGINT
+  - name: edadfrangof
+    type: BIGINT
+  - name: edadmrangog
+    type: BIGINT
+  - name: edadfrangog
+    type: BIGINT
+  - name: edadmrangoh
+    type: BIGINT
+  - name: edadfrangoh
+    type: BIGINT
+  - name: preparadonombre
+    type: VARCHAR
+  - name: preparadopuesto
     type: VARCHAR

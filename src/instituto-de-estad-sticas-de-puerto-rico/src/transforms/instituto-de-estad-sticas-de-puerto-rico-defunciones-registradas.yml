@@ -1,136 +1,138 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-defunciones-registradas`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Gender
+  - name: gender
     type: VARCHAR
-  - name: Age
+  - name: age
+    type: BIGINT
+  - name: ageunit
     type: VARCHAR
-  - name: AgeUnit
+  - name: birthdate_year
+    type: BIGINT
+  - name: birthplace
     type: VARCHAR
-  - name: BirthDate_Year
+  - name: timeofresidenceinpr_value
     type: VARCHAR
-  - name: BirthPlace
+  - name: timeofresidenceinpr_unit
     type: VARCHAR
-  - name: TimeOfResidenceInPR (Value)
+  - name: residenceplace
     type: VARCHAR
-  - name: TimeOfResidenceInPR (Unit)
+  - name: citizenship
     type: VARCHAR
-  - name: ResidencePlace
+  - name: veteran
     type: VARCHAR
-  - name: Citizenship
+  - name: maritalstatus
     type: VARCHAR
-  - name: Veteran?
+  - name: fatherbirthplace
     type: VARCHAR
-  - name: MaritalStatus
+  - name: motherbirthplace
     type: VARCHAR
-  - name: FatherBirthPlace
+  - name: deathplace
     type: VARCHAR
-  - name: MotherBirthPlace
+  - name: municipalitydeathplace
     type: VARCHAR
-  - name: DeathPlace
+  - name: deathfacility
     type: VARCHAR
-  - name: MunicipalityDeathPlace
+  - name: otherdeathfacility
     type: VARCHAR
-  - name: DeathFacility
+  - name: timespentonfacility_value
+    type: BIGINT
+  - name: timespentonfacility_unit
     type: VARCHAR
-  - name: OtherDeathFacility
+  - name: deathdate_year
+    type: BIGINT
+  - name: deathdate_month
+    type: BIGINT
+  - name: deathtimehour
     type: VARCHAR
-  - name: TimeSpentOnFacility (Value)
+  - name: deathtimeminutes
     type: VARCHAR
-  - name: TimeSpentOnFacility (Unit)
+  - name: deathtimeampm
     type: VARCHAR
-  - name: DeathDate_Year
+  - name: organdonor
     type: VARCHAR
-  - name: DeathDate_Month
+  - name: deathcause_i_id
     type: VARCHAR
-  - name: DeathTimeHour
+  - name: deathcause_i_desription
     type: VARCHAR
-  - name: DeathTimeMinutes
+  - name: deathcause_ii_id
     type: VARCHAR
-  - name: DeathTimeAMPM
+  - name: deathcause_ii_desription
     type: VARCHAR
-  - name: OrganDonor?
+  - name: deathcause_iii_id
     type: VARCHAR
-  - name: DeathCause_I (ID)
+  - name: deathcause_iii_desription
     type: VARCHAR
-  - name: DeathCause_I (Desription)
+  - name: deathcause_iv_id
     type: VARCHAR
-  - name: DeathCause_II (ID)
+  - name: deathcause_iv_desription
     type: VARCHAR
-  - name: DeathCause_II (Desription)
+  - name: deathcause_v_id
     type: VARCHAR
-  - name: DeathCause_III (ID)
+  - name: deathcause_v_desription
     type: VARCHAR
-  - name: DeathCause_III (Desription)
+  - name: deathcause_vi_id
     type: VARCHAR
-  - name: DeathCause_IV (ID)
+  - name: deathcause_vi_desription
     type: VARCHAR
-  - name: DeathCause_IV (Desription)
+  - name: deathcause_vii_id
     type: VARCHAR
-  - name: DeathCause_V (ID)
+  - name: deathcause_vii_desription
     type: VARCHAR
-  - name: DeathCause_V (Desription)
+  - name: deathcause_viii_id
     type: VARCHAR
-  - name: DeathCause_VI (ID)
+  - name: deathcause_viii_desription
     type: VARCHAR
-  - name: DeathCause_VI (Desription)
+  - name: deathcause_ix_id
     type: VARCHAR
-  - name: DeathCause_VII (ID)
+  - name: deathcause_ix_desription
     type: VARCHAR
-  - name: DeathCause_VII (Desription)
+  - name: deathcause_x_id
     type: VARCHAR
-  - name: DeathCause_VIII (ID)
+  - name: deathcause_x_desription
     type: VARCHAR
-  - name: DeathCause_VIII (Desription)
+  - name: autopsy
     type: VARCHAR
-  - name: DeathCause_IX (ID)
+  - name: typeofdeath
     type: VARCHAR
-  - name: DeathCause_IX (Desription)
+  - name: injurydate
     type: VARCHAR
-  - name: DeathCause_X (ID)
+  - name: injurydate_year
+    type: BIGINT
+  - name: injurydate_month
+    type: BIGINT
+  - name: injurydate_day
+    type: BIGINT
+  - name: injurytimehour
+    type: BIGINT
+  - name: injurytimeminutes
+    type: BIGINT
+  - name: injurytimeampm
     type: VARCHAR
-  - name: DeathCause_X (Desription)
+  - name: injuryplace
     type: VARCHAR
-  - name: Autopsy?
+  - name: injuryatwork
     type: VARCHAR
-  - name: TypeOfDeath
+  - name: education
     type: VARCHAR
-  - name: InjuryDate
+  - name: occupation
     type: VARCHAR
-  - name: InjuryDate_Year
+  - name: industry
     type: VARCHAR
-  - name: InjuryDate_Month
+  - name: occupationyears
     type: VARCHAR
-  - name: InjuryDate_Day
+  - name: embalmed
     type: VARCHAR
-  - name: InjuryTimeHour
+  - name: typeoffuneral
     type: VARCHAR
-  - name: InjuryTimeMinutes
+  - name: funeraldate_year
+    type: BIGINT
+  - name: acmeunderlyingcausecode
     type: VARCHAR
-  - name: InjuryTimeAMPM
-    type: VARCHAR
-  - name: InjuryPlace
-    type: VARCHAR
-  - name: InjuryAtWork
-    type: VARCHAR
-  - name: Education
-    type: VARCHAR
-  - name: Occupation
-    type: VARCHAR
-  - name: Industry
-    type: VARCHAR
-  - name: OccupationYears
-    type: VARCHAR
-  - name: Embalmed?
-    type: VARCHAR
-  - name: TypeOfFuneral
-    type: VARCHAR
-  - name: FuneralDate_Year
-    type: VARCHAR
-  - name: AcmeUnderlyingCauseCode
-    type: VARCHAR
-  - name: ACMEUnderlyingCauseDescription
+  - name: acmeunderlyingcausedescription
     type: VARCHAR

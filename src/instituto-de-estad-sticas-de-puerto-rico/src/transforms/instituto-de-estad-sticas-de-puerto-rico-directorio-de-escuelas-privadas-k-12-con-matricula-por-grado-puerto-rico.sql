@@ -1,1 +1,45 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-directorio-de-escuelas-privadas-k-12-con-matricula-por-grado-puerto-rico"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    "Lic" AS lic,
+    "Instituciones" AS instituciones,
+    "Dirección física" AS direcci_n_f_sica,
+    "Pueblo físico" AS pueblo_f_sico,
+    "Zip code físico" AS zip_code_f_sico,
+    "Dirección Postal" AS direcci_n_postal,
+    "Pueblo postal" AS pueblo_postal,
+    "Zip code postal" AS zip_code_postal,
+    "Teléfono primario" AS tel_fono_primario,
+    "Teléfono secundario" AS tel_fono_secundario,
+    "Email primario" AS email_primario,
+    "Email secundario" AS email_secundario,
+    "Fax primario" AS fax_primario,
+    "Fax secundario" AS fax_secundario,
+    "Director preescolar" AS director_preescolar,
+    "Director elemental" AS director_elemental,
+    "Director intermedia" AS director_intermedia,
+    "Director superior" AS director_superior,
+    CAST("Matricula preprekinder" AS BIGINT) AS matricula_preprekinder,
+    CAST("Matricula prekinder" AS BIGINT) AS matricula_prekinder,
+    CAST("Matricula kinder" AS BIGINT) AS matricula_kinder,
+    CAST("Matricula sin grado preescolar" AS BIGINT) AS matricula_sin_grado_preescolar,
+    CAST("Matricula primero" AS BIGINT) AS matricula_primero,
+    CAST("Matricula segundo" AS BIGINT) AS matricula_segundo,
+    CAST("Matricula tercero" AS BIGINT) AS matricula_tercero,
+    CAST("Matricula cuarto" AS BIGINT) AS matricula_cuarto,
+    CAST("Matricula quinto" AS BIGINT) AS matricula_quinto,
+    CAST("Matricula sexto" AS BIGINT) AS matricula_sexto,
+    CAST("Matricula sin grado elemental" AS BIGINT) AS matricula_sin_grado_elemental,
+    CAST("Matricula séptimo" AS BIGINT) AS matricula_s_ptimo,
+    CAST("Matricula octavo" AS BIGINT) AS matricula_octavo,
+    CAST("Matricula noveno" AS BIGINT) AS matricula_noveno,
+    CAST("Matricula décimo" AS BIGINT) AS matricula_d_cimo,
+    CAST("Matricula undécimo" AS BIGINT) AS matricula_und_cimo,
+    CAST("Matricula duodécimo" AS BIGINT) AS matricula_duod_cimo,
+    CAST("Matricula sin grado secundaria" AS BIGINT) AS matricula_sin_grado_secundaria,
+    "Total" AS total
+FROM "instituto-de-estad-sticas-de-puerto-rico-directorio-de-escuelas-privadas-k-12-con-matricula-por-grado-puerto-rico"

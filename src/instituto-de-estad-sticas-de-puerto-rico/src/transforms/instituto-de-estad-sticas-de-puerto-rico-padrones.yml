@@ -1,80 +1,82 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-padrones`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: PID
+  - name: pid
+    type: BIGINT
+  - name: pname
     type: VARCHAR
-  - name: PNAME
+  - name: partido
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: region
+    type: BIGINT
+  - name: regionc
     type: VARCHAR
-  - name: PARTIDO
-    type: VARCHAR
-  - name: YEAR
-    type: VARCHAR
-  - name: REGION
-    type: VARCHAR
-  - name: REGIONC
-    type: VARCHAR
-  - name: BLAN1
-    type: VARCHAR
-  - name: BLAN2
-    type: VARCHAR
-  - name: BLAN3
-    type: VARCHAR
-  - name: BLAN4
-    type: VARCHAR
-  - name: IND1
-    type: VARCHAR
-  - name: IND2
-    type: VARCHAR
-  - name: IND3
-    type: VARCHAR
-  - name: IND4
-    type: VARCHAR
-  - name: PAR1
-    type: VARCHAR
-  - name: PAR2
-    type: VARCHAR
-  - name: PAR3
-    type: VARCHAR
-  - name: PAR4
-    type: VARCHAR
-  - name: MOR1
-    type: VARCHAR
-  - name: MOR2
-    type: VARCHAR
-  - name: MOR3
-    type: VARCHAR
-  - name: MOR4
-    type: VARCHAR
-  - name: MUL1
-    type: VARCHAR
-  - name: MUL2
-    type: VARCHAR
-  - name: MUL3
-    type: VARCHAR
-  - name: MUL4
-    type: VARCHAR
-  - name: NEG1
-    type: VARCHAR
-  - name: NEG2
-    type: VARCHAR
-  - name: NEG3
-    type: VARCHAR
-  - name: NEG4
-    type: VARCHAR
-  - name: TBLAN
-    type: VARCHAR
-  - name: TIND
-    type: VARCHAR
-  - name: TPAR
-    type: VARCHAR
-  - name: TMOR
-    type: VARCHAR
-  - name: TMUL
-    type: VARCHAR
-  - name: TNEG
-    type: VARCHAR
-  - name: TPOP
-    type: VARCHAR
+  - name: blan1
+    type: BIGINT
+  - name: blan2
+    type: BIGINT
+  - name: blan3
+    type: BIGINT
+  - name: blan4
+    type: BIGINT
+  - name: ind1
+    type: BIGINT
+  - name: ind2
+    type: BIGINT
+  - name: ind3
+    type: BIGINT
+  - name: ind4
+    type: BIGINT
+  - name: par1
+    type: BIGINT
+  - name: par2
+    type: BIGINT
+  - name: par3
+    type: BIGINT
+  - name: par4
+    type: BIGINT
+  - name: mor1
+    type: BIGINT
+  - name: mor2
+    type: BIGINT
+  - name: mor3
+    type: BIGINT
+  - name: mor4
+    type: BIGINT
+  - name: mul1
+    type: BIGINT
+  - name: mul2
+    type: BIGINT
+  - name: mul3
+    type: BIGINT
+  - name: mul4
+    type: BIGINT
+  - name: neg1
+    type: BIGINT
+  - name: neg2
+    type: BIGINT
+  - name: neg3
+    type: BIGINT
+  - name: neg4
+    type: BIGINT
+  - name: tblan
+    type: BIGINT
+  - name: tind
+    type: BIGINT
+  - name: tpar
+    type: BIGINT
+  - name: tmor
+    type: BIGINT
+  - name: tmul
+    type: BIGINT
+  - name: tneg
+    type: BIGINT
+  - name: tpop
+    type: BIGINT

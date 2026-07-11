@@ -1,1 +1,41 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-puerto-rico-vital-events-births-a"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    "ChildCityBirthPlace" AS childcitybirthplace,
+    "ChildCountryBirthPlace" AS childcountrybirthplace,
+    "ChildGender" AS childgender,
+    "ChildBirthDate" AS childbirthdate,
+    "ChildBirthPlace" AS childbirthplace,
+    "Facility" AS facility,
+    "MotherBirthDate" AS motherbirthdate,
+    "MotherBirthPlace" AS motherbirthplace,
+    "MotherBirthCountry" AS motherbirthcountry,
+    "MotherResidenceCity" AS motherresidencecity,
+    "MotherResidenceCountry" AS motherresidencecountry,
+    "FatherBirthDate" AS fatherbirthdate,
+    "wasMotherMarriaged" AS wasmothermarriaged,
+    "Paternity" AS paternity,
+    "MotherEducation" AS mothereducation,
+    "FatherEducation" AS fathereducation,
+    "WicParticipant" AS wicparticipant,
+    "PreviousBirthLiving" AS previousbirthliving,
+    "PreviousBirthDeath" AS previousbirthdeath,
+    "TotalFetalDeath" AS totalfetaldeath,
+    "LastLiveBirthMonth" AS lastlivebirthmonth,
+    "LastLiveBirthYear" AS lastlivebirthyear,
+    "LastAbortFetalDeathMonth" AS lastabortfetaldeathmonth,
+    "LastAbortFetalDeathYear" AS lastabortfetaldeathyear,
+    "MedicalPlan" AS medicalplan,
+    "MotherLastPeriodDate" AS motherlastperioddate,
+    CAST("ApgarScore5Min" AS BIGINT) AS apgarscore5min,
+    CAST("ApgarScore10Min" AS BIGINT) AS apgarscore10min,
+    "BirthType" AS birthtype,
+    "BirthOrder" AS birthorder,
+    CAST("ChildLivingAtReport" AS BIGINT) AS childlivingatreport,
+    "MotherAge" AS motherage,
+    "FatherAge" AS fatherage
+FROM "instituto-de-estad-sticas-de-puerto-rico-puerto-rico-vital-events-births-a"

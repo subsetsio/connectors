@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-estadisticas-de-puestos-ocupados-en-gobierno-indicadores-pr`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
@@ -6,129 +8,573 @@ columns:
     type: VARCHAR
   - name: month
     type: VARCHAR
-  - name: Todas las entidades
-    type: VARCHAR
-  - name: Entidades de la Oficina del Gobernador
-    type: VARCHAR
-  - name: Departamentos y Agencias
-    type: VARCHAR
-  - name: Corporaciones publicas
-    type: VARCHAR
-  - name: Otras entidades
-    type: VARCHAR
-  - name: Rama Legislativa
-    type: VARCHAR
-  - name: Entidades municipales
-    type: VARCHAR
-  - name: Rama Judicial
-    type: VARCHAR
-  - name: Oficina del Contralor
-    type: VARCHAR
-  - name: Departamento de Agricultura
-    type: VARCHAR
-  - name: Departamento de Estado
-    type: VARCHAR
-  - name: Departamento de Hacienda
-    type: VARCHAR
-  - name: Departamento de Educacion
-    type: VARCHAR
-  - name: Consejo General de Educacion
-    type: VARCHAR
-  - name: Departamento de la Vivienda
-    type: VARCHAR
-  - name: Administracion de la Industria y el Deporte Hipico
-    type: VARCHAR
-  - name: Administracion de Fomento Cooperativo
-    type: VARCHAR
-  - name: Departamento de Recreacion y Deportes
-    type: VARCHAR
-  - name: Administracion de Reglamentos y Permisos
-    type: VARCHAR
-  - name: Oficina del Comisionado de Asuntos Municipales
-    type: VARCHAR
-  - name: Agencia Estatal para Manejo de Emergencias y Admi de Desastres
-    type: VARCHAR
-  - name: Comision Estatal de Elecciones
-    type: VARCHAR
-  - name: Comision Industrial
-    type: VARCHAR
-  - name: Oficina de la Procuradora de las Mujeres
-    type: VARCHAR
-  - name: Comision para Ventilar Querellas Municipales
-    type: VARCHAR
-  - name: Guardia Nacional
-    type: VARCHAR
-  - name: Junta de Apelaciones sobre Construcciones y Lotificaciones
-    type: VARCHAR
-  - name: Junta de Planificacion
-    type: VARCHAR
-  - name: Junta de Relaciones del Trabajo
-    type: VARCHAR
-  - name: Sistema de Retiro para Maestros
-    type: VARCHAR
-  - name: Oficina de Gerencia y Presupuesto
-    type: VARCHAR
-  - name: Ofic Capacitacion Asesoramiento Asuntos Laborales y Admi de RH
-    type: VARCHAR
-  - name: Comision Apelativa del Sist de Admi de RH del Servicio Publico
-    type: VARCHAR
-  - name: Oficina del Comisionado de Seguros
-    type: VARCHAR
-  - name: Oficina del Gobernador
-    type: VARCHAR
-  - name: Oficina del Inspector de Cooperativas
-    type: VARCHAR
-  - name: Policia
-    type: VARCHAR
-  - name: Colegio Universitario de Justicia Criminal
-    type: VARCHAR
-  - name: Cuerpo de Bomberos
-    type: VARCHAR
-  - name: Oficina del Comisionado de Instituciones Financieras
-    type: VARCHAR
-  - name: Oficina del Procurador de las Personas con Impedimentos
-    type: VARCHAR
-  - name: Comision Permanente de los Sistemas de Retiro
-    type: VARCHAR
-  - name: Oficina de Asuntos de la Juventud
-    type: VARCHAR
-  - name: Oficina del Procurador de las Personas de Edad Avanzada
-    type: VARCHAR
-  - name: Junta de Calidad Ambiental
-    type: VARCHAR
-  - name: Oficina Estatal de Conservacion Historica
-    type: VARCHAR
-  - name: Consejo de Desarrollo Ocupacional y Recursos Humanos
-    type: VARCHAR
-  - name: Comision de Relaciones del Trabajo del Servicio Publico
-    type: VARCHAR
-  - name: Oficina Central de Comunicaciones
-    type: VARCHAR
-  - name: Oficina del Procurador del Veterano
-    type: VARCHAR
-  - name: Cuerpo de Emergencias Medicas
-    type: VARCHAR
-  - name: Ofic Coordi Gen para Financiamiento Socioecon y la Autogestion
-    type: VARCHAR
-  - name: Comision Conjunta sobre Informes Especiales del Contralor
-    type: VARCHAR
-  - name: Departamento de Correccion y Rehabilitacion
-    type: VARCHAR
-  - name: Administracion de Correccion
-    type: VARCHAR
-  - name: Administracion de Seguros de Salud de Puerto Rico
-    type: VARCHAR
-  - name: Administracion de Servicios Medicos
-    type: VARCHAR
-  - name: Administracion de Servicios Generales
-    type: VARCHAR
-  - name: Autoridad de Conservacion y Desarrollo de Culebra
-    type: VARCHAR
-  - name: Comision de Investigacion, Procesamiento y Apelacion
-    type: VARCHAR
-  - name: Comision de Servicio Publico
-    type: VARCHAR
-  - name: Corporacion de Empresas de Adiestramiento y Trabajo
-    type: VARCHAR
-  - name: Corp de Industrias de Ciegos, Personas Mentalmente Retardadas
-    type: VARCHAR
+  - name: todas_las_entidades
+    type: BIGINT
+  - name: entidades_de_la_oficina_del_gobernador
+    type: BIGINT
+  - name: departamentos_y_agencias
+    type: BIGINT
+  - name: corporaciones_publicas
+    type: BIGINT
+  - name: otras_entidades
+    type: BIGINT
+  - name: rama_legislativa
+    type: BIGINT
+  - name: entidades_municipales
+    type: BIGINT
+  - name: rama_judicial
+    type: BIGINT
+  - name: oficina_del_contralor
+    type: BIGINT
+  - name: departamento_de_agricultura
+    type: BIGINT
+  - name: departamento_de_estado
+    type: BIGINT
+  - name: departamento_de_hacienda
+    type: BIGINT
+  - name: departamento_de_educacion
+    type: BIGINT
+  - name: consejo_general_de_educacion
+    type: BIGINT
+  - name: departamento_de_la_vivienda
+    type: BIGINT
+  - name: administracion_de_la_industria_y_el_deporte_hipico
+    type: BIGINT
+  - name: administracion_de_fomento_cooperativo
+    type: BIGINT
+  - name: departamento_de_recreacion_y_deportes
+    type: BIGINT
+  - name: administracion_de_reglamentos_y_permisos
+    type: BIGINT
+  - name: oficina_del_comisionado_de_asuntos_municipales
+    type: BIGINT
+  - name: agencia_estatal_para_manejo_de_emergencias_y_admi_de_desastres
+    type: BIGINT
+  - name: comision_estatal_de_elecciones
+    type: BIGINT
+  - name: comision_industrial
+    type: BIGINT
+  - name: oficina_de_la_procuradora_de_las_mujeres
+    type: BIGINT
+  - name: comision_para_ventilar_querellas_municipales
+    type: BIGINT
+  - name: guardia_nacional
+    type: BIGINT
+  - name: junta_de_apelaciones_sobre_construcciones_y_lotificaciones
+    type: BIGINT
+  - name: junta_de_planificacion
+    type: BIGINT
+  - name: junta_de_relaciones_del_trabajo
+    type: BIGINT
+  - name: sistema_de_retiro_para_maestros
+    type: BIGINT
+  - name: oficina_de_gerencia_y_presupuesto
+    type: BIGINT
+  - name: ofic_capacitacion_asesoramiento_asuntos_laborales_y_admi_de_rh
+    type: BIGINT
+  - name: comision_apelativa_del_sist_de_admi_de_rh_del_servicio_publico
+    type: BIGINT
+  - name: oficina_del_comisionado_de_seguros
+    type: BIGINT
+  - name: oficina_del_gobernador
+    type: BIGINT
+  - name: oficina_del_inspector_de_cooperativas
+    type: BIGINT
+  - name: policia
+    type: BIGINT
+  - name: colegio_universitario_de_justicia_criminal
+    type: BIGINT
+  - name: cuerpo_de_bomberos
+    type: BIGINT
+  - name: oficina_del_comisionado_de_instituciones_financieras
+    type: BIGINT
+  - name: oficina_del_procurador_de_las_personas_con_impedimentos
+    type: BIGINT
+  - name: comision_permanente_de_los_sistemas_de_retiro
+    type: BIGINT
+  - name: oficina_de_asuntos_de_la_juventud
+    type: BIGINT
+  - name: oficina_del_procurador_de_las_personas_de_edad_avanzada
+    type: BIGINT
+  - name: junta_de_calidad_ambiental
+    type: BIGINT
+  - name: oficina_estatal_de_conservacion_historica
+    type: BIGINT
+  - name: consejo_de_desarrollo_ocupacional_y_recursos_humanos
+    type: BIGINT
+  - name: comision_de_relaciones_del_trabajo_del_servicio_publico
+    type: BIGINT
+  - name: oficina_central_de_comunicaciones
+    type: BIGINT
+  - name: oficina_del_procurador_del_veterano
+    type: BIGINT
+  - name: cuerpo_de_emergencias_medicas
+    type: BIGINT
+  - name: ofic_coordi_gen_para_financiamiento_socioecon_y_la_autogestion
+    type: BIGINT
+  - name: comision_conjunta_sobre_informes_especiales_del_contralor
+    type: BIGINT
+  - name: departamento_de_correccion_y_rehabilitacion
+    type: BIGINT
+  - name: administracion_de_correccion
+    type: BIGINT
+  - name: administracion_de_seguros_de_salud_de_puerto_rico
+    type: BIGINT
+  - name: administracion_de_servicios_medicos
+    type: BIGINT
+  - name: administracion_de_servicios_generales
+    type: BIGINT
+  - name: autoridad_de_conservacion_y_desarrollo_de_culebra
+    type: BIGINT
+  - name: comision_de_investigacion_procesamiento_y_apelacion
+    type: BIGINT
+  - name: comision_de_servicio_publico
+    type: BIGINT
+  - name: corporacion_de_empresas_de_adiestramiento_y_trabajo
+    type: BIGINT
+  - name: corp_de_industrias_de_ciegos_personas_mentalmente_retardadas
+    type: BIGINT
+  - name: corporacion_del_centro_cardiovascular_de_pr_y_el_caribe
+    type: BIGINT
+  - name: departamento_de_asuntos_del_consumidor
+    type: BIGINT
+  - name: departamento_de_justicia
+    type: BIGINT
+  - name: departamento_de_recursos_naturales_y_ambientales
+    type: BIGINT
+  - name: departamento_de_salud
+    type: BIGINT
+  - name: salud_correccional
+    type: BIGINT
+  - name: admi_de_servicios_de_salud_mental_y_contra_la_adiccion
+    type: BIGINT
+  - name: oficina_de_la_procuradora_del_paciente
+    type: BIGINT
+  - name: departamento_de_la_familia
+    type: BIGINT
+  - name: admi_para_el_cuidado_y_desarrollo_integral_de_la_ni_ez
+    type: BIGINT
+  - name: administracion_de_desarrollo_socioeconomico_de_la_familia
+    type: BIGINT
+  - name: administracion_para_el_sustento_de_menores
+    type: BIGINT
+  - name: administracion_de_rehabilitacion_vocacional
+    type: BIGINT
+  - name: administracion_de_familias_y_ni_os
+    type: BIGINT
+  - name: administracion_de_instituciones_juveniles
+    type: BIGINT
+  - name: departamento_del_trabajo_y_recursos_humanos
+    type: BIGINT
+  - name: admi_para_adiestramiento_de_futuros_empresarios_y_trabajadores
+    type: BIGINT
+  - name: departamento_de_transportacion_y_obras_publicas
+    type: BIGINT
+  - name: administracion_de_asuntos_federales_de_puerto_rico
+    type: BIGINT
+  - name: instituto_de_ciencias_forenses
+    type: BIGINT
+  - name: junta_de_libertad_bajo_palabra
+    type: BIGINT
+  - name: oficina_de_servicios_con_antelacion_al_juicio
+    type: BIGINT
+  - name: corporacion_de_puerto_rico_para_la_difusion_publica
+    type: BIGINT
+  - name: junta_reglamentadora_de_telecomunicaciones
+    type: BIGINT
+  - name: compa_ia_de_parques_nacionales
+    type: BIGINT
+  - name: autoridad_de_desperdicios_solidos
+    type: BIGINT
+  - name: administracion_de_terrenos
+    type: BIGINT
+  - name: consejo_de_educacion
+    type: BIGINT
+  - name: compa_ia_de_comercio_y_exportacion
+    type: BIGINT
+  - name: administracion_de_servicios_y_desarrollo_agropecuario
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_rural_de_puerto_rico
+    type: BIGINT
+  - name: administracion_del_derecho_al_trabajo
+    type: BIGINT
+  - name: autoridad_de_carreteras_y_transportacion
+    type: BIGINT
+  - name: autoridad_metropolitana_de_autobuses
+    type: BIGINT
+  - name: autoridad_de_transporte_maritimo
+    type: BIGINT
+  - name: compa_ia_de_turismo
+    type: BIGINT
+  - name: compa_ia_de_fomento_industrial
+    type: BIGINT
+  - name: departamento_de_desarrollo_economico_y_comercio
+    type: BIGINT
+  - name: instituto_de_cultura_puertorrique_a
+    type: BIGINT
+  - name: corporacion_de_las_artes_musicales
+    type: BIGINT
+  - name: corporacion_del_centro_de_bellas_artes_luis_a_ferre
+    type: BIGINT
+  - name: corporacion_del_conservatorio_de_musica
+    type: BIGINT
+  - name: escuela_de_artes_plasticas
+    type: BIGINT
+  - name: corp_para_desarr_de_artes_ciencias_e_industria_cinematografica
+    type: BIGINT
+  - name: compa_ia_desarrollo_integral_de_la_peninsula_de_cantera
+    type: BIGINT
+  - name: junta_de_gobierno_del_servicio_9_1_1
+    type: BIGINT
+  - name: corp_publica_para_la_supervision_y_seguros_de_cooperativas
+    type: BIGINT
+  - name: patronato_de_ponce
+    type: BIGINT
+  - name: admi_de_sist_de_retiro_de_empleados_del_gobierno_y_judicatura
+    type: BIGINT
+  - name: fideicomiso_institucional_de_la_guardia_nacional
+    type: BIGINT
+  - name: oficina_de_etica_gubernamental
+    type: BIGINT
+  - name: centro_de_recaudacion_de_ingresos_municipales
+    type: BIGINT
+  - name: oficina_para_asuntos_de_seguridad_publica
+    type: BIGINT
+  - name: instituto_de_estadisticas_de_puerto_rico
+    type: BIGINT
+  - name: camara_de_representantes
+    type: BIGINT
+  - name: comision_especial_conjunta_sobre_donativos_legislativos
+    type: BIGINT
+  - name: oficina_de_servicios_legislativos
+    type: BIGINT
+  - name: superintendencia_del_capitolio
+    type: BIGINT
+  - name: senado
+    type: BIGINT
+  - name: comision_de_derechos_civiles
+    type: BIGINT
+  - name: comision_para_la_seguridad_en_el_transito
+    type: BIGINT
+  - name: panel_sobre_el_fiscal_especial_independiente
+    type: BIGINT
+  - name: oficina_del_procurador_del_ciudadano
+    type: BIGINT
+  - name: oficina_de_administracion_de_los_tribunales
+    type: BIGINT
+  - name: autoridad_de_tierras_de_puerto_rico
+    type: BIGINT
+  - name: autoridad_de_acueductos_y_alcantarillados
+    type: BIGINT
+  - name: upr_en_rio_piedras
+    type: BIGINT
+  - name: upr_en_mayag_ez
+    type: BIGINT
+  - name: upr_recinto_de_ciencias_medicas
+    type: BIGINT
+  - name: estacion_experimental_agricola_upr
+    type: BIGINT
+  - name: servicio_de_extension_agricola_upr
+    type: BIGINT
+  - name: upr_en_cayey
+    type: BIGINT
+  - name: upr_en_humacao
+    type: BIGINT
+  - name: upr_en_aguadilla
+    type: BIGINT
+  - name: upr_en_arecibo
+    type: BIGINT
+  - name: upr_en_bayamon
+    type: BIGINT
+  - name: upr_en_ponce
+    type: BIGINT
+  - name: upr_en_carolina
+    type: BIGINT
+  - name: upr_administracion_central
+    type: BIGINT
+  - name: upr_en_utuado
+    type: BIGINT
+  - name: centro_comprensivo_de_cancer_de_la_upr
+    type: BIGINT
+  - name: autoridad_de_energia_electrica
+    type: BIGINT
+  - name: admi_de_compensaciones_por_accidentes_de_automoviles
+    type: BIGINT
+  - name: banco_gubernamental_de_fomento
+    type: BIGINT
+  - name: banco_de_desarrollo_economico
+    type: BIGINT
+  - name: autoridad_para_el_financiamiento_de_la_infraestructura
+    type: BIGINT
+  - name: corporacion_de_seguros_agricolas
+    type: BIGINT
+  - name: autoridad_de_los_puertos
+    type: BIGINT
+  - name: autoridad_del_puerto_de_las_americas
+    type: BIGINT
+  - name: autoridad_de_edificios_publicos
+    type: BIGINT
+  - name: autoridad_del_distrito_del_centro_de_convenciones
+    type: BIGINT
+  - name: corporacion_del_fondo_del_seguro_del_estado
+    type: BIGINT
+  - name: autoridad_para_el_financiamiento_de_la_vivienda
+    type: BIGINT
+  - name: centro_de_diabetes_para_puerto_rico
+    type: BIGINT
+  - name: comision_de_practicaje
+    type: BIGINT
+  - name: adjuntas
+    type: BIGINT
+  - name: aguada
+    type: BIGINT
+  - name: aguadilla
+    type: BIGINT
+  - name: aguas_buenas
+    type: BIGINT
+  - name: aibonito
+    type: BIGINT
+  - name: a_asco
+    type: BIGINT
+  - name: arecibo
+    type: BIGINT
+  - name: arroyo
+    type: BIGINT
+  - name: barceloneta
+    type: BIGINT
+  - name: barranquitas
+    type: BIGINT
+  - name: bayamon
+    type: BIGINT
+  - name: cabo_rojo
+    type: BIGINT
+  - name: caguas
+    type: BIGINT
+  - name: camuy
+    type: BIGINT
+  - name: canovanas
+    type: BIGINT
+  - name: carolina
+    type: BIGINT
+  - name: cata_o
+    type: BIGINT
+  - name: cayey
+    type: BIGINT
+  - name: ceiba
+    type: BIGINT
+  - name: ciales
+    type: BIGINT
+  - name: cidra
+    type: BIGINT
+  - name: coamo
+    type: BIGINT
+  - name: comerio
+    type: BIGINT
+  - name: corozal
+    type: BIGINT
+  - name: culebra
+    type: BIGINT
+  - name: dorado
+    type: BIGINT
+  - name: fajardo
+    type: BIGINT
+  - name: florida
+    type: BIGINT
+  - name: guanica
+    type: BIGINT
+  - name: guayama
+    type: BIGINT
+  - name: guayanilla
+    type: BIGINT
+  - name: guaynabo
+    type: BIGINT
+  - name: gurabo
+    type: BIGINT
+  - name: hatillo
+    type: BIGINT
+  - name: hormigueros
+    type: BIGINT
+  - name: humacao
+    type: BIGINT
+  - name: isabela
+    type: BIGINT
+  - name: jayuya
+    type: BIGINT
+  - name: juana_diaz
+    type: BIGINT
+  - name: juncos
+    type: BIGINT
+  - name: lajas
+    type: BIGINT
+  - name: lares
+    type: BIGINT
+  - name: las_marias
+    type: BIGINT
+  - name: las_piedras
+    type: BIGINT
+  - name: loiza
+    type: BIGINT
+  - name: luquillo
+    type: BIGINT
+  - name: manati
+    type: BIGINT
+  - name: maricao
+    type: BIGINT
+  - name: maunabo
+    type: BIGINT
+  - name: mayag_ez
+    type: BIGINT
+  - name: moca
+    type: BIGINT
+  - name: morovis
+    type: BIGINT
+  - name: naguabo
+    type: BIGINT
+  - name: naranjito
+    type: BIGINT
+  - name: orocovis
+    type: BIGINT
+  - name: patillas
+    type: BIGINT
+  - name: pe_uelas
+    type: BIGINT
+  - name: ponce
+    type: BIGINT
+  - name: quebradillas
+    type: BIGINT
+  - name: rincon
+    type: BIGINT
+  - name: rio_grande
+    type: BIGINT
+  - name: sabana_grande
+    type: BIGINT
+  - name: salinas
+    type: BIGINT
+  - name: san_german
+    type: BIGINT
+  - name: san_juan
+    type: BIGINT
+  - name: san_lorenzo
+    type: BIGINT
+  - name: san_sebastian
+    type: BIGINT
+  - name: santa_isabel
+    type: BIGINT
+  - name: toa_alta
+    type: BIGINT
+  - name: toa_baja
+    type: BIGINT
+  - name: trujillo_alto
+    type: BIGINT
+  - name: utuado
+    type: BIGINT
+  - name: vega_alta
+    type: BIGINT
+  - name: vega_baja
+    type: BIGINT
+  - name: vieques
+    type: BIGINT
+  - name: villalba
+    type: BIGINT
+  - name: yabucoa
+    type: BIGINT
+  - name: yauco
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_economico_de_ceiba
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_del_viejo_san_juan
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_de_vivienda_de_toa_baja_c_d
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_economico_de_trujillo_alto
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_economico_y_vivienda_de_vieques
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_de_la_vivienda_de_bayamon_c_d
+    type: BIGINT
+  - name: corporacion_para_el_desarrollo_de_la_salud_de_bayamon
+    type: BIGINT
+  - name: corp_para_el_desarrollo_de_las_bellas_artes_de_guaynabo_c_d
+    type: BIGINT
+  - name: desarrollo_integral_del_sur
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_bayamon_comerio
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_caguas_guayama
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_carolina
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_guaynabo_toa_baja
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_san_juan
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_la_monta_a
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_manati_dorado
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_mayag_ez_las_marias
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_de_norte_central
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_del_noreste
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_del_noroeste
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_del_sureste
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_del_suroeste
+    type: BIGINT
+  - name: area_local_de_desarrollo_laboral_surcentral
+    type: BIGINT
+  - name: corp_para_desarrollo_del_centro_ponce_o_de_autismo
+    type: BIGINT
+  - name: corp_para_el_desarrollo_recreativo_del_castillo_del_ni_o
+    type: BIGINT
+  - name: corporacion_del_proyecto_enlace_del_ca_o_martin_pe_a
+    type: BIGINT
+  - name: corporacion_para_las_artes_escenico_musicales
+    type: BIGINT
+  - name: corporacion_de_la_orquesta_sinfonica
+    type: BIGINT
+  - name: autoridad_para_el_redesarrollo_local_de_roosevelt_roads
+    type: BIGINT
+  - name: oficina_de_exencion_contributiva_industrial
+    type: BIGINT
+  - name: comision_de_desarrollo_cooperativo
+    type: BIGINT
+  - name: autoridad_para_las_alianzas_publico_privadas
+    type: BIGINT
+  - name: administracion_para_el_desarrollo_de_empresas_agropecuarias
+    type: BIGINT
+  - name: comision_apelativa_del_servicio_publico
+    type: BIGINT
+  - name: junta_revisora_de_permisos_y_uso_de_terrenos
+    type: BIGINT
+  - name: oficina_del_inspector_general_de_permisos
+    type: BIGINT
+  - name: oficina_de_gerencia_de_permisos
+    type: BIGINT
+  - name: oficina_del_inspector_general_del_gobierno
+    type: BIGINT
+  - name: administracion_de_desarrollo_laboral
+    type: BIGINT
+  - name: oficina_del_contralor_electoral
+    type: BIGINT
+  - name: administracion_de_vivienda_publica
+    type: BIGINT
+  - name: servicios_medicos_universitarios_inc
+    type: BIGINT
+  - name: oficina_estatal_de_politica_publica_energetica
+    type: BIGINT
+  - name: autoridad_de_transporte_integrado
+    type: BIGINT
+  - name: oficina_del_bosque_modelo
+    type: BIGINT
+  - name: autoridad_de_asesoria_financiera_y_agencia_fiscal
+    type: BIGINT
+  - name: defensoria_de_las_personas_con_impedimentos
+    type: BIGINT
+  - name: autoridad_del_puerto_de_ponce
+    type: BIGINT
+  - name: oficina_independiente_de_proteccion_al_consumidor
+    type: BIGINT

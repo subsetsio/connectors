@@ -1,106 +1,108 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-estadisticas-de-las-companias-aereas`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: DEPARTURES_SCHEDULED
+  - name: departures_scheduled
+    type: BIGINT
+  - name: departures_performed
+    type: BIGINT
+  - name: payload
+    type: BIGINT
+  - name: seats
+    type: BIGINT
+  - name: passengers
+    type: BIGINT
+  - name: freight
+    type: BIGINT
+  - name: mail
+    type: BIGINT
+  - name: distance
+    type: BIGINT
+  - name: ramp_to_ramp
+    type: BIGINT
+  - name: air_time
+    type: BIGINT
+  - name: unique_carrier
     type: VARCHAR
-  - name: DEPARTURES_PERFORMED
+  - name: airline_id
     type: VARCHAR
-  - name: PAYLOAD
+  - name: unique_carrier_name
     type: VARCHAR
-  - name: SEATS
+  - name: unique_carrier_entity
     type: VARCHAR
-  - name: PASSENGERS
+  - name: region
     type: VARCHAR
-  - name: FREIGHT
+  - name: carrier
     type: VARCHAR
-  - name: MAIL
+  - name: carrier_name
     type: VARCHAR
-  - name: DISTANCE
+  - name: carrier_group
+    type: BIGINT
+  - name: carrier_group_new
     type: VARCHAR
-  - name: RAMP_TO_RAMP
+  - name: origin_airport_id
+    type: BIGINT
+  - name: origin_airport_seq_id
+    type: BIGINT
+  - name: origin_city_market_id
+    type: BIGINT
+  - name: origin
     type: VARCHAR
-  - name: AIR_TIME
+  - name: origin_city_name
     type: VARCHAR
-  - name: UNIQUE_CARRIER
+  - name: origin_state_abr
     type: VARCHAR
-  - name: AIRLINE_ID
+  - name: origin_state_fips
     type: VARCHAR
-  - name: UNIQUE_CARRIER_NAME
+  - name: origin_state_nm
     type: VARCHAR
-  - name: UNIQUE_CARRIER_ENTITY
+  - name: origin_country
     type: VARCHAR
-  - name: REGION
+  - name: origin_country_name
     type: VARCHAR
-  - name: CARRIER
+  - name: origin_wac
+    type: BIGINT
+  - name: dest_airport_id
+    type: BIGINT
+  - name: dest_airport_seq_id
+    type: BIGINT
+  - name: dest_city_market_id
+    type: BIGINT
+  - name: dest
     type: VARCHAR
-  - name: CARRIER_NAME
+  - name: dest_city_name
     type: VARCHAR
-  - name: CARRIER_GROUP
+  - name: dest_state_abr
     type: VARCHAR
-  - name: CARRIER_GROUP_NEW
+  - name: dest_state_fips
     type: VARCHAR
-  - name: ORIGIN_AIRPORT_ID
+  - name: dest_state_nm
     type: VARCHAR
-  - name: ORIGIN_AIRPORT_SEQ_ID
+  - name: dest_country
     type: VARCHAR
-  - name: ORIGIN_CITY_MARKET_ID
+  - name: dest_country_name
     type: VARCHAR
-  - name: ORIGIN
+  - name: dest_wac
+    type: BIGINT
+  - name: aircraft_group
+    type: BIGINT
+  - name: aircraft_type
+    type: BIGINT
+  - name: aircraft_config
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: distance_group
+    type: BIGINT
+  - name: class
     type: VARCHAR
-  - name: ORIGIN_CITY_NAME
-    type: VARCHAR
-  - name: ORIGIN_STATE_ABR
-    type: VARCHAR
-  - name: ORIGIN_STATE_FIPS
-    type: VARCHAR
-  - name: ORIGIN_STATE_NM
-    type: VARCHAR
-  - name: ORIGIN_COUNTRY
-    type: VARCHAR
-  - name: ORIGIN_COUNTRY_NAME
-    type: VARCHAR
-  - name: ORIGIN_WAC
-    type: VARCHAR
-  - name: DEST_AIRPORT_ID
-    type: VARCHAR
-  - name: DEST_AIRPORT_SEQ_ID
-    type: VARCHAR
-  - name: DEST_CITY_MARKET_ID
-    type: VARCHAR
-  - name: DEST
-    type: VARCHAR
-  - name: DEST_CITY_NAME
-    type: VARCHAR
-  - name: DEST_STATE_ABR
-    type: VARCHAR
-  - name: DEST_STATE_FIPS
-    type: VARCHAR
-  - name: DEST_STATE_NM
-    type: VARCHAR
-  - name: DEST_COUNTRY
-    type: VARCHAR
-  - name: DEST_COUNTRY_NAME
-    type: VARCHAR
-  - name: DEST_WAC
-    type: VARCHAR
-  - name: AIRCRAFT_GROUP
-    type: VARCHAR
-  - name: AIRCRAFT_TYPE
-    type: VARCHAR
-  - name: AIRCRAFT_CONFIG
-    type: VARCHAR
-  - name: YEAR
-    type: VARCHAR
-  - name: QUARTER
-    type: VARCHAR
-  - name: MONTH
-    type: VARCHAR
-  - name: DISTANCE_GROUP
-    type: VARCHAR
-  - name: CLASS
-    type: VARCHAR
-  - name: DATA_SOURCE
+  - name: data_source
     type: VARCHAR

@@ -1,28 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-registro-de-hospitales-y-otras-facilidades-de-salud-en-puerto-rico`. Regenerate after model-verify.
+key: [nombre]
+sort: [nombre]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Nombre
+  - name: nombre
     type: VARCHAR
-  - name: Tipo de Facilidad
+  - name: tipo_de_facilidad
     type: VARCHAR
-  - name: Numero de Lic
+  - name: numero_de_lic
+    type: BIGINT
+  - name: due_o_o_control
     type: VARCHAR
-  - name: Dueño o Control
+  - name: tipo_de_acreditacion_numero
     type: VARCHAR
-  - name: Tipo de Acreditacion/numero
+  - name: direccion
     type: VARCHAR
-  - name: Direccion
+  - name: telefono
     type: VARCHAR
-  - name: Telefono
+  - name: pueblo
     type: VARCHAR
-  - name: Pueblo
-    type: VARCHAR
-  - name: Numero de Estaciones
-    type: VARCHAR
-  - name: Capacidad de Camamas Autorizadas
-    type: VARCHAR
-  - name: Capacidad de Camas en Uso
-    type: VARCHAR
+  - name: numero_de_estaciones
+    type: BIGINT
+  - name: capacidad_de_camamas_autorizadas
+    type: BIGINT
+  - name: capacidad_de_camas_en_uso
+    type: BIGINT

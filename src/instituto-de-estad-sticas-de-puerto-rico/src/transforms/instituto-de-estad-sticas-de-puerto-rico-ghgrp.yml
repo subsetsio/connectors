@@ -1,32 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-ghgrp`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: REPORTING YEAR
+  - name: reporting_year
+    type: BIGINT
+  - name: facility_name
     type: VARCHAR
-  - name: FACILITY NAME
+  - name: ghgrp_id
+    type: BIGINT
+  - name: reported_address
     type: VARCHAR
-  - name: GHGRP ID
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: city_name
     type: VARCHAR
-  - name: REPORTED ADDRESS
+  - name: county_name
     type: VARCHAR
-  - name: LATITUDE
+  - name: state
     type: VARCHAR
-  - name: LONGITUDE
+  - name: zip_code
+    type: BIGINT
+  - name: parent_companies
     type: VARCHAR
-  - name: CITY NAME
-    type: VARCHAR
-  - name: COUNTY NAME
-    type: VARCHAR
-  - name: STATE
-    type: VARCHAR
-  - name: ZIP CODE
-    type: VARCHAR
-  - name: PARENT COMPANIES
-    type: VARCHAR
-  - name: GHG QUANTITY (METRIC TONS CO2e)
-    type: VARCHAR
-  - name: SUBPARTS
+  - name: ghg_quantity_metric_tons_co2e
+    type: BIGINT
+  - name: subparts
     type: VARCHAR

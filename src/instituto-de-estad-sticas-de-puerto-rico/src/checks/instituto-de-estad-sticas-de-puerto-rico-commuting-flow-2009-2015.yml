@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-commuting-flow-2009-2015`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [workers_in_commuting_flow, county_name_residence, county_code_place_of_work, county_code_residence, travel_mode]
+checks:
+  - kind: unique
+    columns: [workers_in_commuting_flow, county_name_residence, county_code_place_of_work, county_code_residence, travel_mode]
+  - kind: not_null
+    col: workers_in_commuting_flow
+  - kind: not_null
+    col: county_name_residence
+  - kind: not_null
+    col: county_code_place_of_work
+  - kind: not_null
+    col: county_code_residence
+  - kind: not_null
+    col: travel_mode
+  - kind: row_floor
+    min: 1178
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

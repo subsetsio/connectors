@@ -1,96 +1,99 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-seguros-de-hipotecas`. Regenerate after model-verify.
+key: [sequence_number, census_tract_number, number_of_1_to4_family_units, tract_to_msa_md_income, number_of_owner_occupied_units]
+sort: [sequence_number, census_tract_number, number_of_1_to4_family_units, tract_to_msa_md_income, number_of_owner_occupied_units]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: As of Year
+  - name: as_of_year
+    type: BIGINT
+  - name: respondent_id
+    type: BIGINT
+  - name: agency_code
+    type: BIGINT
+  - name: loan_type
+    type: BIGINT
+  - name: property_type
+    type: BIGINT
+  - name: loan_purpose
+    type: BIGINT
+  - name: occupancy
+    type: BIGINT
+  - name: loan_amount_000s
+    type: BIGINT
+  - name: preapproval
     type: VARCHAR
-  - name: Respondent ID
+  - name: action_type
+    type: BIGINT
+  - name: msa_md
+    type: BIGINT
+  - name: state_code
+    type: BIGINT
+  - name: county_code
+    type: BIGINT
+  - name: census_tract_number
     type: VARCHAR
-  - name: Agency Code
+  - name: applicant_ethnicity
+    type: BIGINT
+  - name: co_applicant_ethnicity
+    type: BIGINT
+  - name: applicant_race_1
+    type: BIGINT
+  - name: applicant_race_2
+    type: BIGINT
+  - name: applicant_race_3
     type: VARCHAR
-  - name: Loan Type
+  - name: applicant_race_4
     type: VARCHAR
-  - name: Property Type
+  - name: applicant_race_5
     type: VARCHAR
-  - name: Loan Purpose
+  - name: co_applicant_race_1
+    type: BIGINT
+  - name: co_applicant_race_2
+    type: BIGINT
+  - name: co_applicant_race_3
     type: VARCHAR
-  - name: Occupancy
+  - name: co_applicant_race_4
     type: VARCHAR
-  - name: Loan Amount (000s)
+  - name: co_applicant_race_5
     type: VARCHAR
-  - name: Preapproval
+  - name: applicant_sex
+    type: BIGINT
+  - name: co_applicant_sex
+    type: BIGINT
+  - name: applicant_income_000s
     type: VARCHAR
-  - name: Action Type
+  - name: purchaser_type
+    type: BIGINT
+  - name: denial_reason_1
+    type: BIGINT
+  - name: denial_reason_2
+    type: BIGINT
+  - name: denial_reason_3
+    type: BIGINT
+  - name: rate_spread
     type: VARCHAR
-  - name: MSA/MD
+  - name: hoepa_status
     type: VARCHAR
-  - name: State Code
+  - name: lien_status
+    type: BIGINT
+  - name: edit_status
+    type: BIGINT
+  - name: sequence_number
+    type: BIGINT
+  - name: population
     type: VARCHAR
-  - name: County Code
+  - name: minority_population
     type: VARCHAR
-  - name: Census Tract Number
+  - name: hud_median_family_income
     type: VARCHAR
-  - name: Applicant Ethnicity
+  - name: tract_to_msa_md_income
     type: VARCHAR
-  - name: Co Applicant Ethnicity
+  - name: number_of_owner_occupied_units
     type: VARCHAR
-  - name: Applicant Race 1
+  - name: number_of_1_to4_family_units
     type: VARCHAR
-  - name: Applicant Race 2
-    type: VARCHAR
-  - name: Applicant Race 3
-    type: VARCHAR
-  - name: Applicant Race 4
-    type: VARCHAR
-  - name: Applicant Race 5
-    type: VARCHAR
-  - name: Co Applicant Race 1
-    type: VARCHAR
-  - name: Co Applicant Race 2
-    type: VARCHAR
-  - name: Co Applicant Race 3
-    type: VARCHAR
-  - name: Co Applicant Race 4
-    type: VARCHAR
-  - name: Co Applicant Race 5
-    type: VARCHAR
-  - name: Applicant Sex
-    type: VARCHAR
-  - name: Co Applicant Sex
-    type: VARCHAR
-  - name: Applicant Income (000s)
-    type: VARCHAR
-  - name: Purchaser Type
-    type: VARCHAR
-  - name: Denial Reason 1
-    type: VARCHAR
-  - name: Denial Reason 2
-    type: VARCHAR
-  - name: Denial Reason 3
-    type: VARCHAR
-  - name: Rate Spread
-    type: VARCHAR
-  - name: HOEPA Status
-    type: VARCHAR
-  - name: Lien Status
-    type: VARCHAR
-  - name: Edit Status
-    type: VARCHAR
-  - name: Sequence Number
-    type: VARCHAR
-  - name: Population
-    type: VARCHAR
-  - name: Minority Population %
-    type: VARCHAR
-  - name: HUD Median Family Income
-    type: VARCHAR
-  - name: Tract to MSA/MD Income %
-    type: VARCHAR
-  - name: Number of Owner occupied units
-    type: VARCHAR
-  - name: Number of 1-to4-Family units
-    type: VARCHAR
-  - name: Application Date Prior 2004 Flag
-    type: VARCHAR
+  - name: application_date_prior_2004_flag
+    type: BIGINT

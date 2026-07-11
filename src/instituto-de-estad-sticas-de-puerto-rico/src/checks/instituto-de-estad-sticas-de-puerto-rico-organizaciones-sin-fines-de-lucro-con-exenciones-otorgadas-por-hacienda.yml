@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-organizaciones-sin-fines-de-lucro-con-exenciones-otorgadas-por-hacienda`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [col_0]
+temporal: fecha_de_efectividad
+checks:
+  - kind: unique
+    columns: [col_0]
+  - kind: not_null
+    col: col_0
+  - kind: row_floor
+    min: 2873
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

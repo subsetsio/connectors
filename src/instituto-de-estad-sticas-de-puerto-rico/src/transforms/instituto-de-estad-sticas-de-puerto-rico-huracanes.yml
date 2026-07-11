@@ -1,0 +1,314 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-huracanes`. Regenerate after model-verify.
+key: [coordinates, value, serial_num, wmo_pres, hda_pres]
+temporal: iso_time
+sort: [iso_time, coordinates, value, serial_num, wmo_pres, hda_pres]
+columns:
+  - name: source_resource
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: coordinates
+    type: VARCHAR
+  - name: serial_num
+    type: VARCHAR
+  - name: season
+    type: BIGINT
+  - name: num
+    type: BIGINT
+  - name: basin
+    type: VARCHAR
+  - name: sub_basin
+    type: VARCHAR
+  - name: iso_time
+    type: TIMESTAMP
+  - name: nature
+    type: VARCHAR
+  - name: wmo_wind
+    type: DOUBLE
+  - name: wmo_pres
+    type: DOUBLE
+  - name: center
+    type: VARCHAR
+  - name: wmo_wind_2
+    type: DOUBLE
+  - name: wmo_pres_2
+    type: DOUBLE
+  - name: track_type
+    type: VARCHAR
+  - name: basin_1
+    type: VARCHAR
+  - name: hda_grade
+    type: VARCHAR
+  - name: hda_wind
+    type: DOUBLE
+  - name: hda_pres
+    type: DOUBLE
+  - name: td9_grade
+    type: VARCHAR
+  - name: td9_wind
+    type: DOUBLE
+  - name: td9_pres
+    type: DOUBLE
+  - name: reu_grade
+    type: VARCHAR
+  - name: reu_wind
+    type: DOUBLE
+  - name: reu_pres
+    type: DOUBLE
+  - name: atc_grade
+    type: VARCHAR
+  - name: atc_wind
+    type: DOUBLE
+  - name: atc_pres
+    type: DOUBLE
+  - name: mlc_grade
+    type: VARCHAR
+  - name: mlc_wind
+    type: DOUBLE
+  - name: mlc_pres
+    type: DOUBLE
+  - name: dss_grade
+    type: VARCHAR
+  - name: dss_wind
+    type: DOUBLE
+  - name: dss_pres
+    type: DOUBLE
+  - name: dsi_grade
+    type: VARCHAR
+  - name: dsi_wind
+    type: DOUBLE
+  - name: dsi_pres
+    type: DOUBLE
+  - name: bom_grade
+    type: VARCHAR
+  - name: bom_wind
+    type: DOUBLE
+  - name: bom_pres
+    type: DOUBLE
+  - name: dsa_grade
+    type: VARCHAR
+  - name: dsa_wind
+    type: DOUBLE
+  - name: dsa_pres
+    type: DOUBLE
+  - name: jts_grade
+    type: VARCHAR
+  - name: jts_wind
+    type: DOUBLE
+  - name: jts_pres
+    type: DOUBLE
+  - name: jtw_grade
+    type: VARCHAR
+  - name: jtw_wind
+    type: DOUBLE
+  - name: jtw_pres
+    type: DOUBLE
+  - name: td5_grade
+    type: VARCHAR
+  - name: td5_wind
+    type: DOUBLE
+  - name: td5_pres
+    type: DOUBLE
+  - name: dsw_grade
+    type: VARCHAR
+  - name: dsw_wind
+    type: DOUBLE
+  - name: dsw_pres
+    type: DOUBLE
+  - name: jti_grade
+    type: VARCHAR
+  - name: jti_wind
+    type: DOUBLE
+  - name: jti_pres
+    type: DOUBLE
+  - name: cma_grade
+    type: VARCHAR
+  - name: cma_wind
+    type: DOUBLE
+  - name: cma_pres
+    type: DOUBLE
+  - name: hde_grade
+    type: VARCHAR
+  - name: hde_wind
+    type: DOUBLE
+  - name: hde_pres
+    type: DOUBLE
+  - name: jte_grade
+    type: VARCHAR
+  - name: jte_wind
+    type: DOUBLE
+  - name: jte_pres
+    type: DOUBLE
+  - name: dse_grade
+    type: VARCHAR
+  - name: dse_wind
+    type: DOUBLE
+  - name: dse_pres
+    type: DOUBLE
+  - name: jtc_grade
+    type: VARCHAR
+  - name: jtc_wind
+    type: DOUBLE
+  - name: jtc_pres
+    type: DOUBLE
+  - name: jma_grade
+    type: VARCHAR
+  - name: jma_wind
+    type: DOUBLE
+  - name: jma_pres
+    type: DOUBLE
+  - name: neu_grade
+    type: VARCHAR
+  - name: neu_wind
+    type: DOUBLE
+  - name: neu_pres
+    type: DOUBLE
+  - name: hko_grade
+    type: VARCHAR
+  - name: hko_wind
+    type: DOUBLE
+  - name: hko_pres
+    type: DOUBLE
+  - name: cph_grade
+    type: VARCHAR
+  - name: cph_wind
+    type: DOUBLE
+  - name: cph_pres
+    type: DOUBLE
+  - name: nz_grade
+    type: VARCHAR
+  - name: nz_wind
+    type: DOUBLE
+  - name: nz_pres
+    type: DOUBLE
+  - name: imd_grade
+    type: VARCHAR
+  - name: imd_wind
+    type: DOUBLE
+  - name: imd_pres
+    type: DOUBLE
+  - name: nad_grade
+    type: VARCHAR
+  - name: nad_wind
+    type: DOUBLE
+  - name: nad_pres
+    type: DOUBLE
+  - name: reu_rmw
+    type: BIGINT
+  - name: reu_wr1_ne
+    type: BIGINT
+  - name: reu_wr1_se
+    type: BIGINT
+  - name: reu_wr1_sw
+    type: BIGINT
+  - name: reu_wr1_nw
+    type: BIGINT
+  - name: reu_wr2_ne
+    type: BIGINT
+  - name: reu_wr2_se
+    type: BIGINT
+  - name: reu_wr2_sw
+    type: BIGINT
+  - name: reu_wr2_nw
+    type: BIGINT
+  - name: bom_hurrad
+    type: BIGINT
+  - name: bom_galrad
+    type: BIGINT
+  - name: bom_eye
+    type: BIGINT
+  - name: bom_roci
+    type: BIGINT
+  - name: atc_rmw
+    type: BIGINT
+  - name: atc_poci
+    type: BIGINT
+  - name: atc_roci
+    type: BIGINT
+  - name: atc_eye
+    type: BIGINT
+  - name: atc_w34_r1
+    type: BIGINT
+  - name: atc_w34_r2
+    type: BIGINT
+  - name: atc_w34_r3
+    type: BIGINT
+  - name: atc_w34_r4
+    type: BIGINT
+  - name: atc_w50_r1
+    type: BIGINT
+  - name: atc_w50_r2
+    type: BIGINT
+  - name: atc_w50_r3
+    type: BIGINT
+  - name: atc_w50_r4
+    type: BIGINT
+  - name: atc_w64_r1
+    type: BIGINT
+  - name: atc_w64_r2
+    type: BIGINT
+  - name: atc_w64_r3
+    type: BIGINT
+  - name: atc_w64_r4
+    type: BIGINT
+  - name: jma_dir50
+    type: BIGINT
+  - name: jma_long50
+    type: BIGINT
+  - name: jma_shrt50
+    type: BIGINT
+  - name: jma_dir30
+    type: BIGINT
+  - name: jma_long30
+    type: BIGINT
+  - name: jma_shrt30
+    type: BIGINT
+  - name: jtx_rmw
+    type: BIGINT
+  - name: jtx_poci
+    type: BIGINT
+  - name: jtx_roci
+    type: BIGINT
+  - name: jtx_eye
+    type: BIGINT
+  - name: jtx_w34_r1
+    type: BIGINT
+  - name: jtx_w34_r2
+    type: BIGINT
+  - name: jtx_w34_r3
+    type: BIGINT
+  - name: jtx_w34_r4
+    type: BIGINT
+  - name: jtx_w50_r1
+    type: BIGINT
+  - name: jtx_w50_r2
+    type: BIGINT
+  - name: jtx_w50_r3
+    type: BIGINT
+  - name: jtx_w50_r4
+    type: BIGINT
+  - name: jtx_w64_r1
+    type: BIGINT
+  - name: jtx_w64_r2
+    type: BIGINT
+  - name: jtx_w64_r3
+    type: BIGINT
+  - name: jtx_w64_r4
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: hour
+    type: BIGINT
+  - name: min
+    type: BIGINT
+  - name: value
+    type: DOUBLE

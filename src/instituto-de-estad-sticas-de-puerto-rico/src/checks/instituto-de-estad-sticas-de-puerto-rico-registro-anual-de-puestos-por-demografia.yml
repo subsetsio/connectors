@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-registro-anual-de-puestos-por-demografia`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [nb_entidad, nu_entidad, clasificaci_n, anofiscal]
+checks:
+  - kind: unique
+    columns: [nb_entidad, nu_entidad, clasificaci_n, anofiscal]
+  - kind: not_null
+    col: nb_entidad
+  - kind: not_null
+    col: nu_entidad
+  - kind: not_null
+    col: clasificaci_n
+  - kind: not_null
+    col: anofiscal
+  - kind: row_floor
+    min: 345
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

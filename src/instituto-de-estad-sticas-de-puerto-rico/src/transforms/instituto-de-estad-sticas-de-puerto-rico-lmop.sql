@@ -1,1 +1,41 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-lmop"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    CAST("GHGRP ID" AS BIGINT) AS ghgrp_id,
+    CAST("Landfill ID" AS BIGINT) AS landfill_id,
+    "Landfill Name" AS landfill_name,
+    "State" AS state,
+    "Physical Address" AS physical_address,
+    "City" AS city,
+    "County" AS county,
+    "Zip Code" AS zip_code,
+    CAST("Latitude" AS DOUBLE) AS latitude,
+    CAST("Longitude" AS DOUBLE) AS longitude,
+    "Ownership Type" AS ownership_type,
+    "Landfill Owner Organization(s)" AS landfill_owner_organization_s,
+    CAST("Year Landfill Opened" AS BIGINT) AS year_landfill_opened,
+    CAST("Landfill Closure Year" AS BIGINT) AS landfill_closure_year,
+    "Current Landfill Status" AS current_landfill_status,
+    CAST("Waste in Place (tons)" AS BIGINT) AS waste_in_place_tons,
+    CAST("Waste in Place Year" AS BIGINT) AS waste_in_place_year,
+    "LFG Collection System In Place?" AS lfg_collection_system_in_place,
+    CAST("LFG Collected (mmscfd)" AS DOUBLE) AS lfg_collected_mmscfd,
+    CAST("LFG Flared (mmscfd)" AS DOUBLE) AS lfg_flared_mmscfd,
+    "Project ID" AS project_id,
+    "Current Project Status" AS current_project_status,
+    "Project Name" AS project_name,
+    CAST("Project Start Date" AS TIMESTAMP) AS project_start_date,
+    CAST("Project Shutdown Date" AS TIMESTAMP) AS project_shutdown_date,
+    "Project Type Category" AS project_type_category,
+    "LFG Energy Project Type" AS lfg_energy_project_type,
+    "RNG Delivery Method" AS rng_delivery_method,
+    CAST("Actual MW Generation" AS DOUBLE) AS actual_mw_generation,
+    CAST("Rated MW Capacity" AS DOUBLE) AS rated_mw_capacity,
+    CAST("LFG Flow to Project (mmscfd)" AS DOUBLE) AS lfg_flow_to_project_mmscfd,
+    CAST("Current Year Emission Reductions (MMTCO2e/yr) - Direct" AS DOUBLE) AS current_year_emission_reductions_mmtco2e_yr_direct,
+    CAST("Current Year Emission Reductions (MMTCO2e/yr) - Avoided" AS DOUBLE) AS current_year_emission_reductions_mmtco2e_yr_avoided
+FROM "instituto-de-estad-sticas-de-puerto-rico-lmop"

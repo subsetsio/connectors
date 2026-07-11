@@ -1,72 +1,76 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-lmop`. Regenerate after model-verify.
+key: []
+temporal: project_start_date
+sort: [project_start_date]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: GHGRP ID
+  - name: ghgrp_id
+    type: BIGINT
+  - name: landfill_id
+    type: BIGINT
+  - name: landfill_name
     type: VARCHAR
-  - name: Landfill ID
+  - name: state
     type: VARCHAR
-  - name: Landfill Name
+  - name: physical_address
     type: VARCHAR
-  - name: State
+  - name: city
     type: VARCHAR
-  - name: Physical Address
+  - name: county
     type: VARCHAR
-  - name: City
+  - name: zip_code
     type: VARCHAR
-  - name: County
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: ownership_type
     type: VARCHAR
-  - name: Zip Code
+  - name: landfill_owner_organization_s
     type: VARCHAR
-  - name: Latitude
+  - name: year_landfill_opened
+    type: BIGINT
+  - name: landfill_closure_year
+    type: BIGINT
+  - name: current_landfill_status
     type: VARCHAR
-  - name: Longitude
+  - name: waste_in_place_tons
+    type: BIGINT
+  - name: waste_in_place_year
+    type: BIGINT
+  - name: lfg_collection_system_in_place
     type: VARCHAR
-  - name: Ownership Type
+  - name: lfg_collected_mmscfd
+    type: DOUBLE
+  - name: lfg_flared_mmscfd
+    type: DOUBLE
+  - name: project_id
     type: VARCHAR
-  - name: Landfill Owner Organization(s)
+  - name: current_project_status
     type: VARCHAR
-  - name: Year Landfill Opened
+  - name: project_name
     type: VARCHAR
-  - name: Landfill Closure Year
+  - name: project_start_date
+    type: TIMESTAMP
+  - name: project_shutdown_date
+    type: TIMESTAMP
+  - name: project_type_category
     type: VARCHAR
-  - name: Current Landfill Status
+  - name: lfg_energy_project_type
     type: VARCHAR
-  - name: Waste in Place (tons)
+  - name: rng_delivery_method
     type: VARCHAR
-  - name: Waste in Place Year
-    type: VARCHAR
-  - name: LFG Collection System In Place?
-    type: VARCHAR
-  - name: LFG Collected (mmscfd)
-    type: VARCHAR
-  - name: LFG Flared (mmscfd)
-    type: VARCHAR
-  - name: Project ID
-    type: VARCHAR
-  - name: Current Project Status
-    type: VARCHAR
-  - name: Project Name
-    type: VARCHAR
-  - name: Project Start Date
-    type: VARCHAR
-  - name: Project Shutdown Date
-    type: VARCHAR
-  - name: Project Type Category
-    type: VARCHAR
-  - name: LFG Energy Project Type
-    type: VARCHAR
-  - name: RNG Delivery Method
-    type: VARCHAR
-  - name: Actual MW Generation
-    type: VARCHAR
-  - name: Rated MW Capacity
-    type: VARCHAR
-  - name: LFG Flow to Project (mmscfd)
-    type: VARCHAR
-  - name: Current Year Emission Reductions (MMTCO2e/yr) - Direct
-    type: VARCHAR
-  - name: Current Year Emission Reductions (MMTCO2e/yr) - Avoided
-    type: VARCHAR
+  - name: actual_mw_generation
+    type: DOUBLE
+  - name: rated_mw_capacity
+    type: DOUBLE
+  - name: lfg_flow_to_project_mmscfd
+    type: DOUBLE
+  - name: current_year_emission_reductions_mmtco2e_yr_direct
+    type: DOUBLE
+  - name: current_year_emission_reductions_mmtco2e_yr_avoided
+    type: DOUBLE

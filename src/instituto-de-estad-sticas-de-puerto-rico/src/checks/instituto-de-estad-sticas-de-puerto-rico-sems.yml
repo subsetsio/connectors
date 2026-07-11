@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-sems`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [address, sems_epa_id, site_name, latitude_longitude, npl_status]
+checks:
+  - kind: unique
+    columns: [address, sems_epa_id, site_name, latitude_longitude, npl_status]
+  - kind: not_null
+    col: address
+  - kind: not_null
+    col: sems_epa_id
+  - kind: not_null
+    col: site_name
+  - kind: not_null
+    col: latitude_longitude
+  - kind: not_null
+    col: npl_status
+  - kind: row_floor
+    min: 251
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

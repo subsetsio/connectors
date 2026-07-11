@@ -1,64 +1,67 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-ssts`. Regenerate after model-verify.
+key: [establishment_site_address_line_1]
+sort: [establishment_site_address_line_1]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: ESTABLISHMENT NUMBER
+  - name: establishment_number
     type: VARCHAR
-  - name: ESTABLISHMENT NAME
+  - name: establishment_name
     type: VARCHAR
-  - name: ESTABLISHMENT SITE ADDRESS LINE 1
+  - name: establishment_site_address_line_1
     type: VARCHAR
-  - name: EST. SITE ADDRESS LINE 2
+  - name: est_site_address_line_2
     type: VARCHAR
-  - name: EST. SITE CITY
+  - name: est_site_city
     type: VARCHAR
-  - name: EST. SITE STATE
+  - name: est_site_state
     type: VARCHAR
-  - name: EST. SITE ZIP
+  - name: est_site_zip
     type: VARCHAR
-  - name: EST. SITE COUNTY
+  - name: est_site_county
     type: VARCHAR
-  - name: EST. SITE COUNTRY
+  - name: est_site_country
     type: VARCHAR
-  - name: EPA REGION
+  - name: epa_region
+    type: BIGINT
+  - name: establishment_mailing_address_line_1
     type: VARCHAR
-  - name: ESTABLISHMENT MAILING ADDRESS LINE 1
+  - name: est_mailing_address_line_2
     type: VARCHAR
-  - name: EST. MAILING ADDRESS LINE 2
+  - name: est_mail_city
     type: VARCHAR
-  - name: EST. MAIL CITY
+  - name: est_mail_state
     type: VARCHAR
-  - name: EST. MAIL STATE
+  - name: est_mail_zip
     type: VARCHAR
-  - name: EST. MAIL ZIP
+  - name: est_mail_country
     type: VARCHAR
-  - name: EST. MAIL COUNTRY
+  - name: company_name
     type: VARCHAR
-  - name: COMPANY NAME
+  - name: company_site_address_line_1
     type: VARCHAR
-  - name: COMPANY SITE ADDRESS LINE 1
+  - name: co_site_address_line_2
     type: VARCHAR
-  - name: CO. SITE ADDRESS LINE 2
+  - name: co_site_city
     type: VARCHAR
-  - name: CO. SITE CITY
+  - name: co_site_state
     type: VARCHAR
-  - name: CO. SITE STATE
+  - name: co_site_zip
     type: VARCHAR
-  - name: CO. SITE ZIP
+  - name: co_site_country
     type: VARCHAR
-  - name: CO. SITE COUNTRY
+  - name: company_mailing_address_line_1
     type: VARCHAR
-  - name: COMPANY MAILING ADDRESS LINE 1
+  - name: co_mail_address_line_2
     type: VARCHAR
-  - name: CO. MAIL ADDRESS LINE 2
+  - name: co_mail_city
     type: VARCHAR
-  - name: CO. MAIL CITY
+  - name: co_mail_state
     type: VARCHAR
-  - name: CO. MAIL STATE
+  - name: co_mail_zip
     type: VARCHAR
-  - name: CO. MAIL ZIP
-    type: VARCHAR
-  - name: CO. MAIL COUNTRY
+  - name: co_mail_country
     type: VARCHAR

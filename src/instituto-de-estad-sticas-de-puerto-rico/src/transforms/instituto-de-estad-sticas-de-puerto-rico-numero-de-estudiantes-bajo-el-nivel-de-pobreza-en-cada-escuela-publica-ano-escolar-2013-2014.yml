@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-numero-de-estudiantes-bajo-el-nivel-de-pobreza-en-cada-escuela-publica-ano-escolar-2013-2014`. Regenerate after model-verify.
+key: [codigo_escuela, nombre_escuela, porcentaje_estudiantes_bajo_nivel_pobreza, matricula_m1_entre_5_17_anos, matricula_m1]
+sort: [codigo_escuela, nombre_escuela, porcentaje_estudiantes_bajo_nivel_pobreza, matricula_m1_entre_5_17_anos, matricula_m1]
+columns:
+  - name: source_resource
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: distrito
+    type: VARCHAR
+  - name: municipio_escolar
+    type: VARCHAR
+  - name: codigo_escuela
+    type: BIGINT
+  - name: nombre_escuela
+    type: VARCHAR
+  - name: matricula_m1
+    type: BIGINT
+  - name: matricula_m1_entre_5_17_anos
+    type: BIGINT
+  - name: m1_entre_5_17_bnp
+    type: BIGINT
+  - name: porcentaje_estudiantes_bajo_nivel_pobreza
+    type: DOUBLE

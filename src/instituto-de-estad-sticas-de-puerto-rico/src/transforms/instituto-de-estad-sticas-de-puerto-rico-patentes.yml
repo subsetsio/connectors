@@ -1,40 +1,43 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-patentes`. Regenerate after model-verify.
+key: [n_mero_de_patente]
+sort: [n_mero_de_patente]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Número de patente
+  - name: n_mero_de_patente
     type: VARCHAR
-  - name: Tipo de patentes
+  - name: tipo_de_patentes
     type: VARCHAR
-  - name: Año de solicitud
+  - name: a_o_de_solicitud
+    type: BIGINT
+  - name: mes_de_solicitud
+    type: BIGINT
+  - name: a_o_de_emisi_n
+    type: BIGINT
+  - name: mes_de_emisi_n
+    type: BIGINT
+  - name: d_a_de_emisi_n
+    type: BIGINT
+  - name: clase_de_patente
     type: VARCHAR
-  - name: Mes de solicitud
+  - name: subclase_de_patente
     type: VARCHAR
-  - name: Año de emisión
+  - name: descripci_n_de_clase_de_patente
     type: VARCHAR
-  - name: Mes de emisión
+  - name: nombre_del_primer_inventor
     type: VARCHAR
-  - name: Día de emisión
+  - name: municipio_del_inventor
     type: VARCHAR
-  - name: Clase de Patente
+  - name: estado_o_pais_del_inventor
     type: VARCHAR
-  - name: Subclase de Patente
+  - name: identificaci_n_del_primer_due_o
+    type: BIGINT
+  - name: c_digo_de_tipo_de_propiedad
+    type: BIGINT
+  - name: primer_due_o_nombrado
     type: VARCHAR
-  - name: Descripción de clase de Patente
-    type: VARCHAR
-  - name: Nombre del primer inventor
-    type: VARCHAR
-  - name: Municipio del inventor
-    type: VARCHAR
-  - name: Estado o pais del inventor
-    type: VARCHAR
-  - name: Identificación del primer dueño
-    type: VARCHAR
-  - name: Código de tipo de propiedad
-    type: VARCHAR
-  - name: Primer dueño nombrado
-    type: VARCHAR
-  - name: Tipo de dueño
+  - name: tipo_de_due_o
     type: VARCHAR

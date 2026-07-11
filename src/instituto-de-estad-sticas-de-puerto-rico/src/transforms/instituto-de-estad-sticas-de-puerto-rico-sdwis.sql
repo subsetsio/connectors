@@ -1,1 +1,45 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-sdwis"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    "PWS ID" AS pws_id,
+    "PWS Name" AS pws_name,
+    "EPA Region" AS epa_region,
+    "Primacy Agency" AS primacy_agency,
+    "PWS Type" AS pws_type,
+    "Primacy Type" AS primacy_type,
+    "Owner Type" AS owner_type,
+    "Primary Source" AS primary_source,
+    "Activity Status" AS activity_status,
+    "Deactivation Date" AS deactivation_date,
+    "Season Begin Date" AS season_begin_date,
+    "Season End Date" AS season_end_date,
+    "Is Wholesaler" AS is_wholesaler,
+    "Pop Cat 5" AS pop_cat_5,
+    "Pop Cat 11" AS pop_cat_11,
+    "Population Served Count" AS population_served_count,
+    "Is Outstanding Performer" AS is_outstanding_performer,
+    "Outstanding Performer Date" AS outstanding_performer_date,
+    "Is Source Water Protected" AS is_source_water_protected,
+    "Source Water Protection Date" AS source_water_protection_date,
+    CAST("Service Connections Count" AS BIGINT) AS service_connections_count,
+    "Seasonal Startup System" AS seasonal_startup_system,
+    "Org Name" AS org_name,
+    "Admin Name" AS admin_name,
+    "Email Address" AS email_address,
+    "Phone Number" AS phone_number,
+    "Phone Ext Number" AS phone_ext_number,
+    "Fax Number" AS fax_number,
+    "Alt Phone Number" AS alt_phone_number,
+    "Address Line1" AS address_line1,
+    "Address Line2" AS address_line2,
+    "City Name" AS city_name,
+    "State Code" AS state_code,
+    "Zip Code" AS zip_code,
+    "Country Code" AS country_code,
+    "First Reported Date" AS first_reported_date,
+    "Last Reported Date" AS last_reported_date
+FROM "instituto-de-estad-sticas-de-puerto-rico-sdwis"

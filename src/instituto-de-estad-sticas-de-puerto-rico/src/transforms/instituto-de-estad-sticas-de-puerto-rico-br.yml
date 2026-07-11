@@ -1,28 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-br`. Regenerate after model-verify.
+key: [biennial_report_link, address, handler_name, handler_id, zip_code]
+sort: [biennial_report_link, address, handler_name, handler_id, zip_code]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Handler ID
+  - name: handler_id
     type: VARCHAR
-  - name: Handler Name
+  - name: handler_name
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: Latitude
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: generator_status
     type: VARCHAR
-  - name: Longitude
-    type: VARCHAR
-  - name: Generator Status
-    type: VARCHAR
-  - name: Biennial Report Link
+  - name: biennial_report_link
     type: VARCHAR

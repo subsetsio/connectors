@@ -1,15 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-estadisticas-sobre-hipotecas-revertidas-br`. Regenerate after model-verify.
+key: [case_id]
+sort: [case_id]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
   - name: id
-    type: VARCHAR
+    type: BIGINT
   - name: case_id
-    type: VARCHAR
+    type: BIGINT
   - name: application_date
-    type: VARCHAR
+    type: BIGINT
   - name: arm_indx_typ
     type: VARCHAR
   - name: borrower_age_orig
@@ -21,19 +24,19 @@ columns:
   - name: fips_cnty_cd
     type: VARCHAR
   - name: gender
-    type: VARCHAR
-  - name: HECM_Type
-    type: VARCHAR
+    type: BIGINT
+  - name: hecm_type
+    type: BIGINT
   - name: init_prncpl_lmt
-    type: VARCHAR
+    type: BIGINT
   - name: int_rt
-    type: VARCHAR
+    type: DOUBLE
   - name: int_rt_10yr
-    type: VARCHAR
+    type: DOUBLE
   - name: max_clm_amt
-    type: VARCHAR
+    type: BIGINT
   - name: mrgn_rt
-    type: VARCHAR
+    type: DOUBLE
   - name: msa_cd_5
     type: VARCHAR
   - name: orgntng_mtgee5
@@ -43,15 +46,15 @@ columns:
   - name: prop_addr_st
     type: VARCHAR
   - name: prop_addr_zip_cd
-    type: VARCHAR
+    type: BIGINT
   - name: prprty_aprsl_vl
-    type: VARCHAR
+    type: BIGINT
   - name: pymt_plan_loan_typ
     type: VARCHAR
   - name: pymt_plan_mnthly_pymt
     type: VARCHAR
   - name: rpr_set_aside
-    type: VARCHAR
+    type: DOUBLE
   - name: rt_typ
     type: VARCHAR
   - name: spnsr_mtgee5
@@ -59,58 +62,58 @@ columns:
   - name: spnsr_mtgee_nm
     type: VARCHAR
   - name: srvc_fee_set_aside
-    type: VARCHAR
+    type: DOUBLE
   - name: cs_sts
-    type: VARCHAR
+    type: BIGINT
   - name: assign_date
     type: VARCHAR
   - name: termination_date
     type: VARCHAR
   - name: saver_indicator
-    type: VARCHAR
+    type: BIGINT
   - name: policy_year
     type: VARCHAR
-  - name: cash_draw_amt_PY1
+  - name: cash_draw_amt_py1
     type: VARCHAR
-  - name: cash_draw_amt_PY2
+  - name: cash_draw_amt_py2
     type: VARCHAR
-  - name: cash_draw_amt_PY3
+  - name: cash_draw_amt_py3
     type: VARCHAR
-  - name: cash_draw_amt_PY4
+  - name: cash_draw_amt_py4
     type: VARCHAR
-  - name: cash_draw_amt_PY5
+  - name: cash_draw_amt_py5
     type: VARCHAR
-  - name: cash_draw_amt_PY6
+  - name: cash_draw_amt_py6
     type: VARCHAR
-  - name: cash_draw_amt_PY7
+  - name: cash_draw_amt_py7
     type: VARCHAR
-  - name: cash_draw_amt_PY8
+  - name: cash_draw_amt_py8
     type: VARCHAR
-  - name: cash_draw_amt_PY9
+  - name: cash_draw_amt_py9
     type: VARCHAR
-  - name: cash_draw_amt_PY10
+  - name: cash_draw_amt_py10
     type: VARCHAR
-  - name: cash_draw_amt_PY11
+  - name: cash_draw_amt_py11
     type: VARCHAR
-  - name: cash_draw_amt_PY12
+  - name: cash_draw_amt_py12
     type: VARCHAR
-  - name: cash_draw_amt_PY13
+  - name: cash_draw_amt_py13
     type: VARCHAR
-  - name: cash_draw_amt_PY14
+  - name: cash_draw_amt_py14
     type: VARCHAR
-  - name: cash_draw_amt_PY15
+  - name: cash_draw_amt_py15
     type: VARCHAR
-  - name: cash_draw_amt_PY16
+  - name: cash_draw_amt_py16
     type: VARCHAR
-  - name: cash_draw_amt_PY17
+  - name: cash_draw_amt_py17
     type: VARCHAR
-  - name: cash_draw_amt_PY18
+  - name: cash_draw_amt_py18
     type: VARCHAR
-  - name: cash_draw_amt_PY19
+  - name: cash_draw_amt_py19
     type: VARCHAR
-  - name: cash_draw_amt_PY20
+  - name: cash_draw_amt_py20
     type: VARCHAR
-  - name: cash_draw_amt_PY21
+  - name: cash_draw_amt_py21
     type: VARCHAR
-  - name: cash_draw_amt_PY22
+  - name: cash_draw_amt_py22
     type: VARCHAR

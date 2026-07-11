@@ -1,24 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-sems`. Regenerate after model-verify.
+key: [address, sems_epa_id, site_name, latitude_longitude, npl_status]
+sort: [address, sems_epa_id, site_name, latitude_longitude, npl_status]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: SEMS EPA ID
+  - name: sems_epa_id
     type: VARCHAR
-  - name: Facility Information
+  - name: facility_information
     type: VARCHAR
-  - name: SITE NAME
+  - name: site_name
     type: VARCHAR
-  - name: ADDRESS
+  - name: address
     type: VARCHAR
-  - name: COUNTY
+  - name: county
     type: VARCHAR
-  - name: FEDERAL FACILITY
+  - name: federal_facility
     type: VARCHAR
-  - name: NPL STATUS
+  - name: npl_status
     type: VARCHAR
-  - name: NON-NPL STATUS
+  - name: non_npl_status
     type: VARCHAR
-  - name: LATITUDE/LONGITUDE
+  - name: latitude_longitude
     type: VARCHAR

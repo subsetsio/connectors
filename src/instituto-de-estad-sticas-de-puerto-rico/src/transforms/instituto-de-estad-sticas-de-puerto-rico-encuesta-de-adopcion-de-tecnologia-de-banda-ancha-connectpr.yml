@@ -1,448 +1,451 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-encuesta-de-adopcion-de-tecnologia-de-banda-ancha-connectpr`. Regenerate after model-verify.
+key: [eti_id]
+sort: [eti_id]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: ETI_ID
+  - name: eti_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: state
     type: VARCHAR
-  - name: YEAR
+  - name: var00001
     type: VARCHAR
-  - name: STATE
+  - name: weightk
+    type: DOUBLE
+  - name: qa
+    type: BIGINT
+  - name: qb
+    type: BIGINT
+  - name: age
     type: VARCHAR
-  - name: VAR00001
+  - name: qb1
+    type: BIGINT
+  - name: qb2
     type: VARCHAR
-  - name: WEIGHTK
+  - name: q1
     type: VARCHAR
-  - name: QA
+  - name: q1_1
     type: VARCHAR
-  - name: QB
+  - name: q1_2
+    type: BIGINT
+  - name: q2
+    type: BIGINT
+  - name: q2_101
     type: VARCHAR
-  - name: AGE
+  - name: q2_102
     type: VARCHAR
-  - name: QB1
+  - name: q2_103
     type: VARCHAR
-  - name: QB2
+  - name: q2_199
     type: VARCHAR
-  - name: Q1
+  - name: q2_2
+    type: BIGINT
+  - name: q2_3
     type: VARCHAR
-  - name: Q1_1
+  - name: q3
+    type: BIGINT
+  - name: q3_1
     type: VARCHAR
-  - name: Q1_2
+  - name: q3_2
     type: VARCHAR
-  - name: Q2
+  - name: q3_3
     type: VARCHAR
-  - name: Q2_101
+  - name: q4
+    type: BIGINT
+  - name: q4_101
     type: VARCHAR
-  - name: Q2_102
+  - name: q4_102
     type: VARCHAR
-  - name: Q2_103
+  - name: q4_103
     type: VARCHAR
-  - name: Q2_199
+  - name: q4_104
     type: VARCHAR
-  - name: Q2_2
+  - name: q4_105
     type: VARCHAR
-  - name: Q2_3
+  - name: q4_106
     type: VARCHAR
-  - name: Q3
+  - name: q4_107
     type: VARCHAR
-  - name: Q3_1
+  - name: q4_108
     type: VARCHAR
-  - name: Q3_2
+  - name: q4_109
     type: VARCHAR
-  - name: Q3_3
+  - name: q4_110
     type: VARCHAR
-  - name: Q4
+  - name: q4_191
     type: VARCHAR
-  - name: Q4_101
+  - name: q4_199
     type: VARCHAR
-  - name: Q4_102
+  - name: q4_1osc1
     type: VARCHAR
-  - name: Q4_103
+  - name: q4_1osc2
     type: VARCHAR
-  - name: Q4_104
+  - name: q4_1os
     type: VARCHAR
-  - name: Q4_105
+  - name: q4_1o0
     type: VARCHAR
-  - name: Q4_106
+  - name: q5
     type: VARCHAR
-  - name: Q4_107
+  - name: q5_1
     type: VARCHAR
-  - name: Q4_108
+  - name: q5_2
     type: VARCHAR
-  - name: Q4_109
+  - name: q601
     type: VARCHAR
-  - name: Q4_110
+  - name: q602
     type: VARCHAR
-  - name: Q4_191
+  - name: q603
     type: VARCHAR
-  - name: Q4_199
+  - name: q604
     type: VARCHAR
-  - name: Q4_1OSC1
+  - name: q605
     type: VARCHAR
-  - name: Q4_1OSC2
+  - name: q606
     type: VARCHAR
-  - name: Q4_1OS
+  - name: q607
     type: VARCHAR
-  - name: Q4_1O0
+  - name: q608
     type: VARCHAR
-  - name: Q5
+  - name: q609
     type: VARCHAR
-  - name: Q5_1
+  - name: q610
     type: VARCHAR
-  - name: Q5_2
+  - name: q611
     type: VARCHAR
-  - name: Q601
+  - name: q612
     type: VARCHAR
-  - name: Q602
+  - name: q613
     type: VARCHAR
-  - name: Q603
+  - name: q697
     type: VARCHAR
-  - name: Q604
+  - name: q691
     type: VARCHAR
-  - name: Q605
+  - name: q699
     type: VARCHAR
-  - name: Q606
+  - name: q6_osc1
     type: VARCHAR
-  - name: Q607
+  - name: q6_osc2
     type: VARCHAR
-  - name: Q608
+  - name: q6_os
     type: VARCHAR
-  - name: Q609
+  - name: q6_os0
     type: VARCHAR
-  - name: Q610
+  - name: q6_os1
     type: VARCHAR
-  - name: Q611
+  - name: q6_1
     type: VARCHAR
-  - name: Q612
+  - name: q801
     type: VARCHAR
-  - name: Q613
+  - name: q802
     type: VARCHAR
-  - name: Q697
+  - name: q899
     type: VARCHAR
-  - name: Q691
+  - name: q8_101
     type: VARCHAR
-  - name: Q699
+  - name: q8_102
     type: VARCHAR
-  - name: Q6_OSC1
+  - name: q8_103
     type: VARCHAR
-  - name: Q6_OSC2
+  - name: q8_104
     type: VARCHAR
-  - name: Q6_OS
+  - name: q8_105
     type: VARCHAR
-  - name: Q6_OS0
+  - name: q8_106
     type: VARCHAR
-  - name: Q6_OS1
+  - name: q8_191
     type: VARCHAR
-  - name: Q6_1
+  - name: q8_196
     type: VARCHAR
-  - name: Q801
+  - name: q8_199
     type: VARCHAR
-  - name: Q802
+  - name: q8_1_os
     type: VARCHAR
-  - name: Q899
+  - name: q8_1_0
     type: VARCHAR
-  - name: Q8_101
+  - name: q8_2
     type: VARCHAR
-  - name: Q8_102
+  - name: q8_3
     type: VARCHAR
-  - name: Q8_103
+  - name: q8_4a
     type: VARCHAR
-  - name: Q8_104
+  - name: q8_4b
     type: VARCHAR
-  - name: Q8_105
+  - name: q8_4c
     type: VARCHAR
-  - name: Q8_106
+  - name: q8_4d
     type: VARCHAR
-  - name: Q8_191
+  - name: q8_4e
     type: VARCHAR
-  - name: Q8_196
+  - name: q8_4f
     type: VARCHAR
-  - name: Q8_199
+  - name: q901
     type: VARCHAR
-  - name: Q8_1_OS
+  - name: q902
     type: VARCHAR
-  - name: Q8_1_0
+  - name: q903
     type: VARCHAR
-  - name: Q8_2
+  - name: q904
     type: VARCHAR
-  - name: Q8_3
+  - name: q905
     type: VARCHAR
-  - name: Q8_4A
+  - name: q906
     type: VARCHAR
-  - name: Q8_4B
+  - name: q907
     type: VARCHAR
-  - name: Q8_4C
+  - name: q908
     type: VARCHAR
-  - name: Q8_4D
+  - name: q909
     type: VARCHAR
-  - name: Q8_4E
+  - name: q910
     type: VARCHAR
-  - name: Q8_4F
+  - name: q911
     type: VARCHAR
-  - name: Q901
+  - name: q912
     type: VARCHAR
-  - name: Q902
+  - name: q913
     type: VARCHAR
-  - name: Q903
+  - name: q997
     type: VARCHAR
-  - name: Q904
+  - name: q991
     type: VARCHAR
-  - name: Q905
+  - name: q999
     type: VARCHAR
-  - name: Q906
+  - name: q9_osc
     type: VARCHAR
-  - name: Q907
+  - name: q9_os
     type: VARCHAR
-  - name: Q908
+  - name: q9_os0
     type: VARCHAR
-  - name: Q909
+  - name: q9_1
     type: VARCHAR
-  - name: Q910
+  - name: q9_2
     type: VARCHAR
-  - name: Q911
+  - name: q1001
     type: VARCHAR
-  - name: Q912
+  - name: q1002
     type: VARCHAR
-  - name: Q913
+  - name: q1003
     type: VARCHAR
-  - name: Q997
+  - name: q1004
     type: VARCHAR
-  - name: Q991
+  - name: q1005
     type: VARCHAR
-  - name: Q999
+  - name: q1006
     type: VARCHAR
-  - name: Q9_OSC
+  - name: q1007
     type: VARCHAR
-  - name: Q9_OS
+  - name: q1008
     type: VARCHAR
-  - name: Q9_OS0
+  - name: q1009
     type: VARCHAR
-  - name: Q9_1
+  - name: q1010
     type: VARCHAR
-  - name: Q9_2
+  - name: q1011
     type: VARCHAR
-  - name: Q1001
+  - name: q1012
     type: VARCHAR
-  - name: Q1002
+  - name: q1013
     type: VARCHAR
-  - name: Q1003
+  - name: q1014
     type: VARCHAR
-  - name: Q1004
+  - name: q1096
     type: VARCHAR
-  - name: Q1005
+  - name: q1099
     type: VARCHAR
-  - name: Q1006
+  - name: q10a
     type: VARCHAR
-  - name: Q1007
+  - name: q10_11
     type: VARCHAR
-  - name: Q1008
+  - name: q10_12
     type: VARCHAR
-  - name: Q1009
+  - name: q10_13
     type: VARCHAR
-  - name: Q1010
+  - name: q10_14
     type: VARCHAR
-  - name: Q1011
+  - name: q10_15
     type: VARCHAR
-  - name: Q1012
+  - name: q10_16
     type: VARCHAR
-  - name: Q1013
+  - name: q10_17
     type: VARCHAR
-  - name: Q1014
+  - name: q10_18
     type: VARCHAR
-  - name: Q1096
+  - name: q10_19
     type: VARCHAR
-  - name: Q1099
+  - name: q10_110
     type: VARCHAR
-  - name: Q10A
+  - name: q10_111
     type: VARCHAR
-  - name: Q10_11
+  - name: q10_112
     type: VARCHAR
-  - name: Q10_12
+  - name: q10_113
     type: VARCHAR
-  - name: Q10_13
+  - name: q10_114
     type: VARCHAR
-  - name: Q10_14
+  - name: q10_196
     type: VARCHAR
-  - name: Q10_15
+  - name: q10_199
     type: VARCHAR
-  - name: Q10_16
+  - name: q11
     type: VARCHAR
-  - name: Q10_17
+  - name: q11_101
     type: VARCHAR
-  - name: Q10_18
+  - name: q11_102
     type: VARCHAR
-  - name: Q10_19
+  - name: q11_103
     type: VARCHAR
-  - name: Q10_110
+  - name: q11_104
     type: VARCHAR
-  - name: Q10_111
+  - name: q11_105
     type: VARCHAR
-  - name: Q10_112
+  - name: q11_106
     type: VARCHAR
-  - name: Q10_113
+  - name: q11_107
     type: VARCHAR
-  - name: Q10_114
+  - name: q11_108
     type: VARCHAR
-  - name: Q10_196
+  - name: q11_191
     type: VARCHAR
-  - name: Q10_199
+  - name: q11_199
     type: VARCHAR
-  - name: Q11
+  - name: q11_1_osc1
     type: VARCHAR
-  - name: Q11_101
+  - name: q11_1_osc2
     type: VARCHAR
-  - name: Q11_102
+  - name: q11_1os
     type: VARCHAR
-  - name: Q11_103
+  - name: q11_10
     type: VARCHAR
-  - name: Q11_104
+  - name: q12
     type: VARCHAR
-  - name: Q11_105
+  - name: q13
+    type: BIGINT
+  - name: q13_1
     type: VARCHAR
-  - name: Q11_106
+  - name: q13_2
     type: VARCHAR
-  - name: Q11_107
+  - name: q13_3
     type: VARCHAR
-  - name: Q11_108
+  - name: q13_4
     type: VARCHAR
-  - name: Q11_191
+  - name: q14
     type: VARCHAR
-  - name: Q11_199
+  - name: q14_1
     type: VARCHAR
-  - name: Q11_1_OSC1
+  - name: q14_2
     type: VARCHAR
-  - name: Q11_1_OSC2
+  - name: d1
+    type: BIGINT
+  - name: d1_1_1
+    type: BIGINT
+  - name: d1_1_2
+    type: BIGINT
+  - name: d1_2_1
     type: VARCHAR
-  - name: Q11_1OS
+  - name: d1_2_2
     type: VARCHAR
-  - name: Q11_10
+  - name: d1_2_3
     type: VARCHAR
-  - name: Q12
+  - name: d1_2_4
     type: VARCHAR
-  - name: Q13
+  - name: d1_2_5
     type: VARCHAR
-  - name: Q13_1
+  - name: d1_2_6
     type: VARCHAR
-  - name: Q13_2
+  - name: d1_2_7
     type: VARCHAR
-  - name: Q13_3
+  - name: d1_2_8
     type: VARCHAR
-  - name: Q13_4
+  - name: d1_2_9
     type: VARCHAR
-  - name: Q14
+  - name: d2
+    type: BIGINT
+  - name: d3
+    type: BIGINT
+  - name: d3_osc
     type: VARCHAR
-  - name: Q14_1
+  - name: d3_os
     type: VARCHAR
-  - name: Q14_2
+  - name: d4
     type: VARCHAR
-  - name: D1
+  - name: d4_101
     type: VARCHAR
-  - name: D1_1_1
+  - name: d4_102
     type: VARCHAR
-  - name: D1_1_2
+  - name: d4_103
     type: VARCHAR
-  - name: D1_2_1
+  - name: d4_104
     type: VARCHAR
-  - name: D1_2_2
+  - name: d4_199
     type: VARCHAR
-  - name: D1_2_3
+  - name: d4_1_osc
     type: VARCHAR
-  - name: D1_2_4
+  - name: d4_1_os
     type: VARCHAR
-  - name: D1_2_5
+  - name: d4_1_0
     type: VARCHAR
-  - name: D1_2_6
+  - name: d4_2
     type: VARCHAR
-  - name: D1_2_7
+  - name: d5
+    type: BIGINT
+  - name: d6
+    type: BIGINT
+  - name: d6_9
+    type: BIGINT
+  - name: d7
     type: VARCHAR
-  - name: D1_2_8
+  - name: d801
+    type: BIGINT
+  - name: d802
+    type: BIGINT
+  - name: d803
+    type: BIGINT
+  - name: d804
+    type: BIGINT
+  - name: d891
+    type: BIGINT
+  - name: d899
+    type: BIGINT
+  - name: d8_osc1
     type: VARCHAR
-  - name: D1_2_9
+  - name: d8_osc2
     type: VARCHAR
-  - name: D2
+  - name: d8_osc3
     type: VARCHAR
-  - name: D3
+  - name: d8_os
     type: VARCHAR
-  - name: D3_OSC
+  - name: d9_101
     type: VARCHAR
-  - name: D3_OS
+  - name: d9_102
     type: VARCHAR
-  - name: D4
+  - name: d9_103
     type: VARCHAR
-  - name: D4_101
+  - name: d9_104
     type: VARCHAR
-  - name: D4_102
+  - name: d9_197
     type: VARCHAR
-  - name: D4_103
+  - name: d9_199
     type: VARCHAR
-  - name: D4_104
+  - name: d9_2
+    type: BIGINT
+  - name: d9_3
+    type: BIGINT
+  - name: d10
     type: VARCHAR
-  - name: D4_199
+  - name: date
     type: VARCHAR
-  - name: D4_1_OSC
+  - name: time
     type: VARCHAR
-  - name: D4_1_OS
-    type: VARCHAR
-  - name: D4_1_0
-    type: VARCHAR
-  - name: D4_2
-    type: VARCHAR
-  - name: D5
-    type: VARCHAR
-  - name: D6
-    type: VARCHAR
-  - name: D6_9
-    type: VARCHAR
-  - name: D7
-    type: VARCHAR
-  - name: D801
-    type: VARCHAR
-  - name: D802
-    type: VARCHAR
-  - name: D803
-    type: VARCHAR
-  - name: D804
-    type: VARCHAR
-  - name: D891
-    type: VARCHAR
-  - name: D899
-    type: VARCHAR
-  - name: D8_OSC1
-    type: VARCHAR
-  - name: D8_OSC2
-    type: VARCHAR
-  - name: D8_OSC3
-    type: VARCHAR
-  - name: D8_OS
-    type: VARCHAR
-  - name: D9_101
-    type: VARCHAR
-  - name: D9_102
-    type: VARCHAR
-  - name: D9_103
-    type: VARCHAR
-  - name: D9_104
-    type: VARCHAR
-  - name: D9_197
-    type: VARCHAR
-  - name: D9_199
-    type: VARCHAR
-  - name: D9_2
-    type: VARCHAR
-  - name: D9_3
-    type: VARCHAR
-  - name: D10
-    type: VARCHAR
-  - name: DATE
-    type: VARCHAR
-  - name: TIME
-    type: VARCHAR
-  - name: DURATION
-    type: VARCHAR
-  - name: EDAD_RECODIFICADA
-    type: VARCHAR
-  - name: URBAN
-    type: VARCHAR
-  - name: TYPE
-    type: VARCHAR
+  - name: duration
+    type: BIGINT
+  - name: edad_recodificada
+    type: BIGINT
+  - name: urban
+    type: BIGINT
+  - name: type
+    type: BIGINT

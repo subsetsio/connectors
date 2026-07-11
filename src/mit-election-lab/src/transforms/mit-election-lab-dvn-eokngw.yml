@@ -48,8 +48,10 @@ columns:
   - name: state_ic
     type: BIGINT
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: readme_check
     type: BOOLEAN
   - name: magnitude
     type: BIGINT
+temporal: date
+sort: [date]

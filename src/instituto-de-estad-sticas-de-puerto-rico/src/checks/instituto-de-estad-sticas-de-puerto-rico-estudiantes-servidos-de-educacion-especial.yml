@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-estudiantes-servidos-de-educacion-especial`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [problemas_espec_ficos_de_aprendizaje, total, problemas_de_habla_y_lenguaje, deficiencia_intelectual, municipio_escolar]
+checks:
+  - kind: unique
+    columns: [problemas_espec_ficos_de_aprendizaje, total, problemas_de_habla_y_lenguaje, deficiencia_intelectual, municipio_escolar]
+  - kind: not_null
+    col: problemas_espec_ficos_de_aprendizaje
+  - kind: not_null
+    col: total
+  - kind: not_null
+    col: problemas_de_habla_y_lenguaje
+  - kind: not_null
+    col: deficiencia_intelectual
+  - kind: not_null
+    col: municipio_escolar
+  - kind: row_floor
+    min: 176
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

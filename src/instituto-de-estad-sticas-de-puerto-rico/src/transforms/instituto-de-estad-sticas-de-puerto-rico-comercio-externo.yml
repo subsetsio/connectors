@@ -1,46 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-comercio-externo`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Trade
+  - name: trade
     type: VARCHAR
-  - name: Year
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: commodity_code
+    type: BIGINT
+  - name: commodity_short_name
     type: VARCHAR
-  - name: Month
-    type: VARCHAR
-  - name: Commodity_Code
-    type: VARCHAR
-  - name: Commodity_Short_Name
-    type: VARCHAR
-  - name: Commodity_description
+  - name: commodity_description
     type: VARCHAR
   - name: cty_code
+    type: BIGINT
+  - name: country
     type: VARCHAR
-  - name: Country
-    type: VARCHAR
-  - name: SubCountry_Code
+  - name: subcountry_code
     type: VARCHAR
   - name: district
     type: VARCHAR
-  - name: DistrictDesc
+  - name: districtdesc
     type: VARCHAR
   - name: district_posh
     type: VARCHAR
-  - name: DistrictPoshDesc
+  - name: districtposhdesc
     type: VARCHAR
   - name: data
-    type: VARCHAR
+    type: BIGINT
   - name: sitc
     type: VARCHAR
-  - name: SITC_Short_Desc
+  - name: sitc_short_desc
     type: VARCHAR
-  - name: SITC_Long_Desc
+  - name: sitc_long_desc
     type: VARCHAR
   - name: naics
     type: VARCHAR
-  - name: NAICS_description
+  - name: naics_description
     type: VARCHAR
   - name: end_use_i
     type: VARCHAR
@@ -51,40 +53,40 @@ columns:
   - name: unit_1
     type: VARCHAR
   - name: qty_1
-    type: VARCHAR
+    type: BIGINT
   - name: unit_2
     type: VARCHAR
   - name: qty_2
-    type: VARCHAR
+    type: BIGINT
   - name: ves_val_mo
-    type: VARCHAR
+    type: BIGINT
   - name: ves_wgt_mo
-    type: VARCHAR
+    type: BIGINT
   - name: cards_mo
-    type: VARCHAR
+    type: BIGINT
   - name: air_val_mo
-    type: VARCHAR
+    type: BIGINT
   - name: air_wgt_mo
-    type: VARCHAR
+    type: BIGINT
   - name: dut_val_mo
-    type: VARCHAR
+    type: BIGINT
   - name: cal_dut_mo
-    type: VARCHAR
+    type: BIGINT
   - name: con_cha_mo
-    type: VARCHAR
+    type: BIGINT
   - name: con_cif_mo
-    type: VARCHAR
+    type: BIGINT
   - name: gen_val_mo
-    type: VARCHAR
+    type: BIGINT
   - name: gen_cha_mo
-    type: VARCHAR
+    type: BIGINT
   - name: gen_cif_mo
-    type: VARCHAR
+    type: BIGINT
   - name: air_cha_mo
-    type: VARCHAR
+    type: BIGINT
   - name: ves_cha_mo
-    type: VARCHAR
+    type: BIGINT
   - name: cnt_cha_mo
-    type: VARCHAR
+    type: BIGINT
   - name: rev_data
     type: VARCHAR

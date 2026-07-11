@@ -1,1 +1,42 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-frs"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    "FRS_FACILITY_DETAIL_REPORT_URL" AS frs_facility_detail_report_url,
+    CAST("REGISTRY_ID" AS BIGINT) AS registry_id,
+    "PRIMARY_NAME" AS primary_name,
+    "LOCATION_ADDRESS" AS location_address,
+    "SUPPLEMENTAL_LOCATION" AS supplemental_location,
+    "CITY_NAME" AS city_name,
+    "COUNTY_NAME" AS county_name,
+    "FIPS_CODE" AS fips_code,
+    "STATE_CODE" AS state_code,
+    "STATE_NAME" AS state_name,
+    "COUNTRY_NAME" AS country_name,
+    "POSTAL_CODE" AS postal_code,
+    "FEDERAL_FACILITY_CODE" AS federal_facility_code,
+    "FEDERAL_AGENCY_NAME" AS federal_agency_name,
+    "TRIBAL_LAND_CODE" AS tribal_land_code,
+    "TRIBAL_LAND_NAME" AS tribal_land_name,
+    CAST("CONGRESSIONAL_DIST_NUM" AS BIGINT) AS congressional_dist_num,
+    CAST("CENSUS_BLOCK_CODE" AS BIGINT) AS census_block_code,
+    CAST("HUC_CODE" AS BIGINT) AS huc_code,
+    "EPA_REGION_CODE" AS epa_region_code,
+    "SITE_TYPE_NAME" AS site_type_name,
+    "LOCATION_DESCRIPTION" AS location_description,
+    "CREATE_DATE" AS create_date,
+    "UPDATE_DATE" AS update_date,
+    "US_MEXICO_BORDER_IND" AS us_mexico_border_ind,
+    "PGM_SYS_ACRNMS" AS pgm_sys_acrnms,
+    CAST("LATITUDE83" AS DOUBLE) AS latitude83,
+    CAST("LONGITUDE83" AS DOUBLE) AS longitude83,
+    "CONVEYOR" AS conveyor,
+    "COLLECT_DESC" AS collect_desc,
+    CAST("ACCURACY_VALUE" AS BIGINT) AS accuracy_value,
+    "REF_POINT_DESC" AS ref_point_desc,
+    "HDATUM_DESC" AS hdatum_desc,
+    "SOURCE_DESC" AS source_desc
+FROM "instituto-de-estad-sticas-de-puerto-rico-frs"

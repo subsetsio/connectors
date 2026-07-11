@@ -1,230 +1,233 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-tri`. Regenerate after model-verify.
+key: [doc_ctrl_num, prod_waste_8_1_thru_8_7, total_releases, "5_2_stack_air", "8_1b_on_site_other_releases"]
+sort: [doc_ctrl_num, prod_waste_8_1_thru_8_7, total_releases, "5_2_stack_air", "8_1b_on_site_other_releases"]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: tri_facility_id
     type: VARCHAR
-  - name: TRI_FACILITY_ID
+  - name: frs_id
+    type: BIGINT
+  - name: facility_name
     type: VARCHAR
-  - name: FRS_ID
+  - name: street_address
     type: VARCHAR
-  - name: FACILITY_NAME
+  - name: city
     type: VARCHAR
-  - name: STREET_ADDRESS
+  - name: county
     type: VARCHAR
-  - name: CITY
+  - name: st
     type: VARCHAR
-  - name: COUNTY
-    type: VARCHAR
-  - name: ST
-    type: VARCHAR
-  - name: ZIP
-    type: VARCHAR
-  - name: BIA_CODE
-    type: VARCHAR
-  - name: TRIBE
-    type: VARCHAR
-  - name: LATITUDE
-    type: VARCHAR
-  - name: LONGITUDE
-    type: VARCHAR
-  - name: FEDERAL_FACILITY
-    type: VARCHAR
-  - name: INDUSTRY_SECTOR_CODE
-    type: VARCHAR
-  - name: INDUSTRY_SECTOR
-    type: VARCHAR
-  - name: PRIMARY_SIC
-    type: VARCHAR
-  - name: SIC_2
-    type: VARCHAR
-  - name: SIC_3
-    type: VARCHAR
-  - name: SIC_4
-    type: VARCHAR
-  - name: SIC_5
-    type: VARCHAR
-  - name: SIC_6
-    type: VARCHAR
-  - name: PRIMARY_NAICS
-    type: VARCHAR
-  - name: NAICS_2
-    type: VARCHAR
-  - name: NAICS_3
-    type: VARCHAR
-  - name: NAICS_4
-    type: VARCHAR
-  - name: NAICS_5
-    type: VARCHAR
-  - name: NAICS_6
-    type: VARCHAR
-  - name: DOC_CTRL_NUM
-    type: VARCHAR
-  - name: CHEMICAL
-    type: VARCHAR
-  - name: CAS_#/COMPOUND_ID
-    type: VARCHAR
-  - name: SRS_ID
-    type: VARCHAR
-  - name: CLEAR_AIR_ACT_CHEMICAL
-    type: VARCHAR
-  - name: CLASSIFICATION
-    type: VARCHAR
-  - name: METAL
-    type: VARCHAR
-  - name: METAL_CATEGORY
-    type: VARCHAR
-  - name: CARCINOGEN
-    type: VARCHAR
-  - name: FORM_TYPE
-    type: VARCHAR
-  - name: UNIT_OF_MEASURE
-    type: VARCHAR
-  - name: 5.1_FUGITIVE_AIR
-    type: VARCHAR
-  - name: 5.2_STACK_AIR
-    type: VARCHAR
-  - name: 5.3_WATER
-    type: VARCHAR
-  - name: 5.4_UNDERGROUND
-    type: VARCHAR
-  - name: 5.4.1_UNDERGROUND_CLASS_I
-    type: VARCHAR
-  - name: 5.4.2_UNDERGROUND_CLASS_II-V
-    type: VARCHAR
-  - name: 5.5.1_LANDFILLS
-    type: VARCHAR
-  - name: 5.5.1A_RCRA_C_LANDFILLS
-    type: VARCHAR
-  - name: 5.5.1B_OTHER_LANDFILLS
-    type: VARCHAR
-  - name: 5.5.2_LAND_TREATMENT
-    type: VARCHAR
-  - name: 5.5.3_SURFACE_IMPOUNDMENT
-    type: VARCHAR
-  - name: 5.5.3A_RCRA_C_SURFACE_IMP.
-    type: VARCHAR
-  - name: 5.5.3B_Other_SURFACE_IMP.
-    type: VARCHAR
-  - name: 5.5.4_OTHER_DISPOSAL
-    type: VARCHAR
-  - name: ON-SITE_RELEASE_TOTAL
-    type: VARCHAR
-  - name: 6.1_POTW-TRANSFERS_FOR_RELEASE
-    type: VARCHAR
-  - name: 6.1_POTW-TRANSFERS_FOR_TREATM.
-    type: VARCHAR
-  - name: 6.1_POTW-TOTAL_TRANSFERS
-    type: VARCHAR
-  - name: 6.2_M10
-    type: VARCHAR
-  - name: 6.2_M41
-    type: VARCHAR
-  - name: 6.2_M62
-    type: VARCHAR
-  - name: 6.2_M71
-    type: VARCHAR
-  - name: 6.2_M81
-    type: VARCHAR
-  - name: 6.2_M82
-    type: VARCHAR
-  - name: 6.2_M72
-    type: VARCHAR
-  - name: 6.2_M63
-    type: VARCHAR
-  - name: 6.2_M66
-    type: VARCHAR
-  - name: 6.2_M67
-    type: VARCHAR
-  - name: 6.2_M64
-    type: VARCHAR
-  - name: 6.2_M65
-    type: VARCHAR
-  - name: 6.2_M73
-    type: VARCHAR
-  - name: 6.2_M79
-    type: VARCHAR
-  - name: 6.2_M90
-    type: VARCHAR
-  - name: 6.2_M94
-    type: VARCHAR
-  - name: 6.2_M99
-    type: VARCHAR
-  - name: OFF-SITE_RELEASE_TOTAL
-    type: VARCHAR
-  - name: 6.2_M20
-    type: VARCHAR
-  - name: 6.2_M24
-    type: VARCHAR
-  - name: 6.2_M26
-    type: VARCHAR
-  - name: 6.2_M28
-    type: VARCHAR
-  - name: 6.2_M93
-    type: VARCHAR
-  - name: OFF-SITE_RECYCLED_TOTAL
-    type: VARCHAR
-  - name: 6.2_M56
-    type: VARCHAR
-  - name: 6.2_M92
-    type: VARCHAR
-  - name: OFF-SITE_RECOVERY_TOTAL
-    type: VARCHAR
-  - name: 6.2_M40
-    type: VARCHAR
-  - name: 6.2_M50
-    type: VARCHAR
-  - name: 6.2_M54
-    type: VARCHAR
-  - name: 6.2_M61
-    type: VARCHAR
-  - name: 6.2_M69
-    type: VARCHAR
-  - name: 6.2_M95
-    type: VARCHAR
-  - name: OFF-SITE_TREATED_TOTAL
-    type: VARCHAR
-  - name: TOTAL_RELEASES
-    type: VARCHAR
-  - name: 8.1_RELEASES
-    type: VARCHAR
-  - name: 8.1A_ON-SITE_CONTAINED_REL.
-    type: VARCHAR
-  - name: 8.1B_ON-SITE_OTHER_RELEASES
-    type: VARCHAR
-  - name: 8.1C_OFF-SITE_CONTAINED_REL.
-    type: VARCHAR
-  - name: 8.1D_OFF-SITE_OTHER_RELEASES
-    type: VARCHAR
-  - name: 8.2_ENERGY_RECOVERY_ON-SITE
-    type: VARCHAR
-  - name: 8.3_ENERGY_RECOVERY_OFF-SITE
-    type: VARCHAR
-  - name: 8.4_RECYCLING_ON-SITE
-    type: VARCHAR
-  - name: 8.5_RECYCLING_OFF-SITE
-    type: VARCHAR
-  - name: 8.6_TREATMENT_ON-SITE
-    type: VARCHAR
-  - name: 8.7_TREATMENT_OFF-SITE
-    type: VARCHAR
-  - name: PROD._WASTE_(8.1_THRU_8.7)
-    type: VARCHAR
-  - name: 8.8_ONE-TIME_RELEASE
-    type: VARCHAR
-  - name: PROD_RATIO_OR_ACTIVITY
-    type: VARCHAR
-  - name: 8.9_PRODUCTION_RATIO
-    type: VARCHAR
-  - name: PARENT_COMPANY_NAME
-    type: VARCHAR
-  - name: PARENT_COMPANY_DB_NUMBER
-    type: VARCHAR
-  - name: SYS_STSITSSXSOLCHJPSAF7486K4RV
-    type: VARCHAR
-  - name: SYS_STSWGMX8O#197_NPUKVK#S5$QM
+  - name: zip
+    type: VARCHAR
+  - name: bia_code
+    type: VARCHAR
+  - name: tribe
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: federal_facility
+    type: VARCHAR
+  - name: industry_sector_code
+    type: BIGINT
+  - name: industry_sector
+    type: VARCHAR
+  - name: primary_sic
+    type: VARCHAR
+  - name: sic_2
+    type: VARCHAR
+  - name: sic_3
+    type: VARCHAR
+  - name: sic_4
+    type: VARCHAR
+  - name: sic_5
+    type: VARCHAR
+  - name: sic_6
+    type: VARCHAR
+  - name: primary_naics
+    type: BIGINT
+  - name: naics_2
+    type: BIGINT
+  - name: naics_3
+    type: BIGINT
+  - name: naics_4
+    type: VARCHAR
+  - name: naics_5
+    type: VARCHAR
+  - name: naics_6
+    type: VARCHAR
+  - name: doc_ctrl_num
+    type: BIGINT
+  - name: chemical
+    type: VARCHAR
+  - name: cas_compound_id
+    type: VARCHAR
+  - name: srs_id
+    type: BIGINT
+  - name: clear_air_act_chemical
+    type: VARCHAR
+  - name: classification
+    type: VARCHAR
+  - name: metal
+    type: VARCHAR
+  - name: metal_category
+    type: BIGINT
+  - name: carcinogen
+    type: VARCHAR
+  - name: form_type
+    type: VARCHAR
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: "5_1_fugitive_air"
+    type: BIGINT
+  - name: "5_2_stack_air"
+    type: BIGINT
+  - name: "5_3_water"
+    type: BIGINT
+  - name: "5_4_underground"
+    type: BIGINT
+  - name: "5_4_1_underground_class_i"
+    type: BIGINT
+  - name: "5_4_2_underground_class_ii_v"
+    type: VARCHAR
+  - name: "5_5_1_landfills"
+    type: BIGINT
+  - name: "5_5_1a_rcra_c_landfills"
+    type: DOUBLE
+  - name: "5_5_1b_other_landfills"
+    type: BIGINT
+  - name: "5_5_2_land_treatment"
+    type: BIGINT
+  - name: "5_5_3_surface_impoundment"
+    type: BIGINT
+  - name: "5_5_3a_rcra_c_surface_imp"
+    type: BIGINT
+  - name: "5_5_3b_other_surface_imp"
+    type: BIGINT
+  - name: "5_5_4_other_disposal"
+    type: BIGINT
+  - name: on_site_release_total
+    type: BIGINT
+  - name: "6_1_potw_transfers_for_release"
+    type: BIGINT
+  - name: "6_1_potw_transfers_for_treatm"
+    type: BIGINT
+  - name: "6_1_potw_total_transfers"
+    type: BIGINT
+  - name: "6_2_m10"
+    type: DOUBLE
+  - name: "6_2_m41"
+    type: BIGINT
+  - name: "6_2_m62"
+    type: VARCHAR
+  - name: "6_2_m71"
+    type: DOUBLE
+  - name: "6_2_m81"
+    type: BIGINT
+  - name: "6_2_m82"
+    type: DOUBLE
+  - name: "6_2_m72"
+    type: BIGINT
+  - name: "6_2_m63"
+    type: BIGINT
+  - name: "6_2_m66"
+    type: BIGINT
+  - name: "6_2_m67"
+    type: VARCHAR
+  - name: "6_2_m64"
+    type: BIGINT
+  - name: "6_2_m65"
+    type: VARCHAR
+  - name: "6_2_m73"
+    type: VARCHAR
+  - name: "6_2_m79"
+    type: BIGINT
+  - name: "6_2_m90"
+    type: DOUBLE
+  - name: "6_2_m94"
+    type: VARCHAR
+  - name: "6_2_m99"
+    type: BIGINT
+  - name: off_site_release_total
+    type: BIGINT
+  - name: "6_2_m20"
+    type: BIGINT
+  - name: "6_2_m24"
+    type: DOUBLE
+  - name: "6_2_m26"
+    type: DOUBLE
+  - name: "6_2_m28"
+    type: BIGINT
+  - name: "6_2_m93"
+    type: BIGINT
+  - name: off_site_recycled_total
+    type: DOUBLE
+  - name: "6_2_m56"
+    type: VARCHAR
+  - name: "6_2_m92"
+    type: BIGINT
+  - name: off_site_recovery_total
+    type: VARCHAR
+  - name: "6_2_m40"
+    type: DOUBLE
+  - name: "6_2_m50"
+    type: BIGINT
+  - name: "6_2_m54"
+    type: DOUBLE
+  - name: "6_2_m61"
+    type: BIGINT
+  - name: "6_2_m69"
+    type: BIGINT
+  - name: "6_2_m95"
+    type: DOUBLE
+  - name: off_site_treated_total
+    type: BIGINT
+  - name: total_releases
+    type: BIGINT
+  - name: "8_1_releases"
+    type: BIGINT
+  - name: "8_1a_on_site_contained_rel"
+    type: BIGINT
+  - name: "8_1b_on_site_other_releases"
+    type: VARCHAR
+  - name: "8_1c_off_site_contained_rel"
+    type: VARCHAR
+  - name: "8_1d_off_site_other_releases"
+    type: VARCHAR
+  - name: "8_2_energy_recovery_on_site"
+    type: BIGINT
+  - name: "8_3_energy_recovery_off_site"
+    type: BIGINT
+  - name: "8_4_recycling_on_site"
+    type: BIGINT
+  - name: "8_5_recycling_off_site"
+    type: DOUBLE
+  - name: "8_6_treatment_on_site"
+    type: BIGINT
+  - name: "8_7_treatment_off_site"
+    type: DOUBLE
+  - name: prod_waste_8_1_thru_8_7
+    type: DOUBLE
+  - name: "8_8_one_time_release"
+    type: BIGINT
+  - name: prod_ratio_or_activity
+    type: VARCHAR
+  - name: "8_9_production_ratio"
+    type: VARCHAR
+  - name: parent_company_name
+    type: VARCHAR
+  - name: parent_company_db_number
+    type: VARCHAR
+  - name: sys_stsitssxsolchjpsaf7486k4rv
+    type: VARCHAR
+  - name: sys_stswgmx8o_197_npukvk_s5_qm
     type: VARCHAR
   - name: col_111
     type: VARCHAR

@@ -1,54 +1,57 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-directorio-de-escuelas-publicas-puerto-rico-2020-2021`. Regenerate after model-verify.
+key: [longitud, c_digo, direcci_n_f_sica, latitud, escuela]
+sort: [longitud, c_digo, direcci_n_f_sica, latitud, escuela]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Región
+  - name: regi_n
     type: VARCHAR
-  - name: Distrito
+  - name: distrito
     type: VARCHAR
-  - name: Municipio Escolar
+  - name: municipio_escolar
     type: VARCHAR
-  - name: Código
+  - name: c_digo
     type: VARCHAR
-  - name: Escuela
+  - name: escuela
     type: VARCHAR
-  - name: Latitud
+  - name: latitud
+    type: DOUBLE
+  - name: longitud
+    type: DOUBLE
+  - name: status
     type: VARCHAR
-  - name: Longitud
+  - name: nivel
     type: VARCHAR
-  - name: Status
+  - name: grado_que_ofrece
     type: VARCHAR
-  - name: Nivel
+  - name: montessori
     type: VARCHAR
-  - name: Grado que ofrece
+  - name: total_m1certificada
+    type: BIGINT
+  - name: total_m1activa
+    type: BIGINT
+  - name: estrellas
+    type: BIGINT
+  - name: puntuaci_n
+    type: DOUBLE
+  - name: clasificaci_n_essa
     type: VARCHAR
-  - name: Montessori
+  - name: tasa_de_deserci_n
+    type: DOUBLE
+  - name: tel_fono
     type: VARCHAR
-  - name: Total M1Certificada
+  - name: direcci_n_f_sica
     type: VARCHAR
-  - name: Total M1Activa
+  - name: pueblo
     type: VARCHAR
-  - name: Estrellas
+  - name: estado
     type: VARCHAR
-  - name: Puntuación
+  - name: zipcode
     type: VARCHAR
-  - name: Clasificación ESSA
+  - name: email
     type: VARCHAR
-  - name: Tasa de Deserción
-    type: VARCHAR
-  - name: Teléfono
-    type: VARCHAR
-  - name: Dirección Física
-    type: VARCHAR
-  - name: Pueblo
-    type: VARCHAR
-  - name: Estado
-    type: VARCHAR
-  - name: Zipcode
-    type: VARCHAR
-  - name: Email
-    type: VARCHAR
-  - name: Año_ID
+  - name: a_o_id
     type: VARCHAR

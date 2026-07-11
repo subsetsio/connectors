@@ -1,1 +1,40 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-directorio-escuelas-y-porcientos-meta-pr-16-17"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    "REGION" AS region,
+    "DISTRITO" AS distrito,
+    "MUNICIPIO ESCOLAR" AS municipio_escolar,
+    CAST("CODIGO" AS BIGINT) AS codigo,
+    "ESCUELA" AS escuela,
+    "GRADO" AS grado,
+    "NIVEL" AS nivel,
+    "DIRECTOR" AS director,
+    "ZONA" AS zona,
+    "TELEFONO_1" AS telefono_1,
+    "FAX_1" AS fax_1,
+    "DIRECCION_FISICA_DIRECCION" AS direccion_fisica_direccion,
+    "DIRECCION_FISICA_PUEBLO" AS direccion_fisica_pueblo,
+    "DIRECCION_FISICA_ESTADO" AS direccion_fisica_estado,
+    "Email" AS email,
+    "Porciento Español Pre-Básico" AS porciento_espa_ol_pre_b_sico,
+    "Porciento Español Básico" AS porciento_espa_ol_b_sico,
+    "Porciento Español Proficiente" AS porciento_espa_ol_proficiente,
+    "Porciento Español Avanzado" AS porciento_espa_ol_avanzado,
+    "Porciento Matemática Pre -Básico" AS porciento_matem_tica_pre_b_sico,
+    "Porciento Matemática Básico" AS porciento_matem_tica_b_sico,
+    "Porciento Matemática Proficiente" AS porciento_matem_tica_proficiente,
+    "Porciento Matemática Avanzado" AS porciento_matem_tica_avanzado,
+    "Porciento Ingles Pre-Básico" AS porciento_ingles_pre_b_sico,
+    "Porciento Ingles Básico" AS porciento_ingles_b_sico,
+    "Porciento Ingles Proficiente" AS porciento_ingles_proficiente,
+    "Porciento Ingles Avanzado" AS porciento_ingles_avanzado,
+    "Porciento Ciencia Pre-Básico" AS porciento_ciencia_pre_b_sico,
+    "Porciento Ciencia Básico" AS porciento_ciencia_b_sico,
+    "Porciento Ciencia Proficiente" AS porciento_ciencia_proficiente,
+    "Porciento Ciencia Avanzado" AS porciento_ciencia_avanzado,
+    "Localizacion" AS localizacion
+FROM "instituto-de-estad-sticas-de-puerto-rico-directorio-escuelas-y-porcientos-meta-pr-16-17"

@@ -1,42 +1,45 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-incidencia-crime-map`. Regenerate after model-verify.
+key: [objectid]
+sort: [objectid]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: Addr_type
+  - name: addr_type
     type: VARCHAR
-  - name: KeyField
+  - name: keyfield
     type: VARCHAR
-  - name: Street
+  - name: street
     type: VARCHAR
-  - name: Zone
+  - name: zone
     type: VARCHAR
-  - name: Dirección Estandarizada
+  - name: direcci_n_estandarizada
     type: VARCHAR
-  - name: Estructura
+  - name: estructura
     type: VARCHAR
-  - name: Fecha Ocurrencia
+  - name: fecha_ocurrencia
     type: VARCHAR
-  - name: Delito NIBRS
+  - name: delito_nibrs
     type: VARCHAR
-  - name: Delito Tipo I
+  - name: delito_tipo_i
+    type: BIGINT
+  - name: hora_ocurrencia
     type: VARCHAR
-  - name: Hora Ocurrencia
-    type: VARCHAR
-  - name: Día de la semana
-    type: VARCHAR
+  - name: d_a_de_la_semana
+    type: BIGINT
   - name: km
+    type: DOUBLE
+  - name: match_addr
     type: VARCHAR
-  - name: Match_addr
+  - name: match_type
     type: VARCHAR
-  - name: Match_type
+  - name: carretera
+    type: BIGINT
+  - name: objectid
+    type: BIGINT
+  - name: observaciones_hechos
     type: VARCHAR
-  - name: Carretera
-    type: VARCHAR
-  - name: OBJECTID
-    type: VARCHAR
-  - name: observaciones hechos
-    type: VARCHAR
-  - name: GlobalID
+  - name: globalid
     type: VARCHAR

@@ -1,120 +1,123 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-directorio-comprensivo-de-escuelas-publicas-puerto-rico-2018`. Regenerate after model-verify.
+key: [table_id]
+sort: [table_id]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: TABLE_ID
+  - name: table_id
     type: VARCHAR
-  - name: CODIGO
+  - name: codigo
     type: VARCHAR
-  - name: ESCUELA
+  - name: escuela
     type: VARCHAR
-  - name: REGION
+  - name: region
     type: VARCHAR
-  - name: DISTRITO
+  - name: distrito
     type: VARCHAR
-  - name: MUNICIPIO_ESCOLAR
+  - name: municipio_escolar
     type: VARCHAR
-  - name: DIRECCION_FISICA
+  - name: direccion_fisica
     type: VARCHAR
-  - name: DIRECCION_MUNICIPIO
+  - name: direccion_municipio
     type: VARCHAR
-  - name: DIRECCION_ESTADO
+  - name: direccion_estado
     type: VARCHAR
-  - name: DIRECCION_ZIPCODE
+  - name: direccion_zipcode
     type: VARCHAR
-  - name: GEOLOCALIZACION
+  - name: geolocalizacion
     type: VARCHAR
-  - name: TELEFONO
+  - name: telefono
     type: VARCHAR
-  - name: FAX
+  - name: fax
     type: VARCHAR
-  - name: DIRECTOR
+  - name: director
     type: VARCHAR
-  - name: ZONA
+  - name: zona
     type: VARCHAR
-  - name: OPERACIONAL_2018-2019
+  - name: operacional_2018_2019
     type: VARCHAR
-  - name: NIVEL_ORIGINAL
+  - name: nivel_original
     type: VARCHAR
-  - name: GRADOS_ORIGINAL
+  - name: grados_original
     type: VARCHAR
-  - name: GRADOS_POSTERIOR
+  - name: grados_posterior
     type: VARCHAR
-  - name: MATRICULA_TOTAL
+  - name: matricula_total
     type: VARCHAR
-  - name: GRADO_INFANT
+  - name: grado_infant
+    type: BIGINT
+  - name: grado_toddler
+    type: BIGINT
+  - name: grado_pk
+    type: BIGINT
+  - name: grado_pke
+    type: BIGINT
+  - name: grado_pkm
+    type: BIGINT
+  - name: grado_k
+    type: BIGINT
+  - name: grado_1
+    type: BIGINT
+  - name: grado_2
+    type: BIGINT
+  - name: grado_3
+    type: BIGINT
+  - name: grado_4
+    type: BIGINT
+  - name: grado_5
+    type: BIGINT
+  - name: grado_6
+    type: BIGINT
+  - name: grado_sge
+    type: BIGINT
+  - name: grado_7
+    type: BIGINT
+  - name: grado_8
+    type: BIGINT
+  - name: grado_9
+    type: BIGINT
+  - name: grado_sgi
+    type: BIGINT
+  - name: grado_10
+    type: BIGINT
+  - name: grado_11
+    type: BIGINT
+  - name: grado_12
+    type: BIGINT
+  - name: grado_sgs
+    type: BIGINT
+  - name: espa_ol_proficiente_avanzado
     type: VARCHAR
-  - name: GRADO_TODDLER
+  - name: espa_ol_pre_b_sico
     type: VARCHAR
-  - name: GRADO_PK
+  - name: espa_ol_b_sico
     type: VARCHAR
-  - name: GRADO_PKE
+  - name: espa_ol_proficiente
     type: VARCHAR
-  - name: GRADO_PKM
+  - name: espa_ol_avanzado
     type: VARCHAR
-  - name: GRADO_K
+  - name: matem_ticas_proficiente_avanzado
     type: VARCHAR
-  - name: GRADO_1
+  - name: matem_ticas_pre_b_sico
     type: VARCHAR
-  - name: GRADO_2
+  - name: matem_ticas_b_sico
     type: VARCHAR
-  - name: GRADO_3
+  - name: matem_ticas_proficiente
     type: VARCHAR
-  - name: GRADO_4
+  - name: matem_ticas_avanzado
     type: VARCHAR
-  - name: GRADO_5
+  - name: ingl_s_proficiente_avanzado
     type: VARCHAR
-  - name: GRADO_6
+  - name: ingl_s_pre_b_sico
     type: VARCHAR
-  - name: GRADO_SGE
+  - name: ingl_s_b_sico
     type: VARCHAR
-  - name: GRADO_7
+  - name: ingl_s_proficiente
     type: VARCHAR
-  - name: GRADO_8
+  - name: ingl_s_avanzado
     type: VARCHAR
-  - name: GRADO_9
-    type: VARCHAR
-  - name: GRADO_SGI
-    type: VARCHAR
-  - name: GRADO_10
-    type: VARCHAR
-  - name: GRADO_11
-    type: VARCHAR
-  - name: GRADO_12
-    type: VARCHAR
-  - name: GRADO_SGS
-    type: VARCHAR
-  - name: ESPAÑOL_[PROFICIENTE+AVANZADO]
-    type: VARCHAR
-  - name: ESPAÑOL_PRE-BÁSICO
-    type: VARCHAR
-  - name: ESPAÑOL_BÁSICO
-    type: VARCHAR
-  - name: ESPAÑOL_PROFICIENTE
-    type: VARCHAR
-  - name: ESPAÑOL_AVANZADO
-    type: VARCHAR
-  - name: MATEMÁTICAS_[PROFICIENTE+AVANZADO]
-    type: VARCHAR
-  - name: MATEMÁTICAS_PRE-BÁSICO
-    type: VARCHAR
-  - name: MATEMÁTICAS_BÁSICO
-    type: VARCHAR
-  - name: MATEMÁTICAS_PROFICIENTE
-    type: VARCHAR
-  - name: MATEMÁTICAS_AVANZADO
-    type: VARCHAR
-  - name: INGLÉS_[PROFICIENTE+AVANZADO]
-    type: VARCHAR
-  - name: INGLÉS_PRE-BÁSICO
-    type: VARCHAR
-  - name: INGLÉS_BÁSICO
-    type: VARCHAR
-  - name: INGLÉS_PROFICIENTE
-    type: VARCHAR
-  - name: INGLÉS_AVANZADO
-    type: VARCHAR
-  - name: BAJO_NIVEL_POBREZA
+  - name: bajo_nivel_pobreza
     type: VARCHAR

@@ -1,56 +1,58 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-occupational-employment-statistics`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: AREA
+  - name: area
+    type: BIGINT
+  - name: st
     type: VARCHAR
-  - name: ST
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: occ_code
     type: VARCHAR
-  - name: OCC_CODE
+  - name: occ_title
     type: VARCHAR
-  - name: OCC_TITLE
+  - name: occ_group
     type: VARCHAR
-  - name: OCC_GROUP
+  - name: tot_emp
     type: VARCHAR
-  - name: TOT_EMP
+  - name: emp_prse
     type: VARCHAR
-  - name: EMP_PRSE
+  - name: jobs_1000
     type: VARCHAR
-  - name: JOBS_1000
+  - name: loc_q
     type: VARCHAR
-  - name: LOC_Q
+  - name: h_mean
     type: VARCHAR
-  - name: H_MEAN
+  - name: a_mean
     type: VARCHAR
-  - name: A_MEAN
+  - name: mean_prse
     type: VARCHAR
-  - name: MEAN_PRSE
+  - name: h_pct10
     type: VARCHAR
-  - name: H_PCT10
+  - name: h_pct25
     type: VARCHAR
-  - name: H_PCT25
+  - name: h_median
     type: VARCHAR
-  - name: H_MEDIAN
+  - name: h_pct75
     type: VARCHAR
-  - name: H_PCT75
+  - name: h_pct90
     type: VARCHAR
-  - name: H_PCT90
+  - name: a_pct10
     type: VARCHAR
-  - name: A_PCT10
+  - name: a_pct25
     type: VARCHAR
-  - name: A_PCT25
+  - name: a_median
     type: VARCHAR
-  - name: A_MEDIAN
+  - name: a_pct75
     type: VARCHAR
-  - name: A_PCT75
+  - name: a_pct90
     type: VARCHAR
-  - name: A_PCT90
-    type: VARCHAR
-  - name: ANNUAL
-    type: VARCHAR
-  - name: HOURLY
-    type: VARCHAR
+  - name: annual
+    type: BOOLEAN
+  - name: hourly
+    type: BOOLEAN

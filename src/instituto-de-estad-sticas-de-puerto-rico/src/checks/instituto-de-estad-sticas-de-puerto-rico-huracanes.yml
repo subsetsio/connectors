@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-huracanes`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [coordinates, value, serial_num, wmo_pres, hda_pres]
+temporal: iso_time
+checks:
+  - kind: unique
+    columns: [coordinates, value, serial_num, wmo_pres, hda_pres]
+  - kind: not_null
+    col: coordinates
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: serial_num
+  - kind: not_null
+    col: wmo_pres
+  - kind: not_null
+    col: hda_pres
+  - kind: row_floor
+    min: 2985
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

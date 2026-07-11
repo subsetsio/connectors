@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-de-estad-sticas-de-puerto-rico-tri`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [doc_ctrl_num, prod_waste_8_1_thru_8_7, total_releases, "5_2_stack_air", "8_1b_on_site_other_releases"]
+checks:
+  - kind: unique
+    columns: [doc_ctrl_num, prod_waste_8_1_thru_8_7, total_releases, "5_2_stack_air", "8_1b_on_site_other_releases"]
+  - kind: not_null
+    col: doc_ctrl_num
+  - kind: not_null
+    col: prod_waste_8_1_thru_8_7
+  - kind: not_null
+    col: total_releases
+  - kind: not_null
+    col: "5_2_stack_air"
+  - kind: not_null
+    col: "8_1b_on_site_other_releases"
+  - kind: row_floor
+    min: 7623
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

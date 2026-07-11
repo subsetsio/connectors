@@ -1,42 +1,45 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-estudiantes-servidos-de-educacion-especial`. Regenerate after model-verify.
+key: [problemas_espec_ficos_de_aprendizaje, total, problemas_de_habla_y_lenguaje, deficiencia_intelectual, municipio_escolar]
+sort: [problemas_espec_ficos_de_aprendizaje, total, problemas_de_habla_y_lenguaje, deficiencia_intelectual, municipio_escolar]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: MUNICIPIO_ESCOLAR
+  - name: municipio_escolar
     type: VARCHAR
-  - name: MUNICIPIO_LOCATION
+  - name: municipio_location
     type: VARCHAR
-  - name: AUTISMO
+  - name: autismo
+    type: BIGINT
+  - name: da_o_cerebral_por_trauma
+    type: BIGINT
+  - name: disturbios_emocionales
+    type: BIGINT
+  - name: impedimentos_m_ltiples
+    type: BIGINT
+  - name: impedimentos_visuales
+    type: BIGINT
+  - name: otros_problemas_de_salud
+    type: BIGINT
+  - name: problemas_auditivos
+    type: BIGINT
+  - name: problemas_de_habla_y_lenguaje
     type: VARCHAR
-  - name: DAÑO CEREBRAL POR TRAUMA
+  - name: problemas_espec_ficos_de_aprendizaje
     type: VARCHAR
-  - name: DISTURBIOS EMOCIONALES
+  - name: problemas_ortop_dicos
+    type: BIGINT
+  - name: deficiencia_intelectual
+    type: BIGINT
+  - name: retraso_en_el_desarrollo
+    type: BIGINT
+  - name: sordo_ciego
+    type: BIGINT
+  - name: total
     type: VARCHAR
-  - name: IMPEDIMENTOS MÚLTIPLES
+  - name: a_o_escolar
     type: VARCHAR
-  - name: IMPEDIMENTOS VISUALES
-    type: VARCHAR
-  - name: OTROS PROBLEMAS DE SALUD
-    type: VARCHAR
-  - name: PROBLEMAS AUDITIVOS
-    type: VARCHAR
-  - name: PROBLEMAS DE HABLA Y LENGUAJE
-    type: VARCHAR
-  - name: PROBLEMAS ESPECÍFICOS DE APRENDIZAJE
-    type: VARCHAR
-  - name: PROBLEMAS ORTOPÉDICOS
-    type: VARCHAR
-  - name: DEFICIENCIA INTELECTUAL
-    type: VARCHAR
-  - name: RETRASO EN EL DESARROLLO
-    type: VARCHAR
-  - name: SORDO CIEGO
-    type: VARCHAR
-  - name: TOTAL
-    type: VARCHAR
-  - name: AÑO ESCOLAR
-    type: VARCHAR
-  - name: PUEBLO
+  - name: pueblo
     type: VARCHAR

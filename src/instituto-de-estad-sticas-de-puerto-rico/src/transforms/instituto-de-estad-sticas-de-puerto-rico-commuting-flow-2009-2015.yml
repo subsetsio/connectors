@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-commuting-flow-2009-2015`. Regenerate after model-verify.
+key: [workers_in_commuting_flow, county_name_residence, county_code_place_of_work, county_code_residence, travel_mode]
+sort: [workers_in_commuting_flow, county_name_residence, county_code_place_of_work, county_code_residence, travel_mode]
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: County Code Residence
+  - name: county_code_residence
+    type: BIGINT
+  - name: county_name_residence
     type: VARCHAR
-  - name: County Name Residence
+  - name: county_code_place_of_work
+    type: BIGINT
+  - name: county_name
     type: VARCHAR
-  - name: County Code Place of Work
+  - name: travel_mode
     type: VARCHAR
-  - name: County Name
-    type: VARCHAR
-  - name: Travel Mode
-    type: VARCHAR
-  - name: Workers in Commuting Flow
-    type: VARCHAR
+  - name: workers_in_commuting_flow
+    type: BIGINT

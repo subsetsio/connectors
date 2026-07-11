@@ -1,1 +1,45 @@
-SELECT * FROM "instituto-de-estad-sticas-de-puerto-rico-padrones"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_resource",
+    "source_file",
+    CAST("PID" AS BIGINT) AS pid,
+    "PNAME" AS pname,
+    CAST("PARTIDO" AS BIGINT) AS partido,
+    CAST("YEAR" AS BIGINT) AS year,
+    CAST("REGION" AS BIGINT) AS region,
+    "REGIONC" AS regionc,
+    CAST("BLAN1" AS BIGINT) AS blan1,
+    CAST("BLAN2" AS BIGINT) AS blan2,
+    CAST("BLAN3" AS BIGINT) AS blan3,
+    CAST("BLAN4" AS BIGINT) AS blan4,
+    CAST("IND1" AS BIGINT) AS ind1,
+    CAST("IND2" AS BIGINT) AS ind2,
+    CAST("IND3" AS BIGINT) AS ind3,
+    CAST("IND4" AS BIGINT) AS ind4,
+    CAST("PAR1" AS BIGINT) AS par1,
+    CAST("PAR2" AS BIGINT) AS par2,
+    CAST("PAR3" AS BIGINT) AS par3,
+    CAST("PAR4" AS BIGINT) AS par4,
+    CAST("MOR1" AS BIGINT) AS mor1,
+    CAST("MOR2" AS BIGINT) AS mor2,
+    CAST("MOR3" AS BIGINT) AS mor3,
+    CAST("MOR4" AS BIGINT) AS mor4,
+    CAST("MUL1" AS BIGINT) AS mul1,
+    CAST("MUL2" AS BIGINT) AS mul2,
+    CAST("MUL3" AS BIGINT) AS mul3,
+    CAST("MUL4" AS BIGINT) AS mul4,
+    CAST("NEG1" AS BIGINT) AS neg1,
+    CAST("NEG2" AS BIGINT) AS neg2,
+    CAST("NEG3" AS BIGINT) AS neg3,
+    CAST("NEG4" AS BIGINT) AS neg4,
+    CAST("TBLAN" AS BIGINT) AS tblan,
+    CAST("TIND" AS BIGINT) AS tind,
+    CAST("TPAR" AS BIGINT) AS tpar,
+    CAST("TMOR" AS BIGINT) AS tmor,
+    CAST("TMUL" AS BIGINT) AS tmul,
+    CAST("TNEG" AS BIGINT) AS tneg,
+    CAST("TPOP" AS BIGINT) AS tpop
+FROM "instituto-de-estad-sticas-de-puerto-rico-padrones"

@@ -1,0 +1,990 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-encuesta-sobre-el-virus-de-papiloma-humano-vph-2014`. Regenerate after model-verify.
+key: []
+columns:
+  - name: source_resource
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: state
+    type: BIGINT
+  - name: geostr
+    type: BIGINT
+  - name: denstr2
+    type: BIGINT
+  - name: precall
+    type: BIGINT
+  - name: repnum
+    type: BIGINT
+  - name: repdepth
+    type: BIGINT
+  - name: fmonth
+    type: BIGINT
+  - name: idate
+    type: BIGINT
+  - name: imonth
+    type: BIGINT
+  - name: iday
+    type: BIGINT
+  - name: iyear
+    type: BIGINT
+  - name: intvid
+    type: BIGINT
+  - name: dispcode
+    type: BIGINT
+  - name: seqno
+    type: BIGINT
+  - name: psu
+    type: BIGINT
+  - name: nattmpts
+    type: BIGINT
+  - name: nrecsel
+    type: BIGINT
+  - name: nrecstr
+    type: DOUBLE
+  - name: ctelenum
+    type: BIGINT
+  - name: pvtresd1
+    type: BIGINT
+  - name: colghous
+    type: BIGINT
+  - name: stateres
+    type: BIGINT
+  - name: cellfon3
+    type: BIGINT
+  - name: ladult
+    type: BIGINT
+  - name: numadult
+    type: BIGINT
+  - name: nummen
+    type: BIGINT
+  - name: numwomen
+    type: BIGINT
+  - name: genhlth
+    type: BIGINT
+  - name: physhlth
+    type: BIGINT
+  - name: menthlth
+    type: BIGINT
+  - name: poorhlth
+    type: BIGINT
+  - name: hlthpln1
+    type: BIGINT
+  - name: persdoc2
+    type: BIGINT
+  - name: medcost
+    type: BIGINT
+  - name: checkup1
+    type: BIGINT
+  - name: exerany2
+    type: BIGINT
+  - name: sleptim1
+    type: BIGINT
+  - name: cvdinfr4
+    type: BIGINT
+  - name: cvdcrhd4
+    type: BIGINT
+  - name: cvdstrk3
+    type: BIGINT
+  - name: asthma3
+    type: BIGINT
+  - name: asthnow
+    type: BIGINT
+  - name: chcscncr
+    type: BIGINT
+  - name: chcocncr
+    type: BIGINT
+  - name: chccopd1
+    type: BIGINT
+  - name: havarth3
+    type: BIGINT
+  - name: addepev2
+    type: BIGINT
+  - name: chckidny
+    type: BIGINT
+  - name: diabete3
+    type: BIGINT
+  - name: diabage2
+    type: BIGINT
+  - name: lastden3
+    type: BIGINT
+  - name: rmvteth3
+    type: BIGINT
+  - name: age
+    type: BIGINT
+  - name: hispanc3
+    type: BIGINT
+  - name: mrace1
+    type: BIGINT
+  - name: orace3
+    type: BIGINT
+  - name: veteran3
+    type: BIGINT
+  - name: marital
+    type: BIGINT
+  - name: children
+    type: BIGINT
+  - name: educa
+    type: BIGINT
+  - name: employ1
+    type: BIGINT
+  - name: income2
+    type: BIGINT
+  - name: weight2
+    type: BIGINT
+  - name: height3
+    type: BIGINT
+  - name: ctycode1
+    type: BIGINT
+  - name: zipcode
+    type: BIGINT
+  - name: var00001
+    type: VARCHAR
+  - name: numhhol2
+    type: BIGINT
+  - name: numphon2
+    type: BIGINT
+  - name: cpdemo1
+    type: BIGINT
+  - name: cpdemo4
+    type: VARCHAR
+  - name: internet
+    type: BIGINT
+  - name: renthom1
+    type: BIGINT
+  - name: sex
+    type: BIGINT
+  - name: pregnant
+    type: BIGINT
+  - name: qlactlm2
+    type: BIGINT
+  - name: useequip
+    type: BIGINT
+  - name: blind
+    type: BIGINT
+  - name: decide
+    type: BIGINT
+  - name: diffwalk
+    type: BIGINT
+  - name: diffdres
+    type: BIGINT
+  - name: diffalon
+    type: BIGINT
+  - name: smoke100
+    type: BIGINT
+  - name: smokday2
+    type: BIGINT
+  - name: stopsmk2
+    type: BIGINT
+  - name: lastsmk2
+    type: BIGINT
+  - name: usenow3
+    type: BIGINT
+  - name: alcday5
+    type: BIGINT
+  - name: avedrnk2
+    type: BIGINT
+  - name: drnk3ge5
+    type: BIGINT
+  - name: maxdrnks
+    type: BIGINT
+  - name: flushot6
+    type: BIGINT
+  - name: flshtmy2
+    type: BIGINT
+  - name: pneuvac3
+    type: BIGINT
+  - name: shingle2
+    type: BIGINT
+  - name: fall12mn
+    type: BIGINT
+  - name: fallinj2
+    type: BIGINT
+  - name: seatbelt
+    type: BIGINT
+  - name: drnkdri2
+    type: BIGINT
+  - name: hadmam
+    type: BIGINT
+  - name: howlong
+    type: BIGINT
+  - name: profexam
+    type: BIGINT
+  - name: lengexam
+    type: BIGINT
+  - name: hadpap2
+    type: BIGINT
+  - name: lastpap2
+    type: BIGINT
+  - name: hadhyst2
+    type: BIGINT
+  - name: pcpsaad2
+    type: BIGINT
+  - name: pcpsadi1
+    type: BIGINT
+  - name: pcpsare1
+    type: BIGINT
+  - name: psatest1
+    type: BIGINT
+  - name: psatime
+    type: BIGINT
+  - name: pcpsars1
+    type: BIGINT
+  - name: bldstool
+    type: BIGINT
+  - name: lstblds3
+    type: BIGINT
+  - name: hadsigm3
+    type: BIGINT
+  - name: hadsgco1
+    type: BIGINT
+  - name: lastsig3
+    type: BIGINT
+  - name: hivtst6
+    type: BIGINT
+  - name: hivtstd3
+    type: BIGINT
+  - name: whrtst10
+    type: BIGINT
+  - name: pdiabtst
+    type: BIGINT
+  - name: prediab1
+    type: BIGINT
+  - name: insulin
+    type: BIGINT
+  - name: bldsugar
+    type: BIGINT
+  - name: feetchk2
+    type: BIGINT
+  - name: doctdiab
+    type: BIGINT
+  - name: chkhemo3
+    type: BIGINT
+  - name: feetchk
+    type: BIGINT
+  - name: eyeexam
+    type: BIGINT
+  - name: diabeye
+    type: BIGINT
+  - name: diabedu
+    type: BIGINT
+  - name: painact2
+    type: VARCHAR
+  - name: qlmentl2
+    type: VARCHAR
+  - name: qlstres2
+    type: VARCHAR
+  - name: qlhlth2
+    type: VARCHAR
+  - name: medicare
+    type: BIGINT
+  - name: hlthcvr1
+    type: BIGINT
+  - name: delaymed
+    type: BIGINT
+  - name: dlyother
+    type: VARCHAR
+  - name: nocov121
+    type: BIGINT
+  - name: lstcovrg
+    type: BIGINT
+  - name: drvisits
+    type: BIGINT
+  - name: medscost
+    type: BIGINT
+  - name: carercvd
+    type: BIGINT
+  - name: medbill1
+    type: BIGINT
+  - name: asbialch
+    type: VARCHAR
+  - name: asbidrnk
+    type: VARCHAR
+  - name: asbibing
+    type: VARCHAR
+  - name: asbiadvc
+    type: VARCHAR
+  - name: asbirduc
+    type: VARCHAR
+  - name: wtchsalt
+    type: VARCHAR
+  - name: longwtch
+    type: VARCHAR
+  - name: dradvise
+    type: VARCHAR
+  - name: asthmage
+    type: VARCHAR
+  - name: asattack
+    type: VARCHAR
+  - name: aservist
+    type: VARCHAR
+  - name: asdrvist
+    type: VARCHAR
+  - name: asrchkup
+    type: VARCHAR
+  - name: asactlim
+    type: VARCHAR
+  - name: asymptom
+    type: VARCHAR
+  - name: asnoslep
+    type: VARCHAR
+  - name: asthmed3
+    type: VARCHAR
+  - name: asinhalr
+    type: VARCHAR
+  - name: imfvplac
+    type: BIGINT
+  - name: tetanus
+    type: VARCHAR
+  - name: hpvtest
+    type: VARCHAR
+  - name: hplsttst
+    type: VARCHAR
+  - name: hpvadvc2
+    type: VARCHAR
+  - name: hpvadsht
+    type: VARCHAR
+  - name: cncrdiff
+    type: VARCHAR
+  - name: cncrage
+    type: VARCHAR
+  - name: cncrtyp1
+    type: VARCHAR
+  - name: csrvtrt1
+    type: VARCHAR
+  - name: csrvdoc1
+    type: VARCHAR
+  - name: csrvsum
+    type: VARCHAR
+  - name: csrvrtrn
+    type: VARCHAR
+  - name: csrvinst
+    type: VARCHAR
+  - name: csrvinsr
+    type: VARCHAR
+  - name: csrvdein
+    type: VARCHAR
+  - name: csrvclin
+    type: VARCHAR
+  - name: csrvpain
+    type: VARCHAR
+  - name: csrvctl1
+    type: VARCHAR
+  - name: rrclass2
+    type: VARCHAR
+  - name: rrcognt2
+    type: VARCHAR
+  - name: rratwrk2
+    type: VARCHAR
+  - name: rrhcare3
+    type: VARCHAR
+  - name: rrphysm2
+    type: VARCHAR
+  - name: rremtsm2
+    type: VARCHAR
+  - name: typework
+    type: VARCHAR
+  - name: typeinds
+    type: VARCHAR
+  - name: scntmny1
+    type: VARCHAR
+  - name: scntmel1
+    type: VARCHAR
+  - name: scntpaid
+    type: VARCHAR
+  - name: scntwrk1
+    type: VARCHAR
+  - name: scntlpad
+    type: VARCHAR
+  - name: scntlwk1
+    type: VARCHAR
+  - name: scntvot1
+    type: VARCHAR
+  - name: sxorient
+    type: VARCHAR
+  - name: trnsgndr
+    type: VARCHAR
+  - name: rcsbirth
+    type: BIGINT
+  - name: rcsgendr
+    type: BIGINT
+  - name: rchisla1
+    type: BIGINT
+  - name: rcsrace1
+    type: BIGINT
+  - name: rcsbrac1
+    type: BIGINT
+  - name: rcsrltn2
+    type: BIGINT
+  - name: casthdx2
+    type: BIGINT
+  - name: casthno2
+    type: BIGINT
+  - name: emtsuprt
+    type: VARCHAR
+  - name: lsatisfy
+    type: VARCHAR
+  - name: callback
+    type: BIGINT
+  - name: adltchld
+    type: BIGINT
+  - name: ctelnum1
+    type: BIGINT
+  - name: cellfon2
+    type: BIGINT
+  - name: cadult
+    type: BIGINT
+  - name: pvtresd2
+    type: BIGINT
+  - name: cclghous
+    type: BIGINT
+  - name: cstate
+    type: BIGINT
+  - name: rspstate
+    type: BIGINT
+  - name: landline
+    type: BIGINT
+  - name: hhadult
+    type: BIGINT
+  - name: adhispa
+    type: BIGINT
+  - name: chhispa
+    type: BIGINT
+  - name: qstver
+    type: BIGINT
+  - name: qstlang
+    type: BIGINT
+  - name: cati_rn
+    type: BIGINT
+  - name: cati_rg
+    type: BIGINT
+  - name: cati_sr
+    type: BIGINT
+  - name: cpcounty
+    type: VARCHAR
+  - name: stateque
+    type: VARCHAR
+  - name: eor
+    type: BIGINT
+  - name: msacode
+    type: BIGINT
+  - name: mscode
+    type: VARCHAR
+  - name: ststr
+    type: BIGINT
+  - name: strwt
+    type: DOUBLE
+  - name: raw
+    type: DOUBLE
+  - name: wt2
+    type: DOUBLE
+  - name: rawrake
+    type: VARCHAR
+  - name: wt2rake
+    type: DOUBLE
+  - name: region
+    type: BIGINT
+  - name: impage
+    type: BIGINT
+  - name: age80
+    type: BIGINT
+  - name: imprace
+    type: BIGINT
+  - name: impnph
+    type: BIGINT
+  - name: impcty
+    type: BIGINT
+  - name: impeduc
+    type: BIGINT
+  - name: impmrtl
+    type: BIGINT
+  - name: imphome
+    type: BIGINT
+  - name: o_state
+    type: BIGINT
+  - name: landwt2
+    type: DOUBLE
+  - name: mrg01
+    type: BIGINT
+  - name: mrg02
+    type: BIGINT
+  - name: mrg03
+    type: BIGINT
+  - name: mrg04
+    type: BIGINT
+  - name: mrg05
+    type: BIGINT
+  - name: mrg06
+    type: BIGINT
+  - name: mrg07
+    type: BIGINT
+  - name: mrg08
+    type: VARCHAR
+  - name: mrg09
+    type: VARCHAR
+  - name: mrg10
+    type: VARCHAR
+  - name: mrg11
+    type: VARCHAR
+  - name: landwt
+    type: DOUBLE
+  - name: mrg01v1
+    type: VARCHAR
+  - name: mrg02v1
+    type: VARCHAR
+  - name: mrg03v1
+    type: VARCHAR
+  - name: mrg04v1
+    type: VARCHAR
+  - name: mrg05v1
+    type: VARCHAR
+  - name: mrg06v1
+    type: VARCHAR
+  - name: mrg07v1
+    type: VARCHAR
+  - name: mrg08v1
+    type: VARCHAR
+  - name: mrg09v1
+    type: VARCHAR
+  - name: mrg10v1
+    type: VARCHAR
+  - name: mrg11v1
+    type: VARCHAR
+  - name: lndwtv1
+    type: VARCHAR
+  - name: mrg01v2
+    type: VARCHAR
+  - name: mrg02v2
+    type: VARCHAR
+  - name: mrg03v2
+    type: VARCHAR
+  - name: mrg04v2
+    type: VARCHAR
+  - name: mrg05v2
+    type: VARCHAR
+  - name: mrg06v2
+    type: VARCHAR
+  - name: mrg07v2
+    type: VARCHAR
+  - name: mrg08v2
+    type: VARCHAR
+  - name: mrg09v2
+    type: VARCHAR
+  - name: mrg10v2
+    type: VARCHAR
+  - name: mrg11v2
+    type: VARCHAR
+  - name: lndwtv2
+    type: VARCHAR
+  - name: mrg01v3
+    type: VARCHAR
+  - name: mrg02v3
+    type: VARCHAR
+  - name: mrg03v3
+    type: VARCHAR
+  - name: mrg04v3
+    type: VARCHAR
+  - name: mrg05v3
+    type: VARCHAR
+  - name: mrg06v3
+    type: VARCHAR
+  - name: mrg07v3
+    type: VARCHAR
+  - name: mrg08v3
+    type: VARCHAR
+  - name: mrg09v3
+    type: VARCHAR
+  - name: mrg10v3
+    type: VARCHAR
+  - name: mrg11v3
+    type: VARCHAR
+  - name: lndwtv3
+    type: VARCHAR
+  - name: chispnc
+    type: BIGINT
+  - name: cracorg1
+    type: BIGINT
+  - name: cracasc1
+    type: BIGINT
+  - name: cprace
+    type: BIGINT
+  - name: crace1
+    type: BIGINT
+  - name: impcage
+    type: BIGINT
+  - name: impcrac
+    type: BIGINT
+  - name: impcsex
+    type: BIGINT
+  - name: rawch
+    type: VARCHAR
+  - name: wt2ch
+    type: DOUBLE
+  - name: childage
+    type: BIGINT
+  - name: cmrg01
+    type: BIGINT
+  - name: cmrg02
+    type: BIGINT
+  - name: cmrg03
+    type: BIGINT
+  - name: cmrg04
+    type: BIGINT
+  - name: clandwt
+    type: DOUBLE
+  - name: cmg01v1
+    type: VARCHAR
+  - name: cmg02v1
+    type: VARCHAR
+  - name: cmg03v1
+    type: VARCHAR
+  - name: cmg04v1
+    type: VARCHAR
+  - name: cldwtv1
+    type: VARCHAR
+  - name: cmg01v2
+    type: VARCHAR
+  - name: cmg02v2
+    type: VARCHAR
+  - name: cmg03v2
+    type: VARCHAR
+  - name: cmg04v2
+    type: VARCHAR
+  - name: cldwtv2
+    type: VARCHAR
+  - name: cmg01v3
+    type: VARCHAR
+  - name: cmg02v3
+    type: VARCHAR
+  - name: cmg03v3
+    type: VARCHAR
+  - name: cmg04v3
+    type: VARCHAR
+  - name: cldwtv3
+    type: VARCHAR
+  - name: clcpm01
+    type: BIGINT
+  - name: clcpm02
+    type: BIGINT
+  - name: clcpm03
+    type: BIGINT
+  - name: clcpm04
+    type: BIGINT
+  - name: clcpm05
+    type: BIGINT
+  - name: cllcpwt
+    type: DOUBLE
+  - name: clcm1v1
+    type: VARCHAR
+  - name: clcm2v1
+    type: VARCHAR
+  - name: clcm3v1
+    type: VARCHAR
+  - name: clcm4v1
+    type: VARCHAR
+  - name: clcm5v1
+    type: VARCHAR
+  - name: clcwtv1
+    type: VARCHAR
+  - name: clcm1v2
+    type: VARCHAR
+  - name: clcm2v2
+    type: VARCHAR
+  - name: clcm3v2
+    type: VARCHAR
+  - name: clcm4v2
+    type: VARCHAR
+  - name: clcm5v2
+    type: VARCHAR
+  - name: clcwtv2
+    type: VARCHAR
+  - name: clcm1v3
+    type: VARCHAR
+  - name: clcm2v3
+    type: VARCHAR
+  - name: clcm3v3
+    type: VARCHAR
+  - name: clcm4v3
+    type: VARCHAR
+  - name: clcm5v3
+    type: VARCHAR
+  - name: clcwtv3
+    type: VARCHAR
+  - name: rawhh
+    type: VARCHAR
+  - name: wt2hh
+    type: VARCHAR
+  - name: nphh
+    type: VARCHAR
+  - name: nahh
+    type: VARCHAR
+  - name: nchh
+    type: VARCHAR
+  - name: hholdwt
+    type: VARCHAR
+  - name: orgseqno
+    type: BIGINT
+  - name: dualuse
+    type: BIGINT
+  - name: dualcor
+    type: VARCHAR
+  - name: llcpwt2
+    type: DOUBLE
+  - name: llcpm01
+    type: BIGINT
+  - name: llcpm02
+    type: BIGINT
+  - name: llcpm03
+    type: BIGINT
+  - name: llcpm04
+    type: BIGINT
+  - name: llcpm05
+    type: BIGINT
+  - name: llcpm06
+    type: BIGINT
+  - name: llcpm07
+    type: BIGINT
+  - name: llcpm08
+    type: BIGINT
+  - name: llcpm09
+    type: VARCHAR
+  - name: llcpm10
+    type: VARCHAR
+  - name: llcpm11
+    type: VARCHAR
+  - name: llcpm12
+    type: VARCHAR
+  - name: llcpm13
+    type: BIGINT
+  - name: llcpm14
+    type: BIGINT
+  - name: llcpm15
+    type: BIGINT
+  - name: llcpm16
+    type: BIGINT
+  - name: llcpwt
+    type: DOUBLE
+  - name: lcm01v1
+    type: VARCHAR
+  - name: lcm02v1
+    type: VARCHAR
+  - name: lcm03v1
+    type: VARCHAR
+  - name: lcm04v1
+    type: VARCHAR
+  - name: lcm05v1
+    type: VARCHAR
+  - name: lcm06v1
+    type: VARCHAR
+  - name: lcm07v1
+    type: VARCHAR
+  - name: lcm08v1
+    type: VARCHAR
+  - name: lcm09v1
+    type: VARCHAR
+  - name: lcm10v1
+    type: VARCHAR
+  - name: lcm11v1
+    type: VARCHAR
+  - name: lcm12v1
+    type: VARCHAR
+  - name: lcpwtv1
+    type: VARCHAR
+  - name: lcm01v2
+    type: VARCHAR
+  - name: lcm02v2
+    type: VARCHAR
+  - name: lcm03v2
+    type: VARCHAR
+  - name: lcm04v2
+    type: VARCHAR
+  - name: lcm05v2
+    type: VARCHAR
+  - name: lcm06v2
+    type: VARCHAR
+  - name: lcm07v2
+    type: VARCHAR
+  - name: lcm08v2
+    type: VARCHAR
+  - name: lcm09v2
+    type: VARCHAR
+  - name: lcm10v2
+    type: VARCHAR
+  - name: lcm11v2
+    type: VARCHAR
+  - name: lcm12v2
+    type: VARCHAR
+  - name: lcpwtv2
+    type: VARCHAR
+  - name: lcm01v3
+    type: VARCHAR
+  - name: lcm02v3
+    type: VARCHAR
+  - name: lcm03v3
+    type: VARCHAR
+  - name: lcm04v3
+    type: VARCHAR
+  - name: lcm05v3
+    type: VARCHAR
+  - name: lcm06v3
+    type: VARCHAR
+  - name: lcm07v3
+    type: VARCHAR
+  - name: lcm08v3
+    type: VARCHAR
+  - name: lcm09v3
+    type: VARCHAR
+  - name: lcm10v3
+    type: VARCHAR
+  - name: lcm11v3
+    type: VARCHAR
+  - name: lcm12v3
+    type: VARCHAR
+  - name: lcpwtv3
+    type: VARCHAR
+  - name: rfhlth
+    type: BIGINT
+  - name: hcvu651
+    type: BIGINT
+  - name: totinda
+    type: BIGINT
+  - name: ltasth1
+    type: BIGINT
+  - name: casthm1
+    type: BIGINT
+  - name: asthms1
+    type: BIGINT
+  - name: drdxar1
+    type: BIGINT
+  - name: exteth2
+    type: BIGINT
+  - name: alteth2
+    type: BIGINT
+  - name: denvst2
+    type: BIGINT
+  - name: mracorg1
+    type: BIGINT
+  - name: mracasc1
+    type: BIGINT
+  - name: prace1
+    type: BIGINT
+  - name: mrace1_2
+    type: BIGINT
+  - name: m_race
+    type: BIGINT
+  - name: hispanc
+    type: BIGINT
+  - name: race
+    type: BIGINT
+  - name: raceg21
+    type: BIGINT
+  - name: racegr3
+    type: BIGINT
+  - name: race_g1
+    type: BIGINT
+  - name: ageg5yr
+    type: BIGINT
+  - name: age65yr
+    type: BIGINT
+  - name: age_g
+    type: BIGINT
+  - name: htin4
+    type: BIGINT
+  - name: htm4
+    type: BIGINT
+  - name: wtkg3
+    type: BIGINT
+  - name: bmi5
+    type: BIGINT
+  - name: bmi5cat
+    type: BIGINT
+  - name: rfbmi5
+    type: BIGINT
+  - name: chldcnt
+    type: BIGINT
+  - name: educag
+    type: BIGINT
+  - name: incomg
+    type: BIGINT
+  - name: smoker3
+    type: BIGINT
+  - name: rfsmok3
+    type: BIGINT
+  - name: drnkany5
+    type: BIGINT
+  - name: drocdy3
+    type: BIGINT
+  - name: rfbing5
+    type: BIGINT
+  - name: drnkdy4
+    type: BIGINT
+  - name: drnkmo4
+    type: BIGINT
+  - name: rfdrhv4
+    type: BIGINT
+  - name: rfdrmn4
+    type: BIGINT
+  - name: rfdrwm4
+    type: BIGINT
+  - name: flshot6
+    type: BIGINT
+  - name: pneumo2
+    type: BIGINT
+  - name: rfseat2
+    type: BIGINT
+  - name: rfseat3
+    type: BIGINT
+  - name: rfmam2y
+    type: BIGINT
+  - name: mam502y
+    type: BIGINT
+  - name: mam5021
+    type: BIGINT
+  - name: rfpap32
+    type: BIGINT
+  - name: rfpap33
+    type: BIGINT
+  - name: rfpsa21
+    type: BIGINT
+  - name: rfblds2
+    type: BIGINT
+  - name: rfblds3
+    type: BIGINT
+  - name: rfsigm2
+    type: BIGINT
+  - name: col10yr
+    type: BIGINT
+  - name: hfob3yr
+    type: BIGINT
+  - name: fs5yr
+    type: BIGINT
+  - name: fobtfs
+    type: BIGINT
+  - name: crcrec
+    type: BIGINT
+  - name: aidtst3
+    type: BIGINT
+  - name: d1
+    type: BIGINT
+  - name: vph1
+    type: BIGINT
+  - name: vph2
+    type: BIGINT
+  - name: vph3
+    type: BIGINT
+  - name: vph4
+    type: BIGINT
+  - name: vph5
+    type: BIGINT
+  - name: vph6
+    type: BIGINT
+  - name: vph7
+    type: BIGINT
+  - name: vph8
+    type: BIGINT
+  - name: vph9
+    type: BIGINT
+  - name: vph10
+    type: BIGINT
+  - name: vph10_otro
+    type: VARCHAR

@@ -1,434 +1,436 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `instituto-de-estad-sticas-de-puerto-rico-nacimientos`. Regenerate after model-verify.
+key: []
 columns:
   - name: source_resource
     type: VARCHAR
   - name: source_file
     type: VARCHAR
-  - name: DATAYEAR
+  - name: datayear
+    type: BIGINT
+  - name: rectype
+    type: BIGINT
+  - name: restatus
+    type: BIGINT
+  - name: recwt
+    type: BIGINT
+  - name: pldel
+    type: BIGINT
+  - name: pldel3
+    type: BIGINT
+  - name: birattnd
+    type: BIGINT
+  - name: regnocc
+    type: BIGINT
+  - name: divocc
+    type: BIGINT
+  - name: stsubocc
+    type: BIGINT
+  - name: stnatexp
+    type: BIGINT
+  - name: statenat
+    type: BIGINT
+  - name: cntynat
+    type: VARCHAR
+  - name: stoccfip
+    type: BIGINT
+  - name: cntocfip
+    type: VARCHAR
+  - name: cntocpop
+    type: BIGINT
+  - name: regnres
+    type: BIGINT
+  - name: divres
+    type: BIGINT
+  - name: stsubres
+    type: BIGINT
+  - name: stresexp
+    type: VARCHAR
+  - name: stateres
+    type: VARCHAR
+  - name: cntyres
+    type: VARCHAR
+  - name: cityres
+    type: VARCHAR
+  - name: citrspop
+    type: VARCHAR
+  - name: metrores
+    type: VARCHAR
+  - name: stresfip
+    type: VARCHAR
+  - name: cntyrfip
+    type: VARCHAR
+  - name: placefip
+    type: VARCHAR
+  - name: cmsa
+    type: VARCHAR
+  - name: smsarfip
+    type: VARCHAR
+  - name: cntrspop
+    type: VARCHAR
+  - name: r1a
+    type: VARCHAR
+  - name: magerflg
+    type: BIGINT
+  - name: mageimp
+    type: BIGINT
+  - name: dmage
+    type: BIGINT
+  - name: mage36
+    type: VARCHAR
+  - name: mage12
+    type: VARCHAR
+  - name: mage8
+    type: BIGINT
+  - name: ormoth
+    type: BIGINT
+  - name: orracem
+    type: BIGINT
+  - name: mraceimp
+    type: BIGINT
+  - name: mrace
+    type: VARCHAR
+  - name: mrace3
+    type: BIGINT
+  - name: dmeduc
+    type: VARCHAR
+  - name: meduc6
+    type: BIGINT
+  - name: dmarimp
+    type: BIGINT
+  - name: dmar
+    type: BIGINT
+  - name: mplbir
+    type: VARCHAR
+  - name: mplbirr
+    type: BIGINT
+  - name: dmagerpt
+    type: BIGINT
+  - name: adequacy
+    type: BIGINT
+  - name: nlbnl
     type: VARCHAR
-  - name: RECTYPE
+  - name: nlbnd
     type: VARCHAR
-  - name: RESTATUS
+  - name: noterm
     type: VARCHAR
-  - name: RECWT
-    type: VARCHAR
-  - name: PLDEL
-    type: VARCHAR
-  - name: PLDEL3
-    type: VARCHAR
-  - name: BIRATTND
-    type: VARCHAR
-  - name: REGNOCC
-    type: VARCHAR
-  - name: DIVOCC
-    type: VARCHAR
-  - name: STSUBOCC
-    type: VARCHAR
-  - name: STNATEXP
-    type: VARCHAR
-  - name: STATENAT
-    type: VARCHAR
-  - name: CNTYNAT
-    type: VARCHAR
-  - name: STOCCFIP
-    type: VARCHAR
-  - name: CNTOCFIP
-    type: VARCHAR
-  - name: CNTOCPOP
-    type: VARCHAR
-  - name: REGNRES
-    type: VARCHAR
-  - name: DIVRES
-    type: VARCHAR
-  - name: STSUBRES
-    type: VARCHAR
-  - name: STRESEXP
-    type: VARCHAR
-  - name: STATERES
-    type: VARCHAR
-  - name: CNTYRES
-    type: VARCHAR
-  - name: CITYRES
-    type: VARCHAR
-  - name: CITRSPOP
-    type: VARCHAR
-  - name: METRORES
-    type: VARCHAR
-  - name: STRESFIP
-    type: VARCHAR
-  - name: CNTYRFIP
-    type: VARCHAR
-  - name: PLACEFIP
-    type: VARCHAR
-  - name: CMSA
-    type: VARCHAR
-  - name: SMSARFIP
-    type: VARCHAR
-  - name: CNTRSPOP
-    type: VARCHAR
-  - name: R1A
-    type: VARCHAR
-  - name: MAGERFLG
-    type: VARCHAR
-  - name: MAGEIMP
-    type: VARCHAR
-  - name: DMAGE
-    type: VARCHAR
-  - name: MAGE36
-    type: VARCHAR
-  - name: MAGE12
-    type: VARCHAR
-  - name: MAGE8
-    type: VARCHAR
-  - name: ORMOTH
-    type: VARCHAR
-  - name: ORRACEM
-    type: VARCHAR
-  - name: MRACEIMP
-    type: VARCHAR
-  - name: MRACE
-    type: VARCHAR
-  - name: MRACE3
-    type: VARCHAR
-  - name: DMEDUC
-    type: VARCHAR
-  - name: MEDUC6
-    type: VARCHAR
-  - name: DMARIMP
-    type: VARCHAR
-  - name: DMAR
-    type: VARCHAR
-  - name: MPLBIR
-    type: VARCHAR
-  - name: MPLBIRR
-    type: VARCHAR
-  - name: DMAGERPT
-    type: VARCHAR
-  - name: ADEQUACY
-    type: VARCHAR
-  - name: NLBNL
-    type: VARCHAR
-  - name: NLBND
-    type: VARCHAR
-  - name: NOTERM
-    type: VARCHAR
-  - name: DLIVORD
-    type: VARCHAR
-  - name: LIVORD9
-    type: VARCHAR
-  - name: DTOTORD
-    type: VARCHAR
-  - name: TOTORD9
-    type: VARCHAR
-  - name: MONPRE
-    type: VARCHAR
-  - name: MPRE6
-    type: VARCHAR
-  - name: MPRE5
-    type: VARCHAR
-  - name: NPREVIS
-    type: VARCHAR
-  - name: NPREV12
-    type: VARCHAR
-  - name: LMPMON
-    type: VARCHAR
-  - name: LMPDAY
-    type: VARCHAR
-  - name: LMPYR
-    type: VARCHAR
-  - name: R8
-    type: VARCHAR
-  - name: BWIMP
-    type: VARCHAR
-  - name: Imputed_birthweight
-    type: VARCHAR
-  - name: R2
-    type: VARCHAR
-  - name: FAGERFLG
-    type: VARCHAR
-  - name: DFAGE
-    type: VARCHAR
-  - name: FAGE11
-    type: VARCHAR
-  - name: ORFATH
-    type: VARCHAR
-  - name: ORRACEF
-    type: VARCHAR
-  - name: FRACE
-    type: VARCHAR
-  - name: FRACE4
-    type: VARCHAR
-  - name: R2A
-    type: VARCHAR
-  - name: DFAGERPT
-    type: VARCHAR
-  - name: FRACEIMP
-    type: VARCHAR
-  - name: R3
-    type: VARCHAR
-  - name: CDOBMIMP
-    type: VARCHAR
-  - name: RB
-    type: VARCHAR
-  - name: BIRMON
-    type: VARCHAR
-  - name: RC
-    type: VARCHAR
-  - name: BIRYR
-    type: VARCHAR
-  - name: WEEKDAY
-    type: VARCHAR
-  - name: GESTESTM
-    type: VARCHAR
-  - name: GESTIMP
-    type: VARCHAR
-  - name: DGESTAT
-    type: VARCHAR
-  - name: GESTAT10
-    type: VARCHAR
-  - name: GESTAT3
-    type: VARCHAR
-  - name: CSEXIMP
-    type: VARCHAR
-  - name: CSEX
-    type: VARCHAR
-  - name: RD
-    type: VARCHAR
-  - name: DBIRWT
-    type: VARCHAR
-  - name: BIRWT12
-    type: VARCHAR
-  - name: BIRWT4
-    type: VARCHAR
-  - name: PLURIMP
-    type: VARCHAR
-  - name: DPLURAL
-    type: VARCHAR
-  - name: R6
-    type: VARCHAR
-  - name: FMAPS
-    type: VARCHAR
-  - name: FMAPSR
-    type: VARCHAR
-  - name: CLINGEST
-    type: VARCHAR
-  - name: R4
-    type: VARCHAR
-  - name: VAGINAL
-    type: VARCHAR
-  - name: VBAC
-    type: VARCHAR
-  - name: PRIMAC
-    type: VARCHAR
-  - name: REPEAC
-    type: VARCHAR
-  - name: FORCEP
-    type: VARCHAR
-  - name: VACUUM
-    type: VARCHAR
-  - name: R5
-    type: VARCHAR
-  - name: DELMETH5
-    type: VARCHAR
-  - name: ANEMIA
-    type: VARCHAR
-  - name: CARDIAC
-    type: VARCHAR
-  - name: LUNG
-    type: VARCHAR
-  - name: DIABETES
-    type: VARCHAR
-  - name: HERPES
-    type: VARCHAR
-  - name: HYDRA
-    type: VARCHAR
-  - name: HEMO
-    type: VARCHAR
-  - name: CHYPER
-    type: VARCHAR
-  - name: PHYPER
-    type: VARCHAR
-  - name: ECLAMP
-    type: VARCHAR
-  - name: INCERVIX
-    type: VARCHAR
-  - name: PRE4000
-    type: VARCHAR
-  - name: PRETERM
-    type: VARCHAR
-  - name: RENAL
-    type: VARCHAR
-  - name: RH
-    type: VARCHAR
-  - name: UTERINE
-    type: VARCHAR
-  - name: OTHERMR
-    type: VARCHAR
-  - name: TOBACCO
-    type: VARCHAR
-  - name: CIGAR
-    type: VARCHAR
-  - name: CIGAR6
-    type: VARCHAR
-  - name: ALCOHOL
-    type: VARCHAR
-  - name: DRINK
-    type: VARCHAR
-  - name: DRINK5
-    type: VARCHAR
-  - name: WTGAIN
-    type: VARCHAR
-  - name: WTGAIN9
-    type: VARCHAR
-  - name: AMNIO
-    type: VARCHAR
-  - name: MONITOR
-    type: VARCHAR
-  - name: INDUCT
-    type: VARCHAR
-  - name: STIMULA
-    type: VARCHAR
-  - name: TOCOL
-    type: VARCHAR
-  - name: ULTRAS
-    type: VARCHAR
-  - name: OTHEROB
-    type: VARCHAR
-  - name: FEBRILE
-    type: VARCHAR
-  - name: MECONIUM
-    type: VARCHAR
-  - name: RUPTURE
-    type: VARCHAR
-  - name: ABRUPTIO
-    type: VARCHAR
-  - name: PREPLACE
-    type: VARCHAR
-  - name: EXCEBLD
-    type: VARCHAR
-  - name: SEIZURE
-    type: VARCHAR
-  - name: PRECIP
-    type: VARCHAR
-  - name: PROLONG
-    type: VARCHAR
-  - name: DYSFUNC
-    type: VARCHAR
-  - name: BREECH
-    type: VARCHAR
-  - name: CEPHALO
-    type: VARCHAR
-  - name: CORD
-    type: VARCHAR
-  - name: ANESTHE
-    type: VARCHAR
-  - name: DISTRESS
-    type: VARCHAR
-  - name: OTHERLB
-    type: VARCHAR
-  - name: NANEMIA
-    type: VARCHAR
-  - name: INJURY
-    type: VARCHAR
-  - name: ALCOSYN
-    type: VARCHAR
-  - name: HYALINE
-    type: VARCHAR
-  - name: MECONSYN
-    type: VARCHAR
-  - name: VENL30
-    type: VARCHAR
-  - name: VEN30M
-    type: VARCHAR
-  - name: NSEIZ
-    type: VARCHAR
-  - name: OTHERAB
-    type: VARCHAR
-  - name: ANEN
-    type: VARCHAR
-  - name: SPINA
-    type: VARCHAR
-  - name: HYDRO
-    type: VARCHAR
-  - name: MICROCE
-    type: VARCHAR
-  - name: NERVOUS
-    type: VARCHAR
-  - name: HEART
-    type: VARCHAR
-  - name: CIRCUL
-    type: VARCHAR
-  - name: RECTAL
-    type: VARCHAR
-  - name: TRACHEO
-    type: VARCHAR
-  - name: OMPHALO
-    type: VARCHAR
-  - name: GASTRO
-    type: VARCHAR
-  - name: GENITAL
-    type: VARCHAR
-  - name: RENALAGE
-    type: VARCHAR
-  - name: UROGEN
-    type: VARCHAR
-  - name: CLEFTLP
-    type: VARCHAR
-  - name: ADACTYLY
-    type: VARCHAR
-  - name: CLUBFOOT
-    type: VARCHAR
-  - name: HERNIA
-    type: VARCHAR
-  - name: MUSCULO
-    type: VARCHAR
-  - name: DOWNS
-    type: VARCHAR
-  - name: CHROMO
-    type: VARCHAR
-  - name: OTHERCON
-    type: VARCHAR
-  - name: ORIGM
-    type: VARCHAR
-  - name: ORIGF
-    type: VARCHAR
-  - name: EDUCM
-    type: VARCHAR
-  - name: EDUCF
-    type: VARCHAR
-  - name: GESTE
-    type: VARCHAR
-  - name: R6A
-    type: VARCHAR
-  - name: FMAPSRF
-    type: VARCHAR
-  - name: DELMETRF
-    type: VARCHAR
-  - name: MEDRSK
-    type: VARCHAR
-  - name: TOBUSE
-    type: VARCHAR
-  - name: ALCUSE
-    type: VARCHAR
-  - name: WTGN
-    type: VARCHAR
-  - name: OBSTRC
-    type: VARCHAR
-  - name: CLABOR
-    type: VARCHAR
-  - name: ABNML
-    type: VARCHAR
-  - name: CONGAN
-    type: VARCHAR
-  - name: R6b
-    type: VARCHAR
-  - name: EDUCSMSA
-    type: VARCHAR
-  - name: APIFLAG
-    type: VARCHAR
-  - name: R7
-    type: VARCHAR
-  - name: SMSARES
-    type: VARCHAR
-  - name: POPSMAS
+  - name: dlivord
+    type: VARCHAR
+  - name: livord9
+    type: BIGINT
+  - name: dtotord
+    type: VARCHAR
+  - name: totord9
+    type: BIGINT
+  - name: monpre
+    type: VARCHAR
+  - name: mpre6
+    type: BIGINT
+  - name: mpre5
+    type: BIGINT
+  - name: nprevis
+    type: VARCHAR
+  - name: nprev12
+    type: VARCHAR
+  - name: lmpmon
+    type: VARCHAR
+  - name: lmpday
+    type: VARCHAR
+  - name: lmpyr
+    type: BIGINT
+  - name: r8
+    type: VARCHAR
+  - name: bwimp
+    type: BIGINT
+  - name: imputed_birthweight
+    type: VARCHAR
+  - name: r2
+    type: VARCHAR
+  - name: fagerflg
+    type: BIGINT
+  - name: dfage
+    type: BIGINT
+  - name: fage11
+    type: VARCHAR
+  - name: orfath
+    type: BIGINT
+  - name: orracef
+    type: BIGINT
+  - name: frace
+    type: VARCHAR
+  - name: frace4
+    type: BIGINT
+  - name: r2a
+    type: BIGINT
+  - name: dfagerpt
+    type: BIGINT
+  - name: fraceimp
+    type: VARCHAR
+  - name: r3
+    type: VARCHAR
+  - name: cdobmimp
+    type: VARCHAR
+  - name: rb
+    type: VARCHAR
+  - name: birmon
+    type: VARCHAR
+  - name: rc
+    type: VARCHAR
+  - name: biryr
+    type: BIGINT
+  - name: weekday
+    type: BIGINT
+  - name: gestestm
+    type: BIGINT
+  - name: gestimp
+    type: BIGINT
+  - name: dgestat
+    type: BIGINT
+  - name: gestat10
+    type: VARCHAR
+  - name: gestat3
+    type: BIGINT
+  - name: cseximp
+    type: VARCHAR
+  - name: csex
+    type: BIGINT
+  - name: rd
+    type: VARCHAR
+  - name: dbirwt
+    type: VARCHAR
+  - name: birwt12
+    type: VARCHAR
+  - name: birwt4
+    type: BIGINT
+  - name: plurimp
+    type: BIGINT
+  - name: dplural
+    type: BIGINT
+  - name: r6
+    type: BIGINT
+  - name: fmaps
+    type: VARCHAR
+  - name: fmapsr
+    type: BIGINT
+  - name: clingest
+    type: BIGINT
+  - name: r4
+    type: VARCHAR
+  - name: vaginal
+    type: BIGINT
+  - name: vbac
+    type: BIGINT
+  - name: primac
+    type: BIGINT
+  - name: repeac
+    type: BIGINT
+  - name: forcep
+    type: BIGINT
+  - name: vacuum
+    type: BIGINT
+  - name: r5
+    type: VARCHAR
+  - name: delmeth5
+    type: BIGINT
+  - name: anemia
+    type: BIGINT
+  - name: cardiac
+    type: BIGINT
+  - name: lung
+    type: BIGINT
+  - name: diabetes
+    type: BIGINT
+  - name: herpes
+    type: BIGINT
+  - name: hydra
+    type: BIGINT
+  - name: hemo
+    type: BIGINT
+  - name: chyper
+    type: BIGINT
+  - name: phyper
+    type: BIGINT
+  - name: eclamp
+    type: BIGINT
+  - name: incervix
+    type: BIGINT
+  - name: pre4000
+    type: BIGINT
+  - name: preterm
+    type: BIGINT
+  - name: renal
+    type: BIGINT
+  - name: rh
+    type: BIGINT
+  - name: uterine
+    type: BIGINT
+  - name: othermr
+    type: BIGINT
+  - name: tobacco
+    type: BIGINT
+  - name: cigar
+    type: VARCHAR
+  - name: cigar6
+    type: BIGINT
+  - name: alcohol
+    type: BIGINT
+  - name: drink
+    type: VARCHAR
+  - name: drink5
+    type: BIGINT
+  - name: wtgain
+    type: VARCHAR
+  - name: wtgain9
+    type: BIGINT
+  - name: amnio
+    type: BIGINT
+  - name: monitor
+    type: BIGINT
+  - name: induct
+    type: BIGINT
+  - name: stimula
+    type: BIGINT
+  - name: tocol
+    type: BIGINT
+  - name: ultras
+    type: BIGINT
+  - name: otherob
+    type: BIGINT
+  - name: febrile
+    type: BIGINT
+  - name: meconium
+    type: BIGINT
+  - name: rupture
+    type: BIGINT
+  - name: abruptio
+    type: BIGINT
+  - name: preplace
+    type: BIGINT
+  - name: excebld
+    type: BIGINT
+  - name: seizure
+    type: BIGINT
+  - name: precip
+    type: BIGINT
+  - name: prolong
+    type: BIGINT
+  - name: dysfunc
+    type: BIGINT
+  - name: breech
+    type: BIGINT
+  - name: cephalo
+    type: BIGINT
+  - name: cord
+    type: BIGINT
+  - name: anesthe
+    type: BIGINT
+  - name: distress
+    type: BIGINT
+  - name: otherlb
+    type: BIGINT
+  - name: nanemia
+    type: BIGINT
+  - name: injury
+    type: BIGINT
+  - name: alcosyn
+    type: BIGINT
+  - name: hyaline
+    type: BIGINT
+  - name: meconsyn
+    type: BIGINT
+  - name: venl30
+    type: BIGINT
+  - name: ven30m
+    type: BIGINT
+  - name: nseiz
+    type: BIGINT
+  - name: otherab
+    type: BIGINT
+  - name: anen
+    type: BIGINT
+  - name: spina
+    type: BIGINT
+  - name: hydro
+    type: BIGINT
+  - name: microce
+    type: BIGINT
+  - name: nervous
+    type: BIGINT
+  - name: heart
+    type: BIGINT
+  - name: circul
+    type: BIGINT
+  - name: rectal
+    type: BIGINT
+  - name: tracheo
+    type: BIGINT
+  - name: omphalo
+    type: BIGINT
+  - name: gastro
+    type: BIGINT
+  - name: genital
+    type: BIGINT
+  - name: renalage
+    type: BIGINT
+  - name: urogen
+    type: BIGINT
+  - name: cleftlp
+    type: BIGINT
+  - name: adactyly
+    type: BIGINT
+  - name: clubfoot
+    type: BIGINT
+  - name: hernia
+    type: BIGINT
+  - name: musculo
+    type: BIGINT
+  - name: downs
+    type: BIGINT
+  - name: chromo
+    type: BIGINT
+  - name: othercon
+    type: BIGINT
+  - name: origm
+    type: BIGINT
+  - name: origf
+    type: BIGINT
+  - name: educm
+    type: BIGINT
+  - name: educf
+    type: BIGINT
+  - name: geste
+    type: BIGINT
+  - name: r6a
+    type: BIGINT
+  - name: fmapsrf
+    type: BIGINT
+  - name: delmetrf
+    type: BIGINT
+  - name: medrsk
+    type: BIGINT
+  - name: tobuse
+    type: BIGINT
+  - name: alcuse
+    type: BIGINT
+  - name: wtgn
+    type: BIGINT
+  - name: obstrc
+    type: BIGINT
+  - name: clabor
+    type: BIGINT
+  - name: abnml
+    type: BIGINT
+  - name: congan
+    type: BIGINT
+  - name: r6b
+    type: BIGINT
+  - name: educsmsa
+    type: BIGINT
+  - name: apiflag
+    type: BIGINT
+  - name: r7
+    type: BIGINT
+  - name: smsares
+    type: VARCHAR
+  - name: popsmas
     type: VARCHAR
