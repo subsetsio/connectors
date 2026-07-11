@@ -25,7 +25,7 @@ read_csv_auto types it on read.
 
 import time
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_file, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_file, transient_retry
 from constants import ENTITY_IDS
 
 _API = "https://api-open.data.gov.sg/v1/public/api/datasets"
@@ -102,17 +102,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One passthrough transform per dataset. The portal is heterogeneous (each
-# dataset has its own columns), so the honest transform is SELECT * — DuckDB's
-# read_csv_auto infers column names/types from the CSV header. A 0-row result
-# fails the node (empty/broken CSV) rather than publishing an empty table.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

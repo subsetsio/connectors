@@ -1,0 +1,15 @@
+spec_id: sf-fed-treasury-yield-skewness
+status: active
+tests:
+  - row_count: {min: 1}
+  - not_null: sheet
+  - not_null: row_idx
+  - not_null: period
+  - not_null: series
+  - column_type: {col: row_idx, type: integer}
+  - column_type: {col: period_date, type: date}
+  - column_type: {col: value, type: float}
+  - freshness: {col: period_date, reaches: today - 4000d}
+    reason: SF Fed indicators are maintained time-series workbooks; this wide bound catches abandoned or badly parsed date columns.
+    certainty: 70
+    points_outward: true
