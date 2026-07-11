@@ -260,7 +260,6 @@ FILE_URLS = {
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-pais': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/ID_Pais.xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-rama': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/ID_Rama.xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-webpub': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/ID_WEBPUB.xlsx',
-    'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-ied-webpub': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/IED_WEBPUB.xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-1-serie-de-datos-disponible-2007-i-2025-ii': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/1. Serie de datos disponible (2007.I - 2025.II).xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-2-serie-de-datos-disponible-1993-2009': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/2. Serie de datos disponible (1993 - 2009).xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-flujo-de-remesas-de-trabajadores': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/Flujo_de_remesas_de_trabajadores.xlsx',
@@ -495,4 +494,10 @@ FILE_URLS = {
     'home1-estadisticas-sectorizacion-matriz-sectorizacion-20febrero2020': 'https://contenido.bce.fin.ec/home1/estadisticas/sectorizacion/matriz_sectorizacion_20febrero2020.xlsx',
     'home1-estadisticas-sectorizacion-matriz-sectorizacion-31octubre2015': 'https://contenido.bce.fin.ec/home1/estadisticas/sectorizacion/matriz_sectorizacion_31octubre2015.xlsx',
     'home1-estadisticas-sectorizacion-matriz-sectorizacion7agosto': 'https://contenido.bce.fin.ec/home1/estadisticas/sectorizacion/matriz_sectorizacion7agosto.xlsx',
+}
+
+RETIRED_ENTITY_IDS = {
+    # BCE removed this workbook from the live site. Keep the accepted spec id in
+    # DOWNLOAD_SPECS for harness coverage; the model/transform set excludes it.
+    'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-ied-webpub',
 }

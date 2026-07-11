@@ -29,7 +29,7 @@ from subsets_utils import (
     transient_retry,
     save_raw_parquet,
 )
-from constants import ENTITY_IDS, FILE_URLS
+from constants import ENTITY_IDS, FILE_URLS, RETIRED_ENTITY_IDS
 
 PREFIX = "banco-central-del-ecuador-"
 
@@ -204,6 +204,8 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     _ensure_http()
     entity_id = node_id[len(PREFIX):]
+    if entity_id in RETIRED_ENTITY_IDS:
+        return
     url = _repair_mojibake(FILE_URLS[entity_id])
 
     content = _download(url)
