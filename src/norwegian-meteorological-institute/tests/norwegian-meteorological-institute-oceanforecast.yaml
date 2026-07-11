@@ -1,0 +1,22 @@
+spec_id: norwegian-meteorological-institute-oceanforecast
+status: active
+tests:
+  - not_null: location
+    reason: every flattened timeseries row is tagged with its curated sea point
+    certainty: 98
+  - not_null: time
+    reason: each ocean timeseries step carries an ISO valid-time
+    certainty: 98
+  - column_type: {col: sea_water_temperature, type: float}
+    reason: instant.details.sea_water_temperature is numeric Celsius
+    certainty: 88
+  - column_type: {col: sea_surface_wave_height, type: float}
+    reason: instant.details.sea_surface_wave_height is numeric metres
+    certainty: 85
+  - row_count: {min: 400}
+    reason: ~10 offshore points x ~200 hourly steps, minus any out-of-domain point
+    certainty: 75
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: ocean forecasts are rewritten continuously, refetched every run
+    certainty: 95
+    points_outward: false

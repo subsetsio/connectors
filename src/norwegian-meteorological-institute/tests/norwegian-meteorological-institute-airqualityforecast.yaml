@@ -1,0 +1,19 @@
+spec_id: norwegian-meteorological-institute-airqualityforecast
+status: active
+tests:
+  - not_null: location
+    reason: every air-quality row is tagged with its curated location
+    certainty: 98
+  - not_null: from_time
+    reason: each data.time entry carries a from/to interval
+    certainty: 95
+  - column_type: {col: AQI, type: float}
+    reason: the AQI variable value is a numeric index
+    certainty: 88
+  - row_count: {min: 300}
+    reason: airqualityforecast covers Norway; ~20 in-domain locations x ~56 hourly steps
+    certainty: 72
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: air-quality forecast rewritten continuously, refetched every run
+    certainty: 95
+    points_outward: false

@@ -1,0 +1,19 @@
+spec_id: norwegian-meteorological-institute-subseasonal
+status: active
+tests:
+  - not_null: location
+    reason: every flattened timeseries row is tagged with its curated location
+    certainty: 98
+  - not_null: time
+    reason: each subseasonal timeseries step carries an ISO valid-time
+    certainty: 98
+  - column_type: {col: next_24_hours_air_temperature_mean, type: float}
+    reason: subseasonal reports daily aggregate stats under next_24_hours.details
+    certainty: 82
+  - row_count: {min: 200}
+    reason: ~20 Nordic locations x ~26 daily steps
+    certainty: 75
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: long-range forecast rewritten each cycle, refetched every run
+    certainty: 95
+    points_outward: false

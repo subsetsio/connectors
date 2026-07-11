@@ -1,0 +1,22 @@
+spec_id: norwegian-meteorological-institute-sunrise
+status: active
+tests:
+  - not_null: location
+    reason: every astronomy row is tagged with its curated location
+    certainty: 98
+  - not_null: date
+    reason: sunrise is enumerated per (location, date)
+    certainty: 98
+  - column_type: {col: sunrise_time, type: string}
+    reason: sunrise event time is an ISO timestamp string (may be null at polar latitudes with no sunrise)
+    certainty: 85
+  - distinct_count: {col: date, min: 8, max: 12}
+    reason: a fixed 10-day forward window is enumerated per location
+    certainty: 88
+  - row_count: {min: 150}
+    reason: 25 locations x 10 dates
+    certainty: 85
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: the forward date window is recomputed relative to the run date every run
+    certainty: 95
+    points_outward: false
