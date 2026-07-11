@@ -18,3 +18,7 @@ tests:
   - distinct_count: {col: SERCODIGO, min: 2000}
     reason: most of the ~3596 series carry at least one observation
     certainty: 75
+  - freshness: {col: VALDATA, reaches: today - 3y}
+    reason: the combined observation corpus includes actively maintained macroeconomic and social time series
+    certainty: 75
+    points_outward: true

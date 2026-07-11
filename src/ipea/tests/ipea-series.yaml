@@ -17,3 +17,7 @@ tests:
   - not_null: BASNOME
     reason: every series belongs to one database (Macroeconomico/Regional/Social)
     certainty: 85
+  - freshness: {col: SERATUALIZACAO, reaches: today - 3y}
+    reason: the metadata catalog includes active IPEADATA series and should contain a recent source update timestamp
+    certainty: 75
+    points_outward: true
