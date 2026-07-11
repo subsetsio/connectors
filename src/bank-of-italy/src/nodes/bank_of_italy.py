@@ -98,6 +98,12 @@ _DATE_KEYS = ("DATA_OSS", "DATA_DECOR", "DATA_DECOR_RIFPRI", "DATA_PROV")
 # not coded dimensions.
 _NO_LABEL = {_CUBEID, _VALUE, *_DATE_KEYS}
 
+NO_GRAPH_SERIES = {
+    # RTIT0100: the catalog includes this member, but PROSPETTODATI returns
+    # ERROR 900/no GRAPHDATA for it even as a single-series request.
+    "MFN_RTIT.M.020.202.922",
+}
+
 
 def _seed_session() -> None:
     """Establish the JSESSIONID that every data service requires."""
@@ -187,7 +193,41 @@ def _rekey(cube_ids: list[str], payload: dict) -> dict:
 
 
 def _prospetto(cube_ids: list[str]) -> dict:
-    return _rekey(cube_ids, _post_prospetto(cube_ids))
+    try:
+        return _rekey(cube_ids, _post_prospetto(cube_ids))
+    except RuntimeError as exc:
+        if "returned no GRAPHDATA" not in str(exc):
+            raise
+        if len(cube_ids) == 1:
+            if cube_ids[0] in NO_GRAPH_SERIES:
+                return {
+                    "GRAPHDATA": {"observations": []},
+                    "DOMAINELEMENTS": {
+                        _CUBEID: [{"id": cube_ids[0], "name": cube_ids[0]}]
+                    },
+                }
+            raise
+
+        # Some otherwise valid tables fail only when too many series are sent
+        # together. Split recursively and let the caller stream the subchunks.
+        mid = max(1, len(cube_ids) // 2)
+        left = _prospetto(cube_ids[:mid])
+        right = _prospetto(cube_ids[mid:])
+        observations = left["GRAPHDATA"].setdefault("observations", [])
+        observations.extend(right["GRAPHDATA"].get("observations", []))
+        for dim, elems in (right.get("DOMAINELEMENTS") or {}).items():
+            left.setdefault("DOMAINELEMENTS", {}).setdefault(dim, [])
+            seen = {
+                e.get("id")
+                for e in left["DOMAINELEMENTS"][dim]
+                if isinstance(e, dict)
+            }
+            left["DOMAINELEMENTS"][dim].extend(
+                e
+                for e in elems
+                if not isinstance(e, dict) or e.get("id") not in seen
+            )
+        return left
 
 
 def _split_composite(values: dict) -> dict:

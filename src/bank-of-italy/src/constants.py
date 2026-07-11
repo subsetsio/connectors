@@ -467,7 +467,18 @@ ENTITY_IDS = [
     'VALM0200',
 ]
 
-TABLE_BY_SPEC = {e.lower().replace("_", "-"): e for e in ENTITY_IDS}
+DEFERRED_UNFETCHABLE = {
+    'SHI0100',
+    'TBOP0000',
+    'TDB10195',
+    'TDB10227',
+}
+
+TABLE_BY_SPEC = {
+    e.lower().replace("_", "-"): e
+    for e in ENTITY_IDS
+    if e not in DEFERRED_UNFETCHABLE
+}
 
 MEMBER_SERIES = {
     'AGGM0100': 12,
