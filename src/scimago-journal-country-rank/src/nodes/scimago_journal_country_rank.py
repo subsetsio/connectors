@@ -1,5 +1,6 @@
 from io import BytesIO
 
+import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 from subsets_utils import NodeSpec, get, save_raw_parquet
@@ -11,6 +12,7 @@ ENTITY_CONFIG = {
     "journal-rankings": {
         "directory": "sjr-journal",
         "filename_prefix": "sjr_journals-",
+        "extension": ".parquet",
         "schema": pa.schema(
             [
                 ("year", pa.int64()),
@@ -45,9 +47,30 @@ ENTITY_CONFIG = {
     "country-rankings": {
         "directory": "sjr-country",
         "filename_prefix": "sjr_countries-",
+        "extension": ".parquet",
         "schema": pa.schema(
             [
                 ("year", pa.int64()),
+                ("rank", pa.int64()),
+                ("country", pa.string()),
+                ("region", pa.string()),
+                ("documents", pa.int64()),
+                ("citable_documents", pa.int64()),
+                ("citations", pa.int64()),
+                ("self_citations", pa.int64()),
+                ("citations_per_document", pa.float64()),
+                ("h_index", pa.int64()),
+            ]
+        ),
+    },
+    "country-rankings-history": {
+        "directory": "sjr-country-all-years",
+        "filename_prefix": "scimagojr-country-",
+        "extension": ".xlsx",
+        "schema": pa.schema(
+            [
+                ("coverage_start_year", pa.int64()),
+                ("coverage_end_year", pa.int64()),
                 ("rank", pa.int64()),
                 ("country", pa.string()),
                 ("region", pa.string()),
@@ -68,7 +91,13 @@ def _year_from_name(name: str) -> int:
     return int(stem.rsplit("-", 1)[1])
 
 
-def _latest_download_url(directory: str, filename_prefix: str) -> str:
+def _coverage_years_from_name(name: str) -> tuple[int, int]:
+    stem = name.rsplit(".", 1)[0]
+    years = stem.rsplit("-", 2)[-2:]
+    return int(years[0]), int(years[1])
+
+
+def _latest_source_file(directory: str, filename_prefix: str, extension: str) -> dict:
     url = f"https://api.github.com/repos/ikashnitsky/sjrdata/contents/data-raw/{directory}?per_page=100"
     response = get(
         url,
@@ -81,12 +110,12 @@ def _latest_download_url(directory: str, filename_prefix: str) -> str:
         for record in response.json()
         if record.get("type") == "file"
         and record.get("name", "").startswith(filename_prefix)
-        and record.get("name", "").endswith(".parquet")
+        and record.get("name", "").endswith(extension)
     ]
     if not records:
-        raise RuntimeError(f"No matching parquet files found in {directory}")
+        raise RuntimeError(f"No matching {extension} files found in {directory}")
     latest = max(records, key=lambda record: _year_from_name(record["name"]))
-    return latest["download_url"]
+    return latest
 
 
 def _normalize_table(content: bytes, schema: pa.Schema) -> pa.Table:
@@ -98,19 +127,58 @@ def _normalize_table(content: bytes, schema: pa.Schema) -> pa.Table:
     return table.cast(schema, safe=False)
 
 
+def _normalize_country_history(content: bytes, filename: str, schema: pa.Schema) -> pa.Table:
+    start_year, end_year = _coverage_years_from_name(filename)
+    frame = pd.read_excel(BytesIO(content), engine="openpyxl")
+    frame = frame.rename(
+        columns={
+            "Rank": "rank",
+            "Country": "country",
+            "Region": "region",
+            "Documents": "documents",
+            "Citable documents": "citable_documents",
+            "Citations": "citations",
+            "Self-citations": "self_citations",
+            "Citations per document": "citations_per_document",
+            "H index": "h_index",
+        }
+    )
+    frame.insert(0, "coverage_start_year", start_year)
+    frame.insert(1, "coverage_end_year", end_year)
+    missing = [field.name for field in schema if field.name not in frame.columns]
+    if missing:
+        raise RuntimeError(f"Source workbook missing expected columns: {missing}")
+    return pa.Table.from_pandas(frame[schema.names], schema=schema, preserve_index=False)
+
+
 def fetch_latest_parquet(asset_id: str) -> None:
     entity_id = asset_id.removeprefix(PREFIX)
     config = ENTITY_CONFIG[entity_id]
-    url = _latest_download_url(config["directory"], config["filename_prefix"])
-    response = get(url, timeout=180.0)
+    source_file = _latest_source_file(
+        config["directory"],
+        config["filename_prefix"],
+        config["extension"],
+    )
+    response = get(source_file["download_url"], timeout=180.0)
     response.raise_for_status()
-    table = _normalize_table(response.content, config["schema"])
+    if config["extension"] == ".xlsx":
+        table = _normalize_country_history(
+            response.content,
+            source_file["name"],
+            config["schema"],
+        )
+    else:
+        table = _normalize_table(response.content, config["schema"])
     save_raw_parquet(table, asset_id)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(
         id="scimago-journal-country-rank-country-rankings",
+        fn=fetch_latest_parquet,
+    ),
+    NodeSpec(
+        id="scimago-journal-country-rank-country-rankings-history",
         fn=fetch_latest_parquet,
     ),
     NodeSpec(

@@ -1,0 +1,17 @@
+spec_id: saps-crime-stats-releases
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: the current and archive pages expose roughly 29 XLSX crime-statistics releases
+    certainty: 85
+  - not_null: source_workbook
+  - not_null: source_url
+  - not_null: fragment
+  - distinct_count: {col: source_workbook, min: 20}
+    reason: each linked workbook should appear once in the release catalog
+    certainty: 85
+  - column_type: {col: release_year_start, type: integer}
+  - freshness: {col: release_year_start, reaches: current_year() - 2}
+    reason: SAPS publishes quarterly releases; the release index should include recent financial-year workbooks
+    certainty: 80
+    points_outward: true

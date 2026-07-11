@@ -26,7 +26,8 @@ from subsets_utils import NodeSpec, save_raw_parquet
 
 
 PREFIX = "saps-crime-stats-"
-ASSET_ID = "saps-crime-stats-crime-statistics"
+CRIME_STATS_ASSET_ID = "saps-crime-stats-crime-statistics"
+RELEASES_ASSET_ID = "saps-crime-stats-releases"
 INDEX_URLS = (
     "https://www.saps.gov.za/services/crimestats.php",
     "https://www.saps.gov.za/services/older_crimestats.php",
@@ -62,6 +63,17 @@ MEASURE_FIELDS = [
     )
 ]
 SCHEMA = pa.schema(BASE_FIELDS + MEASURE_FIELDS)
+RELEASE_SCHEMA = pa.schema(
+    [
+        ("source_page", pa.string()),
+        ("source_workbook", pa.string()),
+        ("source_url", pa.string()),
+        ("resolved_url", pa.string()),
+        ("release_year_start", pa.int16()),
+        ("release_year_end", pa.int16()),
+        ("fragment", pa.string()),
+    ]
+)
 
 
 class _LinkParser(HTMLParser):
@@ -139,6 +151,29 @@ def _discover_workbooks(client: httpx.Client) -> list[dict[str, str]]:
     return out
 
 
+def _candidate_urls(meta: dict[str, str]) -> list[str]:
+    url = meta["url"]
+    filename = url.rsplit("/", 1)[-1]
+    release_start, release_end = _release_years(meta["filename"])
+    urls = [url]
+    if "/services/downloads/" in url:
+        base = "https://www.saps.gov.za/services/downloads/"
+        for year in (release_end, release_start):
+            if year is not None:
+                urls.append(f"{base}{year}/{filename}")
+    else:
+        urls.append(f"https://www.saps.gov.za/services/downloads/{filename}")
+
+    seen: set[str] = set()
+    out: list[str] = []
+    for candidate in urls:
+        key = urllib.parse.unquote(candidate).lower()
+        if key not in seen:
+            seen.add(key)
+            out.append(candidate)
+    return out
+
+
 def _clean(value) -> str | None:
     if value is None:
         return None
@@ -146,6 +181,10 @@ def _clean(value) -> str | None:
         return value.isoformat()
     text = " ".join(str(value).split())
     return text if text else None
+
+
+def _header_key(value) -> str:
+    return re.sub(r"[^a-z0-9]+", "", str(value or "").lower())
 
 
 def _fragment_name(filename: str) -> str:
@@ -164,11 +203,45 @@ def _release_years(filename: str) -> tuple[int | None, int | None]:
 
 
 def _find_header(rows: list[tuple]) -> int:
+    required = {"station", "district", "province", "crimecategory", "code"}
     for idx, row in enumerate(rows):
-        normalized = {_clean(v) for v in row if v is not None}
-        if {"Station", "District", "Province", "Crime_Category", "Code"}.issubset(normalized):
+        normalized = {_header_key(v) for v in row if v is not None}
+        if required.issubset(normalized):
             return idx
-    raise RuntimeError("RAW Data sheet header row not found")
+    raise RuntimeError("detailed data header row not found")
+
+
+def _header_positions(headers: list[str | None]) -> dict[str, int]:
+    aliases = {
+        "crime_category_national_contribution_placement": {
+            "crimecategorynationalcontributionplacement",
+            "nationalcontributionplacement",
+        },
+        "crime_category_provincial_contribution_placement": {
+            "crimecategoryprovincialcontributionplacement",
+            "provincialcontributionplacement",
+        },
+        "component_level": {"componentlevel"},
+        "station_crime_category": {"stationcrimecategory"},
+        "station": {"station"},
+        "district": {"district"},
+        "province": {"province"},
+        "crime_category": {"crimecategory"},
+        "crime_code": {"code", "crimecode"},
+    }
+    keys = [_header_key(header) for header in headers]
+    positions: dict[str, int] = {}
+    for field, field_aliases in aliases.items():
+        for idx, key in enumerate(keys):
+            if key in field_aliases:
+                positions[field] = idx
+                break
+    missing = {"station", "district", "province", "crime_category", "crime_code"} - set(
+        positions
+    )
+    if missing:
+        raise RuntimeError(f"detailed data header missing columns: {sorted(missing)}")
+    return positions
 
 
 def _release_title(rows: list[tuple], header_idx: int) -> str | None:
@@ -181,24 +254,43 @@ def _release_title(rows: list[tuple], header_idx: int) -> str | None:
     return " | ".join(dict.fromkeys(titles)) or None
 
 
-def _parse_workbook(content: bytes, meta: dict[str, str]) -> pa.Table:
+def _read_detailed_sheet(content: bytes, filename: str) -> tuple[str, list[tuple], int]:
     wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
     try:
-        if "RAW Data" not in wb.sheetnames:
-            raise RuntimeError(f"{meta['filename']}: RAW Data sheet not found")
-        ws = wb["RAW Data"]
-        ws.reset_dimensions()
-        rows = [tuple(row) for row in ws.iter_rows(values_only=True)]
+        failures: list[str] = []
+        preferred = [name for name in wb.sheetnames if name == "RAW Data"]
+        fallback = [name for name in wb.sheetnames if name not in preferred]
+        for sheet_name in preferred + fallback:
+            ws = wb[sheet_name]
+            ws.reset_dimensions()
+            rows = [tuple(row) for row in ws.iter_rows(values_only=True)]
+            try:
+                return sheet_name, rows, _find_header(rows)
+            except Exception as exc:
+                failures.append(f"{sheet_name}: {exc}")
     finally:
         wb.close()
 
-    header_idx = _find_header(rows)
+    raise RuntimeError(
+        f"{filename}: detailed data sheet not found; checked {len(failures)} sheets"
+    )
+
+
+def _parse_workbook(content: bytes, meta: dict[str, str]) -> pa.Table:
+    sheet_name, rows, header_idx = _read_detailed_sheet(content, meta["filename"])
     headers = [_clean(v) for v in rows[header_idx]]
+    positions = _header_positions(headers)
     measure_headers = headers[9 : 9 + MAX_MEASURES]
     release_start, release_end = _release_years(meta["filename"])
     title = _release_title(rows, header_idx)
 
     columns: dict[str, list] = {name: [] for name in SCHEMA.names}
+
+    def row_value(row: tuple, field: str) -> str | None:
+        idx = positions.get(field)
+        if idx is None or len(row) <= idx:
+            return None
+        return _clean(row[idx])
 
     def append_base(row: tuple, excel_row_number: int) -> None:
         values = {
@@ -207,18 +299,22 @@ def _parse_workbook(content: bytes, meta: dict[str, str]) -> pa.Table:
             "source_url": meta["url"],
             "release_year_start": release_start,
             "release_year_end": release_end,
-            "sheet": "RAW Data",
+            "sheet": sheet_name,
             "excel_row_number": excel_row_number,
             "release_title": title,
-            "crime_category_national_contribution_placement": _clean(row[0] if len(row) > 0 else None),
-            "crime_category_provincial_contribution_placement": _clean(row[1] if len(row) > 1 else None),
-            "component_level": _clean(row[2] if len(row) > 2 else None),
-            "station_crime_category": _clean(row[3] if len(row) > 3 else None),
-            "station": _clean(row[4] if len(row) > 4 else None),
-            "district": _clean(row[5] if len(row) > 5 else None),
-            "province": _clean(row[6] if len(row) > 6 else None),
-            "crime_category": _clean(row[7] if len(row) > 7 else None),
-            "crime_code": _clean(row[8] if len(row) > 8 else None),
+            "crime_category_national_contribution_placement": row_value(
+                row, "crime_category_national_contribution_placement"
+            ),
+            "crime_category_provincial_contribution_placement": row_value(
+                row, "crime_category_provincial_contribution_placement"
+            ),
+            "component_level": row_value(row, "component_level"),
+            "station_crime_category": row_value(row, "station_crime_category"),
+            "station": row_value(row, "station"),
+            "district": row_value(row, "district"),
+            "province": row_value(row, "province"),
+            "crime_category": row_value(row, "crime_category"),
+            "crime_code": row_value(row, "crime_code"),
         }
         for key, value in values.items():
             columns[key].append(value)
@@ -245,7 +341,7 @@ def _parse_workbook(content: bytes, meta: dict[str, str]) -> pa.Table:
 
 
 def fetch_crime_statistics(node_id: str) -> None:
-    if node_id != ASSET_ID:
+    if node_id != CRIME_STATS_ASSET_ID:
         raise ValueError(f"unexpected node id {node_id!r}")
 
     failures: list[str] = []
@@ -253,7 +349,17 @@ def fetch_crime_statistics(node_id: str) -> None:
     with _client() as client:
         for workbook in _discover_workbooks(client):
             try:
-                content = _get_bytes(client, workbook["url"])
+                content = None
+                errors: list[str] = []
+                for candidate in _candidate_urls(workbook):
+                    try:
+                        workbook["resolved_url"] = candidate
+                        content = _get_bytes(client, candidate)
+                        break
+                    except Exception as exc:
+                        errors.append(f"{candidate}: {exc}")
+                if content is None:
+                    raise RuntimeError("; ".join(errors[:3]))
                 table = _parse_workbook(content, workbook)
             except Exception as exc:
                 failures.append(f"{workbook['filename']}: {exc}")
@@ -269,6 +375,41 @@ def fetch_crime_statistics(node_id: str) -> None:
         )
 
 
+def fetch_releases(node_id: str) -> None:
+    if node_id != RELEASES_ASSET_ID:
+        raise ValueError(f"unexpected node id {node_id!r}")
+
+    rows: list[dict[str, object]] = []
+    with _client() as client:
+        for workbook in _discover_workbooks(client):
+            release_start, release_end = _release_years(workbook["filename"])
+            resolved_url = None
+            for candidate in _candidate_urls(workbook):
+                try:
+                    resp = client.head(candidate)
+                    if resp.status_code == 200:
+                        resolved_url = candidate
+                        break
+                except Exception:
+                    continue
+            rows.append(
+                {
+                    "source_page": workbook["source_page"],
+                    "source_workbook": workbook["filename"],
+                    "source_url": workbook["url"],
+                    "resolved_url": resolved_url,
+                    "release_year_start": release_start,
+                    "release_year_end": release_end,
+                    "fragment": _fragment_name(workbook["filename"]),
+                }
+            )
+
+    if len(rows) < 20:
+        raise RuntimeError(f"{node_id}: discovered only {len(rows)} workbook releases")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=RELEASE_SCHEMA), node_id)
+
+
 DOWNLOAD_SPECS = [
-    NodeSpec(id=ASSET_ID, fn=fetch_crime_statistics, kind="download"),
+    NodeSpec(id=CRIME_STATS_ASSET_ID, fn=fetch_crime_statistics, kind="download"),
+    NodeSpec(id=RELEASES_ASSET_ID, fn=fetch_releases, kind="download"),
 ]

@@ -1,0 +1,27 @@
+spec_id: scimago-journal-country-rank-country-rankings-history
+status: active
+tests:
+  - not_null: coverage_start_year
+  - not_null: coverage_end_year
+  - not_null: country
+  - not_null: rank
+  - column_type: {col: coverage_start_year, type: integer}
+  - column_type: {col: coverage_end_year, type: integer}
+  - column_type: {col: country, type: string}
+  - column_type: {col: documents, type: integer}
+  - row_count: {min: 200}
+  - distinct_count: {col: country, min: 200}
+  - unique: country
+    reason: The all-years country ranking has one cumulative row per country.
+    certainty: 90
+  - between: {col: coverage_start_year, lo: 1996, hi: 1996}
+    reason: SCImago country history workbook is labeled as starting in 1996.
+    certainty: 95
+  - between: {col: coverage_end_year, lo: 2024, hi: current_year()}
+    reason: The maintained mirror's all-years workbook advances by annual coverage end year.
+    certainty: 90
+    points_outward: true
+  - freshness: {col: coverage_end_year, reaches: current_year() - 2}
+    reason: The all-years workbook may lag the current annual parquet release but should remain within two release years.
+    certainty: 80
+    points_outward: true
