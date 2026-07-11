@@ -3,7 +3,7 @@ status: active
 tests:
   - not_null: euvd_id
   - not_null: product_name
-  - matches: {col: euvd_id, pattern: '^EUVD-'}
+  - matches: {col: euvd_id, pattern: '^EUVD-[0-9]{4}-[0-9]+$'}
     reason: foreign key back to the vulnerabilities corpus; same EUVD-YYYY-NNNNN format
     certainty: 95
   - row_count: {min: 300000}

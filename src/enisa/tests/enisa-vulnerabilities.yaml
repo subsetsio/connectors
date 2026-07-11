@@ -2,7 +2,7 @@ spec_id: enisa-vulnerabilities
 status: active
 tests:
   - not_null: id
-  - matches: {col: id, pattern: '^EUVD-'}
+  - matches: {col: id, pattern: '^EUVD-[0-9]{4}-[0-9]+$'}
     reason: every EUVD record id is formatted EUVD-YYYY-NNNNN
     certainty: 95
   - unique: id
