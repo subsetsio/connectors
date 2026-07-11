@@ -606,7 +606,23 @@ def _expand_resource(res):
         size = 0
 
     if fmt in _CSV_LIKE:
-        # stream CSV/TXT directly (handles the 1.5GB file); never capped
+        # Download ordinary CSV/TXT resources before constructing the Table so
+        # CKAN /download 5xx responses are handled inside this per-resource
+        # block. Very large CSVs still stream so they never land in RAM whole.
+        if not size or size <= _MAX_INMEM_BYTES:
+            try:
+                content = _download_bytes(url)
+                t = _csv_table(_decode(content), rname, url.rsplit("/", 1)[-1])
+                return [t] if t else []
+            except Exception as e:  # noqa: BLE001
+                if res.get("datastore_active"):
+                    print(f"[{rname}] CSV download failed, trying datastore: "
+                          f"{type(e).__name__}: {e}")
+                    t = _datastore_table(res)
+                    return [t] if t else []
+                raise
+
+        # stream huge CSV/TXT directly (handles the 1.5GB file); never capped
         try:
             return [_stream_csv_table(url, rname, url.rsplit("/", 1)[-1])]
         except Exception as e:  # noqa: BLE001
