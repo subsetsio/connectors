@@ -11,3 +11,6 @@ tests:
   - row_count: {min: 200}
     reason: most activities carry multiple expense/commitment/fund transactions
     certainty: 70
+  - freshness: {col: date, reaches: today - 400d}
+    reason: transaction dates come from the live ITC activity feed; a 400-day window allows normal donor reporting lag.
+    certainty: 80

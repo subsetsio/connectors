@@ -14,3 +14,6 @@ tests:
   - row_count: {min: 200}
     reason: ~230 activities each spanning several years yields many rows
     certainty: 75
+  - freshness: {col: year, reaches: 2029}
+    reason: ITC's general-info timespan currently extends through 2029, and the financial year map should cover that published horizon.
+    certainty: 90

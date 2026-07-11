@@ -16,3 +16,6 @@ tests:
   - distinct_count: {col: year, min: 10}
     reason: full span is ~16 years; a shortfall means year discovery broke
     certainty: 85
+  - freshness: {col: year, reaches: 2029}
+    reason: ITC's annual summary is generated for the full general-info timespan, currently through 2029.
+    certainty: 90

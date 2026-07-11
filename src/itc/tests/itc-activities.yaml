@@ -9,6 +9,9 @@ tests:
   - row_count: {min: 100}
     reason: the activities catalog reports ~230 activities
     certainty: 90
+  - freshness: {col: date_first_expense, reaches: today - 400d}
+    reason: ITC activity expense dates are updated with the live portfolio feed; a 400-day window allows normal reporting lag.
+    certainty: 80
   - matches: {col: identifier, pattern: "^XM-DAC-45001-"}
     reason: all activities are ITC-published IATI ids (publisher XM-DAC-45001)
     certainty: 80

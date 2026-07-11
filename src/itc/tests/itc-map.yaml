@@ -9,10 +9,14 @@ tests:
     certainty: 90
   - between: {col: year, lo: 2014, hi: 2029}
     certainty: 90
-  - between: {col: latitude, lo: -90, hi: 90}
+  - freshness: {col: year, reaches: 2029}
+    reason: ITC's general-info timespan currently extends through 2029, and the map endpoint should cover that published horizon.
+    certainty: 90
+  - between: {col: lat, lo: -90, hi: 90}
     reason: lat is a geographic coordinate
     certainty: 85
     severity: warn
-  - between: {col: longitude, lo: -180, hi: 180}
+  - between: {col: lon, lo: -180, hi: 180}
+    reason: lon is a geographic coordinate
     certainty: 85
     severity: warn

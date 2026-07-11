@@ -4,6 +4,9 @@ tests:
   - not_null: id
   - not_null: code
   - not_null: name
+    reason: most vocabulary entries carry labels, but the upstream currently includes one unlabeled code.
+    certainty: 80
+    severity: warn
   - not_null: vocabulary
   - unique: id
     reason: vocabulary-codes returns one row per code-list entry id
