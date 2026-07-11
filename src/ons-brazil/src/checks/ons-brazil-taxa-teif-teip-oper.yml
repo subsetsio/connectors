@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-brazil-taxa-teif-teip-oper`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [din_calculo, nom_usina, din_mes, tip_usina, nom_taxa]
+temporal: din_mes
+checks:
+  - kind: unique
+    columns: [din_calculo, nom_usina, din_mes, tip_usina, nom_taxa]
+  - kind: not_null
+    col: din_calculo
+  - kind: not_null
+    col: nom_usina
+  - kind: not_null
+    col: din_mes
+  - kind: not_null
+    col: tip_usina
+  - kind: not_null
+    col: nom_taxa
+  - kind: row_floor
+    min: 15117
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

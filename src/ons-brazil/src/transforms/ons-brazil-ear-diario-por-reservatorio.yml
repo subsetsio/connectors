@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-ear-diario-por-reservatorio`. Regenerate after model-verify.
+key: []
+temporal: ear_data
+sort: [ear_data]
 columns:
   - name: nom_reservatorio
     type: VARCHAR
@@ -19,7 +23,7 @@ columns:
   - name: nom_subsistema_jusante
     type: VARCHAR
   - name: ear_data
-    type: VARCHAR
+    type: DATE
   - name: ear_reservatorio_subsistema_proprio_mwmes
     type: VARCHAR
   - name: ear_reservatorio_subsistema_jusante_mwmes
@@ -31,22 +35,22 @@ columns:
   - name: ear_reservatorio_percentual
     type: VARCHAR
   - name: ear_total_mwmes
-    type: VARCHAR
+    type: DOUBLE
   - name: ear_maxima_total_mwmes
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearbacia
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearmaxbacia
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearsubsistema
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearmaxsubsistema
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearsubsistemajusante
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearmaxsubsistemajusante
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearsin
-    type: VARCHAR
+    type: DOUBLE
   - name: val_contribearmaxsin
-    type: VARCHAR
+    type: DOUBLE

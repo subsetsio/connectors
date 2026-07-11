@@ -1,16 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-ena-diario-por-subsistema`. Regenerate after model-verify.
+# caution: The verified row identity is value-based; filter the region and date fields before using this as a regional time series.
+key: [ena_bruta_regiao_mwmed]
+temporal: ena_data
+sort: [ena_data, ena_bruta_regiao_mwmed]
 columns:
   - name: id_subsistema
     type: VARCHAR
   - name: nom_subsistema
     type: VARCHAR
   - name: ena_data
-    type: VARCHAR
+    type: DATE
   - name: ena_bruta_regiao_mwmed
-    type: VARCHAR
+    type: DOUBLE
   - name: ena_bruta_regiao_percentualmlt
-    type: VARCHAR
+    type: DOUBLE
   - name: ena_armazenavel_regiao_mwmed
-    type: VARCHAR
+    type: DOUBLE
   - name: ena_armazenavel_regiao_percentualmlt
-    type: VARCHAR
+    type: DOUBLE

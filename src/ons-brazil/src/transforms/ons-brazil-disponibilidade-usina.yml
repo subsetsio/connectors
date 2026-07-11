@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-disponibilidade-usina`. Regenerate after model-verify.
+key: [din_instante, nom_usina]
+temporal: din_instante
+sort: [din_instante, nom_usina]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -21,8 +25,8 @@ columns:
   - name: din_instante
     type: TIMESTAMP
   - name: val_potenciainstalada
-    type: VARCHAR
+    type: DOUBLE
   - name: val_dispoperacional
-    type: VARCHAR
+    type: DOUBLE
   - name: val_dispsincronizada
-    type: VARCHAR
+    type: DOUBLE

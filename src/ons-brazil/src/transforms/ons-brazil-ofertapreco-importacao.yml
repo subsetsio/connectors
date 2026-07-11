@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-ofertapreco-importacao`. Regenerate after model-verify.
+key: [dat_iniciovalidade, dat_fimvalidade, nom_bloco, nom_agente, nom_pais]
+temporal: dat_iniciovalidade
+sort: [dat_iniciovalidade, dat_fimvalidade, nom_bloco, nom_agente, nom_pais]
 columns:
   - name: nom_pais
     type: VARCHAR
@@ -7,8 +11,8 @@ columns:
   - name: nom_bloco
     type: VARCHAR
   - name: dat_iniciovalidade
-    type: VARCHAR
+    type: DATE
   - name: dat_fimvalidade
-    type: VARCHAR
+    type: DATE
   - name: val_preco
     type: DOUBLE

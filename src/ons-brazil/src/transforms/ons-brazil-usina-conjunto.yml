@@ -1,4 +1,8 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-usina-conjunto`. Regenerate after model-verify.
+key: []
+temporal: dat_iniciorelacionamento
+sort: [dat_iniciorelacionamento]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -13,7 +17,7 @@ columns:
   - name: nom_tipousina
     type: VARCHAR
   - name: id_conjuntousina
-    type: BIGINT
+    type: INTEGER
   - name: id_ons_conjunto
     type: VARCHAR
   - name: id_ons_usina
@@ -25,6 +29,6 @@ columns:
   - name: ceg
     type: VARCHAR
   - name: dat_iniciorelacionamento
-    type: VARCHAR
+    type: DATE
   - name: dat_fimrelacionamento
     type: VARCHAR

@@ -1,4 +1,9 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-linha-transmissao`. Regenerate after model-verify.
+# caution: This registry includes both current and planned transmission-line dates; use the operation and planned-date fields according to the analysis.
+key: [nom_linhadetransmissao, dat_entradaoperacao, nom_subestacao_de, dat_prevista, nom_agenteproprietario]
+temporal: dat_entradaoperacao
+sort: [dat_entradaoperacao, nom_linhadetransmissao, nom_subestacao_de, dat_prevista, nom_agenteproprietario]
 columns:
   - name: id_subsistema_terminalde
     type: VARCHAR
@@ -33,7 +38,7 @@ columns:
   - name: cod_equipamento
     type: VARCHAR
   - name: dat_entradaoperacao
-    type: VARCHAR
+    type: DATE
   - name: dat_desativacao
     type: VARCHAR
   - name: dat_prevista
@@ -71,6 +76,6 @@ columns:
   - name: val_capacoperinvernonoitecurta
     type: DOUBLE
   - name: num_barra_de
-    type: BIGINT
+    type: INTEGER
   - name: num_barra_para
-    type: BIGINT
+    type: INTEGER

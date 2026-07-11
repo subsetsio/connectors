@@ -1,18 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-balanco-dessem-geral`. Regenerate after model-verify.
+# caution: The verified row identity includes measured values because the source does not expose a stable program interval identifier.
+key: [val_demanda, val_geracao_renovavel, val_geracao_termica, val_cons_elevatoria, din_programacaodia]
+temporal: din_programacaodia
+sort: [din_programacaodia, val_demanda, val_geracao_renovavel, val_geracao_termica, val_cons_elevatoria]
 columns:
   - name: din_programacaodia
-    type: VARCHAR
+    type: DATE
   - name: num_patamar
     type: INTEGER
   - name: cod_subsistema
     type: VARCHAR
   - name: val_demanda
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracao_renovavel
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracao_hidraulica
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracao_termica
-    type: VARCHAR
+    type: DOUBLE
   - name: val_cons_elevatoria
-    type: VARCHAR
+    type: DOUBLE

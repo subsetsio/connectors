@@ -1,7 +1,11 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-classificacao-evt`. Regenerate after model-verify.
+key: []
+temporal: din_instante
+sort: [din_instante]
 columns:
   - name: din_instante
-    type: VARCHAR
+    type: TIMESTAMP
   - name: val_evt_verificado
     type: VARCHAR
   - name: val_evt_razaoenergetica

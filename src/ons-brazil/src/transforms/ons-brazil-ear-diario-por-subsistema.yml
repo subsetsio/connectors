@@ -1,14 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-ear-diario-por-subsistema`. Regenerate after model-verify.
+# caution: The verified row identity includes storage values because the source does not expose a stable subsystem observation id.
+key: [ear_verif_subsistema_mwmes, ear_verif_subsistema_percentual, ear_data, ear_max_subsistema, id_subsistema]
+temporal: ear_data
+sort: [ear_data, ear_verif_subsistema_mwmes, ear_verif_subsistema_percentual, ear_max_subsistema, id_subsistema]
 columns:
   - name: id_subsistema
     type: VARCHAR
   - name: nom_subsistema
     type: VARCHAR
   - name: ear_data
-    type: VARCHAR
+    type: DATE
   - name: ear_max_subsistema
-    type: VARCHAR
+    type: DOUBLE
   - name: ear_verif_subsistema_mwmes
-    type: VARCHAR
+    type: DOUBLE
   - name: ear_verif_subsistema_percentual
-    type: VARCHAR
+    type: DOUBLE

@@ -1,4 +1,7 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-subestacao`. Regenerate after model-verify.
+key: [id_estacao, val_longitude, nom_subestacao, val_latitude, id_subestacao]
+sort: [id_estacao, val_longitude, nom_subestacao, val_latitude, id_subestacao]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -19,7 +22,7 @@ columns:
   - name: id_estacao
     type: VARCHAR
   - name: num_barra
-    type: BIGINT
+    type: INTEGER
   - name: val_latitude
     type: VARCHAR
   - name: val_longitude

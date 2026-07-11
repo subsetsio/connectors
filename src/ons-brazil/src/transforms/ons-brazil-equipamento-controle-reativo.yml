@@ -1,4 +1,8 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-equipamento-controle-reativo`. Regenerate after model-verify.
+key: [cod_equipamento]
+temporal: dat_entradaoperacao
+sort: [dat_entradaoperacao, cod_equipamento]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -25,7 +29,7 @@ columns:
   - name: val_limitesuperior_mvar
     type: DOUBLE
   - name: dat_entradaoperacao
-    type: VARCHAR
+    type: DATE
   - name: dat_desativacao
     type: VARCHAR
   - name: cod_equipamento

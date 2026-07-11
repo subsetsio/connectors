@@ -1,2 +1,5 @@
 spec_id: ons-brazil-precipitacao-estacao
+coverage:
+  frozen: true
+  reason: "ONS states this observed precipitation station series is no longer updated."
 status: deferred  # CKAN catalog connector: per-dataset parquet schema is the source's own and not known until first pull; assertions authored from the first materialized chunk.

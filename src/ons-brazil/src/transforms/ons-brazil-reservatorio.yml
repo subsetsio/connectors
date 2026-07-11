@@ -1,13 +1,17 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-reservatorio`. Regenerate after model-verify.
+key: [nom_usina]
+temporal: dat_entrada
+sort: [dat_entrada, nom_usina]
 columns:
   - name: nom_reservatorio
     type: VARCHAR
   - name: tip_reservatorio
     type: VARCHAR
   - name: cod_resplanejamento
-    type: BIGINT
+    type: INTEGER
   - name: cod_posto
-    type: BIGINT
+    type: INTEGER
   - name: nom_usina
     type: VARCHAR
   - name: ceg
@@ -23,17 +27,17 @@ columns:
   - name: nom_ree
     type: VARCHAR
   - name: dat_entrada
-    type: VARCHAR
+    type: DATE
   - name: val_cotamaxima
-    type: VARCHAR
+    type: DOUBLE
   - name: val_cotaminima
-    type: VARCHAR
+    type: DOUBLE
   - name: val_volmax
-    type: VARCHAR
+    type: DOUBLE
   - name: val_volmin
-    type: VARCHAR
+    type: DOUBLE
   - name: val_volutiltot
-    type: VARCHAR
+    type: DOUBLE
   - name: val_produtibilidadeespecifica
     type: DOUBLE
   - name: val_produtividade65volutil

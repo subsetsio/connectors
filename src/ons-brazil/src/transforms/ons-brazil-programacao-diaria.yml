@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-programacao-diaria`. Regenerate after model-verify.
+key: []
+temporal: din_programacaodia
+sort: [din_programacaodia]
 columns:
   - name: din_programacaodia
     type: TIMESTAMP
@@ -21,7 +25,7 @@ columns:
   - name: nom_estado
     type: VARCHAR
   - name: val_geracaoprogramada
-    type: VARCHAR
+    type: DOUBLE
   - name: val_disponibilidade
     type: VARCHAR
   - name: val_ordemmerito

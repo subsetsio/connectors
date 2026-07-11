@@ -1,4 +1,9 @@
-# bootstrapped passthrough: columns read from source CSV schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-precipitacao-estacao`. Regenerate after model-verify.
+# caution: The source notes that this precipitation series is no longer updated; treat freshness as frozen historical coverage.
+key: []
+temporal: dat_observada
+sort: [dat_observada]
 columns:
   - name: cod_estacao
     type: VARCHAR

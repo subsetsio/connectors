@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-brazil-intercambio-nacional`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [din_instante, nom_subsistema_origem, nom_subsistema_destino, id_subsistema_origem, id_subsistema_destino]
+temporal: din_instante
+checks:
+  - kind: unique
+    columns: [din_instante, nom_subsistema_origem, nom_subsistema_destino, id_subsistema_origem, id_subsistema_destino]
+  - kind: not_null
+    col: din_instante
+  - kind: not_null
+    col: nom_subsistema_origem
+  - kind: not_null
+    col: nom_subsistema_destino
+  - kind: not_null
+    col: id_subsistema_origem
+  - kind: not_null
+    col: id_subsistema_destino
+  - kind: row_floor
+    min: 61776
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

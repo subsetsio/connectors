@@ -1,4 +1,9 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-taxa-teif-teip-parametro`. Regenerate after model-verify.
+# caution: Parameter rows represent operating-hour components used in TEIFa and TEIP calculations; do not aggregate them as final rates.
+key: []
+temporal: din_parametro
+sort: [din_parametro]
 columns:
   - name: nom_usina
     type: VARCHAR
@@ -10,11 +15,11 @@ columns:
     type: VARCHAR
   - name: dat_periodo
     type: VARCHAR
-  - name: din_parametro
-    type: TIMESTAMP
   - name: nom_tpinsumo
     type: VARCHAR
   - name: val_parametro
     type: DOUBLE
   - name: num_versao
     type: DOUBLE
+  - name: din_parametro
+    type: TIMESTAMP

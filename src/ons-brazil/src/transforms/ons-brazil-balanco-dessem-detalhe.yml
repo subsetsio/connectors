@@ -1,26 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-balanco-dessem-detalhe`. Regenerate after model-verify.
+# caution: DESSEM detailed balances are semi-hourly programmed values by subsystem and energy source; filter the source/category columns before aggregating across generation components.
+key: []
+temporal: din_programacaodia
+sort: [din_programacaodia]
 columns:
   - name: din_programacaodia
-    type: VARCHAR
+    type: DATE
   - name: num_patamar
     type: INTEGER
   - name: cod_subsistema
     type: VARCHAR
   - name: val_demanda
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_hidraulica
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_pch
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_termica
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_pct
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_eolica
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_fotovoltaica
-    type: VARCHAR
+    type: DOUBLE
   - name: val_ger_mmgd
-    type: VARCHAR
+    type: DOUBLE
   - name: val_cons_elevatoria
-    type: VARCHAR
+    type: DOUBLE

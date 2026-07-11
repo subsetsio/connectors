@@ -1,4 +1,9 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-restricao-coff-fotovoltaica`. Regenerate after model-verify.
+# caution: Constrained-off rows include curtailment reason and availability dimensions; keep those fields distinct when aggregating.
+key: [din_instante, nom_usina]
+temporal: din_instante
+sort: [din_instante, nom_usina]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -17,13 +22,13 @@ columns:
   - name: din_instante
     type: TIMESTAMP
   - name: val_geracao
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracaolimitada
     type: VARCHAR
   - name: val_disponibilidade
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracaoreferencia
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracaoreferenciafinal
     type: VARCHAR
   - name: cod_razaorestricao

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-brazil-linha-transmissao`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [nom_linhadetransmissao, dat_entradaoperacao, nom_subestacao_de, dat_prevista, nom_agenteproprietario]
+temporal: dat_entradaoperacao
+checks:
+  - kind: unique
+    columns: [nom_linhadetransmissao, dat_entradaoperacao, nom_subestacao_de, dat_prevista, nom_agenteproprietario]
+  - kind: not_null
+    col: nom_linhadetransmissao
+  - kind: not_null
+    col: dat_entradaoperacao
+  - kind: not_null
+    col: nom_subestacao_de
+  - kind: not_null
+    col: dat_prevista
+  - kind: not_null
+    col: nom_agenteproprietario
+  - kind: row_floor
+    min: 1168
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

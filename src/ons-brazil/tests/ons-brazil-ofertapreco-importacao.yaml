@@ -1,2 +1,4 @@
 spec_id: ons-brazil-ofertapreco-importacao
+tests:
+  - freshness: {col: dat_iniciovalidade, reaches: today - 730d}
 status: deferred  # CKAN catalog connector: per-dataset parquet schema is the source's own and not known until first pull; assertions authored from the first materialized chunk.

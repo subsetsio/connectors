@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-brazil-intercambio-modalidade`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [din_instante, nom_conversora]
+temporal: din_instante
+checks:
+  - kind: unique
+    columns: [din_instante, nom_conversora]
+  - kind: not_null
+    col: din_instante
+  - kind: not_null
+    col: nom_conversora
+  - kind: row_floor
+    min: 99636
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

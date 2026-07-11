@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-ind-confiarb-ciper`. Regenerate after model-verify.
+# caution: This indicator mixes aggregation levels and periodicities; filter dsc_agregacao and id_periodicidade before aggregating.
+key: [din_referencia, dsc_caracteristica, cod_caracteristica, dsc_agregacao, id_periodicidade]
+temporal: din_referencia
+sort: [din_referencia, dsc_caracteristica, cod_caracteristica, dsc_agregacao, id_periodicidade]
 columns:
   - name: dsc_agregacao
     type: VARCHAR

@@ -1,4 +1,8 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-usi-servicoancilar-sandbox`. Regenerate after model-verify.
+key: []
+temporal: dat_verificada
+sort: [dat_verificada]
 columns:
   - name: dat_verificada
     type: DATE
@@ -13,6 +17,6 @@ columns:
   - name: val_must
     type: VARCHAR
   - name: flg_cpsa
-    type: VARCHAR
+    type: BIGINT
   - name: dsc_comentario
     type: VARCHAR

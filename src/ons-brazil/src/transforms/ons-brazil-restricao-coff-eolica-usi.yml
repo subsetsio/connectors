@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-restricao-coff-eolica-usi`. Regenerate after model-verify.
+# caution: Constrained-off rows include curtailment reason and availability dimensions; keep those fields distinct when aggregating.
+key: [din_instante, id_ons]
+temporal: din_instante
+sort: [din_instante, id_ons]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -17,13 +22,13 @@ columns:
   - name: din_instante
     type: TIMESTAMP
   - name: val_geracao
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracaolimitada
     type: VARCHAR
   - name: val_disponibilidade
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracaoreferencia
-    type: VARCHAR
+    type: DOUBLE
   - name: val_geracaoreferenciafinal
     type: VARCHAR
   - name: cod_razaorestricao

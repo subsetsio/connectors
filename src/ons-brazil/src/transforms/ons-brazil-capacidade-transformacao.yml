@@ -1,4 +1,8 @@
-# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-capacidade-transformacao`. Regenerate after model-verify.
+key: [nom_transformador]
+temporal: dat_entradaoperacao
+sort: [dat_entradaoperacao, nom_transformador]
 columns:
   - name: id_subsistema
     type: VARCHAR
@@ -19,7 +23,7 @@ columns:
   - name: cod_equipamento
     type: VARCHAR
   - name: dat_entradaoperacao
-    type: VARCHAR
+    type: DATE
   - name: dat_desativacao
     type: VARCHAR
   - name: val_tensaoprimario_kv
@@ -33,6 +37,6 @@ columns:
   - name: nom_tipoderede
     type: VARCHAR
   - name: num_barra_primario
-    type: BIGINT
+    type: INTEGER
   - name: num_barra_secundario
-    type: BIGINT
+    type: INTEGER

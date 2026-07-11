@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-ear-diario-por-bacia`. Regenerate after model-verify.
+key: [ear_data, nomecurto]
+temporal: ear_data
+sort: [ear_data, nomecurto]
 columns:
   - name: nomecurto
     type: VARCHAR
   - name: ear_data
-    type: VARCHAR
+    type: DATE
   - name: ear_max_bacia
     type: DOUBLE
   - name: ear_verif_bacia_mwmes

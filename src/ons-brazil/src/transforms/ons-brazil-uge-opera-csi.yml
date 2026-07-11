@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-brazil-uge-opera-csi`. Regenerate after model-verify.
+key: []
+temporal: dat_verificada
+sort: [dat_verificada]
 columns:
   - name: dat_verificada
-    type: VARCHAR
+    type: DATE
   - name: hora_verificada
     type: VARCHAR
   - name: tip_usina
@@ -11,7 +15,7 @@ columns:
   - name: nom_unidadegeradora
     type: VARCHAR
   - name: cod_usinadpp
-    type: VARCHAR
+    type: BIGINT
   - name: cod_ugedpp
     type: INTEGER
   - name: cod_pontomedicao

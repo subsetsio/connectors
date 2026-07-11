@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-brazil-balanco-dessem-geral`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [val_demanda, val_geracao_renovavel, val_geracao_termica, val_cons_elevatoria, din_programacaodia]
+temporal: din_programacaodia
+checks:
+  - kind: unique
+    columns: [val_demanda, val_geracao_renovavel, val_geracao_termica, val_cons_elevatoria, din_programacaodia]
+  - kind: not_null
+    col: val_demanda
+  - kind: not_null
+    col: val_geracao_renovavel
+  - kind: not_null
+    col: val_geracao_termica
+  - kind: not_null
+    col: val_cons_elevatoria
+  - kind: not_null
+    col: din_programacaodia
+  - kind: row_floor
+    min: 39168
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
