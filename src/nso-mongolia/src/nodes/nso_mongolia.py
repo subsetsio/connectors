@@ -56,16 +56,20 @@ def _fetch_metadata(url: str) -> dict:
     return resp.json()
 
 
-def _query(url: str, selection: dict) -> dict:
-    """POST a json-stat2 query. `selection` maps var code -> list of value codes."""
-    body = {
-        "query": [
-            {"code": code, "selection": {"filter": "item", "values": values}}
-            for code, values in selection.items()
-        ],
-        "response": {"format": "json-stat2"},
-    }
-    resp = post(url, json=body, timeout=(10.0, 180.0))
+def _query(url: str, selection: dict, full: dict) -> dict:
+    """POST a json-stat2 query. `selection` maps var code -> the value codes to
+    pull; `full` maps var code -> its complete value-code list. A dimension
+    taken whole is requested with ``filter: all`` (canonical PxWeb full-fetch,
+    no code enumeration — robust to tables whose value codes are malformed);
+    only a dimension actually sliced for chunking enumerates its codes."""
+    query = []
+    for code, values in selection.items():
+        if values == full[code]:
+            query.append({"code": code, "selection": {"filter": "all", "values": ["*"]}})
+        else:
+            query.append({"code": code, "selection": {"filter": "item", "values": values}})
+    resp = post(url, json={"query": query, "response": {"format": "json-stat2"}},
+                timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
 
@@ -190,10 +194,11 @@ def fetch_one(node_id: str) -> None:
     if not variables:
         raise ValueError(f"{entity_id}: table metadata has no variables")
 
+    full = {v["code"]: list(v["values"]) for v in variables}
     rows = []
     for selection in _blocks(variables):
         time.sleep(_SLEEP)
-        rows.extend(_rows_from_dataset(_query(url, selection)))
+        rows.extend(_rows_from_dataset(_query(url, selection, full)))
 
     if not rows:
         raise ValueError(f"{entity_id}: query returned no non-null rows")
