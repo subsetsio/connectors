@@ -30,6 +30,7 @@ def fetch_weather_forecasts(node_id: str) -> None:
             "area taxonomy may have changed shape")
 
     rows = []
+    seen = set()
     fetched = 0
     for office in office_codes:
         resp = get(f"{BOSAI}/forecast/data/forecast/{office}.json", timeout=60)
@@ -65,7 +66,9 @@ def fetch_weather_forecasts(node_id: str) -> None:
                                 "valid_time": valid_time,
                                 "value": str(v),
                             }
-                            if row not in rows:
+                            key = tuple(row.items())
+                            if key not in seen:
+                                seen.add(key)
                                 rows.append(row)
     if fetched == 0:
         raise RuntimeError("no forecast documents fetched; bosai forecast surface may have changed")
