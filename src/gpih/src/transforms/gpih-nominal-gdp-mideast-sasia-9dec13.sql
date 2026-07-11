@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+SELECT
+    "__sheet__" AS sheet,
+    "Year" AS year,
+    "Afghanistan" AS afghanistan,
+    "Armenia" AS armenia,
+    "Bahrain" AS bahrain,
+    "Bangla-desh" AS bangla_desh,
+    "Bangla-desh_2" AS bangla_desh_2,
+    "Cyprus" AS cyprus,
+    "Cyprus_2" AS cyprus_2,
+    "India" AS india,
+    "India_2" AS india_2,
+    "India_3" AS india_3,
+    "India_4" AS india_4,
+    "Iran" AS iran,
+    "Iran_2" AS iran_2,
+    "Iraq" AS iraq,
+    "Iraq_2" AS iraq_2,
+    "Israel" AS israel,
+    "Israel_2" AS israel_2,
+    "Jordan" AS jordan,
+    "Jordan_2" AS jordan_2,
+    "Kuwait" AS kuwait,
+    "Kuwait_2" AS kuwait_2,
+    "Lebanon" AS lebanon,
+    "Lebanon_2" AS lebanon_2,
+    "Nepal" AS nepal,
+    "Nepal_2" AS nepal_2,
+    "Oman" AS oman,
+    "Pakistan" AS pakistan,
+    "Pakistan_2" AS pakistan_2,
+    "Qatar" AS qatar,
+    "Saudi Arabia" AS saudi_arabia,
+    "Saudi Arabia_2" AS saudi_arabia_2,
+    "Syria" AS syria,
+    "Syria_2" AS syria_2,
+    "Turkey" AS turkey,
+    "Turkey_2" AS turkey_2,
+    "Turkey_3" AS turkey_3,
+    "Turkey_4" AS turkey_4,
+    "UAE" AS uae
+FROM "gpih-nominal-gdp-mideast-sasia-9dec13"

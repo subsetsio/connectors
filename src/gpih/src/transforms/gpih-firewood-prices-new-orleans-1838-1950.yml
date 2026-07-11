@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-firewood-prices-new-orleans-1838-1950`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: cord
+    type: DOUBLE
+  - name: type_unit
+    type: DOUBLE
+  - name: unit
+    type: DOUBLE
+  - name: notes
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: "1894"
+    type: BIGINT
+  - name: "4"
+    type: BIGINT
+  - name: "4_5"
+    type: DOUBLE
+  - name: "1"
+    type: DOUBLE
+  - name: "4_5_2"
+    type: DOUBLE
+  - name: pine
+    type: VARCHAR
+  - name: new_orleans_times_picayune
+    type: VARCHAR
+  - name: "1_65"
+    type: DOUBLE
+  - name: "2_7272727272727275"
+    type: DOUBLE
+  - name: load
+    type: VARCHAR

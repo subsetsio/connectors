@@ -1,0 +1,68 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-1850-1870-mens-earnings-by-race`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: avg_wage
+    type: VARCHAR
+  - name: total_perwt_wage
+    type: VARCHAR
+  - name: number_of_men_perwt
+    type: DOUBLE
+  - name: avg_wage_2
+    type: VARCHAR
+  - name: total_perwt_wage_2
+    type: VARCHAR
+  - name: number_of_men_perwt_2
+    type: DOUBLE
+  - name: c8
+    type: BIGINT
+  - name: avg_wage_3
+    type: VARCHAR
+  - name: total_perwt_wage_3
+    type: VARCHAR
+  - name: number_of_men_perwt_3
+    type: VARCHAR
+  - name: avg_wage_4
+    type: DOUBLE
+  - name: total_perwt_wage_4
+    type: DOUBLE
+  - name: number_of_men_perwt_4
+    type: DOUBLE
+  - name: avg_wage_5
+    type: DOUBLE
+  - name: total_perwt_wage_5
+    type: DOUBLE
+  - name: number_of_men_perwt_5
+    type: DOUBLE
+  - name: avg_wage_6
+    type: DOUBLE
+  - name: total_perwt_wage_6
+    type: DOUBLE
+  - name: number_of_men_perwt_6
+    type: DOUBLE
+  - name: avg_wage_7
+    type: DOUBLE
+  - name: total_perwt_wage_7
+    type: DOUBLE
+  - name: number_of_men_perwt_7
+    type: DOUBLE
+  - name: avg_wage_8
+    type: VARCHAR
+  - name: total_perwt_wage_8
+    type: VARCHAR
+  - name: number_of_men_perwt_8
+    type: DOUBLE
+  - name: small_n_s
+    type: BIGINT
+  - name: small_n_s_2
+    type: BIGINT

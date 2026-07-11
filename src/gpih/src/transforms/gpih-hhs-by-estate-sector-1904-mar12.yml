@@ -1,0 +1,534 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-hhs-by-estate-sector-1904-mar12`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: row
+    type: BIGINT
+  - name: no
+    type: VARCHAR
+  - name: urban
+    type: BIGINT
+  - name: c3
+    type: VARCHAR
+  - name: "2"
+    type: DOUBLE
+  - name: c5
+    type: BIGINT
+  - name: c6
+    type: DOUBLE
+  - name: "3"
+    type: DOUBLE
+  - name: "4"
+    type: DOUBLE
+  - name: "5"
+    type: DOUBLE
+  - name: residual
+    type: DOUBLE
+  - name: "6"
+    type: DOUBLE
+  - name: "7"
+    type: DOUBLE
+  - name: "8"
+    type: DOUBLE
+  - name: "9"
+    type: VARCHAR
+  - name: "10"
+    type: VARCHAR
+  - name: "11"
+    type: DOUBLE
+  - name: "12"
+    type: DOUBLE
+  - name: "13"
+    type: DOUBLE
+  - name: "14"
+    type: DOUBLE
+  - name: residual_2
+    type: DOUBLE
+  - name: "15"
+    type: DOUBLE
+  - name: "16"
+    type: DOUBLE
+  - name: "17"
+    type: DOUBLE
+  - name: "18"
+    type: DOUBLE
+  - name: "19"
+    type: DOUBLE
+  - name: "20"
+    type: DOUBLE
+  - name: "21"
+    type: DOUBLE
+  - name: "22"
+    type: DOUBLE
+  - name: residual_3
+    type: VARCHAR
+  - name: m_n_and_x_aa
+    type: DOUBLE
+  - name: notes
+    type: VARCHAR
+  - name: no_2
+    type: BIGINT
+  - name: number
+    type: BIGINT
+  - name: rural_2
+    type: VARCHAR
+  - name: c4
+    type: VARCHAR
+  - name: c7
+    type: DOUBLE
+  - name: dvor_1897
+    type: VARCHAR
+  - name: c23
+    type: BIGINT
+  - name: c33
+    type: VARCHAR
+  - name: "3_2"
+    type: DOUBLE
+  - name: "4_2"
+    type: DOUBLE
+  - name: "5_2"
+    type: DOUBLE
+  - name: residual_4
+    type: DOUBLE
+  - name: "6_2"
+    type: DOUBLE
+  - name: "7_2"
+    type: DOUBLE
+  - name: "8_2"
+    type: DOUBLE
+  - name: "9_2"
+    type: VARCHAR
+  - name: "10_2"
+    type: VARCHAR
+  - name: "11_2"
+    type: DOUBLE
+  - name: "12_2"
+    type: DOUBLE
+  - name: "13_2"
+    type: DOUBLE
+  - name: "14_2"
+    type: DOUBLE
+  - name: residual_5
+    type: DOUBLE
+  - name: c48
+    type: VARCHAR
+  - name: "15_2"
+    type: DOUBLE
+  - name: "16_2"
+    type: DOUBLE
+  - name: "17_2"
+    type: DOUBLE
+  - name: "18_2"
+    type: DOUBLE
+  - name: "19_2"
+    type: VARCHAR
+  - name: "20_2"
+    type: VARCHAR
+  - name: "21_2"
+    type: DOUBLE
+  - name: "22_2"
+    type: DOUBLE
+  - name: residual_6
+    type: VARCHAR
+  - name: all_sectors
+    type: VARCHAR
+  - name: males
+    type: DOUBLE
+  - name: females
+    type: DOUBLE
+  - name: both
+    type: DOUBLE
+  - name: males_2
+    type: DOUBLE
+  - name: females_2
+    type: DOUBLE
+  - name: both_2
+    type: DOUBLE
+  - name: males_3
+    type: BIGINT
+  - name: females_3
+    type: BIGINT
+  - name: both_3
+    type: BIGINT
+  - name: males_4
+    type: BIGINT
+  - name: females_4
+    type: BIGINT
+  - name: both_4
+    type: BIGINT
+  - name: males_5
+    type: BIGINT
+  - name: females_5
+    type: BIGINT
+  - name: both_5
+    type: BIGINT
+  - name: males_6
+    type: BIGINT
+  - name: females_6
+    type: BIGINT
+  - name: both_6
+    type: BIGINT
+  - name: males_7
+    type: BIGINT
+  - name: females_7
+    type: BIGINT
+  - name: both_7
+    type: BIGINT
+  - name: males_8
+    type: BIGINT
+  - name: females_8
+    type: BIGINT
+  - name: both_8
+    type: BIGINT
+  - name: males_9
+    type: BIGINT
+  - name: females_9
+    type: BIGINT
+  - name: both_9
+    type: BIGINT
+  - name: rural_2_2
+    type: VARCHAR
+  - name: c87
+    type: VARCHAR
+  - name: nobility
+    type: DOUBLE
+  - name: clergy
+    type: DOUBLE
+  - name: esteemed
+    type: DOUBLE
+  - name: meshchanye
+    type: DOUBLE
+  - name: peasants
+    type: DOUBLE
+  - name: other
+    type: VARCHAR
+  - name: total
+    type: VARCHAR
+  - name: c95
+    type: VARCHAR
+  - name: region
+    type: BIGINT
+  - name: c19
+    type: BIGINT
+  - name: "1904_m_f"
+    type: DOUBLE
+  - name: all_sectors_2
+    type: DOUBLE
+  - name: c62
+    type: VARCHAR
+  - name: agriculture
+    type: DOUBLE
+  - name: mining
+    type: DOUBLE
+  - name: facturing
+    type: DOUBLE
+  - name: construction
+    type: DOUBLE
+  - name: trade
+    type: DOUBLE
+  - name: adminis
+    type: DOUBLE
+  - name: professions
+    type: DOUBLE
+  - name: servants_etc
+    type: DOUBLE
+  - name: residual_1
+    type: DOUBLE
+  - name: agriculture_2
+    type: DOUBLE
+  - name: mining_2
+    type: DOUBLE
+  - name: facturing_2
+    type: DOUBLE
+  - name: construction_2
+    type: DOUBLE
+  - name: trade_2
+    type: DOUBLE
+  - name: adminis_2
+    type: DOUBLE
+  - name: clergy_2
+    type: DOUBLE
+  - name: professions_2
+    type: DOUBLE
+  - name: servants_etc_2
+    type: DOUBLE
+  - name: residual_2_1
+    type: DOUBLE
+  - name: households
+    type: DOUBLE
+  - name: khoziastvo
+    type: DOUBLE
+  - name: "6_sectors"
+    type: DOUBLE
+  - name: c86
+    type: VARCHAR
+  - name: clergy_3
+    type: DOUBLE
+  - name: estates
+    type: DOUBLE
+  - name: nobility_2
+    type: VARCHAR
+  - name: clergy_4
+    type: VARCHAR
+  - name: esteemed_2
+    type: VARCHAR
+  - name: meshchanye_2
+    type: VARCHAR
+  - name: peasants_2
+    type: VARCHAR
+  - name: estates_2
+    type: VARCHAR
+  - name: other_2
+    type: DOUBLE
+  - name: total_2
+    type: VARCHAR
+  - name: c104
+    type: VARCHAR
+  - name: estates_3
+    type: DOUBLE
+  - name: c106
+    type: VARCHAR
+  - name: c107
+    type: VARCHAR
+  - name: c108
+    type: VARCHAR
+  - name: "1"
+    type: BIGINT
+  - name: "1_2"
+    type: BIGINT
+  - name: "0"
+    type: BIGINT
+  - name: arkhangel_skaya
+    type: VARCHAR
+  - name: "59511_40801844579"
+    type: DOUBLE
+  - name: "66468_93726809532"
+    type: DOUBLE
+  - name: "948_4171732488895"
+    type: DOUBLE
+  - name: "1793_1786636228153"
+    type: DOUBLE
+  - name: "69210_53310496702"
+    type: DOUBLE
+  - name: "0_8598605638276011"
+    type: DOUBLE
+  - name: "57943_83850215061"
+    type: DOUBLE
+  - name: "223_54205687248066"
+    type: DOUBLE
+  - name: "1344_0274594227053"
+    type: VARCHAR
+  - name: "59511_4080184458"
+    type: DOUBLE
+  - name: "0_2"
+    type: DOUBLE
+  - name: "0_3"
+    type: DOUBLE
+  - name: "8525_098765944713"
+    type: DOUBLE
+  - name: "724_8751163764089"
+    type: DOUBLE
+  - name: "449_15120420011"
+    type: DOUBLE
+  - name: "4213_463433620152"
+    type: DOUBLE
+  - name: in_agric
+    type: DOUBLE
+  - name: meshchanye_3
+    type: VARCHAR
+  - name: residual_7
+    type: DOUBLE
+  - name: no_extra_imports
+    type: VARCHAR
+  - name: meshchanye_2_2
+    type: DOUBLE
+  - name: "813_9971732978531"
+    type: DOUBLE
+  - name: "869_7595344768276"
+    type: DOUBLE
+  - name: "813_9971732978531_2"
+    type: VARCHAR
+  - name: "0_4"
+    type: DOUBLE
+  - name: "55_762361178974515"
+    type: DOUBLE
+  - name: "449_15120420011_2"
+    type: DOUBLE
+  - name: "365_9253347852734"
+    type: DOUBLE
+  - name: "384_8836790326101"
+    type: DOUBLE
+  - name: "152_71186493085577"
+    type: VARCHAR
+  - name: "46_72432322414314"
+    type: DOUBLE
+  - name: "166_48914663027446"
+    type: DOUBLE
+  - name: "0_41733066943962155"
+    type: DOUBLE
+  - name: "0_12768813411501334"
+    type: DOUBLE
+  - name: "0_4549811964453651"
+    type: DOUBLE
+  - name: "572_1632514455531"
+    type: DOUBLE
+  - name: "338_1593558084669"
+    type: DOUBLE
+  - name: "4046_9742869898773"
+    type: DOUBLE
+  - name: administration
+    type: DOUBLE
+  - name: merchants
+    type: DOUBLE
+  - name: meshchane
+    type: DOUBLE
+  - name: merchants_2
+    type: VARCHAR
+  - name: meshchane_2
+    type: DOUBLE
+  - name: nobility_3
+    type: DOUBLE
+  - name: merchants_3
+    type: DOUBLE
+  - name: peasants_3
+    type: DOUBLE
+  - name: meshchane_3
+    type: DOUBLE
+  - name: needed_in_this_case
+    type: VARCHAR
+  - name: nobility_4
+    type: DOUBLE
+  - name: merchants_4
+    type: DOUBLE
+  - name: peasants_4
+    type: DOUBLE
+  - name: meshchane_4
+    type: DOUBLE
+  - name: nobility_5
+    type: DOUBLE
+  - name: nobility_6
+    type: DOUBLE
+  - name: nobility_7
+    type: BIGINT
+  - name: nobility_8
+    type: BIGINT
+  - name: nobility_9
+    type: BIGINT
+  - name: nobility_10
+    type: BIGINT
+  - name: pochetnye
+    type: BIGINT
+  - name: nobility_11
+    type: DOUBLE
+  - name: merch_c
+    type: DOUBLE
+  - name: nobility_12
+    type: DOUBLE
+  - name: merch_c_2
+    type: DOUBLE
+  - name: total_3
+    type: DOUBLE
+  - name: nobility_13
+    type: DOUBLE
+  - name: merchants_5
+    type: DOUBLE
+  - name: meshchane_5
+    type: DOUBLE
+  - name: total_4
+    type: DOUBLE
+  - name: nobility_14
+    type: DOUBLE
+  - name: merchants_6
+    type: DOUBLE
+  - name: meshchane_6
+    type: DOUBLE
+  - name: total_5
+    type: DOUBLE
+  - name: nobility_15
+    type: DOUBLE
+  - name: merchants_7
+    type: DOUBLE
+  - name: meshchane_7
+    type: DOUBLE
+  - name: peasants_5
+    type: DOUBLE
+  - name: nobility_16
+    type: DOUBLE
+  - name: merchants_8
+    type: DOUBLE
+  - name: meshchane_8
+    type: DOUBLE
+  - name: peasants_6
+    type: DOUBLE
+  - name: "3539_7675242493797"
+    type: DOUBLE
+  - name: "843_8686291986916"
+    type: DOUBLE
+  - name: "3233_5851012657827"
+    type: DOUBLE
+  - name: "3106_631413687195"
+    type: DOUBLE
+  - name: "10723_852668401049"
+    type: DOUBLE
+  - name: "511_12806848136256"
+    type: VARCHAR
+  - name: "233_60926015553164"
+    type: DOUBLE
+  - name: "3585_2589916893917"
+    type: DOUBLE
+  - name: "5888_942782695703"
+    type: DOUBLE
+  - name: "10723_852668401074"
+    type: DOUBLE
+  - name: "2_546585164964199e_11"
+    type: DOUBLE
+  - name: "0_06117238007429905"
+    type: DOUBLE
+  - name: "0_938827619925701"
+    type: DOUBLE
+  - name: estate
+    type: VARCHAR
+  - name: misc_estates
+    type: DOUBLE
+  - name: misc_estates_2
+    type: DOUBLE
+  - name: clergy_sos
+    type: DOUBLE
+  - name: misc_estates_3
+    type: DOUBLE
+  - name: meshchanye_3_2
+    type: DOUBLE
+  - name: meshchanye_4
+    type: DOUBLE
+  - name: meshchanye_5
+    type: DOUBLE
+  - name: misc_estates_4
+    type: DOUBLE
+  - name: totals
+    type: DOUBLE
+  - name: meshchanye_6
+    type: DOUBLE
+  - name: misc_estates_5
+    type: DOUBLE
+  - name: meshchanye_7
+    type: DOUBLE
+  - name: misc_estates_6
+    type: DOUBLE
+  - name: meshchanye_8
+    type: BIGINT
+  - name: peasants_7
+    type: BIGINT
+  - name: misc_estates_7
+    type: BIGINT
+  - name: zanyatie
+    type: VARCHAR
+  - name: soslovie
+    type: VARCHAR
+  - name: urban_2
+    type: DOUBLE
+  - name: rural
+    type: DOUBLE

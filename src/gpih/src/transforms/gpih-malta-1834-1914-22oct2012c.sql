@@ -1,0 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+SELECT
+    "__sheet__" AS sheet,
+    "Year" AS year,
+    "d per year" AS d_per_year,
+    "d / lb" AS d_lb,
+    "d / one" AS d_one,
+    "d / lb_2" AS d_lb_2,
+    "(d/gall)" AS d_gall,
+    "d / lb_3" AS d_lb_3,
+    "d / lb_4" AS d_lb_4,
+    "d / lb_5" AS d_lb_5,
+    "d / lb_6" AS d_lb_6,
+    "d / gallon" AS d_gallon,
+    "d / lb_7" AS d_lb_7,
+    "d / lb_8" AS d_lb_8,
+    "d / lb_9" AS d_lb_9,
+    "d / gallon_2" AS d_gallon_2,
+    "d / lb_10" AS d_lb_10,
+    "(d / day)" AS d_day,
+    "CPI (1900)" AS cpi_1900,
+    "(1900 d / day)" AS 1900_d_day,
+    "c19",
+    "£ per year" AS per_year,
+    "£ / 100 kilos" AS 100_kilos,
+    "£ / 100" AS 100,
+    "£ / kilo" AS kilo,
+    "£ / 100 liters" AS 100_liters,
+    "£ / kilo_2" AS kilo_2,
+    "£ / kilo_3" AS kilo_3,
+    "£ / kilo_4" AS kilo_4,
+    "£ / kilo_5" AS kilo_5,
+    "£ / 100 liters_2" AS 100_liters_2,
+    "£ / kilo_6" AS kilo_6,
+    "£ / kilo_7" AS kilo_7,
+    "£ / kilo_8" AS kilo_8,
+    "£ / 100 liters_3" AS 100_liters_3,
+    "£ / kilo_9" AS kilo_9,
+    "(£ / day)" AS day,
+    "(1900 £ / day)" AS 1900_day
+FROM "gpih-malta-1834-1914-22oct2012c"

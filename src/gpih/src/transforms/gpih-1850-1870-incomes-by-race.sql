@@ -1,0 +1,52 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+-- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+SELECT
+    "__sheet__" AS sheet,
+    "c0",
+    "Year" AS year,
+    "Region" AS region,
+    "Inc / cap" AS inc_cap,
+    "Total perwt income" AS total_perwt_income,
+    "Perwt population" AS perwt_population,
+    "Inc / cap_2" AS inc_cap_2,
+    "Total perwt income_2" AS total_perwt_income_2,
+    "Perwt population_2" AS perwt_population_2,
+    "Inc / cap_3" AS inc_cap_3,
+    "Total perwt income_3" AS total_perwt_income_3,
+    "Perwt population_3" AS perwt_population_3,
+    "Inc / cap_4" AS inc_cap_4,
+    "Total perwt income_4" AS total_perwt_income_4,
+    "Perwt population_4" AS perwt_population_4,
+    "Inc / cap_5" AS inc_cap_5,
+    "Total perwt income_5" AS total_perwt_income_5,
+    "Perwt population_5" AS perwt_population_5,
+    "Inc / cap_6" AS inc_cap_6,
+    "Total perwt income_6" AS total_perwt_income_6,
+    "Perwt population_6" AS perwt_population_6,
+    "Inc / cap_7" AS inc_cap_7,
+    "Total perwt income_7" AS total_perwt_income_7,
+    "Perwt population_7" AS perwt_population_7,
+    "Inc / cap_8" AS inc_cap_8,
+    "Total perwt income_8" AS total_perwt_income_8,
+    "Perwt population_8" AS perwt_population_8,
+    "small n's" AS small_n_s,
+    "small n's_2" AS small_n_s_2,
+    "code",
+    "alphabetically",
+    "New England" AS new_england,
+    "120.8842" AS 120_8842,
+    "223.7086" AS 223_7086,
+    "189.7736" AS 189_7736,
+    "312.3138" AS 312_3138,
+    "0.6369916574275875" AS 0_6369916574275875,
+    "0.7162943168057254" AS 0_7162943168057254,
+    "South" AS south,
+    "201.67186139370725" AS 201_67186139370725,
+    "205.17699941578644" AS 205_17699941578644,
+    "208.6821116432111" AS 208_6821116432111,
+    "range < 3.5%" AS range_3_5
+FROM "gpih-1850-1870-incomes-by-race"

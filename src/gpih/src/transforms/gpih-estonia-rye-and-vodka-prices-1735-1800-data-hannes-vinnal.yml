@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-estonia-rye-and-vodka-prices-1735-1800-data-hannes-vinnal`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+key: [year]
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: silver_ruble
+    type: DOUBLE
+  - name: last
+    type: DOUBLE
+  - name: g_ag_per_liter
+    type: DOUBLE
+  - name: aam
+    type: DOUBLE
+  - name: per_liter
+    type: DOUBLE

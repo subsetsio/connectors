@@ -1,0 +1,378 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-japanese-wages`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: wage
+    type: DOUBLE
+  - name: basket
+    type: DOUBLE
+  - name: basket_2
+    type: DOUBLE
+  - name: wage_2
+    type: DOUBLE
+  - name: wage_3
+    type: DOUBLE
+  - name: wage_4
+    type: DOUBLE
+  - name: basket_3
+    type: DOUBLE
+  - name: basket_4
+    type: DOUBLE
+  - name: wage_5
+    type: DOUBLE
+  - name: wage_6
+    type: DOUBLE
+  - name: wage_7
+    type: DOUBLE
+  - name: basket_5
+    type: DOUBLE
+  - name: wage_8
+    type: DOUBLE
+  - name: wage_9
+    type: DOUBLE
+  - name: basket_6
+    type: DOUBLE
+  - name: basket_7
+    type: DOUBLE
+  - name: wage_10
+    type: DOUBLE
+  - name: wage_11
+    type: DOUBLE
+  - name: given
+    type: DOUBLE
+  - name: adjusted_resp
+    type: DOUBLE
+  - name: adjusted_bb
+    type: DOUBLE
+  - name: basket_8
+    type: DOUBLE
+  - name: basket_9
+    type: DOUBLE
+  - name: wage_12
+    type: DOUBLE
+  - name: wage_13
+    type: DOUBLE
+  - name: england
+    type: VARCHAR
+  - name: bread_kg
+    type: VARCHAR
+  - name: oatmeal_kg
+    type: VARCHAR
+  - name: beans_kg
+    type: VARCHAR
+  - name: peas_kg
+    type: VARCHAR
+  - name: meat_kg
+    type: VARCHAR
+  - name: butter_kg
+    type: VARCHAR
+  - name: cheese_kg
+    type: VARCHAR
+  - name: eggs
+    type: VARCHAR
+  - name: beer_liters
+    type: VARCHAR
+  - name: total_cals
+    type: VARCHAR
+  - name: total_protein
+    type: VARCHAR
+  - name: protein_sources
+    type: VARCHAR
+  - name: main_grain_cals
+    type: VARCHAR
+  - name: oats_kg
+    type: VARCHAR
+  - name: beans_liter
+    type: VARCHAR
+  - name: peas_liters
+    type: VARCHAR
+  - name: linen_m
+    type: VARCHAR
+  - name: candles_liters
+    type: VARCHAR
+  - name: lamp_oil_liters
+    type: VARCHAR
+  - name: soap_kg
+    type: VARCHAR
+  - name: c18
+    type: VARCHAR
+  - name: c19
+    type: DOUBLE
+  - name: c20
+    type: VARCHAR
+  - name: c0
+    type: VARCHAR
+  - name: day_of_male
+    type: VARCHAR
+  - name: kilo_of
+    type: VARCHAR
+  - name: liter_of
+    type: VARCHAR
+  - name: liter_of_2
+    type: VARCHAR
+  - name: liter_of_3
+    type: VARCHAR
+  - name: kilo_of_2
+    type: VARCHAR
+  - name: kilo_of_3
+    type: VARCHAR
+  - name: kilo_of_4
+    type: VARCHAR
+  - name: dozen
+    type: VARCHAR
+  - name: liter_of_4
+    type: VARCHAR
+  - name: meter_of
+    type: VARCHAR
+  - name: liter_of_5
+    type: VARCHAR
+  - name: liter_of_6
+    type: VARCHAR
+  - name: kilo_of_5
+    type: VARCHAR
+  - name: respectable
+    type: VARCHAR
+  - name: bare_bones
+    type: VARCHAR
+  - name: basket_1
+    type: VARCHAR
+  - name: florence
+    type: DOUBLE
+  - name: milan
+    type: DOUBLE
+  - name: venice
+    type: DOUBLE
+  - name: rome
+    type: DOUBLE
+  - name: florence_2
+    type: DOUBLE
+  - name: milan_2
+    type: DOUBLE
+  - name: bread
+    type: DOUBLE
+  - name: beans
+    type: DOUBLE
+  - name: meat
+    type: DOUBLE
+  - name: butter
+    type: DOUBLE
+  - name: cheese
+    type: DOUBLE
+  - name: egg
+    type: DOUBLE
+  - name: cooking_oil
+    type: DOUBLE
+  - name: rice
+    type: DOUBLE
+  - name: sugar
+    type: DOUBLE
+  - name: barley
+    type: DOUBLE
+  - name: millet
+    type: DOUBLE
+  - name: rye
+    type: DOUBLE
+  - name: maize
+    type: DOUBLE
+  - name: wine
+    type: DOUBLE
+  - name: soap
+    type: DOUBLE
+  - name: linen
+    type: DOUBLE
+  - name: candles
+    type: DOUBLE
+  - name: oil_lighting
+    type: DOUBLE
+  - name: charcoal
+    type: DOUBLE
+  - name: firewood
+    type: DOUBLE
+  - name: quantities
+    type: VARCHAR
+  - name: impute_missing_prices_relative_to_bread_per
+    type: VARCHAR
+  - name: c31
+    type: VARCHAR
+  - name: c32
+    type: VARCHAR
+  - name: c33
+    type: VARCHAR
+  - name: c34
+    type: VARCHAR
+  - name: c35
+    type: VARCHAR
+  - name: c36
+    type: VARCHAR
+  - name: c37
+    type: VARCHAR
+  - name: c38
+    type: VARCHAR
+  - name: c39
+    type: VARCHAR
+  - name: c40
+    type: BIGINT
+  - name: "172"
+    type: DOUBLE
+  - name: "30"
+    type: DOUBLE
+  - name: "3"
+    type: DOUBLE
+  - name: "2"
+    type: DOUBLE
+  - name: "5"
+    type: DOUBLE
+  - name: "2_6"
+    type: DOUBLE
+  - name: "0"
+    type: BIGINT
+  - name: incomplete
+    type: DOUBLE
+  - name: missing
+    type: DOUBLE
+  - name: complete
+    type: DOUBLE
+  - name: "60_3"
+    type: DOUBLE
+  - name: "63_5"
+    type: DOUBLE
+  - name: "63_5_2"
+    type: DOUBLE
+  - name: "10"
+    type: DOUBLE
+  - name: "10_2"
+    type: DOUBLE
+  - name: "3_2"
+    type: DOUBLE
+  - name: "2_2"
+    type: DOUBLE
+  - name: "5_2"
+    type: DOUBLE
+  - name: "2_6_2"
+    type: DOUBLE
+  - name: "0_2"
+    type: BIGINT
+  - name: incomplete_2
+    type: DOUBLE
+  - name: missing_2
+    type: DOUBLE
+  - name: weights
+    type: DOUBLE
+  - name: "60_2"
+    type: DOUBLE
+  - name: "63_2"
+    type: DOUBLE
+  - name: "63_2_2"
+    type: DOUBLE
+  - name: "20"
+    type: DOUBLE
+  - name: "3_3"
+    type: DOUBLE
+  - name: "2_3"
+    type: DOUBLE
+  - name: "5_3"
+    type: DOUBLE
+  - name: "2_6_3"
+    type: DOUBLE
+  - name: "0_3"
+    type: BIGINT
+  - name: incomplete_3
+    type: DOUBLE
+  - name: missing_3
+    type: DOUBLE
+  - name: weights_added
+    type: DOUBLE
+  - name: barebones
+    type: VARCHAR
+  - name: cpi
+    type: DOUBLE
+  - name: cpi_2
+    type: DOUBLE
+  - name: cpi_3
+    type: DOUBLE
+  - name: cpi_4
+    type: DOUBLE
+  - name: cpi_5
+    type: DOUBLE
+  - name: cpi_6
+    type: DOUBLE
+  - name: dwage
+    type: DOUBLE
+  - name: dwage_2
+    type: DOUBLE
+  - name: dwage_3
+    type: DOUBLE
+  - name: dwage_4
+    type: DOUBLE
+  - name: dwage_5
+    type: DOUBLE
+  - name: dwage_6
+    type: DOUBLE
+  - name: dwage_7
+    type: DOUBLE
+  - name: sr
+    type: DOUBLE
+  - name: sr_2
+    type: DOUBLE
+  - name: sr_3
+    type: DOUBLE
+  - name: sr_4
+    type: DOUBLE
+  - name: sr_5
+    type: DOUBLE
+  - name: sr_6
+    type: DOUBLE
+  - name: average
+    type: DOUBLE
+  - name: beijing
+    type: VARCHAR
+  - name: kilo_of_6
+    type: VARCHAR
+  - name: kilo_of_7
+    type: VARCHAR
+  - name: kilo_of_8
+    type: VARCHAR
+  - name: kilo_of_9
+    type: VARCHAR
+  - name: kilo_of_10
+    type: VARCHAR
+  - name: kilo_of_11
+    type: VARCHAR
+  - name: kilo_of_12
+    type: VARCHAR
+  - name: kilo_of_13
+    type: VARCHAR
+  - name: btu_of
+    type: VARCHAR
+  - name: respectability
+    type: VARCHAR
+  - name: barebones_2
+    type: VARCHAR
+  - name: c1
+    type: DOUBLE
+  - name: imperial
+    type: VARCHAR
+  - name: soybeans
+    type: DOUBLE
+  - name: other
+    type: DOUBLE
+  - name: fish
+    type: DOUBLE
+  - name: oil
+    type: DOUBLE
+  - name: sake
+    type: DOUBLE
+  - name: oil_2
+    type: DOUBLE
+  - name: japan
+    type: VARCHAR
+  - name: japan_2
+    type: VARCHAR

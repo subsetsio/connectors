@@ -1,0 +1,296 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-korea-prices-wages-1696-1910`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: paddy_land
+    type: VARCHAR
+  - name: polished_rice
+    type: VARCHAR
+  - name: polished_barley
+    type: VARCHAR
+  - name: covered_barley
+    type: VARCHAR
+  - name: wheat
+    type: VARCHAR
+  - name: buck_wheat
+    type: VARCHAR
+  - name: bean
+    type: VARCHAR
+  - name: red_bean
+    type: VARCHAR
+  - name: green_peas
+    type: VARCHAR
+  - name: sesame
+    type: VARCHAR
+  - name: herring
+    type: VARCHAR
+  - name: codfish
+    type: VARCHAR
+  - name: alaska_pollack
+    type: VARCHAR
+  - name: chicken
+    type: VARCHAR
+  - name: yeastcake
+    type: VARCHAR
+  - name: unginned_cotton
+    type: VARCHAR
+  - name: cotton_cloth
+    type: VARCHAR
+  - name: fuel_wood
+    type: VARCHAR
+  - name: lamp_oil
+    type: VARCHAR
+  - name: pen_and_ink
+    type: VARCHAR
+  - name: paper
+    type: VARCHAR
+  - name: c0
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: gurey
+    type: VARCHAR
+  - name: yongkwang
+    type: VARCHAR
+  - name: yongam
+    type: VARCHAR
+  - name: kyongju
+    type: VARCHAR
+  - name: sangju
+    type: VARCHAR
+  - name: gurey_2
+    type: VARCHAR
+  - name: yongkwang_2
+    type: VARCHAR
+  - name: yongam_2
+    type: VARCHAR
+  - name: kyongju_2
+    type: VARCHAR
+  - name: sangju_2
+    type: VARCHAR
+  - name: "1798"
+    type: BIGINT
+  - name: spring
+    type: VARCHAR
+  - name: c2
+    type: VARCHAR
+  - name: carpenter
+    type: VARCHAR
+  - name: "1"
+    type: VARCHAR
+  - name: c5
+    type: DOUBLE
+  - name: "0_29"
+    type: DOUBLE
+  - name: "0_26"
+    type: DOUBLE
+  - name: "1_3"
+    type: DOUBLE
+  - name: "4"
+    type: BIGINT
+  - name: "1_2"
+    type: VARCHAR
+  - name: "0_25"
+    type: DOUBLE
+  - name: "0_3875"
+    type: DOUBLE
+  - name: "2_575"
+    type: DOUBLE
+  - name: "3_9912500000000004"
+    type: DOUBLE
+  - name: "4_153225806451613"
+    type: DOUBLE
+  - name: "6_437500000000001"
+    type: DOUBLE
+  - name: county_name
+    type: VARCHAR
+  - name: c1
+    type: VARCHAR
+  - name: yongam_1
+    type: VARCHAR
+  - name: yongam_2_1
+    type: VARCHAR
+  - name: yongam_3
+    type: VARCHAR
+  - name: yongam_4
+    type: VARCHAR
+  - name: changheong
+    type: VARCHAR
+  - name: heanam
+    type: VARCHAR
+  - name: kosong
+    type: VARCHAR
+  - name: kosong_2
+    type: VARCHAR
+  - name: teagoo
+    type: VARCHAR
+  - name: average_of_rice_prices_in_southern_korea
+    type: VARCHAR
+  - name: average_of_rice_prices_in_southern_korea_2
+    type: VARCHAR
+  - name: kosung
+    type: VARCHAR
+  - name: "1727"
+    type: VARCHAR
+  - name: "5"
+    type: VARCHAR
+  - name: polished_barley_1
+    type: VARCHAR
+  - name: "0_011"
+    type: VARCHAR
+  - name: "0_2178"
+    type: VARCHAR
+  - name: "0_01437908496732026"
+    type: VARCHAR
+  - name: "0_2847058823529412"
+    type: VARCHAR
+  - name: c8
+    type: VARCHAR
+  - name: covered_barley_1727_1910
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: year_1
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: per_head
+    type: DOUBLE
+  - name: per_head_2
+    type: DOUBLE
+  - name: cases_year
+    type: BIGINT
+  - name: note
+    type: VARCHAR
+  - name: "1726"
+    type: BIGINT
+  - name: "12"
+    type: BIGINT
+  - name: "19"
+    type: VARCHAR
+  - name: "0_05263157894736842"
+    type: VARCHAR
+  - name: "1_0421052631578946"
+    type: VARCHAR
+  - name: "2"
+    type: VARCHAR
+  - name: "1_103405572755418"
+    type: VARCHAR
+  - name: alaska_pollack_1861_1904
+    type: VARCHAR
+  - name: "1761"
+    type: BIGINT
+  - name: "3"
+    type: BIGINT
+  - name: "0_4"
+    type: DOUBLE
+  - name: "0_13333333333333333"
+    type: DOUBLE
+  - name: "1_67"
+    type: DOUBLE
+  - name: "1_67_2"
+    type: DOUBLE
+  - name: "1750"
+    type: BIGINT
+  - name: autumn
+    type: VARCHAR
+  - name: "0_15"
+    type: DOUBLE
+  - name: "0_15_2"
+    type: DOUBLE
+  - name: "2_82"
+    type: DOUBLE
+  - name: "2_82_2"
+    type: DOUBLE
+  - name: region_1
+    type: VARCHAR
+  - name: month_season_a_autumn_s_spring
+    type: VARCHAR
+  - name: unginned_cotton_1
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: copper_tael
+    type: VARCHAR
+  - name: "600_grams"
+    type: VARCHAR
+  - name: copper_per_kg
+    type: VARCHAR
+  - name: grams_of_silver_per_kg
+    type: VARCHAR
+  - name: frequency
+    type: BIGINT
+  - name: mean
+    type: DOUBLE
+  - name: notes
+    type: VARCHAR
+  - name: c12
+    type: VARCHAR
+  - name: c13
+    type: VARCHAR
+  - name: ulsan
+    type: VARCHAR
+  - name: "1871"
+    type: BIGINT
+  - name: fuel_light
+    type: VARCHAR
+  - name: fuel
+    type: VARCHAR
+  - name: fuel_2
+    type: VARCHAR
+  - name: "8"
+    type: DOUBLE
+  - name: dan
+    type: VARCHAR
+  - name: "0_125"
+    type: DOUBLE
+  - name: "0_675"
+    type: DOUBLE
+  - name: "3_2"
+    type: BIGINT
+  - name: "0_7425"
+    type: VARCHAR
+  - name: "1761_2"
+    type: VARCHAR
+  - name: fall
+    type: VARCHAR
+  - name: "0_1"
+    type: VARCHAR
+  - name: "1_25"
+    type: VARCHAR
+  - name: how_many_liters_or_kilos
+    type: VARCHAR
+  - name: sources
+    type: VARCHAR
+  - name: copper
+    type: DOUBLE
+  - name: silver_grams
+    type: DOUBLE
+  - name: source
+    type: VARCHAR
+  - name: volume
+    type: BIGINT
+  - name: price
+    type: DOUBLE
+  - name: "1_sheet_price"
+    type: DOUBLE
+  - name: "20sheet_130cm_35cm"
+    type: VARCHAR
+  - name: gag_20sheet_130cm_35cm
+    type: DOUBLE
+  - name: size_ream_g_ag
+    type: DOUBLE
+  - name: average
+    type: DOUBLE
+  - name: g_ag_kilo
+    type: DOUBLE
+  - name: size_ream
+    type: DOUBLE

@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+SELECT
+    "__sheet__" AS sheet,
+    "Year" AS year,
+    "Albania" AS albania,
+    "Belarus" AS belarus,
+    "Bosnia & Herze-govina" AS bosnia_herze_govina,
+    "Bulgaria" AS bulgaria,
+    "Bulgaria_2" AS bulgaria_2,
+    "Croatia" AS croatia,
+    "Czechoslovakia" AS czechoslovakia,
+    "Czechoslovakia_2" AS czechoslovakia_2,
+    "Czech Republic" AS czech_republic,
+    "Czech Republic_2" AS czech_republic_2,
+    "East Germany" AS east_germany,
+    "Estonia" AS estonia,
+    "Greece" AS greece,
+    "Greece_2" AS greece_2,
+    "Greece_3" AS greece_3,
+    "Hungary" AS hungary,
+    "Hungary_2" AS hungary_2,
+    "Kosovo" AS kosovo,
+    "Latvia" AS latvia,
+    "Lithuania" AS lithuania,
+    "Macedonia" AS macedonia,
+    "Moldova" AS moldova,
+    "Montenegro" AS montenegro,
+    "Poland" AS poland,
+    "Poland_2" AS poland_2,
+    "Romania" AS romania,
+    "Romania_2" AS romania_2,
+    "Russia" AS russia,
+    "Russia/ USSR" AS russia_ussr,
+    "Russia/ USSR_2" AS russia_ussr_2,
+    "Serbia" AS serbia,
+    "Slovakia" AS slovakia,
+    "Slovenia" AS slovenia,
+    "Ukraine" AS ukraine,
+    "Yugoslavia" AS yugoslavia,
+    "Yugoslavia_2" AS yugoslavia_2,
+    "Yugoslavia_3" AS yugoslavia_3
+FROM "gpih-nominal-gdp-east-europe-9dec2013"

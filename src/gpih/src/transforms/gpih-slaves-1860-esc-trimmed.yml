@@ -1,0 +1,74 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-slaves-1860-esc-trimmed`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: datanum
+    type: BIGINT
+  - name: serial
+    type: VARCHAR
+  - name: slavenum
+    type: BIGINT
+  - name: weight
+    type: VARCHAR
+  - name: stateicp
+    type: VARCHAR
+  - name: county
+    type: DOUBLE
+  - name: city
+    type: VARCHAR
+  - name: sizehold
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: upper_esc
+    type: BIGINT
+  - name: female_0
+    type: VARCHAR
+  - name: regional_rates
+    type: VARCHAR
+  - name: total_retained
+    type: VARCHAR
+  - name: of_slaves
+    type: VARCHAR
+  - name: color
+    type: VARCHAR
+  - name: fugitive
+    type: VARCHAR
+  - name: manumit
+    type: VARCHAR
+  - name: blind_no_0_yes_1
+    type: VARCHAR
+  - name: deaf_no_0_yes_1
+    type: VARCHAR
+  - name: idiotic_no_0_yes_1
+    type: BIGINT
+  - name: insane_no_0_yes_1
+    type: BIGINT
+  - name: noholdrs
+    type: BIGINT
+  - name: nhouses
+    type: VARCHAR
+  - name: blank_illeg_0
+    type: DOUBLE
+  - name: blank_illeg_1
+    type: DOUBLE
+  - name: sh1typeg
+    type: VARCHAR
+  - name: sh2typeg
+    type: VARCHAR
+  - name: sh1ln
+    type: VARCHAR
+  - name: sh1fn
+    type: VARCHAR
+  - name: sh2ln
+    type: VARCHAR
+  - name: sh2fn
+    type: VARCHAR

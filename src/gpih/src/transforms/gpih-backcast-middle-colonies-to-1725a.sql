@@ -1,0 +1,50 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+-- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+SELECT
+    "__sheet__" AS sheet,
+    "Group 1" AS group_1,
+    "Officials, titled, professions" AS officials_titled_professions,
+    "613.8714425681233" AS 613_8714425681233,
+    "4.4498100554505635" AS 4_4498100554505635,
+    "Group 1_2" AS group_1_2,
+    "Officials, titled, professions_2" AS officials_titled_professions_2,
+    "c6",
+    "1878.4235524619555" AS 1878_4235524619555,
+    "1.1605271528259014" AS 1_1605271528259014,
+    "1.2899760933776656" AS 1_2899760933776656,
+    "(MidCol.a)" AS midcol_a,
+    "Indexed to the simple average of Philadelphia laborer wage r" AS indexed_to_the_simple_average_of_philadelphia_laborer_wage_r,
+    "c0",
+    "1774",
+    "Labor" AS labor,
+    "Property" AS property,
+    "Total" AS total,
+    "Labor_2" AS labor_2,
+    "Property_2" AS property_2,
+    "Total_2" AS total_2,
+    "c8",
+    "Labor_3" AS labor_3,
+    "Property_3" AS property_3,
+    "Total_3" AS total_3,
+    "Labor_4" AS labor_4,
+    "Property_4" AS property_4,
+    "Total_4" AS total_4,
+    "c15",
+    "613685.3640390903" AS 613685_3640390903,
+    "6378380.66101009" AS 6378380_66101009,
+    "1885507.109131585" AS 1885507_109131585,
+    "8263887.770141675" AS 8263887_770141675,
+    "10.39356816175235" AS 10_39356816175235,
+    "3.0724329104441255" AS 3_0724329104441255,
+    "13.466001072196477" AS 13_466001072196477,
+    "28320010.134884804" AS 28320010_134884804,
+    "8371651.564544238" AS 8371651_564544238,
+    "36691661.69942904" AS 36691661_69942904,
+    "c12",
+    "c13",
+    "c14"
+FROM "gpih-backcast-middle-colonies-to-1725a"

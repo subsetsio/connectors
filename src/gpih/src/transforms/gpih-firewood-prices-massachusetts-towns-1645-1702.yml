@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-firewood-prices-massachusetts-towns-1645-1702`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: cord
+    type: VARCHAR
+  - name: foot
+    type: BIGINT
+  - name: column
+    type: DOUBLE
+  - name: sh
+    type: BIGINT
+  - name: d
+    type: BIGINT
+  - name: cord_2
+    type: DOUBLE
+  - name: s_cord
+    type: DOUBLE
+  - name: source
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: shilling
+    type: BIGINT
+  - name: shilling_2
+    type: BIGINT
+  - name: d_2
+    type: BIGINT
+  - name: citation_http_salem_lib_virginia_edu_essex_index_html
+    type: VARCHAR
+  - name: c11
+    type: VARCHAR
+  - name: c9
+    type: VARCHAR

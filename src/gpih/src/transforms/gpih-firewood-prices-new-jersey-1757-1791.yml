@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-firewood-prices-new-jersey-1757-1791`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: column
+    type: BIGINT
+  - name: s
+    type: BIGINT
+  - name: d
+    type: BIGINT
+  - name: physical_unit
+    type: DOUBLE
+  - name: cord
+    type: DOUBLE
+  - name: service
+    type: VARCHAR
+  - name: source_https_jerseyhistory_org_archives_browse_colonial_p
+    type: VARCHAR

@@ -1,0 +1,390 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-spain-1351-1800`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: location
+    type: BIGINT
+  - name: valencia
+    type: DOUBLE
+  - name: valencia_2
+    type: DOUBLE
+  - name: valencia_3
+    type: DOUBLE
+  - name: valencia_4
+    type: DOUBLE
+  - name: valencia_5
+    type: DOUBLE
+  - name: valencia_6
+    type: DOUBLE
+  - name: aragon
+    type: DOUBLE
+  - name: aragon_2
+    type: DOUBLE
+  - name: aragon_3
+    type: DOUBLE
+  - name: aragon_4
+    type: DOUBLE
+  - name: navarre
+    type: DOUBLE
+  - name: navarre_2
+    type: DOUBLE
+  - name: navarre_3
+    type: DOUBLE
+  - name: navarre_4
+    type: DOUBLE
+  - name: navarre_5
+    type: DOUBLE
+  - name: navarre_6
+    type: DOUBLE
+  - name: valencia_7
+    type: DOUBLE
+  - name: valencia_8
+    type: DOUBLE
+  - name: valencia_9
+    type: DOUBLE
+  - name: valencia_10
+    type: DOUBLE
+  - name: valencia_11
+    type: DOUBLE
+  - name: valencia_12
+    type: DOUBLE
+  - name: aragon_5
+    type: DOUBLE
+  - name: aragon_6
+    type: DOUBLE
+  - name: aragon_7
+    type: DOUBLE
+  - name: aragon_8
+    type: DOUBLE
+  - name: navarre_7
+    type: DOUBLE
+  - name: navarre_8
+    type: DOUBLE
+  - name: navarre_9
+    type: DOUBLE
+  - name: navarre_10
+    type: DOUBLE
+  - name: navarre_11
+    type: DOUBLE
+  - name: navarre_12
+    type: DOUBLE
+  - name: valencia_13
+    type: DOUBLE
+  - name: valencia_14
+    type: DOUBLE
+  - name: valencia_15
+    type: DOUBLE
+  - name: valencia_16
+    type: DOUBLE
+  - name: valencia_17
+    type: DOUBLE
+  - name: valencia_18
+    type: DOUBLE
+  - name: aragon_9
+    type: DOUBLE
+  - name: aragon_10
+    type: DOUBLE
+  - name: aragon_11
+    type: DOUBLE
+  - name: aragon_12
+    type: DOUBLE
+  - name: navarre_13
+    type: DOUBLE
+  - name: navarre_14
+    type: DOUBLE
+  - name: navarre_15
+    type: DOUBLE
+  - name: navarre_16
+    type: DOUBLE
+  - name: navarre_17
+    type: DOUBLE
+  - name: navarre_18
+    type: DOUBLE
+  - name: year
+    type: BIGINT
+  - name: navarre_paper
+    type: DOUBLE
+  - name: c51
+    type: VARCHAR
+  - name: commodity
+    type: VARCHAR
+  - name: wheat
+    type: VARCHAR
+  - name: rice
+    type: VARCHAR
+  - name: beef
+    type: VARCHAR
+  - name: wine
+    type: VARCHAR
+  - name: olive_oil
+    type: VARCHAR
+  - name: sugar
+    type: VARCHAR
+  - name: eggs
+    type: VARCHAR
+  - name: soap
+    type: VARCHAR
+  - name: linen
+    type: VARCHAR
+  - name: nails_large
+    type: VARCHAR
+  - name: paper
+    type: VARCHAR
+  - name: wheat_2
+    type: VARCHAR
+  - name: rice_2
+    type: VARCHAR
+  - name: wine_2
+    type: VARCHAR
+  - name: olive_oil_2
+    type: VARCHAR
+  - name: sugar_2
+    type: VARCHAR
+  - name: eggs_2
+    type: VARCHAR
+  - name: soap_2
+    type: VARCHAR
+  - name: linen_2
+    type: VARCHAR
+  - name: wheat_3
+    type: VARCHAR
+  - name: rice_3
+    type: VARCHAR
+  - name: beef_2
+    type: VARCHAR
+  - name: wine_3
+    type: VARCHAR
+  - name: olive_oil_3
+    type: VARCHAR
+  - name: sugar_3
+    type: VARCHAR
+  - name: eggs_3
+    type: VARCHAR
+  - name: soap_3
+    type: VARCHAR
+  - name: wheat_4
+    type: VARCHAR
+  - name: rice_4
+    type: VARCHAR
+  - name: beef_3
+    type: VARCHAR
+  - name: wine_4
+    type: VARCHAR
+  - name: olive_oil_4
+    type: VARCHAR
+  - name: sugar_4
+    type: VARCHAR
+  - name: eggs_4
+    type: VARCHAR
+  - name: nails_large_2
+    type: VARCHAR
+  - name: paper_2
+    type: VARCHAR
+  - name: wheat_5
+    type: VARCHAR
+  - name: rice_5
+    type: VARCHAR
+  - name: beef_4
+    type: VARCHAR
+  - name: wine_5
+    type: VARCHAR
+  - name: olive_oil_5
+    type: VARCHAR
+  - name: sugar_5
+    type: VARCHAR
+  - name: eggs_5
+    type: VARCHAR
+  - name: soap_4
+    type: VARCHAR
+  - name: linen_3
+    type: VARCHAR
+  - name: nails_large_3
+    type: VARCHAR
+  - name: paper_3
+    type: VARCHAR
+  - name: wheat_6
+    type: VARCHAR
+  - name: rice_6
+    type: VARCHAR
+  - name: wine_6
+    type: VARCHAR
+  - name: olive_oil_6
+    type: VARCHAR
+  - name: sugar_6
+    type: VARCHAR
+  - name: eggs_6
+    type: VARCHAR
+  - name: soap_5
+    type: VARCHAR
+  - name: linen_4
+    type: VARCHAR
+  - name: wheat_7
+    type: VARCHAR
+  - name: rice_7
+    type: VARCHAR
+  - name: beef_5
+    type: VARCHAR
+  - name: wine_7
+    type: VARCHAR
+  - name: olive_oil_7
+    type: VARCHAR
+  - name: sugar_7
+    type: VARCHAR
+  - name: eggs_7
+    type: VARCHAR
+  - name: soap_6
+    type: VARCHAR
+  - name: wheat_8
+    type: VARCHAR
+  - name: rice_8
+    type: VARCHAR
+  - name: beef_6
+    type: VARCHAR
+  - name: wine_8
+    type: VARCHAR
+  - name: olive_oil_8
+    type: VARCHAR
+  - name: sugar_8
+    type: VARCHAR
+  - name: eggs_8
+    type: VARCHAR
+  - name: nails_large_4
+    type: VARCHAR
+  - name: paper_4
+    type: VARCHAR
+  - name: wheat_9
+    type: VARCHAR
+  - name: rice_9
+    type: VARCHAR
+  - name: beef_7
+    type: VARCHAR
+  - name: wine_9
+    type: VARCHAR
+  - name: olive_oil_9
+    type: VARCHAR
+  - name: sugar_9
+    type: VARCHAR
+  - name: eggs_9
+    type: VARCHAR
+  - name: soap_7
+    type: VARCHAR
+  - name: linen_5
+    type: VARCHAR
+  - name: nails_large_5
+    type: VARCHAR
+  - name: paper_5
+    type: VARCHAR
+  - name: wheat_10
+    type: VARCHAR
+  - name: rice_10
+    type: VARCHAR
+  - name: wine_10
+    type: VARCHAR
+  - name: olive_oil_10
+    type: VARCHAR
+  - name: sugar_10
+    type: VARCHAR
+  - name: eggs_10
+    type: VARCHAR
+  - name: soap_8
+    type: VARCHAR
+  - name: linen_6
+    type: VARCHAR
+  - name: wheat_11
+    type: VARCHAR
+  - name: rice_11
+    type: VARCHAR
+  - name: beef_8
+    type: VARCHAR
+  - name: wine_11
+    type: VARCHAR
+  - name: olive_oil_11
+    type: VARCHAR
+  - name: sugar_11
+    type: VARCHAR
+  - name: eggs_11
+    type: VARCHAR
+  - name: soap_9
+    type: VARCHAR
+  - name: wheat_12
+    type: VARCHAR
+  - name: rice_12
+    type: VARCHAR
+  - name: beef_9
+    type: VARCHAR
+  - name: wine_12
+    type: VARCHAR
+  - name: olive_oil_12
+    type: VARCHAR
+  - name: sugar_12
+    type: VARCHAR
+  - name: eggs_12
+    type: VARCHAR
+  - name: nails_large_6
+    type: VARCHAR
+  - name: paper_6
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: carpenter
+    type: VARCHAR
+  - name: carpenter_2
+    type: VARCHAR
+  - name: carpenter_3
+    type: VARCHAR
+  - name: laborer
+    type: VARCHAR
+  - name: laborer_2
+    type: VARCHAR
+  - name: laborer_3
+    type: VARCHAR
+  - name: laborer_4
+    type: VARCHAR
+  - name: laborer_5
+    type: VARCHAR
+  - name: laborer_6
+    type: VARCHAR
+  - name: carpenter_4
+    type: VARCHAR
+  - name: carpenter_5
+    type: VARCHAR
+  - name: carpenter_6
+    type: VARCHAR
+  - name: laborer_7
+    type: VARCHAR
+  - name: laborer_8
+    type: VARCHAR
+  - name: laborer_9
+    type: VARCHAR
+  - name: laborer_10
+    type: VARCHAR
+  - name: laborer_11
+    type: VARCHAR
+  - name: laborer_12
+    type: VARCHAR
+  - name: equivalents_of_the
+    type: BIGINT
+  - name: vellon_maravedi
+    type: VARCHAR
+  - name: c2
+    type: VARCHAR
+  - name: valencian_diner
+    type: VARCHAR
+  - name: valencian_penny
+    type: VARCHAR
+  - name: aragonese_penny
+    type: VARCHAR
+  - name: aragonese_penny_2
+    type: VARCHAR
+  - name: navarrese_penny
+    type: VARCHAR
+  - name: bimetallic_ratios
+    type: VARCHAR
+  - name: navarrese_penny_2
+    type: VARCHAR

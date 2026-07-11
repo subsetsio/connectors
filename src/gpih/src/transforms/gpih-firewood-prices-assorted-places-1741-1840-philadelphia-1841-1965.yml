@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-firewood-prices-assorted-places-1741-1840-philadelphia-1841-1965`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: cord
+    type: DOUBLE
+  - name: unit
+    type: DOUBLE
+  - name: type_unit
+    type: DOUBLE
+  - name: cord_2
+    type: DOUBLE
+  - name: cord_2_2
+    type: DOUBLE
+  - name: s_cord
+    type: BIGINT
+  - name: d_cord
+    type: BIGINT
+  - name: notes
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: c11
+    type: VARCHAR
+  - name: c12
+    type: VARCHAR
+  - name: cords
+    type: DOUBLE
+  - name: unit_2
+    type: DOUBLE
+  - name: location
+    type: VARCHAR

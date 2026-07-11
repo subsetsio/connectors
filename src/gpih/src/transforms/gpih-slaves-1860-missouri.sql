@@ -1,0 +1,50 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+-- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+SELECT
+    "__sheet__" AS sheet,
+    "year",
+    "datanum",
+    "serial",
+    "slavenum",
+    "weight",
+    "stateicp",
+    "county",
+    "city",
+    "sizehold",
+    "age",
+    "agemonth",
+    "female=0)" AS female_0,
+    "KY, TN rate" AS ky_tn_rate,
+    "total retained" AS total_retained,
+    "of slaves" AS of_slaves,
+    "color",
+    "fugitive",
+    "manumit",
+    "blind (no=0,yes=1)" AS blind_no_0_yes_1,
+    "deaf (no=0,yes=1)" AS deaf_no_0_yes_1,
+    "idiotic (no=0,yes=1)" AS idiotic_no_0_yes_1,
+    "insane (no=0,yes=1)" AS insane_no_0_yes_1,
+    "noholdrs",
+    "nhouses",
+    "blank, illeg=0" AS blank_illeg_0,
+    "blank, illeg=1" AS blank_illeg_1,
+    "sh1typeg",
+    "sh2typeg",
+    "sh1ln",
+    "sh1fn",
+    "sh2ln",
+    "sh2fn",
+    "AGE - Age of slave" AS age_age_of_slave,
+    "c1",
+    "c2",
+    "1860 GQ sample" AS 1860_gq_sample,
+    "[GQ = Urban / Group Quarters; see slave PUMS sample guide]" AS gq_urban_group_quarters_see_slave_pums_sample_guide,
+    "Adult males, 55 and older" AS adult_males_55_and_older,
+    "91.38581343891795" AS 91_38581343891795,
+    "45.18" AS 45_18,
+    "assuming 69.07 times (91.39/139.72)" AS assuming_69_07_times_91_39_139_72
+FROM "gpih-slaves-1860-missouri"

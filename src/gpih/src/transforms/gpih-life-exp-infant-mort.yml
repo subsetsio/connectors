@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-life-exp-infant-mort`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: row
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: nation
+    type: VARCHAR
+  - name: place
+    type: VARCHAR
+  - name: classes
+    type: VARCHAR
+  - name: years
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: male
+    type: DOUBLE
+  - name: female
+    type: DOUBLE
+  - name: both
+    type: DOUBLE
+  - name: both_2
+    type: VARCHAR
+  - name: rate
+    type: VARCHAR
+  - name: source
+    type: VARCHAR

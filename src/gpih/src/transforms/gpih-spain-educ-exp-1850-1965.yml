@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-spain-educ-exp-1850-1965`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+key: [year]
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: education
+    type: BIGINT
+  - name: tive_expend
+    type: BIGINT
+  - name: schools
+    type: BIGINT
+  - name: schools_2
+    type: BIGINT
+  - name: schools_3
+    type: BIGINT
+  - name: schools_4
+    type: BIGINT
+  - name: education_2
+    type: BIGINT
+  - name: schools_5
+    type: BIGINT
+  - name: check
+    type: BIGINT

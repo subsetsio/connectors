@@ -1,0 +1,53 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+-- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+SELECT
+    "__sheet__" AS sheet,
+    "span =" AS span,
+    "1895-1992" AS 1895_1992,
+    "1895-1992_2" AS 1895_1992_2,
+    "1975-1992" AS 1975_1992,
+    "1864-2010" AS 1864_2010,
+    "1885-2010" AS 1885_2010,
+    "1900-1993" AS 1900_1993,
+    "1900-1993_2" AS 1900_1993_2,
+    "1923-1993" AS 1923_1993,
+    "1823-2010" AS 1823_2010,
+    "1895-1987" AS 1895_1987,
+    "1895-1993" AS 1895_1993,
+    "1857-2010" AS 1857_2010,
+    "1928-1993" AS 1928_1993,
+    "1928-1993_2" AS 1928_1993_2,
+    "1971-1993" AS 1971_1993,
+    "1905-2010" AS 1905_2010,
+    "1864-2010_2" AS 1864_2010_2,
+    "1838-2010" AS 1838_2010,
+    "1913-2010" AS 1913_2010,
+    "1899-1993" AS 1899_1993,
+    "1899-1992" AS 1899_1992,
+    "1846-2010" AS 1846_2010,
+    "1887-1986" AS 1887_1986,
+    "1895-1993_2" AS 1895_1993_2,
+    "1929-1993" AS 1929_1993,
+    "1973-1993" AS 1973_1993,
+    "1870-2010" AS 1870_2010,
+    "1910-1992" AS 1910_1992,
+    "1937-1993" AS 1937_1993,
+    "1928-1992" AS 1928_1992,
+    "1830-2010" AS 1830_2010,
+    "1823–1864" AS 1823_1864,
+    "1864-2005" AS 1864_2005,
+    "1888-2007" AS 1888_2007,
+    "1823-2009" AS 1823_2009,
+    "1857-2009" AS 1857_2009,
+    "1905-2009" AS 1905_2009,
+    "1885-2007" AS 1885_2007,
+    "1838-1997" AS 1838_1997,
+    "1881-2009" AS 1881_2009,
+    "1847-2009" AS 1847_2009,
+    "1870-2009" AS 1870_2009,
+    "1830-2005" AS 1830_2005
+FROM "gpih-ihs-s-america-fiscal-history-20nov"

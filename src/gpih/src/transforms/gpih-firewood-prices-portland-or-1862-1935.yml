@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-firewood-prices-portland-or-1862-1935`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+key: [year]
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: price_cord
+    type: DOUBLE
+  - name: source_portland_oregonian
+    type: VARCHAR

@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-wages-french-soudan-1903-1936-marlous-van-waijenburg`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+key: [year]
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: unskilled_average_wage_rate_w
+    type: DOUBLE
+  - name: unskilled_wage_rate_25th_percentile_w_25
+    type: DOUBLE

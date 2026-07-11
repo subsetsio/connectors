@@ -1,0 +1,264 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-vienna-prices-1439-1800`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: im_gramm
+    type: DOUBLE
+  - name: kreuzer
+    type: DOUBLE
+  - name: im_gramm_2
+    type: DOUBLE
+  - name: im_gramm_3
+    type: DOUBLE
+  - name: commodity
+    type: VARCHAR
+  - name: wheat
+    type: VARCHAR
+  - name: barley
+    type: VARCHAR
+  - name: oats
+    type: VARCHAR
+  - name: wheat_2
+    type: VARCHAR
+  - name: barley_2
+    type: VARCHAR
+  - name: oats_2
+    type: VARCHAR
+  - name: silver_grams
+    type: VARCHAR
+  - name: wheat_3
+    type: VARCHAR
+  - name: barley_3
+    type: VARCHAR
+  - name: oats_3
+    type: VARCHAR
+  - name: peas
+    type: VARCHAR
+  - name: bread_p
+    type: VARCHAR
+  - name: bread_r
+    type: VARCHAR
+  - name: peas_2
+    type: VARCHAR
+  - name: bread_p_2
+    type: VARCHAR
+  - name: bread_r_2
+    type: VARCHAR
+  - name: peas_3
+    type: VARCHAR
+  - name: bread_p_3
+    type: VARCHAR
+  - name: bread_r_3
+    type: VARCHAR
+  - name: beer_f
+    type: VARCHAR
+  - name: beer_b
+    type: VARCHAR
+  - name: beer_r
+    type: VARCHAR
+  - name: beer_s
+    type: VARCHAR
+  - name: beer_i
+    type: VARCHAR
+  - name: beer_w
+    type: VARCHAR
+  - name: wine
+    type: VARCHAR
+  - name: beer_f_2
+    type: VARCHAR
+  - name: beer_b_2
+    type: VARCHAR
+  - name: beer_r_2
+    type: VARCHAR
+  - name: beer_s_2
+    type: VARCHAR
+  - name: beer_i_2
+    type: VARCHAR
+  - name: beer_w_2
+    type: VARCHAR
+  - name: wine_2
+    type: VARCHAR
+  - name: beer_f_3
+    type: VARCHAR
+  - name: beer_b_3
+    type: VARCHAR
+  - name: beer_r_3
+    type: VARCHAR
+  - name: beer_s_3
+    type: VARCHAR
+  - name: beer_i_3
+    type: VARCHAR
+  - name: beer_w_3
+    type: VARCHAR
+  - name: wine_3
+    type: VARCHAR
+  - name: herring
+    type: VARCHAR
+  - name: beef
+    type: VARCHAR
+  - name: carp
+    type: VARCHAR
+  - name: pike_salt
+    type: VARCHAR
+  - name: pike_fr
+    type: VARCHAR
+  - name: stockfish
+    type: VARCHAR
+  - name: herring_2
+    type: VARCHAR
+  - name: beef_2
+    type: VARCHAR
+  - name: carp_2
+    type: VARCHAR
+  - name: pike_salt_2
+    type: VARCHAR
+  - name: pike_fr_2
+    type: VARCHAR
+  - name: stockfish_2
+    type: VARCHAR
+  - name: herring_3
+    type: VARCHAR
+  - name: beef_3
+    type: VARCHAR
+  - name: carp_3
+    type: VARCHAR
+  - name: pike_salt_3
+    type: VARCHAR
+  - name: pike_fr_3
+    type: VARCHAR
+  - name: stockfish_3
+    type: VARCHAR
+  - name: eggs
+    type: VARCHAR
+  - name: c2
+    type: VARCHAR
+  - name: eggs_2
+    type: VARCHAR
+  - name: saffron_f
+    type: VARCHAR
+  - name: saffron_w
+    type: VARCHAR
+  - name: saffron_d
+    type: VARCHAR
+  - name: pepper
+    type: VARCHAR
+  - name: cloves
+    type: VARCHAR
+  - name: cinnamon
+    type: VARCHAR
+  - name: salt
+    type: VARCHAR
+  - name: salt_2
+    type: VARCHAR
+  - name: saffron_f_2
+    type: VARCHAR
+  - name: saffron_w_2
+    type: VARCHAR
+  - name: saffron_d_2
+    type: VARCHAR
+  - name: pepper_2
+    type: VARCHAR
+  - name: cloves_2
+    type: VARCHAR
+  - name: cinnamon_2
+    type: VARCHAR
+  - name: salt_3
+    type: VARCHAR
+  - name: salt_4
+    type: VARCHAR
+  - name: saffron_f_3
+    type: VARCHAR
+  - name: saffron_w_3
+    type: VARCHAR
+  - name: saffron_d_3
+    type: VARCHAR
+  - name: pepper_3
+    type: VARCHAR
+  - name: cloves_3
+    type: VARCHAR
+  - name: cinnamon_3
+    type: VARCHAR
+  - name: salt_5
+    type: VARCHAR
+  - name: salt_6
+    type: VARCHAR
+  - name: charcoal
+    type: VARCHAR
+  - name: wax
+    type: VARCHAR
+  - name: wax_sp
+    type: VARCHAR
+  - name: firewd_s
+    type: VARCHAR
+  - name: firewd_b
+    type: VARCHAR
+  - name: firewd_p
+    type: VARCHAR
+  - name: firewd_sp
+    type: VARCHAR
+  - name: candles
+    type: VARCHAR
+  - name: charcoal_2
+    type: VARCHAR
+  - name: wax_2
+    type: VARCHAR
+  - name: wax_sp_2
+    type: VARCHAR
+  - name: firewd_s_2
+    type: VARCHAR
+  - name: firewd_b_2
+    type: VARCHAR
+  - name: firewd_p_2
+    type: VARCHAR
+  - name: firewd_sp_2
+    type: VARCHAR
+  - name: candles_2
+    type: VARCHAR
+  - name: charcoal_3
+    type: VARCHAR
+  - name: wax_3
+    type: VARCHAR
+  - name: wax_sp_3
+    type: VARCHAR
+  - name: firewd_s_3
+    type: VARCHAR
+  - name: firewd_b_3
+    type: VARCHAR
+  - name: firewd_p_3
+    type: VARCHAR
+  - name: firewd_sp_3
+    type: VARCHAR
+  - name: candles_3
+    type: VARCHAR
+  - name: paper
+    type: VARCHAR
+  - name: paper_c
+    type: VARCHAR
+  - name: paper_r
+    type: VARCHAR
+  - name: soap
+    type: VARCHAR
+  - name: paper_2
+    type: VARCHAR
+  - name: paper_c_2
+    type: VARCHAR
+  - name: paper_r_2
+    type: VARCHAR
+  - name: soap_2
+    type: VARCHAR
+  - name: paper_3
+    type: VARCHAR
+  - name: paper_c_3
+    type: VARCHAR
+  - name: paper_r_3
+    type: VARCHAR
+  - name: soap_3
+    type: VARCHAR

@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-thai-prices-and-wages-1820-1959`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: pound_sterling_per_metric_ton
+    type: DOUBLE
+  - name: nominal_unskilled_bangkok_wage_in_baht_per_day
+    type: VARCHAR
+  - name: rural_or_agricultural_wage_in_baht
+    type: VARCHAR
+  - name: nominal_unskilled_bangkok_wage_in_pound_sterling_per_day
+    type: VARCHAR
+  - name: rural_or_agricultural_wage_in_pound_sterling_per_day
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: import_price_of_white_shirting_in_baht_per_kilogram
+    type: VARCHAR
+  - name: import_price_of_grey_shirting_in_baht_per_kilogram
+    type: VARCHAR
+  - name: import_price_of_white_shirting_in_pound_sterling_per_kilogra
+    type: VARCHAR
+  - name: import_price_of_grey_shirting_in_pound_sterling_per_kilogram
+    type: VARCHAR
+  - name: land_price_in_baht_per_rai
+    type: VARCHAR
+  - name: land_price_in_pound_sterling_per_rai
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: land_price_in_baht_per_acre
+    type: VARCHAR
+  - name: land_price_in_pound_sterling_per_acre
+    type: VARCHAR
+  - name: average_baht_per_hectare_of_newly_mortgaged_land
+    type: DOUBLE
+  - name: average_pound_sterling_per_hectare_of_newly_mortgaged_land
+    type: DOUBLE
+  - name: nominal_buffalo_export_price_in_baht
+    type: DOUBLE
+  - name: nominal_buffalo_export_price_in_pound_sterling
+    type: DOUBLE

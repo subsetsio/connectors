@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-charleston-city-directory-1800`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: orig_row
+    type: BIGINT
+  - name: last_name
+    type: VARCHAR
+  - name: first_name
+    type: VARCHAR
+  - name: male
+    type: VARCHAR
+  - name: female
+    type: BIGINT
+  - name: c6
+    type: VARCHAR

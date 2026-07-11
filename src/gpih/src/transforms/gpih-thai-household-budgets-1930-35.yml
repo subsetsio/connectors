@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-thai-household-budgets-1930-35`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+key: [region, sheet]
+sort: [region, sheet]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: average_household_incomea_in_baht
+    type: DOUBLE
+  - name: average_household_expendituresb_in_baht
+    type: DOUBLE
+  - name: average_household_incomea_in_pound_sterling
+    type: DOUBLE
+  - name: average_household_expendituresb_in_pound_sterling
+    type: DOUBLE
+  - name: direct_taxes
+    type: DOUBLE
+  - name: food
+    type: DOUBLE
+  - name: clothing
+    type: DOUBLE
+  - name: household
+    type: DOUBLE
+  - name: interest
+    type: DOUBLE
+  - name: other
+    type: DOUBLE
+  - name: rice_as_a_percent_of_total_incomec
+    type: DOUBLE
+  - name: average_household_income_in_bahtd
+    type: DOUBLE
+  - name: average_household_expenditures_in_bahte
+    type: DOUBLE
+  - name: average_household_income_in_pound_sterlingd
+    type: DOUBLE
+  - name: average_household_expenditures_in_pound_sterlinge
+    type: DOUBLE

@@ -1,0 +1,322 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-argentina-fisc-incidence-aa-l-31aug2015`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: currency
+    type: VARCHAR
+  - name: scope
+    type: VARCHAR
+  - name: education
+    type: DOUBLE
+  - name: health
+    type: DOUBLE
+  - name: other_social_transfers
+    type: DOUBLE
+  - name: pensions
+    type: DOUBLE
+  - name: total_social_spending
+    type: DOUBLE
+  - name: check_sum
+    type: BIGINT
+  - name: total_spending
+    type: DOUBLE
+  - name: gdp
+    type: DOUBLE
+  - name: education_2
+    type: DOUBLE
+  - name: health_2
+    type: DOUBLE
+  - name: other_social_transfers_2
+    type: DOUBLE
+  - name: pensions_2
+    type: DOUBLE
+  - name: total_social_spending_2
+    type: DOUBLE
+  - name: check_soc_exp_sum
+    type: BIGINT
+  - name: total_spending_2
+    type: BIGINT
+  - name: education_3
+    type: VARCHAR
+  - name: health_3
+    type: DOUBLE
+  - name: other_soc_transfers
+    type: DOUBLE
+  - name: pensions_3
+    type: DOUBLE
+  - name: total_social_spending_3
+    type: DOUBLE
+  - name: check_sum_2
+    type: BIGINT
+  - name: total_spending_3
+    type: DOUBLE
+  - name: education_4
+    type: DOUBLE
+  - name: c26
+    type: DOUBLE
+  - name: c27
+    type: DOUBLE
+  - name: c28
+    type: DOUBLE
+  - name: c29
+    type: DOUBLE
+  - name: health_4
+    type: DOUBLE
+  - name: c31
+    type: DOUBLE
+  - name: c32
+    type: DOUBLE
+  - name: c33
+    type: DOUBLE
+  - name: c34
+    type: DOUBLE
+  - name: other_spending
+    type: DOUBLE
+  - name: c36
+    type: DOUBLE
+  - name: c37
+    type: DOUBLE
+  - name: c38
+    type: DOUBLE
+  - name: c39
+    type: DOUBLE
+  - name: non_contributory_pensions
+    type: DOUBLE
+  - name: c41
+    type: DOUBLE
+  - name: c42
+    type: DOUBLE
+  - name: c43
+    type: DOUBLE
+  - name: c44
+    type: DOUBLE
+  - name: educaci_n
+    type: DOUBLE
+  - name: m_s_salud
+    type: DOUBLE
+  - name: m_s_seguridad
+    type: DOUBLE
+  - name: func_s_soc
+    type: DOUBLE
+  - name: social_functions_q1
+    type: DOUBLE
+  - name: social_functions_q2
+    type: DOUBLE
+  - name: social_functions_q3
+    type: DOUBLE
+  - name: social_functions_q4
+    type: DOUBLE
+  - name: social_functions_q5
+    type: DOUBLE
+  - name: check_sums
+    type: DOUBLE
+  - name: a_os
+    type: BIGINT
+  - name: upper_ratio
+    type: DOUBLE
+  - name: lower_ratio
+    type: DOUBLE
+  - name: "1940_49"
+    type: VARCHAR
+  - name: "0_016917486933532427"
+    type: DOUBLE
+  - name: "0_0026832942164773683"
+    type: DOUBLE
+  - name: "0_004189135047457726"
+    type: DOUBLE
+  - name: "0_001566267327621194"
+    type: DOUBLE
+  - name: "0_025356183525088713"
+    type: DOUBLE
+  - name: decile
+    type: VARCHAR
+  - name: ganancias
+    type: DOUBLE
+  - name: social
+    type: DOUBLE
+  - name: patrimonio
+    type: DOUBLE
+  - name: y_activos
+    type: VARCHAR
+  - name: agregado
+    type: DOUBLE
+  - name: internos
+    type: DOUBLE
+  - name: exterior
+    type: DOUBLE
+  - name: total
+    type: DOUBLE
+  - name: "1"
+    type: VARCHAR
+  - name: "51_4"
+    type: DOUBLE
+  - name: "29_7"
+    type: DOUBLE
+  - name: "1_8"
+    type: DOUBLE
+  - name: "3_6"
+    type: DOUBLE
+  - name: "27_7"
+    type: DOUBLE
+  - name: "13_3"
+    type: DOUBLE
+  - name: "2_9"
+    type: DOUBLE
+  - name: "3_5"
+    type: DOUBLE
+  - name: "142_7"
+    type: DOUBLE
+  - name: "0"
+    type: DOUBLE
+  - name: "12_2"
+    type: DOUBLE
+  - name: "68_8"
+    type: VARCHAR
+  - name: "11_3"
+    type: DOUBLE
+  - name: "13_8"
+    type: DOUBLE
+  - name: "93_9"
+    type: DOUBLE
+  - name: "45_7"
+    type: DOUBLE
+  - name: "93_1"
+    type: DOUBLE
+  - name: "61_4"
+    type: DOUBLE
+  - name: "24"
+    type: DOUBLE
+  - name: "154_5"
+    type: DOUBLE
+  - name: "4_1181111999999995"
+    type: DOUBLE
+  - name: "1_2"
+    type: BIGINT
+  - name: "1_3636746"
+    type: DOUBLE
+  - name: "1_371544"
+    type: DOUBLE
+  - name: "1870"
+    type: BIGINT
+  - name: pesos_fuerte
+    type: VARCHAR
+  - name: central_gov_t
+    type: VARCHAR
+  - name: "0_04719025480114015"
+    type: DOUBLE
+  - name: "0_02136229584815779"
+    type: DOUBLE
+  - name: "0_017199937503704722"
+    type: DOUBLE
+  - name: "0_010958252674760555"
+    type: DOUBLE
+  - name: "0_003879437817066191"
+    type: DOUBLE
+  - name: "585791"
+    type: DOUBLE
+  - name: "582354070_6378009"
+    type: DOUBLE
+  - name: "0_001005901786448294"
+    type: DOUBLE
+  - name: "0_2"
+    type: BIGINT
+  - name: "1870_2"
+    type: BIGINT
+  - name: "1870_3"
+    type: BIGINT
+  - name: miles_de_pesos
+    type: VARCHAR
+  - name: "0_3"
+    type: DOUBLE
+  - name: "1_39522e_09"
+    type: DOUBLE
+  - name: "0_4"
+    type: DOUBLE
+  - name: "3_757999999999997e_11"
+    type: DOUBLE
+  - name: "1_4327999999999998e_09"
+    type: DOUBLE
+  - name: "0_5"
+    type: DOUBLE
+  - name: "0_6"
+    type: DOUBLE
+  - name: "0_7"
+    type: BIGINT
+  - name: "0_8"
+    type: BIGINT
+  - name: "0_9"
+    type: BIGINT
+  - name: "0_10"
+    type: BIGINT
+  - name: "0_11"
+    type: DOUBLE
+  - name: "0_016501945339596872"
+    type: DOUBLE
+  - name: "0_018131327726396907"
+    type: DOUBLE
+  - name: "0_022239156999035455"
+    type: DOUBLE
+  - name: "0_02253326026612663"
+    type: DOUBLE
+  - name: "0_021184488313673543"
+    type: DOUBLE
+  - name: "0_12"
+    type: DOUBLE
+  - name: "0_13"
+    type: DOUBLE
+  - name: "0_14"
+    type: DOUBLE
+  - name: "0_15"
+    type: DOUBLE
+  - name: "0_16"
+    type: DOUBLE
+  - name: "0_17"
+    type: BIGINT
+  - name: "1870_4"
+    type: BIGINT
+  - name: "0_016501945339596872_2"
+    type: DOUBLE
+  - name: "0_018131327726396907_2"
+    type: DOUBLE
+  - name: "0_022239156999035455_2"
+    type: DOUBLE
+  - name: "0_02253326026612663_2"
+    type: DOUBLE
+  - name: "0_021184488313673543_2"
+    type: DOUBLE
+  - name: "0_030688309461543276"
+    type: DOUBLE
+  - name: "0_0032309681217608834"
+    type: DOUBLE
+  - name: "0_005039219495330732"
+    type: DOUBLE
+  - name: "0_011575007591366076"
+    type: DOUBLE
+  - name: "0_01730505049660735"
+    type: DOUBLE
+  - name: c51
+    type: VARCHAR
+  - name: c52
+    type: VARCHAR
+  - name: c53
+    type: VARCHAR
+  - name: c54
+    type: VARCHAR
+  - name: "1870_5"
+    type: BIGINT
+  - name: "0_22554952983001203"
+    type: DOUBLE
+  - name: "0_36448070848918496"
+    type: DOUBLE
+  - name: "0_9525760492896537"
+    type: DOUBLE
+  - name: "1_347668807608518"
+    type: DOUBLE

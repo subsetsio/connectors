@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gpih-boston-city-directory-1800`. Regenerate after model-verify.
+# caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+# caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+key: []
+columns:
+  - name: sheet
+    type: VARCHAR
+  - name: row
+    type: VARCHAR
+  - name: last_name
+    type: VARCHAR
+  - name: first_name
+    type: VARCHAR
+  - name: female
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: male
+    type: VARCHAR
+  - name: female_2
+    type: BIGINT
+  - name: address
+    type: VARCHAR
+  - name: c8
+    type: VARCHAR
+  - name: c9
+    type: VARCHAR
+  - name: c10
+    type: VARCHAR

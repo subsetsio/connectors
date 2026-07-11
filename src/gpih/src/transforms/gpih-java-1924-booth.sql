@@ -1,0 +1,53 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+-- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+SELECT
+    "__sheet__" AS sheet,
+    "1. Sharecroppers" AS 1_sharecroppers,
+    "1150891",
+    "24.7" AS 24_7,
+    "28.4270077" AS 28_4270077,
+    "4.8" AS 4_8,
+    "239768.95833333334" AS 239768_95833333334,
+    "118.55999999999999" AS 118_55999999999999,
+    "5248",
+    "32",
+    "0.167936" AS 0_167936,
+    "4.7" AS 4_7,
+    "1116.595744680851" AS 1116_595744680851,
+    "150.4" AS 150_4,
+    "5747",
+    "55.6" AS 55_6,
+    "0.3195332" AS 0_3195332,
+    "5.7" AS 5_7,
+    "1008.2456140350877" AS 1008_2456140350877,
+    "316.92" AS 316_92,
+    "1161886",
+    "24.885812291395197" AS 24_885812291395197,
+    "28.9144769" AS 28_9144769,
+    "4.803289714243096" AS 4_803289714243096,
+    "241893.79969204927" AS 241893_79969204927,
+    "119.53376620984295" AS 119_53376620984295,
+    "1",
+    "3.2897478119461514" AS 3_2897478119461514,
+    "1.850873296568069" AS 1_850873296568069,
+    "3.2897478119461514_2" AS 3_2897478119461514_2,
+    "1.850873296568069_2" AS 1_850873296568069_2,
+    "0.04733534288630126" AS 0_04733534288630126,
+    "2",
+    "2. Agricultural laborers" AS 2_agricultural_laborers,
+    "12594",
+    "18.5" AS 18_5,
+    "0.232989" AS 0_232989,
+    "4.2" AS 4_2,
+    "2998.5714285714284" AS 2998_5714285714284,
+    "77.7" AS 77_7,
+    "0.035999138010158936" AS 0_035999138010158936,
+    "0.015169883055691929" AS 0_015169883055691929,
+    "0.035999138010158936_2" AS 0_035999138010158936_2,
+    "0.015169883055691929_2" AS 0_015169883055691929_2,
+    "7.498352237546446e-06" AS 7_498352237546446e_06
+FROM "gpih-java-1924-booth"

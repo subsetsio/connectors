@@ -1,0 +1,51 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GPIH workbooks are heterogeneous academic spreadsheets; rows can mix sheets, measures, units, places, or aggregation levels from the source workbook. Inspect the table columns before summing or comparing values across rows.
+-- caution: No stable row key was verified from the raw workbook profile, so this table is modeled as keyless pass-through data.
+SELECT
+    "__sheet__" AS sheet,
+    "CONNECTICUT" AS connecticut,
+    "1",
+    "58979.975445000004" AS 58979_975445000004,
+    "5918.398" AS 5918_398,
+    "2451.9557087577036" AS 2451_9557087577036,
+    "1446.5728878354898" AS 1446_5728878354898,
+    "219.6" AS 219_6,
+    "359.1" AS 359_1,
+    "69375.6020415932" AS 69375_6020415932,
+    "49180.51598677279" AS 49180_51598677279,
+    "410.646" AS 410_646,
+    "47140.179120000015" AS 47140_179120000015,
+    "202.2835388379205" AS 202_2835388379205,
+    "1836.9905298104745" AS 1836_9905298104745,
+    "1.0627981243874034" AS 1_0627981243874034,
+    "49591.1619867728" AS 49591_1619867728,
+    "0.714821356894908" AS 0_714821356894908,
+    "0.7992573541160451" AS 0_7992573541160451,
+    "0.03417876574673087" AS 0_03417876574673087,
+    "0.7491940100097467" AS 0_7491940100097467,
+    "0.0007347007076689171" AS 0_0007347007076689171,
+    "0.7096008294453084" AS 0_7096008294453084,
+    "251002",
+    "250051",
+    "175048",
+    "38605",
+    "19752",
+    "65421",
+    "36398",
+    "18569",
+    "71306",
+    "118",
+    "244",
+    "362",
+    "190",
+    "399",
+    "589",
+    "0.901545" AS 0_901545,
+    "0.083" AS 0_083,
+    "0.12413708529555" AS 0_12413708529555,
+    "0.07790257352768" AS 0_07790257352768,
+    "0.2763946185352834" AS 0_2763946185352834
+FROM "gpih-tables-locked-lf-1800-free-and-slave-weiss"
