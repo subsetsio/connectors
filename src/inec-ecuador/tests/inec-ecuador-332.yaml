@@ -1,0 +1,32 @@
+spec_id: inec-ecuador-332
+status: active
+coverage:
+  frozen: true
+  reason: Each ANDA study record is a published study-version metadata snapshot; the connector refreshes catalog membership separately.
+tests:
+  - row_count: {min: 1, max: 1}
+    reason: one accepted ANDA catalog entity maps to one study metadata record
+    certainty: 99
+  - not_null: idno
+    reason: NADA study lookup and the catalog natural key both require idno
+    certainty: 99
+  - not_null: title
+    reason: every public ANDA study record has a title in the catalog
+    certainty: 98
+  - not_null: source_entity_id
+    reason: source_entity_id links the raw row back to the accepted collect entity
+    certainty: 99
+  - column_type: {col: year_start, type: integer}
+    certainty: 95
+  - column_type: {col: year_end, type: integer}
+    certainty: 95
+  - between: {col: year_start, lo: 1900, hi: current_year()}
+    reason: INEC study coverage starts in historical census/survey years and should not begin in the future
+    certainty: 90
+  - at_most: {col: year_end, expr: current_year()}
+    reason: study coverage end should not exceed the current year for published ANDA records
+    certainty: 90
+    points_outward: true
+  - not_null: metadata_json
+    reason: full upstream JSON is preserved for nested DDI/codebook fields not flattened into columns
+    certainty: 99
