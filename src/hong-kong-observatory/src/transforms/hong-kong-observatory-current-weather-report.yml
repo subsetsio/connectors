@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-current-weather-report`. Regenerate after model-verify.
+# caution: This is the latest report snapshot, not an accumulated history; each run overwrites the current conditions available at collection time.
+key: [place, category, unit]
+temporal: update_time
+sort: [update_time, place, category, unit]
+columns:
+  - name: update_time
+    type: TIMESTAMP
+  - name: category
+    type: VARCHAR
+  - name: place
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

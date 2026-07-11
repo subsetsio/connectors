@@ -20,3 +20,6 @@ tests:
     certainty: 99
   - at_least: {col: year, expr: 1884}
     certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: daily climate station files are maintained through the current year
+    points_outward: true

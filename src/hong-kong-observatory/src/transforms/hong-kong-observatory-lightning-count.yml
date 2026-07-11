@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-lightning-count`. Regenerate after model-verify.
+# caution: This is a recent lightning-count snapshot for the latest reporting window, not a historical strike-count series.
+key: [region, type]
+temporal: period_start
+sort: [period_start, region, type]
+columns:
+  - name: period_start
+    type: TIMESTAMP
+  - name: period_end
+    type: TIMESTAMP
+  - name: type
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: count
+    type: BIGINT

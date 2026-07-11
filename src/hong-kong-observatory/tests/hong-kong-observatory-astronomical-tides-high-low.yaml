@@ -16,3 +16,6 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: HKO tide predictions include the current forecast year
+    points_outward: true

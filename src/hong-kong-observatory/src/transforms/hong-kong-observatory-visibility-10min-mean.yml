@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-visibility-10min-mean`. Regenerate after model-verify.
+# caution: This is a latest 10-minute mean visibility snapshot by station, not a historical time series.
+key: [station]
+temporal: observed_at
+sort: [observed_at, station]
+columns:
+  - name: observed_at
+    type: TIMESTAMP
+  - name: station
+    type: VARCHAR
+  - name: visibility
+    type: VARCHAR

@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-sun-times`. Regenerate after model-verify.
+# caution: Rows contain daily sunrise, sun transit, and sunset times for Hong Kong.
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: rise
+    type: VARCHAR
+  - name: transit
+    type: VARCHAR
+  - name: set
+    type: VARCHAR

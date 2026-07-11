@@ -11,3 +11,6 @@ tests:
     reason: moon transit is occasionally absent on days the moon does not cross the meridian
     certainty: 70
     severity: warn
+  - freshness: {col: date, reaches: today}
+    reason: the almanac prediction window extends beyond the current date
+    points_outward: true

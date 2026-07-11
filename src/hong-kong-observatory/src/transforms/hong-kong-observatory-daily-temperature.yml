@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-daily-temperature`. Regenerate after model-verify.
+# caution: The `measure` column separates mean, maximum, and minimum daily air temperature; filter it before aggregating values.
+key: [station, measure, year, month, day]
+temporal: year
+sort: [year, station, measure, month, day]
+columns:
+  - name: station
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: month
+    type: INTEGER
+  - name: day
+    type: INTEGER
+  - name: value
+    type: VARCHAR
+  - name: completeness
+    type: VARCHAR

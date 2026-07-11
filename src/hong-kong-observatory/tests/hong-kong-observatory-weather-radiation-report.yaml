@@ -19,3 +19,6 @@ tests:
     reason: documented RYES attribute suffixes (LocationName and global notes excluded in parse)
     certainty: 75
     severity: warn
+  - freshness: {col: report_date, reaches: today - 3d}
+    reason: RYES is published daily with a short reporting lag
+    points_outward: true

@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-nine-day-forecast`. Regenerate after model-verify.
+# caution: This is the latest nine-day forecast snapshot, not a revision history; each run overwrites the forecast available at collection time.
+key: [forecast_date]
+temporal: update_time
+sort: [update_time, forecast_date]
+columns:
+  - name: update_time
+    type: TIMESTAMP
+  - name: general_situation
+    type: VARCHAR
+  - name: forecast_date
+    type: DATE
+  - name: week
+    type: VARCHAR
+  - name: forecast_wind
+    type: VARCHAR
+  - name: forecast_weather
+    type: VARCHAR
+  - name: max_temp_c
+    type: DOUBLE
+  - name: min_temp_c
+    type: DOUBLE
+  - name: max_rh_pct
+    type: DOUBLE
+  - name: min_rh_pct
+    type: DOUBLE
+  - name: forecast_icon
+    type: INTEGER
+  - name: psr
+    type: VARCHAR

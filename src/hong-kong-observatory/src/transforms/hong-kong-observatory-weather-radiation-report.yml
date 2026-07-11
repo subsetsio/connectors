@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-weather-radiation-report`. Regenerate after model-verify.
+# caution: Metrics are in long form and have different physical units; filter `metric` before aggregating `value`.
+key: [report_date, station, metric, value]
+temporal: report_date
+sort: [report_date, station, metric, value]
+columns:
+  - name: report_date
+    type: DATE
+  - name: station
+    type: VARCHAR
+  - name: metric
+    type: VARCHAR
+  - name: value
+    type: VARCHAR

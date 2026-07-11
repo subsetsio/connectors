@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-moon-times`. Regenerate after model-verify.
+# caution: Rows contain daily moonrise, moon transit, and moonset times for Hong Kong; some event fields may be blank when that event does not occur on the civil date.
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: rise
+    type: VARCHAR
+  - name: transit
+    type: VARCHAR
+  - name: set
+    type: VARCHAR

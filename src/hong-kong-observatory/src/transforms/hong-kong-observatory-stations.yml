@@ -1,0 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hong-kong-observatory-stations`. Regenerate after model-verify.
+# caution: The same station code may appear in more than one dataset group when it is used by multiple Hong Kong Observatory products.
+key: [station_code, dataset_group]
+sort: [station_code, dataset_group]
+columns:
+  - name: station_code
+    type: VARCHAR
+  - name: dataset_group
+    type: VARCHAR
