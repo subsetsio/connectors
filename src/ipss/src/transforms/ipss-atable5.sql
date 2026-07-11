@@ -5,5 +5,5 @@ SELECT
     CAST(row_label AS VARCHAR) AS row_label,
     CAST(col_label AS VARCHAR) AS col_label,
     CAST(value AS DOUBLE)      AS value
-FROM "ipss-042-e"
+FROM "ipss-atable5"
 WHERE value IS NOT NULL
