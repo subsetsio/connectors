@@ -1,0 +1,14 @@
+spec_id: open-power-system-data-household-data--household-data-1min-singleindex
+status: active
+coverage:
+  frozen: true
+  reason: OPSD household_data latest points to the 2020-04-15 snapshot; the archive does not advance on a regular cadence
+tests:
+  - row_count: {min: 100000}
+    reason: minute-resolution household snapshot should be large; far fewer rows means a truncated or empty download
+    certainty: 80
+    severity: block
+  - not_null: utc_timestamp
+    reason: every observation row is timestamped; a null timestamp means a header/parse shift
+    certainty: 80
+    severity: warn

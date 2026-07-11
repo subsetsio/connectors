@@ -1,0 +1,14 @@
+spec_id: open-power-system-data-renewable-power-plants--validation-marker
+status: active
+coverage:
+  frozen: true
+  reason: OPSD renewable_power_plants latest points to the 2020-08-25 snapshot; validation markers are release metadata, not a live time series
+tests:
+  - row_count: {min: 5}
+    reason: validation-marker lookup should contain several marker definitions; far fewer rows means a truncated or empty download
+    certainty: 80
+    severity: block
+  - not_null: Validation marker
+    reason: each lookup row should identify the marker code
+    certainty: 85
+    severity: block

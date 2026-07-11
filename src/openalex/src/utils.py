@@ -79,11 +79,11 @@ def stats(rec, k):
 def iter_entity_rows(entity: str, flatten):
     """Stream every snapshot record for `entity`, flattened. Generator so the
     full corpus is never all resident as dict objects at once."""
-    manifest = json.loads(get_bytes(f"{S3}/data/{entity}/manifest"))
-    entries = manifest.get("entries") or []
-    if not entries:
-        raise AssertionError(f"{entity}: snapshot manifest has no entries")
-    for entry in entries:
+    manifest = json.loads(get_bytes(f"{S3}/data/jsonl/{entity}/manifest.json"))
+    files = manifest.get("files") or []
+    if not files:
+        raise AssertionError(f"{entity}: snapshot manifest has no files")
+    for entry in files:
         url = entry["url"].replace("s3://openalex/", f"{S3}/")
         blob = gzip.decompress(get_bytes(url))
         for line in blob.split(b"\n"):
