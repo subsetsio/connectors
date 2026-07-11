@@ -16,7 +16,7 @@ the whole table each refresh and overwrite. No incremental filter is exposed by
 the source for our pattern.
 """
 from constants import ENTITY_IDS, SERVICES
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
 PREFIX = "kraftfahrt-bundesamt-"
 PAGE = 1000                 # ArcGIS hosted maxRecordCount
@@ -83,26 +83,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(asset_id: str) -> str:
-    # Generic thin pass: keep every column except ArcGIS internals — object-id
-    # fields (ObjectId / OBJECTID* / OID / FID), geometry-derived Shape__* and
-    # the Monat_Sortierung display-sort helper. Statistical attributes pass
-    # through with their source names/types.
-    return (
-        "SELECT COLUMNS(c -> NOT regexp_matches(lower(c), "
-        "'^(objectid|object_id|oid|fid|shape__|monat_sortierung)')) "
-        f'FROM "{asset_id}"'
-    )
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

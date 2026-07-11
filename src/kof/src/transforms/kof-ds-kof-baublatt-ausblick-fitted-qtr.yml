@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series_key, obs_index]
+temporal: date
+sort: [date, series_key, obs_index]
+columns:
+  - name: series_key
+    type: VARCHAR
+  - name: obs_index
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE

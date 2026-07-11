@@ -1,0 +1,23 @@
+spec_id: kof-vja-website-tables
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every accepted KOF collection exposes at least one observation
+    certainty: 95
+  - not_null: series_key
+  - not_null: obs_index
+  - not_null: date
+  - column_type: {col: series_key, type: string}
+  - column_type: {col: obs_index, type: integer}
+  - column_type: {col: date, type: string}
+  - column_type: {col: value, type: float}
+  - unique: [series_key, obs_index]
+    reason: obs_index is the source order within each KOF time series
+    certainty: 95
+  - coverage: {col: series_key, expected: 20}
+    reason: the collection endpoint should return every series currently listed in the public collection
+    certainty: 90
+  - freshness: {col: date, reaches: today - 900d}
+    reason: active KOF public collections should include a recent release or forecast horizon
+    certainty: 80
+    points_outward: true
