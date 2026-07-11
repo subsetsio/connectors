@@ -1,0 +1,28 @@
+spec_id: opec-table-11-3
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: MOMR appendix table 11-3 has OECD stock and oil-on-water rows across recent monthly vintages
+    certainty: 85
+  - not_null: report_period
+  - not_null: report_date
+  - not_null: table
+  - not_null: item
+  - not_null: period
+  - not_null: frequency
+  - not_null: period_start
+  - not_null: value
+  - column_type: {col: report_period, type: string}
+  - column_type: {col: report_date, type: date}
+  - column_type: {col: period_start, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: frequency, values: [annual, quarterly, monthly]}
+    reason: parser intentionally keeps annual, quarterly, and monthly period columns and drops change columns
+    certainty: 90
+  - distinct_count: {col: report_period, min: 6}
+    reason: fetch walks a recent rolling window of MOMR appendix workbooks, not a single workbook
+    certainty: 80
+  - freshness: {col: report_date, reaches: today - 75d}
+    reason: OPEC publishes MOMR monthly; allow slack for release timing and filename irregularities
+    points_outward: true
+    certainty: 80
