@@ -6,4 +6,4 @@ tests:
     certainty: 80
   - not_null: chamber_code
   - distinct_count: {col: chamber_code, min: 40}
-
+  - freshness: {col: date_of_appointment, reaches: today - 1825d}

@@ -6,4 +6,4 @@ tests:
     certainty: 90
   - not_null: chamber_code
   - distinct_count: {col: chamber_code, min: 250}
-
+  - freshness: {col: last_election, reaches: today - 1825d}
