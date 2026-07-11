@@ -1,0 +1,12 @@
+spec_id: itc-organisations
+status: active
+tests:
+  - not_null: id
+  - not_null: code
+  - not_null: name
+  - unique: id
+    reason: organisations endpoint emits one row per organisation id
+    certainty: 90
+  - row_count: {min: 50}
+    reason: collect observed 87 organisations
+    certainty: 90

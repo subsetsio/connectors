@@ -15,14 +15,15 @@ Five download nodes, each writing flat ndjson tailored to one published table:
   itc-activities            activity catalog metadata (one row per activity)
   itc-activity-financials   per-activity annual budgets & expenses (long)
   itc-activity-transactions per-activity IATI transactions (long)
+  itc-area-codes             country/region reference rows
+  itc-organisations          organisation reference rows
+  itc-vocabulary-codes       vocabulary/code-list reference rows
 The three activity-derived nodes share one paginate+detail crawl helper.
 """
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_ndjson,
 )
 
@@ -30,7 +31,6 @@ BASE = "https://open.intracen.org/api/v1/itc"
 MAX_PAGES = 1000  # safety ceiling; the catalog is ~23 pages today
 
 
-@transient_retry()
 def _get_json(url, **params):
     resp = get(url, params=params or None, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -163,109 +163,82 @@ def fetch_activity_transactions(node_id: str) -> None:
     save_raw_ndjson(rows, asset)
 
 
+def fetch_area_codes(node_id: str) -> None:
+    rows = []
+    for group in _get_json(f"{BASE}/area-codes"):
+        group_id = group.get("id")
+        group_code = group.get("code")
+        group_name = group.get("name")
+        group_type = group.get("type")
+        rows.append({
+            "id": group_id,
+            "code": group_code,
+            "name": group_name,
+            "latitude": group.get("latitude"),
+            "longitude": group.get("longitude"),
+            "capital": group.get("capital"),
+            "kind": group.get("kind"),
+            "parent_id": group.get("parent_id"),
+            "group_id": group_id,
+            "group_code": group_code,
+            "group_name": group_name,
+            "group_type": group_type,
+            "row_type": "group",
+        })
+        for country in group.get("countries") or []:
+            rows.append({
+                "id": country.get("id"),
+                "code": country.get("code"),
+                "name": country.get("name"),
+                "latitude": country.get("latitude"),
+                "longitude": country.get("longitude"),
+                "capital": country.get("capital"),
+                "kind": country.get("kind"),
+                "parent_id": country.get("parent_id"),
+                "group_id": group_id,
+                "group_code": group_code,
+                "group_name": group_name,
+                "group_type": group_type,
+                "row_type": "country",
+            })
+    save_raw_ndjson(rows, node_id)
+
+
+def fetch_organisations(node_id: str) -> None:
+    rows = []
+    for org in _get_json(f"{BASE}/organisations"):
+        rows.append({
+            "id": org.get("id"),
+            "code": org.get("code"),
+            "ref": org.get("ref"),
+            "name": org.get("name"),
+            "organisation_type_name": org.get("organisation_type__name"),
+        })
+    save_raw_ndjson(rows, node_id)
+
+
+def fetch_vocabulary_codes(node_id: str) -> None:
+    rows = []
+    for code in _get_json(f"{BASE}/vocabulary-codes"):
+        rows.append({
+            "id": code.get("id"),
+            "parent_id": code.get("parent_id"),
+            "code": code.get("code"),
+            "name": code.get("name"),
+            "description": code.get("description"),
+            "color": code.get("color"),
+            "vocabulary": code.get("vocabulary"),
+        })
+    save_raw_ndjson(rows, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="itc-summary", fn=fetch_summary, kind="download"),
     NodeSpec(id="itc-map", fn=fetch_map, kind="download"),
     NodeSpec(id="itc-activities", fn=fetch_activities, kind="download"),
     NodeSpec(id="itc-activity-financials", fn=fetch_activity_financials, kind="download"),
     NodeSpec(id="itc-activity-transactions", fn=fetch_activity_transactions, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="itc-summary-transform",
-        deps=["itc-summary"],
-        key=("year",),
-        temporal="year",
-        sql='''
-            SELECT
-                CAST(year AS INTEGER)        AS year,
-                CAST(budgets AS DOUBLE)      AS budgets,
-                CAST(expenses AS DOUBLE)     AS expenses,
-                CAST(funds AS DOUBLE)        AS funds,
-                CAST(commitments AS DOUBLE)  AS commitments,
-                CAST(activities AS INTEGER)  AS activities,
-                CAST(donors AS INTEGER)      AS donors,
-                CAST(countries AS INTEGER)   AS countries
-            FROM "itc-summary"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="itc-map-transform",
-        deps=["itc-map"],
-        key=("year", "code"),
-        temporal="year",
-        sql='''
-            SELECT
-                CAST(year AS INTEGER)     AS year,
-                code,
-                name,
-                kind,
-                region_code,
-                CAST(lat AS DOUBLE)       AS latitude,
-                CAST(lon AS DOUBLE)       AS longitude,
-                CAST(budgets AS DOUBLE)   AS budgets,
-                CAST(expenses AS DOUBLE)  AS expenses,
-                CAST(activities AS INTEGER) AS activities
-            FROM "itc-map"
-            WHERE code IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="itc-activities-transform",
-        deps=["itc-activities"],
-        key=("identifier",),
-        temporal="date_first_expense",
-        sql='''
-            SELECT
-                identifier,
-                title,
-                description,
-                scope,
-                status,
-                reporting_org_name,
-                CAST(planned_end AS DATE)        AS planned_end,
-                CAST(actual_start AS DATE)       AS actual_start,
-                CAST(total_budget AS DOUBLE)     AS total_budget,
-                CAST(total_expense AS DOUBLE)    AS total_expense,
-                CAST(date_first_expense AS DATE) AS date_first_expense,
-                CAST(date_last_expense AS DATE)  AS date_last_expense
-            FROM "itc-activities"
-            WHERE identifier IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="itc-activity-financials-transform",
-        deps=["itc-activity-financials"],
-        key=("identifier", "year"),
-        temporal="year",
-        sql='''
-            SELECT
-                identifier,
-                CAST(year AS INTEGER)   AS year,
-                CAST(budget AS DOUBLE)  AS budget,
-                CAST(expense AS DOUBLE) AS expense
-            FROM "itc-activity-financials"
-            WHERE identifier IS NOT NULL AND year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="itc-activity-transactions-transform",
-        deps=["itc-activity-transactions"],
-        key=(),
-        temporal="date",
-        sql='''
-            SELECT
-                identifier,
-                transaction_type,
-                CAST(date AS DATE)            AS date,
-                CAST(value AS DOUBLE)         AS value,
-                description,
-                organisation_name,
-                CAST(organisation_id AS BIGINT) AS organisation_id
-            FROM "itc-activity-transactions"
-            WHERE identifier IS NOT NULL
-        ''',
-    ),
+    NodeSpec(id="itc-area-codes", fn=fetch_area_codes, kind="download"),
+    NodeSpec(id="itc-organisations", fn=fetch_organisations, kind="download"),
+    NodeSpec(id="itc-vocabulary-codes", fn=fetch_vocabulary_codes, kind="download"),
 ]

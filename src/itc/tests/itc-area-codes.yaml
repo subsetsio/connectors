@@ -1,0 +1,23 @@
+spec_id: itc-area-codes
+status: active
+tests:
+  - not_null: id
+  - not_null: code
+  - not_null: name
+  - enum: {col: row_type, values: [group, country]}
+    reason: area-codes returns top-level geographic groups and nested countries
+    certainty: 95
+  - unique: id
+    reason: each geographic reference row has one stable numeric id
+    certainty: 90
+  - row_count: {min: 100}
+    reason: collect observed 136 countries plus regional groups
+    certainty: 90
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: latitude is a geographic coordinate where present
+    certainty: 85
+    severity: warn
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: longitude is a geographic coordinate where present
+    certainty: 85
+    severity: warn

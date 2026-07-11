@@ -1,0 +1,13 @@
+spec_id: itc-vocabulary-codes
+status: active
+tests:
+  - not_null: id
+  - not_null: code
+  - not_null: name
+  - not_null: vocabulary
+  - unique: id
+    reason: vocabulary-codes returns one row per code-list entry id
+    certainty: 90
+  - row_count: {min: 80}
+    reason: collect observed at least 86 SDG code entries plus impact areas and other vocabularies
+    certainty: 85
