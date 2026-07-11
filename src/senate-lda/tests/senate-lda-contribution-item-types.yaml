@@ -1,0 +1,9 @@
+spec_id: senate-lda-contribution-item-types
+status: active
+tests:
+  - row_count: {min: 5}
+    reason: LD-203 item type constants currently include five contribution categories
+    certainty: 95
+  - not_null: value
+  - unique: value
+  - not_null: name

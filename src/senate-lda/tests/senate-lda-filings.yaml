@@ -1,0 +1,15 @@
+spec_id: senate-lda-filings
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: LD-1/LD-2 filings are available from 1999 and should materially exceed one recent year
+    certainty: 90
+  - not_null: filing_uuid
+  - unique: filing_uuid
+    reason: one current raw row per filing UUID after date-window crawl
+    certainty: 90
+  - column_type: {col: filing_year, type: integer}
+  - freshness: {col: dt_posted, reaches: today - 45d}
+    points_outward: true
+    reason: LDA filings are posted continuously; stale max dt_posted means the source or crawl is not current
+    certainty: 90

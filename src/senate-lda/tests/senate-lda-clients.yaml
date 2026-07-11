@@ -1,0 +1,14 @@
+spec_id: senate-lda-clients
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: the client directory has more than one hundred thousand records in the source catalog
+    certainty: 95
+  - not_null: id
+  - unique: id
+    reason: API client ids identify directory records
+    certainty: 95
+  - freshness: {col: effective_date, reaches: today - 730d}
+    points_outward: true
+    reason: active client records should include recent effective dates, with slack for lower update cadence
+    certainty: 75

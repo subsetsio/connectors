@@ -1,0 +1,9 @@
+spec_id: senate-lda-government-entities
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: government entity constants include congressional, departmental, agency, and board entries
+    certainty: 90
+  - not_null: id
+  - unique: id
+  - not_null: name

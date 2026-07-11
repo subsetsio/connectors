@@ -1,0 +1,12 @@
+spec_id: senate-lda-contribution-items
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: contribution line items are the non-empty item arrays from LD-203 reports since 2008
+    certainty: 85
+  - not_null: filing_uuid
+  - column_type: {col: filing_year, type: integer}
+  - freshness: {col: dt_posted, reaches: today - 220d}
+    points_outward: true
+    reason: item rows inherit report post dates from semiannual LD-203 filings
+    certainty: 85

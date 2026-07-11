@@ -1,0 +1,14 @@
+spec_id: senate-lda-registrants
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: the registrant directory is a long-running federal lobbying registry
+    certainty: 90
+  - not_null: id
+  - unique: id
+    reason: API registrant ids identify directory records
+    certainty: 95
+  - freshness: {col: dt_updated, reaches: today - 400d}
+    points_outward: true
+    reason: active registrants should include records updated within the last year
+    certainty: 80

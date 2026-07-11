@@ -1,0 +1,15 @@
+spec_id: senate-lda-contributions
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: LD-203 reports are available from 2008 and should exceed a single filing season
+    certainty: 90
+  - not_null: filing_uuid
+  - unique: filing_uuid
+    reason: one current raw row per LD-203 filing UUID after date-window crawl
+    certainty: 90
+  - column_type: {col: filing_year, type: integer}
+  - freshness: {col: dt_posted, reaches: today - 220d}
+    points_outward: true
+    reason: LD-203 reports are semiannual, so a roughly seven-month freshness window is expected
+    certainty: 85

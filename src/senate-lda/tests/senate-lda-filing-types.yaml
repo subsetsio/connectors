@@ -1,0 +1,9 @@
+spec_id: senate-lda-filing-types
+status: active
+tests:
+  - row_count: {min: 40}
+    reason: filing type constants cover registrations, quarterly reports, amendments, and terminations
+    certainty: 95
+  - not_null: value
+  - unique: value
+  - not_null: name

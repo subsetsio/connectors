@@ -1,0 +1,10 @@
+spec_id: senate-lda-lobbyists
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: the lobbyist directory has tens of thousands of records in the source catalog
+    certainty: 90
+  - not_null: id
+  - unique: [id, registrant_id]
+    reason: individual lobbyist ids can appear with registrant context; the pair should identify rows
+    certainty: 85

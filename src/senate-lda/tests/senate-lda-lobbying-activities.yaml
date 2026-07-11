@@ -1,0 +1,13 @@
+spec_id: senate-lda-lobbying-activities
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: lobbying activities are exploded from the multi-decade filings corpus
+    certainty: 85
+  - not_null: filing_uuid
+  - not_null: issue_code
+  - column_type: {col: filing_year, type: integer}
+  - freshness: {col: dt_posted, reaches: today - 45d}
+    points_outward: true
+    reason: activity rows inherit filing post dates from continuously posted LDA filings
+    certainty: 90
