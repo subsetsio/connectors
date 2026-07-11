@@ -14,6 +14,10 @@ tests:
     certainty: 85
   - between: {col: anio, lo: 1900, hi: 2100}
     certainty: 90
+  - freshness: {col: anio, reaches: current_year()}
+    reason: monthly SIRTOD national series include observations in the current calendar year
+    certainty: 80
+    points_outward: true
   - column_type: {col: m1, type: float}
     reason: month columns are numeric (missing months carry a -9999999999.99999 sentinel)
     certainty: 80

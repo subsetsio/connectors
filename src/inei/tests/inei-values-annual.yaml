@@ -15,6 +15,10 @@ tests:
   - between: {col: anio, lo: 1900, hi: 2100}
     reason: INEI series start in the 20th century and population projections run past 2050
     certainty: 90
+  - freshness: {col: anio, reaches: current_year()}
+    reason: annual SIRTOD national series include current-year values or projections
+    certainty: 80
+    points_outward: true
   - row_count: {min: 30000}
     reason: ~6900 indicators x ~10-30 years of national history is hundreds of thousands of rows
     certainty: 75

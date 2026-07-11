@@ -25,7 +25,6 @@ import json
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     post,
     save_raw_parquet,
     transient_retry,
@@ -35,15 +34,6 @@ BASE = "https://systems.inei.gob.pe/SIRTOD/app/consulta"
 BATCH_SIZE = 50              # indicators per data request (comma-joined)
 ANIO_DESDE = "1900"         # query floor; the real start is whatever the source returns
 TIMEOUT = (10.0, 180.0)     # (connect, read)
-# INEI encodes "no data" with magic NA codes: -9999999999.99999 and -8888888888.88888.
-# The transforms drop rows whose value falls in a narrow band around either code
-# (precise bands, so legitimate large negatives -- e.g. trade balances -- survive).
-_SENTINEL_FILTER = (
-    "value NOT BETWEEN -10000000000.0 AND -9999999999.0 "
-    "AND value NOT BETWEEN -8888888889.0 AND -8888888888.0"
-)
-
-
 @transient_retry()
 def _post(endpoint: str, data: dict | None = None):
     """POST one SIRTOD endpoint and return parsed JSON (or None for empty/null)."""
@@ -261,63 +251,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="inei-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="inei-values-annual", fn=fetch_values_annual, kind="download"),
     NodeSpec(id="inei-values-monthly", fn=fetch_values_monthly, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="inei-indicators-transform",
-        deps=["inei-indicators"],
-        sql="""
-            SELECT
-                codigo_indicador,
-                nombre_indicador,
-                nombre_indicador_en,
-                tema,
-                tema_raiz,
-                ambito_departamental,
-                ambito_provincial,
-                ambito_distrital
-            FROM "inei-indicators"
-            WHERE codigo_indicador IS NOT NULL
-              AND nombre_indicador IS NOT NULL
-        """,
-    ),
-    SqlNodeSpec(
-        id="inei-values-annual-transform",
-        deps=["inei-values-annual"],
-        sql=f"""
-            SELECT indicador_id, anio AS year, value
-            FROM (
-                SELECT indicador_id, anio, valor AS value
-                FROM "inei-values-annual"
-            ) AS a
-            WHERE value IS NOT NULL
-              AND anio IS NOT NULL
-              AND {_SENTINEL_FILTER}
-        """,
-        key=("indicador_id", "year"),
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="inei-values-monthly-transform",
-        deps=["inei-values-monthly"],
-        sql=f"""
-            SELECT
-                indicador_id,
-                anio AS year,
-                CAST(SUBSTR(month_col, 2) AS INTEGER) AS month,
-                make_date(anio, CAST(SUBSTR(month_col, 2) AS INTEGER), 1) AS date,
-                value
-            FROM (
-                UNPIVOT "inei-values-monthly"
-                ON m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12
-                INTO NAME month_col VALUE value
-            ) AS u
-            WHERE value IS NOT NULL
-              AND {_SENTINEL_FILTER}
-        """,
-        key=("indicador_id", "date"),
-        temporal="date",
-    ),
 ]
