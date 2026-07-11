@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-0400-023v3`. Regenerate after model-verify.
+key: [types_of_ownership, month, sex]
+temporal: month
+sort: [month, types_of_ownership, sex]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: types_of_ownership
+    type: VARCHAR
+  - name: month
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

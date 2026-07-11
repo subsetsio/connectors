@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1900-001v1`. Regenerate after model-verify.
+key: [year, types_of_income, location]
+temporal: year
+sort: [year, types_of_income, location]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: types_of_income
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

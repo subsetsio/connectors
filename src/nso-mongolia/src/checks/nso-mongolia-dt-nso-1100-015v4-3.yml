@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nso-mongolia-dt-nso-1100-015v4-3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [quarter, indicator, classification]
+temporal: quarter
+checks:
+  - kind: unique
+    columns: [quarter, indicator, classification]
+  - kind: not_null
+    col: quarter
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: classification
+  - kind: row_floor
+    min: 198
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1003-006v1`. Regenerate after model-verify.
+key: [product_type, year, season]
+temporal: year
+sort: [year, product_type, season]
+columns:
+  - name: season
+    type: VARCHAR
+  - name: product_type
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

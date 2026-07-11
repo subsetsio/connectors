@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nso-mongolia-dt-nso-1800-004v203`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [country_name, quarterly, indicator]
+checks:
+  - kind: unique
+    columns: [country_name, quarterly, indicator]
+  - kind: not_null
+    col: country_name
+  - kind: not_null
+    col: quarterly
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 32630
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

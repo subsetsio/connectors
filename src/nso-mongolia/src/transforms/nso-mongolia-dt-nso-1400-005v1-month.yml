@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1400-005v1-month`. Regenerate after model-verify.
+key: [month_cumulative, commodity_groups]
+temporal: month_cumulative
+sort: [month_cumulative, commodity_groups]
+columns:
+  - name: commodity_groups
+    type: VARCHAR
+  - name: month_cumulative
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

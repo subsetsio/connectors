@@ -8,3 +8,8 @@ tests:
       min: 1
     reason: an accepted NSO table publishes at least one non-null observation; 0 rows means all-null upstream or a broken json-stat parse
     certainty: 80
+  - freshness:
+      col: "Сар"
+      reaches: 2020
+    reason: NSO Mongolia statistical tables are refreshed on mixed annual, quarterly, and monthly cadences; requiring the temporal axis to reach 2020 catches stale or truncated pulls without failing slower historical series.
+    certainty: 70

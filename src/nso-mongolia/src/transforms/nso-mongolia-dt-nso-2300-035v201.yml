@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-2300-035v201`. Regenerate after model-verify.
+key: [classification_of_crimes, indicator, year]
+temporal: year
+sort: [year, classification_of_crimes, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: classification_of_crimes
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

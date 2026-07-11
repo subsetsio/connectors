@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-3500-003v0`. Regenerate after model-verify.
+key: [number_of_room, type_of_dwellings]
+temporal: year
+sort: [year, number_of_room, type_of_dwellings]
+columns:
+  - name: type_of_dwellings
+    type: VARCHAR
+  - name: number_of_room
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

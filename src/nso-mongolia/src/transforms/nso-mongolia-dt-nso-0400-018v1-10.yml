@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-0400-018v1-10`. Regenerate after model-verify.
+key: [region, year, age_group, gender]
+temporal: year
+sort: [year, region, age_group, gender]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

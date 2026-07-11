@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1800-009v202`. Regenerate after model-verify.
+key: [month, age_group, duration_of_stay, sex]
+temporal: month
+sort: [month, age_group, duration_of_stay, sex]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: duration_of_stay
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: month
+    type: DATE
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

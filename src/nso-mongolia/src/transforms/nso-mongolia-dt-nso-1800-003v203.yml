@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1800-003v203`. Regenerate after model-verify.
+key: [country_name, quarter]
+temporal: quarter
+sort: [quarter, country_name]
+columns:
+  - name: country_name
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

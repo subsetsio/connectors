@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-0300-010v5`. Regenerate after model-verify.
+key: [time, region, products]
+temporal: time
+sort: [time, region, products]
+columns:
+  - name: products
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: time
+    type: DATE
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1800-006v1`. Regenerate after model-verify.
+key: [name_of_border_crossings, year, type_of_transport_vehicles]
+temporal: year
+sort: [year, name_of_border_crossings, type_of_transport_vehicles]
+columns:
+  - name: type_of_transport_vehicles
+    type: VARCHAR
+  - name: name_of_border_crossings
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

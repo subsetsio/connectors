@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-2002-012v1`. Regenerate after model-verify.
+key: [aimag, year, sex, grade]
+temporal: year
+sort: [year, aimag, sex, grade]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: aimag
+    type: VARCHAR
+  - name: grade
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

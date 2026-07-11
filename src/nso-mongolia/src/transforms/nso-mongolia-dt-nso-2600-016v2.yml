@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-2600-016v2`. Regenerate after model-verify.
+key: [group_of_economic_activity, quarter, ownership_type]
+temporal: quarter
+sort: [quarter, group_of_economic_activity, ownership_type]
+columns:
+  - name: ownership_type
+    type: VARCHAR
+  - name: group_of_economic_activity
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

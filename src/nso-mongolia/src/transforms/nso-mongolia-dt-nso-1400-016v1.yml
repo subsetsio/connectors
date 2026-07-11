@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1400-016v1`. Regenerate after model-verify.
+key: [month, by_commodity_group, statistical_indicator]
+temporal: month
+sort: [month, by_commodity_group, statistical_indicator]
+columns:
+  - name: statistical_indicator
+    type: VARCHAR
+  - name: by_commodity_group
+    type: VARCHAR
+  - name: month
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

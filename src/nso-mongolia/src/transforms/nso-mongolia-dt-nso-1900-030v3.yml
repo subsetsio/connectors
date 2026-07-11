@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-1900-030v3`. Regenerate after model-verify.
+key: [location, grouping, quarter, indicator]
+temporal: quarter
+sort: [quarter, location, grouping, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: grouping
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

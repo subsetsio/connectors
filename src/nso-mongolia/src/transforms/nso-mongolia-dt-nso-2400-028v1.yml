@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-2400-028v1`. Regenerate after model-verify.
+key: [month, station_location]
+temporal: month
+sort: [month, station_location]
+columns:
+  - name: station_location
+    type: VARCHAR
+  - name: month
+    type: DATE
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

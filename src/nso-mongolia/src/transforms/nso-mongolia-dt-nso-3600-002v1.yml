@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nso-mongolia-dt-nso-3600-002v1`. Regenerate after model-verify.
+key: [economic_activity, year, categories_of_environmental_taxes]
+temporal: year
+sort: [year, economic_activity, categories_of_environmental_taxes]
+columns:
+  - name: categories_of_environmental_taxes
+    type: VARCHAR
+  - name: economic_activity
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR
