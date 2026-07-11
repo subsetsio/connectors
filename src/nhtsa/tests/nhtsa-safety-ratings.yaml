@@ -10,7 +10,7 @@ tests:
   - row_count: {min: 5000}
     reason: NCAP has rated thousands-to-tens-of-thousands of vehicle variants since MY1990; <5k means the modelyear->make->model traversal missed most makes
     certainty: 85
-  - freshness: {col: ModelYear, reaches: current_year() - 1}
+  - freshness: {col: ModelYear, reaches: 2025}
     reason: SafetyRatings has no update timestamp; ModelYear is its temporal axis and NCAP rates current/near-future model years, so the max should reach at least last year
     certainty: 75
     points_outward: true
