@@ -16,11 +16,10 @@ tests:
   - between: {col: year, lo: 1880, hi: current_year()}
     reason: GISTEMP v4 begins in 1880 and should not publish future annual observations
     certainty: 95
-  - at_least: {col: year, expr: 2025}
-    reason: annual J-D means should include the last completed calendar year
-    certainty: 80
+  - freshness: {col: year, reaches: 2025}
+    reason: GISTEMP is updated monthly, but annual means should reach the last completed calendar year
+    certainty: 85
     points_outward: true
   - between: {col: anomaly_c, lo: -2.5, hi: 2.5}
     reason: values are decimal degrees C anomalies relative to 1951-1980
     certainty: 90
-

@@ -16,9 +16,9 @@ tests:
   - between: {col: year, lo: 1880, hi: current_year()}
     reason: GISTEMP v4 begins in 1880 and should not publish future annual observations
     certainty: 95
-  - at_least: {col: year, expr: 2025}
-    reason: annual zonal anomalies should include the last completed calendar year
-    certainty: 80
+  - freshness: {col: year, reaches: 2025}
+    reason: GISTEMP is updated monthly, but annual zonal means should reach the last completed calendar year
+    certainty: 85
     points_outward: true
   - between: {col: anomaly_c, lo: -5.0, hi: 5.0}
     reason: latitude-band anomalies are decimal degrees C and can be wider than global means
