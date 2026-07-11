@@ -34,6 +34,19 @@ from subsets_utils import (
 
 SLUG = "nationwide-hpi"
 BASE = "https://www.nationwide.co.uk/media/hpi/download"
+DOWNLOAD_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,"
+        "application/vnd.ms-excel,application/octet-stream,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Referer": "https://www.nationwide.co.uk/media/hpi/resources/",
+}
 
 ENTITY_IDS = [
     "all-buyers-hper-by-region",
@@ -77,7 +90,7 @@ SCHEMA = pa.schema(
 
 @transient_retry()
 def _download_xlsx(slug: str) -> bytes:
-    resp = get(f"{BASE}/{slug}", timeout=(10.0, 120.0))
+    resp = get(f"{BASE}/{slug}", headers=DOWNLOAD_HEADERS, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.content
 
