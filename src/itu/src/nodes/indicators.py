@@ -9,7 +9,7 @@ import json
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _as_int, _catalogue_code_ids, _get_json
 
 _INDICATORS_SCHEMA = pa.schema([
@@ -82,37 +82,3 @@ def fetch_indicators(node_id: str) -> None:
         cols["code_desc"].append(_as_str(code.get("codeDesc")))
     table = pa.table(cols, schema=_INDICATORS_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="itu-indicators", fn=fetch_indicators, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="itu-indicators-transform",
-        deps=["itu-indicators"],
-        # The getbyids metadata populates several fields uniformly across this
-        # set of base series (units_type, series_type, is_collection,
-        # parent_code_id, end_year carry a single value, and `units` is only set
-        # for the household-survey database), so they're dropped here — the
-        # authoritative per-series units live in itu-values. Keep the columns
-        # that actually discriminate between indicators.
-        sql='''
-            SELECT
-                code_id,
-                code,
-                label,
-                category,
-                sub_category,
-                answer_type,
-                start_year,
-                database_id,
-                collection_indicator,
-                disaggregation,
-                code_desc
-            FROM "itu-indicators"
-            WHERE code_id IS NOT NULL
-        ''',
-    ),
-]

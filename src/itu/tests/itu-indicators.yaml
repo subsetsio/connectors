@@ -1,0 +1,18 @@
+spec_id: itu-indicators
+status: active
+tests:
+  - row_count: {min: 180}
+    reason: ITU DataHub exposes roughly 190 catalogue indicators before collection expansion.
+    certainty: 90
+  - not_null: code_id
+  - not_null: label
+  - unique: code_id
+  - column_type: {col: code_id, type: integer}
+  - column_type: {col: start_year, type: integer}
+  - between: {col: start_year, lo: 1960, hi: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: category, min: 6}
+    reason: Indicator metadata should preserve the six top-level DataHub themes.
+    certainty: 85

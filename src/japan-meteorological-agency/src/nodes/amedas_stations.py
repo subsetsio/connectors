@@ -41,7 +41,7 @@ def fetch_amedas_stations(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_STATION_SCHEMA), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="japan-meteorological-agency-amedas-stations", fn=fetch_amedas_stations, kind="download"),
 ]
 

@@ -1,0 +1,22 @@
+spec_id: japan-meteorological-agency-amedas-stations
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: JMA AMeDAS station registry has roughly 1,300 stations
+    certainty: 95
+  - not_null: station_id
+  - column_type: {col: station_id, type: string}
+  - column_type: {col: lat, type: float}
+  - column_type: {col: lon, type: float}
+  - unique: station_id
+    reason: station ids identify AMeDAS stations
+    certainty: 98
+  - between: {col: lat, lo: 20, hi: 50}
+    reason: AMeDAS station coordinates are in and around Japan
+    certainty: 90
+  - between: {col: lon, lo: 120, hi: 155}
+    reason: AMeDAS station coordinates are in and around Japan
+    certainty: 90
+  - nullable: {col: name_en, max_null_frac: 0.05}
+    reason: the public station table normally carries English names for nearly all stations
+    certainty: 85

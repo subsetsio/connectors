@@ -63,7 +63,7 @@ def fetch_enso_sst_indices(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_ENSO_SCHEMA), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="japan-meteorological-agency-enso-sst-indices", fn=fetch_enso_sst_indices, kind="download"),
 ]
 

@@ -1,0 +1,33 @@
+spec_id: japan-meteorological-agency-enso-sst-indices
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: ten monthly SST/anomaly products spanning multi-decade histories
+    certainty: 90
+  - not_null: region
+  - not_null: measure
+  - not_null: year
+  - not_null: month
+  - not_null: value
+  - column_type: {col: region, type: string}
+  - column_type: {col: measure, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: value, type: float}
+  - enum: {col: measure, values: ["sst", "anomaly"]}
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - at_least: {col: year, expr: 1949}
+    reason: NINO.3 history starts in 1949 and no retained product should be earlier
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 95
+    points_outward: true
+  - unique: [region, measure, year, month]
+    reason: each product has one value per month
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: TCC monitoring indices are maintained monthly
+    certainty: 85
+    points_outward: true

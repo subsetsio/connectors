@@ -37,7 +37,7 @@ def fetch_amedas_observations(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_OBS_SCHEMA), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="japan-meteorological-agency-amedas-observations", fn=fetch_amedas_observations, kind="download"),
 ]
 

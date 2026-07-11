@@ -1,0 +1,13 @@
+spec_id: itu-datasets
+status: active
+tests:
+  - row_count: {min: 4}
+    reason: DataHub methodology currently lists four public source databases.
+    certainty: 90
+  - not_null: dataset_id
+  - not_null: dataset_short_name
+  - unique: dataset_id
+  - unique: dataset_short_name
+  - enum: {col: publicly_visible, values: [true]}
+    reason: Accepted DataHub source databases should be publicly visible.
+    certainty: 85

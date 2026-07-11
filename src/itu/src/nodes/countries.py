@@ -8,7 +8,7 @@ import json
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _get_json
 
 _COUNTRIES_SCHEMA = pa.schema([
@@ -32,25 +32,3 @@ def fetch_countries(node_id: str) -> None:
         cols["classifications"].append(json.dumps(r.get("Regions", []), ensure_ascii=False))
     table = pa.table(cols, schema=_COUNTRIES_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="itu-countries", fn=fetch_countries, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="itu-countries-transform",
-        deps=["itu-countries"],
-        sql='''
-            SELECT
-                CAST(country_id AS BIGINT) AS country_id,
-                iso,
-                short_name,
-                long_name,
-                classifications
-            FROM "itu-countries"
-            WHERE iso IS NOT NULL
-        ''',
-    ),
-]

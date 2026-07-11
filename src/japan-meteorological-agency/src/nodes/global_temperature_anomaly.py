@@ -34,7 +34,7 @@ def fetch_global_temperature_anomaly(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_TEMP_SCHEMA), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="japan-meteorological-agency-global-temperature-anomaly", fn=fetch_global_temperature_anomaly, kind="download"),
 ]
 

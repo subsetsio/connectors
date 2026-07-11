@@ -1,0 +1,20 @@
+spec_id: japan-meteorological-agency-amedas-observations
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: latest AMeDAS map should include observations from many active stations and elements
+    certainty: 85
+  - not_null: station_id
+  - not_null: observed_at
+  - not_null: element
+  - column_type: {col: station_id, type: string}
+  - column_type: {col: observed_at, type: timestamp}
+  - column_type: {col: element, type: string}
+  - column_type: {col: value, type: float}
+  - unique: [station_id, observed_at, element]
+    reason: the map snapshot has at most one value per station and element
+    certainty: 95
+  - freshness: {col: observed_at, reaches: today - 7d}
+    reason: latest_time.txt points to the current rolling observation snapshot
+    certainty: 95
+    points_outward: true

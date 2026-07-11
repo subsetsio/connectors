@@ -30,7 +30,7 @@ def fetch_forecast_areas(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_AREA_SCHEMA), node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="japan-meteorological-agency-forecast-areas", fn=fetch_forecast_areas, kind="download"),
 ]
 

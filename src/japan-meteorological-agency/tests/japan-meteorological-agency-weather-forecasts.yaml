@@ -1,0 +1,24 @@
+spec_id: japan-meteorological-agency-weather-forecasts
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: per-office forecasts should produce many area/time/element rows
+    certainty: 90
+  - not_null: office_code
+  - not_null: report_datetime
+  - not_null: area_code
+  - not_null: element
+  - not_null: valid_time
+  - column_type: {col: office_code, type: string}
+  - column_type: {col: report_datetime, type: timestamp}
+  - column_type: {col: area_code, type: string}
+  - column_type: {col: element, type: string}
+  - column_type: {col: valid_time, type: timestamp}
+  - column_type: {col: value, type: string}
+  - unique: [office_code, report_datetime, area_code, element, valid_time]
+    reason: each report carries at most one forecast value per area, element, and valid time
+    certainty: 85
+  - freshness: {col: report_datetime, reaches: today - 7d}
+    reason: bosai forecast documents are operational near-real-time products
+    certainty: 95
+    points_outward: true

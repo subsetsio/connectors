@@ -1,0 +1,14 @@
+spec_id: itu-countries
+status: active
+tests:
+  - row_count: {min: 230}
+    reason: ITU reports on about 236 economies; a much smaller table means the catalog endpoint degraded.
+    certainty: 95
+  - not_null: country_id
+  - not_null: iso
+  - unique: country_id
+  - unique: iso
+  - column_type: {col: country_id, type: integer}
+  - matches: {col: iso, pattern: "^[A-Z0-9]{3}$"}
+    reason: ITU uses ISO-like three-character economy codes, including non-country aggregate codes.
+    certainty: 85

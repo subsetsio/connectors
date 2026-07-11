@@ -1,0 +1,23 @@
+spec_id: itu-values
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: Cross-country annual ICT observations across about 190 indicators should produce tens of thousands of rows.
+    certainty: 90
+  - not_null: series_id
+  - not_null: entity_iso
+  - not_null: data_year
+  - column_type: {col: data_year, type: integer}
+  - between: {col: data_year, lo: 1960, hi: current_year()}
+    certainty: 90
+    points_outward: true
+  - freshness: {col: data_year, reaches: 2024}
+    reason: ITU DataHub public indicator series were observed to cover mostly through 2024.
+    certainty: 80
+    points_outward: true
+  - distinct_count: {col: entity_iso, min: 200}
+    reason: Full-country export should cover most of ITU's 236 economy universe.
+    certainty: 90
+  - distinct_count: {col: series_id, min: 150}
+    reason: Collection indicators expand to member series, but a thin pull should still expose most ICT series.
+    certainty: 85

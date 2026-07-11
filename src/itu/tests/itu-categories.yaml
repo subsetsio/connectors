@@ -1,0 +1,15 @@
+spec_id: itu-categories
+status: active
+tests:
+  - row_count: {min: 180}
+    reason: ITU DataHub currently groups roughly 190 indicators across the taxonomy.
+    certainty: 90
+  - not_null: category
+  - not_null: sub_category
+  - column_type: {col: code_id, type: integer}
+  - distinct_count: {col: category, min: 6}
+    reason: The public DataHub exposes six top-level thematic categories.
+    certainty: 95
+  - distinct_count: {col: code_id, min: 180}
+    reason: The taxonomy should expose the same indicator-code universe collected for the catalog.
+    certainty: 90

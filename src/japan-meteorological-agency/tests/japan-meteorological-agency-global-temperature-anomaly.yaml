@@ -1,0 +1,30 @@
+spec_id: japan-meteorological-agency-global-temperature-anomaly
+status: active
+tests:
+  - row_count: {min: 1500}
+    reason: monthly global anomaly series starts in 1891
+    certainty: 95
+  - not_null: year
+  - not_null: month
+  - not_null: anomaly
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: anomaly, type: float}
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - at_least: {col: year, expr: 1891}
+    certainty: 99
+  - at_most: {col: year, expr: current_year()}
+    certainty: 95
+    points_outward: true
+  - unique: [year, month]
+    reason: the CSV has one anomaly per calendar month
+    certainty: 98
+  - median_between: {col: anomaly, lo: -1.0, hi: 1.5}
+    reason: unit guard for Celsius anomalies against the 1991-2020 average
+    certainty: 75
+    severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: TCC updates the monthly anomaly series during the current year
+    certainty: 85
+    points_outward: true
