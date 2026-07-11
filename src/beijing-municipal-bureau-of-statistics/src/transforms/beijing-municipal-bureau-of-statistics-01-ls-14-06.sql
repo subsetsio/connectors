@@ -1,7 +1,8 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
+-- Diagnostic transform for a source-catalog report that currently returns no observation data.
 SELECT
-    "json"
+    "report_number",
+    "subject",
+    "sort",
+    "status",
+    "detail"
 FROM "beijing-municipal-bureau-of-statistics-01-ls-14-06"

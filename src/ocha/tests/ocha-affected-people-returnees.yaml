@@ -18,3 +18,6 @@ tests:
     hi: 120
   certainty: 85
   severity: warn
+- freshness: {col: reference_period_start, reaches: today - 3y}
+  reason: HAPI returnee observations should include a recent reference period, allowing for annual source update schedules.
+  certainty: 70

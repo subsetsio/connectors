@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-coordination-context-funding`. Regenerate after model-verify.
+# caution: Rows are appeal funding observations; funding and requirements should be compared within the same appeal_code, location, and reference period.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: resource_hdx_id
+    type: UUID
+  - name: appeal_code
+    type: VARCHAR
+  - name: appeal_name
+    type: VARCHAR
+  - name: appeal_type
+    type: VARCHAR
+  - name: requirements_usd
+    type: DOUBLE
+  - name: funding_usd
+    type: DOUBLE
+  - name: funding_pct
+    type: DOUBLE
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP

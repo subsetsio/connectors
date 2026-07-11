@@ -14,3 +14,6 @@ tests:
   certainty: 90
 - not_null: location_code
 - not_null: appeal_code
+- freshness: {col: reference_period_start, reaches: today - 3y}
+  reason: HAPI funding observations should include recent appeal periods, allowing for annual humanitarian appeal cycles.
+  certainty: 70

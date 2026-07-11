@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-data-availability`. Regenerate after model-verify.
+# caution: Rows enumerate HAPI availability by geography and thematic category; hapi_updated_date is the batch index update timestamp, not the observation period of every underlying dataset.
+key: []
+temporal: hapi_updated_date
+sort: [hapi_updated_date]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: subcategory
+    type: VARCHAR
+  - name: hapi_updated_date
+    type: TIMESTAMP

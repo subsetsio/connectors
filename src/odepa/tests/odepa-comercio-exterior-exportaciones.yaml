@@ -1,6 +1,9 @@
 spec_id: odepa-comercio-exterior-exportaciones
 status: active
 tests:
+  - freshness: {col: Anio, reaches: current_year()}
+    reason: ODEPA publishes current-year export trade resources
+    certainty: 85
   - not_null: Anio
     reason: every trade record carries its year
     certainty: 98

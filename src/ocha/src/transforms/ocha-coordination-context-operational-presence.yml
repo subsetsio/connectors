@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-coordination-context-operational-presence`. Regenerate after model-verify.
+# caution: Rows describe organization presence by sector and location; filter admin_level, sector_code, and organization fields before counting organizations.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: org_acronym
+    type: VARCHAR
+  - name: org_name
+    type: VARCHAR
+  - name: sector_code
+    type: VARCHAR
+  - name: sector_name
+    type: VARCHAR
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP
+  - name: org_type_code
+    type: VARCHAR
+  - name: org_type_description
+    type: VARCHAR

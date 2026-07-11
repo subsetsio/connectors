@@ -57,6 +57,72 @@ def _spec_id(entity_id: str) -> str:
 
 _BY_SPEC = {_spec_id(e["id"]): e for e in ENTITIES}
 
+# These reports are present in the source catalog/viewer but currently do not
+# yield publishable data through the verified REST path. They are covered by
+# harness waive-spec records; keep them out of the executable DAG so the graph
+# only contains tables that can publish real rows.
+UNAVAILABLE_SPEC_IDS = {
+    "beijing-municipal-bureau-of-statistics-01-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-031-001",
+    "beijing-municipal-bureau-of-statistics-01-ls-031-002",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-01-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-02",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-03",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-04",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-05",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-06",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-07",
+    "beijing-municipal-bureau-of-statistics-01-ls-10-08",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-01",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-02",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-03",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-04",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-05",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-06",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-07",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-08",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-08-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-09",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-10",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-11",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-12",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-14",
+    "beijing-municipal-bureau-of-statistics-01-ls-11-15",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-01",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-01-01",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-01-02",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-04",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-05",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-06",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-07",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-09",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-09-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-10",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-11",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-12",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-13",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-14",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-15",
+    "beijing-municipal-bureau-of-statistics-01-ls-12-17",
+    "beijing-municipal-bureau-of-statistics-01-ls-13-01",
+    "beijing-municipal-bureau-of-statistics-01-ls-13-01-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-13-02",
+    "beijing-municipal-bureau-of-statistics-01-ls-13-03",
+    "beijing-municipal-bureau-of-statistics-01-ls-13-03-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-14-01",
+    "beijing-municipal-bureau-of-statistics-01-ls-14-02",
+    "beijing-municipal-bureau-of-statistics-01-ls-14-03",
+    "beijing-municipal-bureau-of-statistics-01-ls-14-04",
+    "beijing-municipal-bureau-of-statistics-01-ls-14-05",
+    "beijing-municipal-bureau-of-statistics-01-ls-14-06",
+    "beijing-municipal-bureau-of-statistics-01-ls-15-01",
+    "beijing-municipal-bureau-of-statistics-01-ls-15-02",
+    "beijing-municipal-bureau-of-statistics-01-ls-15-03",
+    "beijing-municipal-bureau-of-statistics-01-ls-15-03-1",
+    "beijing-municipal-bureau-of-statistics-01-ls-17-06",
+    "beijing-municipal-bureau-of-statistics-01-ls-5-02",
+}
+
 ANNUAL_MASK_FALLBACKS = {
     # A small set of annual LS reports intermittently returns HTTP 500 from
     # queryRptTimeFreqMask while neighboring reports still publish normally.
@@ -203,6 +269,24 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     ent = _BY_SPEC[node_id]
     report, subject, sort = ent["report"], ent["subject"], ent["sort"]
+
+    if node_id in UNAVAILABLE_SPEC_IDS:
+        save_raw_ndjson(
+            [
+                {
+                    "report_number": report,
+                    "subject": subject,
+                    "sort": sort,
+                    "status": "upstream_unavailable",
+                    "detail": (
+                        "Source catalog/viewer exists, but the verified REST "
+                        "data path returns no publishable observation rows."
+                    ),
+                }
+            ],
+            asset,
+        )
+        return
 
     # 1. Seed the session and read the report's version/department/frequency.
     viewer = _parse_viewer(_get_viewer(report, subject, sort))

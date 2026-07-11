@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-affected-people-returnees`. Regenerate after model-verify.
+# caution: Rows are directional origin-to-asylum returnee observations; do not aggregate origin and asylum dimensions as if they were a single location.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: resource_hdx_id
+    type: UUID
+  - name: population_group
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: age_range
+    type: VARCHAR
+  - name: min_age
+    type: BIGINT
+  - name: max_age
+    type: BIGINT
+  - name: population
+    type: BIGINT
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP
+  - name: origin_location_code
+    type: VARCHAR
+  - name: origin_location_name
+    type: VARCHAR
+  - name: asylum_location_code
+    type: VARCHAR
+  - name: asylum_location_name
+    type: VARCHAR

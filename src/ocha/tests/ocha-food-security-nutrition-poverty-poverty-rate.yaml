@@ -27,3 +27,6 @@ tests:
     lo: 0
     hi: 2
   certainty: 90
+- freshness: {col: reference_period_start, reaches: today - 5y}
+  reason: HAPI poverty-rate observations are slower-moving than operational indicators but should include a recent reference period.
+  certainty: 60

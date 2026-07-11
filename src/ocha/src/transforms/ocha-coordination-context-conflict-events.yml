@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-coordination-context-conflict-events`. Regenerate after model-verify.
+# caution: Rows are aggregated conflict-event counts by event_type, location, administrative level, and period; filter those dimensions before summing events or fatalities.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: event_type
+    type: VARCHAR
+  - name: events
+    type: BIGINT
+  - name: fatalities
+    type: BIGINT
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP

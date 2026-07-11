@@ -1,6 +1,9 @@
 spec_id: odepa-precios-uva-vinificacion
 status: active
 tests:
+  - freshness: {col: Fecha precio vigente, reaches: today - 180d}
+    reason: wine-grape purchase prices are seasonal, so the latest effective price date can lag outside harvest windows
+    certainty: 80
   - not_null: Anio
     reason: each wine-grape spot price carries its year
     certainty: 98

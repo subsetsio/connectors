@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-affected-people-idps`. Regenerate after model-verify.
+# caution: Rows mix national and subnational administrative levels and assessment types; filter admin_level and assessment_type before aggregating population counts.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: reporting_round
+    type: BIGINT
+  - name: assessment_type
+    type: VARCHAR
+  - name: operation
+    type: VARCHAR
+  - name: population
+    type: BIGINT
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP

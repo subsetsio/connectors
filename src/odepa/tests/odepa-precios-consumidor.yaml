@@ -1,6 +1,9 @@
 spec_id: odepa-precios-consumidor
 status: active
 tests:
+  - freshness: {col: Fecha termino, reaches: today - 14d}
+    reason: consumer prices are updated weekly, so the latest capture week should be recent
+    certainty: 85
   - not_null: Anio
     reason: every consumer-price row is stamped with its capture year
     certainty: 98

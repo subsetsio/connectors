@@ -18,3 +18,6 @@ tests:
     expr: 1
   certainty: 90
 - not_null: location_code
+- freshness: {col: reference_period_start, reaches: today - 3y}
+  reason: HAPI national-risk records should include a recent INFORM index period.
+  certainty: 70

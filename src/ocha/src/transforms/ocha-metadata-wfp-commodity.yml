@@ -1,0 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-wfp-commodity`. Regenerate after model-verify.
+# caution: WFP commodity codes are useful lookup values, but this model keeps the table keyless because the model verifier did not scan-verify code as row grain.
+key: []
+columns:
+  - name: code
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: name
+    type: VARCHAR

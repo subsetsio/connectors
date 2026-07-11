@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-admin2`. Regenerate after model-verify.
+key: [code]
+temporal: reference_period_start
+sort: [reference_period_start, code]
+columns:
+  - name: id
+    type: BIGINT
+  - name: admin1_ref
+    type: BIGINT
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: from_cods
+    type: BOOLEAN
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: JSON
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: location_ref
+    type: BIGINT

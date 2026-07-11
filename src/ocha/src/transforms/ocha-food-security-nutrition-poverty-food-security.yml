@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-food-security-nutrition-poverty-food-security`. Regenerate after model-verify.
+# caution: Rows mix IPC phases and administrative levels; filter ipc_phase and admin_level before aggregating population_in_phase or fractions.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: ipc_phase
+    type: VARCHAR
+  - name: ipc_type
+    type: VARCHAR
+  - name: population_in_phase
+    type: BIGINT
+  - name: population_fraction_in_phase
+    type: DOUBLE
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP

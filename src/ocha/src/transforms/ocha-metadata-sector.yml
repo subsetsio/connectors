@@ -1,0 +1,9 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-sector`. Regenerate after model-verify.
+# caution: Sector codes are useful lookup values, but this model keeps the table keyless because the model verifier did not scan-verify code as row grain.
+key: []
+columns:
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR

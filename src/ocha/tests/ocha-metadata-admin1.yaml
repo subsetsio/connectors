@@ -1,5 +1,8 @@
 spec_id: ocha-metadata-admin1
 status: active
+coverage:
+  frozen: true
+  reason: HAPI admin1 reference_period_start describes administrative-boundary validity, not a refresh cadence for this lookup table.
 tests:
 - not_null: code
 - not_null: location_code

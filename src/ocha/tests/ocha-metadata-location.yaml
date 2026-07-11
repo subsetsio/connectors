@@ -1,5 +1,8 @@
 spec_id: ocha-metadata-location
 status: active
+coverage:
+  frozen: true
+  reason: HAPI location reference_period_start describes location metadata validity, not a refresh cadence for this lookup table.
 tests:
 - not_null: code
 - not_null: name

@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-resource`. Regenerate after model-verify.
+# caution: Resource HDX ids are useful lookup values, but this model keeps the table keyless because the model verifier did not scan-verify resource_hdx_id as row grain.
+key: []
+temporal: update_date
+sort: [update_date]
+columns:
+  - name: resource_hdx_id
+    type: UUID
+  - name: dataset_hdx_id
+    type: UUID
+  - name: name
+    type: VARCHAR
+  - name: format
+    type: VARCHAR
+  - name: update_date
+    type: TIMESTAMP
+  - name: is_hxl
+    type: BOOLEAN
+  - name: download_url
+    type: VARCHAR
+  - name: hapi_updated_date
+    type: TIMESTAMP
+  - name: dataset_hdx_stub
+    type: VARCHAR
+  - name: dataset_hdx_title
+    type: VARCHAR
+  - name: dataset_hdx_provider_stub
+    type: VARCHAR
+  - name: dataset_hdx_provider_name
+    type: VARCHAR
+  - name: hdx_link
+    type: VARCHAR
+  - name: hdx_api_link
+    type: VARCHAR
+  - name: dataset_hdx_link
+    type: VARCHAR
+  - name: dataset_hdx_api_link
+    type: VARCHAR
+  - name: provider_hdx_link
+    type: VARCHAR
+  - name: provider_hdx_api_link
+    type: VARCHAR

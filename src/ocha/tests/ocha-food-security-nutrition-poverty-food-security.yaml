@@ -22,3 +22,6 @@ tests:
     lo: 0
     hi: 2
   certainty: 90
+- freshness: {col: reference_period_start, reaches: today - 3y}
+  reason: HAPI food-security observations should include a recent IPC/reference period, allowing for uneven country update schedules.
+  certainty: 70

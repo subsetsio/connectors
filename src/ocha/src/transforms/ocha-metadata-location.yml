@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-location`. Regenerate after model-verify.
+# caution: Location codes are useful lookup values, but this model keeps the table keyless because the model verifier did not scan-verify code as row grain.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: id
+    type: BIGINT
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: has_hrp
+    type: BOOLEAN
+  - name: in_gho
+    type: BOOLEAN
+  - name: from_cods
+    type: BOOLEAN
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: JSON

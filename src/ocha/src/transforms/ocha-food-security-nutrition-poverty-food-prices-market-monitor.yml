@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-food-security-nutrition-poverty-food-prices-market-monitor`. Regenerate after model-verify.
+# caution: Rows are market price observations by commodity, market, currency, and period; compare prices only within compatible commodity_code, market_code, and currency_code values.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: market_code
+    type: BIGINT
+  - name: market_name
+    type: VARCHAR
+  - name: commodity_code
+    type: BIGINT
+  - name: commodity_name
+    type: VARCHAR
+  - name: commodity_category
+    type: VARCHAR
+  - name: currency_code
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: price_flag
+    type: VARCHAR
+  - name: price_type
+    type: VARCHAR
+  - name: price
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP

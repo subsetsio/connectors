@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-climate-rainfall`. Regenerate after model-verify.
+# caution: Rows mix aggregation periods and administrative levels; filter aggregation_period and admin_level before comparing rainfall values.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: aggregation_period
+    type: VARCHAR
+  - name: provider_admin1_code
+    type: VARCHAR
+  - name: provider_admin2_code
+    type: VARCHAR
+  - name: rainfall
+    type: DOUBLE
+  - name: rainfall_long_term_average
+    type: DOUBLE
+  - name: rainfall_anomaly_pct
+    type: DOUBLE
+  - name: number_pixels
+    type: BIGINT
+  - name: version
+    type: VARCHAR
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP

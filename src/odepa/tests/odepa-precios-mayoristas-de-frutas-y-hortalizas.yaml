@@ -1,6 +1,9 @@
 spec_id: odepa-precios-mayoristas-de-frutas-y-hortalizas
 status: active
 tests:
+  - freshness: {col: Fecha, reaches: today - 14d}
+    reason: wholesale fruit and vegetable prices are published on regular market days
+    certainty: 85
   - not_null: Fecha
     reason: each wholesale produce price is stamped with its capture date
     certainty: 98

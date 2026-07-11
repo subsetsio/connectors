@@ -18,3 +18,6 @@ tests:
     hi: 2
   reason: HAPI admin levels are 0/1/2
   certainty: 90
+- freshness: {col: reference_period_start, reaches: today - 3y}
+  reason: HAPI humanitarian-needs observations should include a recent reference period, allowing for uneven country update schedules.
+  certainty: 70

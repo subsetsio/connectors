@@ -25,3 +25,6 @@ tests:
     hi: 180
   certainty: 90
   severity: warn
+- freshness: {col: reference_period_start, reaches: today - 400d}
+  reason: HAPI food-price market monitoring should include recent price observation periods.
+  certainty: 70

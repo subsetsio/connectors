@@ -23,3 +23,6 @@ tests:
     lo: 0
     hi: 2
   certainty: 90
+- freshness: {col: reference_period_start, reaches: today - 400d}
+  reason: HAPI conflict-event aggregates should include recent event periods.
+  certainty: 70

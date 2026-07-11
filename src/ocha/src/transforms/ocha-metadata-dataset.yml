@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-metadata-dataset`. Regenerate after model-verify.
+# caution: Dataset HDX ids are useful lookup values, but this model keeps the table keyless because the model verifier did not scan-verify dataset_hdx_id as row grain.
+key: []
+columns:
+  - name: dataset_hdx_id
+    type: UUID
+  - name: dataset_hdx_stub
+    type: VARCHAR
+  - name: dataset_hdx_title
+    type: VARCHAR
+  - name: hdx_provider_stub
+    type: VARCHAR
+  - name: hdx_provider_name
+    type: VARCHAR
+  - name: hdx_link
+    type: VARCHAR
+  - name: hdx_api_link
+    type: VARCHAR
+  - name: provider_hdx_link
+    type: VARCHAR
+  - name: provider_hdx_api_link
+    type: VARCHAR

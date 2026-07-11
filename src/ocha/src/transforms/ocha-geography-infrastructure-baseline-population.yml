@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ocha-geography-infrastructure-baseline-population`. Regenerate after model-verify.
+# caution: Rows mix administrative levels, gender, and age ranges; filter admin_level, gender, min_age, and max_age before summing population.
+key: []
+temporal: reference_period_start
+sort: [reference_period_start]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: admin1_code
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin2_code
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin_level
+    type: BIGINT
+  - name: resource_hdx_id
+    type: UUID
+  - name: gender
+    type: VARCHAR
+  - name: age_range
+    type: VARCHAR
+  - name: min_age
+    type: BIGINT
+  - name: max_age
+    type: BIGINT
+  - name: population
+    type: BIGINT
+  - name: reference_period_start
+    type: TIMESTAMP
+  - name: reference_period_end
+    type: TIMESTAMP
