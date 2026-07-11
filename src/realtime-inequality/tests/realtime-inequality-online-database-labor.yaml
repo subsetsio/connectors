@@ -8,7 +8,7 @@ tests:
   - not_null: demo_type
   - column_type: {col: year, type: integer}
   - column_type: {col: month, type: integer}
-  - column_type: {col: labor_income, type: float}
+  - column_type: {col: labor_income, type: integer}
   - between: {col: year, lo: 1976, hi: current_year()}
     reason: labor distribution series share the source's 1976-present monthly horizon.
     certainty: 95
