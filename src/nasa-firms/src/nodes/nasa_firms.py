@@ -37,7 +37,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -262,83 +261,10 @@ def fetch_viirs(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="nasa-firms-modis-detections", fn=fetch_modis, kind="download"),
-    NodeSpec(id="nasa-firms-viirs-detections", fn=fetch_viirs, kind="download"),
-]
-
-
-# --- transforms — one published Delta table per family ------------------------
-# Thin parse-and-type pass over the glob-unioned batches. Year buckets are
-# immutable and non-overlapping and the recent feed is distinct-platform, so no
-# dedup window is needed. acq_date is a clean YYYY-MM-DD string in every product.
-
-_MODIS_SQL = '''
-WITH base AS (
-    SELECT *, TRY_CAST(acq_date AS DATE) AS d
-    FROM "nasa-firms-modis-detections"
-)
-SELECT
-    country,
-    latitude,
-    longitude,
-    d                                   AS acq_date,
-    acq_time,
-    CAST(year(d) AS SMALLINT)           AS year,
-    satellite,
-    instrument,
-    TRY_CAST(confidence AS SMALLINT)    AS confidence,
-    version,
-    brightness,
-    bright_t31,
-    scan,
-    track,
-    frp,
-    daynight,
-    type
-FROM base
-WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND d IS NOT NULL
-'''
-
-_VIIRS_SQL = '''
-WITH base AS (
-    SELECT *, TRY_CAST(acq_date AS DATE) AS d
-    FROM "nasa-firms-viirs-detections"
-)
-SELECT
-    country,
-    latitude,
-    longitude,
-    d                                   AS acq_date,
-    acq_time,
-    CAST(year(d) AS SMALLINT)           AS year,
-    satellite,
-    instrument,
-    CASE lower(confidence)
-        WHEN 'l' THEN 'low'
-        WHEN 'n' THEN 'nominal'
-        WHEN 'h' THEN 'high'
-        ELSE lower(confidence)
-    END                                 AS confidence,
-    version,
-    bright_ti4,
-    bright_ti5,
-    scan,
-    track,
-    frp,
-    daynight,
-    type
-FROM base
-WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND d IS NOT NULL
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nasa-firms-modis-detections-transform",
-        deps=["nasa-firms-modis-detections"],
-        sql=_MODIS_SQL,
-    ),
-    SqlNodeSpec(
-        id="nasa-firms-viirs-detections-transform",
-        deps=["nasa-firms-viirs-detections"],
-        sql=_VIIRS_SQL,
+    NodeSpec(
+        id="nasa-firms-viirs-detections",
+        fn=fetch_viirs,
+        kind="download",
+        deps=("nasa-firms-modis-detections",),
     ),
 ]
