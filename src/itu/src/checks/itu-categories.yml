@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `itu-categories`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [category, sub_category, code_id]
+checks:
+  - kind: unique
+    columns: [category, sub_category, code_id]
+  - kind: not_null
+    col: category
+  - kind: not_null
+    col: sub_category
+  - kind: not_null
+    col: code_id
+  - kind: row_floor
+    min: 95
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
