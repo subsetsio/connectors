@@ -1,0 +1,48 @@
+# Each table is one DBEDT leaf category in long time-series form.
+# Rows mix measures, geographies, units, frequencies, and seasonal-adjustment states.
+key: [series_id, date]
+temporal: date
+sort: [date, series_id]
+columns:
+  - name: series_id
+    type: BIGINT
+    description: UHERO series identifier.
+  - name: series_name
+    type: VARCHAR
+    description: UHERO series code including measurement, geography, and frequency.
+  - name: title
+    type: VARCHAR
+    description: Source title for the measured series.
+  - name: measurement_id
+    type: BIGINT
+    description: UHERO measurement identifier for the series.
+  - name: measurement_name
+    type: VARCHAR
+    description: Source measurement name.
+  - name: frequency
+    type: VARCHAR
+    description: Observation frequency code, typically A, Q, or M.
+  - name: units_label
+    type: VARCHAR
+    description: Source unit label for value.
+  - name: seasonal_adjustment
+    type: VARCHAR
+    description: Source seasonal adjustment flag.
+  - name: geo_fips
+    type: VARCHAR
+    description: FIPS code for the Hawaii geography.
+  - name: geo_name
+    type: VARCHAR
+    description: Source geography name.
+  - name: geo_handle
+    type: VARCHAR
+    description: Source geography handle.
+  - name: source_description
+    type: VARCHAR
+    description: Source agency description reported by UHERO/DBEDT.
+  - name: date
+    type: DATE
+    description: Observation period start date.
+  - name: value
+    type: DOUBLE
+    description: Observed numeric value in units_label.
