@@ -16,6 +16,10 @@ its slice from the same corpus fetch:
   - targets     : the 169 SDG targets (universal taxonomy, deduped across areas)
   - indicators  : one row per (indicator, area) — id + description
   - values      : long-format observations (indicator x area x year x disaggregation)
+
+The live corpus contains a small number of malformed Mainland indicator records
+with no indicator id. Those rows and their observations are skipped because they
+cannot be keyed or joined back to the SDG taxonomy.
 """
 
 import re
@@ -135,8 +139,10 @@ def fetch_indicators(node_id: str) -> None:
     for area in sorted(data.keys()):
         for ind in data[area].get("sdg", {}).get("indicators", []):
             iid = ind.get("id")
+            if iid is None:
+                continue
             rows.append({
-                "indicator_id": None if iid is None else str(iid),
+                "indicator_id": str(iid),
                 "area": area,
                 "description": ind.get("description"),
             })
@@ -149,7 +155,10 @@ def fetch_values(node_id: str) -> None:
     seen = {}  # (indicator_id, area, year, disaggregation) -> row; keep first non-null value
     for area in sorted(data.keys()):
         for ind in data[area].get("sdg", {}).get("indicators", []):
-            iid = None if ind.get("id") is None else str(ind.get("id"))
+            iid = ind.get("id")
+            if iid is None:
+                continue
+            iid = str(iid)
             for series in (ind.get("data") or []):
                 label = _disaggregation_label(series)
                 for ykey, obs in (series.get("data") or {}).items():

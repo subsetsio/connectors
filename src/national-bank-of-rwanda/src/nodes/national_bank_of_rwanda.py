@@ -8,6 +8,7 @@ from datetime import date, datetime
 from urllib.parse import urljoin
 
 import pyarrow as pa
+import xlrd
 from openpyxl import load_workbook
 
 from constants import CURRENCIES, DOCUMENT_ENDPOINTS, DOCUMENT_ENTITY_IDS
@@ -120,6 +121,20 @@ def _find_latest_document(entity_id: str) -> dict:
 
 
 def _workbook_cells(entity_id: str, record: dict, source_url: str, content: bytes) -> list[dict]:
+    source_file = (record.get("file") or "").strip()
+    release_name = (record.get("name") or record.get("title") or "").strip()
+    modified_date = _parse_modified_date(record.get("date_last_modified"))
+    rows: list[dict] = []
+
+    if content.startswith(b"PK\x03\x04"):
+        return _xlsx_cells(entity_id, record, source_url, content)
+    if content.startswith(b"\xd0\xcf\x11\xe0"):
+        return _xls_cells(entity_id, record, source_url, content)
+
+    raise AssertionError(f"{source_url} is not an Excel workbook")
+
+
+def _xlsx_cells(entity_id: str, record: dict, source_url: str, content: bytes) -> list[dict]:
     workbook = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
     source_file = (record.get("file") or "").strip()
     release_name = (record.get("name") or record.get("title") or "").strip()
@@ -143,6 +158,39 @@ def _workbook_cells(entity_id: str, record: dict, source_url: str, content: byte
                     "row_number": cell.row,
                     "column_number": cell.column,
                     "cell_ref": cell.coordinate,
+                    "cell_value": value,
+                })
+
+    return rows
+
+
+def _xls_cells(entity_id: str, record: dict, source_url: str, content: bytes) -> list[dict]:
+    workbook = xlrd.open_workbook(file_contents=content)
+    source_file = (record.get("file") or "").strip()
+    release_name = (record.get("name") or record.get("title") or "").strip()
+    modified_date = _parse_modified_date(record.get("date_last_modified"))
+    rows: list[dict] = []
+
+    for sheet in workbook.sheets():
+        for row_idx in range(sheet.nrows):
+            for col_idx in range(sheet.ncols):
+                cell = sheet.cell(row_idx, col_idx)
+                value = _xlrd_cell_value(cell, workbook.datemode)
+                if value is None:
+                    continue
+                row_number = row_idx + 1
+                column_number = col_idx + 1
+                rows.append({
+                    "source_entity_id": entity_id,
+                    "source_endpoint": record.get("_endpoint"),
+                    "source_url": source_url,
+                    "source_file": source_file,
+                    "release_name": release_name,
+                    "source_modified_date": modified_date,
+                    "sheet_name": sheet.name,
+                    "row_number": row_number,
+                    "column_number": column_number,
+                    "cell_ref": f"{_excel_col(column_number)}{row_number}",
                     "cell_value": value,
                 })
 
@@ -197,6 +245,30 @@ def _cell_value(value) -> str | None:
         return value.isoformat()
     text = str(value).strip()
     return text or None
+
+
+def _xlrd_cell_value(cell, datemode: int) -> str | None:
+    if cell.ctype in (xlrd.XL_CELL_EMPTY, xlrd.XL_CELL_BLANK):
+        return None
+    if cell.ctype == xlrd.XL_CELL_DATE:
+        try:
+            return xlrd.xldate_as_datetime(cell.value, datemode).isoformat()
+        except (OverflowError, ValueError, xlrd.XLDateError):
+            return str(cell.value)
+    if cell.ctype == xlrd.XL_CELL_BOOLEAN:
+        return "true" if cell.value else "false"
+    if cell.ctype == xlrd.XL_CELL_NUMBER and float(cell.value).is_integer():
+        return str(int(cell.value))
+    text = str(cell.value).strip()
+    return text or None
+
+
+def _excel_col(number: int) -> str:
+    label = ""
+    while number:
+        number, remainder = divmod(number - 1, 26)
+        label = chr(65 + remainder) + label
+    return label
 
 
 def _s(value) -> str | None:

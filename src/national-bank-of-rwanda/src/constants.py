@@ -34,7 +34,6 @@ DOCUMENT_ENTITY_IDS = [
     "depository-corporation-survey",
     "insurance-sector-indicators",
     "interbank-market",
-    "interest-rate-structure",
     "international-investment-position",
     "internet-banking-statistics",
     "microfinance-indicators",
