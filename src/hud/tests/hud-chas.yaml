@@ -1,6 +1,9 @@
 spec_id: hud-chas
 status: active
 tests:
+  - freshness: {col: fiscal_year, reaches: 2022}
+    reason: CHAS county ACS vintages are released with a multi-year lag; the connector should still reach a recent 5-year vintage.
+    certainty: 85
   - not_null: fiscal_year
     reason: every ingested row is stamped with its source workbook's fiscal year on parse.
     certainty: 95

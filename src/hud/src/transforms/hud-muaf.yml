@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-muaf`. Regenerate after model-verify.
+# caution: Utility allowance factors are program adjustment factors by HUD area; the geography fields are labels for the adjustment area rather than a full county dimension.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: oil
+    type: DOUBLE
+  - name: natural_gas
+    type: DOUBLE
+  - name: electricity
+    type: DOUBLE
+  - name: water_sewer_trash
+    type: DOUBLE
+  - name: col_0
+    type: VARCHAR
+  - name: electric
+    type: DOUBLE
+  - name: fiscal_year
+    type: BIGINT

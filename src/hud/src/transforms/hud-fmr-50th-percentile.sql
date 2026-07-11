@@ -1,0 +1,48 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: 50th percentile rent rows mix county and FMR-area records; choose the intended geographic level before aggregation.
+SELECT
+    "fips2010",
+    "rent50_0",
+    "rent50_1",
+    "rent50_2",
+    "rent50_3",
+    "rent50_4",
+    "state",
+    "cbsasub18",
+    "areaname18",
+    "county",
+    "cousub",
+    "cntyname",
+    "name",
+    "pop2010",
+    "hu2010",
+    "state_alpha",
+    "cbsasub19",
+    "areaname19",
+    "cbsasub20",
+    "areaname20",
+    "pop2017",
+    "hu2017",
+    "cbsasub21",
+    "areaname21",
+    "state_code",
+    "county_code",
+    "county_sub_code",
+    "town_name",
+    "areaname22",
+    "rent_50_0",
+    "rent_50_1",
+    "rent_50_2",
+    "rent_50_3",
+    "rent_50_4",
+    "cbsasub22",
+    "hud_areaname",
+    "hud_area_code",
+    "pop2020",
+    "fips2025",
+    "pop2023",
+    "fiscal_year"
+FROM "hud-fmr-50th-percentile"

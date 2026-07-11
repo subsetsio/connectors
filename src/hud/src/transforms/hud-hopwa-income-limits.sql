@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: HOPWA income limits are eligibility-area records, not a purely county-level geography.
+SELECT
+    "fips2010",
+    "state",
+    "county",
+    "cbsasub",
+    "areaname",
+    "lim30_p1",
+    "lim30_p2",
+    "lim30_p3",
+    "lim30_p4",
+    "lim30_p5",
+    "lim30_p6",
+    "lim30_p7",
+    "lim30_p8",
+    "lim50_p1",
+    "lim50_p2",
+    "lim50_p3",
+    "lim50_p4",
+    "lim50_p5",
+    "lim50_p6",
+    "lim50_p7",
+    "lim50_p8",
+    "lim60_p1",
+    "lim60_p2",
+    "lim60_p3",
+    "lim60_p4",
+    "lim60_p5",
+    "lim60_p6",
+    "lim60_p7",
+    "lim60_p8",
+    "lim80_p1",
+    "lim80_p2",
+    "lim80_p3",
+    "lim80_p4",
+    "lim80_p5",
+    "lim80_p6",
+    "lim80_p7",
+    "lim80_p8",
+    "statename",
+    "fips2025",
+    "fiscal_year"
+FROM "hud-hopwa-income-limits"

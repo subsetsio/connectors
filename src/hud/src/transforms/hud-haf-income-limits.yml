@@ -1,0 +1,59 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-haf-income-limits`. Regenerate after model-verify.
+# caution: Homeowner Assistance Fund income-limit rows are eligibility-area records, not a purely county-level geography.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: fips2010
+    type: VARCHAR
+  - name: state
+    type: DOUBLE
+  - name: county
+    type: BIGINT
+  - name: areaname
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: county_town_name
+    type: VARCHAR
+  - name: cbsasub
+    type: VARCHAR
+  - name: median
+    type: DOUBLE
+  - name: haf100_p1
+    type: DOUBLE
+  - name: haf100_p2
+    type: DOUBLE
+  - name: haf100_p3
+    type: DOUBLE
+  - name: haf100_p4
+    type: DOUBLE
+  - name: haf100_p5
+    type: DOUBLE
+  - name: haf100_p6
+    type: DOUBLE
+  - name: haf100_p7
+    type: DOUBLE
+  - name: haf100_p8
+    type: DOUBLE
+  - name: haf150_p1
+    type: DOUBLE
+  - name: haf150_p2
+    type: DOUBLE
+  - name: haf150_p3
+    type: DOUBLE
+  - name: haf150_p4
+    type: DOUBLE
+  - name: haf150_p5
+    type: DOUBLE
+  - name: haf150_p6
+    type: DOUBLE
+  - name: haf150_p7
+    type: DOUBLE
+  - name: haf150_p8
+    type: DOUBLE
+  - name: fips
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT

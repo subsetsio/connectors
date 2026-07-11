@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-aaf`. Regenerate after model-verify.
+# caution: Annual adjustment factor rows mix metropolitan, county, and nonmetropolitan HUD area definitions; filter to the intended area coding before comparing or aggregating areas.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: northeast_region
+    type: VARCHAR
+  - name: col_1
+    type: VARCHAR
+  - name: "1_024950915508538"
+    type: DOUBLE
+  - name: "1_0204239093699472"
+    type: DOUBLE
+  - name: "1_029"
+    type: DOUBLE
+  - name: "1_024"
+    type: DOUBLE
+  - name: "1_021648148503259"
+    type: DOUBLE
+  - name: "1_0279111523444415"
+    type: DOUBLE
+  - name: region_cpi_metropolitan_area_name
+    type: VARCHAR
+  - name: metropolitan_component_areas
+    type: VARCHAR
+  - name: highest_cost_utility_included
+    type: DOUBLE
+  - name: highest_cost_utility_excluded
+    type: DOUBLE
+  - name: region_metropolitan_area_name
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT

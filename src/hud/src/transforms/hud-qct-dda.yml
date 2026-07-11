@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-qct-dda`. Regenerate after model-verify.
+# caution: QCT and DDA designations are annual eligibility/reference designations; compare within a fiscal year before using them as a geography lookup.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: cbsa
+    type: BIGINT
+  - name: statefp
+    type: VARCHAR
+  - name: cnty
+    type: VARCHAR
+  - name: stcnty
+    type: VARCHAR
+  - name: tract
+    type: VARCHAR
+  - name: splittr
+    type: BIGINT
+  - name: qct_id
+    type: VARCHAR
+  - name: fips
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT

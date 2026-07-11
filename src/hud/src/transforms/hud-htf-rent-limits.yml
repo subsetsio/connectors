@@ -1,0 +1,175 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-htf-rent-limits`. Regenerate after model-verify.
+# caution: Housing Trust Fund rent limits are eligibility-area records; HUD areas may combine or split county geography depending on the program year.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: state
+    type: DOUBLE
+  - name: statename
+    type: VARCHAR
+  - name: county
+    type: DOUBLE
+  - name: cbsasub
+    type: VARCHAR
+  - name: areaname
+    type: VARCHAR
+  - name: fips2010
+    type: VARCHAR
+  - name: lim30_pg_p1
+    type: DOUBLE
+  - name: lim30_pg_p2
+    type: DOUBLE
+  - name: lim30_pg_p3
+    type: DOUBLE
+  - name: lim30_pg_p4
+    type: DOUBLE
+  - name: lim30_pg_p5
+    type: DOUBLE
+  - name: lim30_pg_p6
+    type: DOUBLE
+  - name: lim30_pg_p7
+    type: DOUBLE
+  - name: lim30_pg_p8
+    type: DOUBLE
+  - name: htfrent_0
+    type: DOUBLE
+  - name: htfrent_1
+    type: DOUBLE
+  - name: htfrent_2
+    type: DOUBLE
+  - name: htfrent_3
+    type: DOUBLE
+  - name: htfrent_4
+    type: DOUBLE
+  - name: htfrent_5
+    type: DOUBLE
+  - name: htfrent_6
+    type: DOUBLE
+  - name: rent30_0
+    type: DOUBLE
+  - name: rent30_1
+    type: DOUBLE
+  - name: rent30_2
+    type: DOUBLE
+  - name: rent30_3
+    type: DOUBLE
+  - name: rent30_4
+    type: DOUBLE
+  - name: rent30_5
+    type: DOUBLE
+  - name: rent30_6
+    type: DOUBLE
+  - name: rent_pg_0
+    type: DOUBLE
+  - name: rent_pg_1
+    type: DOUBLE
+  - name: rent_pg_2
+    type: DOUBLE
+  - name: rent_pg_3
+    type: DOUBLE
+  - name: rent_pg_4
+    type: DOUBLE
+  - name: rent_pg_5
+    type: DOUBLE
+  - name: rent_pg_6
+    type: DOUBLE
+  - name: rent_pgak_0
+    type: DOUBLE
+  - name: rent_pgak_1
+    type: DOUBLE
+  - name: rent_pgak_2
+    type: DOUBLE
+  - name: rent_pgak_3
+    type: DOUBLE
+  - name: rent_pgak_4
+    type: DOUBLE
+  - name: rent_pgak_5
+    type: DOUBLE
+  - name: rent_pgak_6
+    type: DOUBLE
+  - name: rent_pghi_0
+    type: DOUBLE
+  - name: rent_pghi_1
+    type: DOUBLE
+  - name: rent_pghi_2
+    type: DOUBLE
+  - name: rent_pghi_3
+    type: DOUBLE
+  - name: rent_pghi_4
+    type: DOUBLE
+  - name: rent_pghi_5
+    type: DOUBLE
+  - name: rent_pghi_6
+    type: DOUBLE
+  - name: lim30_p1
+    type: DOUBLE
+  - name: lim30_p2
+    type: DOUBLE
+  - name: lim30_p3
+    type: DOUBLE
+  - name: lim30_p4
+    type: DOUBLE
+  - name: lim30_p5
+    type: DOUBLE
+  - name: lim30_p6
+    type: DOUBLE
+  - name: lim30_p7
+    type: DOUBLE
+  - name: lim30_p8
+    type: DOUBLE
+  - name: povadj_p1
+    type: JSON
+  - name: povadj_p2
+    type: JSON
+  - name: povadj_p3
+    type: JSON
+  - name: povadj_p4
+    type: JSON
+  - name: povadj_p5
+    type: JSON
+  - name: povadj_p6
+    type: JSON
+  - name: povadj_p7
+    type: JSON
+  - name: povadj_p8
+    type: JSON
+  - name: povak_adj_p1
+    type: JSON
+  - name: povak_adj_p2
+    type: JSON
+  - name: povak_adj_p3
+    type: JSON
+  - name: povak_adj_p4
+    type: JSON
+  - name: povak_adj_p5
+    type: JSON
+  - name: povak_adj_p6
+    type: JSON
+  - name: povak_adj_p7
+    type: JSON
+  - name: povak_adj_p8
+    type: JSON
+  - name: povhi_adj_p1
+    type: JSON
+  - name: povhi_adj_p2
+    type: JSON
+  - name: povhi_adj_p3
+    type: JSON
+  - name: povhi_adj_p4
+    type: JSON
+  - name: povhi_adj_p5
+    type: JSON
+  - name: povhi_adj_p6
+    type: JSON
+  - name: povhi_adj_p7
+    type: JSON
+  - name: povhi_adj_p8
+    type: JSON
+  - name: fips2025
+    type: JSON
+  - name: fips
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

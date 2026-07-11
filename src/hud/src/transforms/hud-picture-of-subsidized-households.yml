@@ -1,0 +1,193 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-picture-of-subsidized-households`. Regenerate after model-verify.
+# caution: This table is the county summary extract of Picture of Subsidized Households; measures describe overlapping assisted-housing programs and household characteristics and should not be summed across program-specific columns as if they were exclusive categories.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: gsl
+    type: VARCHAR
+  - name: states
+    type: VARCHAR
+  - name: entities
+    type: VARCHAR
+  - name: sumlevel
+    type: DOUBLE
+  - name: program_label
+    type: VARCHAR
+  - name: program
+    type: DOUBLE
+  - name: sub_program
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: code
+    type: VARCHAR
+  - name: total_units
+    type: VARCHAR
+  - name: pct_occupied
+    type: DOUBLE
+  - name: number_reported
+    type: DOUBLE
+  - name: pct_reported
+    type: DOUBLE
+  - name: months_since_report
+    type: DOUBLE
+  - name: pct_movein
+    type: DOUBLE
+  - name: people_per_unit
+    type: DOUBLE
+  - name: people_total
+    type: DOUBLE
+  - name: rent_per_month
+    type: DOUBLE
+  - name: spending_per_month
+    type: DOUBLE
+  - name: hh_income
+    type: DOUBLE
+  - name: person_income
+    type: DOUBLE
+  - name: pct_lt5k
+    type: DOUBLE
+  - name: pct_5k_lt10k
+    type: DOUBLE
+  - name: pct_10k_lt15k
+    type: DOUBLE
+  - name: pct_15k_lt20k
+    type: DOUBLE
+  - name: pct_ge20k
+    type: DOUBLE
+  - name: pct_wage_major
+    type: DOUBLE
+  - name: pct_welfare_major
+    type: DOUBLE
+  - name: pct_other_major
+    type: DOUBLE
+  - name: pct_median
+    type: DOUBLE
+  - name: pct_lt50_median
+    type: DOUBLE
+  - name: pct_lt30_median
+    type: DOUBLE
+  - name: pct_2adults
+    type: DOUBLE
+  - name: pct_1adult
+    type: DOUBLE
+  - name: pct_female_head
+    type: DOUBLE
+  - name: pct_female_head_child
+    type: DOUBLE
+  - name: pct_disabled_lt62
+    type: DOUBLE
+  - name: pct_disabled_ge62
+    type: DOUBLE
+  - name: pct_disabled_all
+    type: DOUBLE
+  - name: pct_lt24_head
+    type: DOUBLE
+  - name: pct_age25_50
+    type: DOUBLE
+  - name: pct_age51_61
+    type: DOUBLE
+  - name: pct_age62plus
+    type: DOUBLE
+  - name: pct_age85plus
+    type: DOUBLE
+  - name: pct_minority
+    type: DOUBLE
+  - name: pct_black
+    type: DOUBLE
+  - name: pct_native_american
+    type: DOUBLE
+  - name: pct_asian_pacific
+    type: DOUBLE
+  - name: pct_hispanic
+    type: DOUBLE
+  - name: months_waiting
+    type: DOUBLE
+  - name: months_from_movein
+    type: DOUBLE
+  - name: pct_utility_allow
+    type: DOUBLE
+  - name: ave_util_allow
+    type: DOUBLE
+  - name: pct_bed1
+    type: DOUBLE
+  - name: pct_bed2
+    type: DOUBLE
+  - name: pct_bed3
+    type: DOUBLE
+  - name: pct_overhoused
+    type: DOUBLE
+  - name: tpoverty
+    type: DOUBLE
+  - name: tminority
+    type: DOUBLE
+  - name: tpct_ownsfd
+    type: DOUBLE
+  - name: fedhse
+    type: VARCHAR
+  - name: cbsa
+    type: VARCHAR
+  - name: place
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: pha_total_units
+    type: VARCHAR
+  - name: ha_size
+    type: VARCHAR
+  - name: pct_black_nonhsp
+    type: JSON
+  - name: pct_native_american_nonhsp
+    type: JSON
+  - name: pct_asian_pacific_nonhsp
+    type: JSON
+  - name: pct_white_nothsp
+    type: JSON
+  - name: pct_black_hsp
+    type: JSON
+  - name: pct_wht_hsp
+    type: JSON
+  - name: pct_oth_hsp
+    type: JSON
+  - name: pct_multi
+    type: JSON
+  - name: quarter
+    type: JSON
+  - name: total_occupied
+    type: JSON
+  - name: pct_noincome
+    type: JSON
+  - name: pct_20k_lt25k
+    type: JSON
+  - name: pct_25k_lt30k
+    type: JSON
+  - name: pct_30k_lt40k
+    type: JSON
+  - name: pct_ge40k
+    type: JSON
+  - name: pct_lt80_median
+    type: JSON
+  - name: pct_chldrn0_5
+    type: JSON
+  - name: pct_chldrn6_12
+    type: JSON
+  - name: pct_chldrn13_17
+    type: JSON
+  - name: pct_0chldrn
+    type: JSON
+  - name: pct_female_head_child0_5
+    type: JSON
+  - name: pct_disabled_head
+    type: JSON
+  - name: pct_disabled_mbr
+    type: JSON
+  - name: pct_lt62_head
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

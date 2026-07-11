@@ -1,0 +1,91 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-income-limits`. Regenerate after model-verify.
+# caution: Section 8 income-limit rows are HUD eligibility areas and may not map one-to-one to counties in every fiscal year.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: state_alpha
+    type: VARCHAR
+  - name: fips2010
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: cbsasub
+    type: VARCHAR
+  - name: metro_area_name
+    type: VARCHAR
+  - name: fips2000
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: median
+    type: DOUBLE
+  - name: l50_1
+    type: DOUBLE
+  - name: l50_2
+    type: DOUBLE
+  - name: l50_3
+    type: DOUBLE
+  - name: l50_4
+    type: DOUBLE
+  - name: l50_5
+    type: DOUBLE
+  - name: l50_6
+    type: DOUBLE
+  - name: l50_7
+    type: DOUBLE
+  - name: l50_8
+    type: DOUBLE
+  - name: eli_1
+    type: DOUBLE
+  - name: eli_2
+    type: DOUBLE
+  - name: eli_3
+    type: DOUBLE
+  - name: eli_4
+    type: DOUBLE
+  - name: eli_5
+    type: DOUBLE
+  - name: eli_6
+    type: DOUBLE
+  - name: eli_7
+    type: DOUBLE
+  - name: eli_8
+    type: DOUBLE
+  - name: l80_1
+    type: DOUBLE
+  - name: l80_2
+    type: DOUBLE
+  - name: l80_3
+    type: DOUBLE
+  - name: l80_4
+    type: DOUBLE
+  - name: l80_5
+    type: DOUBLE
+  - name: l80_6
+    type: DOUBLE
+  - name: l80_7
+    type: DOUBLE
+  - name: l80_8
+    type: DOUBLE
+  - name: msa
+    type: DOUBLE
+  - name: county_town_name
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: metro
+    type: DOUBLE
+  - name: fips
+    type: JSON
+  - name: stusps
+    type: JSON
+  - name: hud_area_code
+    type: JSON
+  - name: hud_area_name
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

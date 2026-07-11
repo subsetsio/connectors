@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-rfif`. Regenerate after model-verify.
+# caution: Renewal Funding Inflation Factor rows use HUD area definitions for voucher funding; do not treat the area code as a stable county-only key across years.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: fmr_area_code
+    type: VARCHAR
+  - name: fmr_area_name
+    type: VARCHAR
+  - name: fips2010
+    type: VARCHAR
+  - name: county_town_name
+    type: VARCHAR
+  - name: rfif
+    type: DOUBLE
+  - name: fips2025
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

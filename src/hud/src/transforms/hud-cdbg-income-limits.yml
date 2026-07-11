@@ -1,0 +1,95 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-cdbg-income-limits`. Regenerate after model-verify.
+# caution: Income-limit rows use HUD program area definitions that can cross county boundaries; the area columns should be treated as eligibility areas, not simple county geography.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: fips2010
+    type: VARCHAR
+  - name: state
+    type: DOUBLE
+  - name: county
+    type: DOUBLE
+  - name: cbsasub
+    type: VARCHAR
+  - name: areaname
+    type: VARCHAR
+  - name: lim30_p1
+    type: DOUBLE
+  - name: lim30_p2
+    type: DOUBLE
+  - name: lim30_p3
+    type: DOUBLE
+  - name: lim30_p4
+    type: DOUBLE
+  - name: lim30_p5
+    type: DOUBLE
+  - name: lim30_p6
+    type: DOUBLE
+  - name: lim30_p7
+    type: DOUBLE
+  - name: lim30_p8
+    type: DOUBLE
+  - name: lim50_p1
+    type: DOUBLE
+  - name: lim50_p2
+    type: DOUBLE
+  - name: lim50_p3
+    type: DOUBLE
+  - name: lim50_p4
+    type: DOUBLE
+  - name: lim50_p5
+    type: DOUBLE
+  - name: lim50_p6
+    type: DOUBLE
+  - name: lim50_p7
+    type: DOUBLE
+  - name: lim50_p8
+    type: DOUBLE
+  - name: lim60_p1
+    type: DOUBLE
+  - name: lim60_p2
+    type: DOUBLE
+  - name: lim60_p3
+    type: DOUBLE
+  - name: lim60_p4
+    type: DOUBLE
+  - name: lim60_p5
+    type: DOUBLE
+  - name: lim60_p6
+    type: DOUBLE
+  - name: lim60_p7
+    type: DOUBLE
+  - name: lim60_p8
+    type: DOUBLE
+  - name: lim80_p1
+    type: DOUBLE
+  - name: lim80_p2
+    type: DOUBLE
+  - name: lim80_p3
+    type: DOUBLE
+  - name: lim80_p4
+    type: DOUBLE
+  - name: lim80_p5
+    type: DOUBLE
+  - name: lim80_p6
+    type: DOUBLE
+  - name: lim80_p7
+    type: DOUBLE
+  - name: lim80_p8
+    type: DOUBLE
+  - name: statename
+    type: VARCHAR
+  - name: hud_area_name
+    type: JSON
+  - name: county_town_name
+    type: JSON
+  - name: county_name
+    type: JSON
+  - name: fips2025
+    type: JSON
+  - name: fips
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

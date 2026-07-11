@@ -1,0 +1,16 @@
+spec_id: hungarian-national-bank-ksz-2021
+status: active
+tests:
+  - not_null: entity_id
+  - not_null: sheet_name
+  - not_null: row_number
+  - not_null: column_number
+  - not_null: cell_value
+  - column_type: {col: row_number, type: integer}
+  - column_type: {col: column_number, type: integer}
+  - row_count: {min: 1}
+    reason: every published MNB statistical workbook should contain at least one non-empty cell
+    certainty: 95
+  - unique: [sheet_name, row_number, column_number]
+    reason: normalized workbook grid has one value per sheet cell coordinate
+    certainty: 95

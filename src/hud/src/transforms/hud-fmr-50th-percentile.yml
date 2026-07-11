@@ -1,0 +1,89 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-fmr-50th-percentile`. Regenerate after model-verify.
+# caution: 50th percentile rent rows mix county and FMR-area records; choose the intended geographic level before aggregation.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: fips2010
+    type: VARCHAR
+  - name: rent50_0
+    type: DOUBLE
+  - name: rent50_1
+    type: DOUBLE
+  - name: rent50_2
+    type: DOUBLE
+  - name: rent50_3
+    type: DOUBLE
+  - name: rent50_4
+    type: DOUBLE
+  - name: state
+    type: DOUBLE
+  - name: cbsasub18
+    type: VARCHAR
+  - name: areaname18
+    type: VARCHAR
+  - name: county
+    type: DOUBLE
+  - name: cousub
+    type: VARCHAR
+  - name: cntyname
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: pop2010
+    type: DOUBLE
+  - name: hu2010
+    type: DOUBLE
+  - name: state_alpha
+    type: VARCHAR
+  - name: cbsasub19
+    type: VARCHAR
+  - name: areaname19
+    type: VARCHAR
+  - name: cbsasub20
+    type: VARCHAR
+  - name: areaname20
+    type: VARCHAR
+  - name: pop2017
+    type: DOUBLE
+  - name: hu2017
+    type: DOUBLE
+  - name: cbsasub21
+    type: VARCHAR
+  - name: areaname21
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: county_sub_code
+    type: VARCHAR
+  - name: town_name
+    type: VARCHAR
+  - name: areaname22
+    type: VARCHAR
+  - name: rent_50_0
+    type: DOUBLE
+  - name: rent_50_1
+    type: DOUBLE
+  - name: rent_50_2
+    type: DOUBLE
+  - name: rent_50_3
+    type: DOUBLE
+  - name: rent_50_4
+    type: DOUBLE
+  - name: cbsasub22
+    type: VARCHAR
+  - name: hud_areaname
+    type: JSON
+  - name: hud_area_code
+    type: JSON
+  - name: pop2020
+    type: JSON
+  - name: fips2025
+    type: JSON
+  - name: pop2023
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

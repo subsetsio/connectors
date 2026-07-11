@@ -1,6 +1,9 @@
 spec_id: hawaii-dbedt-32395
 status: active
 tests:
+  - freshness: {col: date, reaches: "today - 400d"}
+    reason: DBEDT/UHERO category time series should include observations within the last annual reporting cycle; monthly and quarterly series are fresher but annual-only categories need wider slack.
+    certainty: 80
   - row_count: {min: 1}
     reason: a category/series pull of a rank-active leaf category always returns observations; an empty raw table means the category id is wrong or the endpoint/auth changed.
     certainty: 95

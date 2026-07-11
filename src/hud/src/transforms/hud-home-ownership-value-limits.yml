@@ -1,0 +1,77 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-home-ownership-value-limits`. Regenerate after model-verify.
+# caution: HOME homeownership value limits include HUD area definitions used for program eligibility and should not be interpreted as a complete county-only geography.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: metropolitan_fmr_area_name
+    type: VARCHAR
+  - name: "1_unit"
+    type: DOUBLE
+  - name: "2_unit"
+    type: DOUBLE
+  - name: "3_unit"
+    type: DOUBLE
+  - name: "4_unit"
+    type: DOUBLE
+  - name: unadjusted_median_value
+    type: DOUBLE
+  - name: years_worth_of_sales_data
+    type: VARCHAR
+  - name: number_of_sales_for_unadjusted_median
+    type: DOUBLE
+  - name: "1_unit_1"
+    type: DOUBLE
+  - name: "2_unit_1"
+    type: DOUBLE
+  - name: "3_unit_1"
+    type: DOUBLE
+  - name: "4_unit_1"
+    type: DOUBLE
+  - name: unadjusted_median_value_1
+    type: DOUBLE
+  - name: years_worth_of_sales_data_1
+    type: DOUBLE
+  - name: number_of_sales_in_time_period_for_unadjusted_median
+    type: DOUBLE
+  - name: geographic_area_used
+    type: VARCHAR
+  - name: geographic_area_used_1
+    type: VARCHAR
+  - name: state_fips
+    type: DOUBLE
+  - name: fmr_metro_code
+    type: VARCHAR
+  - name: state_county_fips
+    type: VARCHAR
+  - name: col_22
+    type: JSON
+  - name: col_23
+    type: JSON
+  - name: change_from_2014_to_existing
+    type: DOUBLE
+  - name: change_from_2014_to_new
+    type: DOUBLE
+  - name: col_19
+    type: DOUBLE
+  - name: col_20
+    type: VARCHAR
+  - name: col_21
+    type: VARCHAR
+  - name: number_of_sales_for_unadjusted_median_1
+    type: DOUBLE
+  - name: state2
+    type: VARCHAR
+  - name: metro_code
+    type: VARCHAR
+  - name: fipscounty
+    type: VARCHAR
+  - name: metropolitan_fmr_area_name_1
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT

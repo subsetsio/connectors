@@ -1,6 +1,9 @@
 spec_id: hud-muaf
 status: active
 tests:
+  - freshness: {col: fiscal_year, reaches: 2025}
+    reason: HUD program workbooks are annual fiscal-year releases; the connector should reach at least the prior fiscal year.
+    certainty: 90
   - not_null: fiscal_year
     reason: every ingested row is stamped with its source workbook's fiscal year on parse.
     certainty: 95

@@ -1,0 +1,1017 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hud-chas`. Regenerate after model-verify.
+# caution: CHAS measures are wide ACS tabulations for county vintages; columns represent different household-income, tenure, and housing-problem categories and should not be summed across overlapping category columns.
+key: [fiscal_year, geoid]
+temporal: fiscal_year
+sort: [fiscal_year, geoid]
+columns:
+  - name: source
+    type: VARCHAR
+  - name: sumlevel
+    type: VARCHAR
+  - name: geoid
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: st
+    type: VARCHAR
+  - name: cnty
+    type: VARCHAR
+  - name: t1_est1
+    type: BIGINT
+  - name: t1_est2
+    type: BIGINT
+  - name: t1_est3
+    type: BIGINT
+  - name: t1_est4
+    type: BIGINT
+  - name: t1_est5
+    type: BIGINT
+  - name: t1_est6
+    type: BIGINT
+  - name: t1_est7
+    type: BIGINT
+  - name: t1_est8
+    type: BIGINT
+  - name: t1_est9
+    type: BIGINT
+  - name: t1_est10
+    type: BIGINT
+  - name: t1_est11
+    type: BIGINT
+  - name: t1_est12
+    type: BIGINT
+  - name: t1_est13
+    type: BIGINT
+  - name: t1_est14
+    type: BIGINT
+  - name: t1_est15
+    type: BIGINT
+  - name: t1_est16
+    type: BIGINT
+  - name: t1_est17
+    type: BIGINT
+  - name: t1_est18
+    type: BIGINT
+  - name: t1_est19
+    type: BIGINT
+  - name: t1_est20
+    type: BIGINT
+  - name: t1_est21
+    type: BIGINT
+  - name: t1_est22
+    type: BIGINT
+  - name: t1_est23
+    type: BIGINT
+  - name: t1_est24
+    type: BIGINT
+  - name: t1_est25
+    type: BIGINT
+  - name: t1_est26
+    type: BIGINT
+  - name: t1_est27
+    type: BIGINT
+  - name: t1_est28
+    type: BIGINT
+  - name: t1_est29
+    type: BIGINT
+  - name: t1_est30
+    type: BIGINT
+  - name: t1_est31
+    type: BIGINT
+  - name: t1_est32
+    type: BIGINT
+  - name: t1_est33
+    type: BIGINT
+  - name: t1_est34
+    type: BIGINT
+  - name: t1_est35
+    type: BIGINT
+  - name: t1_est36
+    type: BIGINT
+  - name: t1_est37
+    type: BIGINT
+  - name: t1_est38
+    type: BIGINT
+  - name: t1_est39
+    type: BIGINT
+  - name: t1_est40
+    type: BIGINT
+  - name: t1_est41
+    type: BIGINT
+  - name: t1_est42
+    type: BIGINT
+  - name: t1_est43
+    type: BIGINT
+  - name: t1_est44
+    type: BIGINT
+  - name: t1_est45
+    type: BIGINT
+  - name: t1_est46
+    type: BIGINT
+  - name: t1_est47
+    type: BIGINT
+  - name: t1_est48
+    type: BIGINT
+  - name: t1_est49
+    type: BIGINT
+  - name: t1_est50
+    type: BIGINT
+  - name: t1_est51
+    type: BIGINT
+  - name: t1_est52
+    type: BIGINT
+  - name: t1_est53
+    type: BIGINT
+  - name: t1_est54
+    type: BIGINT
+  - name: t1_est55
+    type: BIGINT
+  - name: t1_est56
+    type: BIGINT
+  - name: t1_est57
+    type: BIGINT
+  - name: t1_est58
+    type: BIGINT
+  - name: t1_est59
+    type: BIGINT
+  - name: t1_est60
+    type: BIGINT
+  - name: t1_est61
+    type: BIGINT
+  - name: t1_est62
+    type: BIGINT
+  - name: t1_est63
+    type: BIGINT
+  - name: t1_est64
+    type: BIGINT
+  - name: t1_est65
+    type: BIGINT
+  - name: t1_est66
+    type: BIGINT
+  - name: t1_est67
+    type: BIGINT
+  - name: t1_est68
+    type: BIGINT
+  - name: t1_est69
+    type: BIGINT
+  - name: t1_est70
+    type: BIGINT
+  - name: t1_est71
+    type: BIGINT
+  - name: t1_est72
+    type: BIGINT
+  - name: t1_est73
+    type: BIGINT
+  - name: t1_est74
+    type: BIGINT
+  - name: t1_est75
+    type: BIGINT
+  - name: t1_est76
+    type: BIGINT
+  - name: t1_est77
+    type: BIGINT
+  - name: t1_est78
+    type: BIGINT
+  - name: t1_est79
+    type: BIGINT
+  - name: t1_est80
+    type: BIGINT
+  - name: t1_est81
+    type: BIGINT
+  - name: t1_est82
+    type: BIGINT
+  - name: t1_est83
+    type: BIGINT
+  - name: t1_est84
+    type: BIGINT
+  - name: t1_est85
+    type: BIGINT
+  - name: t1_est86
+    type: BIGINT
+  - name: t1_est87
+    type: BIGINT
+  - name: t1_est88
+    type: BIGINT
+  - name: t1_est89
+    type: BIGINT
+  - name: t1_est90
+    type: BIGINT
+  - name: t1_est91
+    type: BIGINT
+  - name: t1_est92
+    type: BIGINT
+  - name: t1_est93
+    type: BIGINT
+  - name: t1_est94
+    type: BIGINT
+  - name: t1_est95
+    type: BIGINT
+  - name: t1_est96
+    type: BIGINT
+  - name: t1_est97
+    type: BIGINT
+  - name: t1_est98
+    type: BIGINT
+  - name: t1_est99
+    type: BIGINT
+  - name: t1_est100
+    type: BIGINT
+  - name: t1_est101
+    type: BIGINT
+  - name: t1_est102
+    type: BIGINT
+  - name: t1_est103
+    type: BIGINT
+  - name: t1_est104
+    type: BIGINT
+  - name: t1_est105
+    type: BIGINT
+  - name: t1_est106
+    type: BIGINT
+  - name: t1_est107
+    type: BIGINT
+  - name: t1_est108
+    type: BIGINT
+  - name: t1_est109
+    type: BIGINT
+  - name: t1_est110
+    type: BIGINT
+  - name: t1_est111
+    type: BIGINT
+  - name: t1_est112
+    type: BIGINT
+  - name: t1_est113
+    type: BIGINT
+  - name: t1_est114
+    type: BIGINT
+  - name: t1_est115
+    type: BIGINT
+  - name: t1_est116
+    type: BIGINT
+  - name: t1_est117
+    type: BIGINT
+  - name: t1_est118
+    type: BIGINT
+  - name: t1_est119
+    type: BIGINT
+  - name: t1_est120
+    type: BIGINT
+  - name: t1_est121
+    type: BIGINT
+  - name: t1_est122
+    type: BIGINT
+  - name: t1_est123
+    type: BIGINT
+  - name: t1_est124
+    type: BIGINT
+  - name: t1_est125
+    type: BIGINT
+  - name: t1_est126
+    type: BIGINT
+  - name: t1_est127
+    type: BIGINT
+  - name: t1_est128
+    type: BIGINT
+  - name: t1_est129
+    type: BIGINT
+  - name: t1_est130
+    type: BIGINT
+  - name: t1_est131
+    type: BIGINT
+  - name: t1_est132
+    type: BIGINT
+  - name: t1_est133
+    type: BIGINT
+  - name: t1_est134
+    type: BIGINT
+  - name: t1_est135
+    type: BIGINT
+  - name: t1_est136
+    type: BIGINT
+  - name: t1_est137
+    type: BIGINT
+  - name: t1_est138
+    type: BIGINT
+  - name: t1_est139
+    type: BIGINT
+  - name: t1_est140
+    type: BIGINT
+  - name: t1_est141
+    type: BIGINT
+  - name: t1_est142
+    type: BIGINT
+  - name: t1_est143
+    type: BIGINT
+  - name: t1_est144
+    type: BIGINT
+  - name: t1_est145
+    type: BIGINT
+  - name: t1_est146
+    type: BIGINT
+  - name: t1_est147
+    type: BIGINT
+  - name: t1_est148
+    type: BIGINT
+  - name: t1_est149
+    type: BIGINT
+  - name: t1_est150
+    type: BIGINT
+  - name: t1_est151
+    type: BIGINT
+  - name: t1_est152
+    type: BIGINT
+  - name: t1_est153
+    type: BIGINT
+  - name: t1_est154
+    type: BIGINT
+  - name: t1_est155
+    type: BIGINT
+  - name: t1_est156
+    type: BIGINT
+  - name: t1_est157
+    type: BIGINT
+  - name: t1_est158
+    type: BIGINT
+  - name: t1_est159
+    type: BIGINT
+  - name: t1_est160
+    type: BIGINT
+  - name: t1_est161
+    type: BIGINT
+  - name: t1_est162
+    type: BIGINT
+  - name: t1_est163
+    type: BIGINT
+  - name: t1_est164
+    type: BIGINT
+  - name: t1_est165
+    type: BIGINT
+  - name: t1_est166
+    type: BIGINT
+  - name: t1_est167
+    type: BIGINT
+  - name: t1_est168
+    type: BIGINT
+  - name: t1_est169
+    type: BIGINT
+  - name: t1_est170
+    type: BIGINT
+  - name: t1_est171
+    type: BIGINT
+  - name: t1_est172
+    type: BIGINT
+  - name: t1_est173
+    type: BIGINT
+  - name: t1_est174
+    type: BIGINT
+  - name: t1_est175
+    type: BIGINT
+  - name: t1_est176
+    type: BIGINT
+  - name: t1_est177
+    type: BIGINT
+  - name: t1_est178
+    type: BIGINT
+  - name: t1_est179
+    type: BIGINT
+  - name: t1_est180
+    type: BIGINT
+  - name: t1_est181
+    type: BIGINT
+  - name: t1_est182
+    type: BIGINT
+  - name: t1_est183
+    type: BIGINT
+  - name: t1_est184
+    type: BIGINT
+  - name: t1_est185
+    type: BIGINT
+  - name: t1_est186
+    type: BIGINT
+  - name: t1_est187
+    type: BIGINT
+  - name: t1_est188
+    type: BIGINT
+  - name: t1_est189
+    type: BIGINT
+  - name: t1_est190
+    type: BIGINT
+  - name: t1_est191
+    type: BIGINT
+  - name: t1_est192
+    type: BIGINT
+  - name: t1_est193
+    type: BIGINT
+  - name: t1_est194
+    type: BIGINT
+  - name: t1_est195
+    type: BIGINT
+  - name: t1_est196
+    type: BIGINT
+  - name: t1_est197
+    type: BIGINT
+  - name: t1_est198
+    type: BIGINT
+  - name: t1_est199
+    type: BIGINT
+  - name: t1_est200
+    type: BIGINT
+  - name: t1_est201
+    type: BIGINT
+  - name: t1_est202
+    type: BIGINT
+  - name: t1_est203
+    type: BIGINT
+  - name: t1_est204
+    type: BIGINT
+  - name: t1_est205
+    type: BIGINT
+  - name: t1_est206
+    type: BIGINT
+  - name: t1_est207
+    type: BIGINT
+  - name: t1_est208
+    type: BIGINT
+  - name: t1_est209
+    type: BIGINT
+  - name: t1_est210
+    type: BIGINT
+  - name: t1_est211
+    type: BIGINT
+  - name: t1_est212
+    type: BIGINT
+  - name: t1_est213
+    type: BIGINT
+  - name: t1_est214
+    type: BIGINT
+  - name: t1_est215
+    type: BIGINT
+  - name: t1_est216
+    type: BIGINT
+  - name: t1_est217
+    type: BIGINT
+  - name: t1_est218
+    type: BIGINT
+  - name: t1_est219
+    type: BIGINT
+  - name: t1_est220
+    type: BIGINT
+  - name: t1_est221
+    type: BIGINT
+  - name: t1_est222
+    type: BIGINT
+  - name: t1_est223
+    type: BIGINT
+  - name: t1_est224
+    type: BIGINT
+  - name: t1_est225
+    type: BIGINT
+  - name: t1_est226
+    type: BIGINT
+  - name: t1_est227
+    type: BIGINT
+  - name: t1_est228
+    type: BIGINT
+  - name: t1_est229
+    type: BIGINT
+  - name: t1_est230
+    type: BIGINT
+  - name: t1_est231
+    type: BIGINT
+  - name: t1_est232
+    type: BIGINT
+  - name: t1_est233
+    type: BIGINT
+  - name: t1_est234
+    type: BIGINT
+  - name: t1_est235
+    type: BIGINT
+  - name: t1_est236
+    type: BIGINT
+  - name: t1_est237
+    type: BIGINT
+  - name: t1_est238
+    type: BIGINT
+  - name: t1_est239
+    type: BIGINT
+  - name: t1_est240
+    type: BIGINT
+  - name: t1_est241
+    type: BIGINT
+  - name: t1_est242
+    type: BIGINT
+  - name: t1_est243
+    type: BIGINT
+  - name: t1_est244
+    type: BIGINT
+  - name: t1_est245
+    type: BIGINT
+  - name: t1_est246
+    type: BIGINT
+  - name: t1_est247
+    type: BIGINT
+  - name: t1_est248
+    type: BIGINT
+  - name: t1_est249
+    type: BIGINT
+  - name: t1_moe1
+    type: BIGINT
+  - name: t1_moe2
+    type: BIGINT
+  - name: t1_moe3
+    type: BIGINT
+  - name: t1_moe4
+    type: BIGINT
+  - name: t1_moe5
+    type: BIGINT
+  - name: t1_moe6
+    type: BIGINT
+  - name: t1_moe7
+    type: BIGINT
+  - name: t1_moe8
+    type: BIGINT
+  - name: t1_moe9
+    type: BIGINT
+  - name: t1_moe10
+    type: BIGINT
+  - name: t1_moe11
+    type: BIGINT
+  - name: t1_moe12
+    type: BIGINT
+  - name: t1_moe13
+    type: BIGINT
+  - name: t1_moe14
+    type: BIGINT
+  - name: t1_moe15
+    type: BIGINT
+  - name: t1_moe16
+    type: BIGINT
+  - name: t1_moe17
+    type: BIGINT
+  - name: t1_moe18
+    type: BIGINT
+  - name: t1_moe19
+    type: BIGINT
+  - name: t1_moe20
+    type: BIGINT
+  - name: t1_moe21
+    type: BIGINT
+  - name: t1_moe22
+    type: BIGINT
+  - name: t1_moe23
+    type: BIGINT
+  - name: t1_moe24
+    type: BIGINT
+  - name: t1_moe25
+    type: BIGINT
+  - name: t1_moe26
+    type: BIGINT
+  - name: t1_moe27
+    type: BIGINT
+  - name: t1_moe28
+    type: BIGINT
+  - name: t1_moe29
+    type: BIGINT
+  - name: t1_moe30
+    type: BIGINT
+  - name: t1_moe31
+    type: BIGINT
+  - name: t1_moe32
+    type: BIGINT
+  - name: t1_moe33
+    type: BIGINT
+  - name: t1_moe34
+    type: BIGINT
+  - name: t1_moe35
+    type: BIGINT
+  - name: t1_moe36
+    type: BIGINT
+  - name: t1_moe37
+    type: BIGINT
+  - name: t1_moe38
+    type: BIGINT
+  - name: t1_moe39
+    type: BIGINT
+  - name: t1_moe40
+    type: BIGINT
+  - name: t1_moe41
+    type: BIGINT
+  - name: t1_moe42
+    type: BIGINT
+  - name: t1_moe43
+    type: BIGINT
+  - name: t1_moe44
+    type: BIGINT
+  - name: t1_moe45
+    type: BIGINT
+  - name: t1_moe46
+    type: BIGINT
+  - name: t1_moe47
+    type: BIGINT
+  - name: t1_moe48
+    type: BIGINT
+  - name: t1_moe49
+    type: BIGINT
+  - name: t1_moe50
+    type: BIGINT
+  - name: t1_moe51
+    type: BIGINT
+  - name: t1_moe52
+    type: BIGINT
+  - name: t1_moe53
+    type: BIGINT
+  - name: t1_moe54
+    type: BIGINT
+  - name: t1_moe55
+    type: BIGINT
+  - name: t1_moe56
+    type: BIGINT
+  - name: t1_moe57
+    type: BIGINT
+  - name: t1_moe58
+    type: BIGINT
+  - name: t1_moe59
+    type: BIGINT
+  - name: t1_moe60
+    type: BIGINT
+  - name: t1_moe61
+    type: BIGINT
+  - name: t1_moe62
+    type: BIGINT
+  - name: t1_moe63
+    type: BIGINT
+  - name: t1_moe64
+    type: BIGINT
+  - name: t1_moe65
+    type: BIGINT
+  - name: t1_moe66
+    type: BIGINT
+  - name: t1_moe67
+    type: BIGINT
+  - name: t1_moe68
+    type: BIGINT
+  - name: t1_moe69
+    type: BIGINT
+  - name: t1_moe70
+    type: BIGINT
+  - name: t1_moe71
+    type: BIGINT
+  - name: t1_moe72
+    type: BIGINT
+  - name: t1_moe73
+    type: BIGINT
+  - name: t1_moe74
+    type: BIGINT
+  - name: t1_moe75
+    type: BIGINT
+  - name: t1_moe76
+    type: BIGINT
+  - name: t1_moe77
+    type: BIGINT
+  - name: t1_moe78
+    type: BIGINT
+  - name: t1_moe79
+    type: BIGINT
+  - name: t1_moe80
+    type: BIGINT
+  - name: t1_moe81
+    type: BIGINT
+  - name: t1_moe82
+    type: BIGINT
+  - name: t1_moe83
+    type: BIGINT
+  - name: t1_moe84
+    type: BIGINT
+  - name: t1_moe85
+    type: BIGINT
+  - name: t1_moe86
+    type: BIGINT
+  - name: t1_moe87
+    type: BIGINT
+  - name: t1_moe88
+    type: BIGINT
+  - name: t1_moe89
+    type: BIGINT
+  - name: t1_moe90
+    type: BIGINT
+  - name: t1_moe91
+    type: BIGINT
+  - name: t1_moe92
+    type: BIGINT
+  - name: t1_moe93
+    type: BIGINT
+  - name: t1_moe94
+    type: BIGINT
+  - name: t1_moe95
+    type: BIGINT
+  - name: t1_moe96
+    type: BIGINT
+  - name: t1_moe97
+    type: BIGINT
+  - name: t1_moe98
+    type: BIGINT
+  - name: t1_moe99
+    type: BIGINT
+  - name: t1_moe100
+    type: BIGINT
+  - name: t1_moe101
+    type: BIGINT
+  - name: t1_moe102
+    type: BIGINT
+  - name: t1_moe103
+    type: BIGINT
+  - name: t1_moe104
+    type: BIGINT
+  - name: t1_moe105
+    type: BIGINT
+  - name: t1_moe106
+    type: BIGINT
+  - name: t1_moe107
+    type: BIGINT
+  - name: t1_moe108
+    type: BIGINT
+  - name: t1_moe109
+    type: BIGINT
+  - name: t1_moe110
+    type: BIGINT
+  - name: t1_moe111
+    type: BIGINT
+  - name: t1_moe112
+    type: BIGINT
+  - name: t1_moe113
+    type: BIGINT
+  - name: t1_moe114
+    type: BIGINT
+  - name: t1_moe115
+    type: BIGINT
+  - name: t1_moe116
+    type: BIGINT
+  - name: t1_moe117
+    type: BIGINT
+  - name: t1_moe118
+    type: BIGINT
+  - name: t1_moe119
+    type: BIGINT
+  - name: t1_moe120
+    type: BIGINT
+  - name: t1_moe121
+    type: BIGINT
+  - name: t1_moe122
+    type: BIGINT
+  - name: t1_moe123
+    type: BIGINT
+  - name: t1_moe124
+    type: BIGINT
+  - name: t1_moe125
+    type: BIGINT
+  - name: t1_moe126
+    type: BIGINT
+  - name: t1_moe127
+    type: BIGINT
+  - name: t1_moe128
+    type: BIGINT
+  - name: t1_moe129
+    type: BIGINT
+  - name: t1_moe130
+    type: BIGINT
+  - name: t1_moe131
+    type: BIGINT
+  - name: t1_moe132
+    type: BIGINT
+  - name: t1_moe133
+    type: BIGINT
+  - name: t1_moe134
+    type: BIGINT
+  - name: t1_moe135
+    type: BIGINT
+  - name: t1_moe136
+    type: BIGINT
+  - name: t1_moe137
+    type: BIGINT
+  - name: t1_moe138
+    type: BIGINT
+  - name: t1_moe139
+    type: BIGINT
+  - name: t1_moe140
+    type: BIGINT
+  - name: t1_moe141
+    type: BIGINT
+  - name: t1_moe142
+    type: BIGINT
+  - name: t1_moe143
+    type: BIGINT
+  - name: t1_moe144
+    type: BIGINT
+  - name: t1_moe145
+    type: BIGINT
+  - name: t1_moe146
+    type: BIGINT
+  - name: t1_moe147
+    type: BIGINT
+  - name: t1_moe148
+    type: BIGINT
+  - name: t1_moe149
+    type: BIGINT
+  - name: t1_moe150
+    type: BIGINT
+  - name: t1_moe151
+    type: BIGINT
+  - name: t1_moe152
+    type: BIGINT
+  - name: t1_moe153
+    type: BIGINT
+  - name: t1_moe154
+    type: BIGINT
+  - name: t1_moe155
+    type: BIGINT
+  - name: t1_moe156
+    type: BIGINT
+  - name: t1_moe157
+    type: BIGINT
+  - name: t1_moe158
+    type: BIGINT
+  - name: t1_moe159
+    type: BIGINT
+  - name: t1_moe160
+    type: BIGINT
+  - name: t1_moe161
+    type: BIGINT
+  - name: t1_moe162
+    type: BIGINT
+  - name: t1_moe163
+    type: BIGINT
+  - name: t1_moe164
+    type: BIGINT
+  - name: t1_moe165
+    type: BIGINT
+  - name: t1_moe166
+    type: BIGINT
+  - name: t1_moe167
+    type: BIGINT
+  - name: t1_moe168
+    type: BIGINT
+  - name: t1_moe169
+    type: BIGINT
+  - name: t1_moe170
+    type: BIGINT
+  - name: t1_moe171
+    type: BIGINT
+  - name: t1_moe172
+    type: BIGINT
+  - name: t1_moe173
+    type: BIGINT
+  - name: t1_moe174
+    type: BIGINT
+  - name: t1_moe175
+    type: BIGINT
+  - name: t1_moe176
+    type: BIGINT
+  - name: t1_moe177
+    type: BIGINT
+  - name: t1_moe178
+    type: BIGINT
+  - name: t1_moe179
+    type: BIGINT
+  - name: t1_moe180
+    type: BIGINT
+  - name: t1_moe181
+    type: BIGINT
+  - name: t1_moe182
+    type: BIGINT
+  - name: t1_moe183
+    type: BIGINT
+  - name: t1_moe184
+    type: BIGINT
+  - name: t1_moe185
+    type: BIGINT
+  - name: t1_moe186
+    type: BIGINT
+  - name: t1_moe187
+    type: BIGINT
+  - name: t1_moe188
+    type: BIGINT
+  - name: t1_moe189
+    type: BIGINT
+  - name: t1_moe190
+    type: BIGINT
+  - name: t1_moe191
+    type: BIGINT
+  - name: t1_moe192
+    type: BIGINT
+  - name: t1_moe193
+    type: BIGINT
+  - name: t1_moe194
+    type: BIGINT
+  - name: t1_moe195
+    type: BIGINT
+  - name: t1_moe196
+    type: BIGINT
+  - name: t1_moe197
+    type: BIGINT
+  - name: t1_moe198
+    type: BIGINT
+  - name: t1_moe199
+    type: BIGINT
+  - name: t1_moe200
+    type: BIGINT
+  - name: t1_moe201
+    type: BIGINT
+  - name: t1_moe202
+    type: BIGINT
+  - name: t1_moe203
+    type: BIGINT
+  - name: t1_moe204
+    type: BIGINT
+  - name: t1_moe205
+    type: BIGINT
+  - name: t1_moe206
+    type: BIGINT
+  - name: t1_moe207
+    type: BIGINT
+  - name: t1_moe208
+    type: BIGINT
+  - name: t1_moe209
+    type: BIGINT
+  - name: t1_moe210
+    type: BIGINT
+  - name: t1_moe211
+    type: BIGINT
+  - name: t1_moe212
+    type: BIGINT
+  - name: t1_moe213
+    type: BIGINT
+  - name: t1_moe214
+    type: BIGINT
+  - name: t1_moe215
+    type: BIGINT
+  - name: t1_moe216
+    type: BIGINT
+  - name: t1_moe217
+    type: BIGINT
+  - name: t1_moe218
+    type: BIGINT
+  - name: t1_moe219
+    type: BIGINT
+  - name: t1_moe220
+    type: BIGINT
+  - name: t1_moe221
+    type: BIGINT
+  - name: t1_moe222
+    type: BIGINT
+  - name: t1_moe223
+    type: BIGINT
+  - name: t1_moe224
+    type: BIGINT
+  - name: t1_moe225
+    type: BIGINT
+  - name: t1_moe226
+    type: BIGINT
+  - name: t1_moe227
+    type: BIGINT
+  - name: t1_moe228
+    type: BIGINT
+  - name: t1_moe229
+    type: BIGINT
+  - name: t1_moe230
+    type: BIGINT
+  - name: t1_moe231
+    type: BIGINT
+  - name: t1_moe232
+    type: BIGINT
+  - name: t1_moe233
+    type: BIGINT
+  - name: t1_moe234
+    type: BIGINT
+  - name: t1_moe235
+    type: BIGINT
+  - name: t1_moe236
+    type: BIGINT
+  - name: t1_moe237
+    type: BIGINT
+  - name: t1_moe238
+    type: BIGINT
+  - name: t1_moe239
+    type: BIGINT
+  - name: t1_moe240
+    type: BIGINT
+  - name: t1_moe241
+    type: BIGINT
+  - name: t1_moe242
+    type: BIGINT
+  - name: t1_moe243
+    type: BIGINT
+  - name: t1_moe244
+    type: BIGINT
+  - name: t1_moe245
+    type: BIGINT
+  - name: t1_moe246
+    type: BIGINT
+  - name: t1_moe247
+    type: BIGINT
+  - name: t1_moe248
+    type: BIGINT
+  - name: t1_moe249
+    type: BIGINT
+  - name: fiscal_year
+    type: BIGINT
