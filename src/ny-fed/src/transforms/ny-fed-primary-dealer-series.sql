@@ -1,6 +1,9 @@
-SELECT DISTINCT
-    keyid                                AS series_id,
-    seriesbreak                          AS series_break,
-    description                          AS series_description
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "seriesbreak",
+    "keyid",
+    "description"
 FROM "ny-fed-primary-dealer-series"
-WHERE keyid IS NOT NULL AND keyid <> ''

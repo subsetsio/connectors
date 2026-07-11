@@ -1,15 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This table is the latest security-level SOMA holdings snapshot, not a full historical panel.
 SELECT
-    TRY_CAST(asOfDate AS DATE)           AS as_of_date,
-    instrumentGroup                      AS instrument_group,
-    securityType                         AS security_type,
-    cusip,
-    TRY_CAST(maturityDate AS DATE)       AS maturity_date,
-    NULLIF(issuer, '')                   AS issuer,
-    TRY_CAST(NULLIF(coupon, '') AS DOUBLE)   AS coupon_rate,
-    TRY_CAST(NULLIF(parValue, '') AS DOUBLE) AS par_value,
-    TRY_CAST(NULLIF(inflationCompensation, '') AS DOUBLE) AS inflation_compensation,
-    TRY_CAST(NULLIF(percentOutstanding, '') AS DOUBLE)    AS percent_outstanding,
-    TRY_CAST(NULLIF(changeFromPriorWeek, '') AS DOUBLE)   AS change_from_prior_week,
-    TRY_CAST(NULLIF(changeFromPriorYear, '') AS DOUBLE)   AS change_from_prior_year
+    "asOfDate" AS asofdate,
+    "cusip",
+    "securityType" AS securitytype,
+    "maturityDate" AS maturitydate,
+    "issuer",
+    "coupon",
+    "spread",
+    CAST("parValue" AS BIGINT) AS parvalue,
+    "inflationCompensation" AS inflationcompensation,
+    "percentOutstanding" AS percentoutstanding,
+    CAST("changeFromPriorWeek" AS BIGINT) AS changefrompriorweek,
+    "changeFromPriorYear" AS changefromprioryear,
+    "instrumentGroup" AS instrumentgroup
 FROM "ny-fed-soma-holdings"
-WHERE TRY_CAST(asOfDate AS DATE) IS NOT NULL AND cusip IS NOT NULL AND cusip <> ''

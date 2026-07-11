@@ -1,22 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-reference-rates-unsecured`. Regenerate after model-verify.
+# caution: Revised and non-revised observations can coexist for the same effective date and rate type; include revisionIndicator when selecting a final series.
+key: [effectivedate, type, revisionindicator]
+temporal: effectivedate
+sort: [effectivedate, type, revisionindicator]
 columns:
-  - name: date
+  - name: effectivedate
     type: DATE
-  - name: rate_type
+  - name: type
     type: VARCHAR
-  - name: rate_percent
+  - name: percentrate
     type: DOUBLE
-  - name: percentile_1
+  - name: percentpercentile1
     type: DOUBLE
-  - name: percentile_25
+  - name: percentpercentile25
     type: DOUBLE
-  - name: percentile_75
+  - name: percentpercentile75
     type: DOUBLE
-  - name: percentile_99
+  - name: percentpercentile99
     type: DOUBLE
-  - name: volume_billions
+  - name: volumeinbillions
+    type: BIGINT
+  - name: targetratefrom
     type: DOUBLE
-  - name: target_rate_from
+  - name: targetrateto
     type: DOUBLE
-  - name: target_rate_to
-    type: DOUBLE
+  - name: average30day
+    type: JSON
+  - name: average90day
+    type: JSON
+  - name: average180day
+    type: JSON
+  - name: index
+    type: JSON
+  - name: revisionindicator
+    type: VARCHAR

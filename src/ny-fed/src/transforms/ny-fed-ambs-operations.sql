@@ -1,15 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are operation-detail lines under an Agency MBS operation; operation-level totals repeat across detail rows and should not be summed without grouping at the operation level.
+-- caution: The source does not expose a stable non-null detail-row identifier for every row, so this table is intentionally keyless.
 SELECT
-    TRY_CAST(operationDate AS DATE)      AS operation_date,
-    operationId                          AS operation_id,
-    operationType                        AS operation_type,
-    operationDirection                   AS operation_direction,
-    TRY_CAST(settlementDate AS DATE)     AS settlement_date,
-    classType                            AS class_type,
-    method,
-    securityDescription                  AS security_description,
-    inclusionExclusionFlag               AS inclusion_flag,
-    TRY_CAST(totalAmtSubmittedPar AS DOUBLE) AS amount_submitted_par,
-    TRY_CAST(amtAcceptedPar AS DOUBLE)       AS amount_accepted_par,
-    TRY_CAST(totalAmtAcceptedPar AS DOUBLE)  AS total_amount_accepted_par
+    "operationId" AS operationid,
+    "operationDate" AS operationdate,
+    "operationType" AS operationtype,
+    "operationDirection" AS operationdirection,
+    "method",
+    "classType" AS classtype,
+    "settlementDate" AS settlementdate,
+    "totalAmtSubmittedPar" AS totalamtsubmittedpar,
+    "totalAmtAcceptedPar" AS totalamtacceptedpar,
+    "securityDescription" AS securitydescription,
+    CAST("amtAcceptedPar" AS DOUBLE) AS amtacceptedpar,
+    "inclusionExclusionFlag" AS inclusionexclusionflag
 FROM "ny-fed-ambs-operations"
-WHERE TRY_CAST(operationDate AS DATE) IS NOT NULL AND operationId IS NOT NULL

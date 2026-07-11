@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ny-fed-reference-rates-secured`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [effectivedate, type]
+temporal: effectivedate
+checks:
+  - kind: unique
+    columns: [effectivedate, type]
+  - kind: not_null
+    col: effectivedate
+  - kind: not_null
+    col: type
+  - kind: row_floor
+    min: 3891
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

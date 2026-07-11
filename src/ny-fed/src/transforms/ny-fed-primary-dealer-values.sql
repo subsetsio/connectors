@@ -1,9 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The value column carries many different primary-dealer measures; filter by keyid or description before aggregating values.
 SELECT
-    TRY_CAST(asofdate AS DATE)           AS week_ending,
-    keyid                                AS series_id,
-    seriesbreak                          AS series_break,
-    description                          AS series_description,
-    TRY_CAST(value AS DOUBLE)            AS value_millions
+    "asofdate",
+    "keyid",
+    "value",
+    "seriesbreak",
+    "description"
 FROM "ny-fed-primary-dealer-values"
-WHERE TRY_CAST(asofdate AS DATE) IS NOT NULL
-  AND TRY_CAST(value AS DOUBLE) IS NOT NULL

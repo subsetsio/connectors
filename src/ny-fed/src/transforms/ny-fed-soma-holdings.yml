@@ -1,26 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-soma-holdings`. Regenerate after model-verify.
+# caution: This table is the latest security-level SOMA holdings snapshot, not a full historical panel.
+key: [cusip, securitytype, instrumentgroup]
+temporal: asofdate
+sort: [asofdate, cusip, securitytype, instrumentgroup]
 columns:
-  - name: as_of_date
+  - name: asofdate
     type: DATE
-  - name: instrument_group
-    type: VARCHAR
-  - name: security_type
-    type: VARCHAR
   - name: cusip
     type: VARCHAR
-  - name: maturity_date
+  - name: securitytype
+    type: VARCHAR
+  - name: maturitydate
     type: DATE
   - name: issuer
     type: VARCHAR
-  - name: coupon_rate
-    type: DOUBLE
-  - name: par_value
-    type: DOUBLE
-  - name: inflation_compensation
-    type: DOUBLE
-  - name: percent_outstanding
-    type: DOUBLE
-  - name: change_from_prior_week
-    type: DOUBLE
-  - name: change_from_prior_year
-    type: DOUBLE
+  - name: coupon
+    type: VARCHAR
+  - name: spread
+    type: VARCHAR
+  - name: parvalue
+    type: BIGINT
+  - name: inflationcompensation
+    type: VARCHAR
+  - name: percentoutstanding
+    type: VARCHAR
+  - name: changefrompriorweek
+    type: BIGINT
+  - name: changefromprioryear
+    type: VARCHAR
+  - name: instrumentgroup
+    type: VARCHAR

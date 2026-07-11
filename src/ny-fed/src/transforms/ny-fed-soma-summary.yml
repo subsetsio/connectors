@@ -1,22 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-soma-summary`. Regenerate after model-verify.
+key: [asofdate]
+temporal: asofdate
+sort: [asofdate]
 columns:
-  - name: as_of_date
+  - name: asofdate
     type: DATE
   - name: bills
-    type: DOUBLE
-  - name: notes_bonds
-    type: DOUBLE
+    type: BIGINT
+  - name: notesbonds
+    type: BIGINT
   - name: tips
-    type: DOUBLE
+    type: BIGINT
   - name: frn
-    type: DOUBLE
-  - name: tips_inflation_compensation
+    type: VARCHAR
+  - name: tipsinflationcompensation
     type: DOUBLE
   - name: mbs
     type: DOUBLE
   - name: cmbs
     type: DOUBLE
   - name: agencies
-    type: DOUBLE
+    type: VARCHAR
   - name: total
     type: DOUBLE

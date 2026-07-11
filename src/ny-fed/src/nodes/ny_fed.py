@@ -162,7 +162,11 @@ def fetch_treasury_operations(node_id: str) -> None:
 def fetch_securities_lending(node_id: str) -> None:
     ops = search("seclending/all/results/details/search.json?startDate={startDate}&endDate={endDate}",
                  "seclending", "operations", start=date(2008, 1, 1))
-    save_raw_ndjson(list(flatten_operations(ops, _SECLEND_PARENT, _SECLEND_DETAIL)), node_id)
+    rows = (
+        row for row in flatten_operations(ops, _SECLEND_PARENT, _SECLEND_DETAIL)
+        if row.get("cusip")
+    )
+    save_raw_ndjson(rows, node_id)
 
 
 # --------------------------------------------------------------------------- #

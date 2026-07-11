@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-primary-dealer-values`. Regenerate after model-verify.
+# caution: The value column carries many different primary-dealer measures; filter by keyid or description before aggregating values.
+key: [asofdate, value, description, keyid]
+temporal: asofdate
+sort: [asofdate, value, description, keyid]
 columns:
-  - name: week_ending
+  - name: asofdate
     type: DATE
-  - name: series_id
+  - name: keyid
     type: VARCHAR
-  - name: series_break
+  - name: value
     type: VARCHAR
-  - name: series_description
+  - name: seriesbreak
     type: VARCHAR
-  - name: value_millions
-    type: DOUBLE
+  - name: description
+    type: VARCHAR

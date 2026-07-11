@@ -1,36 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-repo-operations`. Regenerate after model-verify.
+# caution: Rows are collateral/security-type detail lines under repo operations; operation-level totals repeat across detail rows and should not be summed without grouping at the operation level.
+key: [operationdate, operationid, securitytype]
+temporal: operationdate
+sort: [operationdate, operationid, securitytype]
 columns:
-  - name: operation_date
+  - name: operationid
+    type: VARCHAR
+  - name: operationdate
     type: DATE
-  - name: operation_id
+  - name: operationtype
     type: VARCHAR
-  - name: operation_type
+  - name: operationmethod
     type: VARCHAR
-  - name: operation_method
-    type: VARCHAR
-  - name: settlement_date
+  - name: settlementdate
     type: DATE
-  - name: maturity_date
+  - name: maturitydate
     type: DATE
   - name: term
     type: VARCHAR
-  - name: term_calendar_days
-    type: INTEGER
-  - name: settlement_type
+  - name: termcalenderdays
+    type: BIGINT
+  - name: settlementtype
     type: VARCHAR
-  - name: security_type
+  - name: totalamtsubmitted
+    type: BIGINT
+  - name: totalamtaccepted
+    type: BIGINT
+  - name: securitytype
     type: VARCHAR
-  - name: amount_submitted
+  - name: amtsubmitted
+    type: BIGINT
+  - name: amtaccepted
+    type: BIGINT
+  - name: percentofferingrate
     type: DOUBLE
-  - name: amount_accepted
+  - name: percentawardrate
     type: DOUBLE
-  - name: total_amount_submitted
-    type: DOUBLE
-  - name: total_amount_accepted
-    type: DOUBLE
-  - name: offering_rate
-    type: DOUBLE
-  - name: award_rate
-    type: DOUBLE
-  - name: weighted_average_rate
+  - name: percentweightedaveragerate
     type: DOUBLE

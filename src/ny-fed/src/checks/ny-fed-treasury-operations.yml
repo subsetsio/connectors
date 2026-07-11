@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ny-fed-treasury-operations`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [operationdate, operationid, securitydescription]
+temporal: operationdate
+checks:
+  - kind: unique
+    columns: [operationdate, operationid, securitydescription]
+  - kind: not_null
+    col: operationdate
+  - kind: not_null
+    col: operationid
+  - kind: not_null
+    col: securitydescription
+  - kind: row_floor
+    min: 29625
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

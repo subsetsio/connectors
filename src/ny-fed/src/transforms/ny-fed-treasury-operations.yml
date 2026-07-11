@@ -1,30 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-treasury-operations`. Regenerate after model-verify.
+# caution: Rows are security-detail lines under Treasury outright operations; operation-level context repeats across detail rows.
+key: [operationdate, operationid, securitydescription]
+temporal: operationdate
+sort: [operationdate, operationid, securitydescription]
 columns:
-  - name: operation_date
+  - name: operationid
+    type: VARCHAR
+  - name: operationdate
     type: DATE
-  - name: operation_id
+  - name: operationtype
     type: VARCHAR
-  - name: operation_type
+  - name: operationdirection
     type: VARCHAR
-  - name: operation_direction
-    type: VARCHAR
-  - name: settlement_date
+  - name: settlementdate
     type: DATE
+  - name: maturityrangestart
+    type: DATE
+  - name: maturityrangeend
+    type: DATE
+  - name: auctionmethod
+    type: VARCHAR
+  - name: totalparamtsubmitted
+    type: BIGINT
+  - name: totalparamtaccepted
+    type: BIGINT
   - name: cusip
     type: VARCHAR
-  - name: security_description
+  - name: securitydescription
     type: VARCHAR
-  - name: maturity_range_start
-    type: DATE
-  - name: maturity_range_end
-    type: DATE
-  - name: auction_method
+  - name: paramountaccepted
+    type: BIGINT
+  - name: weightedavgaccptprice
     type: VARCHAR
-  - name: par_amount_submitted
-    type: DOUBLE
-  - name: par_amount_accepted
-    type: DOUBLE
-  - name: weighted_avg_price
-    type: DOUBLE
-  - name: least_favorable_price
-    type: DOUBLE
+  - name: leastfavoriteaccptprice
+    type: VARCHAR

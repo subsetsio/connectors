@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ny-fed-fx-swaps`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [tradedate, settlementdate, maturitydate, operationtype, counterparty, currency, termindays]
+temporal: tradedate
+checks:
+  - kind: unique
+    columns: [tradedate, settlementdate, maturitydate, operationtype, counterparty, currency, termindays]
+  - kind: not_null
+    col: tradedate
+  - kind: not_null
+    col: settlementdate
+  - kind: not_null
+    col: maturitydate
+  - kind: not_null
+    col: operationtype
+  - kind: not_null
+    col: counterparty
+  - kind: not_null
+    col: currency
+  - kind: not_null
+    col: termindays
+  - kind: row_floor
+    min: 472
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

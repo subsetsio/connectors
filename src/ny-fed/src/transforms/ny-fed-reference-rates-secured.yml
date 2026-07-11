@@ -1,26 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ny-fed-reference-rates-secured`. Regenerate after model-verify.
+# caution: The SOFRAI type is an index/average series, while SOFR, BGCR, and TGCR are daily rates; compare or aggregate only after filtering to compatible rate types.
+key: [effectivedate, type]
+temporal: effectivedate
+sort: [effectivedate, type]
 columns:
-  - name: date
+  - name: effectivedate
     type: DATE
-  - name: rate_type
+  - name: type
     type: VARCHAR
-  - name: rate_percent
+  - name: percentrate
     type: DOUBLE
-  - name: percentile_1
+  - name: percentpercentile1
+    type: JSON
+  - name: percentpercentile25
+    type: JSON
+  - name: percentpercentile75
+    type: JSON
+  - name: percentpercentile99
+    type: JSON
+  - name: volumeinbillions
+    type: BIGINT
+  - name: targetratefrom
+    type: JSON
+  - name: targetrateto
+    type: JSON
+  - name: average30day
     type: DOUBLE
-  - name: percentile_25
+  - name: average90day
     type: DOUBLE
-  - name: percentile_75
+  - name: average180day
     type: DOUBLE
-  - name: percentile_99
+  - name: index
     type: DOUBLE
-  - name: volume_billions
-    type: DOUBLE
-  - name: average_30day
-    type: DOUBLE
-  - name: average_90day
-    type: DOUBLE
-  - name: average_180day
-    type: DOUBLE
-  - name: sofr_index
-    type: DOUBLE
+  - name: revisionindicator
+    type: VARCHAR
