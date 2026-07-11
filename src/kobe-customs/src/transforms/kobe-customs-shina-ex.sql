@@ -1,10 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This port-by-commodity export matrix includes commodity totals, composition shares, year-on-year rates, and contribution measures alongside trade values, so filter to the intended measure before aggregating values.
 SELECT
-    CAST(year AS INTEGER)        AS year,
-    classification,
-    sheet,
-    row_label,
-    col_header,
-    CAST(row_idx AS INTEGER)     AS row_idx,
-    CAST(col_idx AS INTEGER)     AS col_idx,
-    CAST(value AS DOUBLE)        AS value
+    "year",
+    "classification",
+    "sheet",
+    "row_label",
+    "col_header",
+    "row_idx",
+    "col_idx",
+    "value"
 FROM "kobe-customs-shina-ex"

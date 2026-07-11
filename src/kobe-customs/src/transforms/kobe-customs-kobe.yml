@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kobe-customs-kobe`. Regenerate after model-verify.
+# caution: This is a long-form extraction of a broad overview workbook with many internal crosstabs; sheets, row labels, and column headers mix totals, balances, ports, countries, commodities, ratios, and year-on-year comparisons, so filter to the intended measure before aggregating values.
+key: [year, sheet, classification, row_idx, col_idx]
+temporal: year
+sort: [year, sheet, classification, row_idx, col_idx]
 columns:
   - name: year
     type: INTEGER
