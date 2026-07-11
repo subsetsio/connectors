@@ -1,15 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `johns-hopkins-csse-covid-19-data-time-series-us`. Regenerate after model-verify.
+# caution: This table is county and equivalent geography level; aggregate carefully when comparing with state-level daily reports.
+key: [date, metric, uid]
+temporal: date
+sort: [date, metric, uid]
 columns:
-  - name: date
-    type: DATE
   - name: uid
-    type: VARCHAR
+    type: BIGINT
   - name: iso2
     type: VARCHAR
   - name: iso3
     type: VARCHAR
   - name: fips
-    type: VARCHAR
+    type: DOUBLE
   - name: admin2
     type: VARCHAR
   - name: province_state
@@ -21,7 +24,9 @@ columns:
   - name: long
     type: DOUBLE
   - name: population
-    type: BIGINT
+    type: JSON
+  - name: date
+    type: DATE
   - name: metric
     type: VARCHAR
   - name: value

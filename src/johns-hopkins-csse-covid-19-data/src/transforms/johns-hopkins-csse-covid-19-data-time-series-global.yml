@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `johns-hopkins-csse-covid-19-data-time-series-global`. Regenerate after model-verify.
+# caution: Rows mix country-level and province-level geographies; filter to a consistent geography level before aggregating.
+# caution: The archived global time series has duplicated and partially null geography cells, so this table is intentionally keyless.
+key: []
+temporal: date
+sort: [date]
 columns:
-  - name: date
-    type: DATE
   - name: country_region
     type: VARCHAR
   - name: province_state
@@ -10,6 +14,8 @@ columns:
     type: DOUBLE
   - name: long
     type: DOUBLE
+  - name: date
+    type: DATE
   - name: metric
     type: VARCHAR
   - name: value

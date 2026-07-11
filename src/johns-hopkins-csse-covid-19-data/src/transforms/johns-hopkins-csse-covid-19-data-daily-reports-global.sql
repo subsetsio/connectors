@@ -1,16 +1,23 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows mix countries, provinces, counties, and special reporting geographies; filter to one geography level before aggregating.
+-- caution: Early daily files predate stable FIPS, UID, and Combined_Key coverage, so this snapshot table is intentionally keyless.
 SELECT
-    CAST(report_date AS DATE)                   AS date,
-    fips,
-    admin2,
-    province_state,
-    country_region,
-    combined_key,
-    TRY_CAST(lat AS DOUBLE)                     AS lat,
-    TRY_CAST(long AS DOUBLE)                    AS long,
-    TRY_CAST(TRY_CAST(confirmed AS DOUBLE) AS BIGINT) AS confirmed,
-    TRY_CAST(TRY_CAST(deaths AS DOUBLE) AS BIGINT)    AS deaths,
-    TRY_CAST(TRY_CAST(recovered AS DOUBLE) AS BIGINT) AS recovered,
-    TRY_CAST(TRY_CAST(active AS DOUBLE) AS BIGINT)    AS active,
-    TRY_CAST(incident_rate AS DOUBLE)          AS incident_rate,
-    TRY_CAST(case_fatality_ratio AS DOUBLE)    AS case_fatality_ratio
+    "report_date",
+    CAST("fips" AS BIGINT) AS fips,
+    "admin2",
+    "province_state",
+    "country_region",
+    "last_update",
+    CAST("lat" AS DOUBLE) AS lat,
+    CAST("long" AS DOUBLE) AS long,
+    CAST("confirmed" AS BIGINT) AS confirmed,
+    CAST("deaths" AS BIGINT) AS deaths,
+    CAST("recovered" AS BIGINT) AS recovered,
+    CAST("active" AS BIGINT) AS active,
+    "combined_key",
+    "incident_rate",
+    "case_fatality_ratio"
 FROM "johns-hopkins-csse-covid-19-data-daily-reports-global"

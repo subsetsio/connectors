@@ -1,5 +1,8 @@
 spec_id: johns-hopkins-csse-covid-19-data-daily-reports-global
 status: active
+coverage:
+  frozen: true
+  reason: Johns Hopkins CSSE archived the COVID-19 repository in March 2023; this corpus no longer advances.
 tests:
   - not_null: report_date
     reason: report_date is derived from the filename and stamped on every row of every daily file.

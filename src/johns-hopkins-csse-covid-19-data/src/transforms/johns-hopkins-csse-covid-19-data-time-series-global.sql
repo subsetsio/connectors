@@ -1,10 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows mix country-level and province-level geographies; filter to a consistent geography level before aggregating.
+-- caution: The archived global time series has duplicated and partially null geography cells, so this table is intentionally keyless.
 SELECT
-    CAST(date AS DATE)                          AS date,
-    country_region,
-    province_state,
-    TRY_CAST(lat AS DOUBLE)                     AS lat,
-    TRY_CAST(long AS DOUBLE)                    AS long,
-    metric,
-    TRY_CAST(TRY_CAST(value AS DOUBLE) AS BIGINT) AS value
+    "country_region",
+    "province_state",
+    CAST("lat" AS DOUBLE) AS lat,
+    CAST("long" AS DOUBLE) AS long,
+    "date",
+    "metric",
+    CAST("value" AS BIGINT) AS value
 FROM "johns-hopkins-csse-covid-19-data-time-series-global"
-WHERE value IS NOT NULL

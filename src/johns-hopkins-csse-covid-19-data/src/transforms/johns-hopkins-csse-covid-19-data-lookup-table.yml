@@ -1,6 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `johns-hopkins-csse-covid-19-data-lookup-table`. Regenerate after model-verify.
+# caution: The lookup table mixes global country/province rows with US county rows; join on the identifier that matches the target table's geography level.
+key: [combined_key]
+sort: [combined_key]
 columns:
   - name: uid
-    type: VARCHAR
+    type: BIGINT
   - name: iso2
     type: VARCHAR
   - name: iso3

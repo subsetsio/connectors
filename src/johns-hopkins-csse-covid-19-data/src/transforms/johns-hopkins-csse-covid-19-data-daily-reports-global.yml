@@ -1,16 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `johns-hopkins-csse-covid-19-data-daily-reports-global`. Regenerate after model-verify.
+# caution: Rows mix countries, provinces, counties, and special reporting geographies; filter to one geography level before aggregating.
+# caution: Early daily files predate stable FIPS, UID, and Combined_Key coverage, so this snapshot table is intentionally keyless.
+key: []
+temporal: report_date
+sort: [report_date]
 columns:
-  - name: date
+  - name: report_date
     type: DATE
   - name: fips
-    type: VARCHAR
+    type: BIGINT
   - name: admin2
     type: VARCHAR
   - name: province_state
     type: VARCHAR
   - name: country_region
     type: VARCHAR
-  - name: combined_key
+  - name: last_update
     type: VARCHAR
   - name: lat
     type: DOUBLE
@@ -24,7 +30,9 @@ columns:
     type: BIGINT
   - name: active
     type: BIGINT
+  - name: combined_key
+    type: VARCHAR
   - name: incident_rate
-    type: DOUBLE
+    type: JSON
   - name: case_fatality_ratio
-    type: DOUBLE
+    type: JSON
