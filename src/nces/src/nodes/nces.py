@@ -35,7 +35,6 @@ from datetime import datetime, timezone
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,

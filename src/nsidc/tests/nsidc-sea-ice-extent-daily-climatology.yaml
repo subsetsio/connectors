@@ -1,0 +1,21 @@
+spec_id: nsidc-sea-ice-extent-daily-climatology
+status: active
+coverage:
+  frozen: true
+  reason: the climatology is the fixed 1981-2010 standard-baseline percentiles keyed by day-of-year; it does not advance in time
+tests:
+  - not_null: hemisphere
+  - not_null: day_of_year
+  - enum: {col: hemisphere, values: [Arctic, Antarctic]}
+  - between: {col: day_of_year, lo: 1, hi: 366}
+    reason: day-of-year including Feb 29
+    certainty: 95
+  - unique: [hemisphere, day_of_year]
+    reason: one percentile row per hemisphere per day-of-year
+    certainty: 95
+  - between: {col: average_extent_million_sq_km, lo: 0, hi: 30}
+    certainty: 80
+    severity: warn
+  - relationship: {left: pct_10, op: "<=", right: pct_90}
+    reason: the 10th percentile must not exceed the 90th
+    certainty: 90

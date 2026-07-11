@@ -1,0 +1,22 @@
+spec_id: nsidc-sea-ice-extent-daily
+status: active
+tests:
+  - not_null: hemisphere
+  - not_null: date
+  - column_type: {col: date, type: date}
+  - enum: {col: hemisphere, values: [Arctic, Antarctic]}
+  - unique: [hemisphere, date]
+    reason: one extent observation per hemisphere per day; a dupe means a file was appended instead of overwritten
+    certainty: 95
+  - between: {col: year, lo: 1978, hi: current_year()}
+    reason: the satellite record starts October 1978
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+  - between: {col: day, lo: 1, hi: 31}
+  - freshness: {col: date, reaches: today - 21d}
+    reason: source updates daily with a 1-2 day lag; a stale max means our fetch or the server is behind
+    points_outward: true
+  - between: {col: extent_million_sq_km, lo: 0, hi: 30}
+    reason: hemispheric sea-ice extent tops out near 16 (Arctic) / 20 (Antarctic) million km^2; a value outside this is a unit error
+    certainty: 80
+    severity: warn

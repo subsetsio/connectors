@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `mit-election-lab-dvn-8s3ypx`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state_abbv]
+checks:
+  - kind: unique
+    columns: [state_abbv]
+  - kind: not_null
+    col: state_abbv
+  - kind: row_floor
+    min: 25
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
