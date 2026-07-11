@@ -1,5 +1,8 @@
 spec_id: monetary-authority-of-macao-6-fx-and-interest-rates--eeri-daily-old-basket-2000
 status: active
+coverage:
+  frozen: true
+  reason: old EERI basket worksheet ended in 2011 and is superseded by later basket tables
 tests:
   - not_null: series
     reason: every long-format row carries the (composed) series label; nulls mean label extraction broke

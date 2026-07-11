@@ -1,5 +1,8 @@
 spec_id: monetary-authority-of-macao-3-banking--assets-june-1984-to-dec-04
 status: active
+coverage:
+  frozen: true
+  reason: historical worksheet ends in December 2004 and is superseded by the January 2005 to present table
 tests:
   - not_null: series
     reason: every long-format row carries the (composed) series label; nulls mean label extraction broke

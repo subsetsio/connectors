@@ -25,3 +25,6 @@ tests:
     reason: each worksheet is a multi-period time series; a near-empty table means the sheet layout changed
     certainty: 75
     severity: warn
+  - freshness: {col: date, reaches: today - 45d}
+    reason: AMCM publishes this daily series with recent observations; a max date older than about six weeks indicates a stale pull or source-side delay.
+    points_outward: true

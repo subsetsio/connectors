@@ -1,5 +1,8 @@
 spec_id: monetary-authority-of-macao-5-external-activities--foreign-assets-jun-84-to-dec-04
 status: active
+coverage:
+  frozen: true
+  reason: historical worksheet ends in December 2004 and is superseded by the since-January-2005 foreign assets table
 tests:
   - not_null: series
     reason: every long-format row carries the (composed) series label; nulls mean label extraction broke
