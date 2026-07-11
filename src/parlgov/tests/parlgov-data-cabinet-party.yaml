@@ -1,0 +1,10 @@
+spec_id: parlgov-data-cabinet-party
+status: active
+coverage:
+  frozen: true
+  reason: ParlGov 2024 stable release is the final data release, covering elections and cabinets through June 2023.
+tests:
+  - row_count: {min: 3800}
+  - not_null: id
+  - unique: id
+
