@@ -1,0 +1,22 @@
+spec_id: idmc-idu
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: IDU all-events feed is a large near-real-time event corpus.
+    certainty: 85
+  - not_null: id
+  - unique: id
+    reason: IDU event records expose a stable id field.
+    certainty: 90
+  - not_null: iso3
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2008, hi: current_year()}
+    points_outward: true
+    certainty: 90
+  - freshness: {col: displacement_date, reaches: today - 90d}
+    points_outward: true
+    certainty: 80
+  - column_type: {col: figure, type: integer}
+  - nullable: {col: source_url, max_null_frac: 0.5}
+    reason: most but not all IDU events cite a source URL.
+    certainty: 65

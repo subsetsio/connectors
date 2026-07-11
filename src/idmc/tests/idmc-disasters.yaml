@@ -1,0 +1,20 @@
+spec_id: idmc-disasters
+status: active
+tests:
+  - row_count: {min: 25000}
+    reason: GIDD disaster events should remain a large global event corpus.
+    certainty: 90
+  - not_null: iso3
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2008, hi: current_year()}
+    points_outward: true
+    certainty: 95
+  - freshness: {col: year, reaches: current_year() - 1}
+    points_outward: true
+    certainty: 85
+  - column_type: {col: new_displacement, type: integer}
+  - column_type: {col: hazard_category_name, type: string}
+  - nullable: {col: event_name, max_null_frac: 0.4}
+    reason: disaster events usually carry event labels, but unnamed records exist.
+    certainty: 70

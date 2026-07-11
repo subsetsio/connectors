@@ -1,0 +1,10 @@
+spec_id: idb-politics-policies-and-productivity-an-international-dataset-2010
+status: active
+tests:
+  - not_null: source_resource
+    reason: every published row is tagged with the CKAN resource name it came from; nulls mean the provenance column broke
+    certainty: 95
+  - row_count:
+      min: 1
+    reason: rank-accepted packages expose at least one non-empty tabular resource; 0 rows means the dump/file fetch silently returned nothing
+    certainty: 75

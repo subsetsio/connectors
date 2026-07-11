@@ -6,7 +6,7 @@ data portal uses; omitting it returns 403 "Client is not registered."). No
 header/token auth.
 """
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 BASE = "https://helix-tools-api.idmcdb.org/external-api"
 CLIENT_ID = "IDMCWSHSOLO009"  # public client_id used by IDMC's own data portal
@@ -19,7 +19,6 @@ MAX_PAGES_ABS = 50           # safety ceiling: raise if the corpus grows ~50x (d
 # ---------------------------------------------------------------------------
 
 
-@transient_retry()
 def get_json(url: str, params: dict | None):
     resp = get(url, params=params, timeout=(10.0, 600.0))
     resp.raise_for_status()

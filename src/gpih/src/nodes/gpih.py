@@ -12,8 +12,10 @@ Normalization is deliberately generic (one fn for all 198 workbooks): for every
 data-bearing sheet we autodetect the header row, name columns positionally,
 emit one record per data row tagged with its source sheet, and enforce a single
 consistent JSON type per column across the whole file so DuckDB reads it back
-cleanly. This is a faithful raw extraction, not a per-dataset hand-parse — the
-source is too heterogeneous to type each workbook individually.
+cleanly. Extremely wide sheets are stored sparsely as non-empty cells instead
+of materializing thousands of Excel columns. This is a faithful raw extraction,
+not a per-dataset hand-parse — the source is too heterogeneous to type each
+workbook individually.
 
 Fetch shape: stateless full re-pull (shape 1). Workbooks are small (tens of KB
 to ~1.3MB) static files with no incremental filter; re-fetch in full each run.
@@ -33,6 +35,7 @@ from constants import ENTITY_IDS, ENTITY_FILES
 
 BASE = "https://gpih.ucdavis.edu/files/"
 PREFIX = "gpih-"
+WIDE_SHEET_COLUMN_LIMIT = 500
 
 
 @transient_retry()  # 6 attempts, exponential backoff on transient/5xx/429
@@ -116,6 +119,20 @@ def _records_from_sheet(df: pd.DataFrame, sheet: str):
     df = df.dropna(how="all").dropna(axis=1, how="all")
     if df.shape[0] < 2 or df.shape[1] < 2:  # single-column sheets are notes/text
         return []
+    if df.shape[1] > WIDE_SHEET_COLUMN_LIMIT:
+        records = []
+        for ridx, row in enumerate(df.values.tolist()):
+            for cidx, value in enumerate(row):
+                value = _norm_value(value)
+                if value is None:
+                    continue
+                records.append({
+                    "__sheet__": sheet,
+                    "row": ridx,
+                    "column": cidx,
+                    "value": value,
+                })
+        return records
     grid = df.values.tolist()
     ncols = df.shape[1]
 

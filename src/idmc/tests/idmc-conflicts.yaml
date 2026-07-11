@@ -1,0 +1,20 @@
+spec_id: idmc-conflicts
+status: active
+tests:
+  - row_count: {min: 900}
+    reason: GIDD conflict country-year series has roughly one thousand rows.
+    certainty: 90
+  - not_null: iso3
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2008, hi: current_year()}
+    points_outward: true
+    certainty: 95
+  - freshness: {col: year, reaches: current_year() - 1}
+    points_outward: true
+    certainty: 85
+  - unique: [iso3, year]
+    reason: conflict endpoint is one row per country-year.
+    certainty: 80
+  - column_type: {col: new_displacement, type: integer}
+  - column_type: {col: total_displacement, type: integer}

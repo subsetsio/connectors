@@ -1,0 +1,23 @@
+spec_id: idmc-public-figure-analyses
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: public figure analyses accompany country-year-cause GIDD figures.
+    certainty: 90
+  - not_null: iso3
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2008, hi: current_year()}
+    points_outward: true
+    certainty: 95
+  - freshness: {col: year, reaches: current_year() - 1}
+    points_outward: true
+    certainty: 85
+  - not_null: description
+    reason: this feed's purpose is methodology/caveat text.
+    certainty: 85
+  - column_type: {col: figures, type: integer}
+  - column_type: {col: figure_cause_name, type: string}
+  - unique: [iso3, year, figure_cause, figure_category]
+    reason: analyses are keyed by country, year, cause, and figure category.
+    certainty: 75

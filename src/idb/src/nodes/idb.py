@@ -37,7 +37,6 @@ import httpx
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -279,14 +278,3 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Thin passthrough: raw parquet is already one clean all-string schema per
-# package; the transform publishes it as the Delta table (and the runtime's
-# 0-row check is the correctness gate on the fetch).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
-]

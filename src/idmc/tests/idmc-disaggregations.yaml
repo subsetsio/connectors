@@ -1,0 +1,22 @@
+spec_id: idmc-disaggregations
+status: active
+tests:
+  - row_count: {min: 40000}
+    reason: disaggregated GIDD GeoJSON should contain tens of thousands of point features.
+    certainty: 90
+  - not_null: id
+  - unique: id
+    reason: GeoJSON properties include ID as the feature identifier.
+    certainty: 85
+  - not_null: iso3
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2008, hi: current_year()}
+    points_outward: true
+    certainty: 95
+  - freshness: {col: year, reaches: current_year() - 1}
+    points_outward: true
+    certainty: 85
+  - column_type: {col: total_figures, type: integer}
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: longitude, type: float}
