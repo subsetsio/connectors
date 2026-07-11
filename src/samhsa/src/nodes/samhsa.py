@@ -18,10 +18,8 @@ Both are small enough to re-fetch in full every run, so both fetch fns are the
 default stateless full-pull shape — no watermarks, no cursors.
 """
 
-import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_ndjson,
@@ -133,52 +131,4 @@ def fetch_synar(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="samhsa-findtreatment-facilities", fn=fetch_findtreatment, kind="download"),
     NodeSpec(id="samhsa-escb-scz6", fn=fetch_synar, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="samhsa-findtreatment-facilities-transform",
-        deps=["samhsa-findtreatment-facilities"],
-        sql='''
-            SELECT DISTINCT
-                CAST(name1 AS VARCHAR)                   AS name,
-                NULLIF(CAST(name2 AS VARCHAR), '')       AS program_name,
-                NULLIF(CAST(street1 AS VARCHAR), '')     AS street1,
-                NULLIF(CAST(street2 AS VARCHAR), '')     AS street2,
-                CAST(city AS VARCHAR)                    AS city,
-                CAST(state AS VARCHAR)                   AS state,
-                CAST(zip AS VARCHAR)                     AS zip,
-                NULLIF(CAST(phone AS VARCHAR), '')       AS phone,
-                NULLIF(CAST(intake1 AS VARCHAR), '')     AS intake_phone,
-                NULLIF(CAST(website AS VARCHAR), '')     AS website,
-                TRY_CAST(latitude AS DOUBLE)            AS latitude,
-                TRY_CAST(longitude AS DOUBLE)           AS longitude,
-                CAST(typeFacility AS VARCHAR)            AS facility_type
-            FROM "samhsa-findtreatment-facilities"
-            WHERE name1 IS NOT NULL AND CAST(name1 AS VARCHAR) <> ''
-              AND state IS NOT NULL AND CAST(state AS VARCHAR) <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id="samhsa-escb-scz6-transform",
-        deps=["samhsa-escb-scz6"],
-        temporal="federal_fiscal_year",
-        sql='''
-            SELECT
-                CAST(locationabbr AS VARCHAR)          AS location_code,
-                CAST(locationdesc AS VARCHAR)          AS location,
-                TRY_CAST(ffy_year AS INTEGER)          AS federal_fiscal_year,
-                CAST(topicdesc AS VARCHAR)             AS topic,
-                CAST(measuredesc AS VARCHAR)           AS measure,
-                CAST(submeasure AS VARCHAR)            AS submeasure,
-                TRY_CAST(data_value AS DOUBLE)         AS value,
-                CAST(data_value_unit AS VARCHAR)       AS unit,
-                CAST(data_value_type AS VARCHAR)       AS value_type,
-                CAST(source AS VARCHAR)                AS source
-            FROM "samhsa-escb-scz6"
-            WHERE TRY_CAST(data_value AS DOUBLE) IS NOT NULL
-              AND TRY_CAST(ffy_year AS INTEGER) IS NOT NULL
-        ''',
-    ),
 ]

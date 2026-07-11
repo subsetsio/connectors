@@ -1,0 +1,28 @@
+spec_id: robert-shiller-us-stock-market
+status: active
+tests:
+  - row_count: {min: 1800}
+    reason: monthly stock-market data starts in January 1871.
+    certainty: 95
+  - column_type: {col: date, type: string}
+  - column_type: {col: sp500_price, type: float}
+  - column_type: {col: dividend, type: float}
+  - column_type: {col: earnings, type: float}
+  - column_type: {col: cpi, type: float}
+  - column_type: {col: long_interest_rate, type: float}
+  - not_null: date
+  - not_null: sp500_price
+  - not_null: cpi
+  - unique: date
+    reason: the stock workbook has one row per month.
+    certainty: 95
+  - nullable: {col: cape, max_null_frac: 0.15}
+    reason: CAPE is undefined for the early ten-year warm-up period but should otherwise be populated.
+    certainty: 90
+  - nullable: {col: tr_cape, max_null_frac: 0.15}
+    reason: total-return CAPE is undefined for the early warm-up period but should otherwise be populated.
+    certainty: 85
+  - freshness: {col: date, reaches: today - 75d}
+    reason: source states the stock-market workbook is updated monthly.
+    certainty: 85
+    points_outward: true

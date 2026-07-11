@@ -1,0 +1,35 @@
+spec_id: robert-shiller-us-home-price-index
+status: active
+tests:
+  - row_count: {min: 3000}
+    reason: Shiller's home-price workbook contains annual history from 1890 plus monthly series from 1953.
+    certainty: 90
+  - column_type: {col: date, type: string}
+  - column_type: {col: series, type: string}
+  - column_type: {col: value, type: float}
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - distinct_count: {col: series, min: 8, max: 8}
+    reason: parser emits the eight documented series pairs from the Fig3-1 Data sheet.
+    certainty: 95
+  - enum:
+      col: series
+      values:
+        - real_home_price_index
+        - real_building_cost_index
+        - us_population_millions
+        - long_interest_rate
+        - nominal_home_price_index
+        - nominal_building_cost_index
+        - cpi_monthly
+        - cpi_annual
+    reason: unexpected series means the workbook layout or parser mapping changed.
+    certainty: 95
+  - unique: [date, series]
+    reason: each series has at most one observation per represented date.
+    certainty: 95
+  - freshness: {col: date, reaches: today - 75d}
+    reason: source states the home-price workbook is updated monthly.
+    certainty: 85
+    points_outward: true
