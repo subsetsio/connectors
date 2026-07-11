@@ -1,0 +1,16 @@
+spec_id: nci-seer-explorer-survival
+status: active
+tests:
+  - not_null: site
+  - not_null: sex
+  - not_null: relative_survival_interval
+  - not_null: rate
+  - unique: [site, sex, stage, relative_survival_interval]
+    reason: grain is one row per site x sex x stage x survival interval (5-year relative survival snapshot, not a time series)
+    certainty: 80
+  - distinct_count: {col: site, min: 20}
+    reason: relative survival is published for dozens of sites
+    certainty: 75
+  - distinct_count: {col: relative_survival_interval, min: 4}
+    reason: we fan four survival intervals (1,2,3,5 year)
+    certainty: 90

@@ -1,0 +1,11 @@
+spec_id: nci-seer-explorer-prevalence
+status: active
+tests:
+  - not_null: site
+  - not_null: sex
+  - not_null: count
+  - unique: [site, sex]
+    reason: grain is one row per site x sex (limited-duration prevalence snapshot; age pinned to "all")
+    certainty: 80
+  - distinct_count: {col: site, min: 20}
+    certainty: 75

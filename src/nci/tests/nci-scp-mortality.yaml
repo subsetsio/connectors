@@ -1,0 +1,15 @@
+spec_id: nci-scp-mortality
+status: active
+tests:
+  - not_null: fips
+  - not_null: cancer_code
+  - not_null: sex_code
+  - matches: {col: fips, pattern: '^[0-9]{5}$'}
+    certainty: 85
+  - enum: {col: sex_code, values: ['0', '1', '2']}
+    certainty: 95
+  - unique: [fips, cancer_code, sex_code]
+    reason: one row per area x cancer type x sex in the latest 5-year cross-section
+    certainty: 85
+  - distinct_count: {col: cancer_code, min: 5}
+    certainty: 80

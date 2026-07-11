@@ -1,0 +1,16 @@
+spec_id: nci-seer-explorer-risk-of-diagnosis-dying
+status: active
+tests:
+  - not_null: site
+  - not_null: sex
+  - not_null: stat_type
+  - not_null: risk_interval
+  - not_null: risk
+  - unique: [site, sex, stat_type, risk_interval]
+    reason: grain is one row per site x sex x risk-type (diagnosis/dying) x age interval; not a time series
+    certainty: 80
+  - distinct_count: {col: stat_type, min: 2}
+    reason: two risk types fanned - risk of diagnosis (10) and risk of dying (11)
+    certainty: 90
+  - distinct_count: {col: site, min: 15}
+    certainty: 70

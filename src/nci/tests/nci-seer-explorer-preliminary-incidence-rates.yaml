@@ -1,0 +1,22 @@
+spec_id: nci-seer-explorer-preliminary-incidence-rates
+status: active
+tests:
+  - not_null: site
+  - not_null: year
+  - not_null: sex
+  - column_type: {col: year, type: integer}
+  - unique: [site, sex, data_model, year]
+    reason: preliminary incidence adds a data_model dimension to the site x sex x year grain
+    certainty: 85
+  - between: {col: year, lo: 2000, hi: 2026}
+    reason: preliminary incidence rates cover recent years only (observed 2000-2024)
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: 2022}
+    reason: preliminary rates are the most recent SEER product, reaching ~2024
+    points_outward: true
+  - distinct_count: {col: site, min: 20}
+    certainty: 75

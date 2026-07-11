@@ -1,0 +1,12 @@
+spec_id: nci-seer-explorer-cancer-sites
+status: active
+tests:
+  - not_null: site_id
+  - not_null: site_label
+  - column_type: {col: site_id, type: integer}
+  - unique: site_id
+    reason: one row per SEER*Explorer cancer-site code
+    certainty: 95
+  - distinct_count: {col: site_id, min: 50}
+    reason: SEER*Explorer exposes ~73 cancer sites/subtypes; far fewer means the site dictionary changed shape
+    certainty: 85

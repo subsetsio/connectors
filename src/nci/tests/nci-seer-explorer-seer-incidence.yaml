@@ -1,0 +1,23 @@
+spec_id: nci-seer-explorer-seer-incidence
+status: active
+tests:
+  - not_null: site
+  - not_null: year
+  - not_null: sex
+  - column_type: {col: year, type: integer}
+  - unique: [site, sex, year]
+    reason: grain is one row per cancer site x sex x diagnosis year (rate_type/race/age/subtype pinned to their "all" value)
+    certainty: 90
+  - between: {col: year, lo: 1975, hi: 2025}
+    reason: SEER long-term incidence trends start at 1975 and lag the current year by a few years
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: 2021}
+    reason: SEER incidence reaches ~2023; a floor of 2021 leaves release-lag margin while catching a stale load
+    points_outward: true
+  - distinct_count: {col: site, min: 30}
+    reason: incidence is published for dozens of sites; a collapse to a handful means sites were dropped
+    certainty: 80

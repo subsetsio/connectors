@@ -1,0 +1,21 @@
+spec_id: nci-seer-explorer-us-mortality
+status: active
+tests:
+  - not_null: site
+  - not_null: year
+  - not_null: sex
+  - column_type: {col: year, type: integer}
+  - unique: [site, sex, year]
+    reason: grain is one row per cancer site x sex x death year (race/age pinned to "all")
+    certainty: 90
+  - between: {col: year, lo: 1975, hi: 2025}
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: 2021}
+    reason: U.S. mortality reaches ~2024; a floor of 2021 leaves release-lag margin
+    points_outward: true
+  - distinct_count: {col: site, min: 30}
+    certainty: 80

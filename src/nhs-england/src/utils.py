@@ -1,26 +1,37 @@
-"""NHS England statistics: workbook discovery + generic long-format melt.
+"""NHS England statistics: workbook discovery + generic tidy extraction.
 
 NHS England publishes each statistical work area as bespoke, human-formatted
-Excel workbooks (banner blocks, multi-sheet, serial dates) reachable only by
-scraping the work-area landing page (URLs are point-in-time — never stable).
-There is no machine-readable catalog. Research's chosen strategy is
-scrape_index -> bulk_files.
+Excel workbooks (banner blocks, multi-sheet, serial dates, merged headers)
+reachable only by scraping the work-area landing page — the file URLs are
+point-in-time (upload-date path + random suffix), so they are re-discovered
+every refresh and NEVER hardcoded. There is no machine-readable catalog.
+Research's chosen strategy is scrape_index -> bulk_files.
 
-Because the workbooks are heterogeneous and there is no single tidy schema
-across the ~50 areas, we melt every detected data block to a UNIFORM
-long/tidy cell table: one row per (source_file, sheet, row_index, col_index)
-with the detected column header, the row's leading label, and the value
-(numeric or text). This is lossless, SQL-readable, and carries a clean grain;
-the model stage derives periods/metrics from column_header/row_label.
+The workbooks are heterogeneous, but the vast majority are period-indexed time
+series in one of two orientations, so we extract a UNIFORM tidy table across
+every area:
+
+    source_file (TEXT) | sheet (TEXT) | series (TEXT) | period (DATE) | value (DOUBLE)
+
+  * vertical   — periods run DOWN a column, metrics across columns. One output
+                 row per (period, metric); the series label is built from the
+                 (up to 3) header rows above the first data row.
+  * horizontal — periods run ACROSS a row, one data row per breakdown category.
+                 One output row per (category, period).
+
+Auto-detected per sheet (vertical first, then horizontal). Sheets with no
+date-indexed table (pure banners, notes, category-only survey tables) yield no
+rows and are skipped. Full re-pull each refresh (stateless): the time-series
+workbooks carry the whole history and there is no incremental query parameter.
 """
 import datetime as dt
 import io
+import math
 import re
 from urllib.parse import urljoin
 
-import openpyxl
+import pandas as pd
 import pyarrow as pa
-import xlrd
 
 from subsets_utils import get
 
@@ -30,21 +41,17 @@ WORK_AREA_BASE = "https://www.england.nhs.uk/statistics/statistical-work-areas/"
 SCHEMA = pa.schema([
     ("source_file", pa.string()),
     ("sheet", pa.string()),
-    ("row_index", pa.int32()),
-    ("col_index", pa.int32()),
-    ("column_header", pa.string()),
-    ("row_label", pa.string()),
-    ("value_num", pa.float64()),
-    ("value_text", pa.string()),
+    ("series", pa.string()),
+    ("period", pa.date32()),
+    ("value", pa.float64()),
 ])
 
 # Safety ceilings — trip on source growth past expectation rather than
-# silently truncate/hammer. They RAISE, never silently return.
+# silently truncate/hammer. Discovery raises; sub-page/file slices are bounded.
 MAX_SUBPAGES = 15
 MAX_FILES_PER_AREA = 30
 MAX_DISCOVERED = 400
 
-# Fallback (non time-series) file names to drop — commentary, not data.
 _NON_DATA_RE = re.compile(
     r"(technical[-_ ]?note|guidance|methodolog|specification|pre[-_ ]?release|"
     r"glossary|definition|read[-_ ]?me|faq|background|user[-_ ]?guide|"
@@ -53,9 +60,10 @@ _NON_DATA_RE = re.compile(
 )
 _TIME_SERIES_RE = re.compile(r"time[-_ ]?series", re.I)
 _XLS_RE = re.compile(r"\.xlsx?($|\?)", re.I)
-# Upload path date, e.g. /uploads/sites/2/2026/07/  -> (2026, 07) for recency.
 _PATH_DATE_RE = re.compile(r"/uploads/sites/\d+/(\d{4})/(\d{2})/")
 
+
+# --- discovery ---------------------------------------------------------------
 
 def _abs_links(page_url: str, html: str) -> list[str]:
     return [urljoin(page_url, h) for h in re.findall(r'href="([^"]+)"', html)]
@@ -67,30 +75,25 @@ def _path_date(url: str) -> tuple:
 
 
 def discover_files(slug: str) -> list[str]:
-    """Return absolute .xls/.xlsx URLs for a work area: the landing page plus
-    one level of same-section sub-pages (many areas hide their workbooks on
-    per-topic sub-pages). PDFs are ignored."""
+    """Absolute .xls/.xlsx URLs for a work area: the landing page plus one level
+    of same-section sub-pages (many areas hide workbooks on sub-pages). PDFs
+    are ignored."""
     landing = f"{WORK_AREA_BASE}{slug}/"
     resp = get(landing, timeout=(10, 60))
     resp.raise_for_status()
     links = _abs_links(landing, resp.text)
-
     files = {u for u in links if _XLS_RE.search(u)}
 
-    sub_re = re.compile(
-        rf"/statistical-work-areas/{re.escape(slug)}/[^\"?#]+/?$"
-    )
-    subpages = sorted({u for u in links if sub_re.search(u) and u.rstrip("/") != landing.rstrip("/")})
-    if len(subpages) > MAX_SUBPAGES:
-        # Deterministic slice; not silent — bounded by design for one refresh.
-        subpages = subpages[:MAX_SUBPAGES]
+    sub_re = re.compile(rf"/statistical-work-areas/{re.escape(slug)}/[^\"?#]+/?$")
+    subpages = sorted({
+        u for u in links
+        if sub_re.search(u) and u.rstrip("/") != landing.rstrip("/")
+    })[:MAX_SUBPAGES]
     for sp in subpages:
         r = get(sp, timeout=(10, 60))
         if r.status_code != 200:
             continue
-        for u in _abs_links(sp, r.text):
-            if _XLS_RE.search(u):
-                files.add(u)
+        files.update(u for u in _abs_links(sp, r.text) if _XLS_RE.search(u))
 
     files = sorted(files)
     if len(files) > MAX_DISCOVERED:
@@ -102,147 +105,129 @@ def discover_files(slug: str) -> list[str]:
 
 
 def select_files(slug: str, files: list[str]) -> list[str]:
-    """Pick the workbooks to melt. Prefer the full-history 'time series'
-    workbooks (research: they contain the whole series, so a full re-fetch is
-    the natural pattern). Otherwise fall back to the most recent data files."""
+    """Prefer the full-history 'time series' workbooks (research: they carry the
+    whole series, so a full re-fetch is natural). Else the most recent data
+    files, bounded."""
     ts = [u for u in files if _TIME_SERIES_RE.search(u.rsplit("/", 1)[-1])]
     if ts:
-        chosen = ts
-    else:
-        data = [u for u in files if not _NON_DATA_RE.search(u.rsplit("/", 1)[-1])]
-        # Most recent first by upload-path date.
-        data.sort(key=_path_date, reverse=True)
-        chosen = data[:MAX_FILES_PER_AREA]
-    if len(chosen) > MAX_FILES_PER_AREA:
-        chosen = sorted(chosen, key=_path_date, reverse=True)[:MAX_FILES_PER_AREA]
-    return chosen
+        return ts[:MAX_FILES_PER_AREA]
+    data = [u for u in files if not _NON_DATA_RE.search(u.rsplit("/", 1)[-1])]
+    data.sort(key=_path_date, reverse=True)
+    return data[:MAX_FILES_PER_AREA]
 
 
-# ---- cell helpers -----------------------------------------------------------
+# --- value helpers -----------------------------------------------------------
+
+def _is_date(v) -> bool:
+    return isinstance(v, (dt.datetime, dt.date)) and not isinstance(v, bool)
+
 
 def _is_num(v) -> bool:
     if isinstance(v, bool):
         return False
-    if isinstance(v, (int, float)):
+    if isinstance(v, int):
         return True
-    if isinstance(v, str):
-        return bool(re.fullmatch(r"-?\d{1,3}(,\d{3})*(\.\d+)?%?|-?\d+(\.\d+)?%?", v.strip()))
+    if isinstance(v, float):
+        return not math.isnan(v)
     return False
 
 
-def _to_num(v):
-    if isinstance(v, bool):
-        return None
-    if isinstance(v, (int, float)):
-        return float(v)
-    if isinstance(v, str):
-        s = v.strip().replace(",", "")
-        pct = s.endswith("%")
-        s = s.rstrip("%")
-        try:
-            f = float(s)
-            return f / 100.0 if pct else f
-        except ValueError:
-            return None
-    return None
+def _to_date(v) -> dt.date:
+    return v.date() if isinstance(v, dt.datetime) else v
 
 
-def _celltext(v) -> str:
+def _clean(v) -> str:
     if v is None:
         return ""
-    if isinstance(v, dt.datetime):
-        if v.hour == v.minute == v.second == 0:
-            return v.date().isoformat()
-        return v.isoformat()
-    if isinstance(v, dt.date):
-        return v.isoformat()
-    if isinstance(v, float) and v.is_integer():
-        return str(int(v))
-    return str(v).strip()
+    s = re.sub(r"\s+", " ", str(v)).strip()
+    return "" if s.lower() == "nan" else s
 
 
-def melt_sheet(grid: list, source_file: str, sheet: str) -> list[dict]:
-    """Melt one sheet's grid (list of row-lists, dates as datetime) to long
-    cell records. Skips the banner: the first data region is the first row
-    with >=2 numeric cells; the header is the nearest text-rich row above it."""
+# --- tidy extractors ---------------------------------------------------------
+
+def _tidy_vertical(raw: pd.DataFrame) -> list[tuple]:
+    """Periods down a column; metrics across columns -> (series, period, value)."""
+    nrows, ncols = raw.shape
+    date_cols = [
+        c for c in range(ncols)
+        if sum(_is_date(raw.iat[r, c]) for r in range(nrows)) >= 6
+    ]
+    if not date_cols:
+        return []
+    first_data = min(
+        r for r in range(nrows) for c in date_cols if _is_date(raw.iat[r, c])
+    )
+    labels: dict[int, str] = {}
+    if first_data > 0:
+        hdr = raw.iloc[max(0, first_data - 3):first_data].ffill(axis=1)
+        for c in range(ncols):
+            parts = []
+            for i in range(hdr.shape[0]):
+                s = _clean(hdr.iat[i, c])
+                if s:
+                    parts.append(s)
+            labels[c] = " - ".join(dict.fromkeys(parts))
     out = []
-    n = len(grid)
-    if n == 0:
-        return out
-
-    def numcount(r):
-        return sum(1 for c in r if _is_num(c))
-
-    first_data = next((i for i, r in enumerate(grid) if numcount(r) >= 2), None)
-    if first_data is None:
-        return out
-
-    header = []
-    for i in range(first_data - 1, -1, -1):
-        if sum(1 for c in grid[i] if isinstance(c, str) and c.strip()) >= 2:
-            header = grid[i]
-            break
-
-    for ri in range(first_data, n):
-        r = grid[ri]
-        if numcount(r) < 1:
-            continue
-        first_num_col = next((j for j, c in enumerate(r) if _is_num(c)), None)
-        if first_num_col is None:
-            continue
-        label = " | ".join(t for t in (_celltext(c) for c in r[:first_num_col]) if t)
-        for cj, v in enumerate(r):
-            num = _to_num(v)
-            text = _celltext(v)
-            if num is None and not text:
+    for r in range(first_data, nrows):
+        for c in range(ncols):
+            if c in date_cols or not _is_num(raw.iat[r, c]):
                 continue
-            hdr = _celltext(header[cj]) if cj < len(header) else ""
-            out.append({
-                "source_file": source_file,
-                "sheet": sheet,
-                "row_index": ri,
-                "col_index": cj,
-                "column_header": hdr,
-                "row_label": label,
-                "value_num": num,
-                "value_text": None if num is not None else text,
-            })
+            owners = [d for d in date_cols if d < c]
+            if not owners:
+                continue
+            period = raw.iat[r, max(owners)]
+            if not _is_date(period):
+                continue
+            series = labels.get(c) or f"col{c}"
+            out.append((series, _to_date(period), float(raw.iat[r, c])))
     return out
 
 
+def _tidy_horizontal(raw: pd.DataFrame) -> list[tuple]:
+    """Periods across a row; one data row per category -> (series, period, value)."""
+    nrows, ncols = raw.shape
+    date_rows = [
+        r for r in range(nrows)
+        if sum(_is_date(raw.iat[r, c]) for c in range(ncols)) >= 6
+    ]
+    if not date_rows:
+        return []
+    drow = date_rows[0]
+    first_col = min(c for c in range(ncols) if _is_date(raw.iat[drow, c]))
+    out = []
+    for r in range(drow + 1, nrows):
+        parts = [_clean(raw.iat[r, c]) for c in range(first_col)]
+        series = " - ".join(p for p in parts if p)
+        if not series:
+            continue
+        for c in range(first_col, ncols):
+            period = raw.iat[drow, c]
+            if not _is_date(period) or not _is_num(raw.iat[r, c]):
+                continue
+            out.append((series, _to_date(period), float(raw.iat[r, c])))
+    return out
+
+
+def tidy_sheet(raw: pd.DataFrame, source_file: str, sheet: str) -> list[dict]:
+    """Auto-detect orientation and return uniform tidy records for one sheet."""
+    rows = _tidy_vertical(raw)
+    if not rows:
+        rows = _tidy_horizontal(raw)
+    return [
+        {"source_file": source_file, "sheet": sheet,
+         "series": series, "period": period, "value": value}
+        for series, period, value in rows
+    ]
+
+
 def iter_sheets(url: str):
-    """Yield (sheet_name, grid) for a workbook URL. Handles legacy .xls (BIFF,
-    via xlrd) and .xlsx (via openpyxl); converts date cells to datetime."""
+    """Yield (source_file, sheet_name, raw_dataframe) for a workbook URL.
+    Legacy .xls via xlrd, .xlsx via openpyxl; raw cells (header=None)."""
     resp = get(url, timeout=(10, 300))
     resp.raise_for_status()
-    body = resp.content
     name = url.rsplit("/", 1)[-1].split("?")[0]
-    if name.lower().endswith("xlsx"):
-        wb = openpyxl.load_workbook(io.BytesIO(body), read_only=True, data_only=True)
-        try:
-            for sn in wb.sheetnames:
-                ws = wb[sn]
-                yield name, sn, [list(row) for row in ws.iter_rows(values_only=True)]
-        finally:
-            wb.close()
-    else:
-        wb = xlrd.open_workbook(file_contents=body)
-        dm = wb.datemode
-        for sn in wb.sheet_names():
-            ws = wb.sheet_by_name(sn)
-            grid = []
-            for i in range(ws.nrows):
-                row = []
-                for j in range(ws.ncols):
-                    cell = ws.cell(i, j)
-                    if cell.ctype == xlrd.XL_CELL_DATE:
-                        try:
-                            row.append(xlrd.xldate_as_datetime(cell.value, dm))
-                        except Exception:
-                            row.append(cell.value)
-                    elif cell.ctype == xlrd.XL_CELL_EMPTY:
-                        row.append(None)
-                    else:
-                        row.append(cell.value)
-                grid.append(row)
-            yield name, sn, grid
+    engine = "xlrd" if name.lower().endswith(".xls") else "openpyxl"
+    book = pd.ExcelFile(io.BytesIO(resp.content), engine=engine)
+    for sheet_name in book.sheet_names:
+        raw = book.parse(sheet_name, header=None)
+        yield name, sheet_name, raw
