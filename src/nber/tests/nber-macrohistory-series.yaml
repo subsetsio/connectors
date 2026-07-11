@@ -1,0 +1,42 @@
+spec_id: nber-macrohistory-series
+
+# The series catalog is reference data — one row per .dat series across the 16
+# chapter directories. It carries no time dimension, so no freshness/frozen
+# declaration is required. It IS an enumerated universe (collect measured 3491
+# series), so it must reconcile fetched-distinct against that discovered count.
+
+tests:
+  - coverage: {col: series_id, expected: 3491, tolerance: 0.02}
+    reason: >-
+      Collect enumerated 3491 series across the chapter indexes; the series node
+      re-lists the same directories, so fetched distinct series_id must reach that
+      count (small tolerance for stray non-a/m/q files skipped by the frequency filter).
+    certainty: 85
+
+  - row_count: {min: 3000, max: 4200}
+    reason: One row per series; the static macrohistory corpus holds ~3500 series across 16 chapters.
+    certainty: 85
+
+  - unique: series_id
+    reason: The catalog is keyed by series stem (e.g. a01005a); each .dat contributes exactly one catalog row.
+    certainty: 95
+
+  - not_null: series_id
+    reason: Every catalog row is derived from a real .dat filename stem.
+    certainty: 95
+
+  - not_null: chapter
+    reason: Each series is discovered under one of the 16 numbered chapter directories.
+    certainty: 95
+
+  - not_null: frequency
+    reason: Frequency is decoded from the filename prefix (a/m/q); rows with an unknown prefix are skipped, not emitted null.
+    certainty: 90
+
+  - enum: {col: frequency, values: [annual, monthly, quarterly]}
+    reason: The a/m/q filename prefixes map to exactly these three frequency labels (FREQ_NAMES).
+    certainty: 95
+
+  - distinct_count: {col: chapter, min: 16, max: 16}
+    reason: The macrohistory database is organized into exactly 16 chapters (01..16).
+    certainty: 95

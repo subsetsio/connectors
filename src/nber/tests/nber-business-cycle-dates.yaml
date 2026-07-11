@@ -1,0 +1,35 @@
+spec_id: nber-business-cycle-dates
+
+# The NBER US business-cycle chronology is a historical record that extends only
+# when the Business Cycle Dating Committee announces a new turning point — an
+# irregular event with multi-year gaps (the most recent trough is 2020-04). There
+# is no periodic release cadence to assert freshness against, so the raw corpus is
+# declared frozen rather than carrying a wall-clock freshness assertion (which
+# would block forever while no new recession is dated).
+coverage:
+  frozen: true
+  reason: >-
+    NBER recession chronology advances only on irregular BCDC turning-point
+    announcements (most recent trough 2020-04); no periodic cadence to assert
+    freshness against.
+
+tests:
+  - row_count: {min: 30, max: 60}
+    reason: NBER lists ~35 completed peak/trough cycles from Dec 1854 onward; the count grows by one only per dated cycle.
+    certainty: 90
+
+  - not_null: trough
+    reason: Every business cycle in the chronology has a dated trough; only the first row's peak is empty.
+    certainty: 95
+
+  - unique: trough
+    reason: One row per cycle, keyed by its trough month; troughs do not repeat.
+    certainty: 90
+
+  - matches: {col: trough, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: The source JSON carries ISO peak/trough date strings; the fetch strips them but keeps YYYY-MM-DD.
+    certainty: 85
+
+  - matches: {col: peak, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: Peaks are ISO date strings where present (the first cycle has an empty peak, which the matcher ignores as null).
+    certainty: 80

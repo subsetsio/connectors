@@ -1,0 +1,20 @@
+spec_id: nces-ipeds-gr
+status: active
+tests:
+  - not_null: UNITID
+    reason: IPEDS complete data files are keyed on UNITID (the institution id); every row carries one.
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: the fetch fn adds an integer `year` (collection year) to every row.
+    certainty: 95
+  - at_least: {col: year, expr: 1980}
+    reason: IPEDS Data Center floors its collection-year dropdown at 1980; nothing earlier is published.
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: a collection year cannot exceed the current calendar year.
+    certainty: 90
+    points_outward: true
+  - freshness: {col: year, reaches: 2023}
+    reason: IPEDS releases provisional files ~1yr after the collection year; the newest available collection is 2024, so the load must reach at least 2023. A shortfall means the recent-year fetch broke or the source stopped releasing.
+    certainty: 70
+    points_outward: true
