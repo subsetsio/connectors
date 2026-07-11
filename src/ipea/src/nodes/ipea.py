@@ -22,7 +22,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -183,51 +182,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="ipea-territories", fn=fetch_territories, kind="download"),
     NodeSpec(id="ipea-themes", fn=fetch_themes, kind="download"),
     NodeSpec(id="ipea-values", fn=fetch_values, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ipea-series-transform",
-        deps=["ipea-series"],
-        sql='''
-            SELECT
-                SERCODIGO                              AS series_code,
-                SERNOME                                AS name,
-                SERCOMENTARIO                          AS description,
-                BASNOME                                AS database,
-                TEMCODIGO                              AS theme_code,
-                FNTSIGLA                               AS source_acronym,
-                FNTNOME                                AS source_name,
-                NULLIF(FNTURL, '')                     AS source_url,
-                PERNOME                                AS periodicity,
-                UNINOME                                AS unit,
-                NULLIF(MULNOME, '')                    AS multiplier,
-                SERSTATUS                              AS status,
-                PAICODIGO                              AS country_code,
-                SERNUMERICA                            AS is_numeric,
-                CAST(SERATUALIZACAO AS TIMESTAMP)      AS last_updated
-            FROM "ipea-series"
-            WHERE SERCODIGO IS NOT NULL
-        ''',
-        key=("series_code",),
-        temporal="last_updated",
-    ),
-    SqlNodeSpec(
-        id="ipea-values-transform",
-        deps=["ipea-values"],
-        sql='''
-            SELECT
-                SERCODIGO                              AS series_code,
-                CAST(substr(VALDATA, 1, 10) AS DATE)   AS date,
-                CAST(VALVALOR AS DOUBLE)               AS value,
-                NULLIF(NIVNOME, '')                    AS geo_level,
-                NULLIF(TERCODIGO, '')                  AS territory_code
-            FROM "ipea-values"
-            WHERE VALVALOR IS NOT NULL
-              AND VALDATA IS NOT NULL
-        ''',
-        key=("series_code", "date", "geo_level", "territory_code"),
-        temporal="date",
-    ),
 ]
