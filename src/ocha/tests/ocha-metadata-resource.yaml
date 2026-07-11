@@ -1,0 +1,13 @@
+spec_id: ocha-metadata-resource
+status: active
+tests:
+- not_null: resource_hdx_id
+- not_null: dataset_hdx_id
+- not_null: download_url
+- unique: resource_hdx_id
+  reason: one row per HDX resource; the HDX resource id is the natural key
+  certainty: 85
+- freshness: {col: update_date, reaches: today - 400d}
+  reason: the underlying HDX resources are periodically refreshed; the most recently updated should be within roughly a year
+  certainty: 60
+  points_outward: true

@@ -36,6 +36,8 @@ flag.
 from __future__ import annotations
 
 import datetime
+import os
+import random
 import tempfile
 import time
 
@@ -46,11 +48,11 @@ from tenacity import (
     retry_if_exception,
     stop_after_attempt,
     wait_exponential,
+    wait_random,
 )
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     is_transient,
     raw_parquet_writer,
@@ -184,23 +186,31 @@ def _retryable(exc: BaseException) -> bool:
 
 
 # CloudFront throttles bursts of small-file requests per-IP with a 403, and the
-# throttle window outlasts a short backoff: a single run pulls ~600 files across
-# four series back-to-back, so by the time the small green/fhv months stream
-# through, hundreds of requests have already landed. Retry 403 over a long window
-# (~12 attempts, up to 120s apart ≈ 15min total) so a throttle clears mid-retry
-# rather than failing the whole DAG.
+# throttle window can outlast a short backoff: a cold backfill run pulls ~600
+# files across four series that run CONCURRENTLY (each NodeSpec is its own
+# subprocess), so the aggregate request rate against one host is ~4x a single
+# series' pace and the library exposes no cross-process limiter (feedback filed).
+# A prior run hit a sustained ~16min 403 on green 2017-02 (a file that verifiably
+# exists) and exhausted a 12-attempt/120s-cap window. So retry 403 over a much
+# longer, JITTERED window (~24 attempts, exponential to 300s + random spread ≈
+# up to ~1.5h) — the jitter desynchronizes the four concurrent series so their
+# retries stop landing in lockstep, and the long tail lets a throttle clear
+# mid-retry rather than failing the whole DAG. Interior months of every series
+# are contiguous (only the latest edge is probed for existence), so a persistent
+# 403 here is always throttle, never a real gap.
 _fetch_retry = retry(
     retry=retry_if_exception(_retryable),
-    stop=stop_after_attempt(12),
-    wait=wait_exponential(min=2, max=120),
+    stop=stop_after_attempt(24),
+    wait=wait_exponential(min=4, max=300) + wait_random(0, 10),
     reraise=True,
 )
 
 # Minimum spacing between successive month fetches within a series, to keep the
 # request rate under CloudFront's burst threshold (the small monthly files
-# otherwise fire several per second). Cheap insurance: ~0.5s × 600 files ≈ 5min
-# against a multi-hour run.
-FETCH_PACING_S = 0.5
+# otherwise fire several per second). Jittered so the four concurrent series
+# don't align into synchronized bursts. Cheap insurance against a multi-hour run.
+FETCH_PACING_S = 1.0
+FETCH_PACING_JITTER_S = 1.0
 
 
 # --- month helpers ----------------------------------------------------------
@@ -332,7 +342,7 @@ def _fetch_series(node_id: str) -> None:
 
     for i, month in enumerate(todo):
         if i:
-            time.sleep(FETCH_PACING_S)
+            time.sleep(FETCH_PACING_S + random.uniform(0, FETCH_PACING_JITTER_S))
         url = f"{BASE}/{stem}_{month}.parquet"
         _normalize_month(url, f"{node_id}-{month}", colspecs)
         completed.add(month)

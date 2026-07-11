@@ -1,0 +1,12 @@
+spec_id: ocha-metadata-wfp-market
+status: active
+tests:
+- not_null: code
+- not_null: location_code
+- not_null: name
+- between: {col: lat, lo: -90, hi: 90}
+  reason: market latitude is a valid WGS84 coordinate
+  certainty: 90
+- between: {col: lon, lo: -180, hi: 180}
+  reason: market longitude is a valid WGS84 coordinate
+  certainty: 90

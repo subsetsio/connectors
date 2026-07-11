@@ -1,0 +1,8 @@
+spec_id: ocha-metadata-wfp-commodity
+status: active
+tests:
+- not_null: code
+- not_null: name
+- unique: code
+  reason: one row per WFP commodity; the WFP commodity code is the natural key
+  certainty: 85
