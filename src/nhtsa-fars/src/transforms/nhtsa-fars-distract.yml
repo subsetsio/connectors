@@ -1,20 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-distract`. Regenerate after model-verify.
+# caution: Driver distraction rows are multi-response observations; do not aggregate as one row per driver.
+key: []
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: mdrdstrd
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: ST_CASE
+  - name: mdrdstrdname
     type: VARCHAR
-  - name: VEH_NO
-    type: VARCHAR
-  - name: MDRDSTRD
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: MDRDSTRDNAME
-    type: VARCHAR
-  - name: DRDISTRACT
-    type: VARCHAR
-  - name: DRDISTRACTNAME
+  - name: drdistract
+    type: BIGINT
+  - name: drdistractname
     type: VARCHAR
   - name: case_year
     type: INTEGER

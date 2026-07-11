@@ -1,42 +1,45 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-safetyeq`. Regenerate after model-verify.
+# caution: Non-motorist safety-equipment rows are multi-response observations; do not aggregate as one row per person.
+key: []
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: per_no
+    type: BIGINT
+  - name: msafeqmt
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: ST_CASE
+  - name: msafeqmtname
     type: VARCHAR
-  - name: VEH_NO
+  - name: nmhelmet
+    type: BIGINT
+  - name: nmhelmetname
     type: VARCHAR
-  - name: PER_NO
+  - name: nmpropad
+    type: BIGINT
+  - name: nmpropadname
     type: VARCHAR
-  - name: MSAFEQMT
+  - name: nmothpro
+    type: BIGINT
+  - name: nmothproname
     type: VARCHAR
-  - name: STATENAME
+  - name: nmrefclo
+    type: BIGINT
+  - name: nmrefcloname
     type: VARCHAR
-  - name: MSAFEQMTNAME
+  - name: nmlight
+    type: BIGINT
+  - name: nmlightname
     type: VARCHAR
-  - name: NMHELMET
-    type: VARCHAR
-  - name: NMHELMETNAME
-    type: VARCHAR
-  - name: NMPROPAD
-    type: VARCHAR
-  - name: NMPROPADNAME
-    type: VARCHAR
-  - name: NMOTHPRO
-    type: VARCHAR
-  - name: NMOTHPRONAME
-    type: VARCHAR
-  - name: NMREFCLO
-    type: VARCHAR
-  - name: NMREFCLONAME
-    type: VARCHAR
-  - name: NMLIGHT
-    type: VARCHAR
-  - name: NMLIGHTNAME
-    type: VARCHAR
-  - name: NMOTHPRE
-    type: VARCHAR
-  - name: NMOTHPRENAME
+  - name: nmothpre
+    type: BIGINT
+  - name: nmothprename
     type: VARCHAR
   - name: case_year
     type: INTEGER

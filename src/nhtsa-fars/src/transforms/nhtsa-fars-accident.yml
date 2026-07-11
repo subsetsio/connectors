@@ -1,226 +1,229 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-accident`. Regenerate after model-verify.
+key: [state, st_case, case_year]
+sort: [state, st_case, case_year]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: county
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: hour
+    type: BIGINT
+  - name: minute
+    type: BIGINT
+  - name: ve_forms
+    type: BIGINT
+  - name: persons
+    type: BIGINT
+  - name: vehicles
+    type: BIGINT
+  - name: land_use
+    type: BIGINT
+  - name: cl_tway
+    type: BIGINT
+  - name: road_fnc
+    type: BIGINT
+  - name: ta_1_cl
+    type: BIGINT
+  - name: sp_jur
+    type: BIGINT
+  - name: harm_ev
+    type: BIGINT
+  - name: man_coll
+    type: BIGINT
+  - name: rel_junc
+    type: BIGINT
+  - name: rel_road
+    type: BIGINT
+  - name: road_flo
+    type: BIGINT
+  - name: no_lanes
+    type: BIGINT
+  - name: sp_limit
+    type: BIGINT
+  - name: alignmnt
+    type: BIGINT
+  - name: profile
+    type: BIGINT
+  - name: pave_typ
+    type: BIGINT
+  - name: sur_cond
+    type: BIGINT
+  - name: tra_cont
+    type: BIGINT
+  - name: lgt_cond
+    type: BIGINT
+  - name: weather
+    type: BIGINT
+  - name: hit_run
+    type: BIGINT
+  - name: c_m_zone
+    type: BIGINT
+  - name: not_hour
+    type: BIGINT
+  - name: not_min
+    type: BIGINT
+  - name: arr_hour
+    type: BIGINT
+  - name: arr_min
+    type: BIGINT
+  - name: sch_bus
+    type: BIGINT
+  - name: cf1
+    type: BIGINT
+  - name: cf2
+    type: BIGINT
+  - name: cf3
+    type: BIGINT
+  - name: fatals
+    type: BIGINT
+  - name: day_week
+    type: BIGINT
+  - name: drunk_dr
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: city
+    type: BIGINT
+  - name: rail
+    type: VARCHAR
+  - name: fed_aid
+    type: BIGINT
+  - name: tway_flo
+    type: BIGINT
+  - name: t_cont_f
+    type: BIGINT
+  - name: milept
+    type: BIGINT
+  - name: tway_id
+    type: VARCHAR
+  - name: route
+    type: BIGINT
+  - name: traf_flo
+    type: BIGINT
+  - name: hosp_hr
+    type: BIGINT
+  - name: hosp_mn
+    type: BIGINT
+  - name: peds
+    type: BIGINT
+  - name: nhs
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitud
     type: VARCHAR
-  - name: COUNTY
+  - name: tway_id2
     type: VARCHAR
-  - name: MONTH
+  - name: ve_total
+    type: BIGINT
+  - name: weather1
+    type: BIGINT
+  - name: weather2
+    type: BIGINT
+  - name: wrk_zone
+    type: BIGINT
+  - name: reljct1
+    type: BIGINT
+  - name: reljct2
+    type: BIGINT
+  - name: typ_int
+    type: BIGINT
+  - name: pvh_invl
+    type: BIGINT
+  - name: pernotmvit
+    type: BIGINT
+  - name: permvit
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: DAY
+  - name: dayname
+    type: BIGINT
+  - name: monthname
     type: VARCHAR
-  - name: YEAR
+  - name: day_weekname
     type: VARCHAR
-  - name: HOUR
+  - name: hourname
     type: VARCHAR
-  - name: MINUTE
+  - name: minutename
     type: VARCHAR
-  - name: VE_FORMS
+  - name: nhsname
     type: VARCHAR
-  - name: PERSONS
+  - name: routename
     type: VARCHAR
-  - name: VEHICLES
+  - name: rur_urb
+    type: BIGINT
+  - name: rur_urbname
     type: VARCHAR
-  - name: LAND_USE
+  - name: func_sys
+    type: BIGINT
+  - name: func_sysname
     type: VARCHAR
-  - name: CL_TWAY
+  - name: rd_owner
+    type: BIGINT
+  - name: rd_ownername
     type: VARCHAR
-  - name: ROAD_FNC
+  - name: mileptname
     type: VARCHAR
-  - name: TA_1_CL
+  - name: latitudename
     type: VARCHAR
-  - name: SP_JUR
+  - name: longitudname
     type: VARCHAR
-  - name: HARM_EV
+  - name: sp_jurname
     type: VARCHAR
-  - name: MAN_COLL
+  - name: harm_evname
     type: VARCHAR
-  - name: REL_JUNC
+  - name: man_collname
     type: VARCHAR
-  - name: REL_ROAD
+  - name: reljct1name
     type: VARCHAR
-  - name: ROAD_FLO
+  - name: reljct2name
     type: VARCHAR
-  - name: NO_LANES
+  - name: typ_intname
     type: VARCHAR
-  - name: SP_LIMIT
+  - name: wrk_zonename
     type: VARCHAR
-  - name: ALIGNMNT
+  - name: rel_roadname
     type: VARCHAR
-  - name: PROFILE
+  - name: lgt_condname
     type: VARCHAR
-  - name: PAVE_TYP
+  - name: weather1name
     type: VARCHAR
-  - name: SUR_COND
+  - name: weather2name
     type: VARCHAR
-  - name: TRA_CONT
+  - name: weathername
     type: VARCHAR
-  - name: LGT_COND
+  - name: sch_busname
     type: VARCHAR
-  - name: WEATHER
+  - name: railname
     type: VARCHAR
-  - name: HIT_RUN
+  - name: not_hourname
     type: VARCHAR
-  - name: C_M_ZONE
+  - name: not_minname
     type: VARCHAR
-  - name: NOT_HOUR
+  - name: arr_hourname
     type: VARCHAR
-  - name: NOT_MIN
+  - name: arr_minname
     type: VARCHAR
-  - name: ARR_HOUR
+  - name: hosp_hrname
     type: VARCHAR
-  - name: ARR_MIN
+  - name: hosp_mnname
     type: VARCHAR
-  - name: SCH_BUS
+  - name: cf1name
     type: VARCHAR
-  - name: CF1
+  - name: cf2name
     type: VARCHAR
-  - name: CF2
+  - name: cf3name
     type: VARCHAR
-  - name: CF3
+  - name: countyname
     type: VARCHAR
-  - name: FATALS
-    type: VARCHAR
-  - name: DAY_WEEK
-    type: VARCHAR
-  - name: DRUNK_DR
-    type: VARCHAR
-  - name: ST_CASE
-    type: VARCHAR
-  - name: CITY
-    type: VARCHAR
-  - name: RAIL
-    type: VARCHAR
-  - name: FED_AID
-    type: VARCHAR
-  - name: TWAY_FLO
-    type: VARCHAR
-  - name: T_CONT_F
-    type: VARCHAR
-  - name: MILEPT
-    type: VARCHAR
-  - name: TWAY_ID
-    type: VARCHAR
-  - name: ROUTE
-    type: VARCHAR
-  - name: TRAF_FLO
-    type: VARCHAR
-  - name: HOSP_HR
-    type: VARCHAR
-  - name: HOSP_MN
-    type: VARCHAR
-  - name: PEDS
-    type: VARCHAR
-  - name: NHS
-    type: VARCHAR
-  - name: LATITUDE
-    type: VARCHAR
-  - name: LONGITUD
-    type: VARCHAR
-  - name: TWAY_ID2
-    type: VARCHAR
-  - name: VE_TOTAL
-    type: VARCHAR
-  - name: WEATHER1
-    type: VARCHAR
-  - name: WEATHER2
-    type: VARCHAR
-  - name: WRK_ZONE
-    type: VARCHAR
-  - name: RELJCT1
-    type: VARCHAR
-  - name: RELJCT2
-    type: VARCHAR
-  - name: TYP_INT
-    type: VARCHAR
-  - name: PVH_INVL
-    type: VARCHAR
-  - name: PERNOTMVIT
-    type: VARCHAR
-  - name: PERMVIT
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: DAYNAME
-    type: VARCHAR
-  - name: MONTHNAME
-    type: VARCHAR
-  - name: DAY_WEEKNAME
-    type: VARCHAR
-  - name: HOURNAME
-    type: VARCHAR
-  - name: MINUTENAME
-    type: VARCHAR
-  - name: NHSNAME
-    type: VARCHAR
-  - name: ROUTENAME
-    type: VARCHAR
-  - name: RUR_URB
-    type: VARCHAR
-  - name: RUR_URBNAME
-    type: VARCHAR
-  - name: FUNC_SYS
-    type: VARCHAR
-  - name: FUNC_SYSNAME
-    type: VARCHAR
-  - name: RD_OWNER
-    type: VARCHAR
-  - name: RD_OWNERNAME
-    type: VARCHAR
-  - name: MILEPTNAME
-    type: VARCHAR
-  - name: LATITUDENAME
-    type: VARCHAR
-  - name: LONGITUDNAME
-    type: VARCHAR
-  - name: SP_JURNAME
-    type: VARCHAR
-  - name: HARM_EVNAME
-    type: VARCHAR
-  - name: MAN_COLLNAME
-    type: VARCHAR
-  - name: RELJCT1NAME
-    type: VARCHAR
-  - name: RELJCT2NAME
-    type: VARCHAR
-  - name: TYP_INTNAME
-    type: VARCHAR
-  - name: WRK_ZONENAME
-    type: VARCHAR
-  - name: REL_ROADNAME
-    type: VARCHAR
-  - name: LGT_CONDNAME
-    type: VARCHAR
-  - name: WEATHER1NAME
-    type: VARCHAR
-  - name: WEATHER2NAME
-    type: VARCHAR
-  - name: WEATHERNAME
-    type: VARCHAR
-  - name: SCH_BUSNAME
-    type: VARCHAR
-  - name: RAILNAME
-    type: VARCHAR
-  - name: NOT_HOURNAME
-    type: VARCHAR
-  - name: NOT_MINNAME
-    type: VARCHAR
-  - name: ARR_HOURNAME
-    type: VARCHAR
-  - name: ARR_MINNAME
-    type: VARCHAR
-  - name: HOSP_HRNAME
-    type: VARCHAR
-  - name: HOSP_MNNAME
-    type: VARCHAR
-  - name: CF1NAME
-    type: VARCHAR
-  - name: CF2NAME
-    type: VARCHAR
-  - name: CF3NAME
-    type: VARCHAR
-  - name: COUNTYNAME
-    type: VARCHAR
-  - name: CITYNAME
+  - name: cityname
     type: VARCHAR
   - name: case_year
     type: INTEGER

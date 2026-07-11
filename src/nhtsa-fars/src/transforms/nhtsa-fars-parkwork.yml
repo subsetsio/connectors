@@ -1,300 +1,303 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-parkwork`. Regenerate after model-verify.
+key: [state, st_case, veh_no, case_year]
+sort: [state, st_case, veh_no, case_year]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: pve_forms
+    type: BIGINT
+  - name: pnumoccs
+    type: BIGINT
+  - name: pday
+    type: BIGINT
+  - name: pmonth
+    type: BIGINT
+  - name: phour
+    type: BIGINT
+  - name: pminute
+    type: BIGINT
+  - name: pharm_ev
+    type: BIGINT
+  - name: pman_coll
+    type: BIGINT
+  - name: ptype
+    type: BIGINT
+  - name: phit_run
+    type: BIGINT
+  - name: preg_stat
+    type: BIGINT
+  - name: powner
+    type: BIGINT
+  - name: pmake
+    type: BIGINT
+  - name: pmodel
+    type: BIGINT
+  - name: pmak_mod
+    type: VARCHAR
+  - name: pbodytyp
+    type: BIGINT
+  - name: pmodyear
+    type: BIGINT
+  - name: pvin
+    type: VARCHAR
+  - name: pvin_1
+    type: VARCHAR
+  - name: pvin_2
+    type: VARCHAR
+  - name: pvin_3
+    type: VARCHAR
+  - name: pvin_4
+    type: VARCHAR
+  - name: pvin_5
+    type: VARCHAR
+  - name: pvin_6
+    type: VARCHAR
+  - name: pvin_7
+    type: VARCHAR
+  - name: pvin_8
+    type: VARCHAR
+  - name: pvin_9
+    type: VARCHAR
+  - name: pvin_10
+    type: VARCHAR
+  - name: pvin_11
+    type: VARCHAR
+  - name: pvin_12
+    type: VARCHAR
+  - name: pvintype
+    type: VARCHAR
+  - name: pvinmake
+    type: VARCHAR
+  - name: pvina_mod
+    type: VARCHAR
+  - name: pvin_bt
+    type: VARCHAR
+  - name: pvinmodyr
+    type: BIGINT
+  - name: pvin_lngt
+    type: BIGINT
+  - name: pvin_wgt
+    type: BIGINT
+  - name: pwgtcd_tr
+    type: BIGINT
+  - name: pwhlbs_lg
+    type: BIGINT
+  - name: pwhlbs_sh
+    type: BIGINT
+  - name: pser_tr
+    type: VARCHAR
+  - name: pfuecode
+    type: VARCHAR
+  - name: pmcycl_ds
+    type: BIGINT
+  - name: ptrailer
+    type: BIGINT
+  - name: pmcarr_i1
+    type: BIGINT
+  - name: pmcarr_i2
+    type: VARCHAR
+  - name: pmcarr_id
+    type: VARCHAR
+  - name: pgvwr
+    type: BIGINT
+  - name: pv_config
+    type: BIGINT
+  - name: pcargtyp
+    type: BIGINT
+  - name: phaz_inv
+    type: BIGINT
+  - name: phazplac
+    type: BIGINT
+  - name: phaz_id
+    type: BIGINT
+  - name: phaz_cno
+    type: BIGINT
+  - name: phaz_rel
+    type: BIGINT
+  - name: pbus_use
+    type: BIGINT
+  - name: psp_use
+    type: BIGINT
+  - name: pem_use
+    type: BIGINT
+  - name: punderide
+    type: BIGINT
+  - name: pimpact1
+    type: BIGINT
+  - name: pimpact2
+    type: BIGINT
+  - name: pveh_sev
+    type: BIGINT
+  - name: ptowed
+    type: BIGINT
+  - name: pm_harm
+    type: BIGINT
+  - name: pveh_sc1
+    type: BIGINT
+  - name: pveh_sc2
+    type: BIGINT
+  - name: pfire
+    type: BIGINT
+  - name: pdeaths
+    type: BIGINT
+  - name: pcarbur
     type: VARCHAR
-  - name: ST_CASE
+  - name: pcylinder
     type: VARCHAR
-  - name: VEH_NO
+  - name: pdisplace
     type: VARCHAR
-  - name: PVE_FORMS
+  - name: pmcycl_cy
+    type: BIGINT
+  - name: pmcycl_wt
+    type: BIGINT
+  - name: ptire_sze
     type: VARCHAR
-  - name: PNUMOCCS
+  - name: pton_rat
     type: VARCHAR
-  - name: PDAY
+  - name: ptrk_wt
     type: VARCHAR
-  - name: PMONTH
+  - name: ptrkwtvar
     type: VARCHAR
-  - name: PHOUR
+  - name: pvin_rest
     type: VARCHAR
-  - name: PMINUTE
+  - name: pwhldrwhl
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: PHARM_EV
+  - name: pnumoccsname
     type: VARCHAR
-  - name: PMAN_COLL
+  - name: pdayname
+    type: BIGINT
+  - name: pmonthname
     type: VARCHAR
-  - name: PTYPE
+  - name: phourname
     type: VARCHAR
-  - name: PHIT_RUN
+  - name: pminutename
     type: VARCHAR
-  - name: PREG_STAT
+  - name: pharm_evname
     type: VARCHAR
-  - name: POWNER
+  - name: pman_collname
     type: VARCHAR
-  - name: PMAKE
+  - name: ptypename
     type: VARCHAR
-  - name: PMODEL
+  - name: phit_runname
     type: VARCHAR
-  - name: PMAK_MOD
+  - name: preg_statname
     type: VARCHAR
-  - name: PBODYTYP
+  - name: pownername
     type: VARCHAR
-  - name: PMODYEAR
+  - name: pmakename
     type: VARCHAR
-  - name: PVIN
+  - name: pbodytypname
     type: VARCHAR
-  - name: PVIN_1
+  - name: pmodyearname
     type: VARCHAR
-  - name: PVIN_2
+  - name: pvinname
     type: VARCHAR
-  - name: PVIN_3
+  - name: ptrailername
     type: VARCHAR
-  - name: PVIN_4
+  - name: pmcarr_i1name
     type: VARCHAR
-  - name: PVIN_5
+  - name: pmcarr_i2name
     type: VARCHAR
-  - name: PVIN_6
+  - name: pmcarr_idname
     type: VARCHAR
-  - name: PVIN_7
+  - name: pgvwrname
     type: VARCHAR
-  - name: PVIN_8
+  - name: pv_configname
     type: VARCHAR
-  - name: PVIN_9
+  - name: pcargtypname
     type: VARCHAR
-  - name: PVIN_10
+  - name: phaz_invname
     type: VARCHAR
-  - name: PVIN_11
+  - name: phazplacname
     type: VARCHAR
-  - name: PVIN_12
+  - name: phaz_idname
     type: VARCHAR
-  - name: PVINTYPE
+  - name: phaz_cnoname
     type: VARCHAR
-  - name: PVINMAKE
+  - name: phaz_relname
     type: VARCHAR
-  - name: PVINA_MOD
+  - name: pbus_usename
     type: VARCHAR
-  - name: PVIN_BT
+  - name: psp_usename
     type: VARCHAR
-  - name: PVINMODYR
+  - name: pem_usename
     type: VARCHAR
-  - name: PVIN_LNGT
+  - name: punderidename
     type: VARCHAR
-  - name: PVIN_WGT
+  - name: pimpact1name
     type: VARCHAR
-  - name: PWGTCD_TR
+  - name: pveh_sevname
     type: VARCHAR
-  - name: PWHLBS_LG
+  - name: ptowedname
     type: VARCHAR
-  - name: PWHLBS_SH
+  - name: pm_harmname
     type: VARCHAR
-  - name: PSER_TR
+  - name: pveh_sc1name
     type: VARCHAR
-  - name: PFUECODE
+  - name: pveh_sc2name
     type: VARCHAR
-  - name: PMCYCL_DS
+  - name: pfirename
     type: VARCHAR
-  - name: PTRAILER
+  - name: ptrlr1vin
     type: VARCHAR
-  - name: PMCARR_I1
+  - name: ptrlr1vinname
     type: VARCHAR
-  - name: PMCARR_I2
+  - name: ptrlr2vin
     type: VARCHAR
-  - name: PMCARR_ID
+  - name: ptrlr2vinname
     type: VARCHAR
-  - name: PGVWR
+  - name: ptrlr3vin
+    type: BIGINT
+  - name: ptrlr3vinname
     type: VARCHAR
-  - name: PV_CONFIG
+  - name: pmak_modname
     type: VARCHAR
-  - name: PCARGTYP
+  - name: pvpicmake
+    type: BIGINT
+  - name: pvpicmakename
     type: VARCHAR
-  - name: PHAZ_INV
+  - name: pvpicmodel
+    type: BIGINT
+  - name: pvpicmodelname
     type: VARCHAR
-  - name: PHAZPLAC
+  - name: pvpicbodyclass
+    type: BIGINT
+  - name: pvpicbodyclassname
     type: VARCHAR
-  - name: PHAZ_ID
+  - name: pgvwr_from
+    type: BIGINT
+  - name: pgvwr_fromname
     type: VARCHAR
-  - name: PHAZ_CNO
+  - name: pgvwr_to
+    type: BIGINT
+  - name: pgvwr_toname
     type: VARCHAR
-  - name: PHAZ_REL
+  - name: picfinalbody
+    type: BIGINT
+  - name: picfinalbodyname
     type: VARCHAR
-  - name: PBUS_USE
+  - name: ptrlr1gvwr
+    type: BIGINT
+  - name: ptrlr1gvwrname
     type: VARCHAR
-  - name: PSP_USE
+  - name: ptrlr2gvwr
+    type: BIGINT
+  - name: ptrlr2gvwrname
     type: VARCHAR
-  - name: PEM_USE
+  - name: ptrlr3gvwr
+    type: BIGINT
+  - name: ptrlr3gvwrname
     type: VARCHAR
-  - name: PUNDERIDE
-    type: VARCHAR
-  - name: PIMPACT1
-    type: VARCHAR
-  - name: PIMPACT2
-    type: VARCHAR
-  - name: PVEH_SEV
-    type: VARCHAR
-  - name: PTOWED
-    type: VARCHAR
-  - name: PM_HARM
-    type: VARCHAR
-  - name: PVEH_SC1
-    type: VARCHAR
-  - name: PVEH_SC2
-    type: VARCHAR
-  - name: PFIRE
-    type: VARCHAR
-  - name: PDEATHS
-    type: VARCHAR
-  - name: PCARBUR
-    type: VARCHAR
-  - name: PCYLINDER
-    type: VARCHAR
-  - name: PDISPLACE
-    type: VARCHAR
-  - name: PMCYCL_CY
-    type: VARCHAR
-  - name: PMCYCL_WT
-    type: VARCHAR
-  - name: PTIRE_SZE
-    type: VARCHAR
-  - name: PTON_RAT
-    type: VARCHAR
-  - name: PTRK_WT
-    type: VARCHAR
-  - name: PTRKWTVAR
-    type: VARCHAR
-  - name: PVIN_REST
-    type: VARCHAR
-  - name: PWHLDRWHL
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: PNUMOCCSNAME
-    type: VARCHAR
-  - name: PDAYNAME
-    type: VARCHAR
-  - name: PMONTHNAME
-    type: VARCHAR
-  - name: PHOURNAME
-    type: VARCHAR
-  - name: PMINUTENAME
-    type: VARCHAR
-  - name: PHARM_EVNAME
-    type: VARCHAR
-  - name: PMAN_COLLNAME
-    type: VARCHAR
-  - name: PTYPENAME
-    type: VARCHAR
-  - name: PHIT_RUNNAME
-    type: VARCHAR
-  - name: PREG_STATNAME
-    type: VARCHAR
-  - name: POWNERNAME
-    type: VARCHAR
-  - name: PMAKENAME
-    type: VARCHAR
-  - name: PBODYTYPNAME
-    type: VARCHAR
-  - name: PMODYEARNAME
-    type: VARCHAR
-  - name: PVINNAME
-    type: VARCHAR
-  - name: PTRAILERNAME
-    type: VARCHAR
-  - name: PMCARR_I1NAME
-    type: VARCHAR
-  - name: PMCARR_I2NAME
-    type: VARCHAR
-  - name: PMCARR_IDNAME
-    type: VARCHAR
-  - name: PGVWRNAME
-    type: VARCHAR
-  - name: PV_CONFIGNAME
-    type: VARCHAR
-  - name: PCARGTYPNAME
-    type: VARCHAR
-  - name: PHAZ_INVNAME
-    type: VARCHAR
-  - name: PHAZPLACNAME
-    type: VARCHAR
-  - name: PHAZ_IDNAME
-    type: VARCHAR
-  - name: PHAZ_CNONAME
-    type: VARCHAR
-  - name: PHAZ_RELNAME
-    type: VARCHAR
-  - name: PBUS_USENAME
-    type: VARCHAR
-  - name: PSP_USENAME
-    type: VARCHAR
-  - name: PEM_USENAME
-    type: VARCHAR
-  - name: PUNDERIDENAME
-    type: VARCHAR
-  - name: PIMPACT1NAME
-    type: VARCHAR
-  - name: PVEH_SEVNAME
-    type: VARCHAR
-  - name: PTOWEDNAME
-    type: VARCHAR
-  - name: PM_HARMNAME
-    type: VARCHAR
-  - name: PVEH_SC1NAME
-    type: VARCHAR
-  - name: PVEH_SC2NAME
-    type: VARCHAR
-  - name: PFIRENAME
-    type: VARCHAR
-  - name: PTRLR1VIN
-    type: VARCHAR
-  - name: PTRLR1VINNAME
-    type: VARCHAR
-  - name: PTRLR2VIN
-    type: VARCHAR
-  - name: PTRLR2VINNAME
-    type: VARCHAR
-  - name: PTRLR3VIN
-    type: VARCHAR
-  - name: PTRLR3VINNAME
-    type: VARCHAR
-  - name: PMAK_MODNAME
-    type: VARCHAR
-  - name: PVPICMAKE
-    type: VARCHAR
-  - name: PVPICMAKENAME
-    type: VARCHAR
-  - name: PVPICMODEL
-    type: VARCHAR
-  - name: PVPICMODELNAME
-    type: VARCHAR
-  - name: PVPICBODYCLASS
-    type: VARCHAR
-  - name: PVPICBODYCLASSNAME
-    type: VARCHAR
-  - name: PGVWR_FROM
-    type: VARCHAR
-  - name: PGVWR_FROMNAME
-    type: VARCHAR
-  - name: PGVWR_TO
-    type: VARCHAR
-  - name: PGVWR_TONAME
-    type: VARCHAR
-  - name: PICFINALBODY
-    type: VARCHAR
-  - name: PICFINALBODYNAME
-    type: VARCHAR
-  - name: PTRLR1GVWR
-    type: VARCHAR
-  - name: PTRLR1GVWRNAME
-    type: VARCHAR
-  - name: PTRLR2GVWR
-    type: VARCHAR
-  - name: PTRLR2GVWRNAME
-    type: VARCHAR
-  - name: PTRLR3GVWR
-    type: VARCHAR
-  - name: PTRLR3GVWRNAME
-    type: VARCHAR
-  - name: PUNDEROVERRIDE
-    type: VARCHAR
-  - name: PUNDEROVERRIDENAME
+  - name: punderoverride
+    type: BIGINT
+  - name: punderoverridename
     type: VARCHAR
   - name: case_year
     type: INTEGER

@@ -1,94 +1,97 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-pbtype`. Regenerate after model-verify.
+key: [state, st_case, veh_no, per_no, case_year]
+sort: [state, st_case, veh_no, per_no, case_year]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: per_no
+    type: BIGINT
+  - name: pbptype
+    type: BIGINT
+  - name: pbage
+    type: BIGINT
+  - name: pbsex
+    type: BIGINT
+  - name: pbcwalk
+    type: BIGINT
+  - name: pbswalk
+    type: BIGINT
+  - name: pbszone
+    type: BIGINT
+  - name: pedctype
+    type: BIGINT
+  - name: bikectype
+    type: BIGINT
+  - name: pedloc
+    type: BIGINT
+  - name: bikeloc
+    type: BIGINT
+  - name: pedpos
+    type: BIGINT
+  - name: bikepos
+    type: BIGINT
+  - name: peddir
+    type: BIGINT
+  - name: bikedir
+    type: BIGINT
+  - name: motdir
+    type: BIGINT
+  - name: motman
+    type: BIGINT
+  - name: pedleg
+    type: BIGINT
+  - name: pedsnr
     type: VARCHAR
-  - name: ST_CASE
+  - name: pedcgp
+    type: BIGINT
+  - name: bikecgp
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: VEH_NO
+  - name: pbptypename
     type: VARCHAR
-  - name: PER_NO
+  - name: pbagename
     type: VARCHAR
-  - name: PBPTYPE
+  - name: pbsexname
     type: VARCHAR
-  - name: PBAGE
+  - name: pbcwalkname
     type: VARCHAR
-  - name: PBSEX
+  - name: pbswalkname
     type: VARCHAR
-  - name: PBCWALK
+  - name: pbszonename
     type: VARCHAR
-  - name: PBSWALK
+  - name: pedctypename
     type: VARCHAR
-  - name: PBSZONE
+  - name: bikectypename
     type: VARCHAR
-  - name: PEDCTYPE
+  - name: pedlocname
     type: VARCHAR
-  - name: BIKECTYPE
+  - name: bikelocname
     type: VARCHAR
-  - name: PEDLOC
+  - name: pedposname
     type: VARCHAR
-  - name: BIKELOC
+  - name: bikeposname
     type: VARCHAR
-  - name: PEDPOS
+  - name: peddirname
     type: VARCHAR
-  - name: BIKEPOS
+  - name: bikedirname
     type: VARCHAR
-  - name: PEDDIR
+  - name: motdirname
     type: VARCHAR
-  - name: BIKEDIR
+  - name: motmanname
     type: VARCHAR
-  - name: MOTDIR
+  - name: pedlegname
     type: VARCHAR
-  - name: MOTMAN
+  - name: pedsnrname
     type: VARCHAR
-  - name: PEDLEG
+  - name: pedcgpname
     type: VARCHAR
-  - name: PEDSNR
-    type: VARCHAR
-  - name: PEDCGP
-    type: VARCHAR
-  - name: BIKECGP
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: PBPTYPENAME
-    type: VARCHAR
-  - name: PBAGENAME
-    type: VARCHAR
-  - name: PBSEXNAME
-    type: VARCHAR
-  - name: PBCWALKNAME
-    type: VARCHAR
-  - name: PBSWALKNAME
-    type: VARCHAR
-  - name: PBSZONENAME
-    type: VARCHAR
-  - name: PEDCTYPENAME
-    type: VARCHAR
-  - name: BIKECTYPENAME
-    type: VARCHAR
-  - name: PEDLOCNAME
-    type: VARCHAR
-  - name: BIKELOCNAME
-    type: VARCHAR
-  - name: PEDPOSNAME
-    type: VARCHAR
-  - name: BIKEPOSNAME
-    type: VARCHAR
-  - name: PEDDIRNAME
-    type: VARCHAR
-  - name: BIKEDIRNAME
-    type: VARCHAR
-  - name: MOTDIRNAME
-    type: VARCHAR
-  - name: MOTMANNAME
-    type: VARCHAR
-  - name: PEDLEGNAME
-    type: VARCHAR
-  - name: PEDSNRNAME
-    type: VARCHAR
-  - name: PEDCGPNAME
-    type: VARCHAR
-  - name: BIKECGPNAME
+  - name: bikecgpname
     type: VARCHAR
   - name: case_year
     type: INTEGER

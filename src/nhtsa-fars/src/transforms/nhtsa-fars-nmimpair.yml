@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-nmimpair`. Regenerate after model-verify.
+key: [st_case, per_no, state, case_year, nmimpair]
+sort: [st_case, per_no, state, case_year, nmimpair]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: per_no
+    type: BIGINT
+  - name: nmimpair
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: ST_CASE
-    type: VARCHAR
-  - name: VEH_NO
-    type: VARCHAR
-  - name: PER_NO
-    type: VARCHAR
-  - name: NMIMPAIR
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: NMIMPAIRNAME
+  - name: nmimpairname
     type: VARCHAR
   - name: case_year
     type: INTEGER

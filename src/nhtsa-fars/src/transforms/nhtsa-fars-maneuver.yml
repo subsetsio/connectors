@@ -1,20 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-maneuver`. Regenerate after model-verify.
+# caution: Driver maneuver rows are multi-response observations; do not aggregate as one row per driver.
+key: []
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: mdrmanav
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: ST_CASE
+  - name: mdrmanavname
     type: VARCHAR
-  - name: VEH_NO
-    type: VARCHAR
-  - name: MDRMANAV
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: MDRMANAVNAME
-    type: VARCHAR
-  - name: MANEUVER
-    type: VARCHAR
-  - name: MANEUVERNAME
+  - name: maneuver
+    type: BIGINT
+  - name: maneuvername
     type: VARCHAR
   - name: case_year
     type: INTEGER

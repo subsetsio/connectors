@@ -1,1 +1,50 @@
-SELECT * FROM "nhtsa-fars-vpictrailerdecode"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: vPIC trailer decode rows describe decoded trailers attached to vehicles; do not aggregate as one row per crash.
+SELECT
+    CAST("STATE" AS BIGINT) AS state,
+    "STATENAME" AS statename,
+    CAST("ST_CASE" AS BIGINT) AS st_case,
+    CAST("VEH_NO" AS BIGINT) AS veh_no,
+    CAST("TRAILER_NO" AS BIGINT) AS trailer_no,
+    "VEHICLEDESCRIPTOR" AS vehicledescriptor,
+    CAST("VINDECODEDON" AS TIMESTAMP) AS vindecodedon,
+    "VINDECODEERROR" AS vindecodeerror,
+    CAST("VEHICLETYPEID" AS BIGINT) AS vehicletypeid,
+    "VEHICLETYPE" AS vehicletype,
+    CAST("MANUFACTURERFULLNAMEID" AS BIGINT) AS manufacturerfullnameid,
+    "MANUFACTURERFULLNAME" AS manufacturerfullname,
+    CAST("MAKEID" AS BIGINT) AS makeid,
+    "MAKE" AS make,
+    CAST("MODELID" AS BIGINT) AS modelid,
+    "MODEL" AS model,
+    CAST("MODELYEAR" AS BIGINT) AS modelyear,
+    "SERIES" AS series,
+    "TRIM" AS trim,
+    CAST("PLANTCOUNTRYID" AS BIGINT) AS plantcountryid,
+    "PLANTCOUNTRY" AS plantcountry,
+    "PLANTSTATE" AS plantstate,
+    "PLANTCITY" AS plantcity,
+    "PLANTCOMPANYNAME" AS plantcompanyname,
+    "NOTE" AS note,
+    CAST("BODYCLASSID" AS BIGINT) AS bodyclassid,
+    "BODYCLASS" AS bodyclass,
+    CAST("GROSSVEHICLEWEIGHTRATINGFROMID" AS BIGINT) AS grossvehicleweightratingfromid,
+    "GROSSVEHICLEWEIGHTRATINGFROM" AS grossvehicleweightratingfrom,
+    CAST("GROSSVEHICLEWEIGHTRATINGTOID" AS BIGINT) AS grossvehicleweightratingtoid,
+    "GROSSVEHICLEWEIGHTRATINGTO" AS grossvehicleweightratingto,
+    CAST("TRAILERBODYTYPEID" AS BIGINT) AS trailerbodytypeid,
+    "TRAILERBODYTYPE" AS trailerbodytype,
+    CAST("TRAILERTYPECONNECTIONID" AS BIGINT) AS trailertypeconnectionid,
+    "TRAILERTYPECONNECTION" AS trailertypeconnection,
+    CAST("TRAILERLENGTHFT" AS DOUBLE) AS trailerlengthft,
+    "OTHERTRAILERINFO" AS othertrailerinfo,
+    CAST("AXLESCOUNT" AS BIGINT) AS axlescount,
+    CAST("AXLECONFIGURATIONID" AS BIGINT) AS axleconfigurationid,
+    "AXLECONFIGURATION" AS axleconfiguration,
+    "NONLANDUSEID" AS nonlanduseid,
+    "NONLANDUSE" AS nonlanduse,
+    "case_year"
+FROM "nhtsa-fars-vpictrailerdecode"

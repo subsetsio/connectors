@@ -7,6 +7,10 @@ tests:
     reason: case_year is written as int32; a non-integer type means the parquet schema was built wrong.
   - between: {col: case_year, lo: 1975, hi: current_year()}
     reason: FARS National files start in 1975 and never exceed the current calendar year; out-of-range means a wrong year was stamped.
+  - freshness: {col: case_year, reaches: 2024}
+    reason: FARS National CSVs are current through case year 2024; a lower maximum means recent annual files were missed.
+    certainty: 80
+    points_outward: true
   - row_count: {min: 1900}
     severity: warn
     certainty: 70

@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-drugs`. Regenerate after model-verify.
+# caution: Drug test rows can contain multiple test/result observations per person; do not aggregate as one row per person.
+key: []
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: STATENAME
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: per_no
+    type: BIGINT
+  - name: drugspec
+    type: BIGINT
+  - name: drugspecname
     type: VARCHAR
-  - name: ST_CASE
+  - name: drugres
+    type: BIGINT
+  - name: drugresname
     type: VARCHAR
-  - name: VEH_NO
+  - name: drugmethod
+    type: BIGINT
+  - name: drugmethodname
     type: VARCHAR
-  - name: PER_NO
+  - name: drugqty
+    type: BIGINT
+  - name: drugqtyname
     type: VARCHAR
-  - name: DRUGSPEC
+  - name: drugactqty
+    type: DOUBLE
+  - name: drugactqtyname
     type: VARCHAR
-  - name: DRUGSPECNAME
-    type: VARCHAR
-  - name: DRUGRES
-    type: VARCHAR
-  - name: DRUGRESNAME
-    type: VARCHAR
-  - name: DRUGMETHOD
-    type: VARCHAR
-  - name: DRUGMETHODNAME
-    type: VARCHAR
-  - name: DRUGQTY
-    type: VARCHAR
-  - name: DRUGQTYNAME
-    type: VARCHAR
-  - name: DRUGACTQTY
-    type: VARCHAR
-  - name: DRUGACTQTYNAME
-    type: VARCHAR
-  - name: DRUGUOM
-    type: VARCHAR
-  - name: DRUGUOMNAME
+  - name: druguom
+    type: BIGINT
+  - name: druguomname
     type: VARCHAR
   - name: case_year
     type: INTEGER

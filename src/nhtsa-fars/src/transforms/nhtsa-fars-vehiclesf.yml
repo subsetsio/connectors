@@ -1,16 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-vehiclesf`. Regenerate after model-verify.
+key: [state, st_case, veh_no, vehiclesf, case_year]
+sort: [state, st_case, veh_no, vehiclesf, case_year]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: ST_CASE
-    type: VARCHAR
-  - name: VEH_NO
-    type: VARCHAR
-  - name: VEHICLESF
-    type: VARCHAR
-  - name: VEHICLESFNAME
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: vehiclesf
+    type: BIGINT
+  - name: vehiclesfname
     type: VARCHAR
   - name: case_year
     type: INTEGER

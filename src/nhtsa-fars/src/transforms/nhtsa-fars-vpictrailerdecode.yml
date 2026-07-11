@@ -1,88 +1,93 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-vpictrailerdecode`. Regenerate after model-verify.
+# caution: vPIC trailer decode rows describe decoded trailers attached to vehicles; do not aggregate as one row per crash.
+key: []
+temporal: vindecodedon
+sort: [vindecodedon]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: statename
     type: VARCHAR
-  - name: STATENAME
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: trailer_no
+    type: BIGINT
+  - name: vehicledescriptor
     type: VARCHAR
-  - name: ST_CASE
+  - name: vindecodedon
+    type: TIMESTAMP
+  - name: vindecodeerror
     type: VARCHAR
-  - name: VEH_NO
+  - name: vehicletypeid
+    type: BIGINT
+  - name: vehicletype
     type: VARCHAR
-  - name: TRAILER_NO
+  - name: manufacturerfullnameid
+    type: BIGINT
+  - name: manufacturerfullname
     type: VARCHAR
-  - name: VEHICLEDESCRIPTOR
+  - name: makeid
+    type: BIGINT
+  - name: make
     type: VARCHAR
-  - name: VINDECODEDON
+  - name: modelid
+    type: BIGINT
+  - name: model
     type: VARCHAR
-  - name: VINDECODEERROR
+  - name: modelyear
+    type: BIGINT
+  - name: series
     type: VARCHAR
-  - name: VEHICLETYPEID
+  - name: trim
     type: VARCHAR
-  - name: VEHICLETYPE
+  - name: plantcountryid
+    type: BIGINT
+  - name: plantcountry
     type: VARCHAR
-  - name: MANUFACTURERFULLNAMEID
+  - name: plantstate
     type: VARCHAR
-  - name: MANUFACTURERFULLNAME
+  - name: plantcity
     type: VARCHAR
-  - name: MAKEID
+  - name: plantcompanyname
     type: VARCHAR
-  - name: MAKE
+  - name: note
     type: VARCHAR
-  - name: MODELID
+  - name: bodyclassid
+    type: BIGINT
+  - name: bodyclass
     type: VARCHAR
-  - name: MODEL
+  - name: grossvehicleweightratingfromid
+    type: BIGINT
+  - name: grossvehicleweightratingfrom
     type: VARCHAR
-  - name: MODELYEAR
+  - name: grossvehicleweightratingtoid
+    type: BIGINT
+  - name: grossvehicleweightratingto
     type: VARCHAR
-  - name: SERIES
+  - name: trailerbodytypeid
+    type: BIGINT
+  - name: trailerbodytype
     type: VARCHAR
-  - name: TRIM
+  - name: trailertypeconnectionid
+    type: BIGINT
+  - name: trailertypeconnection
     type: VARCHAR
-  - name: PLANTCOUNTRYID
+  - name: trailerlengthft
+    type: DOUBLE
+  - name: othertrailerinfo
     type: VARCHAR
-  - name: PLANTCOUNTRY
+  - name: axlescount
+    type: BIGINT
+  - name: axleconfigurationid
+    type: BIGINT
+  - name: axleconfiguration
     type: VARCHAR
-  - name: PLANTSTATE
+  - name: nonlanduseid
     type: VARCHAR
-  - name: PLANTCITY
-    type: VARCHAR
-  - name: PLANTCOMPANYNAME
-    type: VARCHAR
-  - name: NOTE
-    type: VARCHAR
-  - name: BODYCLASSID
-    type: VARCHAR
-  - name: BODYCLASS
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGFROMID
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGFROM
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGTOID
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGTO
-    type: VARCHAR
-  - name: TRAILERBODYTYPEID
-    type: VARCHAR
-  - name: TRAILERBODYTYPE
-    type: VARCHAR
-  - name: TRAILERTYPECONNECTIONID
-    type: VARCHAR
-  - name: TRAILERTYPECONNECTION
-    type: VARCHAR
-  - name: TRAILERLENGTHFT
-    type: VARCHAR
-  - name: OTHERTRAILERINFO
-    type: VARCHAR
-  - name: AXLESCOUNT
-    type: VARCHAR
-  - name: AXLECONFIGURATIONID
-    type: VARCHAR
-  - name: AXLECONFIGURATION
-    type: VARCHAR
-  - name: NONLANDUSEID
-    type: VARCHAR
-  - name: NONLANDUSE
+  - name: nonlanduse
     type: VARCHAR
   - name: case_year
     type: INTEGER

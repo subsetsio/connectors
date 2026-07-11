@@ -1,412 +1,417 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-vpicdecode`. Regenerate after model-verify.
+# caution: vPIC decode rows describe VIN decode results joined to FARS vehicles; do not aggregate as one row per crash.
+key: []
+temporal: vindecodedon
+sort: [vindecodedon]
 columns:
-  - name: STATE
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: ST_CASE
-    type: VARCHAR
-  - name: VEH_NO
-    type: VARCHAR
-  - name: VEHICLEDESCRIPTOR
-    type: VARCHAR
-  - name: VINDECODEDON
-    type: VARCHAR
-  - name: VINDECODEERROR
-    type: VARCHAR
-  - name: VEHICLETYPEID
-    type: VARCHAR
-  - name: VEHICLETYPE
-    type: VARCHAR
-  - name: MANUFACTURERFULLNAMEID
-    type: VARCHAR
-  - name: MANUFACTURERFULLNAME
-    type: VARCHAR
-  - name: MAKEID
-    type: VARCHAR
-  - name: MAKE
-    type: VARCHAR
-  - name: MODELID
-    type: VARCHAR
-  - name: MODEL
-    type: VARCHAR
-  - name: MODELYEAR
-    type: VARCHAR
-  - name: SERIES
-    type: VARCHAR
-  - name: TRIM
-    type: VARCHAR
-  - name: SERIES2
-    type: VARCHAR
-  - name: TRIM2
-    type: VARCHAR
-  - name: PLANTCOUNTRYID
-    type: VARCHAR
-  - name: PLANTCOUNTRY
-    type: VARCHAR
-  - name: PLANTSTATE
-    type: VARCHAR
-  - name: PLANTCITY
-    type: VARCHAR
-  - name: PLANTCOMPANYNAME
-    type: VARCHAR
-  - name: DESTINATIONMARKETID
-    type: VARCHAR
-  - name: DESTINATIONMARKET
-    type: VARCHAR
-  - name: BASEPRICE
-    type: VARCHAR
-  - name: NOTE
-    type: VARCHAR
-  - name: BODYCLASSID
-    type: VARCHAR
-  - name: BODYCLASS
-    type: VARCHAR
-  - name: DOORSCOUNT
-    type: VARCHAR
-  - name: WINDOWS
-    type: VARCHAR
-  - name: WHEELBASETYPEID
-    type: VARCHAR
-  - name: WHEELBASETYPE
-    type: VARCHAR
-  - name: TRACKWIDTHIN
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGFROMID
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGFROM
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGTOID
-    type: VARCHAR
-  - name: GROSSVEHICLEWEIGHTRATINGTO
-    type: VARCHAR
-  - name: GROSSCOMBWEIGHTRATINGFROMID
-    type: VARCHAR
-  - name: GROSSCOMBWEIGHTRATINGFROM
-    type: VARCHAR
-  - name: GROSSCOMBWEIGHTRATINGTOID
-    type: VARCHAR
-  - name: GROSSCOMBWEIGHTRATINGTO
-    type: VARCHAR
-  - name: CURBWEIGHTLB
-    type: VARCHAR
-  - name: WHEELBASEIN_FROM
-    type: VARCHAR
-  - name: WHEELBASEIN_TO
-    type: VARCHAR
-  - name: WHEELSCOUNT
-    type: VARCHAR
-  - name: WHEELSIZEFRONTIN
-    type: VARCHAR
-  - name: WHEELSIZEREARIN
-    type: VARCHAR
-  - name: TRUCKBODYCABTYPEID
-    type: VARCHAR
-  - name: TRUCKBODYCABTYPE
-    type: VARCHAR
-  - name: TRUCKBEDTYPEID
-    type: VARCHAR
-  - name: TRUCKBEDTYPE
-    type: VARCHAR
-  - name: TRUCKBEDLENGTHIN
-    type: VARCHAR
-  - name: BUSTYPEID
-    type: VARCHAR
-  - name: BUSTYPE
-    type: VARCHAR
-  - name: BUSFLOORCONFIGURATIONTYPEID
-    type: VARCHAR
-  - name: BUSFLOORCONFIGURATIONTYPE
-    type: VARCHAR
-  - name: BUSLENGTHFT
-    type: VARCHAR
-  - name: OTHERBUSINFO
-    type: VARCHAR
-  - name: CUSTOMMOTORCYCLETYPEID
-    type: VARCHAR
-  - name: CUSTOMMOTORCYCLETYPE
-    type: VARCHAR
-  - name: MOTORCYCLESUSPENSIONTYPEID
-    type: VARCHAR
-  - name: MOTORCYCLESUSPENSIONTYPE
-    type: VARCHAR
-  - name: MOTORCYCLECHASSISTYPEID
-    type: VARCHAR
-  - name: MOTORCYCLECHASSISTYPE
-    type: VARCHAR
-  - name: OTHERMOTORCYCLEINFO
-    type: VARCHAR
-  - name: STEERINGLOCATIONID
-    type: VARCHAR
-  - name: STEERINGLOCATION
-    type: VARCHAR
-  - name: ENTERTAINMENTSYSTEMID
-    type: VARCHAR
-  - name: ENTERTAINMENTSYSTEM
-    type: VARCHAR
-  - name: SEATSCOUNT
-    type: VARCHAR
-  - name: SEATROWSCOUNT
-    type: VARCHAR
-  - name: TRANSMISSIONSPEEDS
-    type: VARCHAR
-  - name: TRANSMISSIONSTYLEID
-    type: VARCHAR
-  - name: TRANSMISSIONSTYLE
-    type: VARCHAR
-  - name: DRIVETYPEID
-    type: VARCHAR
-  - name: DRIVETYPE
-    type: VARCHAR
-  - name: AXLESCOUNT
-    type: VARCHAR
-  - name: AXLECONFIGURATIONID
-    type: VARCHAR
-  - name: AXLECONFIGURATION
-    type: VARCHAR
-  - name: BRAKESYSTEMTYPEID
-    type: VARCHAR
-  - name: BRAKESYSTEMTYPE
-    type: VARCHAR
-  - name: BRAKESYSTEMDESC
-    type: VARCHAR
-  - name: EVDRIVEUNITID
-    type: VARCHAR
-  - name: EVDRIVEUNIT
-    type: VARCHAR
-  - name: BATTERYKWH_FROM
-    type: VARCHAR
-  - name: BATTERYKWH_TO
-    type: VARCHAR
-  - name: BATTERYV_FROM
-    type: VARCHAR
-  - name: BATTERYV_TO
-    type: VARCHAR
-  - name: BATTERYA_FROM
-    type: VARCHAR
-  - name: BATTERYA_TO
-    type: VARCHAR
-  - name: BATTERYPACKSPERVEHICLE
-    type: VARCHAR
-  - name: BATTERYMODULESPERPACK
-    type: VARCHAR
-  - name: BATTERYCELLSPERMODULE
-    type: VARCHAR
-  - name: BATTERYTYPEID
-    type: VARCHAR
-  - name: BATTERYTYPE
-    type: VARCHAR
-  - name: OTHERBATTERYINFO
-    type: VARCHAR
-  - name: CHARGERLEVELID
-    type: VARCHAR
-  - name: CHARGERLEVEL
-    type: VARCHAR
-  - name: CHARGERPOWERKW
-    type: VARCHAR
-  - name: ENGINEMANUFACTURER
-    type: VARCHAR
-  - name: ENGINEMODEL
-    type: VARCHAR
-  - name: ENGINECONFIGURATIONID
-    type: VARCHAR
-  - name: ENGINECONFIGURATION
-    type: VARCHAR
-  - name: ENGINEPOWERKW
-    type: VARCHAR
-  - name: ENGINESTROKECYCLES
-    type: VARCHAR
-  - name: ENGINECYLINDERSCOUNT
-    type: VARCHAR
-  - name: ENGINEBRAKEHP_FROM
-    type: VARCHAR
-  - name: ENGINEBRAKEHP_TO
-    type: VARCHAR
-  - name: ENGINECOOLINGTYPEID
-    type: VARCHAR
-  - name: ENGINECOOLINGTYPE
-    type: VARCHAR
-  - name: DISPLACEMENTCI
-    type: VARCHAR
-  - name: DISPLACEMENTCC
-    type: VARCHAR
-  - name: DISPLACEMENTL
-    type: VARCHAR
-  - name: FUELTYPEPRIMARYID
-    type: VARCHAR
-  - name: FUELTYPEPRIMARY
-    type: VARCHAR
-  - name: FUELTYPESECONDARYID
-    type: VARCHAR
-  - name: FUELTYPESECONDARY
-    type: VARCHAR
-  - name: FUELDELIVERYINJECTIONTYPEID
-    type: VARCHAR
-  - name: FUELDELIVERYINJECTIONTYPE
-    type: VARCHAR
-  - name: ENGINEVALVETRAINDESIGNID
-    type: VARCHAR
-  - name: ENGINEVALVETRAINDESIGN
-    type: VARCHAR
-  - name: ENGINEELECTRIFICATIONLEVELID
-    type: VARCHAR
-  - name: ENGINEELECTRIFICATIONLEVEL
-    type: VARCHAR
-  - name: ENGINETURBOID
-    type: VARCHAR
-  - name: ENGINETURBO
-    type: VARCHAR
-  - name: TOPSPEEDMPH
-    type: VARCHAR
-  - name: OTHERENGINEINFO
-    type: VARCHAR
-  - name: SEATBELTTYPEID
-    type: VARCHAR
-  - name: SEATBELTTYPE
-    type: VARCHAR
-  - name: PRETENSIONERID
-    type: VARCHAR
-  - name: PRETENSIONER
-    type: VARCHAR
-  - name: AIRBAGLOCFRONTID
-    type: VARCHAR
-  - name: AIRBAGLOCFRONT
-    type: VARCHAR
-  - name: AIRBAGLOCKNEEID
-    type: VARCHAR
-  - name: AIRBAGLOCKNEE
-    type: VARCHAR
-  - name: AIRBAGLOCSIDEID
-    type: VARCHAR
-  - name: AIRBAGLOCSIDE
-    type: VARCHAR
-  - name: AIRBAGLOCCURTAINID
-    type: VARCHAR
-  - name: AIRBAGLOCCURTAIN
-    type: VARCHAR
-  - name: AIRBAGLOCSEATCUSHIONID
-    type: VARCHAR
-  - name: AIRBAGLOCSEATCUSHION
-    type: VARCHAR
-  - name: OTHERRESTRAINTSYSTEMINFO
-    type: VARCHAR
-  - name: FORWARDCOLLISIONWARNINGID
-    type: VARCHAR
-  - name: FORWARDCOLLISIONWARNING
-    type: VARCHAR
-  - name: DYNAMICBRAKESUPPORTID
-    type: VARCHAR
-  - name: DYNAMICBRAKESUPPORT
-    type: VARCHAR
-  - name: CRASHIMMINENTBRAKINGID
-    type: VARCHAR
-  - name: CRASHIMMINENTBRAKING
-    type: VARCHAR
-  - name: PEDESTRIANAUTOEMERGENCYBRAKINGID
-    type: VARCHAR
-  - name: PEDESTRIANAUTOEMERGENCYBRAKING
-    type: VARCHAR
-  - name: BLINDSPOTWARNINGID
-    type: VARCHAR
-  - name: BLINDSPOTWARNING
-    type: VARCHAR
-  - name: BLINDSPOTINTERVENTIONID
-    type: VARCHAR
-  - name: BLINDSPOTINTERVENTION
-    type: VARCHAR
-  - name: LANEDEPARTUREWARNINGID
-    type: VARCHAR
-  - name: LANEDEPARTUREWARNING
-    type: VARCHAR
-  - name: LANEKEEPINGASSISTANCEID
-    type: VARCHAR
-  - name: LANEKEEPINGASSISTANCE
-    type: VARCHAR
-  - name: LANECENTERINGASSISTANCEID
-    type: VARCHAR
-  - name: LANECENTERINGASSISTANCE
-    type: VARCHAR
-  - name: BACKUPCAMERAID
-    type: VARCHAR
-  - name: BACKUPCAMERA
-    type: VARCHAR
-  - name: REARCROSSTRAFFICALERTID
-    type: VARCHAR
-  - name: REARCROSSTRAFFICALERT
-    type: VARCHAR
-  - name: REARAUTOMATICEMERGENCYBRAKINGID
-    type: VARCHAR
-  - name: REARAUTOMATICEMERGENCYBRAKING
-    type: VARCHAR
-  - name: PARKASSISTID
-    type: VARCHAR
-  - name: PARKASSIST
-    type: VARCHAR
-  - name: DAYTIMERUNNINGLIGHTID
-    type: VARCHAR
-  - name: DAYTIMERUNNINGLIGHT
-    type: VARCHAR
-  - name: HEADLAMPLIGHTSOURCEID
-    type: VARCHAR
-  - name: HEADLAMPLIGHTSOURCE
-    type: VARCHAR
-  - name: SEMIAUTOHEADLAMPBEAMSWITCHINGID
-    type: VARCHAR
-  - name: SEMIAUTOHEADLAMPBEAMSWITCHING
-    type: VARCHAR
-  - name: ADAPTIVEDRIVINGBEAMID
-    type: VARCHAR
-  - name: ADAPTIVEDRIVINGBEAM
-    type: VARCHAR
-  - name: ADAPTIVECRUISECONTROLID
-    type: VARCHAR
-  - name: ADAPTIVECRUISECONTROL
-    type: VARCHAR
-  - name: ANTILOCKBRAKESYSTEMID
-    type: VARCHAR
-  - name: ANTILOCKBRAKESYSTEM
-    type: VARCHAR
-  - name: ELECTRONICSTABILITYCONTROLID
-    type: VARCHAR
-  - name: ELECTRONICSTABILITYCONTROL
-    type: VARCHAR
-  - name: TPMSID
-    type: VARCHAR
-  - name: TPMS
-    type: VARCHAR
-  - name: AUTOMATICCRASHNOTIFICATIONID
-    type: VARCHAR
-  - name: AUTOMATICCRASHNOTIFICATION
-    type: VARCHAR
-  - name: EVENTDATARECORDERID
-    type: VARCHAR
-  - name: EVENTDATARECORDER
-    type: VARCHAR
-  - name: TRACTIONCONTROLID
-    type: VARCHAR
-  - name: TRACTIONCONTROL
-    type: VARCHAR
-  - name: AUTOPEDESTRIANALERTINGSOUNDID
-    type: VARCHAR
-  - name: AUTOPEDESTRIANALERTINGSOUND
-    type: VARCHAR
-  - name: KEYLESSIGNITIONID
-    type: VARCHAR
-  - name: KEYLESSIGNITION
-    type: VARCHAR
-  - name: SAEAUTOMATIONLEVEL_FROM
-    type: VARCHAR
-  - name: SAEAUTOMATIONLEVEL_TO
-    type: VARCHAR
-  - name: AUTOREVERSESYSTEMID
-    type: VARCHAR
-  - name: AUTOREVERSESYSTEM
-    type: VARCHAR
-  - name: ACTIVESAFETYSYSNOTE
-    type: VARCHAR
-  - name: NONLANDUSEID
-    type: VARCHAR
-  - name: NONLANDUSE
+  - name: state
+    type: BIGINT
+  - name: statename
+    type: VARCHAR
+  - name: st_case
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: vehicledescriptor
+    type: VARCHAR
+  - name: vindecodedon
+    type: TIMESTAMP
+  - name: vindecodeerror
+    type: VARCHAR
+  - name: vehicletypeid
+    type: BIGINT
+  - name: vehicletype
+    type: VARCHAR
+  - name: manufacturerfullnameid
+    type: BIGINT
+  - name: manufacturerfullname
+    type: VARCHAR
+  - name: makeid
+    type: BIGINT
+  - name: make
+    type: VARCHAR
+  - name: modelid
+    type: BIGINT
+  - name: model
+    type: VARCHAR
+  - name: modelyear
+    type: BIGINT
+  - name: series
+    type: VARCHAR
+  - name: trim
+    type: VARCHAR
+  - name: series2
+    type: VARCHAR
+  - name: trim2
+    type: VARCHAR
+  - name: plantcountryid
+    type: BIGINT
+  - name: plantcountry
+    type: VARCHAR
+  - name: plantstate
+    type: VARCHAR
+  - name: plantcity
+    type: VARCHAR
+  - name: plantcompanyname
+    type: VARCHAR
+  - name: destinationmarketid
+    type: BIGINT
+  - name: destinationmarket
+    type: VARCHAR
+  - name: baseprice
+    type: DOUBLE
+  - name: note
+    type: VARCHAR
+  - name: bodyclassid
+    type: BIGINT
+  - name: bodyclass
+    type: VARCHAR
+  - name: doorscount
+    type: BIGINT
+  - name: windows
+    type: BIGINT
+  - name: wheelbasetypeid
+    type: BIGINT
+  - name: wheelbasetype
+    type: VARCHAR
+  - name: trackwidthin
+    type: DOUBLE
+  - name: grossvehicleweightratingfromid
+    type: BIGINT
+  - name: grossvehicleweightratingfrom
+    type: VARCHAR
+  - name: grossvehicleweightratingtoid
+    type: BIGINT
+  - name: grossvehicleweightratingto
+    type: VARCHAR
+  - name: grosscombweightratingfromid
+    type: BIGINT
+  - name: grosscombweightratingfrom
+    type: VARCHAR
+  - name: grosscombweightratingtoid
+    type: VARCHAR
+  - name: grosscombweightratingto
+    type: VARCHAR
+  - name: curbweightlb
+    type: BIGINT
+  - name: wheelbasein_from
+    type: DOUBLE
+  - name: wheelbasein_to
+    type: DOUBLE
+  - name: wheelscount
+    type: BIGINT
+  - name: wheelsizefrontin
+    type: BIGINT
+  - name: wheelsizerearin
+    type: BIGINT
+  - name: truckbodycabtypeid
+    type: BIGINT
+  - name: truckbodycabtype
+    type: VARCHAR
+  - name: truckbedtypeid
+    type: BIGINT
+  - name: truckbedtype
+    type: VARCHAR
+  - name: truckbedlengthin
+    type: BIGINT
+  - name: bustypeid
+    type: BIGINT
+  - name: bustype
+    type: VARCHAR
+  - name: busfloorconfigurationtypeid
+    type: BIGINT
+  - name: busfloorconfigurationtype
+    type: VARCHAR
+  - name: buslengthft
+    type: BIGINT
+  - name: otherbusinfo
+    type: VARCHAR
+  - name: custommotorcycletypeid
+    type: BIGINT
+  - name: custommotorcycletype
+    type: VARCHAR
+  - name: motorcyclesuspensiontypeid
+    type: BIGINT
+  - name: motorcyclesuspensiontype
+    type: VARCHAR
+  - name: motorcyclechassistypeid
+    type: BIGINT
+  - name: motorcyclechassistype
+    type: VARCHAR
+  - name: othermotorcycleinfo
+    type: VARCHAR
+  - name: steeringlocationid
+    type: BIGINT
+  - name: steeringlocation
+    type: VARCHAR
+  - name: entertainmentsystemid
+    type: BIGINT
+  - name: entertainmentsystem
+    type: VARCHAR
+  - name: seatscount
+    type: BIGINT
+  - name: seatrowscount
+    type: BIGINT
+  - name: transmissionspeeds
+    type: BIGINT
+  - name: transmissionstyleid
+    type: BIGINT
+  - name: transmissionstyle
+    type: VARCHAR
+  - name: drivetypeid
+    type: BIGINT
+  - name: drivetype
+    type: VARCHAR
+  - name: axlescount
+    type: BIGINT
+  - name: axleconfigurationid
+    type: BIGINT
+  - name: axleconfiguration
+    type: VARCHAR
+  - name: brakesystemtypeid
+    type: BIGINT
+  - name: brakesystemtype
+    type: VARCHAR
+  - name: brakesystemdesc
+    type: VARCHAR
+  - name: evdriveunitid
+    type: BIGINT
+  - name: evdriveunit
+    type: VARCHAR
+  - name: batterykwh_from
+    type: DOUBLE
+  - name: batterykwh_to
+    type: DOUBLE
+  - name: batteryv_from
+    type: BIGINT
+  - name: batteryv_to
+    type: BIGINT
+  - name: batterya_from
+    type: BIGINT
+  - name: batterya_to
+    type: VARCHAR
+  - name: batterypackspervehicle
+    type: BIGINT
+  - name: batterymodulesperpack
+    type: BIGINT
+  - name: batterycellspermodule
+    type: BIGINT
+  - name: batterytypeid
+    type: BIGINT
+  - name: batterytype
+    type: VARCHAR
+  - name: otherbatteryinfo
+    type: VARCHAR
+  - name: chargerlevelid
+    type: BIGINT
+  - name: chargerlevel
+    type: VARCHAR
+  - name: chargerpowerkw
+    type: BIGINT
+  - name: enginemanufacturer
+    type: VARCHAR
+  - name: enginemodel
+    type: VARCHAR
+  - name: engineconfigurationid
+    type: BIGINT
+  - name: engineconfiguration
+    type: VARCHAR
+  - name: enginepowerkw
+    type: DOUBLE
+  - name: enginestrokecycles
+    type: BIGINT
+  - name: enginecylinderscount
+    type: BIGINT
+  - name: enginebrakehp_from
+    type: DOUBLE
+  - name: enginebrakehp_to
+    type: DOUBLE
+  - name: enginecoolingtypeid
+    type: BIGINT
+  - name: enginecoolingtype
+    type: VARCHAR
+  - name: displacementci
+    type: DOUBLE
+  - name: displacementcc
+    type: DOUBLE
+  - name: displacementl
+    type: DOUBLE
+  - name: fueltypeprimaryid
+    type: BIGINT
+  - name: fueltypeprimary
+    type: VARCHAR
+  - name: fueltypesecondaryid
+    type: BIGINT
+  - name: fueltypesecondary
+    type: VARCHAR
+  - name: fueldeliveryinjectiontypeid
+    type: BIGINT
+  - name: fueldeliveryinjectiontype
+    type: VARCHAR
+  - name: enginevalvetraindesignid
+    type: BIGINT
+  - name: enginevalvetraindesign
+    type: VARCHAR
+  - name: engineelectrificationlevelid
+    type: BIGINT
+  - name: engineelectrificationlevel
+    type: VARCHAR
+  - name: engineturboid
+    type: BIGINT
+  - name: engineturbo
+    type: VARCHAR
+  - name: topspeedmph
+    type: BIGINT
+  - name: otherengineinfo
+    type: VARCHAR
+  - name: seatbelttypeid
+    type: BIGINT
+  - name: seatbelttype
+    type: VARCHAR
+  - name: pretensionerid
+    type: BIGINT
+  - name: pretensioner
+    type: VARCHAR
+  - name: airbaglocfrontid
+    type: BIGINT
+  - name: airbaglocfront
+    type: VARCHAR
+  - name: airbaglockneeid
+    type: BIGINT
+  - name: airbaglocknee
+    type: VARCHAR
+  - name: airbaglocsideid
+    type: BIGINT
+  - name: airbaglocside
+    type: VARCHAR
+  - name: airbagloccurtainid
+    type: BIGINT
+  - name: airbagloccurtain
+    type: VARCHAR
+  - name: airbaglocseatcushionid
+    type: BIGINT
+  - name: airbaglocseatcushion
+    type: VARCHAR
+  - name: otherrestraintsysteminfo
+    type: VARCHAR
+  - name: forwardcollisionwarningid
+    type: BIGINT
+  - name: forwardcollisionwarning
+    type: VARCHAR
+  - name: dynamicbrakesupportid
+    type: BIGINT
+  - name: dynamicbrakesupport
+    type: VARCHAR
+  - name: crashimminentbrakingid
+    type: BIGINT
+  - name: crashimminentbraking
+    type: VARCHAR
+  - name: pedestrianautoemergencybrakingid
+    type: BIGINT
+  - name: pedestrianautoemergencybraking
+    type: VARCHAR
+  - name: blindspotwarningid
+    type: BIGINT
+  - name: blindspotwarning
+    type: VARCHAR
+  - name: blindspotinterventionid
+    type: BIGINT
+  - name: blindspotintervention
+    type: VARCHAR
+  - name: lanedeparturewarningid
+    type: BIGINT
+  - name: lanedeparturewarning
+    type: VARCHAR
+  - name: lanekeepingassistanceid
+    type: BIGINT
+  - name: lanekeepingassistance
+    type: VARCHAR
+  - name: lanecenteringassistanceid
+    type: BIGINT
+  - name: lanecenteringassistance
+    type: VARCHAR
+  - name: backupcameraid
+    type: BIGINT
+  - name: backupcamera
+    type: VARCHAR
+  - name: rearcrosstrafficalertid
+    type: BIGINT
+  - name: rearcrosstrafficalert
+    type: VARCHAR
+  - name: rearautomaticemergencybrakingid
+    type: BIGINT
+  - name: rearautomaticemergencybraking
+    type: VARCHAR
+  - name: parkassistid
+    type: BIGINT
+  - name: parkassist
+    type: VARCHAR
+  - name: daytimerunninglightid
+    type: BIGINT
+  - name: daytimerunninglight
+    type: VARCHAR
+  - name: headlamplightsourceid
+    type: BIGINT
+  - name: headlamplightsource
+    type: VARCHAR
+  - name: semiautoheadlampbeamswitchingid
+    type: BIGINT
+  - name: semiautoheadlampbeamswitching
+    type: VARCHAR
+  - name: adaptivedrivingbeamid
+    type: BIGINT
+  - name: adaptivedrivingbeam
+    type: VARCHAR
+  - name: adaptivecruisecontrolid
+    type: BIGINT
+  - name: adaptivecruisecontrol
+    type: VARCHAR
+  - name: antilockbrakesystemid
+    type: BIGINT
+  - name: antilockbrakesystem
+    type: VARCHAR
+  - name: electronicstabilitycontrolid
+    type: BIGINT
+  - name: electronicstabilitycontrol
+    type: VARCHAR
+  - name: tpmsid
+    type: BIGINT
+  - name: tpms
+    type: VARCHAR
+  - name: automaticcrashnotificationid
+    type: BIGINT
+  - name: automaticcrashnotification
+    type: VARCHAR
+  - name: eventdatarecorderid
+    type: BIGINT
+  - name: eventdatarecorder
+    type: VARCHAR
+  - name: tractioncontrolid
+    type: BIGINT
+  - name: tractioncontrol
+    type: VARCHAR
+  - name: autopedestrianalertingsoundid
+    type: BIGINT
+  - name: autopedestrianalertingsound
+    type: VARCHAR
+  - name: keylessignitionid
+    type: BIGINT
+  - name: keylessignition
+    type: VARCHAR
+  - name: saeautomationlevel_from
+    type: BIGINT
+  - name: saeautomationlevel_to
+    type: VARCHAR
+  - name: autoreversesystemid
+    type: BIGINT
+  - name: autoreversesystem
+    type: VARCHAR
+  - name: activesafetysysnote
+    type: VARCHAR
+  - name: nonlanduseid
+    type: VARCHAR
+  - name: nonlanduse
     type: VARCHAR
   - name: case_year
     type: INTEGER

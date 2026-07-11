@@ -1,28 +1,32 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-miacc`. Regenerate after model-verify.
+# caution: Multiple-imputation table; the A1-A10 fields are imputed values for the same crash concept, not independent observations.
+key: [st_case, case_year]
+sort: [st_case, case_year]
 columns:
-  - name: ST_CASE
-    type: VARCHAR
-  - name: YEAR
-    type: VARCHAR
-  - name: A1
-    type: VARCHAR
-  - name: A2
-    type: VARCHAR
-  - name: A3
-    type: VARCHAR
-  - name: A4
-    type: VARCHAR
-  - name: A5
-    type: VARCHAR
-  - name: A6
-    type: VARCHAR
-  - name: A7
-    type: VARCHAR
-  - name: A8
-    type: VARCHAR
-  - name: A9
-    type: VARCHAR
-  - name: A10
-    type: VARCHAR
+  - name: st_case
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: a1
+    type: BIGINT
+  - name: a2
+    type: BIGINT
+  - name: a3
+    type: BIGINT
+  - name: a4
+    type: BIGINT
+  - name: a5
+    type: BIGINT
+  - name: a6
+    type: BIGINT
+  - name: a7
+    type: BIGINT
+  - name: a8
+    type: BIGINT
+  - name: a9
+    type: BIGINT
+  - name: a10
+    type: BIGINT
   - name: case_year
     type: INTEGER

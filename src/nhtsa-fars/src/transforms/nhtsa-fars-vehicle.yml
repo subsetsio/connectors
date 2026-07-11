@@ -1,558 +1,561 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhtsa-fars-vehicle`. Regenerate after model-verify.
+key: [state, st_case, veh_no, case_year]
+sort: [state, st_case, veh_no, case_year]
 columns:
-  - name: STATE
+  - name: state
+    type: BIGINT
+  - name: ve_forms
+    type: BIGINT
+  - name: harm_ev
+    type: BIGINT
+  - name: man_coll
+    type: BIGINT
+  - name: hit_run
+    type: BIGINT
+  - name: veh_no
+    type: BIGINT
+  - name: make
+    type: BIGINT
+  - name: model
+    type: BIGINT
+  - name: body_typ
+    type: BIGINT
+  - name: mod_year
+    type: BIGINT
+  - name: reg_stat
+    type: BIGINT
+  - name: rollover
+    type: BIGINT
+  - name: j_knife
+    type: BIGINT
+  - name: trav_sp
+    type: BIGINT
+  - name: tow_veh
+    type: BIGINT
+  - name: spec_use
+    type: BIGINT
+  - name: emer_use
+    type: BIGINT
+  - name: impact1
+    type: BIGINT
+  - name: impact2
+    type: BIGINT
+  - name: deformed
+    type: BIGINT
+  - name: impacts
+    type: BIGINT
+  - name: towaway
+    type: BIGINT
+  - name: fire_exp
+    type: BIGINT
+  - name: ocupants
+    type: BIGINT
+  - name: deaths
+    type: BIGINT
+  - name: veh_cf1
+    type: BIGINT
+  - name: veh_cf2
+    type: BIGINT
+  - name: m_harm
+    type: BIGINT
+  - name: chas_tr
+    type: BIGINT
+  - name: wgtcd_tr
+    type: BIGINT
+  - name: vin_lngt
+    type: BIGINT
+  - name: vin_1
+    type: VARCHAR
+  - name: vin_2
+    type: VARCHAR
+  - name: vin_3
+    type: VARCHAR
+  - name: vin_4
+    type: VARCHAR
+  - name: vin_5
+    type: VARCHAR
+  - name: vin_6
+    type: VARCHAR
+  - name: vin_7
+    type: VARCHAR
+  - name: vin_8
+    type: VARCHAR
+  - name: vin_9
+    type: VARCHAR
+  - name: vin_10
+    type: VARCHAR
+  - name: fldcd_tr
+    type: VARCHAR
+  - name: mcycl_ty
+    type: VARCHAR
+  - name: dr_pres
+    type: BIGINT
+  - name: dr_drink
+    type: BIGINT
+  - name: l_state
+    type: BIGINT
+  - name: l_status
+    type: BIGINT
+  - name: l_restri
+    type: BIGINT
+  - name: dr_train
+    type: BIGINT
+  - name: viol_chg
+    type: BIGINT
+  - name: prev_acc
+    type: BIGINT
+  - name: prev_sus
+    type: BIGINT
+  - name: prev_dwi
+    type: BIGINT
+  - name: prev_spd
+    type: BIGINT
+  - name: prev_oth
+    type: BIGINT
+  - name: last_mo
+    type: BIGINT
+  - name: last_yr
+    type: BIGINT
+  - name: first_mo
+    type: BIGINT
+  - name: first_yr
+    type: BIGINT
+  - name: dr_cf1
+    type: BIGINT
+  - name: dr_cf2
+    type: BIGINT
+  - name: dr_cf3
+    type: BIGINT
+  - name: st_case
+    type: BIGINT
+  - name: mak_mod
+    type: BIGINT
+  - name: vin_wgt
+    type: BIGINT
+  - name: whlbs_sh
+    type: BIGINT
+  - name: whlbs_lg
+    type: BIGINT
+  - name: mcycl_ds
+    type: BIGINT
+  - name: vina_mod
+    type: VARCHAR
+  - name: ser_tr
+    type: VARCHAR
+  - name: vin
+    type: VARCHAR
+  - name: haz_carg
+    type: BIGINT
+  - name: veh_man
+    type: BIGINT
+  - name: l_cl_veh
+    type: BIGINT
+  - name: vin_bt
+    type: VARCHAR
+  - name: l_compl
+    type: BIGINT
+  - name: dr_zip
+    type: BIGINT
+  - name: owner
+    type: BIGINT
+  - name: v_config
+    type: BIGINT
+  - name: axles
+    type: BIGINT
+  - name: cargo_bt
+    type: BIGINT
+  - name: avoid
+    type: BIGINT
+  - name: cdl_stat
+    type: BIGINT
+  - name: l_endors
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: underide
+    type: BIGINT
+  - name: vin_11
+    type: VARCHAR
+  - name: vin_12
+    type: VARCHAR
+  - name: violchg1
+    type: BIGINT
+  - name: violchg2
+    type: BIGINT
+  - name: violchg3
+    type: BIGINT
+  - name: dr_cf4
+    type: BIGINT
+  - name: dr_wgt
+    type: BIGINT
+  - name: dr_hgt
+    type: BIGINT
+  - name: mcarr_id
+    type: VARCHAR
+  - name: bus_use
+    type: BIGINT
+  - name: gvwr
+    type: BIGINT
+  - name: seq1
+    type: BIGINT
+  - name: seq2
+    type: BIGINT
+  - name: seq3
+    type: BIGINT
+  - name: seq4
+    type: BIGINT
+  - name: seq5
+    type: BIGINT
+  - name: seq6
+    type: BIGINT
+  - name: l_type
+    type: BIGINT
+  - name: unittype
+    type: BIGINT
+  - name: haz_inv
+    type: BIGINT
+  - name: haz_plac
+    type: BIGINT
+  - name: haz_cno
+    type: BIGINT
+  - name: haz_rel
+    type: BIGINT
+  - name: mcarr_i1
+    type: BIGINT
+  - name: haz_id
+    type: BIGINT
+  - name: mcarr_i2
+    type: VARCHAR
+  - name: numoccs
+    type: BIGINT
+  - name: rolinloc
+    type: BIGINT
+  - name: towed
+    type: BIGINT
+  - name: speedrel
+    type: BIGINT
+  - name: d_vision1
+    type: BIGINT
+  - name: d_vision2
+    type: BIGINT
+  - name: d_vision3
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: hour
+    type: BIGINT
+  - name: minute
+    type: BIGINT
+  - name: vintype
+    type: VARCHAR
+  - name: vinmake
+    type: VARCHAR
+  - name: vinmodyr
+    type: BIGINT
+  - name: fuelcode
+    type: VARCHAR
+  - name: veh_sc1
+    type: BIGINT
+  - name: veh_sc2
+    type: BIGINT
+  - name: dr_sf1
+    type: BIGINT
+  - name: dr_sf2
+    type: BIGINT
+  - name: dr_sf3
+    type: BIGINT
+  - name: dr_sf4
+    type: BIGINT
+  - name: vtrafway
+    type: BIGINT
+  - name: vnum_lan
+    type: BIGINT
+  - name: vspd_lim
+    type: BIGINT
+  - name: valign
+    type: BIGINT
+  - name: vprofile
+    type: BIGINT
+  - name: vpavetyp
+    type: BIGINT
+  - name: vsurcond
+    type: BIGINT
+  - name: vtrafcon
+    type: BIGINT
+  - name: vtcont_f
+    type: BIGINT
+  - name: p_crash1
+    type: BIGINT
+  - name: p_crash2
+    type: BIGINT
+  - name: p_crash3
+    type: BIGINT
+  - name: pcrash4
+    type: BIGINT
+  - name: pcrash5
+    type: BIGINT
+  - name: acc_type
+    type: BIGINT
+  - name: carbur
+    type: VARCHAR
+  - name: cylinder
+    type: VARCHAR
+  - name: displace
+    type: VARCHAR
+  - name: mcycl_cy
+    type: BIGINT
+  - name: mcycl_wt
+    type: VARCHAR
+  - name: tire_sze
+    type: VARCHAR
+  - name: ton_rat
+    type: VARCHAR
+  - name: trk_wt
+    type: VARCHAR
+  - name: trkwtvar
+    type: VARCHAR
+  - name: vin_rest
+    type: VARCHAR
+  - name: whldrwhl
+    type: BIGINT
+  - name: statename
+    type: VARCHAR
+  - name: numoccsname
+    type: VARCHAR
+  - name: dayname
+    type: BIGINT
+  - name: monthname
+    type: VARCHAR
+  - name: hourname
+    type: VARCHAR
+  - name: minutename
+    type: VARCHAR
+  - name: harm_evname
+    type: VARCHAR
+  - name: man_collname
+    type: VARCHAR
+  - name: unittypename
+    type: VARCHAR
+  - name: hit_runname
+    type: VARCHAR
+  - name: reg_statname
+    type: VARCHAR
+  - name: ownername
+    type: VARCHAR
+  - name: makename
+    type: VARCHAR
+  - name: mak_modname
+    type: VARCHAR
+  - name: body_typname
+    type: VARCHAR
+  - name: mod_yearname
+    type: VARCHAR
+  - name: vinname
+    type: VARCHAR
+  - name: tow_vehname
+    type: VARCHAR
+  - name: j_knifename
+    type: VARCHAR
+  - name: mcarr_i1name
+    type: VARCHAR
+  - name: mcarr_i2name
+    type: VARCHAR
+  - name: mcarr_idname
     type: VARCHAR
-  - name: VE_FORMS
+  - name: gvwrname
     type: VARCHAR
-  - name: HARM_EV
+  - name: v_configname
     type: VARCHAR
-  - name: MAN_COLL
+  - name: cargo_btname
     type: VARCHAR
-  - name: HIT_RUN
+  - name: haz_invname
     type: VARCHAR
-  - name: VEH_NO
+  - name: haz_placname
     type: VARCHAR
-  - name: MAKE
+  - name: haz_idname
     type: VARCHAR
-  - name: MODEL
+  - name: haz_cnoname
     type: VARCHAR
-  - name: BODY_TYP
+  - name: haz_relname
     type: VARCHAR
-  - name: MOD_YEAR
+  - name: bus_usename
     type: VARCHAR
-  - name: REG_STAT
+  - name: spec_usename
     type: VARCHAR
-  - name: ROLLOVER
+  - name: emer_usename
     type: VARCHAR
-  - name: J_KNIFE
+  - name: trav_spname
     type: VARCHAR
-  - name: TRAV_SP
+  - name: underidename
     type: VARCHAR
-  - name: TOW_VEH
+  - name: rollovername
     type: VARCHAR
-  - name: SPEC_USE
+  - name: rolinlocname
     type: VARCHAR
-  - name: EMER_USE
+  - name: impact1name
     type: VARCHAR
-  - name: IMPACT1
+  - name: deformedname
     type: VARCHAR
-  - name: IMPACT2
+  - name: towedname
     type: VARCHAR
-  - name: DEFORMED
+  - name: m_harmname
     type: VARCHAR
-  - name: IMPACTS
+  - name: veh_sc1name
     type: VARCHAR
-  - name: TOWAWAY
+  - name: veh_sc2name
     type: VARCHAR
-  - name: FIRE_EXP
+  - name: fire_expname
     type: VARCHAR
-  - name: OCUPANTS
+  - name: dr_presname
     type: VARCHAR
-  - name: DEATHS
+  - name: l_statename
     type: VARCHAR
-  - name: VEH_CF1
+  - name: dr_zipname
     type: VARCHAR
-  - name: VEH_CF2
+  - name: l_statusname
     type: VARCHAR
-  - name: M_HARM
+  - name: l_typename
     type: VARCHAR
-  - name: CHAS_TR
+  - name: cdl_statname
     type: VARCHAR
-  - name: WGTCD_TR
+  - name: l_endorsname
     type: VARCHAR
-  - name: VIN_LNGT
+  - name: l_complname
     type: VARCHAR
-  - name: VIN_1
+  - name: l_restriname
     type: VARCHAR
-  - name: VIN_2
+  - name: dr_hgtname
     type: VARCHAR
-  - name: VIN_3
+  - name: dr_wgtname
     type: VARCHAR
-  - name: VIN_4
+  - name: prev_accname
     type: VARCHAR
-  - name: VIN_5
+  - name: prev_susname
     type: VARCHAR
-  - name: VIN_6
+  - name: prev_dwiname
     type: VARCHAR
-  - name: VIN_7
+  - name: prev_spdname
     type: VARCHAR
-  - name: VIN_8
+  - name: prev_othname
     type: VARCHAR
-  - name: VIN_9
+  - name: first_moname
     type: VARCHAR
-  - name: VIN_10
+  - name: first_yrname
     type: VARCHAR
-  - name: FLDCD_TR
+  - name: last_moname
     type: VARCHAR
-  - name: MCYCL_TY
+  - name: last_yrname
     type: VARCHAR
-  - name: DR_PRES
+  - name: speedrelname
     type: VARCHAR
-  - name: DR_DRINK
+  - name: dr_sf1name
     type: VARCHAR
-  - name: L_STATE
+  - name: dr_sf2name
     type: VARCHAR
-  - name: L_STATUS
+  - name: dr_sf3name
     type: VARCHAR
-  - name: L_RESTRI
+  - name: dr_sf4name
     type: VARCHAR
-  - name: DR_TRAIN
+  - name: vtrafwayname
     type: VARCHAR
-  - name: VIOL_CHG
+  - name: vnum_lanname
     type: VARCHAR
-  - name: PREV_ACC
+  - name: vspd_limname
     type: VARCHAR
-  - name: PREV_SUS
+  - name: valignname
     type: VARCHAR
-  - name: PREV_DWI
+  - name: vprofilename
     type: VARCHAR
-  - name: PREV_SPD
+  - name: vpavetypname
     type: VARCHAR
-  - name: PREV_OTH
+  - name: vsurcondname
     type: VARCHAR
-  - name: LAST_MO
+  - name: vtrafconname
     type: VARCHAR
-  - name: LAST_YR
+  - name: vtcont_fname
     type: VARCHAR
-  - name: FIRST_MO
+  - name: p_crash1name
     type: VARCHAR
-  - name: FIRST_YR
+  - name: p_crash2name
     type: VARCHAR
-  - name: DR_CF1
+  - name: p_crash3name
     type: VARCHAR
-  - name: DR_CF2
+  - name: pcrash4name
     type: VARCHAR
-  - name: DR_CF3
+  - name: pcrash5name
     type: VARCHAR
-  - name: ST_CASE
+  - name: acc_typename
     type: VARCHAR
-  - name: MAK_MOD
+  - name: dr_drinkname
     type: VARCHAR
-  - name: VIN_WGT
+  - name: trlr1vin
     type: VARCHAR
-  - name: WHLBS_SH
+  - name: trlr1vinname
     type: VARCHAR
-  - name: WHLBS_LG
+  - name: trlr2vin
     type: VARCHAR
-  - name: MCYCL_DS
+  - name: trlr2vinname
     type: VARCHAR
-  - name: VINA_MOD
+  - name: trlr3vin
     type: VARCHAR
-  - name: SER_TR
+  - name: trlr3vinname
     type: VARCHAR
-  - name: VIN
+  - name: prev_sus1
+    type: BIGINT
+  - name: prev_sus1name
     type: VARCHAR
-  - name: HAZ_CARG
+  - name: prev_sus2
+    type: BIGINT
+  - name: prev_sus2name
     type: VARCHAR
-  - name: VEH_MAN
+  - name: prev_sus3
+    type: BIGINT
+  - name: prev_sus3name
     type: VARCHAR
-  - name: L_CL_VEH
+  - name: vpicmake
+    type: BIGINT
+  - name: vpicmakename
     type: VARCHAR
-  - name: VIN_BT
+  - name: vpicmodel
+    type: BIGINT
+  - name: vpicmodelname
     type: VARCHAR
-  - name: L_COMPL
+  - name: vpicbodyclass
+    type: BIGINT
+  - name: vpicbodyclassname
     type: VARCHAR
-  - name: DR_ZIP
+  - name: icfinalbody
+    type: BIGINT
+  - name: icfinalbodyname
     type: VARCHAR
-  - name: OWNER
+  - name: gvwr_from
+    type: BIGINT
+  - name: gvwr_fromname
     type: VARCHAR
-  - name: V_CONFIG
+  - name: gvwr_to
+    type: BIGINT
+  - name: gvwr_toname
     type: VARCHAR
-  - name: AXLES
+  - name: trlr1gvwr
+    type: BIGINT
+  - name: trlr1gvwrname
     type: VARCHAR
-  - name: CARGO_BT
+  - name: trlr2gvwr
+    type: BIGINT
+  - name: trlr2gvwrname
     type: VARCHAR
-  - name: AVOID
+  - name: trlr3gvwr
+    type: BIGINT
+  - name: trlr3gvwrname
     type: VARCHAR
-  - name: CDL_STAT
+  - name: underoverride
+    type: BIGINT
+  - name: underoverridename
     type: VARCHAR
-  - name: L_ENDORS
-    type: VARCHAR
-  - name: MONTH
-    type: VARCHAR
-  - name: UNDERIDE
-    type: VARCHAR
-  - name: VIN_11
-    type: VARCHAR
-  - name: VIN_12
-    type: VARCHAR
-  - name: VIOLCHG1
-    type: VARCHAR
-  - name: VIOLCHG2
-    type: VARCHAR
-  - name: VIOLCHG3
-    type: VARCHAR
-  - name: DR_CF4
-    type: VARCHAR
-  - name: DR_WGT
-    type: VARCHAR
-  - name: DR_HGT
-    type: VARCHAR
-  - name: MCARR_ID
-    type: VARCHAR
-  - name: BUS_USE
-    type: VARCHAR
-  - name: GVWR
-    type: VARCHAR
-  - name: SEQ1
-    type: VARCHAR
-  - name: SEQ2
-    type: VARCHAR
-  - name: SEQ3
-    type: VARCHAR
-  - name: SEQ4
-    type: VARCHAR
-  - name: SEQ5
-    type: VARCHAR
-  - name: SEQ6
-    type: VARCHAR
-  - name: L_TYPE
-    type: VARCHAR
-  - name: UNITTYPE
-    type: VARCHAR
-  - name: HAZ_INV
-    type: VARCHAR
-  - name: HAZ_PLAC
-    type: VARCHAR
-  - name: HAZ_CNO
-    type: VARCHAR
-  - name: HAZ_REL
-    type: VARCHAR
-  - name: MCARR_I1
-    type: VARCHAR
-  - name: HAZ_ID
-    type: VARCHAR
-  - name: MCARR_I2
-    type: VARCHAR
-  - name: NUMOCCS
-    type: VARCHAR
-  - name: ROLINLOC
-    type: VARCHAR
-  - name: TOWED
-    type: VARCHAR
-  - name: SPEEDREL
-    type: VARCHAR
-  - name: D_VISION1
-    type: VARCHAR
-  - name: D_VISION2
-    type: VARCHAR
-  - name: D_VISION3
-    type: VARCHAR
-  - name: DAY
-    type: VARCHAR
-  - name: HOUR
-    type: VARCHAR
-  - name: MINUTE
-    type: VARCHAR
-  - name: VINTYPE
-    type: VARCHAR
-  - name: VINMAKE
-    type: VARCHAR
-  - name: VINMODYR
-    type: VARCHAR
-  - name: FUELCODE
-    type: VARCHAR
-  - name: VEH_SC1
-    type: VARCHAR
-  - name: VEH_SC2
-    type: VARCHAR
-  - name: DR_SF1
-    type: VARCHAR
-  - name: DR_SF2
-    type: VARCHAR
-  - name: DR_SF3
-    type: VARCHAR
-  - name: DR_SF4
-    type: VARCHAR
-  - name: VTRAFWAY
-    type: VARCHAR
-  - name: VNUM_LAN
-    type: VARCHAR
-  - name: VSPD_LIM
-    type: VARCHAR
-  - name: VALIGN
-    type: VARCHAR
-  - name: VPROFILE
-    type: VARCHAR
-  - name: VPAVETYP
-    type: VARCHAR
-  - name: VSURCOND
-    type: VARCHAR
-  - name: VTRAFCON
-    type: VARCHAR
-  - name: VTCONT_F
-    type: VARCHAR
-  - name: P_CRASH1
-    type: VARCHAR
-  - name: P_CRASH2
-    type: VARCHAR
-  - name: P_CRASH3
-    type: VARCHAR
-  - name: PCRASH4
-    type: VARCHAR
-  - name: PCRASH5
-    type: VARCHAR
-  - name: ACC_TYPE
-    type: VARCHAR
-  - name: CARBUR
-    type: VARCHAR
-  - name: CYLINDER
-    type: VARCHAR
-  - name: DISPLACE
-    type: VARCHAR
-  - name: MCYCL_CY
-    type: VARCHAR
-  - name: MCYCL_WT
-    type: VARCHAR
-  - name: TIRE_SZE
-    type: VARCHAR
-  - name: TON_RAT
-    type: VARCHAR
-  - name: TRK_WT
-    type: VARCHAR
-  - name: TRKWTVAR
-    type: VARCHAR
-  - name: VIN_REST
-    type: VARCHAR
-  - name: WHLDRWHL
-    type: VARCHAR
-  - name: STATENAME
-    type: VARCHAR
-  - name: NUMOCCSNAME
-    type: VARCHAR
-  - name: DAYNAME
-    type: VARCHAR
-  - name: MONTHNAME
-    type: VARCHAR
-  - name: HOURNAME
-    type: VARCHAR
-  - name: MINUTENAME
-    type: VARCHAR
-  - name: HARM_EVNAME
-    type: VARCHAR
-  - name: MAN_COLLNAME
-    type: VARCHAR
-  - name: UNITTYPENAME
-    type: VARCHAR
-  - name: HIT_RUNNAME
-    type: VARCHAR
-  - name: REG_STATNAME
-    type: VARCHAR
-  - name: OWNERNAME
-    type: VARCHAR
-  - name: MAKENAME
-    type: VARCHAR
-  - name: MAK_MODNAME
-    type: VARCHAR
-  - name: BODY_TYPNAME
-    type: VARCHAR
-  - name: MOD_YEARNAME
-    type: VARCHAR
-  - name: VINNAME
-    type: VARCHAR
-  - name: TOW_VEHNAME
-    type: VARCHAR
-  - name: J_KNIFENAME
-    type: VARCHAR
-  - name: MCARR_I1NAME
-    type: VARCHAR
-  - name: MCARR_I2NAME
-    type: VARCHAR
-  - name: MCARR_IDNAME
-    type: VARCHAR
-  - name: GVWRNAME
-    type: VARCHAR
-  - name: V_CONFIGNAME
-    type: VARCHAR
-  - name: CARGO_BTNAME
-    type: VARCHAR
-  - name: HAZ_INVNAME
-    type: VARCHAR
-  - name: HAZ_PLACNAME
-    type: VARCHAR
-  - name: HAZ_IDNAME
-    type: VARCHAR
-  - name: HAZ_CNONAME
-    type: VARCHAR
-  - name: HAZ_RELNAME
-    type: VARCHAR
-  - name: BUS_USENAME
-    type: VARCHAR
-  - name: SPEC_USENAME
-    type: VARCHAR
-  - name: EMER_USENAME
-    type: VARCHAR
-  - name: TRAV_SPNAME
-    type: VARCHAR
-  - name: UNDERIDENAME
-    type: VARCHAR
-  - name: ROLLOVERNAME
-    type: VARCHAR
-  - name: ROLINLOCNAME
-    type: VARCHAR
-  - name: IMPACT1NAME
-    type: VARCHAR
-  - name: DEFORMEDNAME
-    type: VARCHAR
-  - name: TOWEDNAME
-    type: VARCHAR
-  - name: M_HARMNAME
-    type: VARCHAR
-  - name: VEH_SC1NAME
-    type: VARCHAR
-  - name: VEH_SC2NAME
-    type: VARCHAR
-  - name: FIRE_EXPNAME
-    type: VARCHAR
-  - name: DR_PRESNAME
-    type: VARCHAR
-  - name: L_STATENAME
-    type: VARCHAR
-  - name: DR_ZIPNAME
-    type: VARCHAR
-  - name: L_STATUSNAME
-    type: VARCHAR
-  - name: L_TYPENAME
-    type: VARCHAR
-  - name: CDL_STATNAME
-    type: VARCHAR
-  - name: L_ENDORSNAME
-    type: VARCHAR
-  - name: L_COMPLNAME
-    type: VARCHAR
-  - name: L_RESTRINAME
-    type: VARCHAR
-  - name: DR_HGTNAME
-    type: VARCHAR
-  - name: DR_WGTNAME
-    type: VARCHAR
-  - name: PREV_ACCNAME
-    type: VARCHAR
-  - name: PREV_SUSNAME
-    type: VARCHAR
-  - name: PREV_DWINAME
-    type: VARCHAR
-  - name: PREV_SPDNAME
-    type: VARCHAR
-  - name: PREV_OTHNAME
-    type: VARCHAR
-  - name: FIRST_MONAME
-    type: VARCHAR
-  - name: FIRST_YRNAME
-    type: VARCHAR
-  - name: LAST_MONAME
-    type: VARCHAR
-  - name: LAST_YRNAME
-    type: VARCHAR
-  - name: SPEEDRELNAME
-    type: VARCHAR
-  - name: DR_SF1NAME
-    type: VARCHAR
-  - name: DR_SF2NAME
-    type: VARCHAR
-  - name: DR_SF3NAME
-    type: VARCHAR
-  - name: DR_SF4NAME
-    type: VARCHAR
-  - name: VTRAFWAYNAME
-    type: VARCHAR
-  - name: VNUM_LANNAME
-    type: VARCHAR
-  - name: VSPD_LIMNAME
-    type: VARCHAR
-  - name: VALIGNNAME
-    type: VARCHAR
-  - name: VPROFILENAME
-    type: VARCHAR
-  - name: VPAVETYPNAME
-    type: VARCHAR
-  - name: VSURCONDNAME
-    type: VARCHAR
-  - name: VTRAFCONNAME
-    type: VARCHAR
-  - name: VTCONT_FNAME
-    type: VARCHAR
-  - name: P_CRASH1NAME
-    type: VARCHAR
-  - name: P_CRASH2NAME
-    type: VARCHAR
-  - name: P_CRASH3NAME
-    type: VARCHAR
-  - name: PCRASH4NAME
-    type: VARCHAR
-  - name: PCRASH5NAME
-    type: VARCHAR
-  - name: ACC_TYPENAME
-    type: VARCHAR
-  - name: DR_DRINKNAME
-    type: VARCHAR
-  - name: TRLR1VIN
-    type: VARCHAR
-  - name: TRLR1VINNAME
-    type: VARCHAR
-  - name: TRLR2VIN
-    type: VARCHAR
-  - name: TRLR2VINNAME
-    type: VARCHAR
-  - name: TRLR3VIN
-    type: VARCHAR
-  - name: TRLR3VINNAME
-    type: VARCHAR
-  - name: PREV_SUS1
-    type: VARCHAR
-  - name: PREV_SUS1NAME
-    type: VARCHAR
-  - name: PREV_SUS2
-    type: VARCHAR
-  - name: PREV_SUS2NAME
-    type: VARCHAR
-  - name: PREV_SUS3
-    type: VARCHAR
-  - name: PREV_SUS3NAME
-    type: VARCHAR
-  - name: VPICMAKE
-    type: VARCHAR
-  - name: VPICMAKENAME
-    type: VARCHAR
-  - name: VPICMODEL
-    type: VARCHAR
-  - name: VPICMODELNAME
-    type: VARCHAR
-  - name: VPICBODYCLASS
-    type: VARCHAR
-  - name: VPICBODYCLASSNAME
-    type: VARCHAR
-  - name: ICFINALBODY
-    type: VARCHAR
-  - name: ICFINALBODYNAME
-    type: VARCHAR
-  - name: GVWR_FROM
-    type: VARCHAR
-  - name: GVWR_FROMNAME
-    type: VARCHAR
-  - name: GVWR_TO
-    type: VARCHAR
-  - name: GVWR_TONAME
-    type: VARCHAR
-  - name: TRLR1GVWR
-    type: VARCHAR
-  - name: TRLR1GVWRNAME
-    type: VARCHAR
-  - name: TRLR2GVWR
-    type: VARCHAR
-  - name: TRLR2GVWRNAME
-    type: VARCHAR
-  - name: TRLR3GVWR
-    type: VARCHAR
-  - name: TRLR3GVWRNAME
-    type: VARCHAR
-  - name: UNDEROVERRIDE
-    type: VARCHAR
-  - name: UNDEROVERRIDENAME
-    type: VARCHAR
-  - name: ACC_CONFIG
-    type: VARCHAR
-  - name: ACC_CONFIGNAME
+  - name: acc_config
+    type: BIGINT
+  - name: acc_configname
     type: VARCHAR
   - name: case_year
     type: INTEGER
