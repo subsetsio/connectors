@@ -17,7 +17,7 @@ import zipfile
 
 import httpx
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet, raw_parquet_writer
+from subsets_utils import NodeSpec, save_raw_parquet, raw_parquet_writer
 
 from utils import export_daily, fetch_series
 
@@ -133,62 +133,4 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="panama-canal-authority-series", fn=fetch_series_catalog, kind="download"),
     NodeSpec(id="panama-canal-authority-values", fn=fetch_values, kind="download"),
-]
-
-# ---- transforms: thin parse-and-type leaf nodes --------------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="panama-canal-authority-series-transform",
-        deps=["panama-canal-authority-series"],
-        sql='''
-            SELECT
-                series_id,
-                parameter,
-                label,
-                location_identifier,
-                location_name,
-                location_type,
-                watershed,
-                CAST(latitude  AS DOUBLE) AS latitude,
-                CAST(longitude AS DOUBLE) AS longitude,
-                TRY_CAST(start_time AS TIMESTAMP) AS start_time,
-                TRY_CAST(end_time   AS TIMESTAMP) AS end_time,
-                CAST(timezone AS DOUBLE) AS utc_offset_hours
-            FROM "panama-canal-authority-series"
-            WHERE series_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="panama-canal-authority-values-transform",
-        deps=["panama-canal-authority-values"],
-        sql='''
-            WITH parsed AS (
-                SELECT
-                    series_id,
-                    parameter,
-                    label,
-                    location_identifier,
-                    watershed,
-                    unit,
-                    TRY_CAST(date AS DATE) AS date,
-                    CAST(value_mean AS DOUBLE) AS value_mean,
-                    CAST(value_min  AS DOUBLE) AS value_min,
-                    CAST(value_max  AS DOUBLE) AS value_max,
-                    CAST(value_sum  AS DOUBLE) AS value_sum,
-                    CAST(n_obs AS INTEGER) AS n_obs
-                FROM "panama-canal-authority-values"
-            )
-            SELECT *
-            FROM parsed
-            WHERE date IS NOT NULL
-              AND value_mean IS NOT NULL AND isfinite(value_mean)
-              -- Drop sentinel/placeholder timestamps: a stray 1900-01-01 null-date
-              -- marker and any future-dated rows (forecast stragglers — no real
-              -- observation lies in the future). Genuine historical data (1930s+)
-              -- is kept.
-              AND date > DATE '1900-01-01'
-              AND date <= current_date
-        ''',
-    ),
 ]
