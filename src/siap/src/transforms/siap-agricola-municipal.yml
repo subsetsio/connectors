@@ -1,0 +1,59 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `siap-agricola-municipal`. Regenerate after model-verify.
+# caution: Rows are denormalized observations with geography, crop, cycle, modality, and unit labels repeated on each row; the source contains duplicate observation rows, so `source_row_number` is part of the row identity.
+key: [source_year, source_row_number]
+temporal: source_year
+sort: [source_year, source_row_number]
+columns:
+  - name: source_row_number
+    type: BIGINT
+  - name: source_year
+    type: BIGINT
+  - name: anio
+    type: BIGINT
+  - name: idestado
+    type: BIGINT
+  - name: nomestado
+    type: VARCHAR
+  - name: idddr
+    type: BIGINT
+  - name: nomddr
+    type: VARCHAR
+  - name: idcader
+    type: BIGINT
+  - name: nomcader
+    type: VARCHAR
+  - name: idmunicipio
+    type: BIGINT
+  - name: nommunicipio
+    type: VARCHAR
+  - name: idciclo
+    type: BIGINT
+  - name: nomcicloproductivo
+    type: VARCHAR
+  - name: idmodalidad
+    type: BIGINT
+  - name: nommodalidad
+    type: VARCHAR
+  - name: idunidadmedida
+    type: BIGINT
+  - name: nomunidad
+    type: VARCHAR
+  - name: idcultivo
+    type: BIGINT
+  - name: nomcultivo
+    type: VARCHAR
+  - name: sembrada
+    type: DOUBLE
+  - name: cosechada
+    type: DOUBLE
+  - name: siniestrada
+    type: DOUBLE
+  - name: volumenproduccion
+    type: DOUBLE
+  - name: rendimiento
+    type: DOUBLE
+  - name: precio
+    type: DOUBLE
+  - name: valorproduccion
+    type: DOUBLE

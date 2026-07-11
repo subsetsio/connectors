@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `siap-pecuario-municipal`. Regenerate after model-verify.
+# caution: Rows are denormalized observations with geography, species, and product labels repeated on each row; aggregate only after choosing the intended geography and product dimensions.
+key: [source_year, cveestado, cveddr, cvempio, cveespecie, cveproducto]
+temporal: source_year
+sort: [source_year, cveestado, cveddr, cvempio, cveespecie, cveproducto]
+columns:
+  - name: source_year
+    type: BIGINT
+  - name: anio
+    type: BIGINT
+  - name: cveestado
+    type: BIGINT
+  - name: nomestado
+    type: VARCHAR
+  - name: cveddr
+    type: BIGINT
+  - name: nomddr
+    type: VARCHAR
+  - name: cvempio
+    type: BIGINT
+  - name: nommunicipio
+    type: VARCHAR
+  - name: cveespecie
+    type: BIGINT
+  - name: nomespecie
+    type: VARCHAR
+  - name: cveproducto
+    type: BIGINT
+  - name: nomproducto
+    type: VARCHAR
+  - name: volumen
+    type: DOUBLE
+  - name: peso
+    type: DOUBLE
+  - name: precio
+    type: DOUBLE
+  - name: valor
+    type: DOUBLE
+  - name: asacrificado
+    type: DOUBLE

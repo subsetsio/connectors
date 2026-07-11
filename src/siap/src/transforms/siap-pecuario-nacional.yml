@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `siap-pecuario-nacional`. Regenerate after model-verify.
+# caution: This is a frozen historical national-schema series ending in 2005; current livestock observations are published in the municipal-schema table.
+key: [cveestado, nomestado, source_year, cveproducto, cveespecie]
+temporal: source_year
+sort: [cveestado, nomestado, source_year, cveproducto, cveespecie]
+columns:
+  - name: source_year
+    type: BIGINT
+  - name: anio
+    type: BIGINT
+  - name: cveestado
+    type: BIGINT
+  - name: nomestado
+    type: VARCHAR
+  - name: cveespecie
+    type: BIGINT
+  - name: nomespecie
+    type: VARCHAR
+  - name: cveproducto
+    type: BIGINT
+  - name: nomproducto
+    type: VARCHAR
+  - name: volumen
+    type: DOUBLE
+  - name: peso
+    type: DOUBLE
+  - name: precio
+    type: DOUBLE
+  - name: valor
+    type: DOUBLE
+  - name: asacrificado
+    type: DOUBLE
