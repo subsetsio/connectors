@@ -1,12 +1,16 @@
 spec_id: samhsa-escb-scz6
 status: active
+coverage:
+  frozen: true
+  reason: SAMHSA Synar data on CDC Socrata is a historical series ending with federal fiscal year 2018.
 tests:
   - not_null: ffy_year
     reason: every Synar row is stamped with a federal fiscal year
     certainty: 95
   - not_null: data_value
-    reason: the measured value is the point of the dataset
+    reason: a small number of historical Synar rows have upstream blank values; alert on drift but do not block the connector
     certainty: 90
+    severity: warn
   - not_null: locationabbr
     certainty: 95
   - matches: {col: ffy_year, pattern: "^(19|20)[0-9]{2}$"}
