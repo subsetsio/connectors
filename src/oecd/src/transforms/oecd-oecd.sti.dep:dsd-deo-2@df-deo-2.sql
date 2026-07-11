@@ -1,0 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is an OECD SDMX cube. Filter to the intended measure, geography, unit, frequency, and other dimensions before aggregating observations.
+SELECT
+    "ref_area",
+    "measure",
+    "has_nds",
+    "nds_plan",
+    "name",
+    "description",
+    "start_date",
+    "end_date",
+    "resp_lead",
+    "resp_evaluation",
+    "resp_monitoring",
+    "resp_implementation",
+    "resp_coordination",
+    "budget",
+    "budget_amount",
+    "budget_currency",
+    "budget_usd",
+    "budget_gdp",
+    "budget_timeframe",
+    "budget_timeframe_years",
+    "budget_admin",
+    "budget_admin_name",
+    "nds_monitor",
+    "nds_target",
+    "nds_eval",
+    "nds_impact",
+    "nds_impact_method",
+    "nds_eval_method",
+    "more_info",
+    "source",
+    "priority_1",
+    "priority_2",
+    "priority_3",
+    "key_priorities",
+    "response_id",
+    "obs_status",
+    "time_period",
+    "value"
+FROM "oecd-oecd.sti.dep:dsd-deo-2@df-deo-2"

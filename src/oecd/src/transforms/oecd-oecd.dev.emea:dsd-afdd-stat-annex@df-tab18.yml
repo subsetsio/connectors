@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `oecd-oecd.dev.emea:dsd-afdd-stat-annex@df-tab18`. Regenerate after model-verify.
+# caution: This is an OECD SDMX cube. Filter to the intended measure, geography, unit, frequency, and other dimensions before aggregating observations.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: measure
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: deg_urb
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: table_id
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: resourcerich
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: price_base
+    type: VARCHAR
+  - name: base_per
+    type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: point_info
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

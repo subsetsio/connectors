@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `oecd-oecd.ctp.tps:dsd-tax-pit@df-pit-top-earn-thresh`. Regenerate after model-verify.
+# caution: This is an OECD SDMX cube. Filter to the intended measure, geography, unit, frequency, and other dimensions before aggregating observations.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: ref_area
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: transaction
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: civil_status
+    type: VARCHAR
+  - name: household_type
+    type: VARCHAR
+  - name: income_principal
+    type: VARCHAR
+  - name: income_spouse
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: tax_base
+    type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

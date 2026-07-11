@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `oecd-oecd.daf.inv:dsd-fdirri-reg-database@df-fdirri-reg-database`. Regenerate after model-verify.
+# caution: This is an OECD SDMX cube. Filter to the intended measure, geography, unit, frequency, and other dimensions before aggregating observations.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: ref_area
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: pol_cat
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: explanatory_notes
+    type: VARCHAR
+  - name: leg_prov
+    type: VARCHAR
+  - name: off_sources
+    type: VARCHAR
+  - name: unoff_sources
+    type: VARCHAR
+  - name: link_sources
+    type: VARCHAR
+  - name: eu_ex
+    type: VARCHAR
+  - name: saf
+    type: VARCHAR
+  - name: restriction_status
+    type: VARCHAR
+  - name: measure_id
+    type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

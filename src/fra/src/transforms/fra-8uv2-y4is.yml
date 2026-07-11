@@ -1,7 +1,9 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [reportbaseid]
 temporal: aadtyear
-sort: [aadtyear, reportbaseid]
+# sort omitted: 5.0M rows x 185 cols — an in-memory ORDER BY peaks ~14GB RSS
+# (measured) and OOM-kills the 7GB CI runner. Publishing unsorted keeps the
+# transform streaming/bounded. See TOOLS.md (sort optional for huge tables).
 columns:
   - name: crossingid
     type: VARCHAR

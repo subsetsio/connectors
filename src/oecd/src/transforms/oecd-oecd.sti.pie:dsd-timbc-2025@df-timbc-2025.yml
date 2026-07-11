@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `oecd-oecd.sti.pie:dsd-timbc-2025@df-timbc-2025`. Regenerate after model-verify.
+# caution: This is an OECD SDMX cube. Filter to the intended measure, geography, unit, frequency, and other dimensions before aggregating observations.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: measure
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: counterpart_area
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: characteristic
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

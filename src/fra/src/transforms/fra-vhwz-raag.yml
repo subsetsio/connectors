@@ -1,6 +1,8 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 temporal: annualaveragedailytrafficyear
-sort: [annualaveragedailytrafficyear]
+# sort omitted: 5.0M rows x 258 cols — an in-memory ORDER BY peaks ~19GB RSS
+# (measured) and OOM-kills the 7GB CI runner. Publishing unsorted keeps the
+# transform streaming/bounded. See TOOLS.md (sort optional for huge tables).
 columns:
   - name: revisiondate
     type: VARCHAR

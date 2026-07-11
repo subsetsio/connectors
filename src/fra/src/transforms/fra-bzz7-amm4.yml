@@ -1,6 +1,8 @@
 # bootstrapped from Socrata metadata; raw CSV writer stores every column as VARCHAR
 temporal: aadtyear
-sort: [aadtyear]
+# sort omitted: 5.0M rows x 185 cols — an in-memory ORDER BY peaks ~14GB RSS
+# (measured) and OOM-kills the 7GB CI runner. Publishing unsorted keeps the
+# transform streaming/bounded. See TOOLS.md (sort optional for huge tables).
 columns:
   - name: crossingid
     type: VARCHAR

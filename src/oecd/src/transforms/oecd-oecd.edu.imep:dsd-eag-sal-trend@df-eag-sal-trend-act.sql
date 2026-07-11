@@ -1,0 +1,27 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is an OECD SDMX cube. Filter to the intended measure, geography, unit, frequency, and other dimensions before aggregating observations.
+SELECT
+    "ref_area",
+    "measure",
+    "unit_measure",
+    "inst_type_edu",
+    "education_lev",
+    "age",
+    "sex",
+    "pers_type",
+    "pers_qual_lev",
+    "pers_exp_lev",
+    "price_base",
+    "obs_status",
+    "unit_mult",
+    "statistical_operation",
+    "base_per",
+    "currency",
+    "transformation",
+    "decimals",
+    "time_period",
+    "value"
+FROM "oecd-oecd.edu.imep:dsd-eag-sal-trend@df-eag-sal-trend-act"

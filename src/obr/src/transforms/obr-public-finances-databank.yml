@@ -1,0 +1,26 @@
+# Faithful long-format pass-through of the melted OBR workbook: one row per
+# non-empty spreadsheet cell (see nodes/obr.py). Grain is the cell coordinate.
+key: [sheet, excel_row, excel_col]
+sort: [sheet, excel_row, excel_col]
+columns:
+  - name: sheet
+    type: VARCHAR
+    description: worksheet name (for ZIP-bundle products, prefixed with the member workbook filename)
+  - name: excel_row
+    type: INTEGER
+    description: 1-based Excel row index of the cell within the sheet
+  - name: excel_col
+    type: INTEGER
+    description: 1-based Excel column index of the cell within the sheet
+  - name: row_label
+    type: VARCHAR
+    description: first non-empty text label found in the cell's row (the row's leading header/label)
+  - name: col_label
+    type: VARCHAR
+    description: nearest non-empty text header at or above the cell in its column
+  - name: value_num
+    type: DOUBLE
+    description: numeric value of the cell, or null when the cell holds text
+  - name: value_text
+    type: VARCHAR
+    description: text value of the cell, or null when the cell holds a number
