@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-prevalence`. Regenerate after model-verify.
+# caution: This is a prevalence snapshot rather than a time series; compare it separately from annual incidence or mortality tables.
+key: [site, sex]
+sort: [site, sex]
+columns:
+  - name: statistic
+    type: VARCHAR
+  - name: sex
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR
+  - name: age_range
+    type: BIGINT
+  - name: age_range_label
+    type: VARCHAR
+  - name: site
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: percent
+    type: DOUBLE

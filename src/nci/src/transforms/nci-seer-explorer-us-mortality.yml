@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-us-mortality`. Regenerate after model-verify.
+# caution: Rows are annual United States mortality trends with race and age range pinned by the source fetch; compare separately from State Cancer Profiles geographic mortality.
+key: [site, sex, year]
+temporal: year
+sort: [year, site, sex]
+columns:
+  - name: statistic
+    type: VARCHAR
+  - name: sex
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR
+  - name: race
+    type: BIGINT
+  - name: race_label
+    type: VARCHAR
+  - name: age_range
+    type: BIGINT
+  - name: age_range_label
+    type: VARCHAR
+  - name: site
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: rate
+    type: DOUBLE
+  - name: rate_lower_ci
+    type: DOUBLE
+  - name: rate_upper_ci
+    type: DOUBLE
+  - name: modeled_rate
+    type: DOUBLE
+  - name: count
+    type: BIGINT

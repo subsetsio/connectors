@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-survival`. Regenerate after model-verify.
+# caution: Rows are relative survival snapshot measurements by survival interval, not annual observations.
+key: [site, sex, stage, relative_survival_interval]
+sort: [site, sex, stage, relative_survival_interval]
+columns:
+  - name: statistic
+    type: VARCHAR
+  - name: sex
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR
+  - name: race
+    type: BIGINT
+  - name: race_label
+    type: VARCHAR
+  - name: age_range
+    type: BIGINT
+  - name: age_range_label
+    type: VARCHAR
+  - name: stage
+    type: BIGINT
+  - name: stage_label
+    type: VARCHAR
+  - name: subtype
+    type: BIGINT
+  - name: site
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: relative_survival_interval
+    type: BIGINT
+  - name: relative_survival_interval_label
+    type: VARCHAR
+  - name: rate
+    type: DOUBLE
+  - name: rate_se
+    type: DOUBLE
+  - name: rate_lower_ci
+    type: DOUBLE
+  - name: rate_upper_ci
+    type: DOUBLE
+  - name: count
+    type: BIGINT
+  - name: subtype_label
+    type: VARCHAR

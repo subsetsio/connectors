@@ -1,0 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-cancer-sites`. Regenerate after model-verify.
+# caution: Some site identifiers represent broad cancer sites while others represent subtypes; use the active flag and labels when choosing a reporting universe.
+key: [site_id]
+sort: [site_id]
+columns:
+  - name: site_id
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: active
+    type: BOOLEAN

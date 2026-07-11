@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-risk-of-diagnosis-dying`. Regenerate after model-verify.
+# caution: Rows include both risk of diagnosis and risk of dying; filter stat_type before aggregating or comparing risk values.
+key: [site, sex, stat_type, risk_interval]
+sort: [site, sex, stat_type, risk_interval]
+columns:
+  - name: statistic
+    type: VARCHAR
+  - name: stat_type
+    type: BIGINT
+  - name: stat_type_label
+    type: VARCHAR
+  - name: sex
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR
+  - name: race
+    type: BIGINT
+  - name: race_label
+    type: VARCHAR
+  - name: age_range
+    type: BIGINT
+  - name: age_range_label
+    type: VARCHAR
+  - name: site
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: risk_interval
+    type: BIGINT
+  - name: risk
+    type: DOUBLE
+  - name: risk_lower_ci
+    type: DOUBLE
+  - name: risk_upper_ci
+    type: DOUBLE

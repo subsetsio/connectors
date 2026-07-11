@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-scp-incidence`. Regenerate after model-verify.
+# caution: This is the latest State Cancer Profiles incidence cross-section, not an annual time series; rows include the national total and state or territory areas.
+key: [fips, cancer_code, sex_code]
+sort: [fips, cancer_code, sex_code]
+columns:
+  - name: area
+    type: VARCHAR
+  - name: fips
+    type: VARCHAR
+  - name: rate
+    type: DOUBLE
+  - name: rate_lower_ci
+    type: DOUBLE
+  - name: rate_upper_ci
+    type: DOUBLE
+  - name: avg_annual_count
+    type: BIGINT
+  - name: recent_trend
+    type: VARCHAR
+  - name: recent_5yr_trend_pct
+    type: VARCHAR
+  - name: cancer_code
+    type: VARCHAR
+  - name: cancer_label
+    type: VARCHAR
+  - name: sex_code
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR

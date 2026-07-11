@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-seer-incidence`. Regenerate after model-verify.
+# caution: Rows are annual SEER incidence trends with race, age range, rate type, and subtype pinned by the source fetch; compare separately from preliminary incidence.
+key: [site, sex, year]
+temporal: year
+sort: [year, site, sex]
+columns:
+  - name: statistic
+    type: VARCHAR
+  - name: rate_type
+    type: BIGINT
+  - name: rate_type_label
+    type: VARCHAR
+  - name: sex
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR
+  - name: race
+    type: BIGINT
+  - name: race_label
+    type: VARCHAR
+  - name: age_range
+    type: BIGINT
+  - name: age_range_label
+    type: VARCHAR
+  - name: subtype
+    type: BIGINT
+  - name: site
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: rate
+    type: DOUBLE
+  - name: rate_lower_ci
+    type: DOUBLE
+  - name: rate_upper_ci
+    type: DOUBLE
+  - name: modeled_rate
+    type: DOUBLE
+  - name: count
+    type: BIGINT
+  - name: subtype_label
+    type: VARCHAR

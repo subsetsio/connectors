@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nci-seer-explorer-preliminary-incidence-rates`. Regenerate after model-verify.
+# caution: This table is preliminary incidence only and includes a data_model dimension; do not combine data models without filtering or grouping it.
+key: [site, sex, data_model, year]
+temporal: year
+sort: [year, site, sex, data_model]
+columns:
+  - name: statistic
+    type: VARCHAR
+  - name: rate_type
+    type: BIGINT
+  - name: rate_type_label
+    type: VARCHAR
+  - name: sex
+    type: BIGINT
+  - name: sex_label
+    type: VARCHAR
+  - name: race
+    type: BIGINT
+  - name: race_label
+    type: VARCHAR
+  - name: age_range
+    type: BIGINT
+  - name: age_range_label
+    type: VARCHAR
+  - name: data_model
+    type: BIGINT
+  - name: site
+    type: BIGINT
+  - name: site_label
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: rate
+    type: DOUBLE
+  - name: rate_se
+    type: DOUBLE
+  - name: rate_lower_ci
+    type: DOUBLE
+  - name: rate_upper_ci
+    type: DOUBLE
+  - name: modeled_rate
+    type: DOUBLE
+  - name: count
+    type: BIGINT
