@@ -7,111 +7,166 @@ sort: [ref_month, ref_date, region_name, region_slug]
 columns:
   - name: region_slug
     type: VARCHAR
+    description: Slug used in the Land Registry UKHPI region URL.
   - name: region_name
     type: VARCHAR
+    description: Published UKHPI region name.
   - name: ref_month
     type: DATE
+    description: Month of the UKHPI observation, represented as the first day of the month.
   - name: ref_date
     type: DATE
-  - name: averageprice
+    description: Month-start date derived from the source refMonth value.
+  - name: average_price
     type: BIGINT
-  - name: averagepricecash
+    description: Average house price in pounds sterling.
+  - name: average_price_cash
     type: BIGINT
-  - name: averagepricedetached
+    description: Average house price for cash purchases in pounds sterling.
+  - name: average_price_detached
     type: BIGINT
-  - name: averagepriceexistingproperty
+    description: Average house price for detached properties in pounds sterling.
+  - name: average_price_existing_property
     type: BIGINT
-  - name: averagepricefirsttimebuyer
+    description: Average house price for existing properties in pounds sterling.
+  - name: average_price_first_time_buyer
     type: BIGINT
-  - name: averagepriceflatmaisonette
+    description: Average house price for first-time buyers in pounds sterling.
+  - name: average_price_flat_maisonette
     type: BIGINT
-  - name: averagepriceformerowneroccupier
+    description: Average house price for flats and maisonettes in pounds sterling.
+  - name: average_price_former_owner_occupier
     type: BIGINT
-  - name: averagepricemortgage
+    description: Average house price for former owner occupiers in pounds sterling.
+  - name: average_price_mortgage
     type: BIGINT
-  - name: averagepricenewbuild
+    description: Average house price for mortgage purchases in pounds sterling.
+  - name: average_price_new_build
     type: BIGINT
-  - name: averagepricesa
+    description: Average house price for new-build properties in pounds sterling.
+  - name: average_price_sa
     type: JSON
-  - name: averagepricesemidetached
+    description: Source seasonally adjusted average price payload, when published.
+  - name: average_price_semi_detached
     type: BIGINT
-  - name: averagepriceterraced
+    description: Average house price for semi-detached properties in pounds sterling.
+  - name: average_price_terraced
     type: BIGINT
-  - name: housepriceindex
+    description: Average house price for terraced properties in pounds sterling.
+  - name: house_price_index
     type: DOUBLE
-  - name: housepriceindexcash
+    description: UK House Price Index value.
+  - name: house_price_index_cash
     type: DOUBLE
-  - name: housepriceindexdetached
+    description: House Price Index value for cash purchases.
+  - name: house_price_index_detached
     type: DOUBLE
-  - name: housepriceindexexistingproperty
+    description: House Price Index value for detached properties.
+  - name: house_price_index_existing_property
     type: DOUBLE
-  - name: housepriceindexfirsttimebuyer
+    description: House Price Index value for existing properties.
+  - name: house_price_index_first_time_buyer
     type: DOUBLE
-  - name: housepriceindexflatmaisonette
+    description: House Price Index value for first-time buyers.
+  - name: house_price_index_flat_maisonette
     type: DOUBLE
-  - name: housepriceindexformerowneroccupier
+    description: House Price Index value for flats and maisonettes.
+  - name: house_price_index_former_owner_occupier
     type: DOUBLE
-  - name: housepriceindexmortgage
+    description: House Price Index value for former owner occupiers.
+  - name: house_price_index_mortgage
     type: DOUBLE
-  - name: housepriceindexnewbuild
+    description: House Price Index value for mortgage purchases.
+  - name: house_price_index_new_build
     type: DOUBLE
-  - name: housepriceindexsa
+    description: House Price Index value for new-build properties.
+  - name: house_price_index_sa
     type: JSON
-  - name: housepriceindexsemidetached
+    description: Source seasonally adjusted house price index payload, when published.
+  - name: house_price_index_semi_detached
     type: DOUBLE
-  - name: housepriceindexterraced
+    description: House Price Index value for semi-detached properties.
+  - name: house_price_index_terraced
     type: DOUBLE
-  - name: percentageannualchange
+    description: House Price Index value for terraced properties.
+  - name: percentage_annual_change
     type: DOUBLE
-  - name: percentageannualchangecash
+    description: Annual percentage change in the House Price Index.
+  - name: percentage_annual_change_cash
     type: DOUBLE
-  - name: percentageannualchangedetached
+    description: Annual percentage change for cash purchases.
+  - name: percentage_annual_change_detached
     type: DOUBLE
-  - name: percentageannualchangeexistingproperty
+    description: Annual percentage change for detached properties.
+  - name: percentage_annual_change_existing_property
     type: DOUBLE
-  - name: percentageannualchangefirsttimebuyer
+    description: Annual percentage change for existing properties.
+  - name: percentage_annual_change_first_time_buyer
     type: DOUBLE
-  - name: percentageannualchangeflatmaisonette
+    description: Annual percentage change for first-time buyers.
+  - name: percentage_annual_change_flat_maisonette
     type: DOUBLE
-  - name: percentageannualchangeformerowneroccupier
+    description: Annual percentage change for flats and maisonettes.
+  - name: percentage_annual_change_former_owner_occupier
     type: DOUBLE
-  - name: percentageannualchangemortgage
+    description: Annual percentage change for former owner occupiers.
+  - name: percentage_annual_change_mortgage
     type: DOUBLE
-  - name: percentageannualchangenewbuild
+    description: Annual percentage change for mortgage purchases.
+  - name: percentage_annual_change_new_build
     type: DOUBLE
-  - name: percentageannualchangesemidetached
+    description: Annual percentage change for new-build properties.
+  - name: percentage_annual_change_semi_detached
     type: DOUBLE
-  - name: percentageannualchangeterraced
+    description: Annual percentage change for semi-detached properties.
+  - name: percentage_annual_change_terraced
     type: DOUBLE
-  - name: percentagechange
+    description: Annual percentage change for terraced properties.
+  - name: percentage_change
     type: DOUBLE
-  - name: percentagechangecash
+    description: Monthly percentage change in the House Price Index.
+  - name: percentage_change_cash
     type: DOUBLE
-  - name: percentagechangedetached
+    description: Monthly percentage change for cash purchases.
+  - name: percentage_change_detached
     type: DOUBLE
-  - name: percentagechangeexistingproperty
+    description: Monthly percentage change for detached properties.
+  - name: percentage_change_existing_property
     type: DOUBLE
-  - name: percentagechangefirsttimebuyer
+    description: Monthly percentage change for existing properties.
+  - name: percentage_change_first_time_buyer
     type: DOUBLE
-  - name: percentagechangeflatmaisonette
+    description: Monthly percentage change for first-time buyers.
+  - name: percentage_change_flat_maisonette
     type: DOUBLE
-  - name: percentagechangeformerowneroccupier
+    description: Monthly percentage change for flats and maisonettes.
+  - name: percentage_change_former_owner_occupier
     type: DOUBLE
-  - name: percentagechangemortgage
+    description: Monthly percentage change for former owner occupiers.
+  - name: percentage_change_mortgage
     type: DOUBLE
-  - name: percentagechangenewbuild
+    description: Monthly percentage change for mortgage purchases.
+  - name: percentage_change_new_build
     type: DOUBLE
-  - name: percentagechangesemidetached
+    description: Monthly percentage change for new-build properties.
+  - name: percentage_change_semi_detached
     type: DOUBLE
-  - name: percentagechangeterraced
+    description: Monthly percentage change for semi-detached properties.
+  - name: percentage_change_terraced
     type: DOUBLE
-  - name: salesvolume
+    description: Monthly percentage change for terraced properties.
+  - name: sales_volume
     type: BIGINT
-  - name: salesvolumecash
+    description: Sales volume count.
+  - name: sales_volume_cash
     type: BIGINT
-  - name: salesvolumeexistingproperty
+    description: Sales volume count for cash purchases.
+  - name: sales_volume_existing_property
     type: BIGINT
-  - name: salesvolumemortgage
+    description: Sales volume count for existing properties.
+  - name: sales_volume_mortgage
     type: BIGINT
-  - name: salesvolumenewbuild
+    description: Sales volume count for mortgage purchases.
+  - name: sales_volume_new_build
     type: BIGINT
+    description: Sales volume count for new-build properties.
