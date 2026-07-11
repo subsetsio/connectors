@@ -121,6 +121,13 @@ def _get_bytes(client: httpx.Client, url: str) -> bytes:
                     f"{url}: truncated response {len(content)} < {expected} bytes"
                 )
             return content
+        except httpx.HTTPStatusError as exc:
+            last_error = exc
+            status = exc.response.status_code
+            if 400 <= status < 500:
+                raise
+            if attempt < 2:
+                sleep(2 ** (attempt + 1))
         except Exception as exc:
             last_error = exc
             if attempt < 2:
@@ -155,13 +162,18 @@ def _candidate_urls(meta: dict[str, str]) -> list[str]:
     url = meta["url"]
     filename = url.rsplit("/", 1)[-1]
     release_start, release_end = _release_years(meta["filename"])
-    urls = [url]
+    urls: list[str] = []
     if "/services/downloads/" in url:
         base = "https://www.saps.gov.za/services/downloads/"
+        path_after_downloads = url.split("/services/downloads/", 1)[1]
+        if "/" in path_after_downloads:
+            urls.append(url)
         for year in (release_end, release_start):
             if year is not None:
                 urls.append(f"{base}{year}/{filename}")
+        urls.append(url)
     else:
+        urls.append(url)
         urls.append(f"https://www.saps.gov.za/services/downloads/{filename}")
 
     seen: set[str] = set()
