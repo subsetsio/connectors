@@ -19,7 +19,13 @@ import pandas as pd
 import pyarrow as pa
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    raw_asset_exists,
+    save_raw_parquet,
+)
 
 SLUG = "london-datastore"
 PREFIX = f"{SLUG}-"
@@ -285,4 +291,28 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for entity_id in ENTITY_IDS
+]
+
+# Each package is a stateless full re-pull (fetch_one overwrites its raw parquet
+# whole every run — picks up CKAN revisions for free). With 757 slow packages
+# (some resources take minutes), a single cloud leg can't fetch them all before
+# the DAG time budget, so the run self-retriggers in a continuation chain. The
+# MaintainSpec bounds the cross-leg cost: a package whose raw parquet already
+# exists and is younger than the refresh window is skipped pre-spawn, so the
+# backfill is resumable across legs (each leg only spawns not-yet-fetched
+# packages, and the chain advances instead of re-validating done work) and
+# scheduled weekly refreshes (maintenance cadence 7d) re-pull only what aged out.
+MAINTAIN_MAX_AGE_DAYS = 7
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "London Datastore CKAN packages update on their own irregular cadence; "
+            f"reuse raw parquet for up to {MAINTAIN_MAX_AGE_DAYS} days (inferred weekly "
+            "factory cadence, source portal https://data.london.gov.uk/). Resumable backfill."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
