@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.ctp.tps:dsd-tax-ssc@df-ssc-employer
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

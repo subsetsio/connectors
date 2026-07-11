@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.sti.dep:dsd-toolkit-dk@df-ndsc
 status: deferred
+tests:
+  - freshness: {col: year, reaches: current_year() - 10}

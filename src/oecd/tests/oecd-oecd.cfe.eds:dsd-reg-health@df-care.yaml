@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.cfe.eds:dsd-reg-health@df-care
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

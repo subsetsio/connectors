@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.sti.dep:dsd-deo-2@df-deo-2
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

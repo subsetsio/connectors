@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.els.hd:dsd-hcqo@df-ps
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

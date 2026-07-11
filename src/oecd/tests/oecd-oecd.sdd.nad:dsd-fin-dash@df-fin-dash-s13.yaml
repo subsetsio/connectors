@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.sdd.nad:dsd-fin-dash@df-fin-dash-s13
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

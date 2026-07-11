@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.daf.inv:dsd-fdi@df-fdi-flow-ctry
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.sdd.tps:dsd-bimts@df-bimts-cpa-2-1
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

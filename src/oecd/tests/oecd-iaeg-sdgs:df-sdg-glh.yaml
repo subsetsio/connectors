@@ -1,2 +1,4 @@
 spec_id: oecd-iaeg-sdgs:df-sdg-glh
 status: deferred
+tests:
+  - freshness: {col: data_last_update, reaches: current_year() - 10}

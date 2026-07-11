@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.cfe.eds:dsd-fua-demo@df-origin
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

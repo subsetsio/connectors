@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.sti.dep:dsd-tq-survey@df-truth-quest
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

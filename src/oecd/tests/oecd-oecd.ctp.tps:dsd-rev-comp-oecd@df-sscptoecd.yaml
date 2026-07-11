@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.ctp.tps:dsd-rev-comp-oecd@df-sscptoecd
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

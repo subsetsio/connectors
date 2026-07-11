@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.edu.imep:dsd-eag-uoe-non-fin-stud@df-uoe-nf-raw-inst
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

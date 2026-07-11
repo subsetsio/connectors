@@ -1,2 +1,4 @@
 spec_id: oecd-oecd.sti.dep:dsd-toolkit-14@df-gd-breakdowns-14
 status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}
