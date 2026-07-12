@@ -1,0 +1,26 @@
+spec_id: world-steel-geoitems
+status: active
+tests:
+  - not_null: geoitem_id
+  - not_null: type
+  - not_null: label
+  - unique: geoitem_id
+    reason: the viewer geography catalog is keyed by one country or region code
+    certainty: 95
+  - enum: {col: type, values: [C, R]}
+    reason: the catalog distinguishes country codes from region aggregate codes
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - row_count: {min: 240, max: 400}
+    reason: research observed 260 geoitems, mostly countries plus about 20 regions
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: type, min: 2}
+    reason: both country and region records are expected in the same catalog response
+    certainty: 90
+  - matches: {col: geoitem_id, pattern: '^[A-Z0-9]+$'}
+    reason: current viewer codes are uppercase country/region identifiers
+    certainty: 75
+    points_outward: true
+    severity: warn

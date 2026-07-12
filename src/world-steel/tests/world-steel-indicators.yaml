@@ -1,0 +1,20 @@
+spec_id: world-steel-indicators
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: label
+  - not_null: unit
+  - unique: indicator_id
+    reason: the Steel Data Viewer catalog has one metadata record per indicator id
+    certainty: 95
+  - column_type: {col: indicator_id, type: string}
+  - column_type: {col: statistics_from, type: integer}
+  - column_type: {col: statistics_to, type: integer}
+  - row_count: {min: 60, max: 200}
+    reason: research observed 76 public viewer indicators; large movement means the API shape changed or a partial catalog was returned
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: group_id, min: 6}
+    reason: public indicators are organized into several source groups in the viewer metadata
+    certainty: 75
+    severity: warn

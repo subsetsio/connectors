@@ -1,0 +1,28 @@
+spec_id: world-steel-values
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: geoitem_id
+  - not_null: period
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [indicator_id, geoitem_id, period]
+    reason: each viewer observation is keyed by indicator, geography, and source period
+    certainty: 95
+  - coverage: {col: indicator_id, expected: 76}
+    reason: collect observed 76 public viewer indicators, and the values endpoint accepts them as a comma-separated full-universe request
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: 76 indicators across many countries/regions and years should produce far more than a token sample
+    certainty: 85
+  - between: {col: year, lo: 1950, hi: current_year()}
+    reason: World Steel in Figures shows historical production from 1950 and public viewer data should not publish future observations
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: the Steel Data Viewer is updated monthly for current-year crude steel production, so a current public load should reach the current year
+    points_outward: true
