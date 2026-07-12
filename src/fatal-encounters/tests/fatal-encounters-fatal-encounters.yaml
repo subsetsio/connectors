@@ -1,5 +1,8 @@
 spec_id: fatal-encounters-fatal-encounters
 status: active
+coverage:
+  frozen: true
+  reason: official complete-dataset Google Sheet bulk export is frozen at 2021-12-31; the public website CSV view is paginated and omits columns from the complete sheet
 tests:
   - row_count: {min: 20000}
     reason: the database has ~31.5k records since 2000 and only grows; a tiny count means a truncated or errored export
@@ -19,7 +22,3 @@ tests:
   - not_null: state
     reason: every incident is geolocated to a US state or DC
     certainty: 80
-  - freshness: {col: date_of_death, reaches: today - 400d}
-    reason: Fatal Encounters is a living database updated continuously; a latest incident more than about a year old would mean the export or parser is stale
-    certainty: 80
-    points_outward: true

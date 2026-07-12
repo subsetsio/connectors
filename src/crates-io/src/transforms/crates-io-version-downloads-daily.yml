@@ -1,8 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `crates-io-version-downloads-daily`. Regenerate after model-verify.
-# caution: The source dump contains a rolling recent window; scheduled merge writes accumulate observations across runs.
+# caution: The source dump contains a rolling recent window, so this table reflects that recent window.
 key: [version_id, date]
-write_mode: merge
 temporal: date
 sort: [date, version_id]
 columns:
