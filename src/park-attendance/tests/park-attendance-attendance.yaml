@@ -1,0 +1,32 @@
+spec_id: park-attendance-attendance
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: the attendance scrape spans many parks and decades; a much smaller table indicates a parsing or fetch failure
+    certainty: 85
+  - not_null: park_id
+  - not_null: park_name
+  - not_null: year
+  - not_null: annual_attendance
+  - unique: [park_id, year]
+    reason: each park should have at most one annual attendance observation per calendar year
+    certainty: 90
+  - column_type: {col: park_id, type: integer}
+  - column_type: {col: park_name, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: annual_attendance, type: integer}
+  - between: {col: year, lo: 1950, hi: 2100}
+    reason: Queue Times attendance pages are historical annual observations, with no plausible pre-1950 or far-future years
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: attendance rows should not include future completed-year observations
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: annual_attendance, expr: 1000}
+    reason: sub-1000 annual counts are implausible for this commercial-park corpus and indicate upstream footnote or typo noise
+    certainty: 85
+  - freshness: {col: year, reaches: 2024}
+    reason: annual attendance sources lag completed years, but the corpus should include a recently completed year
+    certainty: 70
+    points_outward: true

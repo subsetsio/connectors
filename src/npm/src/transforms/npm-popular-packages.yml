@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `npm-popular-packages`. Regenerate after model-verify.
+# caution: This table is a popularity-ranked search snapshot, not a complete registry inventory.
+key: [name]
+temporal: date
+sort: [date, name]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: license
+    type: VARCHAR
+  - name: date
+    type: TIMESTAMP
+  - name: publisher_username
+    type: VARCHAR
+  - name: maintainers_count
+    type: INTEGER
+  - name: keywords
+    type: "VARCHAR[]"
+  - name: repository_url
+    type: VARCHAR
+  - name: homepage_url
+    type: VARCHAR
+  - name: npm_url
+    type: VARCHAR
+  - name: monthly_downloads
+    type: BIGINT
+  - name: weekly_downloads
+    type: BIGINT
+  - name: dependents_count
+    type: BIGINT
+  - name: search_score
+    type: DOUBLE

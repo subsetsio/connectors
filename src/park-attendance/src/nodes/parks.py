@@ -6,7 +6,7 @@ Stateless — re-pulled in full every run (the corpus is tiny).
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _load_parks
 
 PARKS_SCHEMA = pa.schema([
@@ -45,28 +45,3 @@ def fetch_parks(node_id: str) -> None:
         })
     table = pa.Table.from_pylist(rows, schema=PARKS_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="park-attendance-parks", fn=fetch_parks, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="park-attendance-parks-transform",
-        deps=["park-attendance-parks"],
-        sql='''
-            SELECT
-                CAST(park_id AS BIGINT)   AS park_id,
-                park_name,
-                company,
-                country,
-                continent,
-                CAST(latitude AS DOUBLE)  AS latitude,
-                CAST(longitude AS DOUBLE) AS longitude,
-                timezone
-            FROM "park-attendance-parks"
-            WHERE park_id IS NOT NULL
-        ''',
-    ),
-]

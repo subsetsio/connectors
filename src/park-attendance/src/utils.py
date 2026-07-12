@@ -6,16 +6,14 @@ live here so neither node file duplicates them.
 """
 import httpx
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 PARKS_URL = "https://queue-times.com/parks.json"
 
 
-@transient_retry(min_wait=2, max_wait=60)
 def _get(url: str) -> httpx.Response:
-    """GET with backoff on transient errors. A 404 is returned as-is (a park
-    with no attendance page) — the caller decides to skip; 4xx/5xx other than
-    404 raise (5xx via the retry predicate, other 4xx straight up)."""
+    """GET with runtime-managed retries. A 404 is returned as-is because it
+    means a park has no attendance page."""
     resp = get(url, timeout=(10.0, 60.0))
     if resp.status_code == 404:
         return resp

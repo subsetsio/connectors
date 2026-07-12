@@ -1,0 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `npm-package-inventory`. Regenerate after model-verify.
+# caution: The row identity is the registry document revision rather than package name; historical deleted package documents can share package-like names across revisions.
+key: [rev]
+sort: [rev]
+columns:
+  - name: package
+    type: VARCHAR
+  - name: rev
+    type: VARCHAR

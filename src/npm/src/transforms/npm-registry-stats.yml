@@ -1,8 +1,14 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [observation_date]
+temporal: observation_date
+sort: [observation_date]
 columns:
   - name: observation_date
     type: DATE
+    description: Date when registry counters were observed.
   - name: doc_count
     type: BIGINT
+    description: Total number of package documents reported by the registry database.
   - name: update_seq
     type: BIGINT
+    description: Monotonic CouchDB update sequence reported by the registry database.

@@ -26,8 +26,8 @@ def main():
     validate_environment()
     workflow = load_nodes()
     workflow.run()
-    # Model-authored health tests run here — post-DAG, in-connector — so data
-    # access resolves identically whether the run is local or on GitHub Actions.
+    # Model-authored health tests run here so local and cloud runs evaluate the
+    # same raw assets after the DAG completes.
     run_health_tests(Path(__file__).resolve().parent.parent)
 
 

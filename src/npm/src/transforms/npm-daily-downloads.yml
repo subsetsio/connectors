@@ -1,8 +1,14 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [package, date]
+temporal: date
+sort: [date, package]
 columns:
   - name: package
     type: VARCHAR
+    description: npm package name.
   - name: date
     type: DATE
+    description: Download count date.
   - name: downloads
     type: BIGINT
+    description: Number of package downloads on this date.

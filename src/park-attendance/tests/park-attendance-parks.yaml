@@ -1,0 +1,24 @@
+spec_id: park-attendance-parks
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: parks.json is the full Queue Times park directory and should remain a broad multi-operator catalog
+    certainty: 90
+  - not_null: park_id
+  - not_null: park_name
+  - not_null: company
+  - unique: park_id
+    reason: Queue Times park ids are stable entity identifiers
+    certainty: 95
+  - column_type: {col: park_id, type: integer}
+  - column_type: {col: park_name, type: string}
+  - column_type: {col: company, type: string}
+  - column_type: {col: country, type: string}
+  - column_type: {col: continent, type: string}
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: longitude, type: float}
+  - column_type: {col: timezone, type: string}
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 95
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 95

@@ -11,7 +11,7 @@ cast/projection pass.
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _get, _load_parks
 
 ATTENDANCE_URL = "https://queue-times.com/parks/{park_id}/attendances"
@@ -84,29 +84,3 @@ def fetch_attendance(node_id: str) -> None:
 
     table = pa.Table.from_pylist(rows, schema=ATTENDANCE_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="park-attendance-attendance", fn=fetch_attendance, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="park-attendance-attendance-transform",
-        deps=["park-attendance-attendance"],
-        sql='''
-            SELECT DISTINCT
-                CAST(park_id AS BIGINT)           AS park_id,
-                park_name,
-                CAST(year AS BIGINT)              AS year,
-                CAST(annual_attendance AS BIGINT) AS annual_attendance
-            FROM "park-attendance-attendance"
-            -- Floor out implausibly tiny values: a commercial theme park's
-            -- annual attendance below 1,000 is not credible and indicates an
-            -- upstream typo (e.g. queue-times lists Chimelong Ocean Kingdom
-            -- 2013 as "11"). The lowest legitimate value observed is ~125,000.
-            WHERE annual_attendance >= 1000
-              AND year BETWEEN 1950 AND 2100
-        ''',
-    ),
-]
