@@ -117,6 +117,11 @@ def _read_archive(item: dict, content: bytes) -> list[dict]:
     raise RuntimeError(f"{item['id']}: archive did not contain a readable File Geodatabase or Shapefile")
 
 
+def _rectangularize_rows(rows: list[dict]) -> list[dict]:
+    keys = list(dict.fromkeys(key for row in rows for key in row))
+    return [{key: row.get(key) for key in keys} for row in rows]
+
+
 def _service_layers(service_url: str) -> list[dict]:
     service = _json_get(service_url, f="json")
     return list(service.get("layers") or []) + list(service.get("tables") or [])
@@ -184,6 +189,7 @@ def fetch_one(node_id: str) -> None:
     else:
         raise RuntimeError(f"{item_id}: unsupported ArcGIS item type {item_type!r}")
 
+    rows = _rectangularize_rows(rows)
     save_raw_ndjson(rows, node_id)
 
 

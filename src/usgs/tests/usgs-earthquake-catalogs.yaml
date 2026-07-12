@@ -1,0 +1,12 @@
+spec_id: usgs-earthquake-catalogs
+status: active
+tests:
+  - not_null: catalog
+    reason: the FDSN catalogs endpoint returns a non-empty XML list of catalog ids.
+    certainty: 95
+  - unique: catalog
+    reason: catalog ids are listed once by the service.
+    certainty: 90
+  - row_count: {min: 10}
+    reason: ComCat exposes dozens of contributing catalogs.
+    certainty: 85

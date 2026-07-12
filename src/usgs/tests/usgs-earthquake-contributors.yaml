@@ -1,0 +1,12 @@
+spec_id: usgs-earthquake-contributors
+status: active
+tests:
+  - not_null: contributor
+    reason: the FDSN contributors endpoint returns a non-empty XML list of contributor ids.
+    certainty: 95
+  - unique: contributor
+    reason: contributor ids are listed once by the service.
+    certainty: 90
+  - row_count: {min: 10}
+    reason: ComCat exposes dozens of contributors.
+    certainty: 85

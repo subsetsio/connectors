@@ -1,86 +1,87 @@
-"""USGS connector — two independent REST surfaces, one node module.
+"""USGS raw downloads.
 
-Surface 1 — **water OGC** (https://api.waterdata.usgs.gov/ogcapi/v0): the
-modernized OGC API Features service. Each collection's `/items` endpoint is
-cursor-paginated (`limit` + opaque `next` cursor). We crawl a collection end to
-end and stream every feature's properties to one gzipped NDJSON raw asset.
-Property values are stringified on write so the raw is type-stable regardless of
-source drift; the SQL transform re-types with TRY_CAST. Point geometry (when
-present) is flattened to _lat/_lon.
+The connector covers two public USGS REST surfaces:
 
-Surface 2 — **FDSN earthquakes** (https://earthquake.usgs.gov/fdsnws/event/1):
-the ComCat / ANSS global event catalog. FDSN caps a single query at 20000
-events, so we crawl with an ascending time cursor (`orderby=time-asc`,
-`starttime=<watermark>`, `limit=20000`), advancing `starttime` to the last
-event time of each page until a short page drains the catalog. CSV format,
-parsed to NDJSON rows.
+* Water Data OGC API Features, one raw NDJSON asset per accepted collection.
+* FDSN ComCat, one raw NDJSON asset for events plus two small XML-list
+  metadata endpoints for catalogs and contributors.
 
-Freshness model — stateless full re-pull (the harness default). Every run
-re-fetches the whole corpus and overwrites; revisions and late corrections are
-picked up for free, and there is no watermark to go stale. The two genuine
-exceptions are the high-frequency water sensor collections, which are
-nationally unbounded and cannot be fully materialized:
-
-  * `continuous` — ~5.2M rows/day nationally (15-minute sensor readings)
-  * `daily`      — ~80k rows/day nationally (daily summarized values)
-
-For these two we publish a recent rolling window via the OGC `datetime`
-filter (see WINDOW_DAYS). This is a deliberate, documented scope decision —
-not silent truncation; the window is relative to run time, so it always
-tracks the live edge. All other collections are bounded reference / metadata /
-annual tables and are crawled in full (peaks ~1M, monitoring-locations ~1.9M).
-
-Rate limits — the water OGC service throttles with HTTP 429 under sustained
-load; nodes run sequentially (DAG_PARALLELISM=1) and the shared transport
-retries 429/5xx with exponential backoff, which paces the crawl to whatever
-the service allows. A free API key (optional) would raise the ceiling. FDSN is
-crawled the same way.
+The node module intentionally owns only raw downloads. Transforms are compiled
+from the model stage.
 """
 from __future__ import annotations
 
 import csv
 import io
 import json
+import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
 import httpx
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_writer
+from subsets_utils import NodeSpec, raw_writer
 from utils import MAX_PAGES, get_json, get_text
 
-# =============================================================================
-# Surface 1 — USGS water data (OGC API Features)
-# =============================================================================
-
 WATER_BASE = "https://api.waterdata.usgs.gov/ogcapi/v0"
+FDSN_BASE = "https://earthquake.usgs.gov/fdsnws/event/1"
 
-# The 8 rank-accepted water OGC collections (== entity union minus earthquakes).
 WATER_ENTITY_IDS = [
+    "agency-codes",
+    "altitude-datums",
+    "aquifer-codes",
+    "aquifer-types",
     "channel-measurements",
+    "citations",
     "combined-metadata",
     "continuous",
+    "coordinate-accuracy-codes",
+    "coordinate-datum-codes",
+    "coordinate-method-codes",
+    "counties",
+    "countries",
     "daily",
     "field-measurements",
+    "field-measurements-metadata",
+    "hydrologic-unit-codes",
+    "latest-continuous",
+    "latest-daily",
+    "latest-field-measurements",
+    "medium-codes",
+    "method-categories",
+    "method-citations",
+    "methods",
     "monitoring-locations",
+    "national-aquifer-codes",
+    "parameter-codes",
     "peaks",
+    "reliability-codes",
+    "site-types",
+    "states",
+    "statistic-codes",
     "time-series-metadata",
+    "time-zone-codes",
+    "topographic-codes",
 ]
 
-# Page size for OGC item paging (service max is 10000). Kept moderate: the
-# service is more prone to 500s when materializing very large pages at depth.
+FDSN_LIST_ENDPOINTS = {
+    "earthquake-catalogs": ("catalogs", "catalog"),
+    "earthquake-contributors": ("contributors", "contributor"),
+}
+
 PAGE_LIMIT = 5000
 
-# Nationally unbounded high-frequency collections — published as a recent
-# rolling window (days back from run time) rather than the full historic corpus.
+# Nationally unbounded high-frequency collections are fetched as recent rolling
+# windows. The latest-* collections are already live-edge snapshots.
 WINDOW_DAYS = {
     "continuous": 1,
     "daily": 14,
 }
 
+EQ_SOURCE_MIN = "1900-01-01T00:00:00Z"
+EQ_PAGE_LIMIT = 20_000
+
 
 def _stringify(value) -> str | None:
-    """Coerce any OGC property value to a string (None stays None) so the raw
-    NDJSON is type-stable. Nested values become compact JSON strings."""
     if value is None:
         return None
     if isinstance(value, str):
@@ -91,11 +92,6 @@ def _stringify(value) -> str | None:
 
 
 def _feature_row(feature: dict) -> dict:
-    """Flatten one GeoJSON feature into a stringified property row.
-
-    _lat/_lon are ALWAYS emitted (null when the feature has no point geometry)
-    so the columns always exist in the NDJSON — a transform that reads them
-    never trips a 'column not found' on a geometry-less collection."""
     props = feature.get("properties") or {}
     row = {k: _stringify(v) for k, v in props.items()}
     lon = lat = None
@@ -103,27 +99,20 @@ def _feature_row(feature: dict) -> dict:
     if geom.get("type") == "Point":
         coords = geom.get("coordinates") or []
         if len(coords) >= 2:
-            lon, lat = _stringify(coords[0]), _stringify(coords[1])
+            lon = _stringify(coords[0])
+            lat = _stringify(coords[1])
     row["_lon"] = lon
     row["_lat"] = lat
-    # Some collections carry the feature id outside properties.
     if "id" not in row and feature.get("id") is not None:
         row["id"] = _stringify(feature.get("id"))
     return row
 
 
 def fetch_water(node_id: str) -> None:
-    """Crawl one OGC collection's items end to end (or within a rolling window
-    for the unbounded high-frequency collections) and stream every feature to
-    one gzipped NDJSON raw asset.
-
-    The runtime passes the spec id (e.g. 'usgs-daily'); the collection is the
-    id minus the 'usgs-' prefix, and the id is also the asset name to write.
-    """
     asset = node_id
     collection = node_id.removeprefix("usgs-")
-
     params: dict | None = {"f": "json", "limit": PAGE_LIMIT}
+
     window = WINDOW_DAYS.get(collection)
     if window is not None:
         now = datetime.now(tz=timezone.utc)
@@ -133,15 +122,12 @@ def fetch_water(node_id: str) -> None:
     url = f"{WATER_BASE}/collections/{collection}/items"
     pages = 0
     total = 0
+
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
         while True:
             try:
                 payload = get_json(url, params)
             except (httpx.HTTPStatusError, httpx.RequestError) as exc:
-                # A page that stays broken through all retries (a persistent
-                # server-side 500 on one cursor, say) must NOT abort the whole
-                # connector. If we already have data, finalize the partial crawl
-                # loudly; if the very first page failed, fail honestly.
                 if total == 0:
                     raise
                 print(
@@ -150,9 +136,10 @@ def fetch_water(node_id: str) -> None:
                     f"with {total} rows from {pages} page(s)"
                 )
                 break
+
             features = payload.get("features") or []
-            for feat in features:
-                fh.write(json.dumps(_feature_row(feat)) + "\n")
+            for feature in features:
+                fh.write(json.dumps(_feature_row(feature), separators=(",", ":")) + "\n")
             total += len(features)
             pages += 1
 
@@ -169,33 +156,34 @@ def fetch_water(node_id: str) -> None:
             if pages >= MAX_PAGES:
                 raise RuntimeError(
                     f"{asset}: hit MAX_PAGES={MAX_PAGES} without draining "
-                    f"({total} rows so far) — cursor likely not advancing"
+                    f"({total} rows so far)"
                 )
-            # The next link embeds cursor + datetime + limit; follow it verbatim.
             url = next_href
             params = None
+
     print(f"  {asset}: {total} rows over {pages} page(s)")
 
 
-# =============================================================================
-# Surface 2 — USGS earthquakes (FDSN ComCat event catalog)
-# =============================================================================
+def fetch_fdsn_list(node_id: str) -> None:
+    asset = node_id
+    entity = node_id.removeprefix("usgs-")
+    endpoint, value_col = FDSN_LIST_ENDPOINTS[entity]
+    text = get_text(f"{FDSN_BASE}/{endpoint}", params=None)
+    root = ET.fromstring(text)
 
-FDSN_BASE = "https://earthquake.usgs.gov/fdsnws/event/1"
+    rows = []
+    for child in root:
+        value = (child.text or "").strip()
+        if value:
+            rows.append({value_col: value})
 
-# FDSN event catalog floor; modern detection density makes pre-1900 negligible.
-EQ_SOURCE_MIN = "1900-01-01T00:00:00Z"
-EQ_PAGE_LIMIT = 20_000  # FDSN hard per-query cap.
+    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for row in rows:
+            fh.write(json.dumps(row, separators=(",", ":")) + "\n")
+    print(f"  {asset}: {len(rows)} rows")
 
 
 def fetch_earthquakes(node_id: str) -> None:
-    """Crawl the FDSN ComCat event catalog with an ascending time cursor.
-
-    FDSN caps one query at 20000 events, so we page by time: request events
-    from `starttime` ordered ascending, then advance `starttime` to the last
-    event's time and repeat until a page returns fewer than the cap. The
-    boundary overlap between pages is removed by the transform's DISTINCT.
-    """
     asset = node_id
     watermark = EQ_SOURCE_MIN
     pages = 0
@@ -213,8 +201,6 @@ def fetch_earthquakes(node_id: str) -> None:
             try:
                 text = get_text(url, params)
             except (httpx.HTTPStatusError, httpx.RequestError) as exc:
-                # Persistent failure on one time window must not abort the
-                # connector — finalize the partial catalog if we have data.
                 if total == 0:
                     raise
                 print(
@@ -223,274 +209,34 @@ def fetch_earthquakes(node_id: str) -> None:
                     f"catalog with {total} events from {pages} page(s)"
                 )
                 break
+
             rows = list(csv.DictReader(io.StringIO(text)))
             if not rows:
                 break
             for row in rows:
-                fh.write(json.dumps(row) + "\n")
+                fh.write(json.dumps(row, separators=(",", ":")) + "\n")
             total += len(rows)
             pages += 1
 
             last_time = rows[-1].get("time")
             if not last_time:
-                raise RuntimeError(
-                    f"{asset}: page {pages} row missing 'time' — cannot advance cursor"
-                )
+                raise RuntimeError(f"{asset}: page {pages} row missing time")
             if len(rows) < EQ_PAGE_LIMIT:
-                break  # short page == caught up to the live edge
+                break
             if last_time == watermark:
-                raise RuntimeError(
-                    f"{asset}: cursor stuck at {watermark} ({total} rows) — "
-                    f">{EQ_PAGE_LIMIT} events share one timestamp"
-                )
+                raise RuntimeError(f"{asset}: cursor stuck at {watermark}")
             watermark = last_time
             if pages >= MAX_PAGES:
                 raise RuntimeError(
                     f"{asset}: hit MAX_PAGES={MAX_PAGES} at {watermark} "
-                    f"({total} rows) — catalog larger than expected"
+                    f"({total} rows)"
                 )
+
     print(f"  {asset}: {total} events over {pages} page(s)")
 
 
-# =============================================================================
-# Download specs — one raw fetch per accepted entity (8 water + 1 earthquakes)
-# =============================================================================
-
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"usgs-{eid}", fn=fetch_water, kind="download")
-    for eid in WATER_ENTITY_IDS
-] + [
+    *(NodeSpec(id=f"usgs-{entity_id}", fn=fetch_water, kind="download") for entity_id in WATER_ENTITY_IDS),
+    *(NodeSpec(id=f"usgs-{entity_id}", fn=fetch_fdsn_list, kind="download") for entity_id in FDSN_LIST_ENDPOINTS),
     NodeSpec(id="usgs-earthquakes", fn=fetch_earthquakes, kind="download"),
-]
-
-
-# =============================================================================
-# Transforms — one published Delta table per subset.
-# Each transform reads its NDJSON raw view (all source columns are VARCHAR),
-# TRY_CASTs to real types, drops rows without a key, and DISTINCTs away any
-# boundary-overlap duplicates. A 0-row result fails the node by design.
-# =============================================================================
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="usgs-monitoring-locations-transform",
-        deps=["usgs-monitoring-locations"],
-        sql='''
-            SELECT DISTINCT
-                "id"                                         AS id,
-                "monitoring_location_number"                 AS monitoring_location_number,
-                "monitoring_location_name"                   AS monitoring_location_name,
-                "agency_code"                                AS agency_code,
-                "agency_name"                                AS agency_name,
-                "site_type"                                  AS site_type,
-                "site_type_code"                             AS site_type_code,
-                "state_name"                                 AS state_name,
-                "county_name"                                AS county_name,
-                "country_name"                               AS country_name,
-                "hydrologic_unit_code"                       AS hydrologic_unit_code,
-                "aquifer_code"                               AS aquifer_code,
-                "national_aquifer_code"                      AS national_aquifer_code,
-                TRY_CAST("altitude" AS DOUBLE)               AS altitude,
-                TRY_CAST("drainage_area" AS DOUBLE)          AS drainage_area,
-                TRY_CAST("_lat" AS DOUBLE)                   AS latitude,
-                TRY_CAST("_lon" AS DOUBLE)                   AS longitude,
-                "construction_date"                          AS construction_date,
-                "revision_modified"                          AS revision_modified
-            FROM "usgs-monitoring-locations"
-            WHERE "id" IS NOT NULL
-        ''',
-        key=("id",),
-    ),
-    SqlNodeSpec(
-        id="usgs-peaks-transform",
-        deps=["usgs-peaks"],
-        sql='''
-            SELECT DISTINCT
-                "id"                                AS id,
-                "monitoring_location_id"            AS monitoring_location_id,
-                "parameter_code"                    AS parameter_code,
-                TRY_CAST("water_year" AS INTEGER)   AS water_year,
-                TRY_CAST("value" AS DOUBLE)         AS value,
-                "unit_of_measure"                   AS unit_of_measure,
-                "qualifier"                         AS qualifier,
-                TRY_CAST("time" AS DATE)            AS date,
-                "peak_since"                        AS peak_since,
-                "last_modified"                     AS last_modified
-            FROM "usgs-peaks"
-            WHERE "monitoring_location_id" IS NOT NULL
-        ''',
-        temporal="water_year",
-    ),
-    SqlNodeSpec(
-        id="usgs-daily-transform",
-        deps=["usgs-daily"],
-        sql='''
-            SELECT DISTINCT
-                "monitoring_location_id"            AS monitoring_location_id,
-                "parameter_code"                    AS parameter_code,
-                "statistic_id"                      AS statistic_id,
-                "time_series_id"                    AS time_series_id,
-                TRY_CAST("time" AS DATE)            AS date,
-                TRY_CAST("value" AS DOUBLE)         AS value,
-                "unit_of_measure"                   AS unit_of_measure,
-                "qualifier"                         AS qualifier,
-                "approval_status"                   AS approval_status,
-                "last_modified"                     AS last_modified
-            FROM "usgs-daily"
-            WHERE "time_series_id" IS NOT NULL AND "time" IS NOT NULL
-        ''',
-        key=("time_series_id", "date"),
-        temporal="date",
-    ),
-    SqlNodeSpec(
-        id="usgs-continuous-transform",
-        deps=["usgs-continuous"],
-        sql='''
-            SELECT DISTINCT
-                "monitoring_location_id"            AS monitoring_location_id,
-                "parameter_code"                    AS parameter_code,
-                "statistic_id"                      AS statistic_id,
-                "time_series_id"                    AS time_series_id,
-                TRY_CAST("time" AS TIMESTAMP)       AS time,
-                TRY_CAST("value" AS DOUBLE)         AS value,
-                "unit_of_measure"                   AS unit_of_measure,
-                "qualifier"                         AS qualifier,
-                "approval_status"                   AS approval_status,
-                "last_modified"                     AS last_modified
-            FROM "usgs-continuous"
-            WHERE "time_series_id" IS NOT NULL AND "time" IS NOT NULL
-        ''',
-        key=("time_series_id", "time"),
-        temporal="time",
-    ),
-    SqlNodeSpec(
-        id="usgs-field-measurements-transform",
-        deps=["usgs-field-measurements"],
-        sql='''
-            SELECT DISTINCT
-                "field_measurements_series_id"      AS field_measurements_series_id,
-                "field_visit_id"                    AS field_visit_id,
-                "monitoring_location_id"            AS monitoring_location_id,
-                "parameter_code"                    AS parameter_code,
-                TRY_CAST("value" AS DOUBLE)         AS value,
-                "unit_of_measure"                   AS unit_of_measure,
-                TRY_CAST("time" AS TIMESTAMP)       AS time,
-                "reading_type"                      AS reading_type,
-                "measuring_agency"                  AS measuring_agency,
-                "qualifier"                         AS qualifier,
-                "last_modified"                     AS last_modified
-            FROM "usgs-field-measurements"
-            WHERE "monitoring_location_id" IS NOT NULL
-        ''',
-        temporal="time",
-    ),
-    SqlNodeSpec(
-        id="usgs-channel-measurements-transform",
-        deps=["usgs-channel-measurements"],
-        sql='''
-            SELECT DISTINCT
-                "id"                                    AS id,
-                "field_visit_id"                        AS field_visit_id,
-                "monitoring_location_id"                AS monitoring_location_id,
-                "measurement_number"                    AS measurement_number,
-                "measurement_type"                      AS measurement_type,
-                "channel_material"                      AS channel_material,
-                "channel_name"                          AS channel_name,
-                TRY_CAST("channel_width" AS DOUBLE)     AS channel_width,
-                "channel_width_unit"                    AS channel_width_unit,
-                TRY_CAST("channel_area" AS DOUBLE)      AS channel_area,
-                "channel_area_unit"                     AS channel_area_unit,
-                TRY_CAST("channel_velocity" AS DOUBLE)  AS channel_velocity,
-                "channel_velocity_unit"                 AS channel_velocity_unit,
-                TRY_CAST("channel_flow" AS DOUBLE)      AS channel_flow,
-                "channel_flow_unit"                     AS channel_flow_unit,
-                TRY_CAST("time" AS TIMESTAMP)           AS time,
-                "last_modified"                         AS last_modified
-            FROM "usgs-channel-measurements"
-            WHERE "id" IS NOT NULL
-        ''',
-        key=("id",),
-        temporal="time",
-    ),
-    SqlNodeSpec(
-        id="usgs-combined-metadata-transform",
-        deps=["usgs-combined-metadata"],
-        sql='''
-            SELECT DISTINCT
-                "id"                                AS id,
-                "monitoring_location_id"            AS monitoring_location_id,
-                "monitoring_location_name"          AS monitoring_location_name,
-                "agency_code"                       AS agency_code,
-                "site_type"                         AS site_type,
-                "state_name"                        AS state_name,
-                "county_name"                       AS county_name,
-                "parameter_code"                    AS parameter_code,
-                "parameter_name"                    AS parameter_name,
-                "statistic_id"                      AS statistic_id,
-                "computation_identifier"            AS computation_identifier,
-                "data_type"                         AS data_type,
-                "unit_of_measure"                   AS unit_of_measure,
-                TRY_CAST("begin" AS TIMESTAMP)      AS begin_time,
-                TRY_CAST("end" AS TIMESTAMP)        AS end_time,
-                TRY_CAST("_lat" AS DOUBLE)          AS latitude,
-                TRY_CAST("_lon" AS DOUBLE)          AS longitude,
-                "last_modified"                     AS last_modified
-            FROM "usgs-combined-metadata"
-            WHERE "id" IS NOT NULL
-        ''',
-        key=("id",),
-    ),
-    SqlNodeSpec(
-        id="usgs-time-series-metadata-transform",
-        deps=["usgs-time-series-metadata"],
-        sql='''
-            SELECT DISTINCT
-                "id"                                        AS id,
-                "monitoring_location_id"                    AS monitoring_location_id,
-                "parameter_code"                            AS parameter_code,
-                "parameter_name"                            AS parameter_name,
-                "statistic_id"                              AS statistic_id,
-                "computation_identifier"                    AS computation_identifier,
-                "computation_period_identifier"             AS computation_period_identifier,
-                "unit_of_measure"                           AS unit_of_measure,
-                TRY_CAST("begin" AS TIMESTAMP)              AS begin_time,
-                TRY_CAST("end" AS TIMESTAMP)                AS end_time,
-                TRY_CAST("begin_utc" AS TIMESTAMP)          AS begin_utc,
-                TRY_CAST("end_utc" AS TIMESTAMP)            AS end_utc,
-                "state_name"                                AS state_name,
-                "hydrologic_unit_code"                      AS hydrologic_unit_code,
-                "web_description"                           AS web_description,
-                "last_modified"                             AS last_modified
-            FROM "usgs-time-series-metadata"
-            WHERE "id" IS NOT NULL
-        ''',
-        key=("id",),
-    ),
-    SqlNodeSpec(
-        id="usgs-earthquakes-transform",
-        deps=["usgs-earthquakes"],
-        sql='''
-            SELECT DISTINCT
-                "id"                                AS id,
-                TRY_CAST("time" AS TIMESTAMP)       AS time,
-                TRY_CAST("latitude" AS DOUBLE)      AS latitude,
-                TRY_CAST("longitude" AS DOUBLE)     AS longitude,
-                TRY_CAST("depth" AS DOUBLE)         AS depth,
-                TRY_CAST("mag" AS DOUBLE)           AS magnitude,
-                "magType"                           AS mag_type,
-                "place"                             AS place,
-                "type"                              AS event_type,
-                "net"                               AS network,
-                "status"                            AS status,
-                TRY_CAST("gap" AS DOUBLE)           AS gap,
-                TRY_CAST("dmin" AS DOUBLE)          AS dmin,
-                TRY_CAST("rms" AS DOUBLE)           AS rms,
-                TRY_CAST("nst" AS INTEGER)          AS nst,
-                TRY_CAST("updated" AS TIMESTAMP)    AS updated
-            FROM "usgs-earthquakes"
-            WHERE "id" IS NOT NULL AND "time" IS NOT NULL
-        ''',
-        key=("id",),
-        temporal="time",
-    ),
 ]
