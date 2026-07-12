@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-bulgaria-470`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period, total_income, meassure, residence]
+temporal: period
+checks:
+  - kind: unique
+    columns: [period, total_income, meassure, residence]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: total_income
+  - kind: not_null
+    col: meassure
+  - kind: not_null
+    col: residence
+  - kind: row_floor
+    min: 1161
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

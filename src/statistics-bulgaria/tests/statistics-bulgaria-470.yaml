@@ -1,12 +1,22 @@
 spec_id: statistics-bulgaria-470
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: every rank-active NSI dataset has at least one published data cell; 0 rows means the JSON-stat endpoint changed or the dataset was retired
-    certainty: 90
-  - not_null: value
-    reason: null/suppressed cells are dropped during melt, so every surviving row carries a numeric value
-    certainty: 95
-  - column_type: {col: value, type: float}
-    reason: all NSI measures are coerced to double in the fetch fn
-    certainty: 95
+- row_count:
+    min: 1
+  reason: every rank-active NSI dataset has at least one published data cell; 0 rows means the JSON-stat endpoint changed
+    or the dataset was retired
+  certainty: 90
+- not_null: value
+  reason: null/suppressed cells are dropped during melt, so every surviving row carries a numeric value
+  certainty: 95
+- column_type:
+    col: value
+    type: float
+  reason: all NSI measures are coerced to double in the fetch fn
+  certainty: 95
+- freshness:
+    col: period
+    reaches: 2023
+  reason: NSI Open Data publishes full-series tables; this bound is one calendar year behind the observed latest period value
+    (2025) to allow normal release lag and discontinued historical series.
+  certainty: 85

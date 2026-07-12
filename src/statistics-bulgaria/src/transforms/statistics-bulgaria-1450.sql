@@ -1,1 +1,11 @@
-SELECT * FROM "statistics-bulgaria-1450" WHERE value IS NOT NULL
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The source labels available in the downloaded JSON-stat table do not form a verified unique row key; treat rows as source observations rather than keyed records.
+SELECT
+    "ekatte",
+    "school_year",
+    "unit",
+    "value"
+FROM "statistics-bulgaria-1450"

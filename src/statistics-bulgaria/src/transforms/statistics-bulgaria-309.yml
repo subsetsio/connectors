@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-bulgaria-309`. Regenerate after model-verify.
+key: [period, activity_status, sex]
+temporal: period
+sort: [period, activity_status, sex]
+columns:
+  - name: period
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: activity_status
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

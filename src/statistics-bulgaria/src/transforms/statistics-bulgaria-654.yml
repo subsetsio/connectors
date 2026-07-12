@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-bulgaria-654`. Regenerate after model-verify.
+key: [district, period, periods, type_of_buildings, type_of_buildings_2]
+temporal: period
+sort: [period, district, periods, type_of_buildings, type_of_buildings_2]
 columns:
   - name: period
-    type: VARCHAR
+    type: BIGINT
   - name: type_of_buildings
     type: VARCHAR
   - name: type_of_buildings_2

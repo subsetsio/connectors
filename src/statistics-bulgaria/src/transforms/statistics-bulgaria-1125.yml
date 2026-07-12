@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-bulgaria-1125`. Regenerate after model-verify.
+key: [cod_shortlist, nuts, period, sex]
+temporal: period
+sort: [period, cod_shortlist, nuts, sex]
 columns:
   - name: period
-    type: VARCHAR
+    type: BIGINT
   - name: nuts
     type: VARCHAR
   - name: sex

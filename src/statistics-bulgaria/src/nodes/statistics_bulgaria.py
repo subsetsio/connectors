@@ -24,7 +24,7 @@ import math
 import re
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 from constants import ENTITY_IDS
 
 SLUG = "statistics-bulgaria"
@@ -181,16 +181,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One thin pass-through transform per dataset. Each raw asset has its own column
-# set, so SELECT * republishes it; the WHERE drops any residual null values and a
-# 0-row result fails the node (the correctness gate).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]

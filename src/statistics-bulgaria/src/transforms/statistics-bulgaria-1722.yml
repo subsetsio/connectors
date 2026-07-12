@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-bulgaria-1722`. Regenerate after model-verify.
+key: [period, d_10_years_age_groups_lfs, sex]
+temporal: period
+sort: [period, d_10_years_age_groups_lfs, sex]
 columns:
   - name: period
-    type: VARCHAR
+    type: BIGINT
   - name: sex
     type: VARCHAR
   - name: d_10_years_age_groups_lfs

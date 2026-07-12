@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-bulgaria-1105`. Regenerate after model-verify.
+# caution: The source labels available in the downloaded JSON-stat table do not form a verified unique row key; treat rows as source observations rather than keyed records.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: period
+    type: BIGINT
+  - name: districts_and_munisipalities
+    type: VARCHAR
+  - name: medical_personnel
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
