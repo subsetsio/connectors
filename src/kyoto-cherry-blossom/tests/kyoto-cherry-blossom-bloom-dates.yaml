@@ -23,3 +23,7 @@ tests:
   - row_count: {min: 700}
     reason: ~838 observed years as of 2026; a big drop means truncated download
     certainty: 90
+  - freshness: {col: year, reaches: current_year()}
+    reason: OWID/Katata maintains the bloom-date series as an annual current-year file
+    certainty: 80
+    points_outward: true

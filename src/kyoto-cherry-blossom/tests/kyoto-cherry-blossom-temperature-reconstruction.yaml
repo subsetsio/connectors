@@ -1,5 +1,8 @@
 spec_id: kyoto-cherry-blossom-temperature-reconstruction
 status: active
+coverage:
+  frozen: true
+  reason: NOAA kyoto2010temp.txt is a fixed paleoclimatology reconstruction snapshot ending in 2005/2010 and does not advance
 tests:
   - not_null: year
   - column_type: {col: year, type: integer}

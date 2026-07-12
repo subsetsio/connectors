@@ -1,7 +1,10 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The reconstructed and observed March temperature columns cover different historical periods; use the appropriate column for the time span being analyzed.
 SELECT
-    CAST(year AS INTEGER)              AS year,
-    CAST(temp_reconstructed AS DOUBLE) AS temp_reconstructed,
-    CAST(temp_observed AS DOUBLE)      AS temp_observed
+    "year",
+    "temp_reconstructed",
+    "temp_observed"
 FROM "kyoto-cherry-blossom-temperature-reconstruction"
-WHERE temp_reconstructed IS NOT NULL OR temp_observed IS NOT NULL
-ORDER BY year
