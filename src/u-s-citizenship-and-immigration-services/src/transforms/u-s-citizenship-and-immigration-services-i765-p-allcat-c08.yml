@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-citizenship-and-immigration-services-i765-p-allcat-c08`. Regenerate after model-verify.
+# caution: This table preserves the source workbook at cell level; consumers must interpret `row_index`, `column_label`, and surrounding cells before aggregating `value_text`.
+key: [source_file, sheet_name, row_index, column_index]
+temporal: source_year
+sort: [source_year, source_file, sheet_name, row_index, column_index]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_format
+    type: VARCHAR
+  - name: source_period
+    type: VARCHAR
+  - name: source_year
+    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_index
+    type: BIGINT
+  - name: column_index
+    type: BIGINT
+  - name: column_label
+    type: VARCHAR
+  - name: value_text
+    type: VARCHAR

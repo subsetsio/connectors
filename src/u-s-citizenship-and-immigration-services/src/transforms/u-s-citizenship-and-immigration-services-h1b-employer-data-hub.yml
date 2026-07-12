@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-citizenship-and-immigration-services-h1b-employer-data-hub`. Regenerate after model-verify.
+# caution: This table preserves annual CSV files at cell level; each source row spans multiple cells, so consumers should pivot by `row_index` and `column_label` before employer-level analysis.
+key: [source_file, row_index, column_index]
+temporal: source_year
+sort: [source_year, source_file, row_index, column_index]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_format
+    type: VARCHAR
+  - name: source_period
+    type: BIGINT
+  - name: source_year
+    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_index
+    type: BIGINT
+  - name: column_index
+    type: BIGINT
+  - name: column_label
+    type: VARCHAR
+  - name: value_text
+    type: VARCHAR
