@@ -12,7 +12,7 @@ run rather than hardcoding it (the signature expires ~monthly).
 
 import re
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 SHARE_PAGE = "https://airtable.com/appzVzSeINK1S3EVR/shroOenW19l1m3w0H/tblxearKzw8W7ViN8"
 _HOST = "https://airtable.com"
@@ -30,7 +30,6 @@ _API_HEADERS = {
 }
 
 
-@transient_retry()
 def _get_view_data() -> dict:
     # 1) scrape the shared-view page for a freshly-signed readSharedViewData url.
     html = get(SHARE_PAGE, headers={"User-Agent": _UA}, timeout=60).text
@@ -92,79 +91,4 @@ def fetch_killings(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="mapping-police-violence-mapping-police-violence-killings", fn=fetch_killings, kind="download"),
-]
-
-
-_SQL_KILLINGS = """
-SELECT
-    name,
-    TRY_CAST(age AS INTEGER)                              AS age,
-    gender,
-    race,
-    CAST(date AS DATE)                                    AS date,
-    street_address,
-    city,
-    state,
-    zip,
-    county,
-    agency_responsible,
-    ori,
-    cause_of_death,
-    circumstances,
-    disposition_official,
-    officer_charged,
-    signs_of_mental_illness,
-    allegedly_armed,
-    wapo_armed,
-    wapo_threat_level,
-    wapo_flee,
-    wapo_body_camera,
-    TRY_CAST(wapo_id AS BIGINT)                           AS wapo_id,
-    off_duty_killing,
-    geography,
-    TRY_CAST(mpv_id AS BIGINT)                            AS mpv_id,
-    TRY_CAST(fe_id AS BIGINT)                             AS fe_id,
-    encounter_type,
-    initial_reason,
-    officer_names,
-    officer_races,
-    officer_known_past_shootings,
-    call_for_service,
-    TRY_CAST(tract AS BIGINT)                             AS tract,
-    urban_rural_uspsai,
-    urban_rural_nchs,
-    TRY_CAST(hhincome_median_census_tract AS BIGINT)     AS hhincome_median_census_tract,
-    TRY_CAST(latitude AS DOUBLE)                          AS latitude,
-    TRY_CAST(longitude AS DOUBLE)                         AS longitude,
-    TRY_CAST(pop_total_census_tract AS BIGINT)           AS pop_total_census_tract,
-    TRY_CAST(pop_white_census_tract AS DOUBLE)           AS pop_white_census_tract,
-    TRY_CAST(pop_black_census_tract AS DOUBLE)           AS pop_black_census_tract,
-    TRY_CAST(pop_native_american_census_tract AS DOUBLE) AS pop_native_american_census_tract,
-    TRY_CAST(pop_asian_census_tract AS DOUBLE)           AS pop_asian_census_tract,
-    TRY_CAST(pop_pacific_islander_census_tract AS DOUBLE) AS pop_pacific_islander_census_tract,
-    TRY_CAST(pop_other_multiple_census_tract AS DOUBLE)  AS pop_other_multiple_census_tract,
-    TRY_CAST(pop_hispanic_census_tract AS DOUBLE)        AS pop_hispanic_census_tract,
-    congressional_district_113,
-    congressperson_lastname,
-    congressperson_firstname,
-    congressperson_party,
-    prosecutor_head,
-    prosecutor_race,
-    prosecutor_gender,
-    prosecutor_party,
-    prosecutor_term,
-    prosecutor_in_court,
-    prosecutor_special,
-    independent_investigation,
-    prosecutor_url
-FROM "mapping-police-violence-mapping-police-violence-killings"
-WHERE mpv_id IS NOT NULL
-"""
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="mapping-police-violence-mapping-police-violence-killings-transform",
-        deps=["mapping-police-violence-mapping-police-violence-killings"],
-        sql=_SQL_KILLINGS,
-    ),
 ]
