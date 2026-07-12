@@ -1,0 +1,83 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-tx5i-i2ja`. Regenerate after model-verify.
+key: [place_name]
+sort: [place_name]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: place_name
+    type: VARCHAR
+  - name: total_population_2000
+    type: BIGINT
+  - name: total_population_2010
+    type: BIGINT
+  - name: total_population_numeric_change_2000_to_2010
+    type: BIGINT
+  - name: total_population_percent_change_2000_to_2010
+    type: DOUBLE
+  - name: population_rank_2000
+    type: BIGINT
+  - name: population_rank_2010
+    type: BIGINT
+  - name: population_rank_change_in_rank_2000_to_2010
+    type: BIGINT
+  - name: population_density_persons_square_mile_2000
+    type: DOUBLE
+  - name: population_density_persons_square_mile_2010
+    type: DOUBLE
+  - name: population_density_numeric_change_2000_to_2010
+    type: DOUBLE
+  - name: population_density_percent_change_2000_to_2010
+    type: DOUBLE
+  - name: total_housing_units_2000
+    type: BIGINT
+  - name: total_housing_units_2010
+    type: BIGINT
+  - name: total_housing_units_numeric_change_2000_to_2010
+    type: BIGINT
+  - name: total_housing_units_percent_change_2000_to_2010
+    type: DOUBLE
+  - name: occupied_housing_units_2000
+    type: BIGINT
+  - name: occupied_housing_units_2010
+    type: BIGINT
+  - name: vacant_housing_units_2000
+    type: BIGINT
+  - name: vacant_housing_units_2010
+    type: BIGINT
+  - name: occupancy_rate_2000
+    type: DOUBLE
+  - name: occupancy_rate_2010
+    type: DOUBLE
+  - name: occupancy_rate_numeric_change_2000_to_2010
+    type: DOUBLE
+  - name: vacancy_rate_2000
+    type: DOUBLE
+  - name: vacancy_rate_2010
+    type: DOUBLE
+  - name: vacancy_rate_numeric_change_2000_to_2010
+    type: DOUBLE
+  - name: land_area_square_miles_2000
+    type: DOUBLE
+  - name: land_area_square_miles_2010
+    type: DOUBLE
+  - name: total_area_square_miles_2000
+    type: DOUBLE
+  - name: total_area_square_miles_2010
+    type: DOUBLE
+  - name: water_area_2000
+    type: DOUBLE
+  - name: water_area_2010
+    type: DOUBLE
+  - name: geoid
+    type: BIGINT
+  - name: location_1_state
+    type: VARCHAR
+  - name: location_1
+    type: "STRUCT(\"type\" VARCHAR, coordinates DOUBLE[])"
+  - name: computed_region_x4ys_rtnd
+    type: BIGINT

@@ -1,0 +1,60 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-qb7g-hu6x`. Regenerate after model-verify.
+key: [to_sort_by_county_and_year]
+temporal: year
+sort: [year, to_sort_by_county_and_year]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: to_sort_by_county_and_year
+    type: VARCHAR
+  - name: to_sort_by_year_and_county
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: state_and_county_fips_code
+    type: VARCHAR
+  - name: alzheimer_s_disease_dementia_prevalence
+    type: DOUBLE
+  - name: arthritis_prevalence
+    type: DOUBLE
+  - name: asthma_prevalence
+    type: DOUBLE
+  - name: atrial_fibrillation_prevalence
+    type: DOUBLE
+  - name: autism_spectrum_disorders_prevalence
+    type: DOUBLE
+  - name: copd_prevalence
+    type: DOUBLE
+  - name: cancer_prevalence
+    type: DOUBLE
+  - name: chronic_kidney_disease_prevalence
+    type: DOUBLE
+  - name: depression_prevalence
+    type: DOUBLE
+  - name: diabetes_prevalence
+    type: DOUBLE
+  - name: hiv_aids_prevalence
+    type: DOUBLE
+  - name: heart_failure_prevalence
+    type: DOUBLE
+  - name: hepatitis_chronic_viral_b_c_prevalence
+    type: DOUBLE
+  - name: hyperlipidemia_prevalence
+    type: DOUBLE
+  - name: hypertension_prevalence
+    type: DOUBLE
+  - name: ischemic_heart_disease_prevalence
+    type: DOUBLE
+  - name: osteoporosis_prevalence
+    type: DOUBLE
+  - name: schizophrenia_other_psychotic_disorders_prevalence
+    type: DOUBLE
+  - name: stroke_prevalence
+    type: DOUBLE

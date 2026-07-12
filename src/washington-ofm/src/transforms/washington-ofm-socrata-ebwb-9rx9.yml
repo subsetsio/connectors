@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-ebwb-9rx9`. Regenerate after model-verify.
+# caution: Quality and cost summary rows may mix reporting periods, organizations, measures, and aggregation levels; filter the relevant dimensions before comparing or summing measures.
+key: []
+temporal: reporting_period_begin_dt
+sort: [reporting_period_begin_dt]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: summarization_level
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: organization_city
+    type: VARCHAR
+  - name: organization_zip
+    type: BIGINT
+  - name: product_type
+    type: VARCHAR
+  - name: measure_code
+    type: VARCHAR
+  - name: measure_description
+    type: VARCHAR
+  - name: measure_component
+    type: VARCHAR
+  - name: measure_summary_units
+    type: VARCHAR
+  - name: age_stratification
+    type: VARCHAR
+  - name: measure_result
+    type: DOUBLE
+  - name: lower_95_ci
+    type: DOUBLE
+  - name: upper_95_ci
+    type: DOUBLE
+  - name: reporting_period_begin_dt
+    type: TIMESTAMP
+  - name: reporting_period_end_dt
+    type: TIMESTAMP
+  - name: performance_category
+    type: VARCHAR

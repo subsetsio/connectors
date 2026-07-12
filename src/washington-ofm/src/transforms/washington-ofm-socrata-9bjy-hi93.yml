@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-9bjy-hi93`. Regenerate after model-verify.
+key: [to_sort_by_county_and_year]
+temporal: year
+sort: [year, to_sort_by_county_and_year]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: to_sort_by_county_and_year
+    type: BIGINT
+  - name: to_sort_by_year_and_county
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: state_and_county_fips_code
+    type: VARCHAR
+  - name: beneficiaries_with_part_a_and_part_b
+    type: BIGINT
+  - name: ffs_beneficiaries
+    type: BIGINT
+  - name: ma_beneficiaries
+    type: BIGINT
+  - name: ma_participation_rate
+    type: DOUBLE
+  - name: average_age
+    type: BIGINT
+  - name: percent_female
+    type: DOUBLE
+  - name: percent_male
+    type: DOUBLE
+  - name: percent_non_hispanic_white
+    type: DOUBLE
+  - name: percent_african_american
+    type: DOUBLE
+  - name: percent_hispanic
+    type: DOUBLE
+  - name: percent_other_unknown
+    type: DOUBLE
+  - name: percent_eligible_for_medicaid
+    type: DOUBLE
+  - name: average_hcc_score
+    type: DOUBLE

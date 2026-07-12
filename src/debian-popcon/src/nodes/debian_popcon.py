@@ -32,7 +32,7 @@ import gzip
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 # spec id -> path under https://popcon.debian.org/ (.gz variant of by_inst)
 VIEW_PATHS = {
@@ -58,7 +58,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _download(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -115,69 +114,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="debian-popcon-source-packages", fn=fetch_view, kind="download"),
     NodeSpec(id="debian-popcon-source-packages-max", fn=fetch_view, kind="download"),
     NodeSpec(id="debian-popcon-maintainers", fn=fetch_view, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="debian-popcon-packages-transform",
-        deps=["debian-popcon-packages"],
-        sql='''
-            SELECT
-                rank,
-                name AS package,
-                inst,
-                vote,
-                old,
-                recent,
-                no_files,
-                maintainer
-            FROM "debian-popcon-packages"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="debian-popcon-source-packages-transform",
-        deps=["debian-popcon-source-packages"],
-        sql='''
-            SELECT
-                rank,
-                name AS source_package,
-                inst,
-                vote,
-                old,
-                recent,
-                no_files
-            FROM "debian-popcon-source-packages"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="debian-popcon-source-packages-max-transform",
-        deps=["debian-popcon-source-packages-max"],
-        sql='''
-            SELECT
-                rank,
-                name AS source_package,
-                inst,
-                vote,
-                old,
-                recent,
-                no_files
-            FROM "debian-popcon-source-packages-max"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="debian-popcon-maintainers-transform",
-        deps=["debian-popcon-maintainers"],
-        sql='''
-            SELECT
-                rank,
-                name AS maintainer,
-                inst,
-                vote,
-                old,
-                recent,
-                no_files
-            FROM "debian-popcon-maintainers"
-        ''',
-    ),
 ]

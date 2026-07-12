@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-amzw-95sz`. Regenerate after model-verify.
+key: [population, age, year, sex]
+temporal: year
+sort: [year, population, age, sex]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: age
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: population
+    type: BIGINT

@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-vkva-tg4t`. Regenerate after model-verify.
+key: [population]
+temporal: year
+sort: [year, population]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: population
+    type: BIGINT
+  - name: population_change
+    type: BIGINT
+  - name: population_percent_change
+    type: DOUBLE
+  - name: births
+    type: BIGINT
+  - name: birth_rate
+    type: DOUBLE
+  - name: deaths
+    type: BIGINT
+  - name: death_rate
+    type: DOUBLE
+  - name: natural_change
+    type: BIGINT
+  - name: net_migration
+    type: BIGINT
+  - name: net_migration_rate
+    type: DOUBLE

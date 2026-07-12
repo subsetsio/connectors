@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "_entity_id" AS entity_id,
+    "_source_type" AS source_type,
+    "_socrata_dataset_id" AS socrata_dataset_id,
+    "city_name",
+    CAST("pop_2020" AS BIGINT) AS pop_2020,
+    CAST("pop_2021" AS BIGINT) AS pop_2021,
+    CAST("pop_2022" AS BIGINT) AS pop_2022,
+    CAST("pop_2023" AS BIGINT) AS pop_2023,
+    CAST("pop_2024" AS BIGINT) AS pop_2024,
+    CAST("pop_2025" AS BIGINT) AS pop_2025,
+    CAST("nc_20_21" AS BIGINT) AS nc_20_21,
+    CAST("nc_21_22" AS BIGINT) AS nc_21_22,
+    CAST("nc_22_23" AS BIGINT) AS nc_22_23,
+    CAST("nc_23_24" AS BIGINT) AS nc_23_24,
+    CAST("nc_24_25" AS BIGINT) AS nc_24_25,
+    CAST("pc_20_21" AS DOUBLE) AS pc_20_21,
+    CAST("pc_21_22" AS DOUBLE) AS pc_21_22,
+    CAST("pc_22_23" AS DOUBLE) AS pc_22_23,
+    CAST("pc_23_24" AS DOUBLE) AS pc_23_24,
+    CAST("pc_24_25" AS DOUBLE) AS pc_24_25,
+    CAST("rank_2020" AS BIGINT) AS rank_2020,
+    CAST("rank_2021" AS BIGINT) AS rank_2021,
+    CAST("rank_2022" AS BIGINT) AS rank_2022,
+    CAST("rank_2023" AS BIGINT) AS rank_2023,
+    CAST("rank_2024" AS BIGINT) AS rank_2024,
+    CAST("rank_2025" AS BIGINT) AS rank_2025,
+    CAST("anx_20_21" AS BIGINT) AS anx_20_21,
+    CAST("anx_21_22" AS BIGINT) AS anx_21_22,
+    CAST("anx_22_23" AS BIGINT) AS anx_22_23,
+    CAST("anx_23_24" AS BIGINT) AS anx_23_24,
+    CAST("anx_24_25" AS BIGINT) AS anx_24_25,
+    "city",
+    "state",
+    CAST("longitude" AS DOUBLE) AS longitude,
+    CAST("latitude" AS DOUBLE) AS latitude
+FROM "washington-ofm-socrata-jxb9-mpuu"

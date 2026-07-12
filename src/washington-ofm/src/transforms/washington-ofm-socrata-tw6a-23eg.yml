@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `washington-ofm-socrata-tw6a-23eg`. Regenerate after model-verify.
+# caution: Quality and cost summary rows may mix reporting periods, organizations, measures, and aggregation levels; filter the relevant dimensions before comparing or summing measures.
+key: []
+temporal: reporting_period_begin_dt
+sort: [reporting_period_begin_dt]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: socrata_dataset_id
+    type: VARCHAR
+  - name: summarization_level
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: organization_city
+    type: VARCHAR
+  - name: organization_zip
+    type: BIGINT
+  - name: service_description
+    type: VARCHAR
+  - name: service_method_name
+    type: VARCHAR
+  - name: median_allowed_amt
+    type: DOUBLE
+  - name: lower_25_allowed_amt
+    type: DOUBLE
+  - name: upper_75_allowed_amt
+    type: DOUBLE
+  - name: reporting_period_begin_dt
+    type: TIMESTAMP
+  - name: reporting_period_end_dt
+    type: TIMESTAMP
