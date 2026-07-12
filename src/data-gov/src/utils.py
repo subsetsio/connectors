@@ -24,9 +24,12 @@ EXT = "ndjson.zst"
 STATE_VERSION = 1
 
 # Leave enough wall-clock for the supervisor to commit manifest entries, upload
-# logs, and dispatch a continuation before the GitHub hard cap.
+# logs, and dispatch a continuation before the GitHub hard cap. The runner's
+# DAG_TIME_BUDGET can span an entire chained job, so cap individual catalog
+# crawl legs explicitly instead of spending a large fraction of that value.
 DEFAULT_TIME_BUDGET_S = 20_700.0
-LEG_FRACTION = 0.30
+MAX_PACKAGE_LEG_S = 4_800.0
+LEG_FRACTION = 0.20
 
 
 @transient_retry(attempts=8, min_wait=8, max_wait=180)
@@ -44,7 +47,7 @@ def _leg_seconds() -> float:
         budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
-    return budget * LEG_FRACTION
+    return min(budget * LEG_FRACTION, MAX_PACKAGE_LEG_S)
 
 
 def _run_state(asset: str, run_id: str) -> dict:
