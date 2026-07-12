@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-main-economic-indicators-by-main-economic-activity-10-employees-and-more-activity-codes-6021-6420`. Regenerate after model-verify.
+key: [main_economic_activity_ar, activity_code, main_economic_activity, year]
+temporal: year
+sort: [year, main_economic_activity_ar, activity_code, main_economic_activity]
+columns:
+  - name: year
+    type: BIGINT
+  - name: activity_code
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: average_annual_wage_1_qr
+    type: BIGINT
+  - name: percentage_of_intermediate_goods_to_output
+    type: DOUBLE
+  - name: percentage_of_intermediate_services_to_output
+    type: DOUBLE
+  - name: productivity_of_employee_qr
+    type: BIGINT
+  - name: value_added_per_worker_qr
+    type: BIGINT
+  - name: compensation_of_employees_qr
+    type: BIGINT
+  - name: operating_surplus_qr
+    type: BIGINT
+  - name: main_economic_activity_ar
+    type: VARCHAR

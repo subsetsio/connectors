@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-total-certificates-issued-by-year-and-certificate-type`. Regenerate after model-verify.
+key: [certificate_type, nw_lshhd, year]
+temporal: year
+sort: [year, certificate_type, nw_lshhd]
+columns:
+  - name: year
+    type: BIGINT
+  - name: certificate_type
+    type: VARCHAR
+  - name: nw_lshhd
+    type: VARCHAR
+  - name: total_number_of_certificates_issued
+    type: BIGINT

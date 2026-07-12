@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-registered-deaths-by-nationality-and-gender-2001-2022`. Regenerate after model-verify.
+key: [year, gender, ljns, nationality, ljnsy]
+temporal: year
+sort: [year, gender, ljns, nationality, ljnsy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: nationality
+    type: VARCHAR
+  - name: ljnsy
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: ljns
+    type: VARCHAR
+  - name: total
+    type: BIGINT

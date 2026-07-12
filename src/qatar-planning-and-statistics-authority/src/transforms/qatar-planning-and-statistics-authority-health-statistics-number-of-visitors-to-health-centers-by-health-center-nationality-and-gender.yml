@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-health-statistics-number-of-visitors-to-health-centers-by-health-center-nationality-and-gender`. Regenerate after model-verify.
+key: [health_center_ar, health_center, nationality, nationality_ar, gender]
+temporal: year
+sort: [year, health_center_ar, health_center, nationality, nationality_ar, gender]
+columns:
+  - name: year
+    type: BIGINT
+  - name: health_center
+    type: VARCHAR
+  - name: health_center_ar
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: gender_ar
+    type: VARCHAR
+  - name: number_of_visitors
+    type: BIGINT

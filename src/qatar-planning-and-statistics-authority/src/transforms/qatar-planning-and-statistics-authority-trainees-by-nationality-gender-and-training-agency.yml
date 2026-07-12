@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-trainees-by-nationality-gender-and-training-agency`. Regenerate after model-verify.
+key: [year, training_agency, training_agency_ar]
+temporal: year
+sort: [year, training_agency, training_agency_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: training_agency
+    type: VARCHAR
+  - name: training_agency_ar
+    type: VARCHAR
+  - name: qatari_males
+    type: BIGINT
+  - name: qatari_females
+    type: BIGINT
+  - name: non_qatari_males
+    type: BIGINT
+  - name: non_qatari_females
+    type: BIGINT
+  - name: no_of_centers
+    type: BIGINT
+  - name: no_of_training_programs
+    type: BIGINT
+  - name: no_of_trainers_males
+    type: BIGINT
+  - name: no_of_trainers_females
+    type: BIGINT

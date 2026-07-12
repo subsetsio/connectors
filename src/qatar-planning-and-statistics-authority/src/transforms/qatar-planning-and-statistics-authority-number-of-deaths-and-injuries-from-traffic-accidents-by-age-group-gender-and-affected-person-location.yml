@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-deaths-and-injuries-from-traffic-accidents-by-age-group-gender-and-affected-person-location`. Regenerate after model-verify.
+key: [fy_t_l_mr, age_groups, year]
+temporal: year
+sort: [year, fy_t_l_mr, age_groups]
+columns:
+  - name: year
+    type: BIGINT
+  - name: fy_t_l_mr
+    type: VARCHAR
+  - name: death_driver_males
+    type: DOUBLE
+  - name: death_driver_females
+    type: DOUBLE
+  - name: death_passenger_males
+    type: DOUBLE
+  - name: death_passenger_females
+    type: DOUBLE
+  - name: death_pedestrians_males
+    type: DOUBLE
+  - name: death_pedestrians_females
+    type: DOUBLE
+  - name: severe_injury_driver_males
+    type: DOUBLE
+  - name: severe_injury_driver_females
+    type: DOUBLE
+  - name: severe_injury_passenger_males
+    type: DOUBLE
+  - name: severe_injury_passenger_females
+    type: DOUBLE
+  - name: severe_injury_pedestrians_males
+    type: DOUBLE
+  - name: severe_injury_pedestrians_females
+    type: DOUBLE
+  - name: slight_injury_driver_males
+    type: DOUBLE
+  - name: slight_injury_driver_females
+    type: DOUBLE
+  - name: slight_injury_passenger_males
+    type: DOUBLE
+  - name: slight_injury_passenger_females
+    type: DOUBLE
+  - name: slight_injury_pedestrians_males
+    type: DOUBLE
+  - name: slight_injury_pedestrians_females
+    type: DOUBLE
+  - name: age_groups
+    type: VARCHAR

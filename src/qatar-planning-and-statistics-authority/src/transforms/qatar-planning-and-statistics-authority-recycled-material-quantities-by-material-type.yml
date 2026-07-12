@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-recycled-material-quantities-by-material-type`. Regenerate after model-verify.
+key: [month, material_type, material_description, year]
+temporal: year
+sort: [year, month, material_type, material_description]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: material_type
+    type: VARCHAR
+  - name: material_description
+    type: VARCHAR
+  - name: total_tons
+    type: DOUBLE
+  - name: recycled_tons
+    type: DOUBLE
+  - name: recycled
+    type: DOUBLE

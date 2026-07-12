@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-deaths-and-injuries-resulting-from-fires-by-month`. Regenerate after model-verify.
+key: [month, year, result_of_the_fire, result_of_the_fire_ar]
+temporal: year
+sort: [year, month, result_of_the_fire, result_of_the_fire_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: result_of_the_fire
+    type: VARCHAR
+  - name: number_of_people
+    type: BIGINT
+  - name: result_of_the_fire_ar
+    type: VARCHAR

@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-arriving-vessels-gross-and-net-tonnage-by-type-of-vessel-and-month-rowais-port`. Regenerate after model-verify.
+key: [month, lshhr, year, number_tonnage, l_dd_wlhmwl]
+temporal: year
+sort: [year, month, lshhr, number_tonnage, l_dd_wlhmwl]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: lshhr
+    type: VARCHAR
+  - name: number_tonnage
+    type: VARCHAR
+  - name: l_dd_wlhmwl
+    type: VARCHAR
+  - name: total
+    type: BIGINT
+  - name: others
+    type: BIGINT
+  - name: passengers_vessels
+    type: BIGINT
+  - name: vehicles_vessels
+    type: BIGINT
+  - name: live_sheep
+    type: BIGINT
+  - name: loose_materials
+    type: BIGINT
+  - name: containers
+    type: BIGINT
+  - name: generals_goods
+    type: BIGINT
+  - name: gas_tankers
+    type: BIGINT
+  - name: oil_tankers
+    type: BIGINT

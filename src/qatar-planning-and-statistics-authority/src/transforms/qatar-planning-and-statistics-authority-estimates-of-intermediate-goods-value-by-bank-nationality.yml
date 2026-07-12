@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-estimates-of-intermediate-goods-value-by-bank-nationality`. Regenerate after model-verify.
+key: [year, bank_nationality, bank_nationality_ar]
+temporal: year
+sort: [year, bank_nationality, bank_nationality_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: bank_nationality
+    type: VARCHAR
+  - name: bank_nationality_ar
+    type: VARCHAR
+  - name: other_goods
+    type: DOUBLE
+  - name: stationary
+    type: DOUBLE
+  - name: electricity_and_water
+    type: DOUBLE
+  - name: spare_parts_consumable_tools_and_equipment
+    type: DOUBLE
+  - name: fuel_lubricants_and_energy
+    type: DOUBLE

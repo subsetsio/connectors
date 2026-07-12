@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-types-of-perceptions-by-type-of-smokers-or-users-and-nationality`. Regenerate after model-verify.
+key: [type_of_perceptions, nationality]
+temporal: year
+sort: [year, type_of_perceptions, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_perceptions
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: percentage_of_non_smokers_users
+    type: DOUBLE
+  - name: percentage_of_current_smokers_users
+    type: DOUBLE
+  - name: total
+    type: DOUBLE

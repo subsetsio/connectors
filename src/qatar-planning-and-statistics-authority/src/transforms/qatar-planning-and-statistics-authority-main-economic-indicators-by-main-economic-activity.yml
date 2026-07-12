@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-main-economic-indicators-by-main-economic-activity`. Regenerate after model-verify.
+key: [year, main_economic_activity, lnsht_lqtsd_lry_ysy, activity_code]
+temporal: year
+sort: [year, main_economic_activity, lnsht_lqtsd_lry_ysy, activity_code]
+columns:
+  - name: year
+    type: BIGINT
+  - name: activity_code
+    type: VARCHAR
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: lnsht_lqtsd_lry_ysy
+    type: VARCHAR
+  - name: distribution_of_net_value_added_value_qr_000_on_operating_surplus
+    type: BIGINT
+  - name: distribution_of_net_value_added_value_qr_000_on_compensation_of_employees
+    type: BIGINT
+  - name: value_added_per_worker_qr
+    type: BIGINT
+  - name: productivity_of_employee_qr
+    type: BIGINT
+  - name: percentage_of_intermediate_services_to_output
+    type: DOUBLE
+  - name: percentage_of_intermediate_goods_to_output
+    type: DOUBLE
+  - name: average_annual_wage_qr
+    type: BIGINT

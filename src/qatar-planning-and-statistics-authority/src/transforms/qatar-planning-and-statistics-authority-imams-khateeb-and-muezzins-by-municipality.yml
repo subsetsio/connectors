@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-imams-khateeb-and-muezzins-by-municipality`. Regenerate after model-verify.
+key: [number, municipality, year, lbldy, indicator]
+temporal: year
+sort: [year, number, municipality, lbldy, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: lmw_shr
+    type: VARCHAR
+  - name: number
+    type: BIGINT

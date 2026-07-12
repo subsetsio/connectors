@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-natural-water-balance-of-qatar-s-aquifers-annual-average-2014-2021`. Regenerate after model-verify.
+key: [year, water_balance_type, nw_myzn_lm, data_source_organization, mnzm_msdr_lbynt]
+temporal: year
+sort: [year, water_balance_type, nw_myzn_lm, data_source_organization, mnzm_msdr_lbynt]
+columns:
+  - name: year
+    type: BIGINT
+  - name: water_balance_type
+    type: VARCHAR
+  - name: nw_myzn_lm
+    type: VARCHAR
+  - name: data_source_organization
+    type: VARCHAR
+  - name: mnzm_msdr_lbynt
+    type: VARCHAR
+  - name: value_million_cubic_metres_per_year
+    type: DOUBLE

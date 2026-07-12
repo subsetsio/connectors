@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-retirees-registered-in-pension-funds-and-systems-by-reason-for-retirement`. Regenerate after model-verify.
+key: [year, reason_for_retirement, reason_for_retirement_ar]
+temporal: year
+sort: [year, reason_for_retirement, reason_for_retirement_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: percentage
+    type: DOUBLE
+  - name: average_age_at_retirement
+    type: DOUBLE
+  - name: reason_for_retirement
+    type: VARCHAR
+  - name: reason_for_retirement_ar
+    type: VARCHAR
+  - name: male_retirees
+    type: DOUBLE
+  - name: female_retirees
+    type: DOUBLE

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-accommodation-data-by-segment-date-and-key-metrics-supply-demand-occupancy-adr-revpar`. Regenerate after model-verify.
+key: [date, segment]
+temporal: date
+sort: [date, segment]
+columns:
+  - name: segment
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: supply
+    type: BIGINT
+  - name: demand
+    type: BIGINT
+  - name: occupancy_rate
+    type: DOUBLE
+  - name: average_daily_rate
+    type: DOUBLE
+  - name: revenue_per_available_room
+    type: DOUBLE
+  - name: sample_properties
+    type: BIGINT
+  - name: sample_rooms
+    type: BIGINT
+  - name: census_properties
+    type: BIGINT
+  - name: census_rooms
+    type: BIGINT

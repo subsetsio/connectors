@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-establishments-and-employees-by-size-of-establishment-and-main-economic-activity0`. Regenerate after model-verify.
+key: [main_economic_activity, activity_code, main_economic_activity_ar, year]
+temporal: year
+sort: [year, main_economic_activity, activity_code, main_economic_activity_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: activity_code
+    type: VARCHAR
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: establishments_with_10_employee_emp
+    type: DOUBLE
+  - name: establishments_with_10_employee_estb
+    type: DOUBLE
+  - name: establishments_with_10_employee_emp0
+    type: DOUBLE
+  - name: establishments_with_10_employee_estb0
+    type: DOUBLE

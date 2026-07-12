@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-vehicle-registration-transactions-by-plate-type-and-year`. Regenerate after model-verify.
+key: [plate_type, nw_llwh, lm_ml, transaction, year]
+temporal: year
+sort: [year, plate_type, nw_llwh, lm_ml, transaction]
+columns:
+  - name: year
+    type: BIGINT
+  - name: plate_type
+    type: VARCHAR
+  - name: nw_llwh
+    type: VARCHAR
+  - name: transaction
+    type: VARCHAR
+  - name: lm_ml
+    type: VARCHAR
+  - name: total
+    type: DOUBLE

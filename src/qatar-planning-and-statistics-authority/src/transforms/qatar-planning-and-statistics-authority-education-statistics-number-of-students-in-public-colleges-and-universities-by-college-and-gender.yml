@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-education-statistics-number-of-students-in-public-colleges-and-universities-by-college-and-gender`. Regenerate after model-verify.
+key: [college_ar, college, year, gender, gender_ar]
+temporal: year
+sort: [year, college_ar, college, gender, gender_ar]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: college
+    type: VARCHAR
+  - name: college_ar
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: gender_ar
+    type: VARCHAR
+  - name: number_of_students_dd_ltlb
+    type: BIGINT

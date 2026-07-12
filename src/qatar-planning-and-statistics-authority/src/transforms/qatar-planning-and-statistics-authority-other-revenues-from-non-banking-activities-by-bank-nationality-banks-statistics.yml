@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-other-revenues-from-non-banking-activities-by-bank-nationality-banks-statistics`. Regenerate after model-verify.
+key: [particulars, year, lbyn, jnsy_lbnk, bank_nationality]
+temporal: year
+sort: [year, particulars, lbyn, jnsy_lbnk, bank_nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: lbyn
+    type: VARCHAR
+  - name: particulars
+    type: VARCHAR
+  - name: jnsy_lbnk
+    type: VARCHAR
+  - name: bank_nationality
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

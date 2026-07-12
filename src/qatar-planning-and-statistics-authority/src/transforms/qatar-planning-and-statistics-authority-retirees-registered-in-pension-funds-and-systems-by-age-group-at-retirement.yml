@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-retirees-registered-in-pension-funds-and-systems-by-age-group-at-retirement`. Regenerate after model-verify.
+key: [year, age_group_at_retirement]
+temporal: year
+sort: [year, age_group_at_retirement]
+columns:
+  - name: year
+    type: BIGINT
+  - name: males
+    type: BIGINT
+  - name: females
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: percentage
+    type: DOUBLE
+  - name: average_age_at_retirement
+    type: DOUBLE
+  - name: age_group_at_retirement
+    type: VARCHAR

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-public-transport-users`. Regenerate after model-verify.
+key: [lshhr, month, year]
+temporal: year
+sort: [year, lshhr, month]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: lshhr
+    type: VARCHAR
+  - name: public_transport_buses
+    type: BIGINT
+  - name: doha_metro
+    type: BIGINT
+  - name: lusail_tram
+    type: BIGINT

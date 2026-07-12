@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-volunteers-registered-in-qatar-voluntary-center-by-nationality-gender-and-age-groups`. Regenerate after model-verify.
+key: [year, age_groups, age_groups_ar]
+temporal: year
+sort: [year, age_groups, age_groups_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_groups
+    type: VARCHAR
+  - name: age_groups_ar
+    type: VARCHAR
+  - name: qataris_males
+    type: BIGINT
+  - name: qataris_females
+    type: BIGINT
+  - name: non_qataris_males
+    type: BIGINT
+  - name: non_qataris_females
+    type: BIGINT

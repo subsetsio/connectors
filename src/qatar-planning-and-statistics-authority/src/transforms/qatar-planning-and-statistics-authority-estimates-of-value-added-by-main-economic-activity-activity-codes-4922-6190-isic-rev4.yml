@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-estimates-of-value-added-by-main-economic-activity-activity-codes-4922-6190-isic-rev4`. Regenerate after model-verify.
+key: [main_economic_activity, main_economic_activity_ar, component_of_economic_indicator, component_of_economic_indicator_ar, year]
+temporal: year
+sort: [year, main_economic_activity, main_economic_activity_ar, component_of_economic_indicator, component_of_economic_indicator_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: economic_indicator
+    type: VARCHAR
+  - name: component_of_economic_indicator
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: economic_indicator_ar
+    type: VARCHAR
+  - name: component_of_economic_indicator_ar
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

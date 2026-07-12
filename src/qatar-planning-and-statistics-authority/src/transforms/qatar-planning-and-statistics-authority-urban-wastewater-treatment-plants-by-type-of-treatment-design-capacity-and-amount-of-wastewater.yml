@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-urban-wastewater-treatment-plants-by-type-of-treatment-design-capacity-and-amount-of-wastewater`. Regenerate after model-verify.
+key: [treatment_plant, year, type_of_treatment]
+temporal: year
+sort: [year, treatment_plant, type_of_treatment]
+columns:
+  - name: year
+    type: BIGINT
+  - name: treatment_plant
+    type: VARCHAR
+  - name: type_of_treatment
+    type: VARCHAR
+  - name: hydraulic_design_capacity_1_000_m3_day
+    type: DOUBLE
+  - name: amount_of_wastewater_received_1_000_m3_year
+    type: DOUBLE
+  - name: amount_of_wastewater_received_1_000_m3_day
+    type: DOUBLE

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-completed-buildings-residential-and-residentialcommercial-by-municipality-in-2015-census`. Regenerate after model-verify.
+key: [lbldy]
+temporal: year
+sort: [year, lbldy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: number_of_residential_buildings_dd_lmbny_lskny
+    type: BIGINT
+  - name: of_residential_buildings_lmbny_lskny
+    type: DOUBLE
+  - name: number_of_residential_commercial_buildings_dd_lmbny_lskny_ltjry
+    type: BIGINT
+  - name: of_residential_commercial_buildings_lmbny_lskny_ltjry
+    type: DOUBLE
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

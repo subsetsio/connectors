@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-distribution-of-the-number-of-households-and-their-members-by-municipality`. Regenerate after model-verify.
+key: [municipality, year, lbldy, nw_bynt_l_sr, type_of_household_data]
+temporal: year
+sort: [year, municipality, lbldy, nw_bynt_l_sr, type_of_household_data]
+columns:
+  - name: year
+    type: BIGINT
+  - name: lbldy
+    type: VARCHAR
+  - name: municipality
+    type: VARCHAR
+  - name: nw_bynt_l_sr
+    type: VARCHAR
+  - name: type_of_household_data
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

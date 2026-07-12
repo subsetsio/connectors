@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-population-estimates-by-gender-and-single-ages`. Regenerate after model-verify.
+key: [number, single_ages, year, lnw, gender]
+temporal: year
+sort: [year, number, single_ages, lnw, gender]
+columns:
+  - name: year
+    type: BIGINT
+  - name: single_ages
+    type: VARCHAR
+  - name: lnw
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: number
+    type: BIGINT

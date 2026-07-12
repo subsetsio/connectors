@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-females-15-years-and-above-labor-force-participation-rate-by-educational-status-age-group-and-nationality`. Regenerate after model-verify.
+key: [age_groups, year, nationality]
+temporal: year
+sort: [year, age_groups, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_groups
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: illiterate
+    type: DOUBLE
+  - name: read_write
+    type: DOUBLE
+  - name: primary
+    type: DOUBLE
+  - name: preparatory
+    type: DOUBLE
+  - name: secondary
+    type: DOUBLE
+  - name: pre_u_diploma
+    type: DOUBLE
+  - name: university_and_above
+    type: DOUBLE
+  - name: total
+    type: DOUBLE

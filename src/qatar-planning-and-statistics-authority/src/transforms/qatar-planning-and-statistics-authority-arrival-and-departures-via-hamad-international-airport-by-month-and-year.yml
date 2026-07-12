@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-arrival-and-departures-via-hamad-international-airport-by-month-and-year`. Regenerate after model-verify.
+key: [month, lshhr, year, type, nw]
+temporal: year
+sort: [year, month, lshhr, type, nw]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: lshhr
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: nw
+    type: VARCHAR
+  - name: total
+    type: BIGINT

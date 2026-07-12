@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-smokers-by-age-of-initiation-gender-and-nationality`. Regenerate after model-verify.
+key: [age_of_initiation, nationality]
+temporal: year
+sort: [year, age_of_initiation, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_of_initiation
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: percentage_of_female_users
+    type: DOUBLE
+  - name: percentage_of_male_users
+    type: DOUBLE
+  - name: total_percentage
+    type: DOUBLE

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-electronic-cigarette-users-by-type-of-user-gender-and-nationality`. Regenerate after model-verify.
+key: [type_of_electronic_cigarette_user, nationality]
+temporal: year
+sort: [year, type_of_electronic_cigarette_user, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_electronic_cigarette_user
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: percentage_of_female_users
+    type: DOUBLE
+  - name: percentage_of_male_users
+    type: DOUBLE
+  - name: overall_percentage
+    type: DOUBLE

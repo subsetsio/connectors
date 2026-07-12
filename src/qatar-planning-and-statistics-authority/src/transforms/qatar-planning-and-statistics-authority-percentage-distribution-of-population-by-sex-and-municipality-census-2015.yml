@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-distribution-of-population-by-sex-and-municipality-census-2015`. Regenerate after model-verify.
+key: [lbldy, geo_point, municipality, geo_shape, gender]
+temporal: year
+sort: [year, lbldy, geo_point, municipality, geo_shape, gender]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: lnw
+    type: VARCHAR
+  - name: percentage_distribution_ltwzy_lnsby
+    type: DOUBLE
+  - name: number_of_population_dd_lskn
+    type: DOUBLE
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

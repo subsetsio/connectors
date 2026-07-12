@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-employees-and-estimates-of-compensation-of-employees-by-sex-and-occupation-less-than-10`. Regenerate after model-verify.
+key: [occupation_ar, occupation, year]
+temporal: year
+sort: [year, occupation_ar, occupation]
+columns:
+  - name: year
+    type: BIGINT
+  - name: occupation
+    type: VARCHAR
+  - name: number_of_male_employees
+    type: BIGINT
+  - name: number_of_female_employees
+    type: BIGINT
+  - name: wages_salaries_qr_000
+    type: BIGINT
+  - name: payments_in_kind
+    type: BIGINT
+  - name: occupation_ar
+    type: VARCHAR

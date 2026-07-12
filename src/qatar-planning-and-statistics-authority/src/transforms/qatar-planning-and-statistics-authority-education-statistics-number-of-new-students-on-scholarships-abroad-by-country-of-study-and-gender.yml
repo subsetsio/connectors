@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-education-statistics-number-of-new-students-on-scholarships-abroad-by-country-of-study-and-gender`. Regenerate after model-verify.
+key: [country_of_study, country_of_study_ar, year, gender, gender_ar]
+temporal: year
+sort: [year, country_of_study, country_of_study_ar, gender, gender_ar]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: country_of_study
+    type: VARCHAR
+  - name: country_of_study_ar
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: gender_ar
+    type: VARCHAR
+  - name: number_of_new_students
+    type: BIGINT

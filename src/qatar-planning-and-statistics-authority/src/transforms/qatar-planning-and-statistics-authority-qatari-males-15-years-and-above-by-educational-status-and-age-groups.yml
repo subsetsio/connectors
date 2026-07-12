@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-qatari-males-15-years-and-above-by-educational-status-and-age-groups`. Regenerate after model-verify.
+key: [age_group, educational_status, lhl_lt_lymy, year]
+temporal: year
+sort: [year, age_group, educational_status, lhl_lt_lymy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: educational_status
+    type: VARCHAR
+  - name: lhl_lt_lymy
+    type: VARCHAR
+  - name: count
+    type: BIGINT

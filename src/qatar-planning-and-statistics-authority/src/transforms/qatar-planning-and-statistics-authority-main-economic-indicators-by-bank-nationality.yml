@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-main-economic-indicators-by-bank-nationality`. Regenerate after model-verify.
+key: [year, bank_nationality, bank_nationality_ar]
+temporal: year
+sort: [year, bank_nationality, bank_nationality_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: bank_nationality
+    type: VARCHAR
+  - name: bank_nationality_ar
+    type: VARCHAR
+  - name: gross_value_per_employee
+    type: DOUBLE
+  - name: productivity_of_employee
+    type: DOUBLE
+  - name: percentage_of_intermediate_services_to_output
+    type: DOUBLE
+  - name: percentage_of_intermediate_goods_to_output
+    type: DOUBLE
+  - name: average_annual_wage_1
+    type: DOUBLE

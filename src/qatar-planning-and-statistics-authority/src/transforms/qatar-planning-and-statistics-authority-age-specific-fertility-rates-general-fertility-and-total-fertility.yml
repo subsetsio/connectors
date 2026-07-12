@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-age-specific-fertility-rates-general-fertility-and-total-fertility`. Regenerate after model-verify.
+key: [year, nationality, ljnsy]
+temporal: year
+sort: [year, nationality, ljnsy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: nationality
+    type: VARCHAR
+  - name: ljnsy
+    type: VARCHAR
+  - name: general_fertility_rate_per_1000_women
+    type: DOUBLE
+  - name: total_fertility_rate_per_woman
+    type: DOUBLE
+  - name: gross_reproduction_rate
+    type: DOUBLE
+  - name: average_age_of_child_bearing
+    type: DOUBLE

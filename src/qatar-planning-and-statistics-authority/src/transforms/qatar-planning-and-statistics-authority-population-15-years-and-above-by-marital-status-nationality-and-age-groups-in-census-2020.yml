@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-population-15-years-and-above-by-marital-status-nationality-and-age-groups-in-census-2020`. Regenerate after model-verify.
+key: [age_group, nationality, ljnsy]
+sort: [age_group, nationality, ljnsy]
+columns:
+  - name: nationality
+    type: VARCHAR
+  - name: ljnsy
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: never_married_population
+    type: BIGINT
+  - name: never_married
+    type: DOUBLE
+  - name: married_population
+    type: BIGINT
+  - name: married
+    type: DOUBLE
+  - name: divorced_population
+    type: BIGINT
+  - name: divorced
+    type: DOUBLE
+  - name: widowed_population
+    type: BIGINT
+  - name: widowed
+    type: DOUBLE

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-smokers-by-type-of-dependency-nationality-and-gender`. Regenerate after model-verify.
+key: [type_of_dependency, nationality]
+temporal: year
+sort: [year, type_of_dependency, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_dependency
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: percentage_of_female_users
+    type: DOUBLE
+  - name: percentage_of_male_users
+    type: DOUBLE
+  - name: overall_percentage
+    type: DOUBLE

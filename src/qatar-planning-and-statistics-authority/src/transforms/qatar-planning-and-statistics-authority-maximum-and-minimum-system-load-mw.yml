@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-maximum-and-minimum-system-load-mw`. Regenerate after model-verify.
+key: [year]
+temporal: maximum_load_date_mm_dd_yyyy
+sort: [maximum_load_date_mm_dd_yyyy, year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: maximum_load_mw
+    type: DOUBLE
+  - name: maximum_load_date_mm_dd_yyyy
+    type: DATE
+  - name: minimum_load_mw
+    type: DOUBLE
+  - name: minimum_load_date_mm_dd_yyyy
+    type: DATE

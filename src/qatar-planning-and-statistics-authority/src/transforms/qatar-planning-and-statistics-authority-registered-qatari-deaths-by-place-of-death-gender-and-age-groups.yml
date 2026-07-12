@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-registered-qatari-deaths-by-place-of-death-gender-and-age-groups`. Regenerate after model-verify.
+key: [lfy_t_l_mry, age_groups, year, gender, jns]
+temporal: year
+sort: [year, lfy_t_l_mry, age_groups, gender, jns]
+columns:
+  - name: year
+    type: BIGINT
+  - name: lfy_t_l_mry
+    type: VARCHAR
+  - name: age_groups
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: jns
+    type: VARCHAR
+  - name: total
+    type: BIGINT

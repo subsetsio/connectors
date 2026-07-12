@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-value-of-assets-additions-to-assets-and-depreciation-by-type-of-asset`. Regenerate after model-verify.
+key: [category, category_ar, year, type_of_asset, type_of_asset_ar]
+temporal: year
+sort: [year, category, category_ar, type_of_asset, type_of_asset_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_asset
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: value_of_assets_at_end_of_the_year
+    type: DOUBLE
+  - name: depreciation_during_the_year
+    type: DOUBLE
+  - name: omissions_during_the_year
+    type: DOUBLE
+  - name: additions_during_the_year
+    type: DOUBLE
+  - name: value_of_assets_at_beginning_of_the_year
+    type: DOUBLE
+  - name: category_ar
+    type: VARCHAR
+  - name: type_of_asset_ar
+    type: VARCHAR

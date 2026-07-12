@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-lawyers-by-gender-and-nationality`. Regenerate after model-verify.
+key: [year, nationality_ar, nationality]
+temporal: year
+sort: [year, nationality_ar, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: nationality_ar
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: lawyers_working_males
+    type: DOUBLE
+  - name: lawyers_working_females
+    type: DOUBLE
+  - name: lawyers_under_training_males
+    type: DOUBLE
+  - name: lawyers_under_training_females
+    type: DOUBLE

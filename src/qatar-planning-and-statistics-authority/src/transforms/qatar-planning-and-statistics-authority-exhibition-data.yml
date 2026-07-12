@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-exhibition-data`. Regenerate after model-verify.
+key: [exhibitions, public_closing_date, public_opening_date, year]
+temporal: year
+sort: [year, exhibitions, public_closing_date, public_opening_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: exhibitions
+    type: VARCHAR
+  - name: public_opening_date
+    type: VARCHAR
+  - name: public_closing_date
+    type: VARCHAR
+  - name: total_visits_regardless_of_closing_date
+    type: BIGINT
+  - name: venue
+    type: VARCHAR

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-employed-persons-15-years-and-above-and-average-work-hours-by-gender-and-educational-status`. Regenerate after model-verify.
+key: [year, educational_status, lhl_lt_lymy, gender, ljns]
+temporal: year
+sort: [year, educational_status, lhl_lt_lymy, gender, ljns]
+columns:
+  - name: year
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: ljns
+    type: VARCHAR
+  - name: educational_status
+    type: VARCHAR
+  - name: lhl_lt_lymy
+    type: VARCHAR
+  - name: employed_persons
+    type: DOUBLE
+  - name: average_work_hours
+    type: DOUBLE

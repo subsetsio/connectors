@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentages-of-air-quality-indicators-aspire-zone`. Regenerate after model-verify.
+key: [pollutant, lmlwth, year]
+temporal: year
+sort: [year, pollutant, lmlwth]
+columns:
+  - name: year
+    type: BIGINT
+  - name: pollutant
+    type: VARCHAR
+  - name: lmlwth
+    type: VARCHAR
+  - name: clean
+    type: DOUBLE
+  - name: normal
+    type: DOUBLE
+  - name: less_than_normal
+    type: DOUBLE
+  - name: limited_polluted
+    type: DOUBLE
+  - name: polluted
+    type: DOUBLE
+  - name: extremely_polluted
+    type: DOUBLE
+  - name: total
+    type: DOUBLE

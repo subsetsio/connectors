@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-employees-by-sex-nationality-and-main-economic-activity-activity-codes-6021-6420-isic-rev3-less-than-10-employees`. Regenerate after model-verify.
+key: [main_economic_activity_ar, main_economic_activity, year, nationality, sex]
+temporal: year
+sort: [year, main_economic_activity_ar, main_economic_activity, nationality, sex]
+columns:
+  - name: year
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR
+  - name: sex_ar
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-estimates-of-value-added-by-main-economic-activity`. Regenerate after model-verify.
+key: [activity_code, main_economic_activity, main_economic_activity_ar, year]
+temporal: year
+sort: [year, activity_code, main_economic_activity, main_economic_activity_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: activity_code
+    type: VARCHAR
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: intermediate_goods_services
+    type: DOUBLE
+  - name: intermediate_goods_services_services
+    type: DOUBLE
+  - name: intermediate_goods_services_goods
+    type: DOUBLE
+  - name: production_value
+    type: DOUBLE
+  - name: production_value_other_revenues
+    type: DOUBLE
+  - name: production_value_products
+    type: DOUBLE

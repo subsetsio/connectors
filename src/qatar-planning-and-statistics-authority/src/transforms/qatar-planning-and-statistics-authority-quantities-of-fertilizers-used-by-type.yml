@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-quantities-of-fertilizers-used-by-type`. Regenerate after model-verify.
+key: [nw_lsmd, type_of_fertilizer, year]
+temporal: year
+sort: [year, nw_lsmd, type_of_fertilizer]
+columns:
+  - name: year
+    type: BIGINT
+  - name: nw_lsmd
+    type: VARCHAR
+  - name: type_of_fertilizer
+    type: VARCHAR
+  - name: value_ton
+    type: DOUBLE

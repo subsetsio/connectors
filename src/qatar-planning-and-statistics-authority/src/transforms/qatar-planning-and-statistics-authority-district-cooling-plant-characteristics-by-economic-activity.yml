@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-district-cooling-plant-characteristics-by-economic-activity`. Regenerate after model-verify.
+key: [economic_activity, lnsht_lqtsdy, year]
+temporal: year
+sort: [year, economic_activity, lnsht_lqtsdy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economic_activity
+    type: VARCHAR
+  - name: annual_cooling_energy_production_million_tr
+    type: DOUBLE
+  - name: plant_utilization
+    type: DOUBLE
+  - name: peak_cooling_load_tr
+    type: BIGINT
+  - name: connected_load_tr
+    type: BIGINT
+  - name: installed_cooling_capacity_tr
+    type: BIGINT
+  - name: lnsht_lqtsdy
+    type: VARCHAR

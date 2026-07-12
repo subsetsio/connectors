@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-distribution-of-completed-buildings-by-connection-to-public-utility-network-between-2010-and-2015`. Regenerate after model-verify.
+key: [public_utility_network, public_utility_network_ar, year]
+temporal: year
+sort: [year, public_utility_network, public_utility_network_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: public_utility_network
+    type: VARCHAR
+  - name: public_utility_network_ar
+    type: VARCHAR
+  - name: connected_census
+    type: BIGINT
+  - name: connected
+    type: DOUBLE
+  - name: unconnected_census
+    type: BIGINT
+  - name: unconnected
+    type: DOUBLE

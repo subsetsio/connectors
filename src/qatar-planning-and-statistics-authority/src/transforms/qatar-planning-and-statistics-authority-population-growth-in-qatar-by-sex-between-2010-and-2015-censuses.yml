@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-population-growth-in-qatar-by-sex-between-2010-and-2015-censuses`. Regenerate after model-verify.
+key: [year, gender, gender_ar]
+temporal: year
+sort: [year, gender, gender_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: gender_ar
+    type: VARCHAR
+  - name: increase
+    type: BIGINT
+  - name: increase_rate
+    type: DOUBLE
+  - name: number_of_population_in_the_censuses
+    type: DOUBLE

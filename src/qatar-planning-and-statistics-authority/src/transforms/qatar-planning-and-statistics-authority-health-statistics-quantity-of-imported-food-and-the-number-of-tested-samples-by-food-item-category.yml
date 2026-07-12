@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-health-statistics-quantity-of-imported-food-and-the-number-of-tested-samples-by-food-item-category`. Regenerate after model-verify.
+key: [food_item_category_ar, food_item_category, year]
+temporal: year
+sort: [year, food_item_category_ar, food_item_category]
+columns:
+  - name: year
+    type: BIGINT
+  - name: food_item_category
+    type: VARCHAR
+  - name: food_item_category_ar
+    type: VARCHAR
+  - name: usable_quantity_kg
+    type: BIGINT
+  - name: rejected_quantity_kg
+    type: BIGINT
+  - name: returned_quantity_kg
+    type: BIGINT
+  - name: disposed_quantity_kg
+    type: BIGINT
+  - name: undamaged_samples
+    type: BIGINT
+  - name: damaged_samples
+    type: BIGINT

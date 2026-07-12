@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-distribution-of-gross-domestic-product-by-components-of-expenditure-at-current-prices`. Regenerate after model-verify.
+key: [lnsht_lqtsdy, code, year, economic_activity]
+temporal: year
+sort: [year, lnsht_lqtsdy, code, economic_activity]
+columns:
+  - name: year
+    type: BIGINT
+  - name: lnsht_lqtsdy
+    type: VARCHAR
+  - name: q1
+    type: DOUBLE
+  - name: q2
+    type: DOUBLE
+  - name: q3
+    type: DOUBLE
+  - name: q4
+    type: DOUBLE
+  - name: economic_activity
+    type: VARCHAR
+  - name: code
+    type: VARCHAR

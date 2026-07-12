@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-estimates-of-gross-value-depreciation-and-net-value-added-by-main-economic-activity`. Regenerate after model-verify.
+key: [activity_code, main_economic_activity, lnsht_lqtsd_lry_ysy, year]
+temporal: year
+sort: [year, activity_code, main_economic_activity, lnsht_lqtsd_lry_ysy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: activity_code
+    type: VARCHAR
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: lnsht_lqtsd_lry_ysy
+    type: VARCHAR
+  - name: net_value_added
+    type: BIGINT
+  - name: depreciations
+    type: BIGINT
+  - name: gross_value_added
+    type: BIGINT

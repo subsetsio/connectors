@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-completed-infrastructure-projects-by-work-category-type-and-year`. Regenerate after model-verify.
+key: [work_type, year, work_category, unit]
+temporal: year
+sort: [year, work_type, work_category, unit]
+columns:
+  - name: year
+    type: BIGINT
+  - name: work_category
+    type: VARCHAR
+  - name: work_type
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-cases-from-traffic-accidents-by-type-of-case-and-cause-of-the-accident`. Regenerate after model-verify.
+key: [cause_of_the_accident_ar, year]
+temporal: year
+sort: [year, cause_of_the_accident_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: cause_of_the_accident
+    type: VARCHAR
+  - name: cause_of_the_accident_ar
+    type: VARCHAR
+  - name: death
+    type: BIGINT
+  - name: severe_injury
+    type: BIGINT
+  - name: slight_injury
+    type: BIGINT
+  - name: physical_damages
+    type: BIGINT

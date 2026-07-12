@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-expenditures-of-current-activity-by-bank-nationality`. Regenerate after model-verify.
+key: [expenditures, expenditures_ar, year]
+temporal: year
+sort: [year, expenditures, expenditures_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: expenditures
+    type: VARCHAR
+  - name: expenditures_ar
+    type: VARCHAR
+  - name: other
+    type: DOUBLE
+  - name: european
+    type: DOUBLE
+  - name: arabic
+    type: DOUBLE
+  - name: qatari
+    type: DOUBLE

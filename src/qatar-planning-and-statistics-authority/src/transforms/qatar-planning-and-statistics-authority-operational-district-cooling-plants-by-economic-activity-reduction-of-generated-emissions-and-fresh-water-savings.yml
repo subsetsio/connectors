@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-operational-district-cooling-plants-by-economic-activity-reduction-of-generated-emissions-and-fresh-water-savings`. Regenerate after model-verify.
+key: [economic_activity_category, economic_activity_ar, year]
+temporal: year
+sort: [year, economic_activity_category, economic_activity_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economic_activity_ar
+    type: VARCHAR
+  - name: economic_activity_category
+    type: VARCHAR
+  - name: reduction_in_emissions_compared_to_conventional_cooling_tons_of_co2_equivalent
+    type: DOUBLE
+  - name: freshwater_savings_using_treated_wastewater_for_cooling_thousand_m3_year
+    type: DOUBLE

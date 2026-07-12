@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-beneficiaries-of-the-services-of-youth-capacity-building-and-development-programs-provided-by-the-social-development-center-nama-by-nationality-gender-and-program-type`. Regenerate after model-verify.
+key: [type_of_programs, type_of_programs_ar, year]
+temporal: year
+sort: [year, type_of_programs, type_of_programs_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_programs
+    type: VARCHAR
+  - name: type_of_programs_ar
+    type: VARCHAR
+  - name: qataris_males
+    type: BIGINT
+  - name: qataris_females
+    type: BIGINT
+  - name: non_qataris_males
+    type: BIGINT
+  - name: non_qataris_females
+    type: BIGINT

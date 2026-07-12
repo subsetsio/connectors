@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-tobacco-users-by-type-of-user-and-gender`. Regenerate after model-verify.
+key: [type_of_tobacco_users]
+temporal: year
+sort: [year, type_of_tobacco_users]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_tobacco_users
+    type: VARCHAR
+  - name: percentage_of_female_users
+    type: DOUBLE
+  - name: percentage_of_male_users
+    type: DOUBLE
+  - name: overall_percentage
+    type: DOUBLE

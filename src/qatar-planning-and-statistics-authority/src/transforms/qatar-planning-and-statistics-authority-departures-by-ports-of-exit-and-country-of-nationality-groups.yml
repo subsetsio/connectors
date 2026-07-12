@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-departures-by-ports-of-exit-and-country-of-nationality-groups`. Regenerate after model-verify.
+key: [mjmw_t_ldwl, country_of_nationality_groups, year, quarter]
+temporal: year
+sort: [year, mjmw_t_ldwl, country_of_nationality_groups, quarter]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: VARCHAR
+  - name: country_of_nationality_groups
+    type: VARCHAR
+  - name: mjmw_t_ldwl
+    type: VARCHAR
+  - name: air_port
+    type: BIGINT
+  - name: land_port
+    type: BIGINT
+  - name: sea_port
+    type: BIGINT
+  - name: total
+    type: BIGINT

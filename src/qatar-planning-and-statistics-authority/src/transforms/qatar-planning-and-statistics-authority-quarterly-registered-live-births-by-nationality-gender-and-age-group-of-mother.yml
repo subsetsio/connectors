@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-quarterly-registered-live-births-by-nationality-gender-and-age-group-of-mother`. Regenerate after model-verify.
+key: [age_group, mjmw_l_mr, year, quarter, gender]
+temporal: year
+sort: [year, age_group, mjmw_l_mr, quarter, gender]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: mjmw_l_mr
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: ljns
+    type: VARCHAR
+  - name: qataris
+    type: BIGINT
+  - name: non_qataris
+    type: BIGINT
+  - name: total
+    type: BIGINT

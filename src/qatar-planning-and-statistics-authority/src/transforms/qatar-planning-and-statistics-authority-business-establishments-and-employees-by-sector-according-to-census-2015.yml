@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-business-establishments-and-employees-by-sector-according-to-census-2015`. Regenerate after model-verify.
+key: [sector]
+temporal: year
+sort: [year, sector]
+columns:
+  - name: year
+    type: BIGINT
+  - name: sector
+    type: VARCHAR
+  - name: lqt
+    type: VARCHAR
+  - name: employees_number_dd_lmshtglwn
+    type: BIGINT
+  - name: establishments_number_dd_lmnshat
+    type: BIGINT
+  - name: employees_lmshtglwn
+    type: DOUBLE
+  - name: establishments_lmnshat
+    type: DOUBLE

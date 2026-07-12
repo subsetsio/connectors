@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-beneficiaries-of-security-by-location-of-branch`. Regenerate after model-verify.
+key: [year, municipality, municipality_ar, gender, gender_ar]
+temporal: year
+sort: [year, municipality, municipality_ar, gender, gender_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: gender_ar
+    type: VARCHAR
+  - name: municipality
+    type: VARCHAR
+  - name: municipality_ar
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

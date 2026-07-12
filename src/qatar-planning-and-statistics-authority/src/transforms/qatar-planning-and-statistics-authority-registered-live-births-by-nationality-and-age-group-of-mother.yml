@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-registered-live-births-by-nationality-and-age-group-of-mother`. Regenerate after model-verify.
+key: [age_group_of_mother_in_years, fy_mr_l_m, year, quarter, lrb]
+temporal: year
+sort: [year, age_group_of_mother_in_years, fy_mr_l_m, quarter, lrb]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: VARCHAR
+  - name: lrb
+    type: VARCHAR
+  - name: age_group_of_mother_in_years
+    type: VARCHAR
+  - name: fy_mr_l_m
+    type: VARCHAR
+  - name: qataris
+    type: BIGINT
+  - name: qtry
+    type: BIGINT
+  - name: non_qataris
+    type: BIGINT
+  - name: gyr_qtry
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: ljmly
+    type: BIGINT

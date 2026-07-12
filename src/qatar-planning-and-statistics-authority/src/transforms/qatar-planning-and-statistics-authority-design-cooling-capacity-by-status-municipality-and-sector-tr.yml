@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-design-cooling-capacity-by-status-municipality-and-sector-tr`. Regenerate after model-verify.
+key: [municipality, lbldy, year, project_status, hl_lmshry]
+temporal: year
+sort: [year, municipality, lbldy, project_status, hl_lmshry]
+columns:
+  - name: year
+    type: BIGINT
+  - name: project_status
+    type: VARCHAR
+  - name: municipality
+    type: VARCHAR
+  - name: other
+    type: BIGINT
+  - name: industrial
+    type: BIGINT
+  - name: real_estate_development
+    type: BIGINT
+  - name: sport
+    type: BIGINT
+  - name: culture
+    type: BIGINT
+  - name: health
+    type: BIGINT
+  - name: transport
+    type: BIGINT
+  - name: education
+    type: BIGINT
+  - name: hotels
+    type: BIGINT
+  - name: commercial
+    type: BIGINT
+  - name: district_cooling_service_supply
+    type: BIGINT
+  - name: lbldy
+    type: VARCHAR
+  - name: hl_lmshry
+    type: VARCHAR
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

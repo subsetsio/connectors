@@ -1,0 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "year",
+    "main_economic_activity",
+    "type_of_values",
+    "revenue_types",
+    "value_added_qr_000",
+    "main_economic_activity_ar",
+    "type_of_values_ar",
+    "revenue_types_ar"
+FROM "qatar-planning-and-statistics-authority-estimates-of-value-added-by-main-economic-activity-activity-codes-5-61-isic-rev4-less-than-10-employees"

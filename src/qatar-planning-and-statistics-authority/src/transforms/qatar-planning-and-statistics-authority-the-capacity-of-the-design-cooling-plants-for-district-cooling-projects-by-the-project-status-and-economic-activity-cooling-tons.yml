@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-the-capacity-of-the-design-cooling-plants-for-district-cooling-projects-by-the-project-status-and-economic-activity-cooling-tons`. Regenerate after model-verify.
+key: [economic_activity, economic_activity_ar, year]
+temporal: year
+sort: [year, economic_activity, economic_activity_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economic_activity
+    type: VARCHAR
+  - name: economic_activity_ar
+    type: VARCHAR
+  - name: cooling_projects_operational_phase
+    type: DOUBLE
+  - name: cooling_projects_under_construction
+    type: BIGINT
+  - name: cooling_projects_under_design
+    type: BIGINT

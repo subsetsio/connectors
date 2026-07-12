@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-economically-active-females-15-years-and-above-by-age-group-and-occupation`. Regenerate after model-verify.
+key: [number, age_group, occupation, lmhn, year]
+temporal: year
+sort: [year, number, age_group, occupation, lmhn]
+columns:
+  - name: year
+    type: BIGINT
+  - name: occupation
+    type: VARCHAR
+  - name: lmhn
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: number
+    type: BIGINT

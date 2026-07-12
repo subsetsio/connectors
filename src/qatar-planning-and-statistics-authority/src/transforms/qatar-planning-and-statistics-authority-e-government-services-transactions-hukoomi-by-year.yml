@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-e-government-services-transactions-hukoomi-by-year`. Regenerate after model-verify.
+key: [service_title, page_url, service_action_url, year]
+temporal: year
+sort: [year, service_title, page_url, service_action_url]
+columns:
+  - name: year
+    type: BIGINT
+  - name: service_title
+    type: VARCHAR
+  - name: total_transactions
+    type: BIGINT
+  - name: successful_transactions
+    type: BIGINT
+  - name: page_url
+    type: VARCHAR
+  - name: service_action_url
+    type: VARCHAR

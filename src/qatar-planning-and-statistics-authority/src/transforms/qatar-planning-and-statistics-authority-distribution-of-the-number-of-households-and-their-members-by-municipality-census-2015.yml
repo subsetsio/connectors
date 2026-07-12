@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-distribution-of-the-number-of-households-and-their-members-by-municipality-census-2015`. Regenerate after model-verify.
+key: [municipality_ar]
+temporal: year
+sort: [year, municipality_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: municipality_ar
+    type: VARCHAR
+  - name: households_number
+    type: BIGINT
+  - name: households_percentage_distribution
+    type: DOUBLE
+  - name: households_members_number
+    type: BIGINT
+  - name: households_members_percentage_distribution
+    type: DOUBLE
+  - name: average_household_size
+    type: DOUBLE
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

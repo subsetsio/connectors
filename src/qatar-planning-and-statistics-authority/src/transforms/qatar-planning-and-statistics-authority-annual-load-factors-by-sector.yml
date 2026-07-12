@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-annual-load-factors-by-sector`. Regenerate after model-verify.
+key: [demand_type, nw_lhml, year]
+temporal: year
+sort: [year, demand_type, nw_lhml]
+columns:
+  - name: year
+    type: BIGINT
+  - name: demand_type
+    type: VARCHAR
+  - name: nw_lhml
+    type: VARCHAR
+  - name: load_factor
+    type: DOUBLE

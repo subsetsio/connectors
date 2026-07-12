@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-employees-and-estimates-of-compensation-of-employees-by-nationality-and-main-economic-activity-activity-codes-53-5229-isic-rev4-10-or-more-employees`. Regenerate after model-verify.
+key: [main_economic_activity, main_economic_activity_ar, year, nationality, nationality_ar]
+temporal: year
+sort: [year, main_economic_activity, main_economic_activity_ar, nationality, nationality_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: number_of_employees
+    type: BIGINT
+  - name: compensations_of_employees_qr_000
+    type: BIGINT
+  - name: nationality
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR

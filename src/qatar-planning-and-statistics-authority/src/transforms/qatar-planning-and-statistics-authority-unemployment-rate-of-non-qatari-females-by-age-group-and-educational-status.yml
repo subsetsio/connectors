@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-unemployment-rate-of-non-qatari-females-by-age-group-and-educational-status`. Regenerate after model-verify.
+key: [age_groups, year]
+temporal: year
+sort: [year, age_groups]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_groups
+    type: VARCHAR
+  - name: primary
+    type: DOUBLE
+  - name: preparatory
+    type: DOUBLE
+  - name: secondary
+    type: DOUBLE
+  - name: pre_u_diploma
+    type: DOUBLE
+  - name: university_and_above
+    type: DOUBLE
+  - name: total
+    type: DOUBLE

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-male-population-15-years-and-above-by-relation-to-labour-force-and-age-groups`. Regenerate after model-verify.
+key: [age_group, fy_t_l_mr, labour_force_status, hl_lqw_l_ml, year]
+temporal: year
+sort: [year, age_group, fy_t_l_mr, labour_force_status, hl_lqw_l_ml]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: fy_t_l_mr
+    type: VARCHAR
+  - name: labour_force_status
+    type: VARCHAR
+  - name: hl_lqw_l_ml
+    type: VARCHAR
+  - name: count
+    type: BIGINT

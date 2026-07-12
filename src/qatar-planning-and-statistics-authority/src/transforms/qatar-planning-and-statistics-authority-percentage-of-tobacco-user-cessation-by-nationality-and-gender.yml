@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-tobacco-user-cessation-by-nationality-and-gender`. Regenerate after model-verify.
+key: [type_of_tobacco_user_cessation, nationality]
+temporal: year
+sort: [year, type_of_tobacco_user_cessation, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_tobacco_user_cessation
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: percentage_of_female_users
+    type: DOUBLE
+  - name: percentage_of_male_users
+    type: DOUBLE
+  - name: overall_percentage
+    type: DOUBLE

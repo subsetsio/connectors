@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-employees-by-sex-nationality-and-main-economic-activity-2014-2019`. Regenerate after model-verify.
+key: [main_economic_activity, main_economic_activity_ar, year, nationality, sex]
+temporal: year
+sort: [year, main_economic_activity, main_economic_activity_ar, nationality, sex]
+columns:
+  - name: year
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: activity_code
+    type: DOUBLE
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR
+  - name: sex_ar
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

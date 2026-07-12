@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-economically-inactive-population-15-years-and-above-by-nationality-gender-and-age-group`. Regenerate after model-verify.
+key: [age_group, year, ljnsy, gender, ljns]
+temporal: year
+sort: [year, age_group, ljnsy, gender, ljns]
+columns:
+  - name: year
+    type: BIGINT
+  - name: nationality
+    type: VARCHAR
+  - name: ljnsy
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: ljns
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: number
+    type: BIGINT

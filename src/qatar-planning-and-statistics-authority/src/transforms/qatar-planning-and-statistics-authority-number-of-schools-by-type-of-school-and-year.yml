@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-schools-by-type-of-school-and-year`. Regenerate after model-verify.
+key: [nw_lmdrs, year, type_of_school, qt_lmdrs, sector_of_school]
+temporal: year
+sort: [year, nw_lmdrs, type_of_school, qt_lmdrs, sector_of_school]
+columns:
+  - name: year
+    type: BIGINT
+  - name: qt_lmdrs
+    type: VARCHAR
+  - name: sector_of_school
+    type: VARCHAR
+  - name: nw_lmdrs
+    type: VARCHAR
+  - name: type_of_school
+    type: VARCHAR
+  - name: no_of_schools
+    type: DOUBLE

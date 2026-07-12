@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-consolidated-balance-sheet-of-commercial-banks`. Regenerate after model-verify.
+key: [particulars, lbnd, year, section, lqsm]
+temporal: year
+sort: [year, particulars, lbnd, section, lqsm]
+columns:
+  - name: year
+    type: BIGINT
+  - name: section
+    type: VARCHAR
+  - name: lqsm
+    type: VARCHAR
+  - name: particulars
+    type: VARCHAR
+  - name: lbnd
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

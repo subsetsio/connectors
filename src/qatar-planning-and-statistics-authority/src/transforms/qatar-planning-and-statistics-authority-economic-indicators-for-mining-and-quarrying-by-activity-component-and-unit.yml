@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-economic-indicators-for-mining-and-quarrying-by-activity-component-and-unit`. Regenerate after model-verify.
+key: [year, main_economic_activity, main_economic_activity_ar, activity_code]
+temporal: year
+sort: [year, main_economic_activity, main_economic_activity_ar, activity_code]
+columns:
+  - name: year
+    type: BIGINT
+  - name: activity_code
+    type: VARCHAR
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: distribution_of_net_value_added_value_qr_000_on_ope
+    type: DOUBLE
+  - name: distribution_of_net_value_added_value_qr_000_on_co
+    type: DOUBLE
+  - name: value_added_per_worker_qr
+    type: DOUBLE
+  - name: productivity_of_employee_qr
+    type: DOUBLE
+  - name: percentage_of_intermediate_services_to_output
+    type: DOUBLE
+  - name: percentage_of_intermediate_goods_to_output
+    type: DOUBLE
+  - name: average_annual_wage_1_qr
+    type: DOUBLE

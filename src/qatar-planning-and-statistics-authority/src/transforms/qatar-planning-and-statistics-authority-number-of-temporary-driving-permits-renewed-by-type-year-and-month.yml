@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-temporary-driving-permits-renewed-by-type-year-and-month`. Regenerate after model-verify.
+key: [month, lshhr, year, permit_type, nw_ltsryh]
+temporal: year
+sort: [year, month, lshhr, permit_type, nw_ltsryh]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: lshhr
+    type: VARCHAR
+  - name: permit_type
+    type: VARCHAR
+  - name: nw_ltsryh
+    type: VARCHAR
+  - name: total
+    type: BIGINT

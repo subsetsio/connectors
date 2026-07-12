@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-estimates-of-compensations-of-employees-by-sex-and-occupation`. Regenerate after model-verify.
+key: [occupation, occupation_ar, year, compensation_type, compensation_type_ar]
+temporal: year
+sort: [year, occupation, occupation_ar, compensation_type, compensation_type_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: occupation
+    type: VARCHAR
+  - name: employee_metric
+    type: VARCHAR
+  - name: compensation_type
+    type: VARCHAR
+  - name: occupation_ar
+    type: VARCHAR
+  - name: employee_metric_ar
+    type: VARCHAR
+  - name: compensation_type_ar
+    type: VARCHAR
+  - name: unit_ar
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

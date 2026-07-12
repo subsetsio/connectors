@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-of-exposure-to-secondhand-smoke-by-nationality-and-gender`. Regenerate after model-verify.
+key: [exposure_to_secondhand_smoke, nationality]
+temporal: year
+sort: [year, exposure_to_secondhand_smoke, nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: exposure_to_secondhand_smoke
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: percentage_of_female_users
+    type: DOUBLE
+  - name: percentage_of_male_users
+    type: DOUBLE
+  - name: overall_percentage
+    type: DOUBLE

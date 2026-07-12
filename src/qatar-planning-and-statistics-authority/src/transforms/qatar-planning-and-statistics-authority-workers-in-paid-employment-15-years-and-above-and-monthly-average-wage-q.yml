@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-workers-in-paid-employment-15-years-and-above-and-monthly-average-wage-q`. Regenerate after model-verify.
+key: [economic_activity, lnsht_lqtsdy, year, gender, lnw]
+temporal: year
+sort: [year, economic_activity, lnsht_lqtsdy, gender, lnw]
+columns:
+  - name: year
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: lnw
+    type: VARCHAR
+  - name: economic_activity
+    type: VARCHAR
+  - name: lnsht_lqtsdy
+    type: VARCHAR
+  - name: paid_employment_workers
+    type: BIGINT
+  - name: monthly_average_wage_qr
+    type: BIGINT

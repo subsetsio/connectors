@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-retirees-registered-in-pension-funds-and-systems-by-length-of-employment`. Regenerate after model-verify.
+key: [year, length_of_service_years_ar, length_of_service_in_years]
+temporal: year
+sort: [year, length_of_service_years_ar, length_of_service_in_years]
+columns:
+  - name: year
+    type: BIGINT
+  - name: length_of_service_years_ar
+    type: VARCHAR
+  - name: males
+    type: BIGINT
+  - name: females
+    type: BIGINT
+  - name: percentage
+    type: DOUBLE
+  - name: average_age_at_retirement
+    type: DOUBLE
+  - name: total
+    type: BIGINT
+  - name: length_of_service_in_years
+    type: VARCHAR

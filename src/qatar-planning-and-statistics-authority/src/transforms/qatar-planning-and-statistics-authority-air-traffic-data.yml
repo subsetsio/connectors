@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-air-traffic-data`. Regenerate after model-verify.
+key: [month, year]
+temporal: year
+sort: [year, month]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: aircraft_movement
+    type: BIGINT
+  - name: number_of_passengers
+    type: BIGINT
+  - name: air_cargo_mail
+    type: DOUBLE

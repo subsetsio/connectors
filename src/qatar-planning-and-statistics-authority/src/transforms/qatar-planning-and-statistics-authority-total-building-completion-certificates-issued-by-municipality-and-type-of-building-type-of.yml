@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-total-building-completion-certificates-issued-by-municipality-and-type-of-building-type-of`. Regenerate after model-verify.
+key: [certificate_type, nw_lshhd, municipality, lbldy, year]
+temporal: year
+sort: [year, certificate_type, nw_lshhd, municipality, lbldy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: building_type
+    type: VARCHAR
+  - name: nw_lmbn
+    type: VARCHAR
+  - name: certificate_type
+    type: VARCHAR
+  - name: nw_lshhd
+    type: VARCHAR
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: count
+    type: BIGINT

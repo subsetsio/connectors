@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-estimates-of-value-of-intermediate-goods-by-main-economic-activity-activity-codes-53-5229-isic-rev4`. Regenerate after model-verify.
+key: [main_economic_activity, main_economic_activity_ar, intermediate_goods, intermediate_goods_ar, year]
+temporal: year
+sort: [year, main_economic_activity, main_economic_activity_ar, intermediate_goods, intermediate_goods_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: intermediate_goods
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: intermediate_goods_ar
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

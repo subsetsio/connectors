@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-non-employee-trainees-at-private-training-centers-by-educational-status-gender-nationality-and-age-group`. Regenerate after model-verify.
+key: [year, age_groups_in_years, age_groups_in_years_ar, nationality, nationality_ar]
+temporal: year
+sort: [year, age_groups_in_years, age_groups_in_years_ar, nationality, nationality_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_groups_in_years
+    type: VARCHAR
+  - name: age_groups_in_years_ar
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR
+  - name: females_secondary
+    type: BIGINT
+  - name: males_university
+    type: BIGINT
+  - name: females_university
+    type: BIGINT
+  - name: higher_studies_males
+    type: BIGINT
+  - name: higher_studies_females
+    type: BIGINT
+  - name: males_less_than_secandary
+    type: DOUBLE
+  - name: females_less_than_secandary
+    type: DOUBLE
+  - name: males_secandary
+    type: DOUBLE

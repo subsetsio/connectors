@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-total-building-permits-issued-by-municipality-and-type-of-building-type-of-permit`. Regenerate after model-verify.
+key: [permit_type, nw_lrkhs, municipality, lbldy, year]
+temporal: year
+sort: [year, permit_type, nw_lrkhs, municipality, lbldy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: building_type
+    type: VARCHAR
+  - name: nw_lmbn
+    type: VARCHAR
+  - name: permit_type
+    type: VARCHAR
+  - name: nw_lrkhs
+    type: VARCHAR
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: count
+    type: BIGINT

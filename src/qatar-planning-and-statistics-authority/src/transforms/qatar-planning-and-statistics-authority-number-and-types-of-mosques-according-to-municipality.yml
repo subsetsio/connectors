@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-and-types-of-mosques-according-to-municipality`. Regenerate after model-verify.
+key: [number, municipality, year, lbldy, type_of_mosque]
+temporal: year
+sort: [year, number, municipality, lbldy, type_of_mosque]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: type_of_mosque
+    type: VARCHAR
+  - name: nw_lmsjd
+    type: VARCHAR
+  - name: number
+    type: BIGINT

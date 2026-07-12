@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-main-economic-indicators-by-main-economic-activity-activity-codes-4922-6190-isic-rev4`. Regenerate after model-verify.
+key: [main_economic_activity, main_economic_activity_ar, sub_indicator, sub_indicator_ar, year]
+temporal: year
+sort: [year, main_economic_activity, main_economic_activity_ar, sub_indicator, sub_indicator_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: main_economic_activity
+    type: VARCHAR
+  - name: main_economic_indicator
+    type: VARCHAR
+  - name: sub_indicator
+    type: VARCHAR
+  - name: main_economic_activity_ar
+    type: VARCHAR
+  - name: main_economic_indicator_ar
+    type: VARCHAR
+  - name: sub_indicator_ar
+    type: VARCHAR
+  - name: lwhd_unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

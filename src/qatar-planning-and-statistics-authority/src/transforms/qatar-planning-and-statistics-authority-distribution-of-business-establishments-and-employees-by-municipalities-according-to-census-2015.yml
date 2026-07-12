@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-distribution-of-business-establishments-and-employees-by-municipalities-according-to-census-2015`. Regenerate after model-verify.
+key: [lbldy]
+temporal: year
+sort: [year, lbldy]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: establishments_number_dd_lmnshat
+    type: BIGINT
+  - name: establishments_lmnshat
+    type: DOUBLE
+  - name: employees_number_dd_lmshtglwn
+    type: BIGINT
+  - name: employees_lmshtglwn
+    type: DOUBLE
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

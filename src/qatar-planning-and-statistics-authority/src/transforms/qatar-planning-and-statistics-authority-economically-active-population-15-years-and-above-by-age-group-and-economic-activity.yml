@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-economically-active-population-15-years-and-above-by-age-group-and-economic-activity`. Regenerate after model-verify.
+key: [economic_activity, lnsht_lqtsdy, age_group, year]
+temporal: year
+sort: [year, economic_activity, lnsht_lqtsdy, age_group]
+columns:
+  - name: year
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: economic_activity
+    type: VARCHAR
+  - name: lnsht_lqtsdy
+    type: VARCHAR
+  - name: total
+    type: BIGINT

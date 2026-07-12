@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-departing-vessels-gross-and-net-tonnage-by-type-of-vessel-and-month-halul-port`. Regenerate after model-verify.
+key: [month_ar, month, type_of_vessel, type_of_vessel_ar, number_tonnage_ar]
+temporal: month
+sort: [month, month_ar, type_of_vessel, type_of_vessel_ar, number_tonnage_ar]
+columns:
+  - name: years
+    type: BIGINT
+  - name: type_of_vessel_ar
+    type: VARCHAR
+  - name: type_of_vessel
+    type: VARCHAR
+  - name: month_ar
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: number_tonnage_ar
+    type: VARCHAR
+  - name: number_tonnage
+    type: VARCHAR
+  - name: value
+    type: BIGINT

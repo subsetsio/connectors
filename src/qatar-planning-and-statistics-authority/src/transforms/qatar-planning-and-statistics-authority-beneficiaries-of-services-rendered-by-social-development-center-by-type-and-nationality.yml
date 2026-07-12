@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-beneficiaries-of-services-rendered-by-social-development-center-by-type-and-nationality`. Regenerate after model-verify.
+key: [type_of_service, type_of_service_ar, year, nationality, nationality_ar]
+temporal: year
+sort: [year, type_of_service, type_of_service_ar, nationality, nationality_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_service
+    type: VARCHAR
+  - name: type_of_service_ar
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR
+  - name: value
+    type: BIGINT

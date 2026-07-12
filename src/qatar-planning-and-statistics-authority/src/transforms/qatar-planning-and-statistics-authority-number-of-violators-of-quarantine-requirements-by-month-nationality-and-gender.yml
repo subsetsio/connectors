@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-number-of-violators-of-quarantine-requirements-by-month-nationality-and-gender`. Regenerate after model-verify.
+key: [month, year, nationality, gender, gender_ar]
+temporal: year
+sort: [year, month, nationality, gender, gender_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: number_of_violators
+    type: BIGINT
+  - name: gender_ar
+    type: VARCHAR
+  - name: nationality_ar
+    type: VARCHAR

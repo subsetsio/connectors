@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-percentage-distribution-of-population-by-municipalities-in-qatar-between-2010-and-2015-censuses`. Regenerate after model-verify.
+key: [lbldy, geo_point, municipality, geo_shape, year]
+temporal: year
+sort: [year, lbldy, geo_point, municipality, geo_shape]
+columns:
+  - name: year
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: lbldy
+    type: VARCHAR
+  - name: number_of_population_dd_lskn
+    type: DOUBLE
+  - name: percentage_distribution_ltwzy_lnsby
+    type: DOUBLE
+  - name: geo_point
+    type: VARCHAR
+  - name: geo_shape
+    type: VARCHAR

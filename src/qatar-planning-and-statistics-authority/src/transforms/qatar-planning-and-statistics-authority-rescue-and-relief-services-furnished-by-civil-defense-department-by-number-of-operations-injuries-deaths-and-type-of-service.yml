@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `qatar-planning-and-statistics-authority-rescue-and-relief-services-furnished-by-civil-defense-department-by-number-of-operations-injuries-deaths-and-type-of-service`. Regenerate after model-verify.
+key: [year, type_of_service, type_of_service_ar]
+temporal: year
+sort: [year, type_of_service, type_of_service_ar]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_service_ar
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: number_of_operations
+    type: BIGINT
+  - name: deaths
+    type: BIGINT
+  - name: serious_injuries
+    type: BIGINT
+  - name: simple_injuries
+    type: BIGINT
