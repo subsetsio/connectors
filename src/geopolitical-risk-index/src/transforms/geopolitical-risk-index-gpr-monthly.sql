@@ -1,6 +1,28 @@
 SELECT
     CAST(month AS DATE) AS month,
-    * EXCLUDE (month)
+    CAST(gpr AS DOUBLE) AS gpr,
+    CAST(gprt AS DOUBLE) AS gprt,
+    CAST(gpra AS DOUBLE) AS gpra,
+    CAST(gprh AS DOUBLE) AS gprh,
+    CAST(gprht AS DOUBLE) AS gprht,
+    CAST(gprha AS DOUBLE) AS gprha,
+    CAST(share_gpr AS DOUBLE) AS share_gpr,
+    CAST(n10 AS DOUBLE) AS n10,
+    CAST(share_gprh AS DOUBLE) AS share_gprh,
+    CAST(n3h AS DOUBLE) AS n3h,
+    CAST(gprh_noew AS DOUBLE) AS gprh_noew,
+    CAST(gpr_noew AS DOUBLE) AS gpr_noew,
+    CAST(gprh_and AS DOUBLE) AS gprh_and,
+    CAST(gpr_and AS DOUBLE) AS gpr_and,
+    CAST(gprh_basic AS DOUBLE) AS gprh_basic,
+    CAST(gpr_basic AS DOUBLE) AS gpr_basic,
+    CAST(shareh_cat_1 AS DOUBLE) AS shareh_cat_1,
+    CAST(shareh_cat_2 AS DOUBLE) AS shareh_cat_2,
+    CAST(shareh_cat_3 AS DOUBLE) AS shareh_cat_3,
+    CAST(shareh_cat_4 AS DOUBLE) AS shareh_cat_4,
+    CAST(shareh_cat_5 AS DOUBLE) AS shareh_cat_5,
+    CAST(shareh_cat_6 AS DOUBLE) AS shareh_cat_6,
+    CAST(shareh_cat_7 AS DOUBLE) AS shareh_cat_7,
+    CAST(shareh_cat_8 AS DOUBLE) AS shareh_cat_8
 FROM "geopolitical-risk-index-gpr-monthly"
 WHERE gpr IS NOT NULL OR gprh IS NOT NULL
-ORDER BY month

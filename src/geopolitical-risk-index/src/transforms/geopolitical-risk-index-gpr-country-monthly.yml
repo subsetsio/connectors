@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [month, country]
+temporal: month
+sort: [month, country]
 columns:
   - name: month
     type: DATE
+    description: Observation month.
   - name: country
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country or market code used by the source.
   - name: gprc
     type: DOUBLE
+    description: Country-level recent Geopolitical Risk Index value.
   - name: gprhc
     type: DOUBLE
+    description: Country-level historical Geopolitical Risk Index value.

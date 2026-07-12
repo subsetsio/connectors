@@ -1,18 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
+    description: Observation date.
   - name: n10d
     type: DOUBLE
+    description: Daily count of newspaper articles in the source denominator.
   - name: gprd
     type: DOUBLE
+    description: Daily Geopolitical Risk Index value.
   - name: gprd_act
     type: DOUBLE
+    description: Daily geopolitical acts sub-index.
   - name: gprd_threat
     type: DOUBLE
+    description: Daily geopolitical threats sub-index.
   - name: gprd_ma30
     type: DOUBLE
+    description: Thirty-day moving average of the daily Geopolitical Risk Index.
   - name: gprd_ma7
     type: DOUBLE
+    description: Seven-day moving average of the daily Geopolitical Risk Index.
   - name: event
     type: VARCHAR
+    description: Source-provided annotation for notable geopolitical events.

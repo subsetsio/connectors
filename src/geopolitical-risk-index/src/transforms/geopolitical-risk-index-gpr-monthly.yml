@@ -1,52 +1,79 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [month]
+temporal: month
+sort: [month]
 columns:
   - name: month
     type: DATE
+    description: Observation month.
   - name: gpr
     type: DOUBLE
+    description: Monthly headline Geopolitical Risk Index value.
   - name: gprt
     type: DOUBLE
+    description: Monthly geopolitical threats sub-index.
   - name: gpra
     type: DOUBLE
+    description: Monthly geopolitical acts sub-index.
   - name: gprh
     type: DOUBLE
+    description: Monthly historical Geopolitical Risk Index value.
   - name: gprht
     type: DOUBLE
+    description: Monthly historical threats sub-index.
   - name: gprha
     type: DOUBLE
+    description: Monthly historical acts sub-index.
   - name: share_gpr
     type: DOUBLE
+    description: Share diagnostic for the headline monthly GPR measure.
   - name: n10
     type: DOUBLE
+    description: Monthly count of articles in the source denominator.
   - name: share_gprh
     type: DOUBLE
+    description: Share diagnostic for the historical monthly GPR measure.
   - name: n3h
     type: DOUBLE
+    description: Monthly historical article-count diagnostic.
   - name: gprh_noew
     type: DOUBLE
+    description: Historical GPR variant excluding editorial-weighted terms.
   - name: gpr_noew
     type: DOUBLE
+    description: GPR variant excluding editorial-weighted terms.
   - name: gprh_and
     type: DOUBLE
+    description: Historical GPR variant using the source's AND term rule.
   - name: gpr_and
     type: DOUBLE
+    description: GPR variant using the source's AND term rule.
   - name: gprh_basic
     type: DOUBLE
+    description: Historical basic GPR variant.
   - name: gpr_basic
     type: DOUBLE
+    description: Basic GPR variant.
   - name: shareh_cat_1
     type: DOUBLE
+    description: Historical category 1 share.
   - name: shareh_cat_2
     type: DOUBLE
+    description: Historical category 2 share.
   - name: shareh_cat_3
     type: DOUBLE
+    description: Historical category 3 share.
   - name: shareh_cat_4
     type: DOUBLE
+    description: Historical category 4 share.
   - name: shareh_cat_5
     type: DOUBLE
+    description: Historical category 5 share.
   - name: shareh_cat_6
     type: DOUBLE
+    description: Historical category 6 share.
   - name: shareh_cat_7
     type: DOUBLE
+    description: Historical category 7 share.
   - name: shareh_cat_8
     type: DOUBLE
+    description: Historical category 8 share.
