@@ -1,0 +1,25 @@
+spec_id: gh-archive-github-events-daily
+status: active
+tests:
+  - row_count: {min: 70}
+    reason: a 7-day daily aggregate normally has at least 10 active event types per day.
+    certainty: 90
+  - not_null: date
+  - not_null: event_type
+  - not_null: event_count
+  - column_type: {col: date, type: date}
+  - column_type: {col: event_type, type: string}
+  - column_type: {col: event_count, type: integer}
+  - unique: [date, event_type]
+    reason: the raw asset is aggregated to exactly one row per UTC day and event type.
+    certainty: 95
+  - distinct_count: {col: event_type, min: 10}
+    reason: public GitHub activity should include many event classes over any healthy 30-day window.
+    certainty: 85
+  - at_least: {col: event_count, expr: 1}
+    reason: zero-count rows are omitted during aggregation.
+    certainty: 95
+  - freshness: {col: date, reaches: today - 7d}
+    reason: GH Archive publishes hourly files continuously; the rolling daily aggregate should include a recent complete UTC day.
+    certainty: 90
+    points_outward: true

@@ -1,26 +1,12 @@
-"""GH Archive — daily counts of public GitHub events by type.
+"""GH Archive downloads.
 
-GH Archive publishes the full firehose of public GitHub events as one
-gzipped NDJSON file per UTC hour:
-    https://data.gharchive.org/YYYY-MM-DD-H.json.gz   (H is 0-23, no zero-pad)
-
-The raw event corpus is multiple TB and is NOT published. Instead we AGGREGATE
-on the fly: for each complete past UTC day we fetch its 24 hourly files, stream
-each (decompressing line-by-line so the full hour never lands in memory), count
-events per type, and write ONE tiny parquet batch of (date, event_type,
-event_count) per day. The published subset `github-events-daily` is the
-glob-union of those daily batches — a clean long-format time series of global
-open-source activity from 2015-01-01 onward.
-
-This is the record-stream firehose shape (one entity, many immutable per-day
-batches). State holds a date watermark — the last fully-processed UTC day — and
-the fetch fn loops day-by-day from the watermark to the most recent complete day
-(yesterday UTC), never into today (whose hours are still accumulating). There is
-no self-imposed run budget: the loop runs until caught up to the live edge; the
-supervisor interrupts the node if a run nears its CI limit and the next run
-resumes from the saved watermark. Raw is written before state every batch, so an
-interrupt loses at most the in-flight day.
+The upstream source is a multi-terabyte event firehose. This connector does
+not republish raw event records; it publishes derived aggregate counts for a
+recent rolling window, plus a small reference table of documented event types.
 """
+
+from __future__ import annotations
+
 import gzip
 import io
 import json
@@ -30,133 +16,138 @@ from datetime import date, datetime, timedelta, timezone
 import httpx
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    save_raw_parquet,
-    load_state,
-    save_state,
-    transient_retry,
+from subsets_utils import NodeSpec, get, save_raw_parquet
+
+BASE_URL = "https://data.gharchive.org"
+ROLLING_DAYS = 7
+
+DAILY_SCHEMA = pa.schema(
+    [
+        ("date", pa.date32()),
+        ("event_type", pa.string()),
+        ("event_count", pa.int64()),
+    ]
 )
 
-STATE_VERSION = 1
+EVENT_TYPES_SCHEMA = pa.schema(
+    [
+        ("event_type", pa.string()),
+        ("description", pa.string()),
+        ("docs_url", pa.string()),
+    ]
+)
 
-# Earliest day in the current GitHub Events API schema (per GH Archive docs).
-# Pre-2015 data uses the deprecated Timeline API with a different, incompatible
-# schema and is intentionally excluded.
-SOURCE_MIN_DATE = date(2015, 1, 1)
+DOCS_URL = "https://docs.github.com/en/rest/using-the-rest-api/github-event-types"
 
-_BASE = "https://data.gharchive.org"
+EVENT_TYPES = [
+    ("CommitCommentEvent", "A commit comment is created."),
+    ("CreateEvent", "A Git branch, tag, or repository is created."),
+    ("DeleteEvent", "A Git branch or tag is deleted."),
+    ("DiscussionEvent", "A discussion is created in a repository."),
+    ("ForkEvent", "A user forks a repository."),
+    ("GollumEvent", "A wiki page is created or updated."),
+    ("IssueCommentEvent", "Activity related to an issue or pull request comment."),
+    ("IssuesEvent", "Activity related to an issue."),
+    ("MemberEvent", "Activity related to repository collaborators."),
+    ("PublicEvent", "A private repository is made public."),
+    ("PullRequestEvent", "Activity related to pull requests."),
+    ("PullRequestReviewCommentEvent", "Activity related to pull request review comments."),
+    ("PullRequestReviewEvent", "Activity related to pull request reviews."),
+    ("PushEvent", "One or more commits are pushed to a repository branch or tag."),
+    ("ReleaseEvent", "Activity related to a release."),
+    ("WatchEvent", "A user stars a repository."),
+]
 
-SCHEMA = pa.schema([
-    ("date", pa.string()),         # UTC day, YYYY-MM-DD
-    ("event_type", pa.string()),   # GitHub event type, e.g. PushEvent
-    ("event_count", pa.int64()),   # events of that type observed that day
-])
+
+def fetch_event_types(node_id: str) -> None:
+    rows = [
+        {"event_type": event_type, "description": description, "docs_url": DOCS_URL}
+        for event_type, description in EVENT_TYPES
+    ]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=EVENT_TYPES_SCHEMA), node_id)
 
 
-@transient_retry()
-def _fetch_hour(url: str) -> bytes:
-    """Return the raw gzip bytes for one hourly file. Retries transient
-    failures; raises HTTPStatusError for permanent ones (e.g. 404)."""
-    resp = get(url, timeout=(10.0, 180.0))
-    resp.raise_for_status()
-    return resp.content
+def _hour_url(day: date, hour: int) -> str:
+    return f"{BASE_URL}/{day.isoformat()}-{hour}.json.gz"
 
 
-def _count_day(day: date) -> Counter:
-    """Fetch all 24 hourly files for a UTC day and count events by type.
+def _count_hour(url: str) -> Counter[str]:
+    response = get(url, timeout=(10.0, 180.0))
+    response.raise_for_status()
 
-    Missing hours (404) are skipped — GH Archive has a handful of genuinely
-    absent hours across its history. Streaming gzip decompression keeps the
-    decompressed payload out of memory."""
-    counts: Counter = Counter()
-    day_str = day.strftime("%Y-%m-%d")
+    counts: Counter[str] = Counter()
+    bad_lines = 0
+    with gzip.GzipFile(fileobj=io.BytesIO(response.content)) as gz:
+        for line_number, line in enumerate(gz, start=1):
+            if not line.strip():
+                continue
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                bad_lines += 1
+                continue
+            event_type = event.get("type")
+            if event_type:
+                counts[str(event_type)] += 1
+
+    if bad_lines:
+        print(f"  skipped {bad_lines} malformed JSON lines in {url}")
+    return counts
+
+
+def _count_day(day: date) -> Counter[str]:
+    counts: Counter[str] = Counter()
     for hour in range(24):
-        url = f"{_BASE}/{day_str}-{hour}.json.gz"
+        url = _hour_url(day, hour)
         try:
-            content = _fetch_hour(url)
+            counts.update(_count_hour(url))
         except httpx.HTTPStatusError as exc:
             if exc.response.status_code == 404:
-                print(f"  {day_str}-{hour}: 404 (missing hour, skipping)")
+                print(f"  {day.isoformat()} hour {hour}: missing upstream archive")
                 continue
             raise
-        with gzip.GzipFile(fileobj=io.BytesIO(content)) as gz:
-            for line in gz:
-                if not line.strip():
-                    continue
-                event_type = json.loads(line).get("type")
-                if event_type:
-                    counts[event_type] += 1
     return counts
 
 
 def fetch_events_daily(node_id: str) -> None:
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        if state:
-            print(f"  state schema_version mismatch — resetting (was {state.get('schema_version')})")
-        state = {}
-
-    watermark = state.get("watermark")  # last fully-processed UTC day (str) or None
-    start = (
-        date.fromisoformat(watermark) + timedelta(days=1)
-        if watermark else SOURCE_MIN_DATE
-    )
-    # Only process COMPLETE past days; today (UTC) is still accumulating.
     today_utc = datetime.now(tz=timezone.utc).date()
+    first_day = today_utc - timedelta(days=ROLLING_DAYS)
+    last_day = today_utc - timedelta(days=1)
+    rows = []
 
-    if start >= today_utc:
-        print(f"  caught up to live edge (watermark={watermark}); nothing to do")
-        return
-
-    print(f"  processing days {start.isoformat()} .. {(today_utc - timedelta(days=1)).isoformat()}")
-    current = start
-    while current < today_utc:
-        # No self-imposed cap: loop until caught up. The supervisor interrupts
-        # the node if the run nears its CI budget; per-day raw+state writes make
-        # that interrupt safe to resume.
-        day_str = current.isoformat()
+    current = first_day
+    while current <= last_day:
         counts = _count_day(current)
-        rows = [
-            {"date": day_str, "event_type": et, "event_count": n}
-            for et, n in sorted(counts.items())
-        ]
-        if rows:
-            table = pa.Table.from_pylist(rows, schema=SCHEMA)
-            # Batch key is pure batch info (the day); asset id composes
-            # slug + entity + batch_key. One immutable file per day.
-            save_raw_parquet(table, f"{node_id}-{day_str}")
-            total = sum(counts.values())
-            print(f"  {day_str}: {total:,} events across {len(rows)} types")
-        else:
-            print(f"  {day_str}: no events (all hours missing) — skipping batch")
-        # Write raw before state, always.
-        save_state(node_id, {"schema_version": STATE_VERSION, "watermark": day_str})
+        for event_type, event_count in sorted(counts.items()):
+            rows.append(
+                {
+                    "date": current,
+                    "event_type": event_type,
+                    "event_count": event_count,
+                }
+            )
+        print(
+            f"  {current.isoformat()}: {sum(counts.values()):,} events "
+            f"across {len(counts)} event types"
+        )
         current += timedelta(days=1)
+
+    if not rows:
+        raise RuntimeError("no GH Archive event rows were aggregated")
+
+    table = pa.Table.from_pylist(rows, schema=DAILY_SCHEMA)
+    save_raw_parquet(table, node_id)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(
+        id="gh-archive-event-types",
+        fn=fetch_event_types,
+        kind="download",
+    ),
+    NodeSpec(
         id="gh-archive-github-events-daily",
         fn=fetch_events_daily,
         kind="download",
-    ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="gh-archive-github-events-daily-transform",
-        deps=["gh-archive-github-events-daily"],
-        sql='''
-            SELECT
-                CAST(date AS DATE)         AS date,
-                event_type,
-                CAST(event_count AS BIGINT) AS event_count
-            FROM "gh-archive-github-events-daily"
-            WHERE event_count > 0
-        ''',
     ),
 ]

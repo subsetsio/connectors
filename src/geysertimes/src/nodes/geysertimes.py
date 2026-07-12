@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import gzip
 import re
-from datetime import datetime, timezone
 from urllib.parse import urljoin
 
 import pyarrow as pa
@@ -24,6 +23,7 @@ ARCHIVE_HEADERS = {
 ERUPTION_SCHEMA = pa.schema(
     [
         ("eruption_id", pa.int64()),
+        ("geyser_id", pa.int64()),
         ("geyser_name", pa.string()),
         ("eruption_time_epoch", pa.int64()),
         ("eruption_time", pa.timestamp("s", tz="UTC")),
@@ -125,7 +125,10 @@ def _read_archive_tsv(url: str) -> pa.Table:
     table = pv.read_csv(
         pa.BufferReader(decompressed),
         read_options=pv.ReadOptions(encoding="utf8"),
-        parse_options=pv.ParseOptions(delimiter="\t"),
+        parse_options=pv.ParseOptions(
+            delimiter="\t",
+            invalid_row_handler=lambda _row: "skip",
+        ),
         convert_options=pv.ConvertOptions(
             strings_can_be_null=True,
             null_values=["", "NULL"],
@@ -174,14 +177,7 @@ def _to_float(value: str | None) -> float | None:
     return float(value) if value not in (None, "") else None
 
 
-def fetch_eruptions(node_id: str) -> None:
-    """Fetch the latest nightly complete eruption archive."""
-    table = _read_archive_tsv(_latest_eruptions_url())
-    save_raw_parquet(table.cast(ERUPTION_SCHEMA), node_id)
-
-
-def fetch_geysers(node_id: str) -> None:
-    """Fetch the geyser reference catalog from the public REST API."""
+def _fetch_geyser_rows() -> list[dict]:
     resp = get(f"{BASE_API}/geysers", timeout=(10.0, 60.0))
     resp.raise_for_status()
     data = resp.json()
@@ -200,6 +196,26 @@ def fetch_geysers(node_id: str) -> None:
                 if key in GEYSER_TO_RAW
             }
         )
+    return rows
+
+
+def fetch_eruptions(node_id: str) -> None:
+    """Fetch the latest nightly complete eruption archive."""
+    table = _read_archive_tsv(_latest_eruptions_url())
+    geyser_id_by_name = {
+        row["geyser_name"]: row["geyser_id"] for row in _fetch_geyser_rows()
+    }
+    geyser_ids = pa.array(
+        [geyser_id_by_name.get(name.as_py()) for name in table["geyser_name"]],
+        type=pa.int64(),
+    )
+    table = table.add_column(1, "geyser_id", geyser_ids)
+    save_raw_parquet(table.cast(ERUPTION_SCHEMA), node_id)
+
+
+def fetch_geysers(node_id: str) -> None:
+    """Fetch the geyser reference catalog from the public REST API."""
+    rows = _fetch_geyser_rows()
     save_raw_parquet(pa.Table.from_pylist(rows, schema=GEYSER_SCHEMA), node_id)
 
 

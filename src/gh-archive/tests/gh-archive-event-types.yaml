@@ -1,0 +1,18 @@
+spec_id: gh-archive-event-types
+status: active
+tests:
+  - row_count: {min: 15}
+    reason: GitHub's Events API documentation lists the common public event types.
+    certainty: 90
+  - not_null: event_type
+  - not_null: description
+  - not_null: docs_url
+  - column_type: {col: event_type, type: string}
+  - column_type: {col: description, type: string}
+  - column_type: {col: docs_url, type: string}
+  - unique: event_type
+    reason: each documented event type should appear once in the reference table.
+    certainty: 95
+  - matches: {col: docs_url, pattern: '^https://docs\.github\.com/'}
+    reason: the reference table should cite GitHub's official event-type documentation.
+    certainty: 95
