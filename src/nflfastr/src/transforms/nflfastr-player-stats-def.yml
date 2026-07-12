@@ -1,6 +1,7 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-player-stats-def`. Regenerate after model-verify.
+# caution: Weekly defensive player stat rows are not uniquely identified by player_id/season/week/season_type in the raw release; aggregate only after choosing the relevant player/team/stat context.
+key: []
 columns:
   - name: season
     type: INTEGER

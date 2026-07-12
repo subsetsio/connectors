@@ -1,6 +1,10 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
     "nflverse_game_id",
-    "old_game_id",
+    CAST("old_game_id" AS BIGINT) AS old_game_id,
     "play_id",
     "possession_team",
     "offense_formation",

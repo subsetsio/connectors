@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-trades`. Regenerate after model-verify.
+# caution: Trade rows can contain multiple assets within a transaction; filter or group by trade fields before counting trades.
+key: []
+temporal: trade_date
+sort: [trade_date]
 columns:
   - name: trade_id
     type: INTEGER

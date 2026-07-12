@@ -1,3 +1,8 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Season kicking stat rows can repeat player/season/season_type combinations in the raw release.
 SELECT
     "season",
     "season_type",
@@ -20,13 +25,13 @@ SELECT
     "fg_made_30_39",
     "fg_made_40_49",
     "fg_made_50_59",
-    "fg_made_60_",
+    "fg_made_60_" AS fg_made_60,
     "fg_missed_0_19",
     "fg_missed_20_29",
     "fg_missed_30_39",
     "fg_missed_40_49",
     "fg_missed_50_59",
-    "fg_missed_60_",
+    "fg_missed_60_" AS fg_missed_60,
     "fg_made_list",
     "fg_missed_list",
     "fg_blocked_list",

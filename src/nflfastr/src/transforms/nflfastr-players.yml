@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [gsis_id]
-sort: [gsis_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-players`. Regenerate after model-verify.
+key: [esb_id]
+sort: [esb_id]
 columns:
   - name: gsis_id
     type: VARCHAR
@@ -21,19 +22,19 @@ columns:
   - name: esb_id
     type: VARCHAR
   - name: nfl_id
-    type: VARCHAR
+    type: BIGINT
   - name: pfr_id
     type: VARCHAR
   - name: pff_id
-    type: VARCHAR
+    type: BIGINT
   - name: otc_id
-    type: VARCHAR
+    type: BIGINT
   - name: espn_id
-    type: VARCHAR
+    type: BIGINT
   - name: smart_id
     type: VARCHAR
   - name: birth_date
-    type: VARCHAR
+    type: DATE
   - name: position_group
     type: VARCHAR
   - name: position
@@ -53,7 +54,7 @@ columns:
   - name: college_conference
     type: VARCHAR
   - name: jersey_number
-    type: VARCHAR
+    type: BIGINT
   - name: rookie_season
     type: INTEGER
   - name: last_season

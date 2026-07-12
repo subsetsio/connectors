@@ -1,3 +1,8 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Weekly defensive player stat rows are not uniquely identified by player_id/season/week/season_type in the raw release; aggregate only after choosing the relevant player/team/stat context.
 SELECT
     "season",
     "week",

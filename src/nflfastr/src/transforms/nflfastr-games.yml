@@ -1,7 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [game_id]
-temporal: season
-sort: [season, game_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-games`. Regenerate after model-verify.
+key: [pfr]
+temporal: gameday
+sort: [gameday, pfr]
 columns:
   - name: game_id
     type: VARCHAR
@@ -12,7 +13,7 @@ columns:
   - name: week
     type: INTEGER
   - name: gameday
-    type: VARCHAR
+    type: DATE
   - name: weekday
     type: VARCHAR
   - name: gametime
@@ -34,7 +35,7 @@ columns:
   - name: overtime
     type: INTEGER
   - name: old_game_id
-    type: VARCHAR
+    type: BIGINT
   - name: gsis
     type: INTEGER
   - name: nfl_detail_id
@@ -44,7 +45,7 @@ columns:
   - name: pff
     type: INTEGER
   - name: espn
-    type: VARCHAR
+    type: BIGINT
   - name: ftn
     type: INTEGER
   - name: away_rest

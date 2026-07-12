@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-depth-charts`. Regenerate after model-verify.
+# caution: Weekly depth chart rows describe team roster positions and include denormalized position group labels.
+key: []
+temporal: dt
+sort: [dt]
 columns:
   - name: season
     type: INTEGER
@@ -11,7 +14,7 @@ columns:
   - name: game_type
     type: VARCHAR
   - name: depth_team
-    type: VARCHAR
+    type: BIGINT
   - name: last_name
     type: VARCHAR
   - name: first_name
@@ -23,7 +26,7 @@ columns:
   - name: gsis_id
     type: VARCHAR
   - name: jersey_number
-    type: VARCHAR
+    type: BIGINT
   - name: position
     type: VARCHAR
   - name: elias_id
@@ -33,19 +36,19 @@ columns:
   - name: full_name
     type: VARCHAR
   - name: dt
-    type: VARCHAR
+    type: TIMESTAMP
   - name: team
     type: VARCHAR
   - name: player_name
     type: VARCHAR
   - name: espn_id
-    type: VARCHAR
+    type: BIGINT
   - name: pos_grp_id
-    type: VARCHAR
+    type: BIGINT
   - name: pos_grp
     type: VARCHAR
   - name: pos_id
-    type: VARCHAR
+    type: BIGINT
   - name: pos_name
     type: VARCHAR
   - name: pos_abb

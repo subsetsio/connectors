@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-advstats-week-rush`. Regenerate after model-verify.
+key: [pfr_game_id, game_id, pfr_player_id, pfr_player_name, team]
+sort: [pfr_game_id, game_id, pfr_player_id, pfr_player_name, team]
 columns:
   - name: game_id
     type: VARCHAR

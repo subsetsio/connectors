@@ -32,6 +32,7 @@ streamed chunk-by-chunk through raw_parquet_writer to stay within memory.
 import io
 import zipfile
 
+import httpx
 import pandas as pd
 import pyarrow as pa
 
@@ -47,6 +48,7 @@ SLUG = "north-american-breeding-bird-survey"
 CATALOG = "https://www.sciencebase.gov/catalog"
 RAW_DATASET_PARENT = "52b1dfa8e4b0d9b325230cd9"
 ANALYSIS_PARENT = "5ea835e082cefae35a1fada7"
+ARCHIVED_2025_RAW_DATASET_ITEM = "691cfb53d4be021d1d89b482"
 TIMEOUT = (15.0, 300.0)
 CHUNK_ROWS = 200_000
 
@@ -157,14 +159,29 @@ def _download_single_csv(url: str, asset: str) -> None:
     save_raw_parquet(table, asset)
 
 
-def _stream_zip_csvs(url: str, asset: str, columns: list[str]) -> None:
+def _stream_zip_csvs(
+    url: str,
+    asset: str,
+    columns: list[str],
+    member_matches=None,
+    fallback_url: str | None = None,
+) -> None:
     """Stream every CSV member of a zip into one parquet asset, chunk by chunk,
     so peak memory is one chunk rather than the (multi-GB) uncompressed total."""
     schema = pa.schema([(c, pa.string()) for c in columns])
-    raw = _get_bytes(url)
+    try:
+        raw = _get_bytes(url)
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code != 404 or fallback_url is None:
+            raise
+        raw = _get_bytes(fallback_url)
     with raw_parquet_writer(asset, schema) as writer:
         zf = zipfile.ZipFile(io.BytesIO(raw))
-        members = sorted(m for m in zf.namelist() if m.lower().endswith(".csv"))
+        members = sorted(
+            m
+            for m in zf.namelist()
+            if m.lower().endswith(".csv") and (member_matches is None or member_matches(m))
+        )
         if not members:
             raise RuntimeError(f"{asset}: zip at {url} contains no CSV members")
         for member in members:
@@ -232,7 +249,12 @@ def fetch_fifty_stop_counts(node_id: str) -> None:
         lambda n: ("50-stop" in n.lower() or "50stop" in n.lower() or "fifty" in n.lower())
         and n.lower().endswith(".zip"),
     )
-    _stream_zip_csvs(url, node_id, FIFTY_COLUMNS)
+    fallback_url = _file_url(
+        ARCHIVED_2025_RAW_DATASET_ITEM,
+        lambda n: ("50-stop" in n.lower() or "50stop" in n.lower() or "fifty" in n.lower())
+        and n.lower().endswith(".zip"),
+    )
+    _stream_zip_csvs(url, node_id, FIFTY_COLUMNS, fallback_url=fallback_url)
 
 
 def fetch_migrant_nonbreeder(node_id: str) -> None:
@@ -240,7 +262,12 @@ def fetch_migrant_nonbreeder(node_id: str) -> None:
         _raw_dataset_item(),
         lambda n: "migrantnonbreeder" in n.lower() and n.lower().endswith(".zip"),
     )
-    _stream_zip_csvs(url, node_id, FIFTY_COLUMNS)
+    _stream_zip_csvs(
+        url,
+        node_id,
+        FIFTY_COLUMNS,
+        member_matches=lambda n: n.lower().endswith("migrants.csv"),
+    )
 
 
 def fetch_analysis_core_indices(node_id: str) -> None:

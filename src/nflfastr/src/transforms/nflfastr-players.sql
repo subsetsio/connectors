@@ -1,1 +1,45 @@
-SELECT * FROM "nflfastr-players"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "gsis_id",
+    "display_name",
+    "common_first_name",
+    "first_name",
+    "last_name",
+    "short_name",
+    "football_name",
+    "suffix",
+    "esb_id",
+    CAST("nfl_id" AS BIGINT) AS nfl_id,
+    "pfr_id",
+    CAST("pff_id" AS BIGINT) AS pff_id,
+    CAST("otc_id" AS BIGINT) AS otc_id,
+    CAST("espn_id" AS BIGINT) AS espn_id,
+    "smart_id",
+    strptime("birth_date", '%Y-%m-%d')::DATE AS birth_date,
+    "position_group",
+    "position",
+    "ngs_position_group",
+    "ngs_position",
+    "height",
+    "weight",
+    "headshot",
+    "college_name",
+    "college_conference",
+    CAST("jersey_number" AS BIGINT) AS jersey_number,
+    "rookie_season",
+    "last_season",
+    "latest_team",
+    "status",
+    "ngs_status",
+    "ngs_status_short_description",
+    "years_of_experience",
+    "pff_position",
+    "pff_status",
+    "draft_year",
+    "draft_round",
+    "draft_pick",
+    "draft_team"
+FROM "nflfastr-players"

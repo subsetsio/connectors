@@ -1,14 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-play-by-play`. Regenerate after model-verify.
 key: [game_id, play_id]
-temporal: season
-sort: [season, game_id, play_id]
+temporal: game_date
+sort: [game_date, game_id, play_id]
 columns:
   - name: play_id
     type: DOUBLE
   - name: game_id
     type: VARCHAR
   - name: old_game_id
-    type: VARCHAR
+    type: BIGINT
   - name: home_team
     type: VARCHAR
   - name: away_team
@@ -28,7 +29,7 @@ columns:
   - name: yardline_100
     type: DOUBLE
   - name: game_date
-    type: VARCHAR
+    type: DATE
   - name: quarter_seconds_remaining
     type: DOUBLE
   - name: half_seconds_remaining
@@ -598,7 +599,7 @@ columns:
   - name: nfl_api_id
     type: VARCHAR
   - name: play_clock
-    type: VARCHAR
+    type: BIGINT
   - name: play_deleted
     type: DOUBLE
   - name: play_type_nfl
@@ -616,7 +617,7 @@ columns:
   - name: fixed_drive_result
     type: VARCHAR
   - name: drive_real_start_time
-    type: VARCHAR
+    type: TIMESTAMP
   - name: drive_play_count
     type: DOUBLE
   - name: drive_time_of_possession

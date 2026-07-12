@@ -15,10 +15,10 @@ tests:
   - between: {col: severity, lo: 0, hi: 3}
     reason: NuGet vulnerability severity is encoded as low/moderate/high/critical integer values
     certainty: 90
-  - matches: {col: advisory_url, pattern: "^https://github\\.com/advisories/GHSA-"}
+  - matches: {col: advisory_url, pattern: "^https://github\\.com/advisories/GHSA-[0-9a-z-]+$"}
     reason: nuget.org documents GitHub Advisory Database as its vulnerability source
     certainty: 85
-  - matches: {col: page_updated, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"}
+  - matches: {col: page_updated, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z$"}
     reason: vulnerability index @updated is ISO-8601
     certainty: 95
   - freshness: {col: page_updated, reaches: today - 30d}

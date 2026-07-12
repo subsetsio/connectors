@@ -1,9 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Season roster rows can include team changes and multiple roster contexts for a player within a season.
 SELECT
     "season",
     "team",
     "position",
     "depth_chart_position",
-    "jersey_number",
+    CAST("jersey_number" AS BIGINT) AS jersey_number,
     "status",
     "full_name",
     "first_name",
@@ -13,26 +18,26 @@ SELECT
     "weight",
     "college",
     "gsis_id",
-    "espn_id",
+    CAST("espn_id" AS BIGINT) AS espn_id,
     "sportradar_id",
     "yahoo_id",
-    "rotowire_id",
-    "pff_id",
+    CAST("rotowire_id" AS BIGINT) AS rotowire_id,
+    CAST("pff_id" AS BIGINT) AS pff_id,
     "pfr_id",
-    "fantasy_data_id",
-    "sleeper_id",
+    CAST("fantasy_data_id" AS BIGINT) AS fantasy_data_id,
+    CAST("sleeper_id" AS BIGINT) AS sleeper_id,
     "years_exp",
     "headshot_url",
+    "esb_id",
+    CAST("gsis_it_id" AS BIGINT) AS gsis_it_id,
+    "smart_id",
+    "entry_year",
+    "rookie_year",
+    "draft_club",
     "ngs_position",
     "week",
     "game_type",
     "status_description_abbr",
     "football_name",
-    "esb_id",
-    "gsis_it_id",
-    "smart_id",
-    "entry_year",
-    "rookie_year",
-    "draft_club",
-    "draft_number"
+    CAST("draft_number" AS BIGINT) AS draft_number
 FROM "nflfastr-roster"

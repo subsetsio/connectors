@@ -1,6 +1,7 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-player-stats-kicking-season`. Regenerate after model-verify.
+# caution: Season kicking stat rows can repeat player/season/season_type combinations in the raw release.
+key: []
 columns:
   - name: season
     type: INTEGER
@@ -44,7 +45,7 @@ columns:
     type: INTEGER
   - name: fg_made_50_59
     type: INTEGER
-  - name: fg_made_60_
+  - name: fg_made_60
     type: INTEGER
   - name: fg_missed_0_19
     type: INTEGER
@@ -56,7 +57,7 @@ columns:
     type: INTEGER
   - name: fg_missed_50_59
     type: INTEGER
-  - name: fg_missed_60_
+  - name: fg_missed_60
     type: INTEGER
   - name: fg_made_list
     type: VARCHAR

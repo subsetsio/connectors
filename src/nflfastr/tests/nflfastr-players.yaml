@@ -1,5 +1,6 @@
 spec_id: nflfastr-players
 status: active
+coverage: {frozen: true, reason: "Player biographical reference rows use birth_date as a data field, not a publication recency axis; source refresh is governed by release rebuilds rather than recent birth dates."}
 tests:
   - not_null: gsis_id
   - row_count: {min: 12517}

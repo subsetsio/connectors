@@ -1,6 +1,7 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
-temporal: year_signed
-sort: [year_signed]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-historical-contracts`. Regenerate after model-verify.
+# caution: Historical contract rows can contain multiple contracts for the same player and signing year; do not treat player/year as unique.
+key: []
 columns:
   - name: player
     type: VARCHAR
@@ -39,7 +40,7 @@ columns:
   - name: height
     type: VARCHAR
   - name: weight
-    type: VARCHAR
+    type: BIGINT
   - name: college
     type: VARCHAR
   - name: draft_year
@@ -51,4 +52,4 @@ columns:
   - name: draft_team
     type: VARCHAR
   - name: cols
-    type: 'STRUCT("year" VARCHAR, team VARCHAR, base_salary DOUBLE, prorated_bonus DOUBLE, roster_bonus DOUBLE, guaranteed_salary DOUBLE, cap_number DOUBLE, cap_percent DOUBLE, cash_paid DOUBLE, workout_bonus DOUBLE, other_bonus DOUBLE, per_game_roster_bonus DOUBLE, option_bonus DOUBLE)[]'
+    type: "STRUCT(\"year\" VARCHAR, team VARCHAR, base_salary DOUBLE, prorated_bonus DOUBLE, roster_bonus DOUBLE, guaranteed_salary DOUBLE, cap_number DOUBLE, cap_percent DOUBLE, cash_paid DOUBLE, workout_bonus DOUBLE, other_bonus DOUBLE, per_game_roster_bonus DOUBLE, option_bonus DOUBLE)[]"

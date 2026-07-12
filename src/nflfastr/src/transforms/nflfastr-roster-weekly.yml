@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-roster-weekly`. Regenerate after model-verify.
+# caution: Weekly roster rows are player-team-week snapshots; aggregate after selecting a season/week context.
+key: []
 temporal: season
 sort: [season]
 columns:
@@ -31,21 +34,21 @@ columns:
   - name: gsis_id
     type: VARCHAR
   - name: espn_id
-    type: VARCHAR
+    type: BIGINT
   - name: sportradar_id
     type: VARCHAR
   - name: yahoo_id
     type: VARCHAR
   - name: rotowire_id
-    type: VARCHAR
+    type: BIGINT
   - name: pff_id
-    type: VARCHAR
+    type: BIGINT
   - name: pfr_id
     type: VARCHAR
   - name: fantasy_data_id
-    type: VARCHAR
+    type: BIGINT
   - name: sleeper_id
-    type: VARCHAR
+    type: BIGINT
   - name: years_exp
     type: INTEGER
   - name: headshot_url
@@ -63,7 +66,7 @@ columns:
   - name: esb_id
     type: VARCHAR
   - name: gsis_it_id
-    type: VARCHAR
+    type: BIGINT
   - name: smart_id
     type: VARCHAR
   - name: entry_year
@@ -73,4 +76,4 @@ columns:
   - name: draft_club
     type: VARCHAR
   - name: draft_number
-    type: VARCHAR
+    type: BIGINT

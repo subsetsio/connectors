@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-injuries`. Regenerate after model-verify.
+# caution: Injury report rows are status reports over time, not distinct injury episodes.
+key: []
+temporal: date_modified
+sort: [date_modified]
 columns:
   - name: season
     type: DOUBLE
@@ -33,6 +36,6 @@ columns:
   - name: practice_status
     type: VARCHAR
   - name: date_modified
-    type: TIMESTAMPTZ
+    type: "TIMESTAMP WITH TIME ZONE"
   - name: season_type
     type: VARCHAR

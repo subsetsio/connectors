@@ -1,4 +1,7 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-roster`. Regenerate after model-verify.
+# caution: Season roster rows can include team changes and multiple roster contexts for a player within a season.
+key: []
 temporal: season
 sort: [season]
 columns:
@@ -11,7 +14,7 @@ columns:
   - name: depth_chart_position
     type: VARCHAR
   - name: jersey_number
-    type: INTEGER
+    type: BIGINT
   - name: status
     type: VARCHAR
   - name: full_name
@@ -23,7 +26,7 @@ columns:
   - name: birth_date
     type: DATE
   - name: height
-    type: INTEGER
+    type: DOUBLE
   - name: weight
     type: INTEGER
   - name: college
@@ -31,24 +34,36 @@ columns:
   - name: gsis_id
     type: VARCHAR
   - name: espn_id
-    type: VARCHAR
+    type: BIGINT
   - name: sportradar_id
     type: VARCHAR
   - name: yahoo_id
     type: VARCHAR
   - name: rotowire_id
-    type: VARCHAR
+    type: BIGINT
   - name: pff_id
-    type: VARCHAR
+    type: BIGINT
   - name: pfr_id
     type: VARCHAR
   - name: fantasy_data_id
-    type: VARCHAR
+    type: BIGINT
   - name: sleeper_id
-    type: VARCHAR
+    type: BIGINT
   - name: years_exp
     type: INTEGER
   - name: headshot_url
+    type: VARCHAR
+  - name: esb_id
+    type: VARCHAR
+  - name: gsis_it_id
+    type: BIGINT
+  - name: smart_id
+    type: VARCHAR
+  - name: entry_year
+    type: INTEGER
+  - name: rookie_year
+    type: INTEGER
+  - name: draft_club
     type: VARCHAR
   - name: ngs_position
     type: VARCHAR
@@ -60,17 +75,5 @@ columns:
     type: VARCHAR
   - name: football_name
     type: VARCHAR
-  - name: esb_id
-    type: VARCHAR
-  - name: gsis_it_id
-    type: VARCHAR
-  - name: smart_id
-    type: VARCHAR
-  - name: entry_year
-    type: INTEGER
-  - name: rookie_year
-    type: INTEGER
-  - name: draft_club
-    type: VARCHAR
   - name: draft_number
-    type: INTEGER
+    type: BIGINT

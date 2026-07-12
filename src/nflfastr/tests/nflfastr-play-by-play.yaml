@@ -1,6 +1,7 @@
 spec_id: nflfastr-play-by-play
 status: active
 tests:
+  - freshness: {col: season, reaches: 2025}
   - not_null: game_id
   - not_null: season
   - column_type: {col: season, type: integer}

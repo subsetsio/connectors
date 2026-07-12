@@ -1,14 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [season, season_type, game_id, player_id]
-temporal: season
-sort: [season, season_type, game_id, player_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-qbr-week-level`. Regenerate after model-verify.
+key: [game_id, name_display, name_last, player_id, name_short]
+sort: [game_id, name_display, name_last, player_id, name_short]
 columns:
   - name: season
     type: INTEGER
   - name: season_type
     type: VARCHAR
   - name: game_id
-    type: VARCHAR
+    type: BIGINT
   - name: game_week
     type: INTEGER
   - name: week_text
@@ -16,7 +16,7 @@ columns:
   - name: team_abb
     type: VARCHAR
   - name: player_id
-    type: VARCHAR
+    type: BIGINT
   - name: name_short
     type: VARCHAR
   - name: rank
@@ -52,7 +52,7 @@ columns:
   - name: team
     type: VARCHAR
   - name: opp_id
-    type: VARCHAR
+    type: BIGINT
   - name: opp_abb
     type: VARCHAR
   - name: opp_team

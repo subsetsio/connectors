@@ -1,12 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [game_id, official_id]
-temporal: season
-sort: [season, game_id, official_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-officials`. Regenerate after model-verify.
+key: [game_id, game_key, official_id, official_name, position]
+sort: [game_id, game_key, official_id, official_name, position]
 columns:
   - name: game_id
-    type: VARCHAR
+    type: BIGINT
   - name: game_key
-    type: VARCHAR
+    type: BIGINT
   - name: official_name
     type: VARCHAR
   - name: position

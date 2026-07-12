@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-draft-picks`. Regenerate after model-verify.
+key: [pfr_player_name, college, team, position, category]
+sort: [pfr_player_name, college, team, position, category]
 columns:
   - name: season
     type: INTEGER

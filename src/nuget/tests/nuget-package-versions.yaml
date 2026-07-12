@@ -12,9 +12,13 @@ tests:
     certainty: 99
   - column_type: {col: is_delete, type: boolean}
     certainty: 95
-  - matches: {col: commit_timestamp, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"}
+  - matches: {col: commit_timestamp, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z$"}
     reason: catalog commitTimeStamp is ISO-8601
     certainty: 90
+  - freshness: {col: commit_timestamp, reaches: today - 7d}
+    reason: NuGet catalog commits continuously as packages are published
+    certainty: 85
+    points_outward: true
   - row_count: {min: 1000000}
     reason: the NuGet catalog holds ~12M package-version events; far fewer means the page harvest truncated
     certainty: 90

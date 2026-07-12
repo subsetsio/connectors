@@ -1,6 +1,7 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-pfr-rosters`. Regenerate after model-verify.
+# caution: PFR roster rows are seasonal roster entries and can duplicate a player across teams or roster contexts.
+key: []
 columns:
   - name: season
     type: INTEGER

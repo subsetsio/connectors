@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-advstats-season-rec`. Regenerate after model-verify.
+# caution: Season-level advanced receiving rows are player-team-season observations; players changing teams can appear more than once in a season.
+key: []
+temporal: loaded
+sort: [loaded]
 columns:
   - name: season
     type: INTEGER

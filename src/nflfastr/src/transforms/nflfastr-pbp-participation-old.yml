@@ -1,9 +1,12 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-pbp-participation-old`. Regenerate after model-verify.
+key: [players_on_play, defense_players, offense_players, play_id, nflverse_game_id]
+sort: [players_on_play, defense_players, offense_players, play_id, nflverse_game_id]
 columns:
   - name: nflverse_game_id
     type: VARCHAR
   - name: old_game_id
-    type: VARCHAR
+    type: BIGINT
   - name: play_id
     type: INTEGER
   - name: possession_team

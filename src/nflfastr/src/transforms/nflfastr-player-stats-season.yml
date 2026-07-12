@@ -1,6 +1,7 @@
-# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
-temporal: season
-sort: [season]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-player-stats-season`. Regenerate after model-verify.
+# caution: Season player stat rows can repeat player/season/season_type combinations in the raw release.
+key: []
 columns:
   - name: season
     type: INTEGER

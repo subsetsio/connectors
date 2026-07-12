@@ -1,7 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [season, team, season_type]
-temporal: season
-sort: [season, team, season_type]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nflfastr-stats-team-regpost`. Regenerate after model-verify.
+# caution: Combined regular/postseason team stats include at least one row without the full season/team/season_type identifier.
+key: []
 columns:
   - name: season
     type: INTEGER
@@ -41,6 +41,14 @@ columns:
     type: DOUBLE
   - name: passing_2pt_conversions
     type: INTEGER
+  - name: passing_10
+    type: INTEGER
+  - name: passing_16
+    type: INTEGER
+  - name: passing_20
+    type: INTEGER
+  - name: passing_40
+    type: INTEGER
   - name: carries
     type: INTEGER
   - name: rushing_yards
@@ -56,6 +64,14 @@ columns:
   - name: rushing_epa
     type: DOUBLE
   - name: rushing_2pt_conversions
+    type: INTEGER
+  - name: rushing_10
+    type: INTEGER
+  - name: rushing_12
+    type: INTEGER
+  - name: rushing_20
+    type: INTEGER
+  - name: rushing_40
     type: INTEGER
   - name: receptions
     type: INTEGER
@@ -78,6 +94,14 @@ columns:
   - name: receiving_epa
     type: DOUBLE
   - name: receiving_2pt_conversions
+    type: INTEGER
+  - name: receiving_10
+    type: INTEGER
+  - name: receiving_16
+    type: INTEGER
+  - name: receiving_20
+    type: INTEGER
+  - name: receiving_40
     type: INTEGER
   - name: special_teams_tds
     type: INTEGER
@@ -129,6 +153,16 @@ columns:
     type: INTEGER
   - name: timeouts
     type: INTEGER
+  - name: fumbles_forced_by_opp
+    type: INTEGER
+  - name: fumbles_not_forced
+    type: INTEGER
+  - name: fumbles_out_of_bounds
+    type: INTEGER
+  - name: fumbles_total
+    type: INTEGER
+  - name: fumbles_lost_total
+    type: INTEGER
   - name: punt_returns
     type: INTEGER
   - name: punt_return_yards
@@ -159,7 +193,7 @@ columns:
     type: INTEGER
   - name: fg_made_50_59
     type: INTEGER
-  - name: fg_made_60_
+  - name: fg_made_60
     type: INTEGER
   - name: fg_missed_0_19
     type: INTEGER
@@ -171,7 +205,7 @@ columns:
     type: INTEGER
   - name: fg_missed_50_59
     type: INTEGER
-  - name: fg_missed_60_
+  - name: fg_missed_60
     type: INTEGER
   - name: fg_made_list
     type: VARCHAR
@@ -205,3 +239,29 @@ columns:
     type: INTEGER
   - name: gwfg_distance_list
     type: VARCHAR
+  - name: pt_att
+    type: INTEGER
+  - name: pt_blocked
+    type: INTEGER
+  - name: pt_long
+    type: INTEGER
+  - name: pt_yards
+    type: INTEGER
+  - name: pt_inside_20
+    type: INTEGER
+  - name: pt_out_of_bounds
+    type: INTEGER
+  - name: pt_downed
+    type: INTEGER
+  - name: pt_touchback
+    type: INTEGER
+  - name: pt_fair_caught
+    type: INTEGER
+  - name: pt_returned
+    type: INTEGER
+  - name: pt_return_yards
+    type: INTEGER
+  - name: pt_return_tds
+    type: INTEGER
+  - name: pt_net_yards
+    type: INTEGER

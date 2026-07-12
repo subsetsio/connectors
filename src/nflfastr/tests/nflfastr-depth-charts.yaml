@@ -1,6 +1,7 @@
 spec_id: nflfastr-depth-charts
 status: active
 tests:
+  - freshness: {col: dt, reaches: today - 400d}
   - not_null: team
   - row_count: {min: 130704}
     certainty: 70
