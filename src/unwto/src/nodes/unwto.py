@@ -23,16 +23,14 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
-# Current SYB edition (SYB67 = 2024 edition, released 2024-11). Bump yearly.
+# Current SYB edition (SYB68 = 2025 edition, released 2025-11). Bump yearly.
 TOURISM_URL = (
     "https://data.un.org/_Docs/SYB/CSV/"
-    "SYB67_176_202411_Tourist-Visitors%20Arrival%20and%20Expenditure.csv"
+    "SYB68_176_202511_Tourist-Visitors%20Arrival%20and%20Expenditure.csv"
 )
 
 # Long-format raw schema — one row per country x year x series.
@@ -46,7 +44,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _fetch_csv(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -123,29 +120,5 @@ DOWNLOAD_SPECS = [
         id="unwto-tourism-arrivals-expenditure",
         fn=fetch_tourism,
         kind="download",
-    ),
-]
-
-
-# Pivot the two long-format series into one wide table keyed by country x year.
-# (code, year, series) is unique in the source (verified), so the conditional
-# aggregates collapse to a single value per cell without ambiguity.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="unwto-tourism-arrivals-expenditure-transform",
-        deps=["unwto-tourism-arrivals-expenditure"],
-        sql='''
-            SELECT
-                country_code,
-                max(country) AS country,
-                year,
-                max(value) FILTER (WHERE series = 'arrivals')           AS arrivals_thousands,
-                max(arrivals_type) FILTER (WHERE series = 'arrivals')   AS arrivals_type,
-                max(value) FILTER (WHERE series = 'expenditure')        AS expenditure_millions_usd
-            FROM "unwto-tourism-arrivals-expenditure"
-            GROUP BY country_code, year
-        ''',
-        key=("country_code", "year"),
-        temporal="year",
     ),
 ]

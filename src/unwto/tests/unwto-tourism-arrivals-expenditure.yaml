@@ -1,0 +1,38 @@
+spec_id: unwto-tourism-arrivals-expenditure
+status: active
+tests:
+  - row_count: {min: 1800}
+    reason: SYB tourism table is a country x year x series snapshot; a much smaller pull means the CSV parse or source URL degraded
+    certainty: 90
+  - not_null: country_code
+  - not_null: country
+  - not_null: year
+  - not_null: series
+  - not_null: value
+    reason: published tourism measures should carry numeric values after normalization
+    certainty: 80
+  - column_type: {col: country_code, type: integer}
+  - column_type: {col: country, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: series, type: string}
+  - column_type: {col: arrivals_type, type: string}
+  - column_type: {col: value, type: float}
+  - enum: {col: series, values: [arrivals, expenditure]}
+    reason: source table 176 contains only arrivals and tourism expenditure series
+    certainty: 95
+  - nullable: {col: arrivals_type, max_null_frac: 0.6}
+    reason: arrivals_type is only populated for arrival rows and should be null for expenditure rows
+    certainty: 85
+  - unique: [country_code, year, series]
+    reason: one normalized observation per country, year, and series
+    certainty: 90
+  - between: {col: year, lo: 1995, hi: current_year()}
+    reason: SYB tourism table is historical annual data, not projections
+    certainty: 90
+  - freshness: {col: year, reaches: 2022}
+    reason: current SYB68 table 176 reaches 2022; future pulls should not regress below that latest observed year
+    certainty: 80
+    points_outward: true
+  - distinct_count: {col: country_code, min: 180}
+    reason: the table should cover most UN M49 countries and areas
+    certainty: 85
