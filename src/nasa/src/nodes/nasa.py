@@ -23,6 +23,7 @@ stage as transforms/<table>.sql — none live here.
 from __future__ import annotations
 
 import csv
+import json
 import tempfile
 
 import httpx
@@ -269,9 +270,28 @@ def fetch_gistemp(node_id: str) -> None:
 EONET_EVENTS = "https://eonet.gsfc.nasa.gov/api/v3/events"
 
 
+def _load_eonet_payload(text: str):
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        repaired = []
+        repairs = 0
+        for line in text.splitlines():
+            if '"coordinates"' in line:
+                opens = line.count("[")
+                closes = line.count("]")
+                if opens > closes:
+                    line = line.rstrip() + ("]" * (opens - closes))
+                    repairs += 1
+            repaired.append(line)
+        if repairs:
+            return json.loads("\n".join(repaired))
+        raise
+
+
 def fetch_eonet(node_id: str) -> None:
     asset = node_id
-    payload = get_json(EONET_EVENTS, {"status": "all"})
+    payload = _load_eonet_payload(get_text(EONET_EVENTS, {"status": "all"}))
     events = payload.get("events") or []
     rows = []
     for ev in events:

@@ -21,7 +21,7 @@ def get_json(url: str, params: dict | None = None):
 
 
 @retry
-def get_text(url: str) -> str:
-    resp = get(url, timeout=(15.0, 180.0))
+def get_text(url: str, params: dict | None = None) -> str:
+    resp = get(url, params=params or {}, timeout=(15.0, 180.0))
     resp.raise_for_status()
     return resp.text
