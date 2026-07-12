@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `beijing-municipal-bureau-of-statistics-05-dbw-n13-3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, indicator, mask, col_label]
+checks:
+  - kind: unique
+    columns: [value, indicator, mask, col_label]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: mask
+  - kind: not_null
+    col: col_label
+  - kind: row_floor
+    min: 35
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
