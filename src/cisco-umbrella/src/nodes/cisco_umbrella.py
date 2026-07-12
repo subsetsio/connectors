@@ -16,8 +16,17 @@ import csv
 import io
 import zipfile
 
+import httpx
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    raw_asset_exists,
+    record_source_signature,
+    save_raw_parquet,
+    source_unchanged,
+)
 
 # Per-entity fetch config: stable URL + the semantic name of the second column.
 _FETCH = {
@@ -32,11 +41,10 @@ _FETCH = {
 }
 
 
-@transient_retry()  # 6 attempts, exp backoff 4..120s, retries 429/5xx/network
-def _download_zip(url: str) -> bytes:
+def _download_zip(url: str) -> httpx.Response:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
-    return resp.content
+    return resp
 
 
 def _parse_csv_zip(content: bytes) -> list[tuple[int, str]]:
@@ -66,7 +74,8 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     cfg = _FETCH[node_id]
     value_col = cfg["value_col"]
-    rows = _parse_csv_zip(_download_zip(cfg["url"]))
+    resp = _download_zip(cfg["url"])
+    rows = _parse_csv_zip(resp.content)
     schema = pa.schema([("rank", pa.int64()), (value_col, pa.string())])
     table = pa.Table.from_arrays(
         [
@@ -76,6 +85,7 @@ def fetch_one(node_id: str) -> None:
         schema=schema,
     )
     save_raw_parquet(table, asset)
+    record_source_signature(asset, cfg["url"], response=resp)
 
 
 DOWNLOAD_SPECS = [
@@ -83,29 +93,23 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="cisco-umbrella-top-1m-tlds", fn=fetch_one, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cisco-umbrella-top-1m-domains-transform",
-        deps=["cisco-umbrella-top-1m-domains"],
-        sql='''
-            SELECT
-                CAST(rank AS INTEGER) AS rank,
-                domain
-            FROM "cisco-umbrella-top-1m-domains"
-            WHERE domain IS NOT NULL AND domain <> ''
-            ORDER BY rank
-        ''',
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="cisco-umbrella-top-1m-domains",
+        description=(
+            "Regenerated daily per Cisco Umbrella Popularity List; "
+            "skip only when the S3 ETag/Last-Modified signature is unchanged."
+        ),
+        check=lambda aid: source_unchanged(aid, _FETCH[aid]["url"])
+        and raw_asset_exists(aid, "parquet"),
     ),
-    SqlNodeSpec(
-        id="cisco-umbrella-top-1m-tlds-transform",
-        deps=["cisco-umbrella-top-1m-tlds"],
-        sql='''
-            SELECT
-                CAST(rank AS INTEGER) AS rank,
-                tld
-            FROM "cisco-umbrella-top-1m-tlds"
-            WHERE tld IS NOT NULL AND tld <> ''
-            ORDER BY rank
-        ''',
+    MaintainSpec(
+        asset_id="cisco-umbrella-top-1m-tlds",
+        description=(
+            "Regenerated daily per Cisco Umbrella Popularity List; "
+            "skip only when the S3 ETag/Last-Modified signature is unchanged."
+        ),
+        check=lambda aid: source_unchanged(aid, _FETCH[aid]["url"])
+        and raw_asset_exists(aid, "parquet"),
     ),
 ]

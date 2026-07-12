@@ -1,0 +1,14 @@
+spec_id: chartbook-economic-inequality-dispersion-of-earnings-p25-p50
+status: active
+coverage:
+  frozen: true
+  reason: the Chartbook is a fixed 2017 academic replication corpus rather than a continuously updated feed
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - enum: {col: dimension, values: [Dispersion of Earnings]}
+  - enum: {col: measure, values: [P25/P50]}
+  - row_count: {min: 100}
+    reason: this filtered measure should contain many country-year slots; a tiny count indicates an incorrect filter
+    certainty: 80

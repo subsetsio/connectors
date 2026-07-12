@@ -1,5 +1,8 @@
 spec_id: chartbook-economic-inequality-chartbook-inequality-values
 status: active
+coverage:
+  frozen: true
+  reason: the Chartbook is a fixed 2017 academic replication corpus rather than a continuously updated feed
 tests:
   - not_null: country
     reason: every observation belongs to one of the 25 covered countries
@@ -27,6 +30,9 @@ tests:
         - Wealth Inequality
     reason: the five inequality dimensions the Chartbook is organised around
     certainty: 90
+  - coverage: {col: series_key, from_collect: series}
+    reason: collect enumerates the 14 inequality dimension/measure combinations; the bulk values file should contain every one
+    certainty: 95
   - row_count: {min: 15000}
     reason: source pre-materializes every country/year/dimension slot (~18.8k rows); a much smaller count means a truncated download
     certainty: 80

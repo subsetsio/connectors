@@ -11,11 +11,12 @@ the source pre-materializes every (country, year, dimension, series) slot, most
 empty) and types the columns.
 """
 import io
+import re
 
 import pandas as pd
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 XLS_URL = (
     "https://chartbookofeconomicinequality.com/wp-content/uploads/"
@@ -24,28 +25,61 @@ XLS_URL = (
 
 # The .xls sheet header (note the upstream typo 'meaure'); we rename to clean
 # snake_case below.
-_COLUMNS = ["country", "year", "dimension", "measure", "series", "description", "value"]
+_COLUMNS = [
+    "country",
+    "year",
+    "dimension",
+    "measure",
+    "series_key",
+    "series",
+    "description",
+    "value",
+]
 
 SCHEMA = pa.schema([
     ("country", pa.string()),
     ("year", pa.int64()),
     ("dimension", pa.string()),
     ("measure", pa.string()),
+    ("series_key", pa.string()),
     ("series", pa.int64()),
     ("description", pa.string()),
     ("value", pa.float64()),
 ])
 
+_SERIES_FILTERS = {
+    "dispersion-of-earnings-gini-coefficient": ("Dispersion of Earnings", "Gini Coefficient"),
+    "dispersion-of-earnings-p25-p50": ("Dispersion of Earnings", "P25/P50"),
+    "dispersion-of-earnings-p80-p50": ("Dispersion of Earnings", "P80/P50"),
+    "dispersion-of-earnings-p90-p50": ("Dispersion of Earnings", "P90/P50"),
+    "dispersion-of-earnings-p90-p50-ratio": ("Dispersion of Earnings", "P90/P50 ratio"),
+    "overall-income-inequality-gini-coefficient": ("Overall Income Inequality", "Gini Coefficient"),
+    "poverty-measures-poverty-rate": ("Poverty Measures", "Poverty rate"),
+    "top-income-shares-top-0-01pct": ("Top Income Shares", "Top 0.01%"),
+    "top-income-shares-top-0-05pct": ("Top Income Shares", "Top 0.05%"),
+    "top-income-shares-top-0-1pct": ("Top Income Shares", "Top 0.1%"),
+    "top-income-shares-top-0-5pct": ("Top Income Shares", "Top 0.5%"),
+    "top-income-shares-top-1pct": ("Top Income Shares", "Top 1%"),
+    "wealth-inequality-gini-coefficient": ("Wealth Inequality", "Gini Coefficient"),
+    "wealth-inequality-top-1pct": ("Wealth Inequality", "Top 1%"),
+}
 
-@transient_retry()  # 6 attempts, exponential backoff over transient errors / 5xx / 429
+_SPEC_PREFIX = "chartbook-economic-inequality-"
+
+
 def _download_xls() -> bytes:
     resp = get(XLS_URL, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.content
 
 
-def fetch_values(node_id: str) -> None:
-    asset = node_id  # the runtime passes the spec id; it IS the asset name
+def _slug(*parts: str) -> str:
+    slug = "-".join(parts).lower()
+    slug = slug.replace("%", "pct").replace("/", "-")
+    return re.sub(r"[^a-z0-9]+", "-", slug).strip("-")
+
+
+def _read_chartbook() -> pd.DataFrame:
     raw = _download_xls()
     df = pd.read_excel(io.BytesIO(raw), sheet_name=0, engine="xlrd")
     if list(df.columns) != [
@@ -53,15 +87,36 @@ def fetch_values(node_id: str) -> None:
         "series", "description", "value",
     ]:
         raise AssertionError(f"unexpected sheet header: {list(df.columns)!r}")
-    df.columns = _COLUMNS
+    df.columns = ["country", "year", "dimension", "measure", "series", "description", "value"]
 
     # 'series' is a 1/2/3 series number; nullable in the source for empty slots.
     # Coerce to a pandas nullable integer so pyarrow maps it to int64 with nulls.
     df["series"] = df["series"].astype("Int64")
     df["year"] = df["year"].astype("int64")
+    df["series_key"] = [_slug(dim, measure) for dim, measure in zip(df["dimension"], df["measure"])]
+    return df
 
+
+def _save_frame(df: pd.DataFrame, asset_id: str) -> None:
     table = pa.Table.from_pandas(df[_COLUMNS], schema=SCHEMA, preserve_index=False)
-    save_raw_parquet(table, asset)
+    save_raw_parquet(table, asset_id)
+
+
+def fetch_values(node_id: str) -> None:
+    _save_frame(_read_chartbook(), node_id)
+
+
+def fetch_series(node_id: str) -> None:
+    entity_id = node_id.removeprefix(_SPEC_PREFIX)
+    try:
+        dimension, measure = _SERIES_FILTERS[entity_id]
+    except KeyError as exc:
+        raise AssertionError(f"unknown Chartbook series entity: {entity_id}") from exc
+    df = _read_chartbook()
+    filtered = df[(df["dimension"] == dimension) & (df["measure"] == measure)]
+    if filtered.empty:
+        raise AssertionError(f"no rows found for {dimension!r} / {measure!r}")
+    _save_frame(filtered, node_id)
 
 
 DOWNLOAD_SPECS = [
@@ -70,23 +125,12 @@ DOWNLOAD_SPECS = [
         fn=fetch_values,
         kind="download",
     ),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="chartbook-economic-inequality-chartbook-inequality-values-transform",
-        deps=["chartbook-economic-inequality-chartbook-inequality-values"],
-        sql='''
-            SELECT
-                CAST(country     AS VARCHAR)  AS country,
-                CAST(year        AS INTEGER)  AS year,
-                CAST(dimension   AS VARCHAR)  AS dimension_of_inequality,
-                CAST(measure     AS VARCHAR)  AS measure_of_inequality,
-                CAST(series      AS INTEGER)  AS series,
-                CAST(description AS VARCHAR)  AS description,
-                CAST(value       AS DOUBLE)   AS value
-            FROM "chartbook-economic-inequality-chartbook-inequality-values"
-            WHERE value IS NOT NULL
-        ''',
-    ),
+    *[
+        NodeSpec(
+            id=f"chartbook-economic-inequality-{entity_id}",
+            fn=fetch_series,
+            kind="download",
+        )
+        for entity_id in sorted(_SERIES_FILTERS)
+    ],
 ]
