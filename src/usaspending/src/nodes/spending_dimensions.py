@@ -17,7 +17,7 @@ import datetime
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _get, _post
 
 # entity id (collect) -> /spending/ `type` value
@@ -97,83 +97,3 @@ def fetch_spending_dimension(node_id: str) -> None:
 
     table = pa.Table.from_pylist(rows, schema=DIMENSION_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="usaspending-spending-by-agency", fn=fetch_spending_dimension, kind="download"),
-    NodeSpec(id="usaspending-spending-by-budget-function", fn=fetch_spending_dimension, kind="download"),
-    NodeSpec(id="usaspending-spending-by-budget-subfunction", fn=fetch_spending_dimension, kind="download"),
-    NodeSpec(id="usaspending-spending-by-object-class", fn=fetch_spending_dimension, kind="download"),
-    NodeSpec(id="usaspending-spending-by-federal-account", fn=fetch_spending_dimension, kind="download"),
-    NodeSpec(id="usaspending-spending-by-program-activity", fn=fetch_spending_dimension, kind="download"),
-]
-
-
-# Per-entity publishing SQL. Each renames the generic raw columns to
-# dimension-specific names and drops exact-zero (inactive) rows. Identifier
-# choice per dimension: program_activity codes repeat across accounts so its
-# source-unique `id` is surfaced; federal_account uses the full account_number;
-# the rest use their (year-unique) code.
-_DIMENSION_SQL = {
-    "spending-by-agency": '''
-        SELECT fiscal_year,
-               code AS agency_code,
-               name AS agency_name,
-               total_obligations
-        FROM "{dep}"
-        WHERE total_obligations <> 0
-    ''',
-    "spending-by-budget-function": '''
-        SELECT fiscal_year,
-               code AS budget_function_code,
-               name AS budget_function_name,
-               total_obligations
-        FROM "{dep}"
-        WHERE total_obligations <> 0
-    ''',
-    "spending-by-budget-subfunction": '''
-        SELECT fiscal_year,
-               code AS budget_subfunction_code,
-               name AS budget_subfunction_name,
-               total_obligations
-        FROM "{dep}"
-        WHERE total_obligations <> 0
-    ''',
-    "spending-by-object-class": '''
-        SELECT fiscal_year,
-               code AS object_class_code,
-               name AS object_class_name,
-               total_obligations
-        FROM "{dep}"
-        WHERE total_obligations <> 0
-    ''',
-    "spending-by-federal-account": '''
-        SELECT fiscal_year,
-               account_number AS federal_account_number,
-               name AS federal_account_name,
-               total_obligations
-        FROM "{dep}"
-        WHERE total_obligations <> 0
-    ''',
-    "spending-by-program-activity": '''
-        SELECT fiscal_year,
-               id AS program_activity_id,
-               code AS program_activity_code,
-               name AS program_activity_name,
-               total_obligations
-        FROM "{dep}"
-        WHERE total_obligations <> 0
-    ''',
-}
-
-
-def _build_transform_specs() -> list[SqlNodeSpec]:
-    specs = []
-    for s in DOWNLOAD_SPECS:
-        entity = s.id[len("usaspending-"):]
-        sql = _DIMENSION_SQL[entity].format(dep=s.id)
-        specs.append(SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=sql))
-    return specs
-
-
-TRANSFORM_SPECS = _build_transform_specs()

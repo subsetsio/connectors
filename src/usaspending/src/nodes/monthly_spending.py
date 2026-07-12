@@ -14,7 +14,7 @@ import datetime
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _post
 
 # FY2008 is the earliest fiscal year served by spending_over_time (DATA Act /
@@ -77,31 +77,3 @@ def fetch_monthly_spending(node_id: str) -> None:
     rows.sort(key=lambda x: x["date"])
     table = pa.Table.from_pylist(rows, schema=MONTHLY_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="usaspending-monthly-spending-by-award-type", fn=fetch_monthly_spending, kind="download"),
-]
-
-
-_MONTHLY_SQL = '''
-    SELECT CAST(date AS DATE) AS date,
-           total_obligations,
-           contract_obligations,
-           direct_payment_obligations,
-           grant_obligations,
-           idv_obligations,
-           loan_obligations,
-           other_obligations
-    FROM "{dep}"
-    WHERE total_obligations <> 0
-'''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="usaspending-monthly-spending-by-award-type-transform",
-        deps=["usaspending-monthly-spending-by-award-type"],
-        sql=_MONTHLY_SQL.format(dep="usaspending-monthly-spending-by-award-type"),
-    ),
-]
