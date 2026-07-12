@@ -10,9 +10,10 @@ snake_cased, all-string parquet (the sheet carries formula-helper and internal
 
 import csv
 import io
+from datetime import datetime
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 CSV_URL = (
     "https://docs.google.com/spreadsheets/d/"
@@ -55,11 +56,22 @@ COLUMN_MAP = {
 SCHEMA = pa.schema([(name, pa.string()) for name in COLUMN_MAP.values()])
 
 
-@transient_retry()
 def _fetch_csv(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content
+
+
+def _normalize_date(value: str | None) -> str | None:
+    if not value:
+        return None
+    value = value.strip()
+    for fmt in ("%m/%d/%Y", "%m/%d/%y"):
+        try:
+            return datetime.strptime(value, fmt).date().isoformat()
+        except ValueError:
+            pass
+    return None
 
 
 def fetch_fatal_encounters(node_id: str) -> None:
@@ -83,6 +95,8 @@ def fetch_fatal_encounters(node_id: str) -> None:
             continue
         for out, pos in idx.items():
             val = row[pos].strip() if pos < len(row) else ""
+            if out == "date_of_death":
+                val = _normalize_date(val)
             cols[out].append(val if val else None)
 
     table = pa.table(
@@ -97,44 +111,5 @@ DOWNLOAD_SPECS = [
         id="fatal-encounters-fatal-encounters",
         fn=fetch_fatal_encounters,
         kind="download",
-    ),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="fatal-encounters-fatal-encounters-transform",
-        deps=["fatal-encounters-fatal-encounters"],
-        sql='''
-            SELECT
-                CAST(unique_id AS BIGINT)                       AS unique_id,
-                name,
-                age,
-                gender,
-                race,
-                race_with_imputations,
-                imputation_probability,
-                image_url,
-                try_strptime(date_of_death, '%m/%d/%Y')::DATE   AS date_of_death,
-                location_address,
-                city,
-                state,
-                zip_code,
-                county,
-                full_address,
-                TRY_CAST(latitude AS DOUBLE)                    AS latitude,
-                TRY_CAST(longitude AS DOUBLE)                   AS longitude,
-                agency,
-                highest_level_of_force,
-                armed_unarmed,
-                alleged_weapon,
-                aggressive_physical_movement,
-                fleeing,
-                brief_description,
-                intended_use_of_force,
-                supporting_document_link
-            FROM "fatal-encounters-fatal-encounters"
-            WHERE unique_id IS NOT NULL
-              AND TRY_CAST(unique_id AS BIGINT) IS NOT NULL
-        ''',
     ),
 ]

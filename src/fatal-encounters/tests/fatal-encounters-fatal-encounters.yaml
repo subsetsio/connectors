@@ -19,3 +19,7 @@ tests:
   - not_null: state
     reason: every incident is geolocated to a US state or DC
     certainty: 80
+  - freshness: {col: date_of_death, reaches: today - 400d}
+    reason: Fatal Encounters is a living database updated continuously; a latest incident more than about a year old would mean the export or parser is stale
+    certainty: 80
+    points_outward: true
