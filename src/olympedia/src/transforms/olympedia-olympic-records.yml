@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [event, current_record, athletes, date, noc_code]
+temporal: date
+sort: [date, event, noc_code]
 columns:
   - name: discipline_code
     type: VARCHAR

@@ -26,7 +26,7 @@ from subsets_utils import (
 )
 
 BULK_URL = "https://openpagerank.keywordseverywhere.com/downloads/top10milliondomains.csv.zip"
-# CSV header is: "Rank","Domain","Open Page Rank" (all values quoted strings).
+# CSV header is: "Rank","Domain","Extension","Open Page Rank","Referring Domains".
 BATCH_ROWS = 250_000
 # Safety floor: the corpus is ~10M rows. A successful download well below this
 # means the transfer truncated or the source format changed — raise, never
@@ -77,14 +77,21 @@ def fetch_top10m(node_id: str) -> None:
             with zf.open(member, "r") as raw:
                 reader = csv.reader(io.TextIOWrapper(raw, encoding="utf-8"))
                 header = next(reader, None)
-                if not header or len(header) < 3:
+                expected_header = [
+                    "Rank",
+                    "Domain",
+                    "Extension",
+                    "Open Page Rank",
+                    "Referring Domains",
+                ]
+                if header != expected_header:
                     raise AssertionError(f"unexpected CSV header: {header!r}")
                 for row in reader:
-                    if len(row) < 3 or not row[1]:
+                    if len(row) < len(expected_header) or not row[1]:
                         continue
                     ranks.append(int(row[0]))
                     domains.append(row[1])
-                    oprs.append(float(row[2]))
+                    oprs.append(float(row[3]))
                     if len(ranks) >= BATCH_ROWS:
                         _flush(writer, ranks, domains, oprs)
                         total += len(ranks)
