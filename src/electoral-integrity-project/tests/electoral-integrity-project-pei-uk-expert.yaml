@@ -1,0 +1,10 @@
+spec_id: electoral-integrity-project-pei-uk-expert
+status: active
+coverage:
+  frozen: true
+  reason: PEI-UK 2.0 is a fixed country-study release in Harvard Dataverse.
+tests:
+  - row_count: {min: 30}
+    reason: The UK expert file should contain expert response rows from the country study.
+    certainty: 80
+  - not_null: election

@@ -1,0 +1,11 @@
+spec_id: electoral-integrity-project-pei-russia-expert
+status: active
+coverage:
+  frozen: true
+  reason: PEI-Russia 1.0 is a fixed country-study release in Harvard Dataverse.
+tests:
+  - row_count: {min: 150}
+    reason: The expert-level Russia country study should contain over one hundred expert response rows.
+    certainty: 85
+  - not_null: election
+  - column_type: {col: year, type: integer}

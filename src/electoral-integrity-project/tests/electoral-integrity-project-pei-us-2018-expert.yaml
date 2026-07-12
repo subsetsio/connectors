@@ -1,0 +1,11 @@
+spec_id: electoral-integrity-project-pei-us-2018-expert
+status: active
+coverage:
+  frozen: true
+  reason: PEI-US 2018 is a fixed election-study release in Harvard Dataverse.
+tests:
+  - row_count: {min: 500}
+    reason: The US 2018 expert file should contain several hundred expert responses.
+    certainty: 85
+  - not_null: election
+  - column_type: {col: year, type: integer}

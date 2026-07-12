@@ -1,14 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `docker-hub-pull-stats`. Regenerate after model-verify.
+# caution: Pull and star counts are cumulative lifetime totals observed at each snapshot_date; differences between snapshots approximate change over time.
+key: [snapshot_date, repo]
+temporal: snapshot_date
+sort: [snapshot_date, repo]
 columns:
   - name: snapshot_date
     type: DATE
+    description: Date when this connector observed the Docker Hub repository statistics.
   - name: namespace
     type: VARCHAR
+    description: Docker Hub namespace; official images use the library namespace.
   - name: repo
     type: VARCHAR
+    description: Docker Official Image repository slug.
   - name: pull_count
     type: BIGINT
+    description: Cumulative lifetime pull count reported by Docker Hub at snapshot_date.
   - name: star_count
     type: BIGINT
+    description: Cumulative lifetime star count reported by Docker Hub at snapshot_date.
   - name: last_updated
     type: TIMESTAMP
+    description: Timestamp when Docker Hub last updated the repository metadata.

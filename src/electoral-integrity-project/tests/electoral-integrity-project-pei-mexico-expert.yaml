@@ -1,0 +1,11 @@
+spec_id: electoral-integrity-project-pei-mexico-expert
+status: active
+coverage:
+  frozen: true
+  reason: PEI-Mexico 2.0 is a fixed country-study release in Harvard Dataverse.
+tests:
+  - row_count: {min: 400}
+    reason: The expert-level Mexico country study should contain hundreds of expert response rows.
+    certainty: 85
+  - not_null: election
+  - column_type: {col: year, type: integer}

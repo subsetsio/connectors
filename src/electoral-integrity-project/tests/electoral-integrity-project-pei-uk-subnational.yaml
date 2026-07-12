@@ -1,0 +1,10 @@
+spec_id: electoral-integrity-project-pei-uk-subnational
+status: active
+coverage:
+  frozen: true
+  reason: PEI-UK 2.0 is a fixed country-study release in Harvard Dataverse.
+tests:
+  - row_count: {min: 3}
+    reason: The UK subnational aggregate file contains one row per UK subnational election grouping in the release.
+    certainty: 80
+  - not_null: election

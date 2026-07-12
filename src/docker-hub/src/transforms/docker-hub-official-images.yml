@@ -1,22 +1,36 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `docker-hub-official-images`. Regenerate after model-verify.
+key: [repo]
+temporal: date_registered
+sort: [date_registered, repo]
 columns:
   - name: namespace
     type: VARCHAR
+    description: Docker Hub namespace; official images use the library namespace.
   - name: repo
     type: VARCHAR
+    description: Docker Official Image repository slug.
   - name: description
     type: VARCHAR
+    description: Repository description from Docker Hub.
   - name: repository_type
     type: VARCHAR
+    description: Docker Hub repository type.
   - name: status
-    type: INTEGER
+    type: BIGINT
+    description: Numeric repository status code reported by Docker Hub.
   - name: status_description
     type: VARCHAR
+    description: Human-readable repository status reported by Docker Hub.
   - name: date_registered
     type: TIMESTAMP
+    description: Timestamp when the repository was registered on Docker Hub.
   - name: last_updated
     type: TIMESTAMP
+    description: Timestamp when Docker Hub last updated the repository metadata.
   - name: storage_size_bytes
     type: BIGINT
+    description: Repository storage size in bytes as reported by Docker Hub.
   - name: categories
     type: VARCHAR
+    description: Docker Hub category labels associated with the repository, when present.

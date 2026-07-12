@@ -1,0 +1,12 @@
+spec_id: electoral-integrity-project-pei-election
+status: active
+tests:
+  - row_count: {min: 600}
+    reason: PEI-11.0 covers 643 national contests and future cumulative releases should not shrink below this order of magnitude.
+    certainty: 90
+  - not_null: election
+  - column_type: {col: year, type: integer}
+  - freshness: {col: year, reaches: 2024}
+    reason: The current cumulative global release covers elections through 2024; future releases should reach at least that year.
+    certainty: 95
+    points_outward: true

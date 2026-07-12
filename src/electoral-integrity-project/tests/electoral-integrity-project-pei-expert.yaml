@@ -1,0 +1,12 @@
+spec_id: electoral-integrity-project-pei-expert
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: PEI-11.0 has 5,605 expert responses and later cumulative releases should remain at least this large.
+    certainty: 90
+  - not_null: election
+  - column_type: {col: year, type: integer}
+  - freshness: {col: year, reaches: 2024}
+    reason: Expert responses correspond to the current global release coverage through 2024.
+    certainty: 95
+    points_outward: true
