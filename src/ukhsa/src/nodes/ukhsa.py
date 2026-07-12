@@ -33,11 +33,9 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     raw_parquet_writer,
-    transient_retry,
 )
 
 BASE = "https://api.ukhsa-dashboard.data.gov.uk"
@@ -78,13 +76,18 @@ SCHEMA = pa.schema([
     ("in_reporting_delay_period", pa.bool_()),
 ])
 
-_FIELD_NAMES = [f.name for f in SCHEMA]
+METRICS_SCHEMA = pa.schema([
+    ("theme", pa.string()),
+    ("sub_theme", pa.string()),
+    ("topic", pa.string()),
+    ("geography_type", pa.string()),
+    ("metric", pa.string()),
+])
 
 
 # --- HTTP with retry --------------------------------------------------------
 
 
-@transient_retry(min_wait=2, max_wait=60)
 def _get_json(url, params=None):
     resp = get(
         url,
@@ -141,6 +144,38 @@ def _iter_leaves():
                     for _geo, geo_link in _child_collection(gtype_link):
                         for metric_name, metric_link in _child_collection(geo_link):
                             yield metric_name, metric_link
+
+
+def _iter_metric_rows():
+    """Yield the distinct metric taxonomy rows covered by the values crawl."""
+    seen = set()
+    themes = _listing(_get_json(f"{BASE}/themes/"))
+    if not themes:
+        raise RuntimeError("themes endpoint returned no themes")
+    for theme_name, theme_link in themes:
+        for sub_name, sub_link in _child_collection(theme_link):
+            for topic_name, topic_link in _child_collection(sub_link):
+                for gtype_name, gtype_link in _child_collection(topic_link):
+                    if gtype_name not in GEOGRAPHY_TYPES:
+                        continue
+                    geographies = _child_collection(gtype_link)
+                    if not geographies:
+                        continue
+                    # Metric availability is geography-independent within a
+                    # geography type. Use the first geography to avoid turning
+                    # this reference download into another values crawl.
+                    for metric_name, _metric_link in _child_collection(geographies[0][1]):
+                        key = (theme_name, sub_name, topic_name, gtype_name, metric_name)
+                        if key in seen:
+                            continue
+                        seen.add(key)
+                        yield {
+                            "theme": theme_name,
+                            "sub_theme": sub_name,
+                            "topic": topic_name,
+                            "geography_type": gtype_name,
+                            "metric": metric_name,
+                        }
 
 
 # --- row coercion -----------------------------------------------------------
@@ -245,40 +280,21 @@ def fetch_values(node_id: str) -> None:
         raise RuntimeError("crawl produced 0 rows -- API shape may have changed")
 
 
+def fetch_metrics(node_id: str) -> None:
+    asset = node_id
+    configure_http(headers={"Accept": "application/json"})
+
+    rows = list(_iter_metric_rows())
+    if not rows:
+        raise RuntimeError("metric taxonomy crawl produced 0 rows")
+    table = pa.Table.from_pylist(rows, schema=METRICS_SCHEMA)
+    with raw_parquet_writer(asset, METRICS_SCHEMA) as writer:
+        writer.write_table(table)
+    print(f"  -> {asset}: {len(rows):,} metric taxonomy rows "
+          f"(geography types: {sorted(GEOGRAPHY_TYPES)})")
+
+
 DOWNLOAD_SPECS = [
+    NodeSpec(id="ukhsa-metrics", fn=fetch_metrics, kind="download"),
     NodeSpec(id="ukhsa-values", fn=fetch_values, kind="download"),
-]
-
-
-# --- transform: publish one Delta table -------------------------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ukhsa-values-transform",
-        deps=["ukhsa-values"],
-        temporal="date",
-        sql='''
-            SELECT DISTINCT
-                theme,
-                sub_theme,
-                topic,
-                geography_type,
-                geography,
-                geography_code,
-                metric,
-                metric_group,
-                stratum,
-                sex,
-                age,
-                CAST(year AS INTEGER)            AS year,
-                CAST(month AS INTEGER)           AS month,
-                CAST(epiweek AS INTEGER)         AS epiweek,
-                CAST(date AS DATE)               AS date,
-                CAST(metric_value AS DOUBLE)     AS metric_value,
-                in_reporting_delay_period
-            FROM "ukhsa-values"
-            WHERE date IS NOT NULL
-              AND metric_value IS NOT NULL
-        ''',
-    ),
 ]

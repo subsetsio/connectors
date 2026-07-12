@@ -1,0 +1,30 @@
+spec_id: ukhsa-values
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: national and regional dashboard time series span many metrics and dates
+    certainty: 90
+  - not_null: theme
+  - not_null: sub_theme
+  - not_null: topic
+  - not_null: geography_type
+  - not_null: geography
+  - not_null: metric
+  - not_null: date
+  - not_null: metric_value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: epiweek, type: integer}
+  - column_type: {col: date, type: string}
+  - column_type: {col: metric_value, type: float}
+  - between: {col: year, lo: 2000, hi: current_year()}
+    reason: dashboard surveillance observations are contemporary public-health time series
+    certainty: 80
+    severity: warn
+  - freshness: {col: date, reaches: today - 45d}
+    reason: dashboard includes recently updated public-health surveillance metrics
+    certainty: 80
+    points_outward: true
+  - distinct_count: {col: geography_type, min: 1}
+    reason: the values crawl covers national and regional geography levels
+    certainty: 95

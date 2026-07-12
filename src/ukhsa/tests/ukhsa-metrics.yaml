@@ -1,0 +1,22 @@
+spec_id: ukhsa-metrics
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: the dashboard documents dozens of metrics across several health topics
+    certainty: 95
+  - not_null: theme
+  - not_null: sub_theme
+  - not_null: topic
+  - not_null: geography_type
+  - not_null: metric
+  - column_type: {col: theme, type: string}
+  - column_type: {col: sub_theme, type: string}
+  - column_type: {col: topic, type: string}
+  - column_type: {col: geography_type, type: string}
+  - column_type: {col: metric, type: string}
+  - unique: [theme, sub_theme, topic, geography_type, metric]
+    reason: taxonomy rows are distinct metric listings within a topic and geography type
+    certainty: 95
+  - distinct_count: {col: geography_type, min: 1}
+    reason: at least one national or regional geography type should expose dashboard metrics
+    certainty: 95
