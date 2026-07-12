@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from itertools import product
 
-from subsets_utils import NodeSpec, get, post, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, get, post, raw_asset_exists, raw_writer
 
 from constants import ENTITY_IDS
 
@@ -167,4 +167,17 @@ def fetch_table(asset_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{entity_id.lower()}", fn=fetch_table)
     for entity_id in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "SCB Statistical Database updates on table-specific schedules; "
+            "re-fetch at least every 30 days per connector maintenance cadence "
+            "and SCB database update guidance."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson.gz", max_age_days=30),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
