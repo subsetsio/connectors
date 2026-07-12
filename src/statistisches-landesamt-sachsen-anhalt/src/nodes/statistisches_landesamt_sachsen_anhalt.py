@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import html
 import io
 import re
 
@@ -36,6 +37,15 @@ def _extract_levelid(html: str) -> str:
     return match.group(1)
 
 
+def _extract_ffcsv_action(page_html: str) -> str | None:
+    actions = re.findall(r'<form[^>]+action="([^"]+)"', page_html)
+    for action in actions:
+        action = html.unescape(action)
+        if "operation=ergebnistabelleDownload" in action and "option=ffcsv" in action:
+            return action
+    return None
+
+
 def _download_ffcsv(table_code: str) -> bytes:
     headers = {"User-Agent": "subsets-connector/1.0"}
     timeout = httpx.Timeout(connect=20.0, read=180.0, write=20.0, pool=20.0)
@@ -45,38 +55,34 @@ def _download_ffcsv(table_code: str) -> bytes:
             params={"operation": "table", "code": table_code, "bypass": "true"},
         )
         setup.raise_for_status()
-        if 'name="werteabruf"' not in setup.text:
+        result_html = setup.text
+        if _extract_ffcsv_action(result_html) is None and 'name="werteabruf"' not in result_html:
             raise RuntimeError(f"{table_code}: anonymous table setup page is unavailable")
 
-        levelid = _extract_levelid(setup.text)
-        result = client.get(
-            _BASE,
-            params={
-                "operation": "abruftabelleBearbeiten",
-                "levelindex": "0",
-                "levelid": levelid,
-                "auswahloperation": "abruftabelleAuspraegungAuswaehlen",
-                "auswahlverzeichnis": "ordnungsstruktur",
-                "auswahlziel": "werteabruf",
-                "code": table_code,
-                "auswahltext": "",
-                "werteabruf": "starten",
-            },
-        )
-        result.raise_for_status()
-        if "operation=ergebnistabelleDownload" not in result.text:
-            raise RuntimeError(f"{table_code}: GENESIS result page did not expose download forms")
+        if _extract_ffcsv_action(result_html) is None:
+            levelid = _extract_levelid(result_html)
+            result = client.get(
+                _BASE,
+                params={
+                    "operation": "abruftabelleBearbeiten",
+                    "levelindex": "0",
+                    "levelid": levelid,
+                    "auswahloperation": "abruftabelleAuspraegungAuswaehlen",
+                    "auswahlverzeichnis": "ordnungsstruktur",
+                    "auswahlziel": "werteabruf",
+                    "code": table_code,
+                    "auswahltext": "",
+                    "werteabruf": "starten",
+                },
+            )
+            result.raise_for_status()
+            result_html = result.text
 
-        download_levelid = _extract_levelid(result.text)
-        download = client.post(
-            _BASE,
-            params={
-                "operation": "ergebnistabelleDownload",
-                "levelindex": "1",
-                "levelid": download_levelid,
-                "option": "ffcsv",
-            },
-        )
+        download_action = _extract_ffcsv_action(result_html)
+        if download_action is None:
+            raise RuntimeError(f"{table_code}: GENESIS result page did not expose FFCSV download form")
+
+        download = client.post(download_action)
         download.raise_for_status()
         disposition = download.headers.get("content-disposition", "")
         if "_flat.csv" not in disposition:
