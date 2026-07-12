@@ -12,6 +12,7 @@ fetcher, the subreddit enumeration walk, and the skip-tolerance guard shared by
 two or more node files. It contains NO NodeSpec definitions.
 """
 
+import re
 import ssl
 
 import httpx
@@ -38,6 +39,7 @@ BATCH_SUBREDDITS = 1000      # subreddits per raw parquet batch
 # whole node — re-pulled next run. Abort only if skips look systemic.
 MAX_SKIP_FRAC = 0.05
 MAX_SKIP_ABS = 100
+_SUBREDDIT_KEY_RE = re.compile(r"^[A-Za-z0-9_]{1,24}$")
 
 
 # --- transport ------------------------------------------------------------
@@ -116,6 +118,9 @@ def _walk_subreddits() -> list[dict]:
             name = rec.get("display_name")
             subs = rec.get("subscribers")
             if not name or subs is None:
+                continue
+            if not _SUBREDDIT_KEY_RE.fullmatch(name):
+                print(f"  skip subreddit name unsupported by time_series keys: {name!r}")
                 continue
             bottom = subs if bottom is None else min(bottom, subs)
             low = name.lower()
