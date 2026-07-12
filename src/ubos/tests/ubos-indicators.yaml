@@ -1,0 +1,16 @@
+spec_id: ubos-indicators
+status: active
+tests:
+  - row_count: {min: 200}
+    reason: Open SDG meta/all.json lists the full Uganda SDG indicator catalog.
+    certainty: 95
+  - not_null: indicator_id
+  - not_null: indicator_name
+  - column_type: {col: indicator_id, type: string}
+  - distinct_count: {col: indicator_id, min: 200}
+    reason: each metadata object key is one SDG indicator id.
+    certainty: 95
+  - enum: {col: reporting_status, values: [complete, notstarted]}
+    reason: current Open SDG status vocabulary for this portal.
+    certainty: 80
+    severity: warn

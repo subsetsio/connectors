@@ -1,0 +1,8 @@
+spec_id: ucdp-term-dyad
+status: active
+tests:
+  - row_count: {min: 1}
+  - freshness: {col: year, reaches: 2024}
+    reason: conflict termination v4-2024 release should include current historical coverage
+    certainty: 80
+    points_outward: true

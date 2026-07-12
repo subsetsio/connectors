@@ -1,0 +1,22 @@
+spec_id: ubos-values
+status: active
+tests:
+  - row_count: {min: 2000}
+    reason: the bulk ZIP contains observation CSVs for more than 100 completed indicators.
+    certainty: 95
+  - not_null: indicator_id
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: year, lo: 2000, hi: current_year()}
+    reason: Uganda SDG observations are historical annual values, not projections.
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: indicator_id, min: 140}
+    reason: research observed 147 indicator CSVs in the all_indicators.zip bulk export.
+    certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: the portal was current through the 2025 release during research; annual data should reach at least 2024.
+    certainty: 85
+    points_outward: true

@@ -1,0 +1,8 @@
+spec_id: ucdp-brd-conf
+status: active
+tests:
+  - row_count: {min: 1}
+  - freshness: {col: year, reaches: 2025}
+    reason: UCDP 26.1 annual release covers conflict years through 2025
+    certainty: 90
+    points_outward: true

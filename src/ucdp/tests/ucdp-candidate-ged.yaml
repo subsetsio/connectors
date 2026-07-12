@@ -1,0 +1,8 @@
+spec_id: ucdp-candidate-ged
+status: active
+tests:
+  - row_count: {min: 1}
+  - freshness: {col: date_start, reaches: today - 120d}
+    reason: candidate GED is a monthly release with a short publication lag
+    certainty: 80
+    points_outward: true

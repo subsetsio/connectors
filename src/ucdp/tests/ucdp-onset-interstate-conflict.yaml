@@ -1,0 +1,8 @@
+spec_id: ucdp-onset-interstate-conflict
+status: active
+tests:
+  - row_count: {min: 1}
+  - freshness: {col: year, reaches: 2024}
+    reason: onset 25.1 release is expected to include observations through 2024
+    certainty: 80
+    points_outward: true

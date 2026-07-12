@@ -1,0 +1,9 @@
+spec_id: ucdp-cace
+status: active
+coverage:
+  frozen: true
+  reason: CACE is published as a historical 1989-2017 CSV snapshot
+tests:
+  - row_count: {min: 1}
+    reason: historical city-event corpus should not be empty
+    certainty: 90
