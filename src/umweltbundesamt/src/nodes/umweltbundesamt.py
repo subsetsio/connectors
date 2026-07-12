@@ -6,6 +6,7 @@ from datetime import date
 from typing import Any
 
 import pyarrow as pa
+import httpx
 
 from subsets_utils import NodeSpec, get, save_raw_parquet
 
@@ -338,8 +339,8 @@ def fetch_transgressions(node_id: str) -> None:
         for year in range(START_YEAR, date.today().year + 1):
             try:
                 payload = _json("transgressions/json", {"component": component_id, "year": year, "lang": "en"})
-            except Exception as exc:
-                if "500 Server Error" in str(exc):
+            except httpx.HTTPStatusError as exc:
+                if exc.response.status_code == 500:
                     continue
                 raise
             for values in payload.get("data") or []:
