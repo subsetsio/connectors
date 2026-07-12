@@ -19,10 +19,8 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 SLUG = "economist-big-mac-index"
@@ -100,7 +98,6 @@ def _parse_cell(value: str, kind: str):
     raise ValueError(f"unknown column kind: {kind}")
 
 
-@transient_retry()
 def _download_csv(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -130,21 +127,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
     for eid in CONFIG
-]
-
-# Each subset is a thin parse-and-type pass over its own typed raw parquet:
-# drop rows missing the (date, iso_a3) natural key, dedup defensively. Columns
-# are already typed at the raw layer, so the transform is the correctness gate
-# (it fails loudly / returns 0 rows if the upstream shape ever changes).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT DISTINCT *
-            FROM "{s.id}"
-            WHERE date IS NOT NULL AND iso_a3 IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

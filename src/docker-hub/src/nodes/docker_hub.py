@@ -19,7 +19,6 @@ from datetime import datetime, timezone
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -125,42 +124,4 @@ def fetch_pull_stats(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="docker-hub-official-images", fn=fetch_official_images, kind="download"),
     NodeSpec(id="docker-hub-pull-stats", fn=fetch_pull_stats, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="docker-hub-official-images-transform",
-        deps=["docker-hub-official-images"],
-        sql='''
-            SELECT
-                namespace,
-                repo,
-                description,
-                repository_type,
-                CAST(status AS INTEGER)               AS status,
-                status_description,
-                CAST(date_registered AS TIMESTAMP)    AS date_registered,
-                CAST(last_updated AS TIMESTAMP)       AS last_updated,
-                CAST(storage_size AS BIGINT)          AS storage_size_bytes,
-                NULLIF(categories, '')                AS categories
-            FROM "docker-hub-official-images"
-            WHERE repo IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="docker-hub-pull-stats-transform",
-        deps=["docker-hub-pull-stats"],
-        sql='''
-            SELECT
-                CAST(snapshot_date AS DATE)      AS snapshot_date,
-                namespace,
-                repo,
-                CAST(pull_count AS BIGINT)       AS pull_count,
-                CAST(star_count AS BIGINT)       AS star_count,
-                CAST(last_updated AS TIMESTAMP)  AS last_updated
-            FROM "docker-hub-pull-stats"
-            WHERE repo IS NOT NULL
-              AND pull_count IS NOT NULL
-        ''',
-    ),
 ]
