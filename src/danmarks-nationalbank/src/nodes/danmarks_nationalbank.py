@@ -16,6 +16,12 @@ multi-hundred-MB response (several of these tables are 600MB-950MB as one
 extract — DNSUBOH, DNVP2, DNVPDKF, DNVPDKR2). So instead of one POST with
 Tid=["*"], we pull the table in slices kept to ~TARGET_ROWS rows each.
 
+Use StatBank wildcards for the non-time dimensions on the normal path. For very
+wide sparse Nationalbank tables, expanding every dimension to explicit value
+lists makes the API evaluate an enormous Cartesian request before streaming
+results. Wildcards stream the sparse cells directly. Explicit value lists are
+kept only for the reactive splitter, where we genuinely need a bisectable axis.
+
 The slice size is set from *actual* row counts, not the dense cardinality
 product: many tables are extremely sparse (e.g. DNVPDKR2's dense cross-product is
 ~100M cells, yet one month is only ~0.7M real rows in 158MB), so a dense estimate
@@ -119,7 +125,26 @@ def _fetch_slice(body: dict, time_codes: set) -> list:
     return rows
 
 
-def _emit_box(table_id: str, var_specs: list, time_codes: set, emit, depth: int = 0) -> None:
+def _expanded_specs(var_specs: list, values_by_code: dict | None) -> list:
+    if not values_by_code:
+        return var_specs
+    expanded = []
+    for spec in var_specs:
+        values = spec["values"]
+        if values == ["*"]:
+            values = values_by_code[spec["code"]]
+        expanded.append({"code": spec["code"], "values": list(values)})
+    return expanded
+
+
+def _emit_box(
+    table_id: str,
+    var_specs: list,
+    time_codes: set,
+    emit,
+    depth: int = 0,
+    values_by_code: dict | None = None,
+) -> None:
     """Fetch one box (explicit value lists on every dimension) and emit its rows.
 
     The reactive safety net: every dimension is passed as an explicit value list
@@ -130,6 +155,7 @@ def _emit_box(table_id: str, var_specs: list, time_codes: set, emit, depth: int 
     try:
         rows = _fetch_slice(body, time_codes)
     except Exception:
+        var_specs = _expanded_specs(var_specs, values_by_code)
         widest = max(range(len(var_specs)), key=lambda i: len(var_specs[i]["values"]))
         if depth >= MAX_SPLIT_DEPTH or len(var_specs[widest]["values"]) < 2:
             raise
@@ -138,7 +164,7 @@ def _emit_box(table_id: str, var_specs: list, time_codes: set, emit, depth: int 
         for half in (vals[:mid], vals[mid:]):
             sub = [dict(s) for s in var_specs]
             sub[widest] = {"code": var_specs[widest]["code"], "values": half}
-            _emit_box(table_id, sub, time_codes, emit, depth + 1)
+            _emit_box(table_id, sub, time_codes, emit, depth + 1, values_by_code)
         return
     emit(rows)
 
@@ -185,8 +211,17 @@ def fetch_one(node_id: str) -> None:
 
     time_var = next((v for v in variables if v.get("time")), None)
     time_codes = {time_var["id"].upper()} if time_var else set()
-    # Explicit value lists per non-time dimension (so any axis is bisectable).
+    values_by_code = {
+        v["id"]: [x["id"] for x in v["values"]]
+        for v in variables
+    }
+    # Wildcards keep StatBank on its sparse fast path. If a request fails, the
+    # splitter expands them to explicit values and bisects the widest axis.
     nt_specs = [
+        {"code": v["id"], "values": ["*"]}
+        for v in variables if not v.get("time")
+    ]
+    nt_specs_explicit = [
         {"code": v["id"], "values": [x["id"] for x in v["values"]]}
         for v in variables if not v.get("time")
     ]
@@ -202,7 +237,7 @@ def fetch_one(node_id: str) -> None:
 
         if time_var is None:
             # No time dimension: a single full extract (these are small).
-            _emit_box(table_id, nt_specs, time_codes, emit)
+            _emit_box(table_id, nt_specs, time_codes, emit, values_by_code=values_by_code)
         else:
             time_code = time_var["id"]
             periods = [val["id"] for val in time_var["values"]]
@@ -211,7 +246,7 @@ def fetch_one(node_id: str) -> None:
             recent = periods[-1]
             before = written
             _emit_box(table_id, nt_specs + [{"code": time_code, "values": [recent]}],
-                      time_codes, emit)
+                      time_codes, emit, values_by_code=values_by_code)
             rows_recent = max(1, written - before)
             remaining = periods[:-1]
 
@@ -221,17 +256,17 @@ def fetch_one(node_id: str) -> None:
                 for i in range(0, len(remaining), per_chunk):
                     chunk = remaining[i:i + per_chunk]
                     _emit_box(table_id, nt_specs + [{"code": time_code, "values": chunk}],
-                              time_codes, emit)
+                              time_codes, emit, values_by_code=values_by_code)
             else:
                 # A single period already exceeds the target: pull one period at a
                 # time and pre-partition the non-time Cartesian box. This keeps
                 # wide sparse tables from spending an hour in one doomed stream.
-                boxes = _partition_specs(nt_specs)
+                boxes = _partition_specs(nt_specs_explicit)
                 for p in remaining:
                     for box in boxes:
                         specs = [dict(s) for s in box]
                         specs.append({"code": time_code, "values": [p]})
-                        _emit_box(table_id, specs, time_codes, emit)
+                        _emit_box(table_id, specs, time_codes, emit, values_by_code=values_by_code)
 
     if written == 0:
         # An active table that yields no rows means the BULK contract changed.

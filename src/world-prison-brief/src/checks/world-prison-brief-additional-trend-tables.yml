@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [jurisdiction_id, table_title, headers, column_1, column_2]
+key: [jurisdiction_id, table_title, headers, year_text, count_text]
 checks:
   - kind: unique
-    columns: [jurisdiction_id, table_title, headers, column_1, column_2]
+    columns: [jurisdiction_id, table_title, headers, year_text, count_text]
   - kind: not_null
     col: jurisdiction_id
   - kind: not_null
@@ -14,9 +14,9 @@ checks:
   - kind: not_null
     col: headers
   - kind: not_null
-    col: column_1
+    col: year_text
   - kind: not_null
-    col: column_2
+    col: count_text
   - kind: row_floor
     min: 1036
 regression:

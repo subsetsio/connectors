@@ -1,28 +1,36 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `world-prison-brief-additional-trend-tables`. Regenerate after model-verify.
-# caution: Rows come from multiple additional trend table layouts; use table_title and headers to interpret the generic column_1 through column_5 fields before comparing or aggregating values.
-key: [jurisdiction_id, table_title, headers, column_1, column_2]
-sort: [jurisdiction_id, table_title, headers, column_1, column_2]
+# caution: Rows come from multiple additional trend table layouts; use table_title and headers to distinguish female prisoner and pre-trial/remand measures before comparing values.
+key: [jurisdiction_id, table_title, headers, year_text, count_text]
+sort: [jurisdiction_id, table_title, headers, year_text, count_text]
 columns:
   - name: jurisdiction_id
     type: VARCHAR
+    description: Stable jurisdiction slug from the World Prison Brief country URL.
   - name: jurisdiction_name
     type: VARCHAR
+    description: Jurisdiction name as displayed by World Prison Brief.
   - name: region
     type: VARCHAR
+    description: World Prison Brief region.
   - name: table_title
     type: VARCHAR
+    description: Source trend table title, such as female prison population trend or pre-trial/remand prison population trend.
   - name: headers
     type: VARCHAR
-  - name: column_1
+    description: Pipe-joined source header text for the scraped table layout.
+  - name: year_text
     type: VARCHAR
-  - name: column_2
+    description: Source year or fiscal-year label for the observation.
+  - name: count_text
     type: VARCHAR
-  - name: column_3
+    description: Source count value for the table's prisoner category, kept as text because values may include qualifiers.
+  - name: percent_of_total_prison_population_text
     type: VARCHAR
-  - name: column_4
+    description: Source percentage of the total prison population for the prisoner category, kept as text because values may include qualifiers.
+  - name: population_rate_per_100k_text
     type: VARCHAR
-  - name: column_5
-    type: VARCHAR
+    description: Source prisoner-category population rate per 100,000 national population, kept as text because values may include qualifiers.
   - name: country_url
     type: VARCHAR
+    description: World Prison Brief country page URL.
