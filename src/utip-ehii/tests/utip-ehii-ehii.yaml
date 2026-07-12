@@ -25,6 +25,6 @@ tests:
   - between: {col: value, lo: 0, hi: 100}
     reason: Gini values are on a 0-100 scale and Theil values are non-negative and below that bound
     certainty: 90
-  - distinct_count: {col: country_alpha3, min: 140, max: 170}
-    reason: source describes global coverage and the probed workbook has 154 country rows
+  - distinct_count: {col: country_alpha3, min: 190, max: 210}
+    reason: source describes global coverage and the current workbook has 198 distinct country codes across non-null observations
     certainty: 85

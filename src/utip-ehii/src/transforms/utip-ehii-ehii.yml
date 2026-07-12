@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `utip-ehii-ehii`. Regenerate after model-verify.
+# caution: The table combines two inequality measures in one long panel; filter or group by `measure` before comparing values or aggregating across countries and years.
+key: [country_alpha3, measure, year]
+temporal: year
+sort: [year, country_alpha3, measure]
+columns:
+  - name: country_code
+    type: BIGINT
+    description: numeric country code from the EHII workbook
+  - name: country_alpha3
+    type: VARCHAR
+    description: three-letter country code from the EHII workbook
+  - name: country_name
+    type: VARCHAR
+    description: country name from the EHII workbook
+  - name: measure
+    type: VARCHAR
+    description: inequality measure reported by the source workbook sheet, either gini or theil
+  - name: year
+    type: SMALLINT
+    description: observation year
+  - name: value
+    type: DOUBLE
+    description: EHII inequality estimate for the given country, measure, and year
