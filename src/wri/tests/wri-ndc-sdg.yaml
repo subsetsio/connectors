@@ -12,6 +12,6 @@ tests:
   - distinct_count: {col: iso_code3, min: 100}
     reason: Climate Watch NDC-SDG content covers many countries
     certainty: 90
-  - enum: {col: climate_response, values: ["Adaptation", "Both", "Mitigation", "Not Specified"]}
-    reason: collect observed this closed Climate Watch response vocabulary
+  - enum: {col: climate_response, values: ["", "Adaptation", "Both", "Mitigation", "Not specified", "both", "not specified"]}
+    reason: Climate Watch emits a small closed response vocabulary, including source casing variants and rare blanks
     certainty: 90
