@@ -2,13 +2,13 @@
 
 Percent of area in each drought category (D0-D4) + none, per (date, region).
 `region` is "US" (national CONUS) or a state/territory abbreviation, covering
-the US + 50 states + DC + Puerto Rico (52 FIPS).
+CONUS plus 50 states, DC, and Puerto Rico (53 region codes total).
 """
 
 import pyarrow as pa
 
 from subsets_utils import save_raw_parquet
-from utils import STATE_FIPS, fetch, iso_to_date
+from utils import REGION_CODES, STATE_FIPS, fetch, iso_to_date
 
 SEVERITY_SCHEMA = pa.schema([
     ("date", pa.string()),
@@ -40,9 +40,12 @@ def fetch_drought_severity(node_id: str) -> None:
     # Per-state — `stateAbbreviation` is the region directly.
     for fips in STATE_FIPS:
         for item in fetch("StateStatistics/GetDroughtSeverityStatisticsByAreaPercent", fips):
+            region = item["stateAbbreviation"]
+            if region not in REGION_CODES:
+                raise ValueError(f"Unknown USDM state abbreviation: {region!r}")
             rows.append({
                 "date": iso_to_date(item["mapDate"]),
-                "region": item["stateAbbreviation"],
+                "region": region,
                 "none": item["none"], "d0": item["d0"], "d1": item["d1"],
                 "d2": item["d2"], "d3": item["d3"], "d4": item["d4"],
             })

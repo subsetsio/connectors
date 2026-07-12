@@ -2,7 +2,7 @@
 
 Drought Severity and Coverage Index (0-500), per (date, region).
 `region` is "US" (national CONUS) or a state/territory abbreviation, covering
-the US + 50 states + DC + Puerto Rico (52 FIPS).
+CONUS plus 50 states, DC, and Puerto Rico (53 region codes total).
 """
 
 import pyarrow as pa
