@@ -1,0 +1,23 @@
+spec_id: psmsl-stations
+status: active
+tests:
+  - not_null: station_id
+  - not_null: station_name
+  - not_null: latitude
+  - not_null: longitude
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: station_name, type: string}
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: longitude, type: float}
+  - unique: station_id
+    reason: PSMSL station IDs are stable primary identifiers.
+    certainty: 99
+  - row_count: {min: 1500}
+    reason: PSMSL station filelist is the global tide-gauge station catalog.
+    certainty: 95
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: station coordinates are geographic degrees.
+    certainty: 99
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: station coordinates are geographic degrees.
+    certainty: 99

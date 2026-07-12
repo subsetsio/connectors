@@ -1,0 +1,27 @@
+spec_id: psmsl-met-monthly
+status: active
+tests:
+  - not_null: station_id
+  - not_null: year
+  - not_null: month
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: decimal_year, type: float}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: msl_mm, type: float}
+  - between: {col: month, lo: 1, hi: 12}
+    reason: PSMSL monthly rows encode calendar-month means.
+    certainty: 99
+  - unique: [station_id, year, month]
+    reason: one metric monthly mean per station-month.
+    certainty: 95
+  - row_count: {min: 500000}
+    reason: the metric monthly archive covers a global tide-gauge databank, not a sample.
+    certainty: 90
+  - distinct_count: {col: station_id, min: 1500}
+    reason: PSMSL metric monthly is the broad station product.
+    certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: PSMSL periodically re-extracts the databank; the current mirror should include recent monthly records, though individual stations lag.
+    certainty: 85
+    points_outward: true

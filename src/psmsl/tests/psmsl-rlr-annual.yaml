@@ -1,0 +1,24 @@
+spec_id: psmsl-rlr-annual
+status: active
+tests:
+  - not_null: station_id
+  - not_null: year
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: msl_mm, type: float}
+  - enum: {col: missing_flag, values: ["N", "Y"]}
+    reason: PSMSL annual files document missing-days as N/Y.
+    certainty: 95
+  - unique: [station_id, year]
+    reason: one RLR annual mean per station-year.
+    certainty: 95
+  - row_count: {min: 50000}
+    reason: PSMSL RLR annual is a long-running global archive.
+    certainty: 90
+  - distinct_count: {col: station_id, min: 1000}
+    reason: RLR covers the datum-controlled subset of PSMSL stations.
+    certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: annual records lag the current extract but should include recent years somewhere in the global archive.
+    certainty: 80
+    points_outward: true
