@@ -35,6 +35,7 @@ import os
 import re
 import shutil
 import socket
+import subprocess
 import tempfile
 import unicodedata
 import urllib.error
@@ -62,6 +63,7 @@ _FTP_TRANSIENT = (
     EOFError,
     TimeoutError,
     OSError,
+    subprocess.CalledProcessError,
 )
 
 
@@ -82,8 +84,20 @@ def _ftp_list(url: str) -> tuple[list[str], list[str]]:
         "MM-DD-YY  HH:MMAM       <DIR>          NOVO CAGED"
         "MM-DD-YY  HH:MMAM            77037 COMUNICADO_microdados.pdf"
     """
-    with urllib.request.urlopen(url, timeout=120) as r:
-        raw = r.read().decode("latin-1", "replace")
+    raw = subprocess.check_output(
+        [
+            "curl",
+            "--fail",
+            "--silent",
+            "--show-error",
+            "--connect-timeout",
+            "60",
+            "--max-time",
+            "300",
+            url,
+        ],
+        stderr=subprocess.STDOUT,
+    ).decode("latin-1", "replace")
     dirs: list[str] = []
     files: list[str] = []
     for line in raw.splitlines():
@@ -105,9 +119,33 @@ def _ftp_list(url: str) -> tuple[list[str], list[str]]:
 
 @_ftp_retry
 def _ftp_download(url: str, dest: str) -> None:
-    """Stream an FTP file to a local path (bounded memory)."""
-    with urllib.request.urlopen(url, timeout=600) as r, open(dest, "wb") as o:
-        shutil.copyfileobj(r, o, length=4 * 1024 * 1024)
+    """Stream an FTP file to a local path.
+
+    `urllib` handles directory listings well enough, but file responses from
+    this FTP server can hang or truncate on close. Use curl for payloads; it
+    has mature FTP transfer handling and returns non-zero on incomplete files.
+    """
+    subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--location",
+            "--silent",
+            "--show-error",
+            "--retry",
+            "5",
+            "--retry-delay",
+            "2",
+            "--connect-timeout",
+            "60",
+            "--max-time",
+            "3600",
+            "--output",
+            dest,
+            url,
+        ],
+        check=True,
+    )
 
 
 def _walk_files(url: str, depth: int) -> list[tuple[str, str]]:
@@ -181,8 +219,15 @@ def _process_archive(file_url: str, asset: str, extra: dict) -> int:
     with tempfile.TemporaryDirectory() as td:
         z7 = os.path.join(td, "archive.7z")
         _ftp_download(file_url, z7)
-        with py7zr.SevenZipFile(z7) as z:
-            z.extractall(path=td)
+        with open(z7, "rb") as fh:
+            magic = fh.read(6)
+        if magic != b"7z\xbc\xaf'\x1c":
+            raise RuntimeError(f"{file_url}: downloaded payload is not a 7z archive (magic={magic.hex()})")
+        try:
+            with py7zr.SevenZipFile(z7) as z:
+                z.extractall(path=td)
+        except Exception as e:
+            raise RuntimeError(f"{file_url}: failed to extract 7z archive") from e
         os.remove(z7)  # free disk before streaming the (large) TXT
         txts = [
             os.path.join(root, f)
@@ -216,6 +261,7 @@ def _run_entity(node_id: str, batches: list[tuple[str, str, dict]]) -> None:
     for batch_key, file_url, extra in batches:
         if batch_key in done:
             continue
+        print(f"  fetching {node_id} batch {batch_key}: {file_url}", flush=True)
         asset = f"{node_id}-{batch_key}"
         _process_archive(file_url, asset, extra)
         done.add(batch_key)
