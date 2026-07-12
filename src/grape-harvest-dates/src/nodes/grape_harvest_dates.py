@@ -16,7 +16,7 @@ the one file (stateless) — cheap and revision-safe.
 import re
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 GHD_TXT_URL = "https://www.ncei.noaa.gov/pub/data/paleo/historical/europe/europe2012ghd.txt"
 
@@ -42,7 +42,6 @@ REGIONS_SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _download_text() -> str:
     resp = get(GHD_TXT_URL, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -162,32 +161,4 @@ def fetch_regions(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="grape-harvest-dates-harvest-dates", fn=fetch_harvest_dates, kind="download"),
     NodeSpec(id="grape-harvest-dates-regions", fn=fetch_regions, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="grape-harvest-dates-harvest-dates-transform",
-        deps=["grape-harvest-dates-harvest-dates"],
-        sql='''
-            SELECT
-                region,
-                region_code,
-                CAST(year AS INTEGER)        AS year,
-                CAST(harvest_date AS DOUBLE) AS harvest_date
-            FROM "grape-harvest-dates-harvest-dates"
-            WHERE harvest_date IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="grape-harvest-dates-regions-transform",
-        deps=["grape-harvest-dates-regions"],
-        sql='''
-            SELECT
-                region,
-                region_code,
-                CAST(latitude AS DOUBLE)  AS latitude,
-                CAST(longitude AS DOUBLE) AS longitude
-            FROM "grape-harvest-dates-regions"
-        ''',
-    ),
 ]
