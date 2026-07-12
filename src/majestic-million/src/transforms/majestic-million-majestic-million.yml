@@ -1,26 +1,39 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [domain]
+sort: [global_rank]
 columns:
   - name: global_rank
     type: BIGINT
+    description: Current Majestic Million rank, where 1 is the highest ranked domain.
   - name: tld_rank
     type: BIGINT
+    description: Current rank within the domain's top-level domain.
   - name: domain
     type: VARCHAR
+    description: Domain name ranked by Majestic.
   - name: tld
     type: VARCHAR
+    description: Top-level domain extracted from the ranked domain.
   - name: ref_subnets
     type: BIGINT
+    description: Number of distinct referring subnets linking to the domain in Majestic's crawl index.
   - name: ref_ips
     type: BIGINT
+    description: Number of distinct referring IP addresses linking to the domain in Majestic's crawl index.
   - name: idn_domain
     type: VARCHAR
+    description: Internationalized domain name representation supplied by Majestic.
   - name: idn_tld
     type: VARCHAR
+    description: Internationalized top-level domain representation supplied by Majestic.
   - name: prev_global_rank
     type: BIGINT
+    description: Domain's global rank in the previous Majestic Million snapshot.
   - name: prev_tld_rank
     type: BIGINT
+    description: Domain's top-level-domain rank in the previous Majestic Million snapshot.
   - name: prev_ref_subnets
     type: BIGINT
+    description: Previous snapshot count of distinct referring subnets.
   - name: prev_ref_ips
     type: BIGINT
+    description: Previous snapshot count of distinct referring IP addresses.
