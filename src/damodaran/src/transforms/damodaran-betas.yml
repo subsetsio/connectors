@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [region, category, metric]
-sort: [region, category, metric]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `damodaran-betas`. Regenerate after model-verify.
+# caution: `category` is the source's industry label and `region` includes aggregate market regions such as Global and Emerging; filter region before comparing industries across markets.
+key: [category, metric, region]
+sort: [category, metric, region]
 columns:
   - name: region
     type: VARCHAR

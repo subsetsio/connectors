@@ -1,1 +1,11 @@
-SELECT region, category, metric, CAST(value AS DOUBLE) AS value FROM "damodaran-betas" WHERE value IS NOT NULL AND category IS NOT NULL AND metric IS NOT NULL
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: `category` is the source's industry label and `region` includes aggregate market regions such as Global and Emerging; filter region before comparing industries across markets.
+SELECT
+    "region",
+    "category",
+    "metric",
+    "value"
+FROM "damodaran-betas"

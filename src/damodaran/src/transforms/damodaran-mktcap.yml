@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [region, category, metric]
-sort: [region, category, metric]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `damodaran-mktcap`. Regenerate after model-verify.
+# caution: The source repeats some industry, metric, and region labels for distinct market-capitalization measures; metric labels that look like years or dates are source measure labels, not a modeled temporal axis.
+key: []
 columns:
   - name: region
     type: VARCHAR

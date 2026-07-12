@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [region, category, metric]
-sort: [region, category, metric]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `damodaran-fundgr`. Regenerate after model-verify.
+key: [category, region, metric]
+sort: [category, region, metric]
 columns:
   - name: region
     type: VARCHAR

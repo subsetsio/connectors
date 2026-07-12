@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [category, metric]
-sort: [category, metric]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `damodaran-countrytaxrates`. Regenerate after model-verify.
+# caution: The source contains repeated country and tax-rate labels, including exact duplicate rows in the normalized raw table; aggregate only after deduplicating or selecting the intended row set.
+key: []
 columns:
+  - name: region
+    type: VARCHAR
   - name: category
     type: VARCHAR
   - name: metric

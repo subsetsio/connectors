@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [region, category, metric]
-sort: [region, category, metric]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `damodaran-taxrate`. Regenerate after model-verify.
+# caution: The source repeats some industry, tax-rate metric, and region labels for distinct tax-rate variants; filter to the intended metric rows before comparing or aggregating.
+key: []
 columns:
   - name: region
     type: VARCHAR

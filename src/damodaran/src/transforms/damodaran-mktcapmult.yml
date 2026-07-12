@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [category, metric]
-sort: [category, metric]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `damodaran-mktcapmult`. Regenerate after model-verify.
+key: [metric, category]
+sort: [metric, category]
 columns:
+  - name: region
+    type: VARCHAR
   - name: category
     type: VARCHAR
   - name: metric
