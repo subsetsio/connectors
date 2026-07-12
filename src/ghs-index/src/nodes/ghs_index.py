@@ -24,7 +24,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     transient_retry,
@@ -168,22 +167,4 @@ def fetch_scores(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="ghs-index-ghs-index-scores", fn=fetch_scores, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ghs-index-ghs-index-scores-transform",
-        deps=["ghs-index-ghs-index-scores"],
-        sql='''
-            SELECT
-                country,
-                CAST(year AS INTEGER)      AS year,
-                indicator_code,
-                indicator_label,
-                level,
-                CAST(score AS DOUBLE)      AS score
-            FROM "ghs-index-ghs-index-scores"
-            WHERE score IS NOT NULL
-        ''',
-    ),
 ]
