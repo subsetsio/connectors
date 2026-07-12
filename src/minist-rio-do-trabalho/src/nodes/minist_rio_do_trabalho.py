@@ -40,6 +40,7 @@ import tempfile
 import unicodedata
 import urllib.error
 import urllib.request
+from datetime import date
 from urllib.parse import quote
 
 import py7zr
@@ -148,16 +149,43 @@ def _ftp_download(url: str, dest: str) -> None:
     )
 
 
-def _walk_files(url: str, depth: int) -> list[tuple[str, str]]:
-    """Recursively collect (dir_url, filename) up to `depth` nested levels.
-    Skips legacy/parcial side-trees to keep a product's schema coherent."""
-    dirs, files = _ftp_list(url)
-    out = [(url, f) for f in files]
-    if depth > 0:
-        for d in dirs:
-            if d.lower() in ("legado", "rds") or "parcial" in d.lower():
-                continue
-            out += _walk_files(url + quote(d) + "/", depth - 1)
+@_ftp_retry
+def _ftp_exists(url: str) -> bool:
+    """Probe one expected FTP file without listing its parent directory."""
+    proc = subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--silent",
+            "--show-error",
+            "--connect-timeout",
+            "20",
+            "--max-time",
+            "60",
+            "-I",
+            url,
+        ],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    if proc.returncode == 0:
+        return True
+    # FTP servers report missing path components as 9 and missing files as 78.
+    if proc.returncode in (9, 78):
+        return False
+    raise subprocess.CalledProcessError(proc.returncode, proc.args, output=proc.stderr)
+
+
+def _month_ints(start_year: int, start_month: int, end_year: int, end_month: int) -> list[int]:
+    out = []
+    year, month = start_year, start_month
+    while (year, month) <= (end_year, end_month):
+        out.append(year * 100 + month)
+        month += 1
+        if month == 13:
+            year += 1
+            month = 1
     return out
 
 
@@ -310,58 +338,44 @@ def _run_entity(node_id: str, batches: list[tuple[str, str, dict]]) -> None:
 
 def _discover_rais() -> tuple[list, list]:
     """Returns (establishment batches, worker/vínculo batches) for the RAIS
-    product. Year layout differs across eras (per-UF AC1985.7z vs per-region
-    RAIS_VINC_PUB_SP.7z); establishments match ESTB/ESTAB, workers are the rest."""
+    product. We only publish establishments here; worker/vínculo files are a
+    distinct, much larger deferred entity.
+
+    Avoid listing the FTP tree in production: the root listing intermittently
+    hangs in GitHub Actions, while individual archive URLs respond quickly.
+    Naming is stable: ESTBYYYY through 2017, RAIS_ESTAB_PUB from 2018 onward.
+    """
     base = FTP_ROOT + "RAIS/"
-    dirs, _ = _ftp_list(base)
     estab, vinc = [], []
-    for d in dirs:
-        if not re.fullmatch(r"\d{4}", d):  # skip "2023 Parcial", "Legado"
-            continue
-        year = int(d)
-        yurl = base + quote(d) + "/"
-        _, files = _ftp_list(yurl)
-        for f in files:
-            if not f.lower().endswith(".7z"):
-                continue
-            stem = f[:-3]
-            url = yurl + quote(f)
-            extra = {"ano": year, "arquivo_fonte": stem}
-            bk = f"{year}-{_slug(stem)}"
-            low = f.lower()
-            if "estb" in low or "estab" in low:
-                estab.append((bk, url, extra))
-            else:
-                vinc.append((bk, url, extra))
+    current_year = date.today().year
+    for year in range(1985, current_year):
+        filename = f"ESTB{year}.7z" if year <= 2017 else "RAIS_ESTAB_PUB.7z"
+        yurl = base + f"{year}/"
+        url = yurl + quote(filename)
+        if _ftp_exists(url):
+            stem = filename[:-3]
+            estab.append((f"{year}-{_slug(stem)}", url, {"ano": year, "arquivo_fonte": stem}))
     return estab, vinc
 
 
 def _discover_domestica() -> list:
     base = FTP_ROOT + "TRABALHO_DOMESTICO/"
-    _, files = _ftp_list(base)
     out = []
-    for f in files:
-        m = re.search(r"RAIS_DOM_PUB_(\d{4})", f, re.I)
-        if f.lower().endswith(".7z") and m:
-            year = int(m.group(1))
-            out.append((f"{year}", base + quote(f), {"ano": year, "arquivo_fonte": f[:-3]}))
+    for year in range(2015, date.today().year):
+        filename = f"RAIS_DOM_PUB_{year}.7z"
+        url = base + quote(filename)
+        if _ftp_exists(url):
+            out.append((f"{year}", url, {"ano": year, "arquivo_fonte": filename[:-3]}))
     return out
 
 
 def _discover_caged_legacy() -> list:
     base = FTP_ROOT + "CAGED/"
-    dirs, _ = _ftp_list(base)
     out = []
-    for d in dirs:
-        if not re.fullmatch(r"\d{4}", d):  # skip "EEC"
-            continue
-        yurl = base + quote(d) + "/"
-        _, files = _ftp_list(yurl)
-        for f in files:
-            m = re.match(r"CAGEDEST_(\d{2})(\d{4})\.7z$", f, re.I)
-            if m:
-                comp = int(m.group(2) + m.group(1))  # yyyymm
-                out.append((f"{comp}", yurl + quote(f), {"competencia": comp, "arquivo_fonte": f[:-3]}))
+    for comp in _month_ints(2007, 1, 2019, 12):
+        year, month = divmod(comp, 100)
+        filename = f"CAGEDEST_{month:02d}{year}.7z"
+        out.append((f"{comp}", base + f"{year}/" + quote(filename), {"competencia": comp, "arquivo_fonte": filename[:-3]}))
     return out
 
 
@@ -372,36 +386,36 @@ def _discover_caged_ajustes() -> list:
     inject `competencia` (yyyymm); annual aggregates inject `ano` — batch keys
     (6-digit yyyymm vs 4-digit year) never collide."""
     base = FTP_ROOT + "CAGED_AJUSTES/"
-    dirs, _ = _ftp_list(base)
     out = []
-    for d in dirs:
-        yurl = base + quote(d) + "/"
-        _, files = _ftp_list(yurl)
-        for f in files:
-            if not f.lower().endswith(".7z"):
-                continue
-            stem = f[:-3]
-            m_month = re.match(r"CAGEDEST_AJUSTES_(\d{2})(\d{4})\.7z$", f, re.I)
-            m_year = re.match(r"CAGEDEST_AJUSTES_(\d{4})\.7z$", f, re.I)
-            if m_month:
-                comp = int(m_month.group(2) + m_month.group(1))  # yyyymm
-                out.append((f"{comp}", yurl + quote(f), {"competencia": comp, "arquivo_fonte": stem}))
-            elif m_year:
-                year = int(m_year.group(1))
-                out.append((f"{year}", yurl + quote(f), {"ano": year, "arquivo_fonte": stem}))
+    for year in range(2002, 2010):
+        filename = f"CAGEDEST_AJUSTES_{year}.7z"
+        out.append((f"{year}", base + "2002a2009/" + quote(filename), {"ano": year, "arquivo_fonte": filename[:-3]}))
+    for comp in _month_ints(2010, 1, 2020, 12):
+        year, month = divmod(comp, 100)
+        filename = f"CAGEDEST_AJUSTES_{month:02d}{year}.7z"
+        out.append((f"{comp}", base + f"{year}/" + quote(filename), {"competencia": comp, "arquivo_fonte": filename[:-3]}))
     return out
 
 
 def _discover_novo() -> dict:
     base = FTP_ROOT + quote("NOVO CAGED") + "/"
     mov, fora, exc = [], [], []
-    for url, f in _walk_files(base, 2):
-        m = re.match(r"CAGED(MOV|FOR|EXC)(\d{6})\.7z$", f, re.I)
-        if not m:
-            continue
-        comp = int(m.group(2))
-        bucket = {"MOV": mov, "FOR": fora, "EXC": exc}[m.group(1).upper()]
-        bucket.append((f"{comp}", url + quote(f), {"competencia": comp, "arquivo_fonte": f[:-3]}))
+    today = date.today()
+    # Releases lag the calendar; probe month URLs through the prior month and
+    # include only the files that exist.
+    prior_month = today.month - 1
+    prior_year = today.year
+    if prior_month == 0:
+        prior_year -= 1
+        prior_month = 12
+    for comp in _month_ints(2020, 1, prior_year, prior_month):
+        year = comp // 100
+        month_url = base + f"{year}/{comp}/"
+        for prefix, bucket in (("MOV", mov), ("FOR", fora), ("EXC", exc)):
+            filename = f"CAGED{prefix}{comp}.7z"
+            url = month_url + quote(filename)
+            if _ftp_exists(url):
+                bucket.append((f"{comp}", url, {"competencia": comp, "arquivo_fonte": filename[:-3]}))
     return {"mov": mov, "fora": fora, "exc": exc}
 
 
