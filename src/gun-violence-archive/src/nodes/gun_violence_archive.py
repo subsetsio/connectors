@@ -39,7 +39,6 @@ from tenacity import (
 )
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     is_transient,
@@ -259,36 +258,4 @@ def fetch_incidents(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="gun-violence-archive-incidents", fn=fetch_incidents, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="gun-violence-archive-incidents-transform",
-        deps=["gun-violence-archive-incidents"],
-        sql='''
-            SELECT
-                incident_id,
-                strptime(incident_date, '%B %d, %Y')::DATE AS incident_date,
-                state,
-                city_or_county,
-                address,
-                victims_killed,
-                victims_injured,
-                suspects_killed,
-                suspects_injured,
-                suspects_arrested,
-                report_population,
-                report_name
-            FROM (
-                SELECT *, row_number() OVER (
-                    PARTITION BY incident_id, report_population
-                    ORDER BY incident_id
-                ) AS _rn
-                FROM "gun-violence-archive-incidents"
-            )
-            WHERE _rn = 1
-              AND incident_id IS NOT NULL
-              AND incident_date IS NOT NULL
-        ''',
-    ),
 ]

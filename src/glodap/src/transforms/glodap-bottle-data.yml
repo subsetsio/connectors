@@ -172,18 +172,24 @@ columns:
     type: BIGINT
   - name: sf6qc
     type: BIGINT
-  - name: c13
+  - name: carbon_13
     type: DOUBLE
-  - name: c13f
+    description: carbon-13 isotope measurement from the GLODAP source c13 column
+  - name: carbon_13_flag
     type: BIGINT
-  - name: c13qc
+    description: carbon-13 measurement flag from the GLODAP source c13f column
+  - name: carbon_13_qc
     type: BIGINT
-  - name: c14
+    description: carbon-13 quality-control flag from the GLODAP source c13qc column
+  - name: carbon_14
     type: DOUBLE
-  - name: c14f
+    description: carbon-14 isotope measurement from the GLODAP source c14 column
+  - name: carbon_14_flag
     type: BIGINT
-  - name: c14err
+    description: carbon-14 measurement flag from the GLODAP source c14f column
+  - name: carbon_14_error
     type: DOUBLE
+    description: carbon-14 measurement uncertainty from the GLODAP source c14err column
   - name: h3
     type: DOUBLE
   - name: h3f
