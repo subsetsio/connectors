@@ -46,5 +46,5 @@ SELECT
     "low",
     "high",
     "C42" AS c42,
-    "_1" AS 1
+    "_1" AS extra_1
 FROM "ucdp-cace"
