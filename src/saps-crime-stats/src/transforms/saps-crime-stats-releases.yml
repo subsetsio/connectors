@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `saps-crime-stats-releases`. Regenerate after model-verify.
+key: [source_workbook]
+temporal: release_year_start
+sort: [release_year_start, source_workbook]
+columns:
+  - name: source_page
+    type: VARCHAR
+  - name: source_workbook
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: resolved_url
+    type: VARCHAR
+  - name: release_year_start
+    type: SMALLINT
+  - name: release_year_end
+    type: SMALLINT
+  - name: fragment
+    type: VARCHAR

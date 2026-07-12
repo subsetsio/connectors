@@ -1,0 +1,362 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `saps-crime-stats-crime-statistics`. Regenerate after model-verify.
+# caution: Rows are parsed from human-formatted SAPS workbook rows and carry repeated measure label/value pairs for multiple reporting periods; choose the intended measure period before aggregating counts.
+# caution: The table includes multiple releases of overlapping financial periods, so use source_workbook or release_year_start/release_year_end when comparing releases or building a time series.
+key: [station_crime_category, excel_row_number, station, source_workbook, measure_01_label]
+temporal: release_year_start
+sort: [release_year_start, station_crime_category, excel_row_number, station, source_workbook, measure_01_label]
+columns:
+  - name: source_workbook
+    type: VARCHAR
+  - name: source_page
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: release_year_start
+    type: SMALLINT
+  - name: release_year_end
+    type: SMALLINT
+  - name: sheet
+    type: VARCHAR
+  - name: excel_row_number
+    type: INTEGER
+  - name: release_title
+    type: VARCHAR
+  - name: crime_category_national_contribution_placement
+    type: VARCHAR
+  - name: crime_category_provincial_contribution_placement
+    type: VARCHAR
+  - name: component_level
+    type: VARCHAR
+  - name: station_crime_category
+    type: VARCHAR
+  - name: station
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: province
+    type: VARCHAR
+  - name: crime_category
+    type: VARCHAR
+  - name: crime_code
+    type: VARCHAR
+  - name: measure_01_label
+    type: VARCHAR
+  - name: measure_01_value
+    type: VARCHAR
+  - name: measure_02_label
+    type: VARCHAR
+  - name: measure_02_value
+    type: VARCHAR
+  - name: measure_03_label
+    type: VARCHAR
+  - name: measure_03_value
+    type: VARCHAR
+  - name: measure_04_label
+    type: VARCHAR
+  - name: measure_04_value
+    type: BIGINT
+  - name: measure_05_label
+    type: VARCHAR
+  - name: measure_05_value
+    type: BIGINT
+  - name: measure_06_label
+    type: VARCHAR
+  - name: measure_06_value
+    type: BIGINT
+  - name: measure_07_label
+    type: VARCHAR
+  - name: measure_07_value
+    type: BIGINT
+  - name: measure_08_label
+    type: VARCHAR
+  - name: measure_08_value
+    type: BIGINT
+  - name: measure_09_label
+    type: VARCHAR
+  - name: measure_09_value
+    type: BIGINT
+  - name: measure_10_label
+    type: VARCHAR
+  - name: measure_10_value
+    type: BIGINT
+  - name: measure_11_label
+    type: VARCHAR
+  - name: measure_11_value
+    type: VARCHAR
+  - name: measure_12_label
+    type: VARCHAR
+  - name: measure_12_value
+    type: VARCHAR
+  - name: measure_13_label
+    type: VARCHAR
+  - name: measure_13_value
+    type: VARCHAR
+  - name: measure_14_label
+    type: VARCHAR
+  - name: measure_14_value
+    type: VARCHAR
+  - name: measure_15_label
+    type: VARCHAR
+  - name: measure_15_value
+    type: VARCHAR
+  - name: measure_16_label
+    type: VARCHAR
+  - name: measure_16_value
+    type: VARCHAR
+  - name: measure_17_label
+    type: VARCHAR
+  - name: measure_17_value
+    type: BIGINT
+  - name: measure_18_label
+    type: VARCHAR
+  - name: measure_18_value
+    type: BIGINT
+  - name: measure_19_label
+    type: VARCHAR
+  - name: measure_19_value
+    type: BIGINT
+  - name: measure_20_label
+    type: VARCHAR
+  - name: measure_20_value
+    type: BIGINT
+  - name: measure_21_label
+    type: VARCHAR
+  - name: measure_21_value
+    type: VARCHAR
+  - name: measure_22_label
+    type: VARCHAR
+  - name: measure_22_value
+    type: VARCHAR
+  - name: measure_23_label
+    type: VARCHAR
+  - name: measure_23_value
+    type: VARCHAR
+  - name: measure_24_label
+    type: VARCHAR
+  - name: measure_24_value
+    type: VARCHAR
+  - name: measure_25_label
+    type: VARCHAR
+  - name: measure_25_value
+    type: VARCHAR
+  - name: measure_26_label
+    type: VARCHAR
+  - name: measure_26_value
+    type: VARCHAR
+  - name: measure_27_label
+    type: VARCHAR
+  - name: measure_27_value
+    type: BIGINT
+  - name: measure_28_label
+    type: VARCHAR
+  - name: measure_28_value
+    type: VARCHAR
+  - name: measure_29_label
+    type: VARCHAR
+  - name: measure_29_value
+    type: VARCHAR
+  - name: measure_30_label
+    type: VARCHAR
+  - name: measure_30_value
+    type: VARCHAR
+  - name: measure_31_label
+    type: VARCHAR
+  - name: measure_31_value
+    type: VARCHAR
+  - name: measure_32_label
+    type: VARCHAR
+  - name: measure_32_value
+    type: VARCHAR
+  - name: measure_33_label
+    type: VARCHAR
+  - name: measure_33_value
+    type: VARCHAR
+  - name: measure_34_label
+    type: VARCHAR
+  - name: measure_34_value
+    type: BIGINT
+  - name: measure_35_label
+    type: VARCHAR
+  - name: measure_35_value
+    type: BIGINT
+  - name: measure_36_label
+    type: VARCHAR
+  - name: measure_36_value
+    type: BIGINT
+  - name: measure_37_label
+    type: VARCHAR
+  - name: measure_37_value
+    type: VARCHAR
+  - name: measure_38_label
+    type: VARCHAR
+  - name: measure_38_value
+    type: VARCHAR
+  - name: measure_39_label
+    type: VARCHAR
+  - name: measure_39_value
+    type: VARCHAR
+  - name: measure_40_label
+    type: VARCHAR
+  - name: measure_40_value
+    type: VARCHAR
+  - name: measure_41_label
+    type: VARCHAR
+  - name: measure_41_value
+    type: VARCHAR
+  - name: measure_42_label
+    type: VARCHAR
+  - name: measure_42_value
+    type: VARCHAR
+  - name: measure_43_label
+    type: VARCHAR
+  - name: measure_43_value
+    type: VARCHAR
+  - name: measure_44_label
+    type: VARCHAR
+  - name: measure_44_value
+    type: VARCHAR
+  - name: measure_45_label
+    type: VARCHAR
+  - name: measure_45_value
+    type: VARCHAR
+  - name: measure_46_label
+    type: VARCHAR
+  - name: measure_46_value
+    type: VARCHAR
+  - name: measure_47_label
+    type: VARCHAR
+  - name: measure_47_value
+    type: VARCHAR
+  - name: measure_48_label
+    type: VARCHAR
+  - name: measure_48_value
+    type: VARCHAR
+  - name: measure_49_label
+    type: VARCHAR
+  - name: measure_49_value
+    type: VARCHAR
+  - name: measure_50_label
+    type: VARCHAR
+  - name: measure_50_value
+    type: VARCHAR
+  - name: measure_51_label
+    type: VARCHAR
+  - name: measure_51_value
+    type: VARCHAR
+  - name: measure_52_label
+    type: VARCHAR
+  - name: measure_52_value
+    type: VARCHAR
+  - name: measure_53_label
+    type: VARCHAR
+  - name: measure_53_value
+    type: VARCHAR
+  - name: measure_54_label
+    type: VARCHAR
+  - name: measure_54_value
+    type: VARCHAR
+  - name: measure_55_label
+    type: VARCHAR
+  - name: measure_55_value
+    type: VARCHAR
+  - name: measure_56_label
+    type: VARCHAR
+  - name: measure_56_value
+    type: VARCHAR
+  - name: measure_57_label
+    type: VARCHAR
+  - name: measure_57_value
+    type: VARCHAR
+  - name: measure_58_label
+    type: VARCHAR
+  - name: measure_58_value
+    type: VARCHAR
+  - name: measure_59_label
+    type: VARCHAR
+  - name: measure_59_value
+    type: VARCHAR
+  - name: measure_60_label
+    type: VARCHAR
+  - name: measure_60_value
+    type: VARCHAR
+  - name: measure_61_label
+    type: VARCHAR
+  - name: measure_61_value
+    type: VARCHAR
+  - name: measure_62_label
+    type: VARCHAR
+  - name: measure_62_value
+    type: VARCHAR
+  - name: measure_63_label
+    type: VARCHAR
+  - name: measure_63_value
+    type: VARCHAR
+  - name: measure_64_label
+    type: VARCHAR
+  - name: measure_64_value
+    type: VARCHAR
+  - name: measure_65_label
+    type: VARCHAR
+  - name: measure_65_value
+    type: VARCHAR
+  - name: measure_66_label
+    type: VARCHAR
+  - name: measure_66_value
+    type: VARCHAR
+  - name: measure_67_label
+    type: VARCHAR
+  - name: measure_67_value
+    type: VARCHAR
+  - name: measure_68_label
+    type: VARCHAR
+  - name: measure_68_value
+    type: VARCHAR
+  - name: measure_69_label
+    type: VARCHAR
+  - name: measure_69_value
+    type: VARCHAR
+  - name: measure_70_label
+    type: VARCHAR
+  - name: measure_70_value
+    type: VARCHAR
+  - name: measure_71_label
+    type: VARCHAR
+  - name: measure_71_value
+    type: VARCHAR
+  - name: measure_72_label
+    type: VARCHAR
+  - name: measure_72_value
+    type: VARCHAR
+  - name: measure_73_label
+    type: VARCHAR
+  - name: measure_73_value
+    type: VARCHAR
+  - name: measure_74_label
+    type: VARCHAR
+  - name: measure_74_value
+    type: VARCHAR
+  - name: measure_75_label
+    type: VARCHAR
+  - name: measure_75_value
+    type: VARCHAR
+  - name: measure_76_label
+    type: VARCHAR
+  - name: measure_76_value
+    type: VARCHAR
+  - name: measure_77_label
+    type: VARCHAR
+  - name: measure_77_value
+    type: VARCHAR
+  - name: measure_78_label
+    type: VARCHAR
+  - name: measure_78_value
+    type: VARCHAR
+  - name: measure_79_label
+    type: VARCHAR
+  - name: measure_79_value
+    type: VARCHAR
+  - name: measure_80_label
+    type: VARCHAR
+  - name: measure_80_value
+    type: VARCHAR
