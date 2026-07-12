@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is a geodatabase-derived CPI feature table; rows are spatial features, not pre-aggregated city totals.
+SELECT
+    "source_item_id",
+    "source_title",
+    "source_type",
+    "source_kind",
+    "source_name",
+    "source_row_number",
+    "OBJECTID_1" AS objectid_1,
+    "OBJECTID_2" AS objectid_2,
+    "OBJECTID" AS objectid,
+    "codciu",
+    "ciudad",
+    CAST("osm_id" AS BIGINT) AS osm_id,
+    "nombre",
+    "highway",
+    "tipo",
+    "longitud_m",
+    "descrip",
+    "Shape_Leng" AS shape_leng,
+    "Shape_Le_1" AS shape_le_1,
+    "Shape_Le_2" AS shape_le_2,
+    "layer",
+    "path",
+    "Shape_Length" AS shape_length,
+    "Shape_Area" AS shape_area,
+    "area_m2",
+    "FAM" AS fam,
+    "categoria",
+    "Id" AS id,
+    "OBJECTID_3" AS objectid_3,
+    "OBJECTID_4" AS objectid_4,
+    "codciu_2",
+    "ciudad_2",
+    CAST("osm_id_2" AS BIGINT) AS osm_id_2,
+    "nombre_2",
+    "highway_2",
+    "tipo_2",
+    "longitud_1",
+    "descrip_2",
+    "Shape_Le_3" AS shape_le_3,
+    "Name" AS name
+FROM "un-habitat-fa3f25f54c3946818246ceffddd38e4c"
