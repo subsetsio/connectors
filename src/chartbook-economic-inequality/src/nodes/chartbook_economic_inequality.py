@@ -73,15 +73,15 @@ def _download_xls() -> bytes:
     return resp.content
 
 
-def _slug(*parts: str) -> str:
-    slug = "-".join(parts).lower()
+def _slug(*parts: object) -> str:
+    slug = "-".join(str(part).strip() for part in parts).lower()
     slug = slug.replace("%", "pct").replace("/", "-")
     return re.sub(r"[^a-z0-9]+", "-", slug).strip("-")
 
 
 def _read_chartbook() -> pd.DataFrame:
     raw = _download_xls()
-    df = pd.read_excel(io.BytesIO(raw), sheet_name=0, engine="xlrd")
+    df = pd.read_excel(io.BytesIO(raw), sheet_name=0, engine="xlrd", keep_default_na=False)
     if list(df.columns) != [
         "country", "year", "dimension of inequality", "meaure of inequality",
         "series", "description", "value",
@@ -89,10 +89,15 @@ def _read_chartbook() -> pd.DataFrame:
         raise AssertionError(f"unexpected sheet header: {list(df.columns)!r}")
     df.columns = ["country", "year", "dimension", "measure", "series", "description", "value"]
 
+    for col in ["country", "dimension", "measure", "description"]:
+        df[col] = df[col].astype("string").str.strip()
+
     # 'series' is a 1/2/3 series number; nullable in the source for empty slots.
-    # Coerce to a pandas nullable integer so pyarrow maps it to int64 with nulls.
-    df["series"] = df["series"].astype("Int64")
-    df["year"] = df["year"].astype("int64")
+    # Coerce numerics explicitly because keep_default_na=False preserves text
+    # placeholders such as "N/A" that pandas would otherwise turn into floats.
+    df["series"] = pd.to_numeric(df["series"], errors="coerce").astype("Int64")
+    df["year"] = pd.to_numeric(df["year"], errors="raise").astype("int64")
+    df["value"] = pd.to_numeric(df["value"], errors="coerce")
     df["series_key"] = [_slug(dim, measure) for dim, measure in zip(df["dimension"], df["measure"])]
     return df
 
