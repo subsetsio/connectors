@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ted-eu-procurement-release-calendar`. Regenerate after model-verify.
+# caution: The calendar includes scheduled future OJ S issue dates for the current year as well as already published issues.
+key: [issue_token]
+temporal: publication_date
+sort: [publication_date, issue_token]
+columns:
+  - name: asset_id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: ojs_issue_number
+    type: BIGINT
+  - name: issue_token
+    type: BIGINT
+  - name: publication_date
+    type: DATE

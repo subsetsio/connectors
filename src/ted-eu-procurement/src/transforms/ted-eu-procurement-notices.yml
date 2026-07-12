@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ted-eu-procurement-notices`. Regenerate after model-verify.
+# caution: This is a current daily OJ S package extract, so it represents notices from one publication issue rather than a full historical backfill.
+key: [xml_filename]
+temporal: package_publication_date
+sort: [package_publication_date, xml_filename]
+columns:
+  - name: asset_id
+    type: VARCHAR
+  - name: package_issue_number
+    type: BIGINT
+  - name: package_issue_token
+    type: BIGINT
+  - name: package_publication_date
+    type: DATE
+  - name: xml_filename
+    type: VARCHAR
+  - name: publication_number
+    type: VARCHAR
+  - name: doc_id
+    type: VARCHAR
+  - name: ojs_reference
+    type: VARCHAR
+  - name: edition
+    type: JSON
+  - name: schema_version
+    type: DOUBLE
+  - name: xml_schema
+    type: VARCHAR
+  - name: publication_date
+    type: DATE
+  - name: dispatch_date
+    type: DATE
+  - name: submission_deadline
+    type: DATE
+  - name: country
+    type: VARCHAR
+  - name: document_type
+    type: VARCHAR
+  - name: contract_nature
+    type: VARCHAR
+  - name: procedure_type
+    type: VARCHAR
+  - name: regulation
+    type: VARCHAR
+  - name: authority_type
+    type: VARCHAR
+  - name: main_activity
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: buyer_names
+    type: VARCHAR
+  - name: cpv
+    type: VARCHAR
+  - name: nuts
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: currency
+    type: VARCHAR

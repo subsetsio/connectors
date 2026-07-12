@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ted-eu-procurement-csv-subset`. Regenerate after model-verify.
+# caution: This table inventories official TED CSV subset download packages; it does not contain the notice-level rows inside each ZIP package.
+key: [title]
+temporal: issued
+sort: [issued, title]
+columns:
+  - name: asset_id
+    type: VARCHAR
+  - name: dataset_id
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: format
+    type: VARCHAR
+  - name: url
+    type: VARCHAR
+  - name: filename
+    type: VARCHAR
+  - name: notice_kind
+    type: VARCHAR
+  - name: period_start_year
+    type: BIGINT
+  - name: period_end_year
+    type: BIGINT
+  - name: is_deprecated
+    type: BOOLEAN
+  - name: issued
+    type: DATE
+  - name: modified
+    type: DATE
