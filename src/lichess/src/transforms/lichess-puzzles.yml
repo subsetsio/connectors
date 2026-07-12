@@ -4,21 +4,31 @@ sort: [puzzle_id]
 columns:
   - name: puzzle_id
     type: VARCHAR
+    description: Stable Lichess puzzle identifier.
   - name: fen
     type: VARCHAR
+    description: Chess position in Forsyth-Edwards Notation at the start of the puzzle.
   - name: moves
     type: VARCHAR
+    description: Space-separated UCI moves for the puzzle solution line.
   - name: rating
     type: INTEGER
+    description: Lichess puzzle rating.
   - name: rating_deviation
     type: INTEGER
+    description: Rating deviation for the puzzle rating.
   - name: popularity
     type: INTEGER
+    description: Lichess popularity score for the puzzle.
   - name: nb_plays
     type: BIGINT
+    description: Number of times the puzzle has been played on Lichess.
   - name: themes
     type: VARCHAR
+    description: Space-separated Lichess puzzle theme tags.
   - name: game_url
     type: VARCHAR
+    description: URL of the source Lichess game.
   - name: opening_tags
     type: VARCHAR
+    description: Space-separated opening tags associated with the puzzle, when available.
