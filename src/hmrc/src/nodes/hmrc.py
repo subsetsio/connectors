@@ -66,10 +66,10 @@ from subsets_utils import (
 )
 
 BASE = "https://api.uktradeinfo.com"
-NODE_BUDGET_S = 2700     # ~45 min of fetching per fact node per leg, then checkpoint
-                         # (returns needs_continuation). Six fact nodes run
-                         # sequentially under the runner's ~5.75h leg deadline, so
-                         # 6 x 45min leaves comfortable margin; see module docstring.
+NODE_BUDGET_S = 1200     # ~20 min of fetching per fact node per leg, then checkpoint
+                         # (returns needs_continuation). Keep this well below the
+                         # runner deadline so staged manifest fragments commit
+                         # before the deadline watchdog can kill the child.
 PAGE_SIZE = 10000        # smaller payloads avoid long single-response stalls on OTS
 
 # ---------------------------------------------------------------------------
@@ -310,6 +310,8 @@ def _fetch_partition_pages(
     page_number = max(page_numbers, default=-1) + 1
 
     while True:
+        if time.monotonic() - t0 > NODE_BUDGET_S:
+            return True
         if isinstance(period, tuple):
             month_id, flow_type_id = period
             filters = f"{field} eq {month_id} and FlowTypeId eq {flow_type_id}"

@@ -39,11 +39,11 @@ even an equality probe on the primary key of icis.icis_dmr_form_value took 88s
 Throughput is bounded per ROW, not per offset. Measured on
 icis.icis_dmr_form_value, 1M-row PARQUET windows: 96s at offset 0, 91s at 25M,
 147s at 50M, 140s at 100M -- roughly 7-11k rows/s and flat in depth, so a deep
-window costs no more than a shallow one. PAGE_SIZE is therefore chosen for
-safety, not speed: 1M rows lands each request at ~90-150s (well inside the
-server's 15-minute completion window) and one window at a time in RSS. A wider
-window buys no throughput (a 4M window overran a 280s probe timeout, ~4x the
-1M cost) while risking both limits.
+window costs no more than a shallow one. That does not hold for every wide
+FRS/ICIS view: 1M-row windows later returned HTTP 400 or disconnected after
+long server-side work. PAGE_SIZE is therefore chosen for reliability, not
+request-count minimization: 100k rows keeps slow wide views at roughly
+40-65s/request while still preserving monotonic continuation.
 
 The consequence is that this corpus is simply large: ~750M rows across 401
 live tables at ~8k rows/s is on the order of 25 hours of fetching, and
@@ -103,15 +103,7 @@ import httpx
 import pyarrow.parquet as pq
 
 from constants import ENTITY_IDS
-from subsets_utils import (
-    NodeSpec,
-    get,
-    list_raw_fragments,
-    load_state,
-    raw_writer,
-    save_state,
-    transient_retry,
-)
+from subsets_utils import NodeSpec, get, list_raw_fragments, load_state, raw_writer, save_state
 
 BASE = "https://data.epa.gov/dmapservice/"
 
@@ -119,20 +111,18 @@ BASE = "https://data.epa.gov/dmapservice/"
 # lookup and the writer must agree, or resume silently re-fetches everything.
 EXT = "ndjson.gz"
 
-# Rows per API request. Throughput is per-row and flat in offset (~7-11k
-# rows/s measured), so this trades nothing away on speed: 1M rows keeps each
-# request at ~90-150s, inside the server's 15-minute completion window, and
-# holds one window at a time as an arrow table.
-PAGE_SIZE = 1_000_000
+# Rows per API request. 1M worked for some narrow tables but failed on wide
+# FRS/ICIS views; 100k is the measured reliable size for those slower tables.
+PAGE_SIZE = 100_000
 
-# Rows converted from arrow to NDJSON at a time. Bounds peak RSS: a 1M-row
-# window is never materialised as 1M python dicts at once.
+# Rows converted from arrow to NDJSON at a time. Bounds peak RSS: a window is
+# never materialised as one large list of Python dicts.
 CHUNK_ROWS = 50_000
 
-# Safety ceiling: 5000 windows = 5 billion rows, far past any Envirofacts
-# table. Hitting it means the terminator never fired -- RAISE, never silently
-# return a truncated table.
-MAX_PAGES = 5_000
+# Safety ceiling: 50k windows = 5 billion rows at PAGE_SIZE=100k, far past any
+# Envirofacts table. Hitting it means the terminator never fired -- RAISE,
+# never silently return a truncated table.
+MAX_PAGES = 50_000
 
 # State contract version. Bump when the resume/skip state shape changes.
 STATE_VERSION = 1
@@ -176,12 +166,11 @@ def _fragment_for(page: int) -> tuple[int, int, str]:
     return first, last, f"{first:010d}-{last:010d}"
 
 
-@transient_retry()
 def _fetch_window(table: str, first: int, last: int):
     """Fetch one inclusive row-window [first:last] as an arrow Table.
 
-    Transient errors (429/5xx/network) are retried by the decorator. A 4xx is
-    permanent and propagates as httpx.HTTPStatusError for the caller to
+    Transient errors (429/5xx/network) are retried by subsets_utils.get. A 4xx
+    is permanent and propagates as httpx.HTTPStatusError for the caller to
     classify. The read timeout matches the server's 15-minute completion window.
     """
     url = f"{BASE}{table}/{first}:{last}/PARQUET"
