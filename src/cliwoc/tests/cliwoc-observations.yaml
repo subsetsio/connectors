@@ -1,5 +1,8 @@
 spec_id: cliwoc-observations
 status: active
+coverage:
+  frozen: true
+  reason: CLIWOC release 2.1 is a static academic archive; the project concluded and this connector republishes the complete frozen corpus.
 tests:
   - row_count: {min: 250000, max: 400000}
     reason: CLIWOC release 2.1 holds ~287k logbook observations; a much smaller count means the TSV download was truncated.
