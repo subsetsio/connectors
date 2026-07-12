@@ -150,6 +150,17 @@ def _rows_from_payload(content: bytes, filename: str) -> list[dict]:
     return _rows_from_csv(content, filename)
 
 
+def _normalize_rows(rows: list[dict]) -> list[dict]:
+    keys: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        for key in row:
+            if key not in seen:
+                seen.add(key)
+                keys.append(key)
+    return [{key: row.get(key) for key in keys} for row in rows]
+
+
 def fetch_one(node_id: str) -> None:
     entity_id = _entity_id_from_node(node_id)
     catalog = _catalog_by_entity_id()
@@ -161,7 +172,7 @@ def fetch_one(node_id: str) -> None:
     rows = _rows_from_payload(resp.content, filename)
     if not rows:
         raise RuntimeError(f"{entity_id}: no CSV rows found in downloaded asset")
-    save_raw_ndjson(rows, node_id)
+    save_raw_ndjson(_normalize_rows(rows), node_id)
 
 
 DOWNLOAD_SPECS = [
