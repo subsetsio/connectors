@@ -1,0 +1,35 @@
+spec_id: em-dat-events
+status: active
+tests:
+  - row_count: {min: 20000}
+    reason: EM-DAT public archive is a long-running global event corpus with roughly 27k disaster rows in the current Dataverse snapshot
+    certainty: 95
+  - not_null: dis_no
+    reason: DisNo. is the EM-DAT event identifier and every event row should carry one
+    certainty: 98
+  - unique: dis_no
+    reason: one archive row per EM-DAT disaster event identifier
+    certainty: 90
+  - column_type: {col: start_year, type: integer}
+    reason: start year is normalized to integer from the workbook
+    certainty: 98
+  - between: {col: start_year, lo: 1900, hi: current_year()}
+    reason: public archive covers recorded events from 1900 through the present, not future projections
+    certainty: 95
+  - column_type: {col: last_update, type: string}
+    reason: download preserves workbook date text and the transform casts it to DATE
+    certainty: 95
+  - freshness: {col: last_update, reaches: today - 400d}
+    reason: Dataverse archive is periodically refreshed; latest event metadata should be updated within about one annual release cycle
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: iso, min: 180}
+    reason: global disaster archive should span most ISO country codes
+    certainty: 90
+  - enum:
+      col: disaster_group
+      values:
+        - Natural
+        - Technological
+    reason: EM-DAT top-level disaster group vocabulary is natural or technological
+    certainty: 90
