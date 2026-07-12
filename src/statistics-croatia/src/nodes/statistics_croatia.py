@@ -13,6 +13,9 @@ from subsets_utils import NodeSpec, get, post, save_raw_ndjson
 
 BASE_URL = "https://web.dzs.hr/PxWeb/api/v1/en"
 SPEC_PREFIX = "statistics-croatia-"
+MAX_CELLS_PER_POST = 50_000
+MAX_VALUES_PER_POST = 50
+POST_THROTTLE_SECONDS = 0.2
 
 
 def _table_url(meta: dict) -> str:
@@ -26,20 +29,26 @@ def _entity_id_from_spec(spec_id: str) -> str:
     return spec_id[len(SPEC_PREFIX) :]
 
 
-def _query_all(metadata: dict) -> dict:
+def _query(metadata: dict, *, split_code: str | None = None, split_values: list[str] | None = None) -> dict:
     return {
         "query": [
             {
                 "code": variable["code"],
                 "selection": {
                     "filter": "item",
-                    "values": variable.get("values", []),
+                    "values": split_values
+                    if variable["code"] == split_code and split_values is not None
+                    else variable.get("values", []),
                 },
             }
             for variable in metadata.get("variables", [])
         ],
         "response": {"format": "JSON-stat2"},
     }
+
+
+def _query_all(metadata: dict) -> dict:
+    return _query(metadata)
 
 
 def _labels_by_code(dimension: dict) -> dict:
@@ -67,7 +76,7 @@ def _value_at(values, offset: int):
     return None
 
 
-def _jsonstat_rows(dataset: dict, *, entity_id: str, source_meta: dict):
+def _jsonstat_rows(dataset: dict, *, entity_id: str, source_meta: dict, include_nulls: bool = False):
     ids = dataset.get("id") or []
     sizes = dataset.get("size") or []
     dimensions = dataset.get("dimension") or {}
@@ -99,7 +108,7 @@ def _jsonstat_rows(dataset: dict, *, entity_id: str, source_meta: dict):
     for coords in product(*[range(size) for size in sizes]):
         offset = sum(coord * multiplier for coord, multiplier in zip(coords, multipliers))
         value = _value_at(values, offset)
-        if value is None:
+        if value is None and not include_nulls:
             continue
 
         dimension_codes = {}
@@ -123,6 +132,75 @@ def _jsonstat_rows(dataset: dict, *, entity_id: str, source_meta: dict):
         }
 
 
+def _post_jsonstat(url: str, query: dict) -> dict:
+    time.sleep(POST_THROTTLE_SECONDS)
+    response = post(url, json=query, timeout=(10.0, 300.0))
+    response.raise_for_status()
+    return response.json()
+
+
+def _post_split_jsonstat(
+    url: str,
+    metadata: dict,
+    *,
+    split_code: str,
+    split_values: list[str],
+) -> list[dict]:
+    query = _query(metadata, split_code=split_code, split_values=split_values)
+    time.sleep(POST_THROTTLE_SECONDS)
+    response = post(url, json=query, timeout=(10.0, 300.0))
+    if response.status_code in {400, 403} and len(split_values) > 1:
+        midpoint = len(split_values) // 2
+        return [
+            *_post_split_jsonstat(
+                url,
+                metadata,
+                split_code=split_code,
+                split_values=split_values[:midpoint],
+            ),
+            *_post_split_jsonstat(
+                url,
+                metadata,
+                split_code=split_code,
+                split_values=split_values[midpoint:],
+            ),
+        ]
+    if response.status_code == 400 and len(split_values) == 1:
+        return []
+    response.raise_for_status()
+    return [response.json()]
+
+
+def _chunked_datasets(url: str, metadata: dict) -> list[dict]:
+    variables = metadata.get("variables", [])
+    if not variables:
+        return [_post_jsonstat(url, _query_all(metadata))]
+
+    split_variable = max(variables, key=lambda variable: len(variable.get("values", [])))
+    split_values = list(split_variable.get("values", []))
+    if not split_values:
+        return [_post_jsonstat(url, _query_all(metadata))]
+
+    other_cell_count = 1
+    for variable in variables:
+        if variable["code"] != split_variable["code"]:
+            other_cell_count *= max(1, len(variable.get("values", [])))
+
+    chunk_size = max(1, min(MAX_VALUES_PER_POST, MAX_CELLS_PER_POST // other_cell_count))
+    datasets = []
+    for start in range(0, len(split_values), chunk_size):
+        chunk = split_values[start : start + chunk_size]
+        datasets.extend(
+            _post_split_jsonstat(
+                url,
+                metadata,
+                split_code=split_variable["code"],
+                split_values=chunk,
+            )
+        )
+    return datasets
+
+
 def fetch_one(spec_id: str) -> None:
     jitter = int(hashlib.sha256(spec_id.encode("utf-8")).hexdigest()[:4], 16) / 65535
     time.sleep(jitter * 8)
@@ -135,11 +213,23 @@ def fetch_one(spec_id: str) -> None:
     metadata_resp.raise_for_status()
     metadata = metadata_resp.json()
 
-    data_resp = post(url, json=_query_all(metadata), timeout=(10.0, 300.0))
-    data_resp.raise_for_status()
-    dataset = data_resp.json()
-
-    rows = list(_jsonstat_rows(dataset, entity_id=entity_id, source_meta=source_meta))
+    datasets = _chunked_datasets(url, metadata)
+    rows = [
+        row
+        for dataset in datasets
+        for row in _jsonstat_rows(dataset, entity_id=entity_id, source_meta=source_meta)
+    ]
+    if not rows:
+        rows = [
+            row
+            for dataset in datasets
+            for row in _jsonstat_rows(
+                dataset,
+                entity_id=entity_id,
+                source_meta=source_meta,
+                include_nulls=True,
+            )
+        ]
     if not rows:
         raise ValueError(f"{spec_id}: PxWeb response produced no non-null observations")
     save_raw_ndjson(rows, spec_id)
