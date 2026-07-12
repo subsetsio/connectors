@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-mn-saint-paul`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: time
+    type: TIME
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: police_grid_number
+    type: BIGINT
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: citation_issued
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: frisk_performed
+    type: BOOLEAN
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_vehicle
+    type: BOOLEAN
+  - name: raw_race_of_driver
+    type: VARCHAR

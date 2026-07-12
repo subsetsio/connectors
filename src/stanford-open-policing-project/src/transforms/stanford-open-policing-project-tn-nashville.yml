@@ -1,0 +1,99 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-tn-nashville`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [date, raw_row_number]
+temporal: date
+sort: [date, raw_row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: time
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: precinct
+    type: VARCHAR
+  - name: reporting_area
+    type: VARCHAR
+  - name: zone
+    type: VARCHAR
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: arrest_made
+    type: VARCHAR
+  - name: citation_issued
+    type: VARCHAR
+  - name: warning_issued
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: contraband_drugs
+    type: VARCHAR
+  - name: contraband_weapons
+    type: VARCHAR
+  - name: frisk_performed
+    type: VARCHAR
+  - name: search_conducted
+    type: VARCHAR
+  - name: search_person
+    type: VARCHAR
+  - name: search_vehicle
+    type: VARCHAR
+  - name: search_basis
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: vehicle_registration_state
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: raw_verbal_warning_issued
+    type: VARCHAR
+  - name: raw_written_warning_issued
+    type: VARCHAR
+  - name: raw_traffic_citation_issued
+    type: VARCHAR
+  - name: raw_misd_state_citation_issued
+    type: VARCHAR
+  - name: raw_suspect_ethnicity
+    type: VARCHAR
+  - name: raw_driver_searched
+    type: VARCHAR
+  - name: raw_passenger_searched
+    type: VARCHAR
+  - name: raw_search_consent
+    type: VARCHAR
+  - name: raw_search_arrest
+    type: VARCHAR
+  - name: raw_search_warrant
+    type: BOOLEAN
+  - name: raw_search_inventory
+    type: VARCHAR
+  - name: raw_search_plain_view
+    type: VARCHAR

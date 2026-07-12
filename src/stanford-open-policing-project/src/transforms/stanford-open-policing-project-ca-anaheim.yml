@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ca-anaheim`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [date, row_number, raw_row_number, reason_for_stop]
+temporal: date
+sort: [date, row_number, raw_row_number, reason_for_stop]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: type
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR

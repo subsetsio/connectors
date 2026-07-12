@@ -1,0 +1,59 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ca-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: county_name
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: department_name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: arrest_made
+    type: VARCHAR
+  - name: citation_issued
+    type: VARCHAR
+  - name: warning_issued
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: frisk_performed
+    type: VARCHAR
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_person
+    type: VARCHAR
+  - name: search_basis
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: raw_race
+    type: VARCHAR
+  - name: raw_search_basis
+    type: VARCHAR
+  - name: raw_location_code
+    type: VARCHAR

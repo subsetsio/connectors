@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-co-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [raw_row_number]
+temporal: date
+sort: [date, raw_row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: officer_sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: arrest_made
+    type: VARCHAR
+  - name: citation_issued
+    type: VARCHAR
+  - name: warning_issued
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: search_conducted
+    type: VARCHAR
+  - name: search_basis
+    type: VARCHAR
+  - name: raw_ethnicity
+    type: VARCHAR

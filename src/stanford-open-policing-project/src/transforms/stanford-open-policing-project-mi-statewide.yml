@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-mi-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: time
+    type: TIME
+  - name: location
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: department_id
+    type: VARCHAR
+  - name: department_name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: arrest_made
+    type: BOOLEAN
+  - name: citation_issued
+    type: BOOLEAN
+  - name: warning_issued
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: speed
+    type: VARCHAR
+  - name: posted_speed
+    type: VARCHAR
+  - name: charged_speed
+    type: VARCHAR
+  - name: raw_race
+    type: VARCHAR

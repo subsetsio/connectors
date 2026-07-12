@@ -1,0 +1,81 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ky-louisville`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [raw_row_number]
+temporal: date
+sort: [date, raw_row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: geocode_source
+    type: VARCHAR
+  - name: beat
+    type: VARCHAR
+  - name: division
+    type: VARCHAR
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_race
+    type: VARCHAR
+  - name: officer_sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: citation_issued
+    type: BOOLEAN
+  - name: warning_issued
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: frisk_performed
+    type: BOOLEAN
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_basis
+    type: VARCHAR
+  - name: reason_for_search
+    type: VARCHAR
+  - name: raw_activity_division
+    type: VARCHAR
+  - name: raw_division
+    type: VARCHAR
+  - name: raw_activity_beat
+    type: VARCHAR
+  - name: raw_beat
+    type: VARCHAR
+  - name: raw_driver_race
+    type: VARCHAR
+  - name: raw_persons_race
+    type: VARCHAR
+  - name: raw_persons_ethnicity
+    type: VARCHAR
+  - name: raw_driver_age_range
+    type: VARCHAR
+  - name: raw_was_vehcile_searched
+    type: VARCHAR
+  - name: raw_citation_location
+    type: VARCHAR

@@ -1,0 +1,67 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ct-hartford`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number, raw_row_number, location, lat, lng]
+temporal: date
+sort: [date, row_number, raw_row_number, location, lat, lng]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: department_name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: arrest_made
+    type: VARCHAR
+  - name: citation_issued
+    type: BOOLEAN
+  - name: warning_issued
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_vehicle
+    type: VARCHAR
+  - name: search_basis
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: raw_subject_race_code
+    type: VARCHAR
+  - name: raw_subject_ethnicity_code
+    type: VARCHAR
+  - name: raw_search_authorization_code
+    type: VARCHAR
+  - name: raw_intervention_disposition_code
+    type: VARCHAR

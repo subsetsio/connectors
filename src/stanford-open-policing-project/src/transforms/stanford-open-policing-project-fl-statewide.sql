@@ -1,0 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+SELECT
+    "_source_entity_id" AS source_entity_id,
+    "_source_file" AS source_file,
+    "_source_member" AS source_member,
+    "_row_number" AS row_number,
+    "raw_row_number",
+    "date",
+    "time",
+    "location",
+    "county_name",
+    "subject_age",
+    "subject_race",
+    "subject_sex",
+    "officer_id_hash",
+    "officer_age",
+    "officer_race",
+    "officer_sex",
+    "officer_years_of_service",
+    "department_name",
+    "unit",
+    "type",
+    "violation",
+    "arrest_made",
+    "citation_issued",
+    "warning_issued",
+    "outcome",
+    "frisk_performed",
+    "search_conducted",
+    "search_basis",
+    "reason_for_search",
+    "reason_for_stop",
+    "vehicle_registration_state",
+    "notes",
+    "raw_row_number_old",
+    "raw_Race" AS raw_race,
+    "raw_Ethnicity" AS raw_ethnicity,
+    "raw_row_number_new",
+    "raw_SearchType" AS raw_searchtype,
+    "raw_EnforcementAction" AS raw_enforcementaction
+FROM "stanford-open-policing-project-fl-statewide"

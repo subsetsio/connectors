@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-oh-columbus`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [raw_row_number]
+temporal: date
+sort: [date, raw_row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: time
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: precinct
+    type: VARCHAR
+  - name: zone
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: arrest_made
+    type: BOOLEAN
+  - name: citation_issued
+    type: BOOLEAN
+  - name: warning_issued
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: search_conducted
+    type: BOOLEAN
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: raw_enforcement_taken
+    type: VARCHAR

@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-mo-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [date, raw_row_number]
+temporal: date
+sort: [date, raw_row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: location
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: department_name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: search_conducted
+    type: BOOLEAN
+  - name: raw_race
+    type: VARCHAR

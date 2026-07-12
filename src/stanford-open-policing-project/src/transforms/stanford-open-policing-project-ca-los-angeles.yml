@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ca-los-angeles`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [time, row_number]
+temporal: time
+sort: [time, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: TIME
+  - name: district
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: raw_descent_description
+    type: VARCHAR

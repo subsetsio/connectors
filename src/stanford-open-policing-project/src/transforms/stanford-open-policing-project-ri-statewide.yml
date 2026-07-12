@@ -1,0 +1,77 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ri-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: BIGINT
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: zone
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: department_id
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: arrest_made
+    type: VARCHAR
+  - name: citation_issued
+    type: VARCHAR
+  - name: warning_issued
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: contraband_drugs
+    type: VARCHAR
+  - name: contraband_weapons
+    type: VARCHAR
+  - name: contraband_alcohol
+    type: VARCHAR
+  - name: contraband_other
+    type: VARCHAR
+  - name: frisk_performed
+    type: VARCHAR
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_basis
+    type: VARCHAR
+  - name: reason_for_search
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: raw_basisforstop
+    type: VARCHAR
+  - name: raw_operatorrace
+    type: VARCHAR
+  - name: raw_operatorsex
+    type: VARCHAR
+  - name: raw_resultofstop
+    type: VARCHAR
+  - name: raw_searchresultone
+    type: VARCHAR
+  - name: raw_searchresulttwo
+    type: VARCHAR
+  - name: raw_searchresultthree
+    type: VARCHAR

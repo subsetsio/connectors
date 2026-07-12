@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-az-gilbert`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: time
+    type: TIME
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: vehicle_color
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: vehicle_year
+    type: VARCHAR

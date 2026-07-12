@@ -1,0 +1,103 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-wi-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [raw_row_number]
+temporal: date
+sort: [date, raw_row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: department_id
+    type: VARCHAR
+  - name: department_name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: arrest_made
+    type: VARCHAR
+  - name: citation_issued
+    type: VARCHAR
+  - name: warning_issued
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: contraband_drugs
+    type: VARCHAR
+  - name: contraband_weapons
+    type: VARCHAR
+  - name: contraband_alcohol
+    type: VARCHAR
+  - name: contraband_other
+    type: VARCHAR
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_person
+    type: BOOLEAN
+  - name: search_vehicle
+    type: BOOLEAN
+  - name: search_basis
+    type: VARCHAR
+  - name: vehicle_color
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: vehicle_registration_state
+    type: VARCHAR
+  - name: vehicle_year
+    type: VARCHAR
+  - name: raw_onhighwaydirection
+    type: VARCHAR
+  - name: raw_onhighwayname
+    type: VARCHAR
+  - name: raw_fromatstreetname
+    type: VARCHAR
+  - name: raw_race
+    type: VARCHAR
+  - name: raw_sex
+    type: VARCHAR
+  - name: raw_individualsearchconducted
+    type: VARCHAR
+  - name: raw_vehiclesearchconducted
+    type: VARCHAR
+  - name: raw_individualcontraband
+    type: VARCHAR
+  - name: raw_vehiclecontraband
+    type: VARCHAR
+  - name: raw_summaryoutcome
+    type: VARCHAR
+  - name: raw_individualsearchbasis
+    type: VARCHAR
+  - name: raw_vehiclesearchbasis
+    type: VARCHAR

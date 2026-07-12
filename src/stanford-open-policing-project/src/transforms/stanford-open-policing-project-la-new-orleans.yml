@@ -1,0 +1,79 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-la-new-orleans`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: time
+sort: [time, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: time
+    type: TIME
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: zone
+    type: VARCHAR
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_assignment
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: arrest_made
+    type: BOOLEAN
+  - name: citation_issued
+    type: BOOLEAN
+  - name: warning_issued
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: contraband_drugs
+    type: VARCHAR
+  - name: contraband_weapons
+    type: VARCHAR
+  - name: frisk_performed
+    type: BOOLEAN
+  - name: search_conducted
+    type: BOOLEAN
+  - name: search_person
+    type: BOOLEAN
+  - name: search_vehicle
+    type: BOOLEAN
+  - name: search_basis
+    type: VARCHAR
+  - name: reason_for_stop
+    type: VARCHAR
+  - name: vehicle_color
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: vehicle_year
+    type: VARCHAR
+  - name: raw_actions_taken
+    type: VARCHAR
+  - name: raw_subject_race
+    type: VARCHAR

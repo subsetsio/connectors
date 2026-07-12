@@ -1,0 +1,53 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-ny-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: time
+    type: TIME
+  - name: location
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: subject_age
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: speed
+    type: VARCHAR
+  - name: posted_speed
+    type: VARCHAR
+  - name: vehicle_color
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: vehicle_registration_state
+    type: VARCHAR
+  - name: vehicle_year
+    type: VARCHAR
+  - name: raw_race
+    type: VARCHAR

@@ -1,0 +1,83 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stanford-open-policing-project-tx-statewide`. Regenerate after model-verify.
+# caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+key: [row_number]
+temporal: date
+sort: [date, row_number]
+columns:
+  - name: source_entity_id
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: raw_row_number
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: time
+    type: TIME
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: VARCHAR
+  - name: lng
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: precinct
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: subject_race
+    type: VARCHAR
+  - name: subject_sex
+    type: VARCHAR
+  - name: officer_id_hash
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: violation
+    type: VARCHAR
+  - name: citation_issued
+    type: BOOLEAN
+  - name: warning_issued
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: contraband_found
+    type: VARCHAR
+  - name: contraband_drugs
+    type: VARCHAR
+  - name: contraband_weapons
+    type: VARCHAR
+  - name: search_conducted
+    type: VARCHAR
+  - name: search_vehicle
+    type: VARCHAR
+  - name: search_basis
+    type: VARCHAR
+  - name: vehicle_color
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: vehicle_year
+    type: VARCHAR
+  - name: raw_ha_race_sex
+    type: VARCHAR
+  - name: raw_ha_search_pc_boolean
+    type: VARCHAR
+  - name: raw_ha_search_concent_boolean
+    type: VARCHAR
+  - name: raw_ha_incidto_arrest_boolean
+    type: VARCHAR
+  - name: raw_ha_vehicle_invent_boolean
+    type: VARCHAR

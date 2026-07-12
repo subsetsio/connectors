@@ -1,0 +1,30 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
+SELECT
+    "_source_entity_id" AS source_entity_id,
+    "_source_file" AS source_file,
+    "_source_member" AS source_member,
+    "_row_number" AS row_number,
+    CAST("raw_row_number" AS BIGINT) AS raw_row_number,
+    "date",
+    "time",
+    "location",
+    "lat",
+    "lng",
+    "beat",
+    "district",
+    "sector",
+    "subject_race",
+    "subject_sex",
+    "officer_id_hash",
+    "type",
+    "outcome",
+    CAST("search_conducted" AS BOOLEAN) AS search_conducted,
+    "reason_for_stop",
+    "raw_1st_digit_race",
+    "raw_4th_digit_final_outcome",
+    "raw_6th_digit_search_outcome"
+FROM "stanford-open-policing-project-tx-arlington"
