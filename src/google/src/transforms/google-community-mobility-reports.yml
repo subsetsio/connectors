@@ -2,37 +2,55 @@
 # of raw asset `google-community-mobility-reports`. Regenerate after model-verify.
 # caution: The table mixes country, state/province, county, metro, and other Google geography levels; filter to the intended geography level before comparing or aggregating rows.
 # caution: Percent changes are relative to Google's pre-pandemic baseline for the same geography and category, not absolute visit counts.
-key: [country_region_code, country_region, sub_region_1, sub_region_2, metro_area, iso_3166_2_code, census_fips_code, place_id, date]
+key: [mobility_region_key, date]
 temporal: date
-sort: [date, country_region_code, country_region, sub_region_1, sub_region_2, metro_area, iso_3166_2_code, census_fips_code, place_id]
+sort: [date, mobility_region_key]
 columns:
+  - name: mobility_region_key
+    type: VARCHAR
+    description: Stable hash of the source geography hierarchy columns identifying the reported mobility region.
   - name: country_region_code
     type: VARCHAR
+    description: ISO-like two-letter country or region code supplied by Google, when available.
   - name: country_region
     type: VARCHAR
+    description: Country or region name for the mobility observation.
   - name: sub_region_1
     type: VARCHAR
+    description: First-level subnational region such as a state, province, or territory, when the row is below country level.
   - name: sub_region_2
     type: VARCHAR
+    description: Second-level subnational region such as a county or district, when available.
   - name: metro_area
     type: VARCHAR
+    description: Metro area name for rows reported at a metropolitan geography.
   - name: iso_3166_2_code
     type: VARCHAR
+    description: ISO 3166-2 subdivision code for rows where Google supplied one.
   - name: census_fips_code
     type: VARCHAR
+    description: United States Census FIPS code for rows where Google supplied one.
   - name: place_id
     type: VARCHAR
+    description: Google place identifier for the reported geography, when available.
   - name: date
     type: DATE
-  - name: retail_and_recreation_percent_change_from_baseline
-    type: VARCHAR
-  - name: grocery_and_pharmacy_percent_change_from_baseline
-    type: VARCHAR
-  - name: parks_percent_change_from_baseline
-    type: VARCHAR
-  - name: transit_stations_percent_change_from_baseline
-    type: VARCHAR
-  - name: workplaces_percent_change_from_baseline
-    type: VARCHAR
-  - name: residential_percent_change_from_baseline
-    type: VARCHAR
+    description: Calendar date of the mobility measurement.
+  - name: retail_and_recreation_pct_change
+    type: DOUBLE
+    description: Percent change from Google's baseline for retail and recreation places.
+  - name: grocery_and_pharmacy_pct_change
+    type: DOUBLE
+    description: Percent change from Google's baseline for grocery and pharmacy places.
+  - name: parks_pct_change
+    type: DOUBLE
+    description: Percent change from Google's baseline for parks.
+  - name: transit_stations_pct_change
+    type: DOUBLE
+    description: Percent change from Google's baseline for transit stations.
+  - name: workplaces_pct_change
+    type: DOUBLE
+    description: Percent change from Google's baseline for workplaces.
+  - name: residential_pct_change
+    type: DOUBLE
+    description: Percent change from Google's baseline for residential places.

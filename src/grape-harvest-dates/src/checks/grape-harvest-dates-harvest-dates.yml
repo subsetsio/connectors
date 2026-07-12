@@ -1,19 +1,21 @@
-# compiled by `hardened compile-checks` — post-publish audit of `google-community-mobility-reports`.
+# compiled by `hardened compile-checks` — post-publish audit of `grape-harvest-dates-harvest-dates`.
 # Grain/temporal from the transform contract, row floor from the measured
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [mobility_region_key, date]
-temporal: date
+key: [year, region_code, region]
+temporal: year
 checks:
   - kind: unique
-    columns: [mobility_region_key, date]
+    columns: [year, region_code, region]
   - kind: not_null
-    col: mobility_region_key
+    col: year
   - kind: not_null
-    col: date
+    col: region_code
+  - kind: not_null
+    col: region
   - kind: row_floor
-    min: 5865012
+    min: 2981
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1

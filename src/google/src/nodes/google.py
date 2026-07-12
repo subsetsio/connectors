@@ -29,7 +29,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_parquet_writer,
     transient_retry,
@@ -121,41 +120,4 @@ def fetch_mobility(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="google-community-mobility-reports", fn=fetch_mobility, kind="download"),
-]
-
-
-_PCT_COLS = {
-    "retail_and_recreation_percent_change_from_baseline": "retail_and_recreation_pct_change",
-    "grocery_and_pharmacy_percent_change_from_baseline": "grocery_and_pharmacy_pct_change",
-    "parks_percent_change_from_baseline": "parks_pct_change",
-    "transit_stations_percent_change_from_baseline": "transit_stations_pct_change",
-    "workplaces_percent_change_from_baseline": "workplaces_pct_change",
-    "residential_percent_change_from_baseline": "residential_pct_change",
-}
-
-_PCT_SELECT = ",\n            ".join(
-    f"TRY_CAST(NULLIF({src}, '') AS DOUBLE) AS {dst}" for src, dst in _PCT_COLS.items()
-)
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="google-community-mobility-reports-transform",
-        deps=["google-community-mobility-reports"],
-        sql=f"""
-            SELECT
-                NULLIF(country_region_code, '') AS country_region_code,
-                NULLIF(country_region, '')      AS country_region,
-                NULLIF(sub_region_1, '')        AS sub_region_1,
-                NULLIF(sub_region_2, '')        AS sub_region_2,
-                NULLIF(metro_area, '')          AS metro_area,
-                NULLIF(iso_3166_2_code, '')     AS iso_3166_2_code,
-                NULLIF(census_fips_code, '')    AS census_fips_code,
-                NULLIF(place_id, '')            AS place_id,
-                CAST(date AS DATE)              AS date,
-                {_PCT_SELECT}
-            FROM "google-community-mobility-reports"
-            WHERE date IS NOT NULL AND date <> ''
-        """,
-        temporal="date",
-    ),
 ]

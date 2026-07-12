@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, region_code, region]
+temporal: year
+sort: [year, region_code, region]
 columns:
   - name: region
     type: VARCHAR
+    description: Regional composite grape harvest date series name.
   - name: region_code
     type: VARCHAR
+    description: Source region code for the regional composite series.
   - name: year
     type: INTEGER
+    description: Observation year AD.
   - name: harvest_date
     type: DOUBLE
+    description: Grape harvest date expressed as days after 31 August; negative values are days before 31 August.

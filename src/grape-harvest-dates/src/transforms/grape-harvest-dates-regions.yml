@@ -1,10 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [region_code]
+sort: [region_code]
 columns:
   - name: region
     type: VARCHAR
+    description: Regional composite grape harvest date series name.
   - name: region_code
     type: VARCHAR
+    description: Source region code for the regional composite series.
   - name: latitude
     type: DOUBLE
+    description: Latitude of the regional composite series location in decimal degrees.
   - name: longitude
     type: DOUBLE
+    description: Longitude of the regional composite series location in decimal degrees.
