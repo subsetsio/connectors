@@ -7,10 +7,12 @@ tests:
   - row_count: {min: 50, max: 70}
     reason: one row per US state/territory
     certainty: 90
-  - not_null: State_Territory
-  - unique: State_Territory
-    reason: one row per state/territory in the 2015 beneficiary-count snapshot
+  - not_null: GlobalID
+  - unique: GlobalID
+    reason: ArcGIS GlobalID is the raw row identifier for this layer; one source row has a blank State_Territory and is filtered by the transform.
     certainty: 90
+  - nullable: {col: State_Territory, max_null_frac: 0.02}
+    reason: the source layer carries one blank state row in this otherwise fixed 2015 snapshot.
   - column_type: {col: State_Territory, type: string}
   - column_type: {col: Total_Beneficiaries, type: integer}
   - column_type: {col: Retirement_Workers, type: integer}
