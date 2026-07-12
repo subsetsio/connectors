@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `osv-vulnerabilities`. Regenerate after model-verify.
+# caution: Nested advisory fields such as affected packages, ranges, references, severity, credits, and database-specific data are preserved as JSON strings.
+key: [source_path]
+temporal: published
+sort: [published, source_path]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: schema_version
+    type: VARCHAR
+  - name: published
+    type: TIMESTAMP
+  - name: modified
+    type: TIMESTAMP
+  - name: withdrawn
+    type: TIMESTAMP
+  - name: source_path
+    type: VARCHAR
+  - name: source_ecosystem
+    type: VARCHAR
+  - name: aliases
+    type: VARCHAR
+  - name: related
+    type: VARCHAR
+  - name: summary
+    type: VARCHAR
+  - name: details
+    type: VARCHAR
+  - name: severity
+    type: VARCHAR
+  - name: affected
+    type: VARCHAR
+  - name: references
+    type: VARCHAR
+  - name: credits
+    type: VARCHAR
+  - name: database_specific
+    type: VARCHAR

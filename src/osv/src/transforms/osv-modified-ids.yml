@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `osv-modified-ids`. Regenerate after model-verify.
+# caution: This is a refresh/change index for OSV export paths, not the advisory body; use the vulnerability records table for advisory content.
+key: [source_path]
+temporal: modified
+sort: [modified, source_path]
+columns:
+  - name: modified
+    type: TIMESTAMP
+  - name: source_path
+    type: VARCHAR
+  - name: source_ecosystem
+    type: VARCHAR
+  - name: osv_id
+    type: VARCHAR
