@@ -115,12 +115,33 @@ def _get_range(url: str, start: int, end: int) -> bytes:
     return _request_range(url, start, end).content
 
 
+def _download_full_zip(url: str) -> bytes:
+    resp = get(
+        url,
+        headers={"Accept": "application/octet-stream"},
+        timeout=(10.0, 600.0),
+    )
+    resp.raise_for_status()
+    payload = resp.content
+    content_length = resp.headers.get("content-length")
+    if content_length and len(payload) != int(content_length):
+        raise RuntimeError(
+            f"{url}: downloaded {len(payload)} bytes, expected {content_length}"
+        )
+    return payload
+
+
 def _download_packaged_zip(url: str) -> bytes:
-    first = _request_range(url, 0, 0)
+    try:
+        first = _request_range(url, 0, 0)
+    except RuntimeError as exc:
+        print(f"  packaged CSV range probe failed ({exc}); downloading full zip")
+        return _download_full_zip(url)
     content_range = first.headers.get("content-range") or ""
     match = re.match(r"bytes 0-0/(\d+)$", content_range)
     if first.status_code != 206 or not match:
-        raise RuntimeError(f"{url}: packaged CSV endpoint does not support ranges")
+        print("  packaged CSV endpoint does not support ranges; downloading full zip")
+        return _download_full_zip(url)
     size = int(match.group(1))
     chunks = [first.content]
     for start in range(1, size, RANGE_CHUNK_SIZE):
