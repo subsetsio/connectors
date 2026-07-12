@@ -1,8 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, region]
+temporal: date
+sort: [date, region]
 columns:
   - name: date
     type: DATE
+    description: Week-ending date for the US Drought Monitor observation.
   - name: region
     type: VARCHAR
+    description: USDM region code; US is the CONUS national row, with state, DC, and Puerto Rico abbreviations also present.
   - name: dsci
     type: INTEGER
+    description: Drought Severity and Coverage Index, from 0 to 500, where higher values indicate more severe and widespread drought.

@@ -24,8 +24,5 @@ SELECT
     "FAM" AS fam,
     "descrip",
     "categoria",
-    "Id" AS id,
-    "highway",
-    "longitud_m",
-    "ancho_via"
-FROM "un-habitat-7910a33aaf29488892b99a29d7935470" AS src
+    "Id" AS id
+FROM "un-habitat-7910a33aaf29488892b99a29d7935470"

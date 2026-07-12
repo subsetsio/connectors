@@ -1,18 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, region]
+temporal: date
+sort: [date, region]
 columns:
   - name: date
     type: DATE
+    description: Week-ending date for the US Drought Monitor observation.
   - name: region
     type: VARCHAR
+    description: USDM region code; US is the CONUS national row, with state, DC, and Puerto Rico abbreviations also present.
   - name: none_pct
     type: DOUBLE
+    description: Percent of the region not classified in drought or abnormal dryness.
   - name: d0_pct
     type: DOUBLE
+    description: Percent of the region classified as D0 abnormal dryness only.
   - name: d1_pct
     type: DOUBLE
+    description: Percent of the region classified as D1 moderate drought only.
   - name: d2_pct
     type: DOUBLE
+    description: Percent of the region classified as D2 severe drought only.
   - name: d3_pct
     type: DOUBLE
+    description: Percent of the region classified as D3 extreme drought only.
   - name: d4_pct
     type: DOUBLE
+    description: Percent of the region classified as D4 exceptional drought.
