@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nbmp-trend-indices`. Regenerate after model-verify.
+# caution: Rows mix geographical scales and survey methods; filter to one geography and survey before comparing species or interpreting a time series.
+# caution: Index values, standard errors, and confidence intervals are not additive across species, geographies, surveys, or years.
 key: [geographical_scale, species, survey, year]
 temporal: year
 sort: [year, geographical_scale, species, survey]
@@ -12,12 +15,16 @@ columns:
   - name: official_statistic
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: smoothed_index
     type: DOUBLE
+    description: Smoothed population index for the species, geography, survey, and year.
   - name: standard_error
     type: DOUBLE
+    description: Standard error of the smoothed population index.
   - name: lower_95_ci
     type: DOUBLE
+    description: Lower bound of the 95 percent confidence interval for the index.
   - name: upper_95_ci
     type: DOUBLE
+    description: Upper bound of the 95 percent confidence interval for the index.

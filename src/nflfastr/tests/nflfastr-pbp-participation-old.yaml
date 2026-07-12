@@ -1,0 +1,9 @@
+spec_id: nflfastr-pbp-participation-old
+status: active
+tests:
+  - not_null: nflverse_game_id
+  - not_null: play_id
+  - row_count: {min: 20000}
+    certainty: 80
+    severity: warn
+    reason: old participation mirror has tens of thousands of play rows; a much smaller count means truncation

@@ -1,0 +1,9 @@
+spec_id: nflfastr-teams-colors-logos
+status: active
+tests:
+  - not_null: team_abbr
+  - not_null: team_name
+  - row_count: {min: 30}
+    certainty: 90
+    severity: warn
+    reason: team reference table should include current clubs plus historical aliases

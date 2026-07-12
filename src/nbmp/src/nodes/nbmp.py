@@ -27,7 +27,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -173,53 +172,4 @@ def fetch_population_trends(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="nbmp-trend-indices", fn=fetch_trend_indices, kind="download"),
     NodeSpec(id="nbmp-population-trends", fn=fetch_population_trends, kind="download"),
-]
-
-
-# --- transforms — one published Delta table per subset -----------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nbmp-trend-indices-transform",
-        deps=["nbmp-trend-indices"],
-        key=("geographical_scale", "species", "survey", "year"),
-        temporal="year",
-        sql='''
-            SELECT
-                geographical_scale,
-                species,
-                survey,
-                official_statistic,
-                CAST(TRY_CAST(year AS DOUBLE) AS INTEGER) AS year,
-                TRY_CAST(smoothed_index AS DOUBLE)        AS smoothed_index,
-                TRY_CAST(se AS DOUBLE)                    AS standard_error,
-                TRY_CAST(lower_95_ci AS DOUBLE)           AS lower_95_ci,
-                TRY_CAST(upper_95_ci AS DOUBLE)           AS upper_95_ci
-            FROM "nbmp-trend-indices"
-            WHERE TRY_CAST(year AS INTEGER) IS NOT NULL
-              AND TRY_CAST(smoothed_index AS DOUBLE) IS NOT NULL
-              AND species IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nbmp-population-trends-transform",
-        deps=["nbmp-population-trends"],
-        key=("country", "species", "survey_type", "term"),
-        sql='''
-            SELECT
-                country,
-                species,
-                survey_type,
-                term,
-                TRY_CAST(average_number_of_sites AS INTEGER) AS average_number_of_sites,
-                TRY_CAST(trend_pct_change AS DOUBLE)         AS trend_pct_change,
-                TRY_CAST(lower_confidence_limit AS DOUBLE)   AS lower_confidence_limit,
-                TRY_CAST(upper_confidence_limit AS DOUBLE)   AS upper_confidence_limit,
-                significance_of_change
-            FROM "nbmp-population-trends"
-            WHERE term IS NOT NULL
-              AND species IS NOT NULL
-              AND country IS NOT NULL
-        ''',
-    ),
 ]

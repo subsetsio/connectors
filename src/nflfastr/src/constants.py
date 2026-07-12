@@ -31,7 +31,15 @@ ENTITY_TAGS = {
     "ngs_rushing": "nextgen_stats",
     "officials": "officials",
     "pbp_participation": "pbp_participation",
+    "pbp_participation_old": "pbp_participation",
+    "pfr_rosters": "misc",
     "play_by_play": "pbp",
+    "player_stats": "player_stats",
+    "player_stats_def": "player_stats",
+    "player_stats_def_season": "player_stats",
+    "player_stats_kicking": "player_stats",
+    "player_stats_kicking_season": "player_stats",
+    "player_stats_season": "player_stats",
     "players": "players",
     "qbr_season_level": "espn_data",
     "qbr_week_level": "espn_data",
@@ -46,6 +54,7 @@ ENTITY_TAGS = {
     "stats_team_reg": "stats_team",
     "stats_team_regpost": "stats_team",
     "stats_team_week": "stats_team",
+    "teams_colors_logos": "teams",
     "trades": "trades",
 }
 

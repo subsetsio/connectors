@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nbmp-population-trends`. Regenerate after model-verify.
+# caution: Rows include both short_term and long_term summaries; filter term before comparing trend percentages.
+# caution: Trend percentages and confidence limits are not additive across species, countries, survey types, or terms.
 key: [country, species, survey_type, term]
 sort: [country, species, survey_type, term]
 columns:
@@ -12,11 +15,15 @@ columns:
     type: VARCHAR
   - name: average_number_of_sites
     type: INTEGER
+    description: Average number of survey sites contributing to this trend estimate.
   - name: trend_pct_change
     type: DOUBLE
+    description: Estimated percentage change in bat population index over the term.
   - name: lower_confidence_limit
     type: DOUBLE
+    description: Lower confidence limit for the estimated percentage change.
   - name: upper_confidence_limit
     type: DOUBLE
+    description: Upper confidence limit for the estimated percentage change.
   - name: significance_of_change
     type: VARCHAR

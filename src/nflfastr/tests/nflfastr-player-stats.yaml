@@ -1,0 +1,14 @@
+spec_id: nflfastr-player-stats
+status: active
+tests:
+  - not_null: season
+  - column_type: {col: season, type: integer}
+  - at_most: {col: season, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+    reason: player stat seasons should not exceed the current year
+  - row_count: {min: 50000}
+    certainty: 80
+    severity: warn
+    reason: weekly player stats contain many player-week rows across seasons
