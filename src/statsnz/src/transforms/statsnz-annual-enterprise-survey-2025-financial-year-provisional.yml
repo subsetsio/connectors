@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-annual-enterprise-survey-2025-financial-year-provisional`. Regenerate after model-verify.
+key: [row_number, value, industry_code_nzsioc, industry_name_nzsioc, industry_code_anzsic06]
+temporal: year
+sort: [year, row_number, value, industry_code_nzsioc, industry_name_nzsioc, industry_code_anzsic06]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: industry_aggregation_nzsioc
+    type: VARCHAR
+  - name: industry_code_nzsioc
+    type: VARCHAR
+  - name: industry_name_nzsioc
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: variable_code
+    type: VARCHAR
+  - name: variable_name
+    type: VARCHAR
+  - name: variable_category
+    type: VARCHAR
+  - name: value
+    type: VARCHAR
+  - name: industry_code_anzsic06
+    type: VARCHAR

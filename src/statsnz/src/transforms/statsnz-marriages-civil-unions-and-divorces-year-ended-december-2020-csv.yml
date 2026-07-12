@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-marriages-civil-unions-and-divorces-year-ended-december-2020-csv`. Regenerate after model-verify.
+key: [row_number, period, source_file]
+temporal: period
+sort: [period, row_number, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: period
+    type: BIGINT
+  - name: general_marriage_rate_and_divorce_rate
+    type: VARCHAR
+  - name: count
+    type: DOUBLE
+  - name: marriages_or_divorces
+    type: VARCHAR
+  - name: same_sex_or_opposite_sex
+    type: VARCHAR
+  - name: marriage_or_civil_union
+    type: VARCHAR
+  - name: male_or_female
+    type: VARCHAR
+  - name: median_age_at_divorce
+    type: DOUBLE
+  - name: status_before_marriage
+    type: VARCHAR
+  - name: median_age_at_marriage
+    type: DOUBLE

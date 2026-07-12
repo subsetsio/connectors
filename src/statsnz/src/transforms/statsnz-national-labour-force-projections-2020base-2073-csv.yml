@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-national-labour-force-projections-2020base-2073-csv`. Regenerate after model-verify.
+key: [row_number]
+temporal: year
+sort: [year, row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: characteristic
+    type: VARCHAR
+  - name: p05
+    type: VARCHAR
+  - name: p25
+    type: VARCHAR
+  - name: p50
+    type: VARCHAR
+  - name: p75
+    type: VARCHAR
+  - name: p95
+    type: VARCHAR
+  - name: sortorder
+    type: BIGINT

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-new-zealand-resident-arrivals-by-area-of-residence-csv`. Regenerate after model-verify.
+key: [row_number, count, nz_area, year_month, geo_level]
+temporal: year_month
+sort: [year_month, row_number, count, nz_area, geo_level]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_month
+    type: DATE
+  - name: direction_code
+    type: VARCHAR
+  - name: nz_area
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: geo_level
+    type: VARCHAR
+  - name: period
+    type: VARCHAR

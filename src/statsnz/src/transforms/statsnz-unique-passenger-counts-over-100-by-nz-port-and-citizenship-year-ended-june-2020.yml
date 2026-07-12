@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-unique-passenger-counts-over-100-by-nz-port-and-citizenship-year-ended-june-2020`. Regenerate after model-verify.
+key: [row_number]
+temporal: year
+sort: [year, row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: nz_port
+    type: VARCHAR
+  - name: citizenship
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: year
+    type: BIGINT

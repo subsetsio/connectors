@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-research-and-development-survey-2025`. Regenerate after model-verify.
+key: [row_number, relative_sampling_error, rd_value, footnotes, variable]
+temporal: year
+sort: [year, row_number, relative_sampling_error, rd_value, footnotes, variable]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: variable
+    type: VARCHAR
+  - name: breakdown
+    type: VARCHAR
+  - name: breakdown_category
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: rd_value
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: footnotes
+    type: VARCHAR
+  - name: relative_sampling_error
+    type: VARCHAR

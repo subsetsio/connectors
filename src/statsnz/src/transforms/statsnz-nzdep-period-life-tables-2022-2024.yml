@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-nzdep-period-life-tables-2022-2024`. Regenerate after model-verify.
+key: [value, row_number, value_rnd, area, age]
+temporal: time
+sort: [time, value, row_number, value_rnd, area, age]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: measure
+    type: VARCHAR
+  - name: quantile
+    type: VARCHAR
+  - name: nzdep2023
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: area
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR
+  - name: value_rnd
+    type: DOUBLE

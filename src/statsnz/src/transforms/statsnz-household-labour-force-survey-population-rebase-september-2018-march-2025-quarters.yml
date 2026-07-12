@@ -1,0 +1,126 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-household-labour-force-survey-population-rebase-september-2018-march-2025-quarters`. Regenerate after model-verify.
+key: [row_number, series_reference, ser_nbr, data_value, period]
+temporal: period
+sort: [period, row_number, series_reference, ser_nbr, data_value]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: status
+    type: VARCHAR
+  - name: ser_nbr
+    type: BIGINT
+  - name: series_reference
+    type: VARCHAR
+  - name: period
+    type: DOUBLE
+  - name: data_value
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: magntude
+    type: BIGINT
+  - name: subject
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: age_group_3_brackets
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: age_group_6_brackets
+    type: VARCHAR
+  - name: disability_age_breakdown_classification
+    type: VARCHAR
+  - name: disability_status_classification
+    type: VARCHAR
+  - name: duration_of_unemployment
+    type: VARCHAR
+  - name: employed_and_unemployed_persons_full_time_and_part_time_status
+    type: VARCHAR
+  - name: employment_relationship
+    type: VARCHAR
+  - name: employment_status
+    type: VARCHAR
+  - name: ethnic_single_combination
+    type: VARCHAR
+  - name: ethnic_total_response
+    type: VARCHAR
+  - name: formal_study_status
+    type: VARCHAR
+  - name: highest_qualification
+    type: VARCHAR
+  - name: hours_worked
+    type: VARCHAR
+  - name: household_composition
+    type: VARCHAR
+  - name: household_labour_force_status
+    type: VARCHAR
+  - name: industry_anzsic06
+    type: VARCHAR
+  - name: industry_anzsic06_supplementary
+    type: VARCHAR
+  - name: job
+    type: VARCHAR
+  - name: job_tenure
+    type: VARCHAR
+  - name: labour_force_and_education_status
+    type: VARCHAR
+  - name: labour_force_status
+    type: VARCHAR
+  - name: labour_force_underutilisation_classification
+    type: VARCHAR
+  - name: main_activity
+    type: VARCHAR
+  - name: main_job
+    type: VARCHAR
+  - name: methods_of_seeking_employment
+    type: VARCHAR
+  - name: occupation_anzsco_level_1
+    type: VARCHAR
+  - name: percentage_change_from_previous_period_and_same_period_previous_year
+    type: VARCHAR
+  - name: persons_employed_by_job_security
+    type: VARCHAR
+  - name: persons_employed_by_reason_working_fewer_hours_main_job_or_away_from_work_all_jobs
+    type: VARCHAR
+  - name: persons_employed_by_relationship_between_actual_and_usual_hours_worked
+    type: VARCHAR
+  - name: persons_employed_by_work_location
+    type: VARCHAR
+  - name: persons_employed_unemployed_not_in_labour_force_for_current_quarter
+    type: VARCHAR
+  - name: reason_for_leaving_last_job
+    type: VARCHAR
+  - name: reason_not_seeking_work
+    type: VARCHAR
+  - name: reason_not_wanting_work
+    type: VARCHAR
+  - name: reasons_not_available_for_work
+    type: VARCHAR
+  - name: regional_council
+    type: VARCHAR
+  - name: sampling_errors
+    type: VARCHAR
+  - name: seasonally_adjusted_trend_series
+    type: VARCHAR
+  - name: second_job
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: total_number_of_actual_hours_worked_each_week
+    type: VARCHAR
+  - name: total_number_of_usual_hours_worked_each_week
+    type: VARCHAR
+  - name: type_of_employment_agreement
+    type: VARCHAR
+  - name: underemployment
+    type: VARCHAR
+  - name: underutilisation
+    type: VARCHAR
+  - name: union_membership
+    type: VARCHAR
+  - name: youth_age_groups
+    type: VARCHAR

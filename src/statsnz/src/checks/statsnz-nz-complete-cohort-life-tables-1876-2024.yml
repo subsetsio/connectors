@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statsnz-nz-complete-cohort-life-tables-1876-2024`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, lx, llx, dx, mx]
+checks:
+  - kind: unique
+    columns: [row_number, lx, llx, dx, mx]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: lx
+  - kind: not_null
+    col: llx
+  - kind: not_null
+    col: dx
+  - kind: not_null
+    col: mx
+  - kind: row_floor
+    min: 45147
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statsnz-business-operations-survey-2023-business-practices`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, value, line_code, description, industry]
+checks:
+  - kind: unique
+    columns: [row_number, value, line_code, description, industry]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: line_code
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: industry
+  - kind: row_floor
+    min: 8953
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

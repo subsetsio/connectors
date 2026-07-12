@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-injury-statistics-work-related-claims-2018-csv`. Regenerate after model-verify.
+key: [row_number]
+temporal: year
+sort: [year, row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: age_group_years_at_date_of_injury
+    type: VARCHAR
+  - name: geographic_region_where_injury_occurred
+    type: VARCHAR
+  - name: employment_status
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: injury_illness_disease_group
+    type: VARCHAR
+  - name: type_of_injury_illness_disease
+    type: VARCHAR
+  - name: industry
+    type: VARCHAR
+  - name: industry_subgroup
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: measure
+    type: VARCHAR
+  - name: status
+    type: VARCHAR

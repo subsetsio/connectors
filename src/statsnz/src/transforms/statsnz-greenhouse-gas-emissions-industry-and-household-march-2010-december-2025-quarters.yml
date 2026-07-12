@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-greenhouse-gas-emissions-industry-and-household-march-2010-december-2025-quarters`. Regenerate after model-verify.
+key: [row_number, data_value, period, anzsic, anzsic_descriptor]
+temporal: period
+sort: [period, row_number, data_value, anzsic, anzsic_descriptor]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: period
+    type: DOUBLE
+  - name: anzsic
+    type: VARCHAR
+  - name: anzsic_descriptor
+    type: VARCHAR
+  - name: gas
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: data_value
+    type: BIGINT
+  - name: magnitude
+    type: VARCHAR

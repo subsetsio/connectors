@@ -1,0 +1,21 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    "Series_reference" AS series_reference,
+    CAST("Period" AS DOUBLE) AS period,
+    "Data_value" AS data_value,
+    "STATUS" AS status,
+    "Group" AS group,
+    "sub_ttle",
+    "Series_title_1" AS series_title_1,
+    "Series_title_2" AS series_title_2,
+    "Series_title_3" AS series_title_3,
+    "Series_title_4" AS series_title_4,
+    "Series_title_5" AS series_title_5,
+    "UNITS" AS units,
+    CAST("MAGNTUDE" AS BIGINT) AS magntude
+FROM "statsnz-local-authority-financial-statistics-year-ended-june-2025"

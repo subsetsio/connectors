@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-gross-domestic-product-march-2026-quarter-visualisation`. Regenerate after model-verify.
+key: [row_number, amount, weight, quarter, seriesrefsndq]
+temporal: quarter
+sort: [quarter, row_number, amount, weight, seriesrefsndq]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: level
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: seriesrefsndq
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: weight
+    type: DOUBLE
+  - name: amount
+    type: DOUBLE

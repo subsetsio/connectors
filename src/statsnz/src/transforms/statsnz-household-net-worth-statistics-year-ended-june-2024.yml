@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-household-net-worth-statistics-year-ended-june-2024`. Regenerate after model-verify.
+key: [row_number, estimate, uppercib, lowercib, se]
+temporal: year
+sort: [year, row_number, estimate, uppercib, lowercib, se]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: table
+    type: VARCHAR
+  - name: ascode
+    type: VARCHAR
+  - name: demcode
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: estcode
+    type: VARCHAR
+  - name: estimate
+    type: VARCHAR
+  - name: se
+    type: VARCHAR
+  - name: lowercib
+    type: VARCHAR
+  - name: uppercib
+    type: VARCHAR
+  - name: flag
+    type: VARCHAR

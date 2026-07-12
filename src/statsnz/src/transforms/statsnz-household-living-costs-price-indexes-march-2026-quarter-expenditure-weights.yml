@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-household-living-costs-price-indexes-march-2026-quarter-expenditure-weights`. Regenerate after model-verify.
+key: [row_number, exp_pw, eqv_exp_pw, weight, nzhec]
+temporal: year
+sort: [year, row_number, exp_pw, eqv_exp_pw, weight, nzhec]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: hlpi_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: hlpi
+    type: VARCHAR
+  - name: nzhec
+    type: VARCHAR
+  - name: nzhec_name
+    type: VARCHAR
+  - name: nzhec_short
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: nzhec1
+    type: BIGINT
+  - name: nzhec1_name
+    type: VARCHAR
+  - name: nzhec1_short
+    type: VARCHAR
+  - name: weight
+    type: DOUBLE
+  - name: exp_pw
+    type: VARCHAR
+  - name: eqv_exp_pw
+    type: VARCHAR

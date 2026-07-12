@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-household-living-costs-price-indexes-march-2026-quarter-time-series-indexes`. Regenerate after model-verify.
+key: [row_number, index, series_ref, change_a, change_q]
+temporal: quarter
+sort: [quarter, row_number, index, series_ref, change_a, change_q]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: hlpi_name
+    type: VARCHAR
+  - name: series_ref
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: hlpi
+    type: VARCHAR
+  - name: nzhec
+    type: VARCHAR
+  - name: nzhec_name
+    type: VARCHAR
+  - name: nzhec_short
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: index
+    type: BIGINT
+  - name: change_q
+    type: VARCHAR
+  - name: change_a
+    type: VARCHAR

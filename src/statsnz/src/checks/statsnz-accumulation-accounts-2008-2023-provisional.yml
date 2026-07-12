@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statsnz-accumulation-accounts-2008-2023-provisional`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, values, descriptor, asset_liability_code, sna08trans]
+temporal: period
+checks:
+  - kind: unique
+    columns: [row_number, values, descriptor, asset_liability_code, sna08trans]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: values
+  - kind: not_null
+    col: descriptor
+  - kind: not_null
+    col: asset_liability_code
+  - kind: not_null
+    col: sna08trans
+  - kind: row_floor
+    min: 16634
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

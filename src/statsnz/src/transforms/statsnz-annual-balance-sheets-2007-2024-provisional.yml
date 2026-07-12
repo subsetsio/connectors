@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-annual-balance-sheets-2007-2024-provisional`. Regenerate after model-verify.
+key: [row_number, values, asset_liability_code, descriptor, period]
+temporal: period
+sort: [period, row_number, values, asset_liability_code, descriptor]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: period
+    type: DOUBLE
+  - name: inst_sector
+    type: VARCHAR
+  - name: inst_sector_code
+    type: BIGINT
+  - name: descriptor
+    type: VARCHAR
+  - name: sna08trans
+    type: VARCHAR
+  - name: asset_liability_code
+    type: VARCHAR
+  - name: values
+    type: VARCHAR

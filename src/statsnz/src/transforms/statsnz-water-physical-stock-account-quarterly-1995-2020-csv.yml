@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-water-physical-stock-account-quarterly-1995-2020-csv`. Regenerate after model-verify.
+key: [row_number, value, yq, year, region]
+temporal: year
+sort: [year, row_number, value, yq, region]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: rid
+    type: BIGINT
+  - name: yq
+    type: DOUBLE
+  - name: value
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: series
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: quarter
+    type: BIGINT

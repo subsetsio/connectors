@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statsnz-household-living-costs-price-indexes-march-2026-quarter-expenditure-weights`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, exp_pw, eqv_exp_pw, weight, nzhec]
+temporal: year
+checks:
+  - kind: unique
+    columns: [row_number, exp_pw, eqv_exp_pw, weight, nzhec]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: exp_pw
+  - kind: not_null
+    col: eqv_exp_pw
+  - kind: not_null
+    col: weight
+  - kind: not_null
+    col: nzhec
+  - kind: row_floor
+    min: 3801
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

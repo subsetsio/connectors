@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-international-migration-april-2026-citizenship-by-visa-by-country-of-last-permanent-residence`. Regenerate after model-verify.
+key: [row_number, estimate, year_month, country_of_residence, standard_error]
+temporal: year_month
+sort: [year_month, row_number, estimate, country_of_residence, standard_error]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_month
+    type: DATE
+  - name: month_of_release
+    type: DATE
+  - name: passenger_type
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: citizenship
+    type: VARCHAR
+  - name: visa
+    type: VARCHAR
+  - name: country_of_residence
+    type: VARCHAR
+  - name: estimate
+    type: BIGINT
+  - name: standard_error
+    type: BIGINT
+  - name: status
+    type: VARCHAR

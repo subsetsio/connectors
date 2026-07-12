@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-health-districts-period-life-tables-2022-2024`. Regenerate after model-verify.
+key: [row_number, value, area, age, measure]
+temporal: time
+sort: [time, row_number, value, area, age, measure]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: measure
+    type: VARCHAR
+  - name: quantile
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR
+  - name: ethnic
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

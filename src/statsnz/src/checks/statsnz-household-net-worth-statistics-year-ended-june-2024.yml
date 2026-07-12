@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statsnz-household-net-worth-statistics-year-ended-june-2024`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, estimate, uppercib, lowercib, se]
+temporal: year
+checks:
+  - kind: unique
+    columns: [row_number, estimate, uppercib, lowercib, se]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: estimate
+  - kind: not_null
+    col: uppercib
+  - kind: not_null
+    col: lowercib
+  - kind: not_null
+    col: se
+  - kind: row_floor
+    min: 9087
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

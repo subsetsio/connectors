@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-na-isal-march-2026-quarter-institutional-sector-accounts`. Regenerate after model-verify.
+key: [row_number, value, series_reference, transaction_label, transaction]
+temporal: period
+sort: [period, row_number, value, series_reference, transaction_label, transaction]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: series_reference
+    type: VARCHAR
+  - name: period
+    type: DOUBLE
+  - name: value
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: magnitude
+    type: BIGINT
+  - name: seasonality
+    type: VARCHAR
+  - name: sna_account
+    type: VARCHAR
+  - name: transaction
+    type: VARCHAR
+  - name: transaction_label
+    type: VARCHAR
+  - name: asset_type
+    type: VARCHAR
+  - name: asset_type_label
+    type: VARCHAR
+  - name: sector
+    type: BIGINT
+  - name: sector_name
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT

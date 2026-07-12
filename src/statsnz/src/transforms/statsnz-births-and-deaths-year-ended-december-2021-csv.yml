@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-births-and-deaths-year-ended-december-2021-csv`. Regenerate after model-verify.
+key: [row_number, period, source_file]
+temporal: period
+sort: [period, row_number, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: period
+    type: BIGINT
+  - name: mothers_age
+    type: VARCHAR
+  - name: age_specific_birth_rate
+    type: DOUBLE
+  - name: count
+    type: BIGINT
+  - name: birth_death
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: births_deaths_or_natural_increase
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR

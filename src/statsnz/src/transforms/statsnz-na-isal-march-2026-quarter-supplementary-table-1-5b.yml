@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-na-isal-march-2026-quarter-supplementary-table-1-5b`. Regenerate after model-verify.
+key: [row_number]
+temporal: period
+sort: [period, row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: series_reference
+    type: VARCHAR
+  - name: period
+    type: DOUBLE
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR
+  - name: seasonality
+    type: VARCHAR
+  - name: series_name
+    type: VARCHAR
+  - name: rbnz_seriesid
+    type: VARCHAR
+  - name: transaction
+    type: VARCHAR
+  - name: transaction_label
+    type: VARCHAR
+  - name: asset_type
+    type: VARCHAR
+  - name: sector
+    type: BIGINT
+  - name: sector_name
+    type: VARCHAR

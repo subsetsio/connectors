@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    "name",
+    CAST("natinc19" AS BIGINT) AS natinc19,
+    "net_internal_mig19",
+    "net_international_mig_19",
+    CAST("netmig19" AS BIGINT) AS netmig19,
+    CAST("popchange19" AS BIGINT) AS popchange19,
+    CAST("natinc20" AS BIGINT) AS natinc20,
+    "net_internal_mig20",
+    "net_international_mig_20",
+    CAST("netmig20" AS BIGINT) AS netmig20,
+    CAST("popchange20" AS BIGINT) AS popchange20,
+    CAST("natinc21" AS BIGINT) AS natinc21,
+    "net_internal_mig21",
+    "net_international_mig_21",
+    CAST("netmig21" AS BIGINT) AS netmig21,
+    CAST("popchange21" AS BIGINT) AS popchange21,
+    CAST("year" AS BIGINT) AS year,
+    CAST("a0014" AS BIGINT) AS a0014,
+    CAST("a1539" AS BIGINT) AS a1539,
+    CAST("a4064" AS BIGINT) AS a4064,
+    CAST("a6500" AS BIGINT) AS a6500,
+    CAST("atot" AS BIGINT) AS atot,
+    CAST("p0014" AS DOUBLE) AS p0014,
+    CAST("p1539" AS DOUBLE) AS p1539,
+    CAST("p4064" AS DOUBLE) AS p4064,
+    CAST("p6500" AS DOUBLE) AS p6500,
+    CAST("medage" AS DOUBLE) AS medage,
+    CAST("erp18" AS BIGINT) AS erp18,
+    CAST("erp19" AS BIGINT) AS erp19,
+    CAST("erp20" AS BIGINT) AS erp20,
+    CAST("erp21" AS BIGINT) AS erp21,
+    CAST("avann1820num" AS BIGINT) AS avann1820num,
+    CAST("avann1820per" AS DOUBLE) AS avann1820per,
+    CAST("chg2021num" AS BIGINT) AS chg2021num,
+    CAST("chg2021per" AS DOUBLE) AS chg2021per
+FROM "statsnz-subnational-population-estimates-at-30-june-2021"

@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-household-living-costs-price-indexes-march-2026-quarter-group-facts`. Regenerate after model-verify.
+key: [row_number]
+temporal: year
+sort: [year, row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: hlpi_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: hlpi
+    type: VARCHAR
+  - name: tot_hhs
+    type: BIGINT
+  - name: own
+    type: BIGINT
+  - name: own_wm
+    type: BIGINT
+  - name: own_prop
+    type: DOUBLE
+  - name: own_wm_prop
+    type: DOUBLE
+  - name: prop_hhs
+    type: DOUBLE
+  - name: age
+    type: DOUBLE
+  - name: size
+    type: DOUBLE
+  - name: income
+    type: BIGINT
+  - name: expenditure
+    type: BIGINT
+  - name: eqv_income
+    type: BIGINT
+  - name: eqv_exp
+    type: BIGINT

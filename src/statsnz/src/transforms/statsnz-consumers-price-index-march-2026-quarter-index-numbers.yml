@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-consumers-price-index-march-2026-quarter-index-numbers`. Regenerate after model-verify.
+key: [row_number, data_value, period, series_reference, series_title_1]
+temporal: period
+sort: [period, row_number, data_value, series_reference, series_title_1]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: series_reference
+    type: VARCHAR
+  - name: period
+    type: DOUBLE
+  - name: data_value
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: series_title_1
+    type: VARCHAR
+  - name: series_title_2
+    type: VARCHAR

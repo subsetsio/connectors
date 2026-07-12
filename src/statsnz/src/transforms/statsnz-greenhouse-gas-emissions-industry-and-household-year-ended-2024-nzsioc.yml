@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-greenhouse-gas-emissions-industry-and-household-year-ended-2024-nzsioc`. Regenerate after model-verify.
+key: [row_number, data_value, nzsioc, nzsioc_descriptor, year]
+temporal: year
+sort: [year, row_number, data_value, nzsioc, nzsioc_descriptor]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: nzsioc
+    type: VARCHAR
+  - name: nzsioc_descriptor
+    type: VARCHAR
+  - name: nzsioc_descriptor2
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: magnitude
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: data_value
+    type: VARCHAR

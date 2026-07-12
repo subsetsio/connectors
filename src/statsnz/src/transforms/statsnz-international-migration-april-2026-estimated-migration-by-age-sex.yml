@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-international-migration-april-2026-estimated-migration-by-age-sex`. Regenerate after model-verify.
+key: [row_number, estimate, year_month, standard_error, month_of_release]
+temporal: year_month
+sort: [year_month, row_number, estimate, standard_error, month_of_release]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_month
+    type: DATE
+  - name: month_of_release
+    type: DATE
+  - name: passenger_type
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: estimate
+    type: BIGINT
+  - name: standard_error
+    type: BIGINT
+  - name: status
+    type: VARCHAR

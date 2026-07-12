@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-dwelling-and-household-estimates-december-2024-quarter`. Regenerate after model-verify.
+key: [row_number, date, tenure, estimate_type, source_file]
+temporal: date
+sort: [date, row_number, tenure, estimate_type, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: date
+    type: VARCHAR
+  - name: estimate_type
+    type: VARCHAR
+  - name: tenure
+    type: VARCHAR
+  - name: private_dwellings
+    type: VARCHAR
+  - name: households
+    type: VARCHAR

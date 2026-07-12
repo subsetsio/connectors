@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-greenhouse-gas-emissions-by-region-industry-and-household-year-ended-2024`. Regenerate after model-verify.
+key: [row_number, data_value, anzsic_descriptor, region, year]
+temporal: year
+sort: [year, row_number, data_value, anzsic_descriptor, region]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: anzsic_descriptor
+    type: VARCHAR
+  - name: sub_industry
+    type: VARCHAR
+  - name: household_category
+    type: VARCHAR
+  - name: gas
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: data_value
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: magnitude
+    type: VARCHAR

@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statsnz-effects-of-covid-19-on-trade-at-15-december-2021-provisional`. Regenerate after model-verify.
+key: [row_number, cumulative, date, value, country]
+temporal: date
+sort: [date, row_number, cumulative, value, country]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: direction
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: weekday
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: commodity
+    type: VARCHAR
+  - name: transport_mode
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: cumulative
+    type: BIGINT
