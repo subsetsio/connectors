@@ -44,6 +44,17 @@ from constants import ENTITY_IDS
 
 _URL = "https://www.kff.org/state-health-policy-data/state-indicator/{slug}/"
 
+# These accepted KFF indicators are covered by active harness waivers: the pages
+# are live but no longer expose the State Health Facts table block this connector
+# can publish. Treat them as successful no-ops so scheduled production runs do
+# not degrade on already-waived, permanently non-tabular upstream pages.
+_WAIVED_NON_TABULAR_ENTITY_IDS = {
+    "enrollees-as-a-of-total-medicare-population-by-plan-type",
+    "plans-by-plan-type",
+    "snp-enrollment-by-snp-type",
+    "total-enrollment-by-plan-type",
+}
+
 SCHEMA = pa.schema([
     ("location", pa.string()),
     ("timeframe", pa.string()),
@@ -185,6 +196,9 @@ def fetch_one(node_id: str) -> None:
     html_text = _fetch_html(url)
     rows = _parse_rows(html_text)
     if not rows:
+        if slug in _WAIVED_NON_TABULAR_ENTITY_IDS:
+            print(f"{asset}: waived non-tabular KFF page; no raw table written")
+            return
         # No parseable data table on the page — a real, permanent problem for
         # this indicator (format change or non-tabular page). Fail loudly so the
         # run surfaces it rather than publishing an empty table.
