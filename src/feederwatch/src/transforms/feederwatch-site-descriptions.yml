@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `feederwatch-site-descriptions`. Regenerate after model-verify.
+# caution: Site attributes are reported by project period, so join or aggregate with observations using both the site and the relevant project-period context where available.
+key: [loc_id, proj_period_id]
 temporal: create_dt
-sort: [create_dt]
+sort: [create_dt, loc_id, proj_period_id]
 columns:
   - name: loc_id
     type: VARCHAR
@@ -131,6 +134,6 @@ columns:
   - name: count_area_size_sq_m_atleast
     type: DOUBLE
   - name: create_dt
-    type: TIMESTAMPTZ
+    type: "TIMESTAMP WITH TIME ZONE"
   - name: supp_food
     type: BIGINT

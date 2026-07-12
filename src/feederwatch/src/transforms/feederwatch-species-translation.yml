@@ -1,18 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [species_code]
-sort: [species_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `feederwatch-species-translation`. Regenerate after model-verify.
+# caution: The source species code vocabulary includes alternate and taxonomy-version fields; use the taxonomy columns when comparing names across source versions.
+key: [scientific_name]
+sort: [scientific_name]
 columns:
   - name: species_code
     type: VARCHAR
   - name: alt_full_spp_code
     type: VARCHAR
   - name: n_locations
-    type: INTEGER
+    type: BIGINT
   - name: scientific_name
     type: VARCHAR
   - name: american_english_name
     type: VARCHAR
   - name: taxonomy_version
-    type: INTEGER
+    type: BIGINT
   - name: taxonomic_sort_order
-    type: DOUBLE
+    type: BIGINT

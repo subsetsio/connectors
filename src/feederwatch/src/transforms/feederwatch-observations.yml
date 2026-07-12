@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `feederwatch-observations`. Regenerate after model-verify.
+# caution: Each row is a species observation within a submitted checklist at a count location; aggregate counts only after choosing the intended checklist, location, species, and time dimensions.
+key: [sub_id, loc_id, latitude, longitude, species_code]
+temporal: month
+sort: [month, sub_id, loc_id, latitude, longitude, species_code]
 columns:
   - name: loc_id
     type: VARCHAR
@@ -17,11 +20,11 @@ columns:
   - name: obs_id
     type: VARCHAR
   - name: month
-    type: INTEGER
+    type: BIGINT
   - name: day
-    type: INTEGER
+    type: BIGINT
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: proj_period_id
     type: VARCHAR
   - name: species_code
@@ -29,21 +32,21 @@ columns:
   - name: alt_full_spp_code
     type: VARCHAR
   - name: how_many
-    type: INTEGER
+    type: BIGINT
   - name: plus_code
     type: VARCHAR
   - name: valid
-    type: INTEGER
+    type: BIGINT
   - name: reviewed
-    type: INTEGER
+    type: BIGINT
   - name: day1_am
-    type: INTEGER
+    type: BIGINT
   - name: day1_pm
-    type: INTEGER
+    type: BIGINT
   - name: day2_am
-    type: INTEGER
+    type: BIGINT
   - name: day2_pm
-    type: INTEGER
+    type: BIGINT
   - name: effort_hrs_atleast
     type: DOUBLE
   - name: snow_dep_atleast
