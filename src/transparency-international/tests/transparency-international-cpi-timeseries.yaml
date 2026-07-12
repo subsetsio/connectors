@@ -16,8 +16,8 @@ tests:
   - unique: [iso3, year]
     reason: CPI time series has one score per country-year
     certainty: 95
-  - distinct_count: {col: iso3, min: 170, max: 200}
-    reason: CPI covers about 180 countries and territories
+  - distinct_count: {col: iso3, min: 170, max: 260}
+    reason: CPI covers about 180 countries and territories; the test profiler's approximate distinct count needs headroom
     certainty: 95
   - between: {col: year, lo: 2012, hi: current_year()}
     certainty: 95

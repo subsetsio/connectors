@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `transparency-international-cpi-latest-detail`. Regenerate after model-verify.
+# caution: This table contains per-country component scores by underlying CPI source for the latest CPI edition, so aggregate only after accounting for source_name.
+key: [iso3, country, source_name, region]
+sort: [iso3, country, source_name, region]
 columns:
   - name: country
     type: VARCHAR

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `transparency-international-cpi-regional-averages`. Regenerate after model-verify.
+# caution: Rows are summary groups and country counts, not country-level observations; the sheet includes TI regions plus overall and 2025-only regime or civic-space groupings, so filter region before comparing groups across years.
+key: [region, year]
+temporal: year
+sort: [year, region]
 columns:
   - name: region
     type: VARCHAR

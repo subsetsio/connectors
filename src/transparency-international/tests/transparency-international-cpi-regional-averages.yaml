@@ -12,8 +12,8 @@ tests:
   - unique: [region, year]
     reason: regional-average sheet has one average per region-year
     certainty: 95
-  - distinct_count: {col: region, min: 5, max: 10}
-    reason: TI groups countries into a small fixed set of CPI regions
+  - distinct_count: {col: region, min: 5, max: 20}
+    reason: The averages sheet includes TI regions plus overall and 2025-only regime or civic-space groupings
     certainty: 90
   - between: {col: year, lo: 2012, hi: current_year()}
     certainty: 95
