@@ -2,7 +2,7 @@
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 
 from utils import cleanup, extract_members, read_csv_table
 
@@ -32,26 +32,3 @@ def fetch_crates(node_id: str) -> None:
         save_raw_parquet(table, node_id)
     finally:
         cleanup(members.values())
-
-
-NODE_SPECS = [
-    NodeSpec(id="crates-io-crates", fn=fetch_crates, kind="download"),
-    SqlNodeSpec(
-        id="crates-io-crates-transform",
-        deps=["crates-io-crates"],
-        sql='''
-            SELECT
-                CAST(id AS BIGINT)                  AS id,
-                name,
-                description,
-                CAST(COALESCE(downloads, '0') AS BIGINT) AS downloads,
-                CAST(created_at AS TIMESTAMP)       AS created_at,
-                CAST(updated_at AS TIMESTAMP)       AS updated_at,
-                homepage,
-                documentation,
-                repository
-            FROM "crates-io-crates"
-            WHERE id IS NOT NULL AND name IS NOT NULL
-        ''',
-    ),
-]
