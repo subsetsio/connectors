@@ -1,0 +1,18 @@
+spec_id: polymarket-events
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: Polymarket has thousands of event groupings; a much smaller count means pagination or closed/open coverage broke.
+    certainty: 90
+  - not_null: event_id
+  - not_null: slug
+  - not_null: title
+  - unique: event_id
+    reason: Gamma event ids identify one event; duplicate ids indicate a paging or deduplication bug.
+    certainty: 90
+  - freshness: {col: updated_at, reaches: today - 30d}
+    reason: At least one active Polymarket event should have been updated recently.
+    certainty: 85
+    points_outward: true
+  - enum: {col: is_active, values: [true, false]}
+  - enum: {col: is_closed, values: [true, false]}

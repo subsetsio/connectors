@@ -1,0 +1,19 @@
+spec_id: polymarket-price-history
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: The scoped high-volume binary market set should produce many daily price observations.
+    certainty: 90
+  - not_null: market_id
+  - not_null: timestamp
+  - not_null: price
+  - unique: [market_id, timestamp]
+    reason: Daily fidelity should produce at most one price observation per market per timestamp.
+    certainty: 90
+  - between: {col: price, lo: 0, hi: 1}
+    reason: CLOB history prices are probabilities in the inclusive 0-1 range.
+    certainty: 95
+  - freshness: {col: timestamp, reaches: today - 30d}
+    reason: The scoped set includes active high-volume markets, so at least one price-history point should be recent.
+    certainty: 80
+    points_outward: true

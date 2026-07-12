@@ -1,0 +1,23 @@
+spec_id: polymarket-markets
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: Polymarket has a large market corpus; low counts usually mean only the first page or only open markets were fetched.
+    certainty: 95
+  - not_null: market_id
+  - not_null: slug
+  - not_null: question
+  - unique: market_id
+    reason: Gamma market ids identify one market after walking both open and closed market sets.
+    certainty: 90
+  - freshness: {col: updated_at, reaches: today - 14d}
+    reason: Active markets update continuously; the max updated_at should be recent even while closed markets remain historical.
+    certainty: 90
+    points_outward: true
+  - between: {col: outcome_yes_price, lo: 0, hi: 1}
+    reason: Binary YES prices are probabilities when present.
+    certainty: 85
+  - between: {col: outcome_no_price, lo: 0, hi: 1}
+    reason: Binary NO prices are probabilities when present.
+    certainty: 85
+  - enum: {col: is_closed, values: [true, false]}
