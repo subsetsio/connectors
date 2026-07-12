@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-cases-reported-offences-type-republic-mauritius-2007-2017`. Regenerate after model-verify.
+# caution: The table is wide by offence type; sum only comparable offence columns and avoid adding derived totals to their components.
+key: [year]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: crimes_excluding_drug_offenses
+    type: BIGINT
+  - name: drug_offences_classified_under_crimes
+    type: BIGINT
+  - name: misdemeanours_excluding_drug_offences
+    type: BIGINT
+  - name: drug_offences_classified_under_misdemeanours
+    type: BIGINT
+  - name: contraventions_excluding_road_traffic
+    type: BIGINT
+  - name: road_traffic_contraventions
+    type: BIGINT
+  - name: other_occurrences
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

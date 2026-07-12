@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-statistics-relating-notification-hiv-aids-cases-and-deaths-mauritius`. Regenerate after model-verify.
+# caution: Rows cover HIV/AIDS notifications and deaths by cause and sex; avoid adding sex-specific counts to totals if present.
+key: [row_number, male, female, year, underlying_cause_of_death]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, row_number, male, female, year, underlying_cause_of_death]
+columns:
+  - name: year
+    type: BIGINT
+  - name: case
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: male
+    type: BIGINT
+  - name: female
+    type: BIGINT
+  - name: underlying_cause_of_death
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

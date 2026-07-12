@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-vital-statistics-rates-republic-mauritius`. Regenerate after model-verify.
+# caution: Rows contain vital-statistics rates rather than event counts; rates should not be summed across years or categories.
+key: [row_number]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, row_number]
+columns:
+  - name: year
+    type: BIGINT
+  - name: crude_birth_rate
+    type: DOUBLE
+  - name: crude_death_rate
+    type: DOUBLE
+  - name: infant_mortality_rate
+    type: DOUBLE
+  - name: still_birth_rate
+    type: DOUBLE
+  - name: marriage_rate
+    type: DOUBLE
+  - name: divorce_rate
+    type: DOUBLE
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

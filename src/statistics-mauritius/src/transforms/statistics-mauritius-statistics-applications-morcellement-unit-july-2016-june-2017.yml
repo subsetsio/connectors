@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-statistics-applications-morcellement-unit-july-2016-june-2017`. Regenerate after model-verify.
+key: [row_number]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, row_number]
+columns:
+  - name: month
+    type: VARCHAR
+  - name: morcellement_permit_approved
+    type: BIGINT
+  - name: letter_of_intent_issued
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

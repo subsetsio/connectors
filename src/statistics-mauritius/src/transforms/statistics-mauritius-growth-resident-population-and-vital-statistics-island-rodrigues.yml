@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-growth-resident-population-and-vital-statistics-island-rodrigues`. Regenerate after model-verify.
+key: [year]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: population_start_of_year
+    type: BIGINT
+  - name: live_birth_per_year
+    type: BIGINT
+  - name: death_per_year
+    type: BIGINT
+  - name: natural_increase
+    type: BIGINT
+  - name: total_increase
+    type: BIGINT
+  - name: population_end_of_year
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

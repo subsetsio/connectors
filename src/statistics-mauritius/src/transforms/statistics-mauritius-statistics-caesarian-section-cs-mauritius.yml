@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-statistics-caesarian-section-cs-mauritius`. Regenerate after model-verify.
+# caution: Rows combine government hospitals and private clinics; compare sectors separately when sector columns are present.
+key: [year]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: government_hospitals
+    type: BIGINT
+  - name: private_clinics
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

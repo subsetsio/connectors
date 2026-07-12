@@ -1,57 +1,59 @@
-"""Statistik Nord connector.
+"""Statistik Nord CKAN connector.
 
-The initial published subset is the latest Schleswig-Holstein consumer price
-index workbook. The CKAN package points to an XLSX publication; the workbook's
-Tab_2 sheet carries a compact monthly history, so download normalizes that sheet
-to SQL-readable parquet instead of storing opaque XLSX bytes.
+Each accepted CKAN package becomes one raw asset. Statistik Nord publishes many
+workbook layouts, so the download layer preserves machine-readable files as a
+generic cell table instead of hard-coding publication-specific semantics.
 """
 
 from __future__ import annotations
 
+import csv
 import datetime as dt
 import io
+from decimal import Decimal
+from urllib.parse import urlparse
 
 import openpyxl
 import pyarrow as pa
+import xlrd
+from openpyxl.utils import get_column_letter
 
 from subsets_utils import NodeSpec, get, save_raw_parquet
+
+from src.constants import ENTITY_IDS
 
 CKAN_PACKAGE_SHOW = "https://opendata.schleswig-holstein.de/api/3/action/package_show"
 PREFIX = "statistik-nord-"
 
-ENTITY_IDS = [
-    "verbraucherpreisindex-schleswig-holstein-juni-2026",
-]
-
-MONTHS = {
-    "Jan.": 1,
-    "Feb.": 2,
-    "Marz": 3,
-    "März": 3,
-    "April": 4,
-    "Mai": 5,
-    "Juni": 6,
-    "Juli": 7,
-    "Aug.": 8,
-    "Sept.": 9,
-    "Okt.": 10,
-    "Nov.": 11,
-    "Dez.": 12,
-}
+PREFERRED_FORMATS = ("xlsx", "xls", "csv")
 
 SCHEMA = pa.schema(
     [
         ("entity_id", pa.string()),
-        ("release_title", pa.string()),
-        ("source_package_id", pa.string()),
-        ("source_url", pa.string()),
-        ("measure", pa.string()),
-        ("date", pa.date32()),
-        ("year", pa.int16()),
-        ("month", pa.int8()),
-        ("value", pa.float64()),
+        ("package_id", pa.string()),
+        ("package_name", pa.string()),
+        ("package_title", pa.string()),
+        ("resource_id", pa.string()),
+        ("resource_name", pa.string()),
+        ("resource_format", pa.string()),
+        ("resource_url", pa.string()),
+        ("sheet_name", pa.string()),
+        ("row_number", pa.int32()),
+        ("column_number", pa.int32()),
+        ("column_label", pa.string()),
+        ("value_text", pa.string()),
+        ("value_number", pa.float64()),
+        ("value_date", pa.date32()),
+        ("value_bool", pa.bool_()),
     ]
 )
+
+
+def _entity_from_node_id(node_id: str) -> str:
+    entity_id = node_id.removeprefix(PREFIX)
+    if entity_id not in ENTITY_IDS:
+        raise RuntimeError(f"unknown Statistik Nord entity id: {entity_id}")
+    return entity_id
 
 
 def _package_show(entity_id: str) -> dict:
@@ -63,80 +65,148 @@ def _package_show(entity_id: str) -> dict:
     return payload["result"]
 
 
-def _xlsx_url(package: dict) -> str:
-    for resource in package.get("resources", []):
-        if (resource.get("format") or "").upper() == "XLSX" and resource.get("url"):
-            return resource["url"]
-    raise RuntimeError(f"{package.get('name')}: no XLSX resource found")
+def _resource_format(resource: dict) -> str:
+    fmt = str(resource.get("format") or "").strip().lower()
+    if fmt:
+        return fmt.lstrip(".")
+    suffix = urlparse(str(resource.get("url") or "")).path.rsplit(".", 1)[-1].lower()
+    return suffix if suffix in PREFERRED_FORMATS else ""
 
 
-def _download_workbook(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 180.0))
+def _machine_resource(package: dict) -> dict:
+    resources = [r for r in package.get("resources", []) if r.get("url")]
+    for fmt in PREFERRED_FORMATS:
+        for resource in resources:
+            if _resource_format(resource) == fmt:
+                return resource
+    formats = sorted({_resource_format(r) or str(r.get("format") or "") for r in resources})
+    raise RuntimeError(f"{package.get('name')}: no supported XLSX/XLS/CSV resource; formats={formats!r}")
+
+
+def _download_resource(resource: dict) -> bytes:
+    resp = get(resource["url"], timeout=(10.0, 240.0))
     resp.raise_for_status()
     return resp.content
 
 
-def _parse_tab_2(entity_id: str, package: dict, url: str, content: bytes) -> list[dict]:
-    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
-    sheet_name = next((name for name in wb.sheetnames if name.strip() == "Tab_2"), None)
-    if not sheet_name:
-        raise RuntimeError(f"{entity_id}: workbook has no Tab_2 sheet; sheets={wb.sheetnames!r}")
-    ws = wb[sheet_name]
+def _base_row(entity_id: str, package: dict, resource: dict) -> dict:
+    return {
+        "entity_id": entity_id,
+        "package_id": package.get("id"),
+        "package_name": package.get("name"),
+        "package_title": package.get("title"),
+        "resource_id": resource.get("id"),
+        "resource_name": resource.get("name"),
+        "resource_format": _resource_format(resource),
+        "resource_url": resource.get("url"),
+    }
 
-    rows = []
-    measure = None
-    for raw in ws.iter_rows(values_only=True):
-        cells = list(raw)
-        label = str(cells[1]).strip() if len(cells) > 1 and cells[1] is not None else ""
-        if "Indexstand" in label:
-            measure = "index_2020_100"
+
+def _typed_value(value) -> tuple[str | None, float | None, dt.date | None, bool | None]:
+    if value is None:
+        return None, None, None, None
+    if isinstance(value, bool):
+        return str(value), None, None, value
+    if isinstance(value, dt.datetime):
+        return value.isoformat(), None, value.date(), None
+    if isinstance(value, dt.date):
+        return value.isoformat(), None, value, None
+    if isinstance(value, (int, float, Decimal)) and not isinstance(value, bool):
+        return str(value), float(value), None, None
+    text = str(value).strip()
+    return (text or None), None, None, None
+
+
+def _append_cell(rows: list[dict], base: dict, sheet: str, row_num: int, col_num: int, value) -> None:
+    value_text, value_number, value_date, value_bool = _typed_value(value)
+    if value_text is None and value_number is None and value_date is None and value_bool is None:
+        return
+    rows.append(
+        {
+            **base,
+            "sheet_name": sheet,
+            "row_number": row_num,
+            "column_number": col_num,
+            "column_label": get_column_letter(col_num),
+            "value_text": value_text,
+            "value_number": value_number,
+            "value_date": value_date,
+            "value_bool": value_bool,
+        }
+    )
+
+
+def _rows_from_xlsx(content: bytes, base: dict) -> list[dict]:
+    workbook = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+    rows: list[dict] = []
+    for sheet_name in workbook.sheetnames:
+        worksheet = workbook[sheet_name]
+        for row_num, cells in enumerate(worksheet.iter_rows(values_only=True), start=1):
+            for col_num, value in enumerate(cells, start=1):
+                _append_cell(rows, base, sheet_name, row_num, col_num, value)
+    return rows
+
+
+def _rows_from_xls(content: bytes, base: dict) -> list[dict]:
+    workbook = xlrd.open_workbook(file_contents=content)
+    rows: list[dict] = []
+    for sheet in workbook.sheets():
+        for row_idx in range(sheet.nrows):
+            for col_idx in range(sheet.ncols):
+                cell = sheet.cell(row_idx, col_idx)
+                value = cell.value
+                if cell.ctype == xlrd.XL_CELL_DATE:
+                    value = xlrd.xldate.xldate_as_datetime(value, workbook.datemode).date()
+                _append_cell(rows, base, sheet.name, row_idx + 1, col_idx + 1, value)
+    return rows
+
+
+def _decode_csv(content: bytes) -> str:
+    for encoding in ("utf-8-sig", "utf-8", "latin-1"):
+        try:
+            return content.decode(encoding)
+        except UnicodeDecodeError:
             continue
-        if "Veränderung gegenüber dem entsprechenden Vorjahresergebnis" in label:
-            measure = "annual_change_pct"
-            continue
+    return content.decode("latin-1", errors="replace")
 
-        year = cells[0] if cells else None
-        if measure is None or not isinstance(year, int):
-            continue
 
-        for col_idx, month_name in enumerate(MONTHS, start=1):
-            if col_idx >= len(cells):
-                continue
-            value = cells[col_idx]
-            if value is None:
-                continue
-            rows.append(
-                {
-                    "entity_id": entity_id,
-                    "release_title": package.get("title") or package.get("name") or entity_id,
-                    "source_package_id": package.get("id"),
-                    "source_url": url,
-                    "measure": measure,
-                    "date": dt.date(year, MONTHS[month_name], 1),
-                    "year": year,
-                    "month": MONTHS[month_name],
-                    "value": float(value),
-                }
-            )
-
-    if not rows:
-        raise RuntimeError(f"{entity_id}: parsed 0 rows from Tab_2")
+def _rows_from_csv(content: bytes, base: dict) -> list[dict]:
+    text = _decode_csv(content)
+    sample = text[:8192]
+    try:
+        dialect = csv.Sniffer().sniff(sample, delimiters=",;\t|")
+    except csv.Error:
+        dialect = csv.excel
+    rows: list[dict] = []
+    for row_num, cells in enumerate(csv.reader(io.StringIO(text), dialect), start=1):
+        for col_num, value in enumerate(cells, start=1):
+            _append_cell(rows, base, "csv", row_num, col_num, value)
     return rows
 
 
 def fetch_one(node_id: str) -> None:
-    entity_id = node_id.removeprefix(PREFIX)
-    if entity_id not in ENTITY_IDS:
-        raise RuntimeError(f"unknown Statistik Nord entity id: {entity_id}")
-
+    entity_id = _entity_from_node_id(node_id)
     package = _package_show(entity_id)
-    url = _xlsx_url(package)
-    content = _download_workbook(url)
-    rows = _parse_tab_2(entity_id, package, url, content)
+    resource = _machine_resource(package)
+    content = _download_resource(resource)
+    base = _base_row(entity_id, package, resource)
+    fmt = base["resource_format"]
+
+    if fmt == "xlsx":
+        rows = _rows_from_xlsx(content, base)
+    elif fmt == "xls":
+        rows = _rows_from_xls(content, base)
+    elif fmt == "csv":
+        rows = _rows_from_csv(content, base)
+    else:
+        raise RuntimeError(f"{entity_id}: unsupported resource format {fmt!r}")
+
+    if not rows:
+        raise RuntimeError(f"{entity_id}: parsed 0 non-empty cells from {resource.get('url')}")
     save_raw_parquet(pa.Table.from_pylist(rows, schema=SCHEMA), node_id)
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{PREFIX}{entity_id}", fn=fetch_one, kind="download")
+    NodeSpec(id=f"{PREFIX}{entity_id.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for entity_id in ENTITY_IDS
 ]

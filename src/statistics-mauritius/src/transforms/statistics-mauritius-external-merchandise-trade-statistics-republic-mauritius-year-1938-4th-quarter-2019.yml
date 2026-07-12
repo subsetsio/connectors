@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-external-merchandise-trade-statistics-republic-mauritius-year-1938-4th-quarter-2019`. Regenerate after model-verify.
+# caution: The package combines annual and quarterly merchandise trade resources, so time periods are not all the same granularity.
+key: [resource_id, row_number]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, resource_id, row_number]
+columns:
+  - name: period
+    type: VARCHAR
+  - name: exports_of_goods_f_o_b
+    type: BIGINT
+  - name: domestic_exports
+    type: VARCHAR
+  - name: re_exports
+    type: VARCHAR
+  - name: ships_stores_and_bunkers
+    type: VARCHAR
+  - name: total_exports_f_o_b
+    type: BIGINT
+  - name: export_oriented_enterprises_out_of_total_exports
+    type: BIGINT
+  - name: total_imports_c_i_f
+    type: BIGINT
+  - name: export_oriented_enterprises_out_of_total_imports
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP
+  - name: year
+    type: BIGINT

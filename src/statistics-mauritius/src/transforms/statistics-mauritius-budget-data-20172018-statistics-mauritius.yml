@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-budget-data-20172018-statistics-mauritius`. Regenerate after model-verify.
+# caution: Budget rows are administrative line items; totals and subtotals may appear with detailed lines, so filter by category and item level before aggregating amounts.
+key: [row_number, amount, subcategory, itemno, category]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, row_number, amount, subcategory, itemno, category]
+columns:
+  - name: head
+    type: VARCHAR
+  - name: expensetype
+    type: VARCHAR
+  - name: itemno
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: subcategory
+    type: VARCHAR
+  - name: startfinancialyear
+    type: BIGINT
+  - name: endfinancialyear
+    type: BIGINT
+  - name: financialstatus
+    type: VARCHAR
+  - name: amount
+    type: DOUBLE
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP

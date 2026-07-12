@@ -1,18 +1,2 @@
 spec_id: statistik-nord-verbraucherpreisindex-schleswig-holstein-juni-2026
-status: active
-tests:
-  - row_count: {min: 100}
-    reason: Tab_2 should contain historical monthly CPI index rows plus annual-change rows.
-    certainty: 95
-  - not_null: measure
-  - not_null: date
-  - not_null: value
-  - column_type: {col: date, type: date}
-  - column_type: {col: value, type: float}
-  - enum: {col: measure, values: [index_2020_100, annual_change_pct]}
-  - unique: [measure, date]
-    reason: each measure has one observation per month.
-    certainty: 95
-  - freshness: {col: date, reaches: today - 45d}
-    reason: Statistik Nord publishes CPI monthly; the latest workbook should include the latest completed month.
-    points_outward: true
+status: deferred

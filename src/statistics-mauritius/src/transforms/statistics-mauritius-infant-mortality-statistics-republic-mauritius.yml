@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-mauritius-infant-mortality-statistics-republic-mauritius`. Regenerate after model-verify.
+# caution: Rows include island-level and Republic of Mauritius values; filter geography before aggregating infant deaths or rates.
+key: [row_number, infant_death, year, country]
+temporal: package_metadata_modified
+sort: [package_metadata_modified, row_number, infant_death, year, country]
+columns:
+  - name: year
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: infant_death
+    type: BIGINT
+  - name: infant_mortality_rate
+    type: DOUBLE
+  - name: row_number
+    type: BIGINT
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: package_metadata_modified
+    type: TIMESTAMP
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_last_modified
+    type: TIMESTAMP
