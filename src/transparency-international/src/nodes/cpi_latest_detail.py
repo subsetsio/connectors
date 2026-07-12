@@ -7,7 +7,7 @@ source components feeding each country's headline score.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import build_reader, download_workbook, find_header, col_index, num
 
 
@@ -57,25 +57,3 @@ def fetch_latest_detail(node_id: str) -> None:
     assert rows, "CPI latest-detail parsed to 0 rows"
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_DETAIL_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="transparency-international-cpi-latest-detail", fn=fetch_latest_detail, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="transparency-international-cpi-latest-detail-transform",
-        deps=["transparency-international-cpi-latest-detail"],
-        sql='''
-            SELECT
-                country,
-                iso3,
-                region,
-                source_name,
-                CAST(source_score AS DOUBLE) AS source_score
-            FROM "transparency-international-cpi-latest-detail"
-            WHERE source_score IS NOT NULL
-        ''',
-    ),
-]

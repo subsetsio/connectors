@@ -9,7 +9,7 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import build_reader, download_workbook, find_header, num, as_int
 
 
@@ -77,28 +77,3 @@ def fetch_timeseries(node_id: str) -> None:
     assert rows, "CPI timeseries parsed to 0 rows"
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_TIMESERIES_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="transparency-international-cpi-timeseries", fn=fetch_timeseries, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="transparency-international-cpi-timeseries-transform",
-        deps=["transparency-international-cpi-timeseries"],
-        sql='''
-            SELECT
-                country,
-                iso3,
-                region,
-                CAST(year AS INTEGER)          AS year,
-                CAST(cpi_score AS DOUBLE)      AS cpi_score,
-                CAST(rank AS INTEGER)          AS rank,
-                CAST(num_sources AS INTEGER)   AS num_sources,
-                CAST(standard_error AS DOUBLE) AS standard_error
-            FROM "transparency-international-cpi-timeseries"
-            WHERE cpi_score IS NOT NULL
-        ''',
-    ),
-]

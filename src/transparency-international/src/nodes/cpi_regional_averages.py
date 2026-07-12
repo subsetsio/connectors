@@ -9,7 +9,7 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import build_reader, download_workbook, find_header, col_index, num, as_int
 
 
@@ -62,24 +62,3 @@ def fetch_regional(node_id: str) -> None:
     assert rows, "CPI regional averages parsed to 0 rows"
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_REGIONAL_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="transparency-international-cpi-regional-averages", fn=fetch_regional, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="transparency-international-cpi-regional-averages-transform",
-        deps=["transparency-international-cpi-regional-averages"],
-        sql='''
-            SELECT
-                region,
-                CAST(year AS INTEGER)          AS year,
-                CAST(avg_cpi_score AS DOUBLE)  AS avg_cpi_score,
-                CAST(n AS INTEGER)             AS n
-            FROM "transparency-international-cpi-regional-averages"
-            WHERE avg_cpi_score IS NOT NULL
-        ''',
-    ),
-]
