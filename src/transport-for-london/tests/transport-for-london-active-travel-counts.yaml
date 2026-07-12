@@ -4,9 +4,9 @@ tests:
   - not_null: site_id
     reason: every count observation is tied to a monitoring site (SiteID)
     certainty: 90
-  - not_null: count
-    reason: the Count column is the measurement; a missing value means a parse/column drift
-    certainty: 85
+  - row_count: {min: 15000000}
+    reason: the current Active Travel Counts extract has more than 15 million observation rows even after allowing occasional blank measurement rows from the source CSVs
+    certainty: 80
   - not_null: date
     reason: each count row carries its survey date
     certainty: 85

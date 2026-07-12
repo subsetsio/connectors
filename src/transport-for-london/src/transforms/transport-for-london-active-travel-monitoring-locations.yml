@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `transport-for-london-active-travel-monitoring-locations`. Regenerate after model-verify.
+# caution: The reference table can contain multiple rows per site_id where site metadata or location descriptors differ; join to counts with awareness that site_id alone is not declared as the table grain.
+key: [location_description, site_id, northing, borough, road_type]
+sort: [location_description, site_id, northing, borough, road_type]
+columns:
+  - name: site_id
+    type: VARCHAR
+  - name: location_description
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: functional_area
+    type: VARCHAR
+  - name: road_type
+    type: VARCHAR
+  - name: strategic_cio_panel
+    type: BIGINT
+  - name: old_site_id
+    type: VARCHAR
+  - name: easting
+    type: BIGINT
+  - name: northing
+    type: BIGINT
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE

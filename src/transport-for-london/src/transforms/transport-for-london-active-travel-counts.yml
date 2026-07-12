@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `transport-for-london-active-travel-counts`. Regenerate after model-verify.
+# caution: Rows are directional count observations by site, survey date, time interval, path, mode, and programme wave, but the raw source includes duplicate and blank-measurement rows; aggregate only after choosing the modes and directions relevant to the question.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: wave
+    type: VARCHAR
+  - name: site_id
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: weather
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: day
+    type: VARCHAR
+  - name: round
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: path
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: count
+    type: BIGINT
