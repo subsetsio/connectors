@@ -1,0 +1,29 @@
+spec_id: transparency-international-cpi-regional-averages
+status: active
+tests:
+  - row_count: {min: 70}
+    reason: regional averages cover multiple regions for each CPI year since 2012
+    certainty: 90
+  - not_null: region
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: avg_cpi_score, type: float}
+  - column_type: {col: n, type: integer}
+  - unique: [region, year]
+    reason: regional-average sheet has one average per region-year
+    certainty: 95
+  - distinct_count: {col: region, min: 5, max: 10}
+    reason: TI groups countries into a small fixed set of CPI regions
+    certainty: 90
+  - between: {col: year, lo: 2012, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: 2025}
+    reason: CPI 2025 workbook should include observations through 2025
+    certainty: 95
+    points_outward: true
+  - between: {col: avg_cpi_score, lo: 0, hi: 100}
+    reason: CPI scores use a 0-100 scale
+    certainty: 95
+  - at_least: {col: n, expr: 1}
+    reason: each regional average must be based on at least one country or territory
+    certainty: 95

@@ -1,0 +1,34 @@
+spec_id: transparency-international-cpi-timeseries
+status: active
+tests:
+  - row_count: {min: 2000}
+    reason: country-year CPI time series should cover roughly 180 countries over 2012-present
+    certainty: 95
+  - not_null: iso3
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: cpi_score, type: float}
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: num_sources, type: integer}
+  - matches: {col: iso3, pattern: "^[A-Z]{3}$"}
+    reason: country identifiers are ISO3 codes in the workbook
+    certainty: 95
+  - unique: [iso3, year]
+    reason: CPI time series has one score per country-year
+    certainty: 95
+  - distinct_count: {col: iso3, min: 170, max: 200}
+    reason: CPI covers about 180 countries and territories
+    certainty: 95
+  - between: {col: year, lo: 2012, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: 2025}
+    reason: CPI 2025 workbook should include observations through 2025
+    certainty: 95
+    points_outward: true
+  - between: {col: cpi_score, lo: 0, hi: 100}
+    reason: CPI scores use a 0-100 scale
+    certainty: 95
+  - at_least: {col: rank, expr: 1}
+    certainty: 95
+  - at_least: {col: num_sources, expr: 1}
+    certainty: 90

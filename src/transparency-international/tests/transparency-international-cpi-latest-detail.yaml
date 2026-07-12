@@ -1,0 +1,22 @@
+spec_id: transparency-international-cpi-latest-detail
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: latest CPI detail should include country/source component scores for roughly 180 countries and multiple sources
+    certainty: 90
+  - not_null: iso3
+  - not_null: source_name
+  - column_type: {col: iso3, type: string}
+  - column_type: {col: source_score, type: float}
+  - matches: {col: iso3, pattern: "^[A-Z]{3}$"}
+    reason: country identifiers are ISO3 codes in the workbook
+    certainty: 95
+  - unique: [iso3, source_name]
+    reason: each source contributes at most one component score per country in the latest CPI sheet
+    certainty: 90
+  - distinct_count: {col: iso3, min: 170, max: 200}
+    reason: CPI covers about 180 countries and territories
+    certainty: 95
+  - between: {col: source_score, lo: 0, hi: 100}
+    reason: CPI component scores use the same 0-100 scoring scale
+    certainty: 85
