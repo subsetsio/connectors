@@ -23,7 +23,6 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     transient_retry,
@@ -254,20 +253,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{stem}", fn=fetch_one, kind="download")
     for stem in ENTITY_IDS
-]
-
-# Uniform transform: every table's raw NDJSON carries its own dimension columns
-# plus obs_value/obs_time. Publish the natural per-table columns, typing the
-# value and dropping the (already-excluded) null cells defensively.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * REPLACE (CAST(obs_value AS DOUBLE) AS obs_value)
-            FROM "{s.id}"
-            WHERE obs_value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
