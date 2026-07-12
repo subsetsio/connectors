@@ -1,0 +1,24 @@
+spec_id: pypi-popular-packages
+status: active
+tests:
+  - row_count: {min: 14000}
+    reason: top-pypi-packages publishes the top 15000 projects; a much smaller table means the bulk snapshot or parser changed
+    certainty: 95
+  - not_null: package
+  - not_null: rank
+  - not_null: download_count_30d
+  - unique: package
+    reason: each PyPI project should appear once in the ranking snapshot
+    certainty: 95
+  - unique: rank
+    reason: rank is assigned once after sorting the snapshot by 30-day downloads
+    certainty: 95
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: download_count_30d, type: integer}
+  - column_type: {col: package, type: string}
+  - between: {col: rank, lo: 1, hi: 20000}
+    reason: the source currently publishes 15000 ranked projects; the loose upper bound allows modest growth
+    certainty: 90
+  - at_least: {col: download_count_30d, expr: 0}
+    reason: download counts cannot be negative
+    certainty: 99

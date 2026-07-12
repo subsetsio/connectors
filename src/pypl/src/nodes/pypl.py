@@ -17,7 +17,7 @@ import re
 from datetime import date
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 RAW_URL = "https://raw.githubusercontent.com/pypl/pypl.github.io/master/{dir}/{country}.js"
 COUNTRIES = ["All", "US", "GB", "DE", "FR", "IN"]
@@ -96,23 +96,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"pypl-{eid}", fn=fetch_one, kind="download")
     for eid in INDEX_CONFIG
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"pypl-{eid}-transform",
-        deps=[f"pypl-{eid}"],
-        key=("date", "country", cfg["col"]),
-        temporal="date",
-        sql=f'''
-            SELECT
-                CAST(date AS DATE)      AS date,
-                country,
-                entity                  AS {cfg["col"]},
-                CAST(share AS DOUBLE)   AS share
-            FROM "pypl-{eid}"
-            WHERE share IS NOT NULL
-        ''',
-    )
-    for eid, cfg in INDEX_CONFIG.items()
 ]
