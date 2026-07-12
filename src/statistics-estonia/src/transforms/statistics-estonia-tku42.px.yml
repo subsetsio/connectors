@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku42.px`. Regenerate after model-verify.
+key: [type_of_health_risk, contact_with_health_risk, year, indicator]
+temporal: year
+sort: [year, type_of_health_risk, contact_with_health_risk, indicator]
+columns:
+  - name: contact_with_health_risk
+    type: VARCHAR
+  - name: type_of_health_risk
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

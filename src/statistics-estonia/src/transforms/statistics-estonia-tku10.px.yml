@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku10.px`. Regenerate after model-verify.
+key: [group_of_enterprises, share_of_employees_who_have_worked_overtime, year, indicator]
+temporal: year
+sort: [year, group_of_enterprises, share_of_employees_who_have_worked_overtime, indicator]
+columns:
+  - name: share_of_employees_who_have_worked_overtime
+    type: VARCHAR
+  - name: group_of_enterprises
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

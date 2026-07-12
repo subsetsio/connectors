@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk47.px`. Regenerate after model-verify.
+key: [year, county, field_of_water_use]
+temporal: year
+sort: [year, county, field_of_water_use]
+columns:
+  - name: field_of_water_use
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

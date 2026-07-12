@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-les75.px`. Regenerate after model-verify.
+key: [age_group, self_perceived_material_coping_ability, sex, year]
+temporal: year
+sort: [year, age_group, self_perceived_material_coping_ability, sex]
+columns:
+  - name: self_perceived_material_coping_ability
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

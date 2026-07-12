@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rle07.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ability_to_speak_a_dialect, sex]
+checks:
+  - kind: unique
+    columns: [ability_to_speak_a_dialect, sex]
+  - kind: not_null
+    col: ability_to_speak_a_dialect
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 25
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

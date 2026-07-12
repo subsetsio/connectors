@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-raa0042.px`. Regenerate after model-verify.
+key: [year, economic_activity_emtak_2008_component, indicator, quarter]
+temporal: quarter
+sort: [quarter, year, economic_activity_emtak_2008_component, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: economic_activity_emtak_2008_component
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

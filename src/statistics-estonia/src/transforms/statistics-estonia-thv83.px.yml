@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-thv83.px`. Regenerate after model-verify.
+key: [place_of_residence, year, type_of_household, number_of_rooms_per_household_member]
+temporal: year
+sort: [year, place_of_residence, type_of_household, number_of_rooms_per_household_member]
+columns:
+  - name: number_of_rooms_per_household_member
+    type: VARCHAR
+  - name: type_of_household
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

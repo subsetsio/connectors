@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ku0833.px`. Regenerate after model-verify.
+key: [type_of_film, year, indicator]
+temporal: year
+sort: [year, type_of_film, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_film
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

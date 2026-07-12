@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tln62.px`. Regenerate after model-verify.
+key: [age_group, year, sex, indicator]
+temporal: year
+sort: [year, age_group, sex, indicator]
+columns:
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

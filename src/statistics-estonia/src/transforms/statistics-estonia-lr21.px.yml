@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-lr21.px`. Regenerate after model-verify.
+key: [year, indicator, type_of_right_of_residence]
+temporal: year
+sort: [year, indicator, type_of_right_of_residence]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_right_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

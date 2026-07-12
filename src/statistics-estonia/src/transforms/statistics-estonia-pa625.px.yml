@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-pa625.px`. Regenerate after model-verify.
+key: [county, major_group_of_occupation, reference_period, sex, indicator]
+sort: [county, major_group_of_occupation, reference_period, sex, indicator]
+columns:
+  - name: reference_period
+    type: BIGINT
+  - name: county
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: major_group_of_occupation
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

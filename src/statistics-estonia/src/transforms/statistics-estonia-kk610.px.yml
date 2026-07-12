@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk610.px`. Regenerate after model-verify.
+key: [kind_of_waste, year, indicator]
+temporal: year
+sort: [year, kind_of_waste, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: kind_of_waste
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

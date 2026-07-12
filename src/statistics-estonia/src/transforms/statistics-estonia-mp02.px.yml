@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-mp02.px`. Regenerate after model-verify.
+key: [country_of_residence, month, year, indicator]
+temporal: month
+sort: [month, country_of_residence, year, indicator]
+columns:
+  - name: month
+    type: VARCHAR
+  - name: country_of_residence
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

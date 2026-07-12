@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku12.px`. Regenerate after model-verify.
+key: [group_of_employees, frequency_of_working_more_than_10_hours_per_day, year, indicator]
+temporal: year
+sort: [year, group_of_employees, frequency_of_working_more_than_10_hours_per_day, indicator]
+columns:
+  - name: frequency_of_working_more_than_10_hours_per_day
+    type: VARCHAR
+  - name: group_of_employees
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

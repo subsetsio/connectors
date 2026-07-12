@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-lem09.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, labour_market_situation, economic_situation_in_comparison_with_one_year_ago]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, labour_market_situation, economic_situation_in_comparison_with_one_year_ago]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: labour_market_situation
+  - kind: not_null
+    col: economic_situation_in_comparison_with_one_year_ago
+  - kind: row_floor
+    min: 135
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

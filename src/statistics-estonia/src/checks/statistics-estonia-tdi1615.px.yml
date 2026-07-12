@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-tdi1615.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [indicator, group_of_economic_activities, number_of_persons_employed, innovativeness, impact_of_legislation, impact, reference_period]
+checks:
+  - kind: unique
+    columns: [indicator, group_of_economic_activities, number_of_persons_employed, innovativeness, impact_of_legislation, impact, reference_period]
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: group_of_economic_activities
+  - kind: not_null
+    col: number_of_persons_employed
+  - kind: not_null
+    col: innovativeness
+  - kind: not_null
+    col: impact_of_legislation
+  - kind: not_null
+    col: impact
+  - kind: not_null
+    col: reference_period
+  - kind: row_floor
+    min: 3240
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

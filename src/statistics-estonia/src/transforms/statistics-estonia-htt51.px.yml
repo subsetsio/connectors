@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-htt51.px`. Regenerate after model-verify.
+key: [group_of_persons, knowledge_of_foreign_languages, year, sex, indicator]
+temporal: year
+sort: [year, group_of_persons, knowledge_of_foreign_languages, sex, indicator]
+columns:
+  - name: knowledge_of_foreign_languages
+    type: VARCHAR
+  - name: group_of_persons
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

@@ -1,2 +1,15 @@
 spec_id: statistics-estonia-pm0281.px
-status: deferred  # PxWeb table schema (dimension columns) is per-table; assertions authored after first pull
+status: active
+tests:
+- row_count:
+    min: 235152
+  reason: Statistics Estonia PxWeb table should materialize at least the profiled
+    row count from the accepted raw pull.
+  certainty: 80
+- unique:
+  - agricultural_land_field_crop
+  - reference_period
+  - county_and_agricultural_unit
+  - indicator
+  reason: Verified by model-verify on the raw table profile.
+  certainty: 95

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-htt45.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [group_of_persons, year, reason_for_participating_in_training, indicator]
+temporal: year
+checks:
+  - kind: unique
+    columns: [group_of_persons, year, reason_for_participating_in_training, indicator]
+  - kind: not_null
+    col: group_of_persons
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: reason_for_participating_in_training
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 120
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

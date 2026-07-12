@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku04.px`. Regenerate after model-verify.
+key: [group_of_enterprises, reason_for_part_time_working_of_employees, year, indicator]
+temporal: year
+sort: [year, group_of_enterprises, reason_for_part_time_working_of_employees, indicator]
+columns:
+  - name: reason_for_part_time_working_of_employees
+    type: VARCHAR
+  - name: group_of_enterprises
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

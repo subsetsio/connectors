@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk22.px`. Regenerate after model-verify.
+key: [economic_activity, environmental_purpose, year]
+temporal: year
+sort: [year, economic_activity, environmental_purpose]
+columns:
+  - name: environmental_purpose
+    type: VARCHAR
+  - name: economic_activity
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku46.px`. Regenerate after model-verify.
+key: [type_of_measure, use_of_measure, year, indicator]
+temporal: year
+sort: [year, type_of_measure, use_of_measure, indicator]
+columns:
+  - name: use_of_measure
+    type: VARCHAR
+  - name: type_of_measure
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

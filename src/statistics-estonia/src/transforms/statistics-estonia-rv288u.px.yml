@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rv288u.px`. Regenerate after model-verify.
+key: [place_of_residence_of_groom_or_older_spouse, month_of_divorce, year, type_of_settlement_region]
+temporal: year
+sort: [year, place_of_residence_of_groom_or_older_spouse, month_of_divorce, type_of_settlement_region]
+columns:
+  - name: month_of_divorce
+    type: VARCHAR
+  - name: place_of_residence_of_groom_or_older_spouse
+    type: VARCHAR
+  - name: type_of_settlement_region
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

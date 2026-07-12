@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tln33.px`. Regenerate after model-verify.
+key: [year, type_of_ownership, type_of_school]
+temporal: year
+sort: [year, type_of_ownership, type_of_school]
+columns:
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_school
+    type: VARCHAR
+  - name: type_of_ownership
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

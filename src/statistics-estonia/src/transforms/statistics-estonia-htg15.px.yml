@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-htg15.px`. Regenerate after model-verify.
+key: [year, source_of_financing, type_of_expenditure, type_of_education]
+temporal: year
+sort: [year, source_of_financing, type_of_expenditure, type_of_education]
+columns:
+  - name: type_of_expenditure
+    type: VARCHAR
+  - name: type_of_education
+    type: VARCHAR
+  - name: source_of_financing
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

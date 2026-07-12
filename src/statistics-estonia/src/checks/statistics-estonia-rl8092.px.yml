@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl8092.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [place_of_residence, occupancy_and_composition_of_household, type_of_dwelling, indicator]
+checks:
+  - kind: unique
+    columns: [place_of_residence, occupancy_and_composition_of_household, type_of_dwelling, indicator]
+  - kind: not_null
+    col: place_of_residence
+  - kind: not_null
+    col: occupancy_and_composition_of_household
+  - kind: not_null
+    col: type_of_dwelling
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 9800
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku71.px`. Regenerate after model-verify.
+key: [group_of_employees, preferred_location_of_workplace, year, indicator]
+temporal: year
+sort: [year, group_of_employees, preferred_location_of_workplace, indicator]
+columns:
+  - name: preferred_location_of_workplace
+    type: VARCHAR
+  - name: group_of_employees
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

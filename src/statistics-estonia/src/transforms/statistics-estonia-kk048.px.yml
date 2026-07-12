@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk048.px`. Regenerate after model-verify.
+key: [economic_activity_emtak_2008, year, county, type_of_water]
+temporal: year
+sort: [year, economic_activity_emtak_2008, county, type_of_water]
+columns:
+  - name: type_of_water
+    type: VARCHAR
+  - name: economic_activity_emtak_2008
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

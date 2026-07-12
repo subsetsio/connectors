@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ke23.px`. Regenerate after model-verify.
+key: [month, year, indicator, type_of_fuel]
+temporal: month
+sort: [month, year, indicator, type_of_fuel]
+columns:
+  - name: month
+    type: VARCHAR
+  - name: type_of_fuel
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

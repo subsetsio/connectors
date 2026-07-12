@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rri07.px`. Regenerate after model-verify.
+key: [insurance_company, year, type_of_non_life_insurance, month, indicator]
+temporal: month
+sort: [month, insurance_company, year, type_of_non_life_insurance, indicator]
+columns:
+  - name: insurance_company
+    type: VARCHAR
+  - name: type_of_non_life_insurance
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

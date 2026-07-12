@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rv154.px`. Regenerate after model-verify.
+key: [year, duration_of_cohabitation, indicator]
+temporal: year
+sort: [year, duration_of_cohabitation, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: duration_of_cohabitation
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

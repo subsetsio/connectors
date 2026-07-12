@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku87.px`. Regenerate after model-verify.
+key: [group_of_employees, frequency_of_conflicts_between_enterprise_and_employees, year, indicator]
+temporal: year
+sort: [year, group_of_employees, frequency_of_conflicts_between_enterprise_and_employees, indicator]
+columns:
+  - name: frequency_of_conflicts_between_enterprise_and_employees
+    type: VARCHAR
+  - name: group_of_employees
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

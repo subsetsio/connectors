@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku43.px`. Regenerate after model-verify.
+key: [group_of_enterprises, reason_for_evaluation_of_health_risks, year, indicator]
+temporal: year
+sort: [year, group_of_enterprises, reason_for_evaluation_of_health_risks, indicator]
+columns:
+  - name: reason_for_evaluation_of_health_risks
+    type: VARCHAR
+  - name: group_of_enterprises
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

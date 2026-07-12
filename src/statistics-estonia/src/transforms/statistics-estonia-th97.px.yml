@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-th97.px`. Regenerate after model-verify.
+key: [region_ethnic_nationality_education_health_status, age_group, year]
+temporal: year
+sort: [year, region_ethnic_nationality_education_health_status, age_group]
+columns:
+  - name: region_ethnic_nationality_education_health_status
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

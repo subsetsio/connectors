@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-th76.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reference_period, health_status, income_group]
+checks:
+  - kind: unique
+    columns: [reference_period, health_status, income_group]
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: health_status
+  - kind: not_null
+    col: income_group
+  - kind: row_floor
+    min: 704
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk031.px`. Regenerate after model-verify.
+key: [environmental_protection_activity, year, indicator, institutional_sector]
+temporal: year
+sort: [year, environmental_protection_activity, indicator, institutional_sector]
+columns:
+  - name: institutional_sector
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: environmental_protection_activity
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

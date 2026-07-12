@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ram001.px`. Regenerate after model-verify.
+key: [indicator, year, sector, uses_resources]
+temporal: year
+sort: [year, indicator, sector, uses_resources]
+columns:
+  - name: sector
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: uses_resources
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

@@ -1,2 +1,16 @@
 spec_id: statistics-estonia-rl0802.px
-status: deferred  # PxWeb table schema (dimension columns) is per-table; assertions authored after first pull
+status: active
+tests:
+- row_count:
+    min: 186300
+  reason: Statistics Estonia PxWeb table should materialize at least the profiled
+    row count from the accepted raw pull.
+  certainty: 80
+- unique:
+  - county
+  - employment_and_socio_economic_status
+  - age_group
+  - type_of_dwelling
+  - sex
+  reason: Verified by model-verify on the raw table profile.
+  certainty: 95

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tln36.px`. Regenerate after model-verify.
+key: [year, education_level, indicator]
+temporal: year
+sort: [year, education_level, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: education_level
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

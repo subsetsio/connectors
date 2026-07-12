@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-pms443.px`. Regenerate after model-verify.
+# caution: Rows are not uniquely keyed by the exposed PxWeb label dimensions in the raw download; duplicate label-level combinations exist, so no table-level grain is asserted.
+key: []
+columns:
+  - name: reference_period
+    type: BIGINT
+  - name: type_of_farming
+    type: VARCHAR
+  - name: economic_size
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

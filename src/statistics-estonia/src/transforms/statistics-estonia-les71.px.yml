@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-les71.px`. Regenerate after model-verify.
+key: [reason_for_quitting, age_group, sex, year]
+temporal: year
+sort: [year, reason_for_quitting, age_group, sex]
+columns:
+  - name: reason_for_quitting
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

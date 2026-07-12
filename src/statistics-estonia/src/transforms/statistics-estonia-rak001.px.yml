@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rak001.px`. Regenerate after model-verify.
+key: [year, instrument_of_the_national_accounts_esa_2010, sector, indicator]
+temporal: year
+sort: [year, instrument_of_the_national_accounts_esa_2010, sector, indicator]
+columns:
+  - name: sector
+    type: VARCHAR
+  - name: instrument_of_the_national_accounts_esa_2010
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

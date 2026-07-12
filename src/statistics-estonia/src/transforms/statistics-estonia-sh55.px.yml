@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-sh55.px`. Regenerate after model-verify.
+key: [health_condition, body_mass_index_physical_activity_nutrition, year]
+temporal: year
+sort: [year, health_condition, body_mass_index_physical_activity_nutrition]
+columns:
+  - name: body_mass_index_physical_activity_nutrition
+    type: VARCHAR
+  - name: health_condition
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

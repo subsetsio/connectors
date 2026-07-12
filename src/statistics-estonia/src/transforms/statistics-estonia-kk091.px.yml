@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk091.px`. Regenerate after model-verify.
+key: [ecosystem_type, service]
+temporal: year
+sort: [year, ecosystem_type, service]
+columns:
+  - name: ecosystem_type
+    type: VARCHAR
+  - name: service
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

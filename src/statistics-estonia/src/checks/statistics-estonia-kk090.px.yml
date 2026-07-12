@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-kk090.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ecosystem_type, owner_s_economic_activity_and_institutional_sector, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [ecosystem_type, owner_s_economic_activity_and_institutional_sector, year]
+  - kind: not_null
+    col: ecosystem_type
+  - kind: not_null
+    col: owner_s_economic_activity_and_institutional_sector
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 1776
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

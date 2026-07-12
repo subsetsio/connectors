@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl0533.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [county, age_group, native_and_foreign_origin_population, de_facto_marital_status, sex]
+checks:
+  - kind: unique
+    columns: [county, age_group, native_and_foreign_origin_population, de_facto_marital_status, sex]
+  - kind: not_null
+    col: county
+  - kind: not_null
+    col: age_group
+  - kind: not_null
+    col: native_and_foreign_origin_population
+  - kind: not_null
+    col: de_facto_marital_status
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 15960
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

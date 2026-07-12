@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ler071.px`. Regenerate after model-verify.
+key: [structure_of_household, year, time_of_completion_of_the_dwelling]
+temporal: year
+sort: [year, structure_of_household, time_of_completion_of_the_dwelling]
+columns:
+  - name: time_of_completion_of_the_dwelling
+    type: VARCHAR
+  - name: structure_of_household
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

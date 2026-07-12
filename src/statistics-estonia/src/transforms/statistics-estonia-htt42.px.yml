@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-htt42.px`. Regenerate after model-verify.
+key: [net_income_per_household_member, year, participation_in_training, indicator]
+temporal: year
+sort: [year, net_income_per_household_member, participation_in_training, indicator]
+columns:
+  - name: participation_in_training
+    type: VARCHAR
+  - name: net_income_per_household_member
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

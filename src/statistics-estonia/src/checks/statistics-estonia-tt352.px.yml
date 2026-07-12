@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-tt352.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reference_period, correspondence_between_educational_level_and_job_sought, sex]
+checks:
+  - kind: unique
+    columns: [reference_period, correspondence_between_educational_level_and_job_sought, sex]
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: correspondence_between_educational_level_and_job_sought
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 117
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

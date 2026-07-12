@@ -1,0 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("reference_period" AS BIGINT) AS reference_period,
+    "at_the_beginning_and_at_the_end_of_the_year",
+    "number_of_persons_employed",
+    "economic_activity",
+    "indicator",
+    "value"
+FROM "statistics-estonia-em009.px"

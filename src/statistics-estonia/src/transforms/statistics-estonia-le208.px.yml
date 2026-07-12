@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-le208.px`. Regenerate after model-verify.
+key: [kind_of_expenditure, expenditure_decile, year, indicator]
+temporal: year
+sort: [year, kind_of_expenditure, expenditure_decile, indicator]
+columns:
+  - name: expenditure_decile
+    type: VARCHAR
+  - name: kind_of_expenditure
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

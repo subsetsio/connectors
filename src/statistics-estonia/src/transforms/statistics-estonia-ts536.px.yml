@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ts536.px`. Regenerate after model-verify.
+key: [year, country, loading_unloading, indicator]
+temporal: year
+sort: [year, country, loading_unloading, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: loading_unloading
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

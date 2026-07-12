@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ku141.px`. Regenerate after model-verify.
+key: [year, occupational_group, broadcaster, indicator]
+temporal: year
+sort: [year, occupational_group, broadcaster, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: occupational_group
+    type: VARCHAR
+  - name: broadcaster
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

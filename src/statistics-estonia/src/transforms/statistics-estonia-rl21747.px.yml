@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rl21747.px`. Regenerate after model-verify.
+key: [type_of_family, size_of_family, indicator]
+temporal: year
+sort: [year, type_of_family, size_of_family, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_family
+    type: VARCHAR
+  - name: size_of_family
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

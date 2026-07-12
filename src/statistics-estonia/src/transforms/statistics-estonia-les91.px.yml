@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-les91.px`. Regenerate after model-verify.
+key: [distance_from_the_place_of_residence_of_the_most_frequently_contacting_child, age_group, sex, year]
+temporal: year
+sort: [year, distance_from_the_place_of_residence_of_the_most_frequently_contacting_child, age_group, sex]
+columns:
+  - name: distance_from_the_place_of_residence_of_the_most_frequently_contacting_child
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

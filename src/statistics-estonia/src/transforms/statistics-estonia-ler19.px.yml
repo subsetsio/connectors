@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ler19.px`. Regenerate after model-verify.
+key: [year, labour_market_situation_of_the_household, number_of_rooms_per_household_member]
+temporal: year
+sort: [year, labour_market_situation_of_the_household, number_of_rooms_per_household_member]
+columns:
+  - name: number_of_rooms_per_household_member
+    type: VARCHAR
+  - name: labour_market_situation_of_the_household
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

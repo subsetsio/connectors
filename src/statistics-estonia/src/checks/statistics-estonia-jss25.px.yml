@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-jss25.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [person_or_institution_they_talked_to, perpetrator]
+checks:
+  - kind: unique
+    columns: [person_or_institution_they_talked_to, perpetrator]
+  - kind: not_null
+    col: person_or_institution_they_talked_to
+  - kind: not_null
+    col: perpetrator
+  - kind: row_floor
+    min: 5
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

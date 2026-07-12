@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-shl011.px`. Regenerate after model-verify.
+key: [body_mass_index, birth_cohort, sex, indicator, year]
+temporal: year
+sort: [year, body_mass_index, birth_cohort, sex, indicator]
+columns:
+  - name: body_mass_index
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: birth_cohort
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

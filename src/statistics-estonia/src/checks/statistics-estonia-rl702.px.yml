@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl702.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [location, time_of_construction, type_of_building, indicator]
+checks:
+  - kind: unique
+    columns: [location, time_of_construction, type_of_building, indicator]
+  - kind: not_null
+    col: location
+  - kind: not_null
+    col: time_of_construction
+  - kind: not_null
+    col: type_of_building
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 12496
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

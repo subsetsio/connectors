@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-mm04.px`. Regenerate after model-verify.
+key: [year, county, felling_type, type_of_forest_land, indicator]
+temporal: year
+sort: [year, county, felling_type, type_of_forest_land, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_forest_land
+    type: VARCHAR
+  - name: felling_type
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

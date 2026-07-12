@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ku052.px`. Regenerate after model-verify.
+key: [year, indicator, type_of_ownership]
+temporal: year
+sort: [year, indicator, type_of_ownership]
+columns:
+  - name: type_of_ownership
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

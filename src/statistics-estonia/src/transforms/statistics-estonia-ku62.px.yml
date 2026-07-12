@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ku62.px`. Regenerate after model-verify.
+key: [year, county, field_of_activity, age_group]
+temporal: year
+sort: [year, county, field_of_activity, age_group]
+columns:
+  - name: age_group
+    type: VARCHAR
+  - name: field_of_activity
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

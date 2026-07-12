@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-th96.px`. Regenerate after model-verify.
+key: [age_group, number_of_symptoms_of_diseases_appearing_during_the_last_6_months, sex, year]
+temporal: year
+sort: [year, age_group, number_of_symptoms_of_diseases_appearing_during_the_last_6_months, sex]
+columns:
+  - name: number_of_symptoms_of_diseases_appearing_during_the_last_6_months
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ak011.px`. Regenerate after model-verify.
+key: [primary_activity, sex, period]
+temporal: period
+sort: [period, primary_activity, sex]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: primary_activity
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

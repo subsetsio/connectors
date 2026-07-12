@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tka06.px`. Regenerate after model-verify.
+key: [year, sector_of_economy, indicator]
+temporal: year
+sort: [year, sector_of_economy, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: sector_of_economy
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

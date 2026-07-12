@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ua13.px`. Regenerate after model-verify.
+key: [place_of_residence, type_of_income, year, educational_level, indicator]
+temporal: year
+sort: [year, place_of_residence, type_of_income, educational_level, indicator]
+columns:
+  - name: educational_level
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_income
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

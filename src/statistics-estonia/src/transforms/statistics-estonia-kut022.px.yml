@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kut022.px`. Regenerate after model-verify.
+key: [cultural_sector, frequency_of_visiting_cultural_institutions, year, indicator]
+temporal: year
+sort: [year, cultural_sector, frequency_of_visiting_cultural_institutions, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: frequency_of_visiting_cultural_institutions
+    type: VARCHAR
+  - name: cultural_sector
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ko15.px`. Regenerate after model-verify.
+key: [region_administrative_unit, assessment, satisfaction, age_group, indicator]
+temporal: year
+sort: [year, region_administrative_unit, assessment, satisfaction, age_group, indicator]
+columns:
+  - name: assessment
+    type: VARCHAR
+  - name: satisfaction
+    type: VARCHAR
+  - name: region_administrative_unit
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

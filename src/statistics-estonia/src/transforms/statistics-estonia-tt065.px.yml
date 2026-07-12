@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tt065.px`. Regenerate after model-verify.
+key: [region_administrative_unit, month, year, age_group, sex]
+temporal: month
+sort: [month, region_administrative_unit, year, age_group, sex]
+columns:
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: region_administrative_unit
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

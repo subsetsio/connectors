@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rvr07.px`. Regenerate after model-verify.
+key: [year, county_of_destination, county_of_departure, sex]
+temporal: year
+sort: [year, county_of_destination, county_of_departure, sex]
+columns:
+  - name: county_of_destination
+    type: VARCHAR
+  - name: county_of_departure
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

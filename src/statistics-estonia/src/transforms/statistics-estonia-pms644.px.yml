@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-pms644.px`. Regenerate after model-verify.
+key: [type_of_housing_poultry, indicator]
+temporal: year
+sort: [year, type_of_housing_poultry, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_housing_poultry
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

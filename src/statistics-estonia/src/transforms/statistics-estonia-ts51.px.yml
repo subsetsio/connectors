@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ts51.px`. Regenerate after model-verify.
+key: [year, distance_of_journey, indicator]
+temporal: year
+sort: [year, distance_of_journey, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: distance_of_journey
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

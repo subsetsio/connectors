@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-mp01.px`. Regenerate after model-verify.
+key: [county, country_of_residence, reference_period, indicator]
+sort: [county, country_of_residence, reference_period, indicator]
+columns:
+  - name: county
+    type: VARCHAR
+  - name: country_of_residence
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: reference_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE

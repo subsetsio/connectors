@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-thv82.px`. Regenerate after model-verify.
+key: [kind_of_expenditure, year, expenditure_quintile, type_of_household, indicator]
+temporal: year
+sort: [year, kind_of_expenditure, expenditure_quintile, type_of_household, indicator]
+columns:
+  - name: expenditure_quintile
+    type: VARCHAR
+  - name: type_of_household
+    type: VARCHAR
+  - name: kind_of_expenditure
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

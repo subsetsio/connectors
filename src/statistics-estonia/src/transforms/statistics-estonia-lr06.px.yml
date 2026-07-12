@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-lr06.px`. Regenerate after model-verify.
+key: [indicator, year, ethnic_nationality]
+temporal: year
+sort: [year, indicator, ethnic_nationality]
+columns:
+  - name: year
+    type: BIGINT
+  - name: ethnic_nationality
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

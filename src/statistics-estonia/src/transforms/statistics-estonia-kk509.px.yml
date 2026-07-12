@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk509.px`. Regenerate after model-verify.
+key: [year, tree_species, indicator]
+temporal: year
+sort: [year, tree_species, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: tree_species
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

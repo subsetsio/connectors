@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-les80.px`. Regenerate after model-verify.
+key: [age_group, frequency_of_interaction_with_main_contact_person, year]
+temporal: year
+sort: [year, age_group, frequency_of_interaction_with_main_contact_person]
+columns:
+  - name: frequency_of_interaction_with_main_contact_person
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-thv85.px`. Regenerate after model-verify.
+key: [place_of_residence, year, type_of_household, equipment_with_water_system]
+temporal: year
+sort: [year, place_of_residence, type_of_household, equipment_with_water_system]
+columns:
+  - name: type_of_household
+    type: VARCHAR
+  - name: equipment_with_water_system
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

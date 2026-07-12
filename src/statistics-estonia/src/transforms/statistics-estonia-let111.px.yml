@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-let111.px`. Regenerate after model-verify.
+key: [structure_of_household, year, useful_floor_space_per_household_member]
+temporal: year
+sort: [year, structure_of_household, useful_floor_space_per_household_member]
+columns:
+  - name: useful_floor_space_per_household_member
+    type: VARCHAR
+  - name: structure_of_household
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

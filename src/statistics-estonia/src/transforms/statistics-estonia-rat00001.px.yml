@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rat00001.px`. Regenerate after model-verify.
+key: [industry_supply, product, year]
+temporal: year
+sort: [year, industry_supply, product]
+columns:
+  - name: industry_supply
+    type: VARCHAR
+  - name: product
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

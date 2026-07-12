@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ht71.px`. Regenerate after model-verify.
+key: [year, source_of_financing, indicator]
+temporal: year
+sort: [year, source_of_financing, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: source_of_financing
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

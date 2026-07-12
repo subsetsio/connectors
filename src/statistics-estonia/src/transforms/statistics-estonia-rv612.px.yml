@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rv612.px`. Regenerate after model-verify.
+key: [cause_of_death_by_icd_10, year, sex]
+temporal: year
+sort: [year, cause_of_death_by_icd_10, sex]
+columns:
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: cause_of_death_by_icd_10
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

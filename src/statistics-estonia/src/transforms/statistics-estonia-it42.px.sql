@@ -1,0 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("reference_period" AS BIGINT) AS reference_period,
+    "frequency_of_use",
+    "using_computer_internet",
+    "group_of_individuals",
+    "indicator",
+    "value"
+FROM "statistics-estonia-it42.px"

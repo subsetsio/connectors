@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-sk430.px`. Regenerate after model-verify.
+key: [region_administrative_unit, number_of_payments, year]
+temporal: year
+sort: [year, region_administrative_unit, number_of_payments]
+columns:
+  - name: number_of_payments
+    type: VARCHAR
+  - name: region_administrative_unit
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

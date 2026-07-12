@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku93.px`. Regenerate after model-verify.
+key: [group_of_enterprises, year, existence_of_confidential_person, indicator]
+temporal: year
+sort: [year, group_of_enterprises, existence_of_confidential_person, indicator]
+columns:
+  - name: existence_of_confidential_person
+    type: VARCHAR
+  - name: group_of_enterprises
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

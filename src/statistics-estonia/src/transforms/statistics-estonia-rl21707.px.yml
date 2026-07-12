@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rl21707.px`. Regenerate after model-verify.
+key: [age_and_number_of_household_members, place_of_residence, household_size, indicator]
+temporal: year
+sort: [year, age_and_number_of_household_members, place_of_residence, household_size, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: household_size
+    type: VARCHAR
+  - name: age_and_number_of_household_members
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

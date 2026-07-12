@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ku033.px`. Regenerate after model-verify.
+key: [year, type_of_school, language_of_instruction_at_school]
+temporal: year
+sort: [year, type_of_school, language_of_instruction_at_school]
+columns:
+  - name: language_of_instruction_at_school
+    type: VARCHAR
+  - name: type_of_school
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

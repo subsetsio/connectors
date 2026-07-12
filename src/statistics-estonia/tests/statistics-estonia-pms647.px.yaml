@@ -1,2 +1,20 @@
 spec_id: statistics-estonia-pms647.px
-status: deferred  # PxWeb table schema (dimension columns) is per-table; assertions authored after first pull
+status: active
+tests:
+- row_count:
+    min: 7
+  reason: Statistics Estonia PxWeb table should materialize at least the profiled
+    row count from the accepted raw pull.
+  certainty: 80
+- unique:
+  - kind_of_storage_facility
+  reason: Verified by model-verify on the raw table profile.
+  certainty: 95
+- freshness:
+    col: year
+    reaches: today - 4000d
+  reason: Statistics Estonia is a live statistical publisher; a ten-year bound catches
+    frozen or badly stale pulls while tolerating historical and discontinued table
+    cadences in this broad PxWeb catalog.
+  certainty: 70
+  points_outward: true

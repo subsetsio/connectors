@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rl21167.px`. Regenerate after model-verify.
+key: [occupation, place_of_residence, location_of_place_of_work, sex]
+temporal: year
+sort: [year, occupation, place_of_residence, location_of_place_of_work, sex]
+columns:
+  - name: location_of_place_of_work
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

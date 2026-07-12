@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-les72.px`. Regenerate after model-verify.
+key: [age_group, type_of_building, sex, year]
+temporal: year
+sort: [year, age_group, type_of_building, sex]
+columns:
+  - name: type_of_building
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

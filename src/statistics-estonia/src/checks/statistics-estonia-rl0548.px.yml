@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl0548.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [place_of_residence, sex, citizenship, time_of_immigration, age_group, ethnic_nationality]
+checks:
+  - kind: unique
+    columns: [place_of_residence, sex, citizenship, time_of_immigration, age_group, ethnic_nationality]
+  - kind: not_null
+    col: place_of_residence
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: citizenship
+  - kind: not_null
+    col: time_of_immigration
+  - kind: not_null
+    col: age_group
+  - kind: not_null
+    col: ethnic_nationality
+  - kind: row_floor
+    min: 5940
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk090.px`. Regenerate after model-verify.
+key: [ecosystem_type, owner_s_economic_activity_and_institutional_sector, year]
+temporal: year
+sort: [year, ecosystem_type, owner_s_economic_activity_and_institutional_sector]
+columns:
+  - name: ecosystem_type
+    type: VARCHAR
+  - name: owner_s_economic_activity_and_institutional_sector
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

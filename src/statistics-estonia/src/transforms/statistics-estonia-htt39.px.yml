@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-htt39.px`. Regenerate after model-verify.
+key: [social_status, year, participation_in_training, indicator]
+temporal: year
+sort: [year, social_status, participation_in_training, indicator]
+columns:
+  - name: participation_in_training
+    type: VARCHAR
+  - name: social_status
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk25.px`. Regenerate after model-verify.
+key: [year, county, pollution_load_indicator]
+temporal: year
+sort: [year, county, pollution_load_indicator]
+columns:
+  - name: pollution_load_indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: county
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

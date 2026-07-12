@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ko14.px`. Regenerate after model-verify.
+key: [type_of_settlement_administrative_unit, assessment, satisfaction, net_monthly_income_per_household_member, indicator]
+temporal: year
+sort: [year, type_of_settlement_administrative_unit, assessment, satisfaction, net_monthly_income_per_household_member, indicator]
+columns:
+  - name: assessment
+    type: VARCHAR
+  - name: satisfaction
+    type: VARCHAR
+  - name: type_of_settlement_administrative_unit
+    type: VARCHAR
+  - name: net_monthly_income_per_household_member
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

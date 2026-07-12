@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-mm03.px`. Regenerate after model-verify.
+key: [year, indicator, felling_type]
+temporal: year
+sort: [year, indicator, felling_type]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: felling_type
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

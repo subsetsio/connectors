@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ia045.px`. Regenerate after model-verify.
+key: [economic_activity_emtak_2008, year, month, price_index]
+temporal: month
+sort: [month, economic_activity_emtak_2008, year, price_index]
+columns:
+  - name: month
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: economic_activity_emtak_2008
+    type: VARCHAR
+  - name: price_index
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl0217.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [county, comfort_characteristics, type_of_dwelling, occupancy]
+checks:
+  - kind: unique
+    columns: [county, comfort_characteristics, type_of_dwelling, occupancy]
+  - kind: not_null
+    col: county
+  - kind: not_null
+    col: comfort_characteristics
+  - kind: not_null
+    col: type_of_dwelling
+  - kind: not_null
+    col: occupancy
+  - kind: row_floor
+    min: 7084
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

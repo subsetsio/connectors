@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rv122u.px`. Regenerate after model-verify.
+key: [county, age_of_mother, year, type_of_settlement_region]
+temporal: year
+sort: [year, county, age_of_mother, type_of_settlement_region]
+columns:
+  - name: age_of_mother
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: type_of_settlement_region
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

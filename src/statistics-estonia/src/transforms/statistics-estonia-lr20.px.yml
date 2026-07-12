@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-lr20.px`. Regenerate after model-verify.
+key: [year, type_of_migration, indicator]
+temporal: year
+sort: [year, type_of_migration, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_migration
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

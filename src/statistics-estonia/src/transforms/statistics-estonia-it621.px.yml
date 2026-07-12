@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-it621.px`. Regenerate after model-verify.
+key: [group_of_individuals, device_internet_connection, indicator, year]
+temporal: year
+sort: [year, group_of_individuals, device_internet_connection, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: device_internet_connection
+    type: VARCHAR
+  - name: group_of_individuals
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ts328.px`. Regenerate after model-verify.
+key: [year, type_of_ship, indicator, register]
+temporal: year
+sort: [year, type_of_ship, indicator, register]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_ship
+    type: VARCHAR
+  - name: register
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

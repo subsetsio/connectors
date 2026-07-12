@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ka30.px`. Regenerate after model-verify.
+key: [year, species, waterbody]
+temporal: year
+sort: [year, species, waterbody]
+columns:
+  - name: species
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: waterbody
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

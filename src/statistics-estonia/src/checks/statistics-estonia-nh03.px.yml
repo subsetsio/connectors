@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-nh03.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [administrative_unit, year, indicator, type_of_migration, age_group]
+temporal: year
+checks:
+  - kind: unique
+    columns: [administrative_unit, year, indicator, type_of_migration, age_group]
+  - kind: not_null
+    col: administrative_unit
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: type_of_migration
+  - kind: not_null
+    col: age_group
+  - kind: row_floor
+    min: 19008
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

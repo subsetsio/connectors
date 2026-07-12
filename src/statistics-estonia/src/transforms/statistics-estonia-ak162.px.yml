@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ak162.px`. Regenerate after model-verify.
+key: [location, day_of_the_week, sex, period]
+temporal: period
+sort: [period, location, day_of_the_week, sex]
+columns:
+  - name: day_of_the_week
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

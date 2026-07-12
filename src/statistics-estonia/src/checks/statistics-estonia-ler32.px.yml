@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-ler32.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reference_period, problem, labour_status]
+checks:
+  - kind: unique
+    columns: [reference_period, problem, labour_status]
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: problem
+  - kind: not_null
+    col: labour_status
+  - kind: row_floor
+    min: 300
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

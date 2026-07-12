@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-le207.px`. Regenerate after model-verify.
+key: [kind_of_expenditure, year, educational_level_of_the_head_of_the_household, indicator]
+temporal: year
+sort: [year, kind_of_expenditure, educational_level_of_the_head_of_the_household, indicator]
+columns:
+  - name: educational_level_of_the_head_of_the_household
+    type: VARCHAR
+  - name: kind_of_expenditure
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

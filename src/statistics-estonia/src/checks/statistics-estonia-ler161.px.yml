@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-ler161.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, labour_market_situation_of_the_household, kind_of_dwelling]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, labour_market_situation_of_the_household, kind_of_dwelling]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: labour_market_situation_of_the_household
+  - kind: not_null
+    col: kind_of_dwelling
+  - kind: row_floor
+    min: 49
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

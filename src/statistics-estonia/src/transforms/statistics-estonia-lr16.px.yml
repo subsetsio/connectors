@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-lr16.px`. Regenerate after model-verify.
+key: [indicator, type_of_proceedings, type_of_international_protection, year]
+temporal: year
+sort: [year, indicator, type_of_proceedings, type_of_international_protection]
+columns:
+  - name: year
+    type: BIGINT
+  - name: type_of_international_protection
+    type: VARCHAR
+  - name: type_of_proceedings
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

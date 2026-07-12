@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ht309.px`. Regenerate after model-verify.
+key: [country_territory, year, country_of_residence_citizenship]
+temporal: year
+sort: [year, country_territory, country_of_residence_citizenship]
+columns:
+  - name: year
+    type: BIGINT
+  - name: country_of_residence_citizenship
+    type: VARCHAR
+  - name: country_territory
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

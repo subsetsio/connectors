@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tt066.px`. Regenerate after model-verify.
+key: [region_county, educational_level, month, year]
+temporal: month
+sort: [month, region_county, educational_level, year]
+columns:
+  - name: educational_level
+    type: VARCHAR
+  - name: region_county
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

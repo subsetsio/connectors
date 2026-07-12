@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl21732.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [place_of_residence, type_of_family, size_of_family, indicator]
+temporal: year
+checks:
+  - kind: unique
+    columns: [place_of_residence, type_of_family, size_of_family, indicator]
+  - kind: not_null
+    col: place_of_residence
+  - kind: not_null
+    col: type_of_family
+  - kind: not_null
+    col: size_of_family
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 16650
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

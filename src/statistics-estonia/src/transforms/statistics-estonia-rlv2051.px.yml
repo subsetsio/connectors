@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rlv2051.px`. Regenerate after model-verify.
+key: [type_of_building, indicator, year]
+temporal: year
+sort: [year, type_of_building, indicator]
+columns:
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: type_of_building
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

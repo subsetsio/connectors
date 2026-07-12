@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-htt43.px`. Regenerate after model-verify.
+key: [group_of_persons, year, working_and_not_working, indicator]
+temporal: year
+sort: [year, group_of_persons, working_and_not_working, indicator]
+columns:
+  - name: working_and_not_working
+    type: VARCHAR
+  - name: group_of_persons
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

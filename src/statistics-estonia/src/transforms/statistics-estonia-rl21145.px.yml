@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rl21145.px`. Regenerate after model-verify.
+key: [place_of_residence, main_source_of_subsistence, educational_attainment, age_group, sex]
+temporal: year
+sort: [year, place_of_residence, main_source_of_subsistence, educational_attainment, age_group, sex]
+columns:
+  - name: main_source_of_subsistence
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: educational_attainment
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

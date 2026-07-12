@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tln01.px`. Regenerate after model-verify.
+key: [city_district, year, indicator, sex, type_of_migration]
+temporal: year
+sort: [year, city_district, indicator, sex, type_of_migration]
+columns:
+  - name: type_of_migration
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: city_district
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

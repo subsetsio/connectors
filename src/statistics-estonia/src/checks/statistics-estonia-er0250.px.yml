@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-er0250.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [economic_activity_emtak_2025, number_of_employees]
+temporal: year
+checks:
+  - kind: unique
+    columns: [economic_activity_emtak_2025, number_of_employees]
+  - kind: not_null
+    col: economic_activity_emtak_2025
+  - kind: not_null
+    col: number_of_employees
+  - kind: row_floor
+    min: 69
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

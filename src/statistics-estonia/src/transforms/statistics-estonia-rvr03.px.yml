@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rvr03.px`. Regenerate after model-verify.
+key: [year, age_group, indicator, sex, type_of_migration]
+temporal: year
+sort: [year, age_group, indicator, sex, type_of_migration]
+columns:
+  - name: type_of_migration
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

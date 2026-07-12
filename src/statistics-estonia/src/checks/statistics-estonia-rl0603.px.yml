@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl0603.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [place_of_residence, age_group, de_facto_marital_status, occurrence_of_long_term_illness_or_health_problem, sex]
+checks:
+  - kind: unique
+    columns: [place_of_residence, age_group, de_facto_marital_status, occurrence_of_long_term_illness_or_health_problem, sex]
+  - kind: not_null
+    col: place_of_residence
+  - kind: not_null
+    col: age_group
+  - kind: not_null
+    col: de_facto_marital_status
+  - kind: not_null
+    col: occurrence_of_long_term_illness_or_health_problem
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 78240
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-lem11.px`. Regenerate after model-verify.
+key: [year, income_quintile_of_household, economic_situation_in_comparison_with_one_year_ago]
+temporal: year
+sort: [year, income_quintile_of_household, economic_situation_in_comparison_with_one_year_ago]
+columns:
+  - name: economic_situation_in_comparison_with_one_year_ago
+    type: VARCHAR
+  - name: income_quintile_of_household
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

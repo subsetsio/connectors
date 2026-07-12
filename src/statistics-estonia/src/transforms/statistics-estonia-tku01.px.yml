@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-tku01.px`. Regenerate after model-verify.
+key: [group_of_enterprises, year, determination_of_the_working_hours_of_employees, indicator]
+temporal: year
+sort: [year, group_of_enterprises, determination_of_the_working_hours_of_employees, indicator]
+columns:
+  - name: determination_of_the_working_hours_of_employees
+    type: VARCHAR
+  - name: group_of_enterprises
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

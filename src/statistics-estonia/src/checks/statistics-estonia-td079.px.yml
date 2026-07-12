@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-td079.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reference_period, field_of_science, institutional_sector]
+checks:
+  - kind: unique
+    columns: [reference_period, field_of_science, institutional_sector]
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: field_of_science
+  - kind: not_null
+    col: institutional_sector
+  - kind: row_floor
+    min: 420
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

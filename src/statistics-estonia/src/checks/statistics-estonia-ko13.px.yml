@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-ko13.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [region_administrative_unit, satisfaction_with_living_environment_services, net_monthly_income_per_household_member, assessment, indicator]
+temporal: year
+checks:
+  - kind: unique
+    columns: [region_administrative_unit, satisfaction_with_living_environment_services, net_monthly_income_per_household_member, assessment, indicator]
+  - kind: not_null
+    col: region_administrative_unit
+  - kind: not_null
+    col: satisfaction_with_living_environment_services
+  - kind: not_null
+    col: net_monthly_income_per_household_member
+  - kind: not_null
+    col: assessment
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 47775
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

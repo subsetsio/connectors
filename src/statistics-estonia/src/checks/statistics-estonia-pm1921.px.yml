@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-pm1921.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reference_period, indicator, agricultural_product]
+checks:
+  - kind: unique
+    columns: [reference_period, indicator, agricultural_product]
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: agricultural_product
+  - kind: row_floor
+    min: 165
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

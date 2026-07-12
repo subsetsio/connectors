@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-td01.px`. Regenerate after model-verify.
+key: [reference_period, institutional_sector, occupation_category, sex, indicator]
+sort: [reference_period, institutional_sector, occupation_category, sex, indicator]
+columns:
+  - name: reference_period
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: occupation_category
+    type: VARCHAR
+  - name: institutional_sector
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

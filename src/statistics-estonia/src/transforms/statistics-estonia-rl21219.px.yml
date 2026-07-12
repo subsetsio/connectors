@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rl21219.px`. Regenerate after model-verify.
+key: [location, time_of_construction, comfort_characteristics, occupancy]
+temporal: year
+sort: [year, location, time_of_construction, comfort_characteristics, occupancy]
+columns:
+  - name: time_of_construction
+    type: VARCHAR
+  - name: occupancy
+    type: VARCHAR
+  - name: comfort_characteristics
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

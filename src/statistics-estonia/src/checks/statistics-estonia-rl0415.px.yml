@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rl0415.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [indicator, place_of_residence_of_woman, ethnic_nationality_of_woman, legal_marital_status_of_woman, age_group_of_woman, de_facto_marital_status_of_woman, educational_attainment_of_woman]
+checks:
+  - kind: unique
+    columns: [indicator, place_of_residence_of_woman, ethnic_nationality_of_woman, legal_marital_status_of_woman, age_group_of_woman, de_facto_marital_status_of_woman, educational_attainment_of_woman]
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: place_of_residence_of_woman
+  - kind: not_null
+    col: ethnic_nationality_of_woman
+  - kind: not_null
+    col: legal_marital_status_of_woman
+  - kind: not_null
+    col: age_group_of_woman
+  - kind: not_null
+    col: de_facto_marital_status_of_woman
+  - kind: not_null
+    col: educational_attainment_of_woman
+  - kind: row_floor
+    min: 107100
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

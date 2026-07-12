@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-ts180.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, group_of_goods, indicator, quarter]
+temporal: quarter
+checks:
+  - kind: unique
+    columns: [year, group_of_goods, indicator, quarter]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: group_of_goods
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: quarter
+  - kind: row_floor
+    min: 12495
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

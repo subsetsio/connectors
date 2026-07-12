@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ts175.px`. Regenerate after model-verify.
+key: [year, cargo_type, quarter, indicator]
+temporal: quarter
+sort: [quarter, year, cargo_type, indicator]
+columns:
+  - name: cargo_type
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-pm59.px`. Regenerate after model-verify.
+key: [year, county, type_of_agricultural_land, indicator]
+temporal: year
+sort: [year, county, type_of_agricultural_land, indicator]
+columns:
+  - name: type_of_agricultural_land
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

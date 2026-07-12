@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-ht572.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [indicator, sex, mother_tongue, field_of_education, reference_period, education_level]
+checks:
+  - kind: unique
+    columns: [indicator, sex, mother_tongue, field_of_education, reference_period, education_level]
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: mother_tongue
+  - kind: not_null
+    col: field_of_education
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: education_level
+  - kind: row_floor
+    min: 67500
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

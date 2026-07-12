@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-les93.px`. Regenerate after model-verify.
+key: [age_group, place_of_residence_ethnic_nationality, sex, year, indicator]
+temporal: year
+sort: [year, age_group, place_of_residence_ethnic_nationality, sex, indicator]
+columns:
+  - name: place_of_residence_ethnic_nationality
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

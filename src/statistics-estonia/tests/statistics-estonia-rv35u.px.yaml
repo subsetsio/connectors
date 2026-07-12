@@ -1,2 +1,23 @@
 spec_id: statistics-estonia-rv35u.px
-status: deferred  # PxWeb table schema (dimension columns) is per-table; assertions authored after first pull
+status: active
+tests:
+- row_count:
+    min: 4536
+  reason: Statistics Estonia PxWeb table should materialize at least the profiled
+    row count from the accepted raw pull.
+  certainty: 80
+- unique:
+  - place_of_residence_of_husband
+  - number_of_common_under_18_year_old_children
+  - year
+  - type_of_settlement_region
+  reason: Verified by model-verify on the raw table profile.
+  certainty: 95
+- freshness:
+    col: year
+    reaches: today - 4000d
+  reason: Statistics Estonia is a live statistical publisher; a ten-year bound catches
+    frozen or badly stale pulls while tolerating historical and discontinued table
+    cadences in this broad PxWeb catalog.
+  certainty: 70
+  points_outward: true

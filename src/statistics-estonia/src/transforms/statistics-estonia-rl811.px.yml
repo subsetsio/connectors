@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rl811.px`. Regenerate after model-verify.
+# caution: Rows are not uniquely keyed by the exposed PxWeb label dimensions in the raw download; duplicate label-level combinations exist, so no table-level grain is asserted.
+key: []
+columns:
+  - name: occupancy_and_number_of_inhabitants
+    type: VARCHAR
+  - name: number_of_rooms
+    type: VARCHAR
+  - name: owner
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

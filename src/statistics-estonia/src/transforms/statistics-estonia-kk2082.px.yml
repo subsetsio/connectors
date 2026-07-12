@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-kk2082.px`. Regenerate after model-verify.
+key: [year, county, crop, pesticide, indicator]
+temporal: year
+sort: [year, county, crop, pesticide, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: pesticide
+    type: VARCHAR
+  - name: crop
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

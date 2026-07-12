@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-raa0064.px`. Regenerate after model-verify.
+key: [year, place_of_destination_departure, quarter, value_share, indicator]
+temporal: quarter
+sort: [quarter, year, place_of_destination_departure, value_share, indicator]
+columns:
+  - name: place_of_destination_departure
+    type: VARCHAR
+  - name: value_share
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

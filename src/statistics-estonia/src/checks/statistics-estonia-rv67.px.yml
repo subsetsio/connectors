@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rv67.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year_of_death, cause_of_death_by_icd_10, time_of_birth, sex]
+checks:
+  - kind: unique
+    columns: [year_of_death, cause_of_death_by_icd_10, time_of_birth, sex]
+  - kind: not_null
+    col: year_of_death
+  - kind: not_null
+    col: cause_of_death_by_icd_10
+  - kind: not_null
+    col: time_of_birth
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 4495
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

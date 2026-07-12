@@ -1,0 +1,11 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "age_group",
+    CAST("year" AS BIGINT) AS year,
+    "sex",
+    "person_receiving_pension",
+    "value"
+FROM "statistics-estonia-sk111.px"

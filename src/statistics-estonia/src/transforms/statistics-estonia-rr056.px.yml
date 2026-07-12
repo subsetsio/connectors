@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rr056.px`. Regenerate after model-verify.
+key: [function_of_government, year, indicator, sector]
+temporal: year
+sort: [year, function_of_government, indicator, sector]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: function_of_government
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

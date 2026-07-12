@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-sk08.px`. Regenerate after model-verify.
+key: [kind_of_welfare_service, county, year]
+temporal: year
+sort: [year, kind_of_welfare_service, county]
+columns:
+  - name: year
+    type: BIGINT
+  - name: county
+    type: VARCHAR
+  - name: kind_of_welfare_service
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

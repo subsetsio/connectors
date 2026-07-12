@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rlv445.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [place_of_residence, age_group, ability_to_speak_a_dialect, sex, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [place_of_residence, age_group, ability_to_speak_a_dialect, sex, year]
+  - kind: not_null
+    col: place_of_residence
+  - kind: not_null
+    col: age_group
+  - kind: not_null
+    col: ability_to_speak_a_dialect
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 9990
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

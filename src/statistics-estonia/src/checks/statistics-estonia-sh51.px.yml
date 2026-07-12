@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-sh51.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [group_of_persons, body_mass_index_physical_activity_nutrition, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [group_of_persons, body_mass_index_physical_activity_nutrition, year]
+  - kind: not_null
+    col: group_of_persons
+  - kind: not_null
+    col: body_mass_index_physical_activity_nutrition
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 600
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-rv166u.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [duration_of_marriage, age_of_mother, year, type_of_settlement_region]
+temporal: year
+checks:
+  - kind: unique
+    columns: [duration_of_marriage, age_of_mother, year, type_of_settlement_region]
+  - kind: not_null
+    col: duration_of_marriage
+  - kind: not_null
+    col: age_of_mother
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: type_of_settlement_region
+  - kind: row_floor
+    min: 1134
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

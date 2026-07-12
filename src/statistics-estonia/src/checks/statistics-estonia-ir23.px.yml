@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-ir23.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reference_period, method_of_finding_work, origin, sex, indicator]
+checks:
+  - kind: unique
+    columns: [reference_period, method_of_finding_work, origin, sex, indicator]
+  - kind: not_null
+    col: reference_period
+  - kind: not_null
+    col: method_of_finding_work
+  - kind: not_null
+    col: origin
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 1296
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rlv445.px`. Regenerate after model-verify.
+key: [place_of_residence, age_group, ability_to_speak_a_dialect, sex, year]
+temporal: year
+sort: [year, place_of_residence, age_group, ability_to_speak_a_dialect, sex]
+columns:
+  - name: ability_to_speak_a_dialect
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: place_of_residence
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

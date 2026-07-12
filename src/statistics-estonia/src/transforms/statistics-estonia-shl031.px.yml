@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-shl031.px`. Regenerate after model-verify.
+key: [birth_cohort, occurrence_of_long_term_health_problem, sex, indicator, year]
+temporal: year
+sort: [year, birth_cohort, occurrence_of_long_term_health_problem, sex, indicator]
+columns:
+  - name: occurrence_of_long_term_health_problem
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: birth_cohort
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

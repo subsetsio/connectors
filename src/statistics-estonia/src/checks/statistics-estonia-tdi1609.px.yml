@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-estonia-tdi1609.px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [group_of_economic_activities, customisation_co_creation_and_standardised_goods, number_of_persons_employed, reference_period]
+checks:
+  - kind: unique
+    columns: [group_of_economic_activities, customisation_co_creation_and_standardised_goods, number_of_persons_employed, reference_period]
+  - kind: not_null
+    col: group_of_economic_activities
+  - kind: not_null
+    col: customisation_co_creation_and_standardised_goods
+  - kind: not_null
+    col: number_of_persons_employed
+  - kind: not_null
+    col: reference_period
+  - kind: row_floor
+    min: 600
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

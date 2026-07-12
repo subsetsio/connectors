@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ak142.px`. Regenerate after model-verify.
+key: [with_whom_time_is_spent, age_group, period, sex]
+temporal: period
+sort: [period, with_whom_time_is_spent, age_group, sex]
+columns:
+  - name: age_group
+    type: VARCHAR
+  - name: with_whom_time_is_spent
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

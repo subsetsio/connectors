@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-rr10.px`. Regenerate after model-verify.
+key: [financial_transactions_and_balance_sheet, indicator, sector, counterpart, year, quarter, national_accounts]
+temporal: quarter
+sort: [quarter, financial_transactions_and_balance_sheet, indicator, sector, counterpart, year, national_accounts]
+columns:
+  - name: national_accounts
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: counterpart
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: financial_transactions_and_balance_sheet
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-estonia-ku054.px`. Regenerate after model-verify.
+key: [year, county, indicator]
+temporal: year
+sort: [year, county, indicator]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE
