@@ -17,6 +17,9 @@ tests:
   - between: {col: year, lo: 1997, hi: current_year()}
     reason: GFED5.1 summary tables start in 1997; latest year is the most recent annual release
     certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: GFED5.1 summary tables currently cover through the 2024 observation year; a lower maximum year means the current release was not parsed completely.
+    points_outward: true
   - at_least: {col: value, expr: 0}
     reason: emissions are physical masses, never negative
     certainty: 98

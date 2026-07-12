@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gfed-emissions-gfed5`. Regenerate after model-verify.
+# caution: Includes GFED aggregate categories such as global region and total fire type; filter aggregation rows before summing across regions or fire types.
+key: [species, unit, year, region, fire_type]
+temporal: year
+sort: [year, species, unit, region, fire_type]
+columns:
+  - name: species
+    type: VARCHAR
+  - name: fire_type
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR
