@@ -4,7 +4,7 @@ tests:
   - not_null: ghsa_id
     reason: every OSV advisory file in github/advisory-database is keyed by its GHSA id
     certainty: 95
-  - matches: {col: ghsa_id, pattern: "^GHSA-"}
+  - matches: {col: ghsa_id, pattern: "^GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$"}
     reason: advisory ids in this corpus use GHSA identifiers
     certainty: 90
   - row_count: {min: 100000}
