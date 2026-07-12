@@ -1,0 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This table combines several Stats SA products and period granularities; filter by product_id, period_frequency, unit, and series metadata before comparing or aggregating values.
+SELECT
+    "product_id",
+    "product_title",
+    "source_url",
+    "source_file",
+    "source_table",
+    "source_row_number",
+    "series_id",
+    "period_code",
+    "period",
+    "period_frequency",
+    "value",
+    CAST("value_raw" AS DOUBLE) AS value_raw,
+    "fetched_at",
+    "release_no",
+    "series_name",
+    "variable_name",
+    "description_1",
+    "description_2",
+    "description_3",
+    "description_4",
+    "description_5",
+    "description_6",
+    "description_7",
+    "description_8",
+    "description_9",
+    "area_1",
+    "area_2",
+    "constant",
+    "seasonal",
+    "unit",
+    "base",
+    "reserved_1",
+    "reserved_2",
+    "reserved_3",
+    "reserved_4",
+    "release_date",
+    "start_date",
+    "frequency"
+FROM "stats-sa-time-series-values"

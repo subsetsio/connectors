@@ -1,0 +1,83 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stats-sa-time-series-values`. Regenerate after model-verify.
+# caution: This table combines several Stats SA products and period granularities; filter by product_id, period_frequency, unit, and series metadata before comparing or aggregating values.
+key: [variable_name, series_id, period_code, period, source_row_number]
+temporal: fetched_at
+sort: [fetched_at, variable_name, series_id, period_code, period, source_row_number]
+columns:
+  - name: product_id
+    type: VARCHAR
+  - name: product_title
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: source_table
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: series_id
+    type: VARCHAR
+  - name: period_code
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: period_frequency
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: value_raw
+    type: DOUBLE
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: release_no
+    type: VARCHAR
+  - name: series_name
+    type: VARCHAR
+  - name: variable_name
+    type: VARCHAR
+  - name: description_1
+    type: VARCHAR
+  - name: description_2
+    type: VARCHAR
+  - name: description_3
+    type: VARCHAR
+  - name: description_4
+    type: VARCHAR
+  - name: description_5
+    type: VARCHAR
+  - name: description_6
+    type: JSON
+  - name: description_7
+    type: JSON
+  - name: description_8
+    type: JSON
+  - name: description_9
+    type: JSON
+  - name: area_1
+    type: VARCHAR
+  - name: area_2
+    type: VARCHAR
+  - name: constant
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: base
+    type: VARCHAR
+  - name: reserved_1
+    type: JSON
+  - name: reserved_2
+    type: JSON
+  - name: reserved_3
+    type: JSON
+  - name: reserved_4
+    type: JSON
+  - name: release_date
+    type: JSON
+  - name: start_date
+    type: JSON
+  - name: frequency
+    type: VARCHAR

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stats-sa-time-series-products`. Regenerate after model-verify.
+key: [product_id]
+temporal: fetched_at
+sort: [fetched_at, product_id]
+columns:
+  - name: product_id
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: landing_url
+    type: VARCHAR
+  - name: json_file_count
+    type: BIGINT
+  - name: json_urls
+    type: "VARCHAR[]"
+  - name: fetched_at
+    type: TIMESTAMP
