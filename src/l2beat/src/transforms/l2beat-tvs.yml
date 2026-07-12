@@ -2,17 +2,24 @@
 # of raw asset `l2beat-tvs`. Regenerate after model-verify.
 # caution: Includes a synthetic ecosystem aggregate row series alongside project-level series; filter it out before summing across projects.
 key: [project_slug, timestamp]
-sort: [project_slug, timestamp]
+temporal: timestamp
+sort: [timestamp, project_slug]
 columns:
   - name: project_slug
     type: VARCHAR
+    description: L2BEAT project slug; the synthetic ecosystem aggregate is included as its own slug.
   - name: timestamp
     type: BIGINT
+    description: Observation timestamp in Unix seconds, daily cadence.
   - name: native
     type: DOUBLE
+    description: Native-token component of total value secured, in USD.
   - name: canonical
     type: DOUBLE
+    description: Canonically bridged component of total value secured, in USD.
   - name: external
     type: DOUBLE
+    description: Externally bridged component of total value secured, in USD.
   - name: eth_price
     type: DOUBLE
+    description: ETH price in USD reported with the observation.

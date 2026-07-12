@@ -6,8 +6,10 @@ tests:
     certainty: 85
   - not_null: project_slug
   - not_null: timestamp
+  - not_null: date
   - column_type: {col: project_slug, type: string}
   - column_type: {col: timestamp, type: integer}
+  - column_type: {col: date, type: date}
   - column_type: {col: native, type: float}
   - column_type: {col: canonical, type: float}
   - column_type: {col: external, type: float}
@@ -15,13 +17,16 @@ tests:
   - unique: [project_slug, timestamp]
     reason: each TVS chart has at most one daily point per project/timestamp.
     certainty: 90
+  - unique: [project_slug, date]
+    reason: each TVS chart has at most one daily point per project/date.
+    certainty: 90
   - distinct_count: {col: project_slug, min: 80}
     reason: most tracked projects plus the ecosystem aggregate should have a TVS series; a much lower count indicates silent partial fetch loss.
     certainty: 80
-  - between: {col: timestamp, lo: 1609459200, hi: 4102444800}
-    reason: TVS history starts after 2021 and should not contain dates beyond year 2100.
+  - between: {col: timestamp, lo: 1500000000, hi: 4102444800}
+    reason: TVS history can include pre-2021 project history and should not contain dates beyond year 2100.
     certainty: 90
-  - freshness: {col: timestamp, reaches: today - 7d}
+  - freshness: {col: date, reaches: today - 7d}
     reason: L2BEAT TVS charts are daily/current; max timestamp older than one week means the feed or fetch is stale.
     certainty: 90
     points_outward: true

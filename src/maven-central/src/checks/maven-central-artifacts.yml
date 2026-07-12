@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `maven-central-artifacts`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [group_id, artifact_id]
+temporal: last_updated
+checks:
+  - kind: unique
+    columns: [group_id, artifact_id]
+  - kind: not_null
+    col: group_id
+  - kind: not_null
+    col: artifact_id
+  - kind: row_floor
+    min: 412074
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

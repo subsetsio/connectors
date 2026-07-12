@@ -5,6 +5,7 @@ slug at a time, plus an ecosystem-wide aggregate stored as a synthetic project.
 """
 
 import time
+from datetime import UTC, datetime
 
 import httpx
 import pyarrow as pa
@@ -22,6 +23,7 @@ from utils import (
 _TVS_SCHEMA = pa.schema([
     ("project_slug", pa.string()),
     ("timestamp", pa.int64()),
+    ("date", pa.date32()),
     ("native", pa.float64()),
     ("canonical", pa.float64()),
     ("external", pa.float64()),
@@ -35,6 +37,10 @@ def _num(value) -> float | None:
     if isinstance(value, (int, float)):
         return float(value)
     return None
+
+
+def _date_from_timestamp(value: int):
+    return datetime.fromtimestamp(value, UTC).date()
 
 
 def _tvs_rows_for(slug: str, url: str) -> list[dict]:
@@ -54,9 +60,11 @@ def _tvs_rows_for(slug: str, url: str) -> list[dict]:
         ts = col("timestamp")
         if ts is None:
             continue
+        ts = int(ts)
         out.append({
             "project_slug": slug,
-            "timestamp": int(ts),
+            "timestamp": ts,
+            "date": _date_from_timestamp(ts),
             "native": _num(col("native")),
             "canonical": _num(col("canonical")),
             "external": _num(col("external")),

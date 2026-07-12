@@ -2,13 +2,18 @@
 # of raw asset `l2beat-activity`. Regenerate after model-verify.
 # caution: Includes a synthetic ecosystem aggregate row series alongside project-level series; filter it out before summing across projects.
 key: [project_slug, timestamp]
-sort: [project_slug, timestamp]
+temporal: timestamp
+sort: [timestamp, project_slug]
 columns:
   - name: project_slug
     type: VARCHAR
+    description: L2BEAT project slug; the synthetic ecosystem aggregate is included as its own slug.
   - name: timestamp
     type: BIGINT
+    description: Observation timestamp in Unix seconds, daily cadence.
   - name: tx_count
     type: BIGINT
+    description: Daily transaction count reported by L2BEAT for the project or aggregate.
   - name: uops_count
     type: BIGINT
+    description: Daily user operations count reported by L2BEAT for the project or aggregate.

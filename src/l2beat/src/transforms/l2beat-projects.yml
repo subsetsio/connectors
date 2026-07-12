@@ -5,25 +5,37 @@ sort: [id]
 columns:
   - name: id
     type: VARCHAR
+    description: L2BEAT project identifier.
   - name: name
     type: VARCHAR
+    description: Project display name.
   - name: slug
     type: VARCHAR
+    description: L2BEAT project slug used by the time-series tables.
   - name: type
     type: VARCHAR
+    description: Scaling project type, such as layer2 or layer3.
   - name: host_chain
     type: VARCHAR
+    description: Host chain reported by L2BEAT.
   - name: category
     type: VARCHAR
+    description: L2BEAT scaling category, such as Optimistic Rollup, ZK Rollup, Validium, Optimium, or Other.
   - name: stage
     type: VARCHAR
+    description: L2BEAT stage classification when available.
   - name: is_archived
     type: BOOLEAN
+    description: Whether L2BEAT marks the project as archived.
   - name: is_under_review
     type: BOOLEAN
+    description: Whether L2BEAT marks the project as under review.
   - name: providers
     type: VARCHAR
+    description: Comma-separated technology providers reported by L2BEAT.
   - name: purposes
     type: VARCHAR
+    description: Comma-separated project purposes reported by L2BEAT.
   - name: current_tvs_usd
     type: DOUBLE
+    description: Current total value secured in USD from the L2BEAT projects summary.

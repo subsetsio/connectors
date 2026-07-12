@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `maven-central-artifacts`. Regenerate after model-verify.
+# caution: Rows describe artifact coordinates and the latest version observed in the repository index, not every historical artifact version.
+key: [group_id, artifact_id]
+temporal: last_updated
+sort: [last_updated, group_id, artifact_id]
+columns:
+  - name: group_id
+    type: VARCHAR
+  - name: artifact_id
+    type: VARCHAR
+  - name: latest_version
+    type: VARCHAR
+  - name: packaging
+    type: VARCHAR
+  - name: version_count
+    type: BIGINT
+  - name: repository_id
+    type: VARCHAR
+  - name: last_updated
+    type: TIMESTAMP
