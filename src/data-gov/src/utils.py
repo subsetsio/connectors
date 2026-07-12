@@ -30,6 +30,7 @@ STATE_VERSION = 1
 DEFAULT_TIME_BUDGET_S = 20_700.0
 MAX_PACKAGE_LEG_S = 4_800.0
 LEG_FRACTION = 0.20
+DEFAULT_PAGES_PER_LEG = 80
 
 
 @transient_retry(attempts=8, min_wait=8, max_wait=180)
@@ -48,6 +49,14 @@ def _leg_seconds() -> float:
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
     return min(budget * LEG_FRACTION, MAX_PACKAGE_LEG_S)
+
+
+def _pages_per_leg() -> int:
+    try:
+        pages = int(os.environ.get("DATA_GOV_PACKAGE_PAGES_PER_LEG", ""))
+    except ValueError:
+        pages = DEFAULT_PAGES_PER_LEG
+    return max(1, pages or DEFAULT_PAGES_PER_LEG)
 
 
 def _run_state(asset: str, run_id: str) -> dict:
@@ -106,12 +115,22 @@ def _crawl_packages(node_id: str, row_builder) -> bool | None:
         return None
 
     deadline = time.monotonic() + _leg_seconds()
+    max_pages_this_leg = _pages_per_leg()
     rows_this_leg = 0
+    pages_this_leg = 0
 
     for page in range(total_pages):
         fragment = _fragment(page)
         if fragment in committed:
             continue
+
+        if pages_this_leg >= max_pages_this_leg:
+            print(
+                f"  -> {node_id}: page leg cap reached at page {page} "
+                f"({pages_this_leg:,} pages, {rows_this_leg:,} rows this leg); "
+                "committing and continuing"
+            )
+            return True
 
         if rows_this_leg and time.monotonic() >= deadline:
             print(
@@ -134,6 +153,7 @@ def _crawl_packages(node_id: str, row_builder) -> bool | None:
         if batch:
             save_raw_ndjson(batch, node_id, fragment=fragment)
             rows_this_leg += len(batch)
+        pages_this_leg += 1
 
     _finish(node_id, run_id, count, total_pages)
     print(f"  -> {node_id}: drained, {rows_this_leg:,} rows this leg")
