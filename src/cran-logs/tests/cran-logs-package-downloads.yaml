@@ -16,6 +16,9 @@ tests:
   - matches: {col: day, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
     reason: cranlogs returns ISO calendar days
     certainty: 95
+  - freshness: {col: day, reaches: today - 14d}
+    reason: cranlogs exposes daily mirror-log aggregates; allow lag for upstream publication and mirror-log processing
+    certainty: 90
   - distinct_count: {col: package, min: 10000}
     reason: long-format counts across the whole CRAN ecosystem; few distinct packages means batching stopped early
     certainty: 90

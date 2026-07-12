@@ -16,6 +16,9 @@ tests:
     severity: warn
   - matches: {col: day, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
     certainty: 95
+  - freshness: {col: day, reaches: today - 14d}
+    reason: cranlogs exposes daily mirror-log aggregates; allow lag for upstream publication and mirror-log processing
+    certainty: 90
   - distinct_count: {col: version, min: 10}
     reason: R has shipped many point releases over the logged history
     certainty: 80

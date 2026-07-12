@@ -1,24 +1,36 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [package]
+sort: [package]
 columns:
   - name: package
     type: VARCHAR
+    description: CRAN package name.
   - name: version
     type: VARCHAR
+    description: Current package version listed in the CRAN metadata snapshot.
   - name: title
     type: VARCHAR
+    description: Package title from the CRAN DESCRIPTION metadata.
   - name: description
     type: VARCHAR
+    description: Package description from the CRAN DESCRIPTION metadata.
   - name: license
     type: VARCHAR
+    description: Package license field from CRAN metadata.
   - name: maintainer
     type: VARCHAR
+    description: Package maintainer field from CRAN metadata.
   - name: needs_compilation
     type: VARCHAR
+    description: CRAN metadata flag indicating whether the package needs compilation.
   - name: date_publication
     type: TIMESTAMP
+    description: Publication timestamp from the current CRAN package metadata snapshot, when parseable.
   - name: url
     type: VARCHAR
+    description: Package URL field from CRAN metadata.
   - name: bugreports
     type: VARCHAR
+    description: Package bug report URL or contact field from CRAN metadata.
   - name: repository
     type: VARCHAR
+    description: Repository label from CRAN metadata.

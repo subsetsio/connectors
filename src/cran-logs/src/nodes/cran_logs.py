@@ -23,7 +23,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -161,56 +160,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="cran-logs-packages", fn=fetch_packages, kind="download"),
     NodeSpec(id="cran-logs-package-downloads", fn=fetch_package_downloads, kind="download"),
     NodeSpec(id="cran-logs-r-downloads", fn=fetch_r_downloads, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cran-logs-packages-transform",
-        deps=["cran-logs-packages"],
-        sql='''
-            SELECT
-                package,
-                version,
-                title,
-                description,
-                license,
-                maintainer,
-                needs_compilation,
-                TRY_CAST(date_publication AS TIMESTAMP) AS date_publication,
-                url,
-                bugreports,
-                repository
-            FROM "cran-logs-packages"
-            WHERE package IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="cran-logs-package-downloads-transform",
-        deps=["cran-logs-package-downloads"],
-        sql='''
-            SELECT
-                package,
-                CAST(day AS DATE) AS date,
-                CAST(downloads AS BIGINT) AS downloads
-            FROM "cran-logs-package-downloads"
-            WHERE package IS NOT NULL
-              AND day IS NOT NULL
-              AND downloads IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="cran-logs-r-downloads-transform",
-        deps=["cran-logs-r-downloads"],
-        sql='''
-            SELECT
-                CAST(day AS DATE) AS date,
-                os,
-                version,
-                CAST(downloads AS BIGINT) AS downloads
-            FROM "cran-logs-r-downloads"
-            WHERE day IS NOT NULL
-              AND downloads IS NOT NULL
-        ''',
-    ),
 ]

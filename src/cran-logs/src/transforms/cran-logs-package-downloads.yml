@@ -1,8 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [package, date]
+temporal: date
+sort: [date, package]
 columns:
   - name: package
     type: VARCHAR
+    description: CRAN package name.
   - name: date
     type: DATE
+    description: Download date from the RStudio/Posit CRAN mirror logs.
   - name: downloads
     type: BIGINT
+    description: Number of package downloads recorded by the RStudio/Posit CRAN mirror for the package on this date.

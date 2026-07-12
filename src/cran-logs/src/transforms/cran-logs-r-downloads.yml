@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, version, os]
+temporal: date
+sort: [date, version, os]
 columns:
   - name: date
     type: DATE
+    description: Download date from the RStudio/Posit CRAN mirror logs.
   - name: os
     type: VARCHAR
+    description: Operating system category for the R distribution download.
   - name: version
     type: VARCHAR
+    description: R version string recorded for the download.
   - name: downloads
     type: BIGINT
+    description: Number of R distribution downloads recorded by the RStudio/Posit CRAN mirror for this date, operating system, and version.
