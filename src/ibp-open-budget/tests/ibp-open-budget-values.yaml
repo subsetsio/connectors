@@ -31,6 +31,10 @@ tests:
   - row_count: {min: 3000}
     reason: ~918 rows per indicator x 6 indicators ~= 5500 observations
     certainty: 80
+  - freshness: {col: time_period, reaches: "2023"}
+    reason: Data360 currently carries Open Budget Survey rounds through 2023; a lower max year means a stale or partial pull
+    certainty: 85
+    points_outward: true
   - between: {col: time_period, lo: "2006", hi: "2030"}
     reason: OBS rounds run 2006-2023 (string compare ok for 4-digit years); upper headroom for new rounds
     certainty: 85

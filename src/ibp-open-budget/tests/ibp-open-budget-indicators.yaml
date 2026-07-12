@@ -1,0 +1,24 @@
+spec_id: ibp-open-budget-indicators
+status: active
+tests:
+  - not_null: dataset_id
+    reason: every catalog row belongs to the IBP_OBS Data360 dataset
+    certainty: 95
+  - not_null: indicator_code
+    reason: the indicators endpoint returns indicator codes only
+    certainty: 95
+  - column_type: {col: dataset_id, type: string}
+    certainty: 95
+  - column_type: {col: indicator_code, type: string}
+    certainty: 95
+  - enum:
+      col: indicator_code
+      values: [IBP_OBS_RANK, IBP_OBS_OBI, IBP_OBS_SAI_OBI, IBP_OBS_LEG_OBI, IBP_OBS_OVERSIGHT_OBI, IBP_OBS_PUB_ENG]
+    reason: IBP_OBS publishes exactly these 6 headline survey indicators
+    certainty: 90
+  - unique: indicator_code
+    reason: the indicator catalog has one row per indicator code
+    certainty: 95
+  - row_count: {min: 6, max: 6}
+    reason: Data360 lists the 6 Open Budget Survey headline indicators
+    certainty: 90
