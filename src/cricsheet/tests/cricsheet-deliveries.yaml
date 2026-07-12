@@ -22,3 +22,7 @@ tests:
   - distinct_count: {col: match_id, min: 15000}
     reason: ~22k matches are published (minus ~368 withheld); far fewer means missing ball files.
     certainty: 85
+  - freshness: {col: start_date, reaches: today - 90d}
+    reason: Cricsheet is updated continuously from current scorecards; the full corpus should include matches from the last quarter.
+    certainty: 85
+    points_outward: true

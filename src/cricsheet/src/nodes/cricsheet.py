@@ -116,6 +116,11 @@ def fetch_matches(node_id: str) -> None:
     assert info_members, "all_csv2.zip contained no _info.csv files"
 
     rows = []
+    def iso_date(value: str | None) -> str | None:
+        if not value:
+            return None
+        return value.replace("/", "-")
+
     for name in info_members:
         vals: dict[str, list[list[str]]] = collections.defaultdict(list)
         with z.open(name) as fh:
@@ -133,8 +138,8 @@ def fetch_matches(node_id: str) -> None:
 
         row = {k: first(k) for k in _INFO_SINGLE}
         row["match_id"] = match_id
-        row["start_date"] = dates[0] if dates else None
-        row["end_date"] = dates[-1] if dates else None
+        row["start_date"] = iso_date(dates[0]) if dates else None
+        row["end_date"] = iso_date(dates[-1]) if dates else None
         row["team1"] = teams[0] if len(teams) > 0 else None
         row["team2"] = teams[1] if len(teams) > 1 else None
         rows.append(row)
