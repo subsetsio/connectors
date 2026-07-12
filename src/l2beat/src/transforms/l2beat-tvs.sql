@@ -1,14 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Includes a synthetic ecosystem aggregate row series alongside project-level series; filter it out before summing across projects.
 SELECT
-    project_slug,
-    CAST(to_timestamp(timestamp) AS DATE) AS date,
-    native,
-    canonical,
-    external,
-    COALESCE(native, 0) + COALESCE(canonical, 0) + COALESCE(external, 0) AS total_usd,
-    eth_price
+    "project_slug",
+    "timestamp",
+    "native",
+    "canonical",
+    "external",
+    "eth_price"
 FROM "l2beat-tvs"
-WHERE timestamp IS NOT NULL
-QUALIFY row_number() OVER (
-    PARTITION BY project_slug, CAST(to_timestamp(timestamp) AS DATE)
-    ORDER BY timestamp DESC
-) = 1
