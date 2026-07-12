@@ -11,7 +11,7 @@ from datetime import datetime
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import BASE_RC, _clean_country, _fetch_text, _val
 
 BASE_PUB = "https://ticdata.treasury.gov/Publish"
@@ -141,29 +141,3 @@ def fetch_mfh(node_id: str) -> None:
     ])
     table = pa.Table.from_pylist(records, schema=schema)
     save_raw_parquet(table, asset)
-
-
-# --------------------------------------------------------------------------- #
-# Specs
-# --------------------------------------------------------------------------- #
-DOWNLOAD_SPECS = [
-    NodeSpec(id="treasury-tic-mfh-treasury-holdings", fn=fetch_mfh, kind="download"),
-]
-
-# MFH: long-format country x month holdings in billions of USD.
-_MFH_SQL = '''
-    SELECT
-        country,
-        CAST(date || '-01' AS DATE) AS date,
-        holdings_billions
-    FROM "treasury-tic-mfh-treasury-holdings"
-    WHERE holdings_billions IS NOT NULL
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="treasury-tic-mfh-treasury-holdings-transform",
-        deps=["treasury-tic-mfh-treasury-holdings"],
-        sql=_MFH_SQL,
-    ),
-]

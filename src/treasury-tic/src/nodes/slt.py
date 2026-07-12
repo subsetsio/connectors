@@ -11,7 +11,7 @@ import io
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import BASE_RC, _clean_country, _fetch_text, _val
 
 # node_id -> resource-center SLT table filename (long-format detailed tables)
@@ -64,39 +64,3 @@ def fetch_slt(node_id: str) -> None:
     )
     table = pa.Table.from_pylist(rows, schema=schema)
     save_raw_parquet(table, asset)
-
-
-# --------------------------------------------------------------------------- #
-# Specs
-# --------------------------------------------------------------------------- #
-DOWNLOAD_SPECS = [
-    NodeSpec(id="treasury-tic-slt1-us-lt-securities-held-by-foreign-residents", fn=fetch_slt, kind="download"),
-    NodeSpec(id="treasury-tic-slt2-foreign-lt-securities-held-by-us-residents", fn=fetch_slt, kind="download"),
-    NodeSpec(id="treasury-tic-slt3-us-treasury-securities-held-by-foreign-residents", fn=fetch_slt, kind="download"),
-    NodeSpec(id="treasury-tic-slt4-us-purchases-sales-lt-securities-by-type", fn=fetch_slt, kind="download"),
-]
-
-
-# SLT detailed tables: keep all numeric value columns, just type the date.
-# EXCLUDE drops the original string date/country/country_code so they aren't
-# duplicated by the leading explicit projection.
-def _slt_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            country,
-            country_code,
-            CAST(date || '-01' AS DATE) AS date,
-            * EXCLUDE (country, country_code, date)
-        FROM "{download_id}"
-        WHERE date IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{download_id}-transform",
-        deps=[download_id],
-        sql=_slt_sql(download_id),
-    )
-    for download_id in SLT_TABLES
-]
