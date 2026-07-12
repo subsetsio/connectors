@@ -4,11 +4,15 @@ import json
 import re
 from datetime import datetime, timezone
 
+import httpx
+
 from constants import ENTITY_IDS, FAMILIES
 from subsets_utils import NodeSpec, get, raw_writer, save_raw_ndjson, transient_retry
 
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+DATETIME_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2}(?::\d{2})?)")
+SKIPPABLE_DATA_STATUSES = {404, 406, 410}
 
 
 @transient_retry()
@@ -23,6 +27,15 @@ def _fetch_text(url: str) -> str:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
     return resp.text.lstrip("\ufeff")
+
+
+def _fetch_data_text(url: str) -> str | None:
+    try:
+        return _fetch_text(url)
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code in SKIPPABLE_DATA_STATUSES:
+            return None
+        raise
 
 
 def _family_from_entity(entity_id: str) -> str:
@@ -120,26 +133,40 @@ def _csv_data_rows(text: str, family: str, parameter_key: str, station_key: str,
             continue
         first = row[0].strip()
         if header is None:
-            if first.startswith("Datum"):
+            if "datum" in first.lower():
                 header = [cell.strip() for cell in row]
                 for idx, name in enumerate(header):
                     lowered = name.lower()
-                    if lowered.startswith("tid"):
+                    if lowered == "tid" or lowered.startswith("tid "):
                         time_idx = idx
                     elif lowered == "kvalitet":
                         quality_idx = idx
                 for idx, name in enumerate(header):
                     lowered = name.lower()
-                    if not name or lowered.startswith("datum") or lowered.startswith("tid"):
+                    if not name or "datum" in lowered or lowered.startswith("tid"):
                         continue
-                    if lowered == "kvalitet" or lowered.startswith("tidsutsnitt"):
+                    if (
+                        lowered == "kvalitet"
+                        or lowered.startswith("tidsutsnitt")
+                        or lowered.startswith("mätdjup")
+                        or lowered.startswith("representativt")
+                        or "latitud" in lowered
+                        or "longitud" in lowered
+                        or "höjd" in lowered
+                    ):
                         continue
                     data_col_idx = idx
                     data_col_name = name
                     break
             continue
 
-        if not DATE_RE.match(first):
+        date_value = first
+        time_value = None
+        datetime_match = DATETIME_RE.match(first)
+        if datetime_match:
+            date_value = datetime_match.group(1)
+            time_value = datetime_match.group(2)
+        elif not DATE_RE.match(first):
             continue
 
         value = row[data_col_idx].strip() if data_col_idx is not None and data_col_idx < len(row) else None
@@ -148,8 +175,12 @@ def _csv_data_rows(text: str, family: str, parameter_key: str, station_key: str,
             "parameter_key": parameter_key,
             "station_key": station_key,
             "period_key": period_key,
-            "date": first,
-            "time": row[time_idx].strip() if time_idx is not None and time_idx < len(row) else None,
+            "date": date_value,
+            "time": (
+                row[time_idx].strip()
+                if time_idx is not None and time_idx < len(row)
+                else time_value
+            ),
             "value": value,
             "quality": (
                 row[quality_idx].strip()
@@ -177,7 +208,9 @@ def _write_observations(node_id: str, family: str) -> None:
                     f"{base_url}/version/1.0/parameter/{parameter_key}/station/"
                     f"{station_key}/period/{period_key}/data.csv"
                 )
-                text = _fetch_text(url)
+                text = _fetch_data_text(url)
+                if text is None:
+                    continue
                 for row in _csv_data_rows(text, family, parameter_key, station_key, str(period_key)):
                     row["fetched_at"] = fetched_at
                     out.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
