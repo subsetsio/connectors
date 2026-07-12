@@ -1,0 +1,20 @@
+spec_id: inaturalist-photos
+status: active
+tests:
+  - not_null: photo_uuid
+    reason: photo_uuid is the stable key for photo metadata rows
+    certainty: 95
+  - unique: photo_uuid
+    reason: one row per licensed photo
+    certainty: 90
+  - not_null: observation_uuid
+    reason: every photo row is attached to an observation
+    certainty: 95
+  - not_null: license
+    reason: the open-data bucket contains licensed photos and the license governs reuse
+    certainty: 90
+  - row_count: {min: 100000000}
+    reason: the iNaturalist open dataset contains hundreds of millions of licensed photos
+    certainty: 75
+    points_outward: true
+    severity: warn

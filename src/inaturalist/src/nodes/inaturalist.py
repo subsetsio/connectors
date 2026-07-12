@@ -1,22 +1,12 @@
 """iNaturalist Open Dataset connector.
 
-Mechanism: 'open_data_s3' (chosen by research). The iNaturalist Open Dataset
-publishes the full corpus as gzipped, TAB-separated tables at the root of the
-anonymous public S3 bucket `inaturalist-open-data` (us-east-1). Each table is
-the entire corpus for that entity in one object; there is no pagination and no
-incremental delta on the bulk path — the source republishes a full monthly
-snapshot, so we do a STATELESS FULL RE-PULL each refresh (no watermark, no
-cursor). Two subsets are published: `observations` (~12 GB gzip, 100M+ rows)
-and `taxa` (~39 MB).
+The chosen mechanism is the anonymous public S3 bucket `inaturalist-open-data`.
+Each accepted entity is a full gzipped, tab-separated table at the bucket root.
+The source republishes full monthly snapshots, so downloads are stateless full
+re-pulls with bounded-memory streaming into raw Parquet.
 
-The files are too large to hold in RAM, so each fetch streams the S3 object
-(via s3fs, anonymous), gzip-decompresses on the fly, parses the TSV row by row,
-and writes Parquet in bounded batches through `raw_parquet_writer`. We persist
-every column as a string (TSV nulls are empty strings) and defer all typing to
-the SQL transform via TRY_CAST — robust against drift in a postgres-COPY export.
-
-S3 bulk access uses s3fs (the right tool for multi-GB streaming, shipped in the
-connector deps); `subsets_utils.get` is for the REST fallback we don't use here.
+The TSV files are postgres-style exports. We persist every source column as a
+string and leave typing to the compiled transform/model stage.
 """
 
 import csv
@@ -25,7 +15,13 @@ import io
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer, transient_retry
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    raw_asset_exists,
+    raw_parquet_writer,
+    transient_retry,
+)
 
 BUCKET = "inaturalist-open-data"
 BATCH_ROWS = 500_000
@@ -33,12 +29,46 @@ BATCH_ROWS = 500_000
 # id -> (S3 key, expected header columns). The header is verified against this
 # on every run; a mismatch means the upstream export changed shape and we stop
 # loudly rather than write a misaligned table.
-_TABLES = {
+_TABLES: dict[str, tuple[str, list[str]]] = {
     "inaturalist-observations": (
         "observations.csv.gz",
-        ["observation_uuid", "observer_id", "latitude", "longitude",
-         "positional_accuracy", "taxon_id", "quality_grade", "observed_on",
-         "anomaly_score"],
+        [
+            "observation_uuid",
+            "observer_id",
+            "latitude",
+            "longitude",
+            "positional_accuracy",
+            "taxon_id",
+            "quality_grade",
+            "observed_on",
+            "anomaly_score",
+        ],
+    ),
+    "inaturalist-observations-projects": (
+        "observations_projects.csv.gz",
+        ["observation_uuid", "project_id"],
+    ),
+    "inaturalist-observers": (
+        "observers.csv.gz",
+        ["observer_id", "login", "name"],
+    ),
+    "inaturalist-photos": (
+        "photos.csv.gz",
+        [
+            "photo_uuid",
+            "photo_id",
+            "observation_uuid",
+            "observer_id",
+            "extension",
+            "license",
+            "width",
+            "height",
+            "position",
+        ],
+    ),
+    "inaturalist-projects": (
+        "projects.csv.gz",
+        ["project_id", "title", "slug"],
     ),
     "inaturalist-taxa": (
         "taxa.csv.gz",
@@ -102,43 +132,20 @@ def fetch_table(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id="inaturalist-observations", fn=fetch_table, kind="download"),
-    NodeSpec(id="inaturalist-taxa", fn=fetch_table, kind="download"),
+    NodeSpec(id=spec_id, fn=fetch_table, kind="download")
+    for spec_id in _TABLES
 ]
 
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="inaturalist-observations-transform",
-        deps=["inaturalist-observations"],
-        sql='''
-            SELECT
-                observation_uuid,
-                TRY_CAST(observer_id AS BIGINT)          AS observer_id,
-                TRY_CAST(latitude AS DOUBLE)             AS latitude,
-                TRY_CAST(longitude AS DOUBLE)            AS longitude,
-                TRY_CAST(positional_accuracy AS BIGINT)  AS positional_accuracy,
-                TRY_CAST(taxon_id AS BIGINT)             AS taxon_id,
-                quality_grade,
-                TRY_CAST(observed_on AS DATE)            AS observed_on,
-                TRY_CAST(anomaly_score AS DOUBLE)        AS anomaly_score
-            FROM "inaturalist-observations"
-            WHERE observation_uuid IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="inaturalist-taxa-transform",
-        deps=["inaturalist-taxa"],
-        sql='''
-            SELECT
-                TRY_CAST(taxon_id AS BIGINT)    AS taxon_id,
-                ancestry,
-                TRY_CAST(rank_level AS DOUBLE)  AS rank_level,
-                rank,
-                name,
-                active = 'true'                 AS active
-            FROM "inaturalist-taxa"
-            WHERE taxon_id IS NOT NULL
-        ''',
-    ),
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec_id,
+        description=(
+            "Full metadata snapshots are generated monthly per "
+            "https://github.com/inaturalist/inaturalist-open-data; refresh "
+            "when the local raw copy is older than 25 days."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "parquet", max_age_days=25),
+    )
+    for spec_id in _TABLES
 ]

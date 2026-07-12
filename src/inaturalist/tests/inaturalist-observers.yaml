@@ -1,0 +1,17 @@
+spec_id: inaturalist-observers
+status: active
+tests:
+  - not_null: observer_id
+    reason: observer_id is the primary key of the observer reference table
+    certainty: 95
+  - unique: observer_id
+    reason: one row per observer
+    certainty: 95
+  - not_null: login
+    reason: every observer has a login used for attribution and joins
+    certainty: 90
+  - row_count: {min: 1000000}
+    reason: iNaturalist has millions of observers in the open metadata export
+    certainty: 70
+    points_outward: true
+    severity: warn

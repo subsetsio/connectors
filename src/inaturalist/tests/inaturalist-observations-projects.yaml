@@ -1,0 +1,17 @@
+spec_id: inaturalist-observations-projects
+status: active
+tests:
+  - not_null: observation_uuid
+    reason: every project link references an observation
+    certainty: 95
+  - not_null: project_id
+    reason: every project link references a project
+    certainty: 95
+  - unique: [observation_uuid, project_id]
+    reason: an observation should appear at most once in a given project
+    certainty: 85
+  - row_count: {min: 1000000}
+    reason: iNaturalist projects contain many observation memberships
+    certainty: 70
+    points_outward: true
+    severity: warn

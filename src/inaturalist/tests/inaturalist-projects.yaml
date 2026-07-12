@@ -1,0 +1,22 @@
+spec_id: inaturalist-projects
+status: active
+tests:
+  - not_null: project_id
+    reason: project_id is the primary key of the project reference table
+    certainty: 95
+  - unique: project_id
+    reason: one row per project
+    certainty: 95
+  - not_null: title
+    reason: each project has a display title in the reference export
+    certainty: 85
+    severity: warn
+  - not_null: slug
+    reason: each project has a URL slug in the reference export
+    certainty: 85
+    severity: warn
+  - row_count: {min: 10000}
+    reason: iNaturalist has many public projects
+    certainty: 70
+    points_outward: true
+    severity: warn
