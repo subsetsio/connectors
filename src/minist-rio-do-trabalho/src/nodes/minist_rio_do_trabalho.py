@@ -55,6 +55,12 @@ from subsets_utils import NodeSpec, load_state, raw_writer, save_state
 
 STATE_VERSION = 1
 FTP_ROOT = "ftp://ftp.mtps.gov.br/pdet/microdados/"
+FTP_CURL_FLAGS = [
+    "--ipv4",
+    "--disable-epsv",
+    "--ftp-method",
+    "nocwd",
+]
 
 # FTP transport errors that warrant a retry (network blips, server-temp).
 _FTP_TRANSIENT = (
@@ -91,6 +97,7 @@ def _ftp_list(url: str) -> tuple[list[str], list[str]]:
             "--fail",
             "--silent",
             "--show-error",
+            *FTP_CURL_FLAGS,
             "--connect-timeout",
             "60",
             "--max-time",
@@ -133,6 +140,7 @@ def _ftp_download(url: str, dest: str) -> None:
             "--location",
             "--silent",
             "--show-error",
+            *FTP_CURL_FLAGS,
             "--retry",
             "5",
             "--retry-delay",
@@ -158,6 +166,7 @@ def _ftp_exists(url: str) -> bool:
             "--fail",
             "--silent",
             "--show-error",
+            *FTP_CURL_FLAGS,
             "--connect-timeout",
             "20",
             "--max-time",
