@@ -1,0 +1,18 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "DATAFLOW" AS dataflow,
+    "FREQ: Frequency" AS freq_frequency,
+    "PRODUCTION: Production" AS production_production,
+    "TIME_PERIOD: Time period" AS time_period_time_period,
+    "OBS_VALUE" AS obs_value,
+    "REPYEARSTART: Reporting year start day" AS repyearstart_reporting_year_start_day,
+    "NOTE_YEAR_2: Note year 2" AS note_year_2_note_year_2,
+    "NOTE_YEAR_1: Note year 1" AS note_year_1_note_year_1,
+    "NOTE_PRODUCTION_2: Note Production 2" AS note_production_2_note_production_2,
+    "NOTE_PRODUCTION_1: Note Production 1" AS note_production_1_note_production_1,
+    "OBS_STATUS: Observation status" AS obs_status_observation_status,
+    "DECIMALS: Decimals" AS decimals_decimals
+FROM "statec-df-d2125"

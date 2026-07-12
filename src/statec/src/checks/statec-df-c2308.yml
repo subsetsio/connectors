@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-df-c2308`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period_period, specification_specification]
+checks:
+  - kind: unique
+    columns: [period_period, specification_specification]
+  - kind: not_null
+    col: period_period
+  - kind: not_null
+    col: specification_specification
+  - kind: row_floor
+    min: 20
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

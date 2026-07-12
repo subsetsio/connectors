@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-census-group1-3@df-b1605`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [hst_household_status, age_age_class, har_housing_arrangements, sex_sex]
+checks:
+  - kind: unique
+    columns: [hst_household_status, age_age_class, har_housing_arrangements, sex_sex]
+  - kind: not_null
+    col: hst_household_status
+  - kind: not_null
+    col: age_age_class
+  - kind: not_null
+    col: har_housing_arrangements
+  - kind: not_null
+    col: sex_sex
+  - kind: row_floor
+    min: 630
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

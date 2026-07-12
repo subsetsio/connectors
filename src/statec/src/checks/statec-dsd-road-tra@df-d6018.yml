@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-road-tra@df-d6018`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period_time_period, c_dest_country_of_destination, unit_measure_unit_of_measure, measure_measure, unit_mult_unit_multiplier]
+checks:
+  - kind: unique
+    columns: [time_period_time_period, c_dest_country_of_destination, unit_measure_unit_of_measure, measure_measure, unit_mult_unit_multiplier]
+  - kind: not_null
+    col: time_period_time_period
+  - kind: not_null
+    col: c_dest_country_of_destination
+  - kind: not_null
+    col: unit_measure_unit_of_measure
+  - kind: not_null
+    col: measure_measure
+  - kind: not_null
+    col: unit_mult_unit_multiplier
+  - kind: row_floor
+    min: 472
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

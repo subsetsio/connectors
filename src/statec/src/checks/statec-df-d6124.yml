@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-df-d6124`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [brand_brand, time_period_time_period, vehicle_type_vehicle_type, freq_frequency]
+checks:
+  - kind: unique
+    columns: [brand_brand, time_period_time_period, vehicle_type_vehicle_type, freq_frequency]
+  - kind: not_null
+    col: brand_brand
+  - kind: not_null
+    col: time_period_time_period
+  - kind: not_null
+    col: vehicle_type_vehicle_type
+  - kind: not_null
+    col: freq_frequency
+  - kind: row_floor
+    min: 134300
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

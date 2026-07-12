@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-census-nb-log-cla-occ@df-b1710`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [occ_nb_number_of_occupants, room_nb_occ_number_of_rooms_per_occupant, type_build_dwe_type_of_building]
+checks:
+  - kind: unique
+    columns: [occ_nb_number_of_occupants, room_nb_occ_number_of_rooms_per_occupant, type_build_dwe_type_of_building]
+  - kind: not_null
+    col: occ_nb_number_of_occupants
+  - kind: not_null
+    col: room_nb_occ_number_of_rooms_per_occupant
+  - kind: not_null
+    col: type_build_dwe_type_of_building
+  - kind: row_floor
+    min: 525
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

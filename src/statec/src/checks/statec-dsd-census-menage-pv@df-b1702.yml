@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-census-menage-pv@df-b1702`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo_geographic_level, type_prv_hh_type_of_household]
+checks:
+  - kind: unique
+    columns: [geo_geographic_level, type_prv_hh_type_of_household]
+  - kind: not_null
+    col: geo_geographic_level
+  - kind: not_null
+    col: type_prv_hh_type_of_household
+  - kind: row_floor
+    min: 345
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

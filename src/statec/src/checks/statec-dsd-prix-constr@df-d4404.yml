@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-prix-constr@df-d4404`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period_time_period, constr_trade_construction_trades, building_type_building_type, comment_ts_building_type_detailed_description_of_the_group_of_series_of_building_type]
+checks:
+  - kind: unique
+    columns: [time_period_time_period, constr_trade_construction_trades, building_type_building_type, comment_ts_building_type_detailed_description_of_the_group_of_series_of_building_type]
+  - kind: not_null
+    col: time_period_time_period
+  - kind: not_null
+    col: constr_trade_construction_trades
+  - kind: not_null
+    col: building_type_building_type
+  - kind: not_null
+    col: comment_ts_building_type_detailed_description_of_the_group_of_series_of_building_type
+  - kind: row_floor
+    min: 108
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

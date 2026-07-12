@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-census-nb-log-cla@df-b1706`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [constr_period_dwe_construction_period, type_build_dwe_type_of_building, occ_status_conv_occupancy_status]
+checks:
+  - kind: unique
+    columns: [constr_period_dwe_construction_period, type_build_dwe_type_of_building, occ_status_conv_occupancy_status]
+  - kind: not_null
+    col: constr_period_dwe_construction_period
+  - kind: not_null
+    col: type_build_dwe_type_of_building
+  - kind: not_null
+    col: occ_status_conv_occupancy_status
+  - kind: row_floor
+    min: 140
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

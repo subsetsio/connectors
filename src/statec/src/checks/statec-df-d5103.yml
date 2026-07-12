@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-df-d5103`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sector_sector, canton_canton]
+checks:
+  - kind: unique
+    columns: [sector_sector, canton_canton]
+  - kind: not_null
+    col: sector_sector
+  - kind: not_null
+    col: canton_canton
+  - kind: row_floor
+    min: 420
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

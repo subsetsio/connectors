@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-dsd-postes-vacants@df-d1316`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period_time_period, activity_economic_activity_nace_rev_2]
+checks:
+  - kind: unique
+    columns: [time_period_time_period, activity_economic_activity_nace_rev_2]
+  - kind: not_null
+    col: time_period_time_period
+  - kind: not_null
+    col: activity_economic_activity_nace_rev_2
+  - kind: row_floor
+    min: 240
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

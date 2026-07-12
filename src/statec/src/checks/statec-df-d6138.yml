@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statec-df-d6138`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period_time_period, motor_capacity_engine_size_in_cm3]
+temporal: time_period_time_period
+checks:
+  - kind: unique
+    columns: [time_period_time_period, motor_capacity_engine_size_in_cm3]
+  - kind: not_null
+    col: time_period_time_period
+  - kind: not_null
+    col: motor_capacity_engine_size_in_cm3
+  - kind: row_floor
+    min: 310
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
