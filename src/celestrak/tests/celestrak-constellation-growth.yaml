@@ -1,48 +1,33 @@
 spec_id: celestrak-constellation-growth
 status: active
-# Expectations on the raw SATCAT pull (the full satcat.csv, ~69k objects).
-# All three download nodes fetch the identical SATCAT, so these beliefs hold
-# for each raw asset; the file name is the only thing that differs.
+# Raw table derived from SATCAT payload rows by object-name prefix.
 tests:
-  - not_null: norad_cat_id
-    reason: SATCAT is keyed by NORAD catalog number; every cataloged object carries one
-    certainty: 97
-  - unique: norad_cat_id
-    reason: one row per cataloged space object
+  - not_null: year
+    reason: every aggregate row is keyed by launch year
     certainty: 95
-  - column_type: {col: norad_cat_id, type: integer}
-  - not_null: object_name
-    reason: every SATCAT entry has an object name (TBA placeholder when unnamed)
-    certainty: 90
-  - not_null: object_type
-    reason: each object is classified by type
-    certainty: 90
-  - enum: {col: object_type, values: [PAY, "R/B", DEB, UNK]}
-    reason: SATCAT object-type vocabulary — payload, rocket body, debris, unknown
-    certainty: 88
-  - row_count: {min: 50000, max: 150000}
-    reason: SATCAT holds ~69k objects cataloged since 1957 and grows steadily
-    certainty: 90
-  - freshness: {col: launch_date, reaches: current_year()}
-    reason: CelesTrak SATCAT is updated once or twice daily and should include launches from the current calendar year
-    certainty: 80
-  - matches: {col: launch_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
-    reason: SATCAT launch dates are ISO YYYY-MM-DD strings
+  - not_null: constellation
+    reason: every aggregate row is keyed by inferred constellation name
+    certainty: 95
+  - unique: [constellation, year]
+    reason: the raw aggregate has one row per inferred constellation and launch year
+    certainty: 92
+  - column_type: {col: launched_that_year, type: integer}
+  - column_type: {col: cumulative_total, type: integer}
+  - column_type: {col: active_count, type: integer}
+  - row_count: {min: 200, max: 1000}
+    reason: major named constellations produce a compact annual panel, not object-level rows
+    certainty: 85
+  - freshness: {col: year, reaches: current_year()}
+    reason: CelesTrak SATCAT updates daily and major constellation launches should be represented through the current year
     certainty: 75
-    severity: warn
-  - between: {col: inclination, lo: 0, hi: 180}
-    reason: orbital inclination in degrees, 0 (equatorial) to 180 (retrograde)
-    certainty: 90
-    severity: warn
-  - between: {col: period, lo: 0, hi: 100000}
-    reason: orbital period in minutes; LEO ~90, GEO ~1436, allow margin for HEO/deep orbits
+  - enum: {col: category, values: [communications, navigation, weather, earth_observation]}
+    reason: constellation groups are assigned to the authored broad category vocabulary
+    certainty: 85
+  - between: {col: launched_that_year, lo: 1, hi: 5000}
+    reason: annual launch counts are positive and bounded far below full SATCAT size
     certainty: 80
     severity: warn
-  - between: {col: perigee, lo: -50, hi: 600000}
-    reason: perigee altitude km; allow margin for high orbits and decaying objects
-    certainty: 75
-    severity: warn
-  - between: {col: apogee, lo: -50, hi: 600000}
-    reason: apogee altitude km; allow margin for high/eccentric orbits
-    certainty: 75
+  - between: {col: cumulative_total, lo: 1, hi: 50000}
+    reason: cumulative constellation counts should be positive and bounded below the full catalog size
+    certainty: 80
     severity: warn
