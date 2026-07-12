@@ -7,7 +7,7 @@ the US + 50 states + DC + Puerto Rico (52 FIPS).
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import STATE_FIPS, fetch, iso_to_date
 
 SEVERITY_SCHEMA = pa.schema([
@@ -50,30 +50,3 @@ def fetch_drought_severity(node_id: str) -> None:
     table = pa.Table.from_pylist(rows, schema=SEVERITY_SCHEMA)
     print(f"  {asset}: {len(table):,} rows")
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="us-drought-monitor-drought-severity", fn=fetch_drought_severity, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    # Severity: convert cumulative D0-D4 into exclusive categories so
-    # none + D0..D4 ~ 100%. Negatives from rounding are clamped to zero.
-    SqlNodeSpec(
-        id="us-drought-monitor-drought-severity-transform",
-        deps=["us-drought-monitor-drought-severity"],
-        sql='''
-            SELECT
-                CAST(date AS DATE)                    AS date,
-                region,
-                ROUND(none, 2)                        AS none_pct,
-                ROUND(GREATEST(d0 - d1, 0), 2)        AS d0_pct,
-                ROUND(GREATEST(d1 - d2, 0), 2)        AS d1_pct,
-                ROUND(GREATEST(d2 - d3, 0), 2)        AS d2_pct,
-                ROUND(GREATEST(d3 - d4, 0), 2)        AS d3_pct,
-                ROUND(d4, 2)                          AS d4_pct
-            FROM "us-drought-monitor-drought-severity"
-            WHERE date IS NOT NULL AND region IS NOT NULL
-        ''',
-    ),
-]

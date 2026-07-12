@@ -7,7 +7,7 @@ the US + 50 states + DC + Puerto Rico (52 FIPS).
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import STATE_FIPS, fetch, iso_to_date
 
 # State DSCI rows carry the full state `name`; severity rows carry
@@ -67,23 +67,3 @@ def fetch_dsci(node_id: str) -> None:
     table = pa.Table.from_pylist(rows, schema=DSCI_SCHEMA)
     print(f"  {asset}: {len(table):,} rows")
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="us-drought-monitor-dsci", fn=fetch_dsci, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="us-drought-monitor-dsci-transform",
-        deps=["us-drought-monitor-dsci"],
-        sql='''
-            SELECT
-                CAST(date AS DATE)  AS date,
-                region,
-                CAST(dsci AS INTEGER) AS dsci
-            FROM "us-drought-monitor-dsci"
-            WHERE date IS NOT NULL AND region IS NOT NULL AND dsci IS NOT NULL
-        ''',
-    ),
-]
