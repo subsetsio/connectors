@@ -1,0 +1,23 @@
+spec_id: silso-daily-estimated
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: EISN contains the current month's daily estimates
+    certainty: 95
+  - not_null: year
+  - not_null: month
+  - not_null: day
+  - column_type: {col: year, type: integer}
+  - column_type: {col: estimated_sunspot_number, type: float}
+  - column_type: {col: estimated_std_dev, type: float}
+  - unique: [year, month, day]
+    reason: one estimate per calendar day
+    certainty: 95
+  - between: {col: year, lo: current_year(), hi: current_year()}
+    reason: EISN only covers the current month
+    certainty: 90
+    points_outward: true
+  - freshness: {col: year, reaches: current_year()}
+    reason: EISN is updated daily for the running month
+    certainty: 95
+    points_outward: true

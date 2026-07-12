@@ -1,0 +1,18 @@
+spec_id: silso-yearly-total
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: yearly total series starts in 1700
+    certainty: 95
+  - not_null: year_mid
+  - column_type: {col: year_mid, type: float}
+  - column_type: {col: sunspot_number, type: float}
+  - unique: year_mid
+    reason: one row per year
+    certainty: 95
+  - between: {col: year_mid, lo: 1700, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year_mid, reaches: current_year()}
+    reason: SILSO yearly file carries the current provisional year
+    certainty: 75
+    points_outward: true

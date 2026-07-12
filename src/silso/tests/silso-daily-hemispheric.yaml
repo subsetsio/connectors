@@ -1,0 +1,22 @@
+spec_id: silso-daily-hemispheric
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: daily hemispheric series starts in 1992
+    certainty: 95
+  - not_null: year
+  - not_null: month
+  - not_null: day
+  - column_type: {col: year, type: integer}
+  - column_type: {col: sn_total, type: float}
+  - column_type: {col: sn_north, type: float}
+  - column_type: {col: sn_south, type: float}
+  - unique: [year, month, day]
+    reason: one row per calendar day
+    certainty: 95
+  - between: {col: year, lo: 1992, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: SILSO daily hemispheric series is updated daily
+    certainty: 90
+    points_outward: true

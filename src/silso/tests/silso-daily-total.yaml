@@ -1,0 +1,20 @@
+spec_id: silso-daily-total
+status: active
+tests:
+  - row_count: {min: 70000}
+    reason: daily total series starts in 1818 and should remain a long historical run
+    certainty: 95
+  - not_null: year
+  - not_null: month
+  - not_null: day
+  - column_type: {col: year, type: integer}
+  - column_type: {col: sunspot_number, type: float}
+  - unique: [year, month, day]
+    reason: one row per calendar day
+    certainty: 95
+  - between: {col: year, lo: 1818, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: SILSO daily total is updated daily; max year should be the current year
+    certainty: 90
+    points_outward: true
