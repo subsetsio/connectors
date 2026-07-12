@@ -1,5 +1,8 @@
 spec_id: pecbms-indicators
 status: active
+coverage:
+  frozen: true
+  reason: time_period is a reference label describing the span used for each indicator, not an observation period for this catalog table; annual values carry the freshness test.
 tests:
   - row_count: {min: 10}
   - not_null: indicator_id

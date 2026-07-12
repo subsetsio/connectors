@@ -1,0 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pecbms-species-values`. Regenerate after model-verify.
+key: [species_id, year]
+temporal: year
+sort: [year, species_id]
+columns:
+  - name: species_id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: index_value
+    type: DOUBLE

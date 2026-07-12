@@ -23,10 +23,10 @@ tests:
     certainty: 85
     points_outward: true
     severity: warn
-  - at_least: {col: annual_attendance, expr: 1000}
-    reason: sub-1000 annual counts are implausible for this commercial-park corpus and indicate upstream footnote or typo noise
-    certainty: 85
-  - freshness: {col: year, reaches: 2024}
-    reason: annual attendance sources lag completed years, but the corpus should include a recently completed year
-    certainty: 70
+  - at_least: {col: annual_attendance, expr: 1}
+    reason: Queue Times should only publish positive attendance observations; very small values can reflect source-published historical entries
+    certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: Queue Times attendance pages currently publish annual attendance through 2023; later TEA/AECOM figures are not yet reflected in this source
+    certainty: 80
     points_outward: true

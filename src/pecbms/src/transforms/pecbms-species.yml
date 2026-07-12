@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pecbms-species`. Regenerate after model-verify.
+key: [species_id]
+sort: [species_id]
+columns:
+  - name: species_id
+    type: VARCHAR
+  - name: species_name
+    type: VARCHAR
+  - name: long_term_trend_percent
+    type: BIGINT
+  - name: long_term_slope
+    type: DOUBLE
+  - name: long_term_slope_se
+    type: DOUBLE
+  - name: ten_year_trend_percent
+    type: BIGINT
+  - name: ten_year_slope
+    type: DOUBLE
+  - name: ten_year_slope_se
+    type: DOUBLE
+  - name: habitat
+    type: VARCHAR

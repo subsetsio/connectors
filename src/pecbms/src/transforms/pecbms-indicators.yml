@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pecbms-indicators`. Regenerate after model-verify.
+# caution: Rows mix European, EU, regional, and habitat indicator groups; filter by indicator_group or region before comparing or aggregating indicator results.
+key: [indicator_id]
+temporal: time_period
+sort: [time_period, indicator_id]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: indicator_group
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: species_count
+    type: BIGINT
+  - name: trend_percent
+    type: BIGINT

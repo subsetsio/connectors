@@ -1,0 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pecbms-indicator-values`. Regenerate after model-verify.
+key: [year, indicator_id]
+temporal: year
+sort: [year, indicator_id]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: index_value
+    type: DOUBLE

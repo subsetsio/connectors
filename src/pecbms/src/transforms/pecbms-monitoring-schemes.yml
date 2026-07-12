@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pecbms-monitoring-schemes`. Regenerate after model-verify.
+# caution: Countries can have multiple monitoring schemes, while countries without a scheme are represented by a placeholder row with scheme_index 0.
+key: [country_code, scheme_index]
+sort: [country_code, scheme_index]
+columns:
+  - name: country_code
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: scheme_index
+    type: BIGINT
+  - name: scheme_name
+    type: VARCHAR
+  - name: map_status
+    type: VARCHAR
+  - name: website
+    type: VARCHAR
+  - name: organisation
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: start_year
+    type: BIGINT
+  - name: number_of_fieldworkers
+    type: BIGINT
+  - name: species_count
+    type: BIGINT
+  - name: habitats_record
+    type: VARCHAR
+  - name: methods
+    type: VARCHAR
+  - name: selection_of_plots
+    type: VARCHAR
+  - name: sustainable_support
+    type: VARCHAR
+  - name: reference
+    type: VARCHAR
+  - name: contact
+    type: VARCHAR
+  - name: note
+    type: VARCHAR
