@@ -19,22 +19,26 @@ import openpyxl
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
     get,
+    raw_asset_exists,
+    record_source_signature,
     save_raw_parquet,
-    transient_retry,
+    source_unchanged,
 )
 
 DATASET_DOI = "doi:10.14428/DVN/I0LTPH"
 DATASET_API = "https://dataverse.uclouvain.be/api/datasets/:persistentId/"
+DATASET_METADATA_URL = f"{DATASET_API}?persistentId={DATASET_DOI}"
 ACCESS_BASE = "https://dataverse.uclouvain.be/api/access/datafile"
 
 # The UCLouvain Dataverse is in Belgium; the TLS handshake from a US cloud
 # runner can take well over 10s, so a tight connect timeout spuriously fails.
-# Give connect (and read, for the ~8MB workbook) generous headroom; the retry
-# decorator handles genuine transient stalls on top of this.
-_TIMEOUT = httpx.Timeout(connect=60.0, read=600.0, write=120.0, pool=60.0)
+# Give connect headroom, but fail stalled reads promptly. subsets_utils.get
+# already retries transient failures, so avoid wrapping it in another retry
+# layer that can spend most of a GitHub job on one stuck socket.
+_TIMEOUT = httpx.Timeout(connect=60.0, read=120.0, write=120.0, pool=60.0)
 
 # (source header, destination column, type)  — types: "str" | "int" | "float"
 # Order mirrors the workbook; blanks ('' / None) become nulls.
@@ -92,14 +96,12 @@ _ARROW_TYPE = {"str": pa.string(), "int": pa.int64(), "float": pa.float64()}
 SCHEMA = pa.schema([(dest, _ARROW_TYPE[kind]) for _, dest, kind in COLUMNS])
 
 
-@transient_retry()
-def _fetch_dataset_metadata() -> dict:
+def _fetch_dataset_metadata() -> tuple[dict, httpx.Response]:
     resp = get(DATASET_API, params={"persistentId": DATASET_DOI}, timeout=_TIMEOUT)
     resp.raise_for_status()
-    return resp.json()
+    return resp.json(), resp
 
 
-@transient_retry()
 def _fetch_datafile(file_id: int) -> bytes:
     resp = get(f"{ACCESS_BASE}/{file_id}", timeout=_TIMEOUT)
     resp.raise_for_status()
@@ -152,10 +154,13 @@ def _coerce(value, kind):
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
 
-    metadata = _fetch_dataset_metadata()
+    print("[em-dat] fetching Dataverse metadata", flush=True)
+    metadata, metadata_response = _fetch_dataset_metadata()
     file_id = _resolve_xlsx_file_id(metadata)
+    print(f"[em-dat] downloading workbook datafile {file_id}", flush=True)
     content = _fetch_datafile(file_id)
 
+    print(f"[em-dat] parsing workbook ({len(content)} bytes)", flush=True)
     wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
     ws = wb[wb.sheetnames[0]]
     row_iter = ws.iter_rows(values_only=True)
@@ -184,29 +189,28 @@ def fetch_one(node_id: str) -> None:
     if n_rows == 0:
         raise RuntimeError(f"EM-DAT workbook (file id {file_id}) had no data rows")
 
+    print(f"[em-dat] writing {n_rows} rows to raw parquet", flush=True)
     arrays = [
         pa.array(columns[dest], type=_ARROW_TYPE[kind])
         for _, dest, kind in COLUMNS
     ]
     table = pa.Table.from_arrays(arrays, schema=SCHEMA)
     save_raw_parquet(table, asset)
+    record_source_signature(asset, DATASET_METADATA_URL, response=metadata_response)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="em-dat-events", fn=fetch_one, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="em-dat-events-transform",
-        deps=["em-dat-events"],
-        sql='''
-            SELECT * REPLACE (
-                TRY_CAST(entry_date AS DATE)  AS entry_date,
-                TRY_CAST(last_update AS DATE) AS last_update
-            )
-            FROM "em-dat-events"
-            WHERE dis_no IS NOT NULL
-        ''',
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="em-dat-events",
+        description=(
+            "Updated periodically in UCLouvain Dataverse; skip when the "
+            f"dataset metadata signature for {DATASET_METADATA_URL} is unchanged"
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet")
+        and source_unchanged(aid, DATASET_METADATA_URL, timeout=60.0),
     ),
 ]
