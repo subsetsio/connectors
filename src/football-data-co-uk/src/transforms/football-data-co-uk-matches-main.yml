@@ -1,86 +1,130 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, home_team, away_team, season, division]
+temporal: date
+sort: [date, season, division, home_team, away_team]
 columns:
   - name: season
     type: VARCHAR
+    description: Football-data.co.uk season code, typically spanning two calendar years.
   - name: division
     type: VARCHAR
+    description: Football-data.co.uk division or league code.
   - name: date
     type: DATE
+    description: Match date.
   - name: kickoff_time
     type: VARCHAR
+    description: Scheduled kickoff time as published by the source, when available.
   - name: home_team
     type: VARCHAR
+    description: Home team name.
   - name: away_team
     type: VARCHAR
+    description: Away team name.
   - name: ft_home_goals
     type: INTEGER
+    description: Full-time goals scored by the home team.
   - name: ft_away_goals
     type: INTEGER
+    description: Full-time goals scored by the away team.
   - name: ft_result
     type: VARCHAR
+    description: Full-time result code from the home-team perspective.
   - name: ht_home_goals
     type: INTEGER
+    description: Half-time goals scored by the home team.
   - name: ht_away_goals
     type: INTEGER
+    description: Half-time goals scored by the away team.
   - name: ht_result
     type: VARCHAR
+    description: Half-time result code from the home-team perspective.
   - name: referee
     type: VARCHAR
+    description: Match referee name.
   - name: home_shots
     type: INTEGER
+    description: Home team total shots.
   - name: away_shots
     type: INTEGER
+    description: Away team total shots.
   - name: home_shots_target
     type: INTEGER
+    description: Home team shots on target.
   - name: away_shots_target
     type: INTEGER
+    description: Away team shots on target.
   - name: home_fouls
     type: INTEGER
+    description: Fouls committed by the home team.
   - name: away_fouls
     type: INTEGER
+    description: Fouls committed by the away team.
   - name: home_corners
     type: INTEGER
+    description: Corners won by the home team.
   - name: away_corners
     type: INTEGER
+    description: Corners won by the away team.
   - name: home_yellows
     type: INTEGER
+    description: Yellow cards shown to the home team.
   - name: away_yellows
     type: INTEGER
+    description: Yellow cards shown to the away team.
   - name: home_reds
     type: INTEGER
+    description: Red cards shown to the home team.
   - name: away_reds
     type: INTEGER
+    description: Red cards shown to the away team.
   - name: b365_home
     type: DOUBLE
+    description: Bet365 pre-match home-win odds.
   - name: b365_draw
     type: DOUBLE
+    description: Bet365 pre-match draw odds.
   - name: b365_away
     type: DOUBLE
+    description: Bet365 pre-match away-win odds.
   - name: max_home
     type: DOUBLE
+    description: Maximum available pre-match home-win odds.
   - name: max_draw
     type: DOUBLE
+    description: Maximum available pre-match draw odds.
   - name: max_away
     type: DOUBLE
+    description: Maximum available pre-match away-win odds.
   - name: avg_home
     type: DOUBLE
+    description: Average available pre-match home-win odds.
   - name: avg_draw
     type: DOUBLE
+    description: Average available pre-match draw odds.
   - name: avg_away
     type: DOUBLE
+    description: Average available pre-match away-win odds.
   - name: avg_over_2_5
     type: DOUBLE
+    description: Average available pre-match odds for over 2.5 goals.
   - name: avg_under_2_5
     type: DOUBLE
+    description: Average available pre-match odds for under 2.5 goals.
   - name: avg_close_home
     type: DOUBLE
+    description: Average closing home-win odds.
   - name: avg_close_draw
     type: DOUBLE
+    description: Average closing draw odds.
   - name: avg_close_away
     type: DOUBLE
+    description: Average closing away-win odds.
   - name: asian_handicap_line
     type: DOUBLE
+    description: Asian handicap line.
   - name: avg_ah_home
     type: DOUBLE
+    description: Average Asian handicap home-team odds.
   - name: avg_ah_away
     type: DOUBLE
+    description: Average Asian handicap away-team odds.

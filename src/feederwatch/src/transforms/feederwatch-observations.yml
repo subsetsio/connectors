@@ -2,8 +2,8 @@
 # of raw asset `feederwatch-observations`. Regenerate after model-verify.
 # caution: Each row is a species observation within a submitted checklist at a count location; aggregate counts only after choosing the intended checklist, location, species, and time dimensions.
 key: [sub_id, loc_id, latitude, longitude, species_code]
-temporal: month
-sort: [month, sub_id, loc_id, latitude, longitude, species_code]
+temporal: year
+sort: [year, month, sub_id, loc_id, latitude, longitude, species_code]
 columns:
   - name: loc_id
     type: VARCHAR

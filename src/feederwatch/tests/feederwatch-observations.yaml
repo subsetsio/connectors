@@ -1,12 +1,9 @@
 spec_id: feederwatch-observations
 status: active
 tests:
-  - not_null: OBS_ID
-    reason: every checklist observation row carries its own observation id
-    certainty: 98
-  - unique: OBS_ID
-    reason: OBS_ID is the per-observation primary key across all year-range files; dupes mean a file was double-counted
-    certainty: 88
+  - unique: [SUB_ID, LOC_ID, LATITUDE, LONGITUDE, SPECIES_CODE]
+    reason: verified raw grain is one species observation per submitted checklist at a location
+    certainty: 90
   - not_null: LOC_ID
     reason: every observation is tied to a count location
     certainty: 95
@@ -21,6 +18,9 @@ tests:
   - matches: {col: Year, pattern: '^(19|20)[0-9]{2}$'}
     reason: counts span 1988 to the latest published season
     certainty: 90
+  - freshness: {col: Year, reaches: current_year()}
+    reason: FeederWatch publishes a refreshed full public data release annually, usually around June
+    certainty: 80
   - distinct_count: {col: SPECIES_CODE, min: 100}
     reason: hundreds of species are reported across the corpus
     certainty: 80

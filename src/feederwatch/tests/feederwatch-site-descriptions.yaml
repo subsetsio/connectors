@@ -20,3 +20,6 @@ tests:
   - matches: {col: proj_period_id, pattern: '^PFW_[0-9]{4}$'}
     reason: project period ids look like PFW_2005
     certainty: 85
+  - freshness: {col: proj_period_id, reaches: current_year()}
+    reason: FeederWatch publishes refreshed site-period data with the annual public release
+    certainty: 80

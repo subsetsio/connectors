@@ -1,52 +1,79 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, home_team, away_team, kickoff_time, season]
+temporal: date
+sort: [date, season, country, league, home_team, away_team]
 columns:
   - name: country
     type: VARCHAR
+    description: Country or market grouping from the source file.
   - name: league
     type: VARCHAR
+    description: League name.
   - name: season
     type: VARCHAR
+    description: Football-data.co.uk season code.
   - name: date
     type: DATE
+    description: Match date.
   - name: kickoff_time
     type: VARCHAR
+    description: Scheduled kickoff time as published by the source.
   - name: home_team
     type: VARCHAR
+    description: Home team name.
   - name: away_team
     type: VARCHAR
+    description: Away team name.
   - name: home_goals
     type: INTEGER
+    description: Full-time goals scored by the home team.
   - name: away_goals
     type: INTEGER
+    description: Full-time goals scored by the away team.
   - name: result
     type: VARCHAR
+    description: Full-time result code from the home-team perspective.
   - name: pinnacle_close_home
     type: DOUBLE
+    description: Pinnacle closing home-win odds.
   - name: pinnacle_close_draw
     type: DOUBLE
+    description: Pinnacle closing draw odds.
   - name: pinnacle_close_away
     type: DOUBLE
+    description: Pinnacle closing away-win odds.
   - name: max_close_home
     type: DOUBLE
+    description: Maximum available closing home-win odds.
   - name: max_close_draw
     type: DOUBLE
+    description: Maximum available closing draw odds.
   - name: max_close_away
     type: DOUBLE
+    description: Maximum available closing away-win odds.
   - name: avg_close_home
     type: DOUBLE
+    description: Average available closing home-win odds.
   - name: avg_close_draw
     type: DOUBLE
+    description: Average available closing draw odds.
   - name: avg_close_away
     type: DOUBLE
+    description: Average available closing away-win odds.
   - name: betfair_close_home
     type: DOUBLE
+    description: Betfair Exchange closing home-win odds.
   - name: betfair_close_draw
     type: DOUBLE
+    description: Betfair Exchange closing draw odds.
   - name: betfair_close_away
     type: DOUBLE
+    description: Betfair Exchange closing away-win odds.
   - name: b365_close_home
     type: DOUBLE
+    description: Bet365 closing home-win odds.
   - name: b365_close_draw
     type: DOUBLE
+    description: Bet365 closing draw odds.
   - name: b365_close_away
     type: DOUBLE
+    description: Bet365 closing away-win odds.
