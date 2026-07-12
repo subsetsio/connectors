@@ -15,7 +15,7 @@ SELECT
     CAST("s_east" AS BIGINT) AS s_east,
     CAST("s_north" AS BIGINT) AS s_north,
     "Shape" AS shape,
-    "site_num",
+    CAST(NULL AS VARCHAR) AS site_num,
     "m_code",
     "port_name",
     "pres_2009",

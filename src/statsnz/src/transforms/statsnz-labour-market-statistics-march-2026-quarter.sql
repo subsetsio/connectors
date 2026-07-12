@@ -63,9 +63,9 @@ SELECT
     "Underutilisation" AS underutilisation,
     "Union membership" AS union_membership,
     "Youth age groups" AS youth_age_groups,
-    "Series_title_1" AS series_title_1,
-    "Series_title_2" AS series_title_2,
-    "Series_title_3" AS series_title_3,
-    "Series_title_4" AS series_title_4,
-    "Series_title_5" AS series_title_5
+    CAST(NULL AS VARCHAR) AS series_title_1,
+    CAST(NULL AS VARCHAR) AS series_title_2,
+    CAST(NULL AS VARCHAR) AS series_title_3,
+    CAST(NULL AS VARCHAR) AS series_title_4,
+    CAST(NULL AS VARCHAR) AS series_title_5
 FROM "statsnz-labour-market-statistics-march-2026-quarter"
