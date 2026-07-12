@@ -8,13 +8,15 @@ from subsets_utils import NodeSpec, configure_http, get, save_raw_ndjson
 
 BASE_URL = "https://api.stat.gov.lv/api/v2"
 MAX_CELLS = 10_000
+MAX_CODES_PER_PARAM = 500
 PREFIX = "statistics-latvia-"
 
 
 def _entity_id_from_spec(spec_id: str) -> str:
     suffix = spec_id.removeprefix(PREFIX)
     for entity_id in ENTITY_IDS:
-        if entity_id.lower().replace("_", "-") == suffix:
+        spec_entity_id = entity_id.lower().replace("_", "-")
+        if spec_entity_id == suffix or spec_entity_id.strip() == suffix.strip():
             return entity_id
     raise ValueError(f"unknown Statistics Latvia spec id: {spec_id}")
 
@@ -42,55 +44,95 @@ def _chunk_values(values: list[str], chunk_size: int) -> list[list[str]]:
     return [values[i : i + chunk_size] for i in range(0, len(values), chunk_size)]
 
 
+def _selected_values(metadata: dict, selection: dict[str, str], dim: str) -> list[str]:
+    selected = selection.get(dim)
+    if selected and selected != "*":
+        return selected.split(",")
+    return _dimension_values(metadata, dim)
+
+
+def _selection_cells(metadata: dict, sizes: dict[str, int], selection: dict[str, str]) -> int:
+    return prod(
+        (
+            len(_selected_values(metadata, selection, dim))
+            if selection.get(dim) != "*"
+            else size
+        )
+        for dim, size in sizes.items()
+    )
+
+
 def _build_selections(metadata: dict) -> list[dict[str, str]]:
     sizes = _dimension_sizes(metadata)
     if not sizes:
         return [{}]
 
     all_selection = {dim: "*" for dim in sizes}
-    total_cells = prod(sizes.values())
-    if total_cells <= MAX_CELLS:
+    if _selection_cells(metadata, sizes, all_selection) <= MAX_CELLS:
         return [all_selection]
 
     time_dims = (metadata.get("role") or {}).get("time") or []
-    split_dims = [dim for dim in time_dims if dim in sizes]
-    if not split_dims:
-        split_dims = [
-            dim for dim, _size in sorted(sizes.items(), key=lambda item: item[1], reverse=True)
-        ]
-
     selections = [all_selection]
-    for dim in split_dims:
+    while True:
+        oversized = [
+            selection
+            for selection in selections
+            if _selection_cells(metadata, sizes, selection) > MAX_CELLS
+        ]
+        if not oversized:
+            return selections
+
         next_selections = []
-        dim_values = _dimension_values(metadata, dim)
-        if not dim_values:
-            continue
+        progressed = False
         for selection in selections:
-            current_cells = prod(
-                (sizes[d] if selection.get(d) == "*" else len(selection[d].split(",")))
-                for d in sizes
-            )
+            current_cells = _selection_cells(metadata, sizes, selection)
             if current_cells <= MAX_CELLS:
                 next_selections.append(selection)
                 continue
-            other_cells = max(1, current_cells // sizes[dim])
-            chunk_size = max(1, MAX_CELLS // other_cells)
+
+            dim_values_by_dim = {
+                dim: _selected_values(metadata, selection, dim) for dim in sizes
+            }
+            splittable = [
+                dim for dim, values in dim_values_by_dim.items() if len(values) > 1
+            ]
+            if not splittable:
+                next_selections.append(selection)
+                continue
+
+            dim = max(
+                splittable,
+                key=lambda candidate: (
+                    candidate not in time_dims,
+                    len(dim_values_by_dim[candidate]),
+                ),
+            )
+            dim_values = dim_values_by_dim[dim]
+            other_cells = max(1, current_cells // len(dim_values))
+            chunk_size = max(1, min(MAX_CODES_PER_PARAM, MAX_CELLS // other_cells))
+            if chunk_size >= len(dim_values):
+                next_selections.append(selection)
+                continue
+
+            progressed = True
             for values in _chunk_values(dim_values, chunk_size):
                 chunk = dict(selection)
                 chunk[dim] = ",".join(values)
                 next_selections.append(chunk)
         selections = next_selections
-        if all(
-            prod(
-                (sizes[d] if selection.get(d) == "*" else len(selection[d].split(",")))
-                for d in sizes
-            )
-            <= MAX_CELLS
-            for selection in selections
-        ):
-            break
 
-    return selections
+        if not progressed:
+            too_large = [
+                selection
+                for selection in selections
+                if _selection_cells(metadata, sizes, selection) > MAX_CELLS
+            ]
+            if too_large:
+                raise ValueError(
+                    "could not split table below API maxDataCells limit "
+                    f"({len(too_large)} oversized selection(s))"
+                )
+            return selections
 
 
 def _params(selection: dict[str, str]) -> list[tuple[str, str]]:
