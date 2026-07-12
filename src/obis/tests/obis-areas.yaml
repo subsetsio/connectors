@@ -1,0 +1,15 @@
+spec_id: obis-areas
+status: active
+tests:
+  - not_null: areaid
+  - not_null: area_name
+  - unique: areaid
+    reason: one row per OBIS marine area; area id is the stable identifier
+    certainty: 95
+  - row_count: {min: 700}
+    reason: OBIS reports ~799 named marine areas
+    certainty: 90
+  - enum: {col: area_type, values: [abnj, ebsa, iho, lme, mwhs, obis]}
+    reason: area types come from OBIS's fixed area-type vocabulary
+    certainty: 80
+    severity: warn

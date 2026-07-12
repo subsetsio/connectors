@@ -17,7 +17,6 @@ area, the dataset catalog, and the species checklist.
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     save_raw_parquet,
@@ -91,6 +90,25 @@ _AREA_YEARS_SCHEMA = pa.schema([
     ("records", pa.int64()),
 ])
 
+_AREAS_SCHEMA = pa.schema([
+    ("areaid", pa.string()),
+    ("area_name", pa.string()),
+    ("area_type", pa.string()),
+])
+
+_NODES_SCHEMA = pa.schema([
+    ("nodeid", pa.string()),
+    ("node_name", pa.string()),
+    ("description", pa.string()),
+    ("theme", pa.string()),
+    ("node_type", pa.string()),
+    ("lon", pa.float64()),
+    ("lat", pa.float64()),
+    ("url_count", pa.int32()),
+    ("feed_count", pa.int32()),
+    ("contact_count", pa.int32()),
+])
+
 
 def fetch_statistics_by_year(node_id: str) -> None:
     asset = node_id
@@ -141,6 +159,41 @@ def fetch_statistics_by_area_year(node_id: str) -> None:
                 "records": y.get("records"),
             })
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_AREA_YEARS_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------
+# reference dimensions
+# --------------------------------------------------------------------------
+
+def fetch_areas(node_id: str) -> None:
+    asset = node_id
+    rows = []
+    for ar in _get_json("/area").get("results", []):
+        rows.append({
+            "areaid": str(ar.get("id")) if ar.get("id") is not None else None,
+            "area_name": ar.get("name"),
+            "area_type": ar.get("type"),
+        })
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_AREAS_SCHEMA), asset)
+
+
+def fetch_nodes(node_id: str) -> None:
+    asset = node_id
+    rows = []
+    for nd in _get_json("/node").get("results", []):
+        rows.append({
+            "nodeid": nd.get("id"),
+            "node_name": nd.get("name"),
+            "description": nd.get("description"),
+            "theme": nd.get("theme"),
+            "node_type": nd.get("type"),
+            "lon": nd.get("lon"),
+            "lat": nd.get("lat"),
+            "url_count": len(nd.get("url") or []),
+            "feed_count": len(nd.get("feeds") or []),
+            "contact_count": len(nd.get("contacts") or []),
+        })
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_NODES_SCHEMA), asset)
 
 
 # --------------------------------------------------------------------------
@@ -208,6 +261,8 @@ def fetch_checklist(node_id: str) -> None:
 # --------------------------------------------------------------------------
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="obis-areas", fn=fetch_areas, kind="download"),
+    NodeSpec(id="obis-nodes", fn=fetch_nodes, kind="download"),
     NodeSpec(id="obis-statistics-by-year",
              fn=fetch_statistics_by_year, kind="download"),
     NodeSpec(id="obis-statistics-by-node-year",
@@ -216,106 +271,4 @@ DOWNLOAD_SPECS = [
              fn=fetch_statistics_by_area_year, kind="download"),
     NodeSpec(id="obis-datasets", fn=fetch_datasets, kind="download"),
     NodeSpec(id="obis-checklist", fn=fetch_checklist, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="obis-statistics-by-year-transform",
-        deps=["obis-statistics-by-year"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER) AS year,
-                CAST(records AS BIGINT) AS records
-            FROM "obis-statistics-by-year"
-            WHERE year IS NOT NULL
-            ORDER BY year
-        ''',
-        key=("year",),
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="obis-statistics-by-node-year-transform",
-        deps=["obis-statistics-by-node-year"],
-        sql='''
-            SELECT
-                nodeid,
-                node_name,
-                node_type,
-                CAST(year AS INTEGER) AS year,
-                CAST(records AS BIGINT) AS records
-            FROM "obis-statistics-by-node-year"
-            WHERE nodeid IS NOT NULL AND year IS NOT NULL
-        ''',
-        key=("nodeid", "year"),
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="obis-statistics-by-area-year-transform",
-        deps=["obis-statistics-by-area-year"],
-        sql='''
-            SELECT
-                areaid,
-                area_name,
-                area_type,
-                CAST(year AS INTEGER) AS year,
-                CAST(records AS BIGINT) AS records
-            FROM "obis-statistics-by-area-year"
-            WHERE areaid IS NOT NULL AND year IS NOT NULL
-        ''',
-        key=("areaid", "year"),
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="obis-datasets-transform",
-        deps=["obis-datasets"],
-        sql='''
-            SELECT
-                dataset_id,
-                title,
-                node_names,
-                institutions,
-                license,
-                core,
-                CAST(records AS BIGINT) AS records,
-                CAST(occurrence_count AS BIGINT) AS occurrence_count,
-                CAST(dropped_count AS BIGINT) AS dropped_count,
-                TRY_CAST(published AS TIMESTAMP) AS published,
-                TRY_CAST(created AS TIMESTAMP) AS created,
-                TRY_CAST(updated AS TIMESTAMP) AS updated,
-                extent_wkt,
-                citation
-            FROM "obis-datasets"
-            WHERE dataset_id IS NOT NULL
-        ''',
-        key=("dataset_id",),
-        temporal="updated",
-    ),
-    SqlNodeSpec(
-        id="obis-checklist-transform",
-        deps=["obis-checklist"],
-        sql='''
-            SELECT
-                CAST(taxonID AS BIGINT) AS taxon_id,
-                any_value(scientificName) AS scientific_name,
-                any_value(taxonRank) AS taxon_rank,
-                any_value(taxonomicStatus) AS taxonomic_status,
-                any_value(acceptedNameUsage) AS accepted_name_usage,
-                any_value(kingdom) AS kingdom,
-                any_value(phylum) AS phylum,
-                any_value("class") AS class,
-                any_value("order") AS "order",
-                any_value(family) AS family,
-                any_value(genus) AS genus,
-                any_value(species) AS species,
-                any_value(is_marine) AS is_marine,
-                any_value(is_brackish) AS is_brackish,
-                any_value(is_freshwater) AS is_freshwater,
-                any_value(is_terrestrial) AS is_terrestrial,
-                CAST(SUM(TRY_CAST(records AS BIGINT)) AS BIGINT) AS records
-            FROM "obis-checklist"
-            WHERE taxonID IS NOT NULL
-            GROUP BY taxonID
-        ''',
-        key=("taxon_id",),
-    ),
 ]

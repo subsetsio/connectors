@@ -1,0 +1,21 @@
+spec_id: ocean-health-index-goals
+status: active
+coverage:
+  frozen: true
+  reason: goal taxonomy is extracted from the current scores CSV; it advances only when the annual assessment schema changes
+tests:
+  - not_null: goal
+    reason: every taxonomy row has an OHI goal or sub-goal code
+    certainty: 97
+  - not_null: long_goal
+    reason: every goal code has a human-readable label in the source CSV
+    certainty: 95
+  - column_type: {col: goal, type: string}
+    reason: goal codes include the composite Index plus two- and three-letter goal/sub-goal codes
+    certainty: 95
+  - unique: goal
+    reason: goal is the taxonomy key
+    certainty: 97
+  - distinct_count: {col: goal, min: 15, max: 25}
+    reason: OHI publishes 10 goals, several sub-goals, and the composite Index
+    certainty: 90

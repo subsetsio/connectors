@@ -22,11 +22,11 @@ import csv
 import io
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 SCORES_URL = "https://oceanhealthindex.org/data/scores.csv"
 
-SCHEMA = pa.schema(
+SCORES_SCHEMA = pa.schema(
     [
         ("scenario", pa.int32()),
         ("goal", pa.string()),
@@ -38,11 +38,27 @@ SCHEMA = pa.schema(
     ]
 )
 
+GOALS_SCHEMA = pa.schema(
+    [
+        ("goal", pa.string()),
+        ("long_goal", pa.string()),
+    ]
+)
 
-@transient_retry()
-def _download_csv(url: str) -> bytes:
+REGIONS_SCHEMA = pa.schema(
+    [
+        ("region_id", pa.int32()),
+        ("region_name", pa.string()),
+    ]
+)
+
+
+def _download_csv(url: str, *, range_bytes: int | None = None) -> bytes:
     # Long read timeout: the origin trickles the ~19 MB file at ~100 KB/s.
-    resp = get(url, timeout=(10.0, 600.0))
+    headers = {}
+    if range_bytes is not None:
+        headers["Range"] = f"bytes=0-{range_bytes - 1}"
+    resp = get(url, headers=headers, timeout=(10.0, 600.0))
     resp.raise_for_status()
     return resp.content
 
@@ -64,7 +80,7 @@ def fetch_scores(node_id: str) -> None:
     raw = _download_csv(SCORES_URL)
     reader = csv.DictReader(io.StringIO(raw.decode("utf-8", errors="replace")))
 
-    cols = {k: [] for k in SCHEMA.names}
+    cols = {k: [] for k in SCORES_SCHEMA.names}
     for r in reader:
         cols["scenario"].append(_to_int(r.get("scenario")))
         cols["goal"].append((r.get("goal") or "").strip() or None)
@@ -74,29 +90,57 @@ def fetch_scores(node_id: str) -> None:
         cols["region_name"].append((r.get("region_name") or "").strip() or None)
         cols["value"].append(_to_float(r.get("value")))
 
-    table = pa.table(cols, schema=SCHEMA)
+    table = pa.table(cols, schema=SCORES_SCHEMA)
     save_raw_parquet(table, asset)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="ocean-health-index-scores", fn=fetch_scores, kind="download"),
-]
+def _taxonomy_rows() -> list[dict]:
+    raw = _download_csv(SCORES_URL, range_bytes=2_500_000)
+    text = raw.decode("utf-8", errors="replace")
+    last_newline = text.rfind("\n")
+    if last_newline != -1:
+        text = text[: last_newline + 1]
+    return list(csv.DictReader(io.StringIO(text)))
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ocean-health-index-scores-transform",
-        deps=["ocean-health-index-scores"],
-        sql='''
-            SELECT
-                scenario AS year,
-                goal,
-                long_goal,
-                dimension,
-                region_id,
-                region_name,
-                CAST(value AS DOUBLE) AS value
-            FROM "ocean-health-index-scores"
-            WHERE value IS NOT NULL
-        ''',
-    ),
+
+def fetch_goals(node_id: str) -> None:
+    goals: dict[str, str | None] = {}
+    for row in _taxonomy_rows():
+        goal = (row.get("goal") or "").strip()
+        if goal and goal not in goals:
+            goals[goal] = (row.get("long_goal") or "").strip() or None
+
+    cols = {
+        "goal": [],
+        "long_goal": [],
+    }
+    for goal, long_goal in sorted(goals.items()):
+        cols["goal"].append(goal)
+        cols["long_goal"].append(long_goal)
+
+    save_raw_parquet(pa.table(cols, schema=GOALS_SCHEMA), node_id)
+
+
+def fetch_regions(node_id: str) -> None:
+    regions: dict[int, str | None] = {}
+    for row in _taxonomy_rows():
+        region_id = _to_int(row.get("region_id"))
+        if region_id is not None and region_id not in regions:
+            regions[region_id] = (row.get("region_name") or "").strip() or None
+
+    cols = {
+        "region_id": [],
+        "region_name": [],
+    }
+    for region_id, region_name in sorted(regions.items()):
+        cols["region_id"].append(region_id)
+        cols["region_name"].append(region_name)
+
+    save_raw_parquet(pa.table(cols, schema=REGIONS_SCHEMA), node_id)
+
+
+DOWNLOAD_SPECS = [
+    NodeSpec(id="ocean-health-index-goals", fn=fetch_goals, kind="download"),
+    NodeSpec(id="ocean-health-index-regions", fn=fetch_regions, kind="download"),
+    NodeSpec(id="ocean-health-index-scores", fn=fetch_scores, kind="download"),
 ]

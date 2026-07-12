@@ -1,0 +1,27 @@
+spec_id: ocean-health-index-regions
+status: active
+coverage:
+  frozen: true
+  reason: region taxonomy is extracted from the current scores CSV; it changes only when the global assessment region universe changes
+tests:
+  - not_null: region_id
+    reason: every taxonomy row has an OHI numeric region key
+    certainty: 97
+  - not_null: region_name
+    reason: every region key has a human-readable label in the source CSV
+    certainty: 95
+  - column_type: {col: region_id, type: integer}
+    reason: region_id is the integer OHI region key
+    certainty: 95
+  - column_type: {col: region_name, type: string}
+    reason: region names are text labels
+    certainty: 95
+  - unique: region_id
+    reason: region_id is the taxonomy key
+    certainty: 97
+  - between: {col: region_id, lo: 0, hi: 400}
+    reason: OHI uses small non-negative region ids, including 0 for Global average
+    certainty: 90
+  - distinct_count: {col: region_id, min: 200, max: 260}
+    reason: the global assessment covers about 220 coastal countries and territories plus Global average
+    certainty: 90

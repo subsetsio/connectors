@@ -1,0 +1,23 @@
+spec_id: obis-nodes
+status: active
+tests:
+  - not_null: nodeid
+  - not_null: node_name
+  - unique: nodeid
+    reason: one row per OBIS node; node id is the stable identifier
+    certainty: 95
+  - row_count: {min: 25, max: 60}
+    reason: OBIS currently has ~38 regional/thematic nodes
+    certainty: 90
+  - enum: {col: node_type, values: [regional, thematic, secretariat]}
+    reason: OBIS node type vocabulary observed in the node catalog
+    certainty: 80
+    severity: warn
+  - nullable: {col: lat, max_null_frac: 0.4}
+    reason: most regional/thematic nodes publish point coordinates, but some central entries may omit them
+    certainty: 70
+    severity: warn
+  - nullable: {col: lon, max_null_frac: 0.4}
+    reason: most regional/thematic nodes publish point coordinates, but some central entries may omit them
+    certainty: 70
+    severity: warn
