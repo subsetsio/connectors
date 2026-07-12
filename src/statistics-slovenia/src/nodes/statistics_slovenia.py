@@ -4,12 +4,28 @@ from itertools import product
 import pyarrow as pa
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, configure_http, get, post, save_raw_parquet
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    configure_http,
+    get,
+    post,
+    raw_asset_exists,
+    save_raw_parquet,
+)
 
 
 SLUG = "statistics-slovenia"
 PREFIX = f"{SLUG}-"
 BASE_URL = "https://pxweb.stat.si/SiStatData/api/v1/en/Data"
+MAINTAIN_MAX_AGE_DAYS = 7
+MAINTAIN_DESCRIPTION = (
+    f"Full re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. SURS PxWeb "
+    "does not expose a table-level since/modifiedAfter query parameter, so due "
+    "refreshes re-fetch whole tables; the window also lets continuation legs "
+    "skip raw committed earlier in the same run. Release calendar: "
+    "https://www.stat.si/StatWeb/en/ReleaseCal"
+)
 
 RAW_SCHEMA = pa.schema(
     [
@@ -151,4 +167,18 @@ def fetch_table(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{entity_id.replace('_', '-')}", fn=fetch_table)
     for entity_id in ENTITY_IDS
+]
+
+
+def _is_fresh(asset_id: str) -> bool:
+    return raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=MAINTAIN_DESCRIPTION,
+        check=_is_fresh,
+    )
+    for spec in DOWNLOAD_SPECS
 ]
