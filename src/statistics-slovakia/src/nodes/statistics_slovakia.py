@@ -11,7 +11,7 @@ from constants import ENTITY_IDS
 
 BASE_URL = "https://data.statistics.sk/api/v2"
 SLUG = "statistics-slovakia"
-MAX_CELLS = 9000
+MAX_CELLS = 2000
 MAX_URL_LEN = 1800
 
 RAW_SCHEMA = pa.schema(
@@ -60,8 +60,13 @@ def _dimension_codes(table_code: str, dim_code: str) -> tuple[str, ...]:
     if isinstance(index, dict):
         ordered = sorted(index, key=lambda key: index[key])
     else:
-        labels = category.get("label", {})
-        ordered = list(labels.keys())
+        ordered = [str(code) for code in index]
+        if not ordered:
+            labels = category.get("label", {})
+            if isinstance(labels, dict):
+                ordered = list(labels.keys())
+            elif isinstance(labels, list):
+                ordered = [str(i) for i in range(len(labels))]
     if not ordered:
         raise RuntimeError(f"{table_code}/{dim_code}: dimension has no element codes")
     return tuple(ordered)
@@ -103,12 +108,22 @@ def _ordered_category_codes(dataset: dict, dim_id: str) -> list[str]:
     index = category.get("index", {})
     if isinstance(index, dict):
         return sorted(index, key=lambda key: index[key])
+    ordered = [str(code) for code in index]
+    if ordered:
+        return ordered
     labels = category.get("label", {})
-    return list(labels.keys())
+    if isinstance(labels, dict):
+        return list(labels.keys())
+    if isinstance(labels, list):
+        return [str(i) for i in range(len(labels))]
+    return []
 
 
 def _category_labels(dataset: dict, dim_id: str) -> dict:
-    return dataset.get("dimension", {}).get(dim_id, {}).get("category", {}).get("label", {})
+    labels = dataset.get("dimension", {}).get(dim_id, {}).get("category", {}).get("label", {})
+    if isinstance(labels, list):
+        return {str(i): label for i, label in enumerate(labels) if label is not None}
+    return labels or {}
 
 
 def _iter_rows(table_code: str, dataset: dict, slice_id: str, start_index: int):

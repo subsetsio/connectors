@@ -12,7 +12,7 @@ tests:
   - unique: id
     reason: one row per earthquake event; dupes mean offset pages overlapped or overwrite failed
     certainty: 95
-  - matches: {col: id, pattern: "^iscgem"}
+  - matches: {col: id, pattern: "^iscgem.*"}
     reason: this is the catalog=iscgem mirror; all event ids are iscgem-prefixed
     certainty: 90
   - column_type: {col: latitude, type: float}

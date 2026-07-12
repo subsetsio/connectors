@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 BASE = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 CATALOG = "iscgem"
@@ -132,38 +132,4 @@ def fetch_earthquakes(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="isc-gem-earthquakes", fn=fetch_earthquakes, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="isc-gem-earthquakes-transform",
-        deps=["isc-gem-earthquakes"],
-        # Only the columns the iscgem mirror actually populates with signal are
-        # published. Dropped: num_stations / rms / azimuthal_gap_deg /
-        # min_distance_deg / horizontal_error_km (all-null upstream for this
-        # catalogue) and magnitude_type / event_type / status / location_source /
-        # magnitude_source (constant by construction — every row is an Mw,
-        # reviewed earthquake sourced from iscgem). magType is always Mw, noted
-        # in the catalogue docs rather than carried as a constant column.
-        sql='''
-            SELECT
-                id                                  AS event_id,
-                CAST(time AS TIMESTAMP)             AS time,
-                CAST(latitude AS DOUBLE)            AS latitude,
-                CAST(longitude AS DOUBLE)           AS longitude,
-                CAST(depth AS DOUBLE)               AS depth_km,
-                CAST(mag AS DOUBLE)                 AS magnitude,
-                CAST(magError AS DOUBLE)            AS magnitude_error,
-                CAST(depthError AS DOUBLE)          AS depth_error_km,
-                place,
-                CAST(updated AS TIMESTAMP)          AS updated
-            FROM "isc-gem-earthquakes"
-            WHERE id IS NOT NULL
-              AND time IS NOT NULL
-              AND latitude IS NOT NULL
-              AND longitude IS NOT NULL
-              AND mag IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY id ORDER BY updated DESC) = 1
-        ''',
-    ),
 ]
