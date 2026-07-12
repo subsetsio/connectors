@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `pangaea-glacierlengthsaustria`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dataset_doi, file_name, source_row_number, column_position]
+temporal: observation_year
+checks:
+  - kind: unique
+    columns: [dataset_doi, file_name, source_row_number, column_position]
+  - kind: not_null
+    col: dataset_doi
+  - kind: not_null
+    col: file_name
+  - kind: not_null
+    col: source_row_number
+  - kind: not_null
+    col: column_position
+  - kind: row_floor
+    min: 41539
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,25 +1,35 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `pangaea-glacierlengthsaustria`. Regenerate after model-verify.
-# caution: Raw rows mix source DOI manifest records with long-cell observation records; query cell records for measured glacier length values.
-key: []
+# Cell-level long table parsed from PANGAEA .tab payloads in the GlacierLengthsAustria OAI set.
+key: [dataset_doi, file_name, source_row_number, column_position]
+temporal: observation_year
+sort: [observation_year, dataset_doi, file_name, source_row_number, column_position]
 columns:
-  - name: record_type
-    type: VARCHAR
   - name: collection
     type: VARCHAR
+    description: PANGAEA OAI set collected by this connector.
   - name: source_doi
     type: VARCHAR
+    description: DOI record discovered from the GlacierLengthsAustria OAI set.
   - name: dataset_doi
     type: VARCHAR
+    description: DOI of the parsed tabular dataset, extracted from the file metadata when available.
   - name: file_name
     type: VARCHAR
+    description: Name of the downloaded .tab payload or archive member.
   - name: source_row_number
     type: BIGINT
+    description: One-based row number within the parsed source table.
+  - name: observation_year
+    type: BIGINT
+    description: Year parsed from the Date/Time cell for the same source table row.
   - name: column_position
     type: BIGINT
-  - name: column_name
+    description: One-based column position within the parsed source table.
+  - name: source_column_name
     type: VARCHAR
-  - name: value
+    description: Original PANGAEA source column name, including units or comments where provided.
+  - name: value_text
     type: VARCHAR
+    description: Cell value as published by PANGAEA, kept as text because source columns carry mixed units and types.
   - name: metadata_text
     type: VARCHAR
+    description: Header metadata block from the source .tab file, including citation, coverage, parameters, and license text.
