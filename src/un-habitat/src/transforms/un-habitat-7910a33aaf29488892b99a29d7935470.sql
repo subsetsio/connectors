@@ -25,7 +25,6 @@ SELECT
     "descrip",
     "categoria",
     "Id" AS id,
-    CAST(src."osm_id" AS BIGINT) AS osm_id,
     "highway",
     "longitud_m",
     "ancho_via"
