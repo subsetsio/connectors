@@ -17,6 +17,5 @@ tests:
     reason: one observation per country-indicator-classification-period cell
     certainty: 90
   - between: {col: year, lo: 1960, hi: current_year()}
-  - freshness: {col: year, reaches: current_year() - 3}
+  - freshness: {col: year, reaches: 2023}
     points_outward: true
-

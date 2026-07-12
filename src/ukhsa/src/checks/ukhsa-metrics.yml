@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ukhsa-metrics`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [theme, sub_theme, topic, geography_type, metric]
+checks:
+  - kind: unique
+    columns: [theme, sub_theme, topic, geography_type, metric]
+  - kind: not_null
+    col: theme
+  - kind: not_null
+    col: sub_theme
+  - kind: not_null
+    col: topic
+  - kind: not_null
+    col: geography_type
+  - kind: not_null
+    col: metric
+  - kind: row_floor
+    min: 155
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

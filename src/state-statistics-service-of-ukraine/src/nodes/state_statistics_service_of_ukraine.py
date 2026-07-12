@@ -153,17 +153,47 @@ def _looks_like_sdmx_csv(content: bytes) -> bool:
     return "DATAFLOW" in head and "TIME_PERIOD" in head and "OBS_VALUE" in head and "\n" in head
 
 
-def _csv_row_count(content: bytes) -> int:
+def _normalized_sdmx_csv(content: bytes) -> bytes:
     text = content.decode("utf-8-sig", "replace")
+    reader = csv.reader(io.StringIO(text))
+    rows = []
+    columns = None
+    for row in reader:
+        if not row or not any(cell.strip() for cell in row):
+            continue
+        if columns is None:
+            columns = row
+            rows.append(row)
+            continue
+        if len(row) == len(columns):
+            rows.append(row)
+
+    if columns is None:
+        return b""
+
+    output = io.StringIO()
+    writer = csv.writer(output, lineterminator="\n")
+    writer.writerows(rows)
+    return output.getvalue().encode("utf-8")
+
+
+def _csv_row_count(content: bytes) -> int:
+    normalized = _normalized_sdmx_csv(content)
+    if not normalized:
+        return 0
+    text = normalized.decode("utf-8")
     lines = [line for line in text.splitlines() if line.strip()]
     return max(len(lines) - 1, 0)
 
 
 def _csv_to_table(content: bytes) -> pa.Table:
-    header = content.splitlines()[0].decode("utf-8-sig")
+    normalized = _normalized_sdmx_csv(content)
+    if not normalized:
+        raise ValueError("SDMX-CSV response had no header")
+    header = normalized.splitlines()[0].decode("utf-8")
     columns = next(csv.reader(io.StringIO(header)))
     return pacsv.read_csv(
-        pa.BufferReader(content),
+        pa.BufferReader(normalized),
         read_options=pacsv.ReadOptions(encoding="utf8"),
         convert_options=pacsv.ConvertOptions(
             column_types={column: pa.string() for column in columns},
