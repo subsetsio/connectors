@@ -1,22 +1,20 @@
-# compiled by `hardened compile-checks` — post-publish audit of `meta-uk-social-capital-atlas`.
+# compiled by `hardened compile-checks` — post-publish audit of `nd-gain-trends`.
 # Grain/temporal from the transform contract, row floor from the measured
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [source_file, ds, source_row_number]
-temporal: ds
+key: [iso3, country, measure]
 checks:
   - kind: unique
-    columns: [source_file, ds, source_row_number]
+    columns: [iso3, country, measure]
   - kind: not_null
-    col: source_file
+    col: iso3
   - kind: not_null
-    col: ds
+    col: country
   - kind: not_null
-    col: source_row_number
+    col: measure
   - kind: row_floor
-    min: 84383
+    min: 286
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
-  temporal_monotonic: true

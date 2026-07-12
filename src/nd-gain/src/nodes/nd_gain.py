@@ -32,7 +32,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
 )
@@ -250,80 +249,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="nd-gain-readiness", fn=fetch_readiness, kind="download"),
     NodeSpec(id="nd-gain-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="nd-gain-trends", fn=fetch_trends, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nd-gain-gain-transform",
-        deps=["nd-gain-gain"],
-        sql='''
-            SELECT
-                iso3,
-                country,
-                CAST(year AS INTEGER) AS year,
-                CAST(score AS DOUBLE) AS score
-            FROM "nd-gain-gain"
-            WHERE score IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nd-gain-vulnerability-transform",
-        deps=["nd-gain-vulnerability"],
-        sql='''
-            SELECT
-                iso3,
-                country,
-                CAST(year AS INTEGER) AS year,
-                category,
-                CAST(score AS DOUBLE) AS score
-            FROM "nd-gain-vulnerability"
-            WHERE score IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nd-gain-readiness-transform",
-        deps=["nd-gain-readiness"],
-        sql='''
-            SELECT
-                iso3,
-                country,
-                CAST(year AS INTEGER) AS year,
-                category,
-                CAST(score AS DOUBLE) AS score
-            FROM "nd-gain-readiness"
-            WHERE score IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nd-gain-indicators-transform",
-        deps=["nd-gain-indicators"],
-        sql='''
-            SELECT
-                iso3,
-                country,
-                CAST(year AS INTEGER) AS year,
-                indicator_id,
-                CAST(raw_value AS DOUBLE)   AS raw_value,
-                CAST(input_value AS DOUBLE) AS input_value,
-                CAST(score_value AS DOUBLE) AS score_value
-            FROM "nd-gain-indicators"
-            WHERE raw_value IS NOT NULL
-               OR input_value IS NOT NULL
-               OR score_value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nd-gain-trends-transform",
-        deps=["nd-gain-trends"],
-        sql='''
-            SELECT
-                iso3,
-                country,
-                measure,
-                CAST(value AS DOUBLE) AS value,
-                CAST(sign AS INTEGER) AS sign
-            FROM "nd-gain-trends"
-            WHERE value IS NOT NULL
-        ''',
-    ),
 ]

@@ -1,12 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [iso3, country, year, category]
+temporal: year
+sort: [year, category, iso3, country]
 columns:
   - name: iso3
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country or territory code as published by ND-GAIN.
   - name: country
     type: VARCHAR
+    description: Country or territory name as published by ND-GAIN.
   - name: year
     type: INTEGER
+    description: Observation year.
   - name: category
     type: VARCHAR
+    description: "Readiness category: overall readiness or one of the economic, governance, or social sectors."
   - name: score
     type: DOUBLE
+    description: ND-GAIN readiness score for the category on a 0-1 scale.

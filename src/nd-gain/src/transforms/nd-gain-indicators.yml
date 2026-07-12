@@ -1,16 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [iso3, country, indicator_id, year]
+temporal: year
+sort: [year, indicator_id, iso3, country]
 columns:
   - name: iso3
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country or territory code as published by ND-GAIN.
   - name: country
     type: VARCHAR
+    description: Country or territory name as published by ND-GAIN.
   - name: year
     type: INTEGER
+    description: Observation year.
   - name: indicator_id
     type: VARCHAR
+    description: ND-GAIN indicator identifier from the source indicator folder.
   - name: raw_value
     type: DOUBLE
+    description: Raw source value for the indicator, when published by ND-GAIN.
   - name: input_value
     type: DOUBLE
+    description: Interpolated or input value used by ND-GAIN for index construction.
   - name: score_value
     type: DOUBLE
+    description: Normalized ND-GAIN indicator score on a 0-1 scale.

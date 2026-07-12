@@ -5,7 +5,7 @@
 -- caution: The source-provided row number column0 is part of the row identity because the table unions multiple UK geography and metric files.
 -- caution: Filter to one _source_file before interpreting zip_prediction, lad_code, or measurement_category.
 SELECT
-    "column0",
+    "column0" AS source_row_number,
     "zip_prediction",
     "user_count",
     "average_support_ratio",

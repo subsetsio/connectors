@@ -9,9 +9,5 @@ SELECT
     "user_region",
     "friend_region",
     "scaled_sci",
-    "_source_file" AS source_file,
-    "column0",
-    "column1",
-    "column2",
-    "column3"
+    "_source_file" AS source_file
 FROM "meta-social-connectedness-index"

@@ -1,12 +1,12 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `meta-uk-social-capital-atlas`. Regenerate after model-verify.
-# caution: The source-provided row number column0 is part of the row identity because the table unions multiple UK geography and metric files.
+# caution: The source-provided row number is part of the row identity because the table unions multiple UK geography and metric files.
 # caution: Filter to one _source_file before interpreting zip_prediction, lad_code, or measurement_category.
-key: [source_file, ds, column0]
+key: [source_file, ds, source_row_number]
 temporal: ds
-sort: [ds, source_file, column0]
+sort: [ds, source_file, source_row_number]
 columns:
-  - name: column0
+  - name: source_row_number
     type: BIGINT
   - name: zip_prediction
     type: VARCHAR

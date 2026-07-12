@@ -13,7 +13,8 @@ PAGE_SIZE = 5000
 SLUG = "socialstyrelsen"
 EXT = "ndjson.gz"
 DEFAULT_TIME_BUDGET_S = 20_700.0
-LEG_FRACTION = 0.30
+MAX_LEG_SECONDS = 3_600.0
+DAG_SHUTDOWN_MARGIN_S = 900.0
 
 
 def _fetched_at() -> str:
@@ -31,7 +32,7 @@ def _leg_seconds() -> float:
         budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
-    return budget * LEG_FRACTION
+    return min(MAX_LEG_SECONDS, max(300.0, budget - DAG_SHUTDOWN_MARGIN_S))
 
 
 def _entity_from_node_id(node_id: str) -> str:
@@ -96,8 +97,7 @@ def _enrich_row(
     *,
     entity_id: str,
     subject_name: str,
-    dimensions: list[dict],
-    label_maps: dict[str, dict[str, str]],
+    label_specs: list[tuple[str, str, dict[str, str]]],
     fetched_at: str,
 ) -> dict:
     out = {
@@ -106,25 +106,52 @@ def _enrich_row(
         "fetched_at": fetched_at,
     }
     out.update(row)
+    for key, text_key, labels in label_specs:
+        value = row.get(key)
+        if value is None:
+            continue
+        label = labels.get(str(value))
+        if label is not None:
+            out[text_key] = label
+    return out
+
+
+def _label_specs(dimensions: list[dict], label_maps: dict[str, dict[str, str]]) -> list[tuple[str, str, dict[str, str]]]:
+    specs = []
     for dim in dimensions:
         dim_id = dim.get("namn")
         if not dim_id:
             continue
-        key = _value_key(dim_id)
-        value = row.get(key)
-        if value is None:
-            continue
-        label = label_maps.get(dim_id, {}).get(str(value))
-        if label is not None:
-            out[f"{dim_id}Text"] = label
-    return out
+        labels = label_maps.get(dim_id) or {}
+        if labels:
+            specs.append((_value_key(dim_id), f"{dim_id}Text", labels))
+    return specs
 
 
-def _write_rows(node_id: str, fragment: str, rows: list[dict]) -> None:
+def _write_rows(
+    node_id: str,
+    fragment: str,
+    rows: list[dict],
+    *,
+    entity_id: str,
+    subject_name: str,
+    label_specs: list[tuple[str, str, dict[str, str]]],
+    fetched_at: str,
+) -> int:
+    count = 0
     with raw_writer(node_id, EXT, mode="wt", compression="gzip", fragment=fragment) as out:
         for row in rows:
-            out.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")))
+            enriched = _enrich_row(
+                row,
+                entity_id=entity_id,
+                subject_name=subject_name,
+                label_specs=label_specs,
+                fetched_at=fetched_at,
+            )
+            out.write(json.dumps(enriched, ensure_ascii=False, separators=(",", ":")))
             out.write("\n")
+            count += 1
+    return count
 
 
 def fetch_subject(node_id: str) -> None:
@@ -134,6 +161,7 @@ def fetch_subject(node_id: str) -> None:
 
     subject_name = SUBJECT_NAMES.get(entity_id, entity_id)
     dimensions, label_maps = _build_dimension_maps(entity_id)
+    label_specs = _label_specs(dimensions, label_maps)
     fetched_at = _fetched_at()
     run_id = os.environ.get("RUN_ID", "unknown")
     committed = {
@@ -163,7 +191,7 @@ def fetch_subject(node_id: str) -> None:
             if rows_this_leg and time.monotonic() >= deadline:
                 print(
                     f"  -> {node_id}: leg budget spent after {rows_this_leg:,} rows; "
-                    "committing fragments and continuing"
+                    "committing fragments and requesting continuation"
                 )
                 return True
 
@@ -175,20 +203,16 @@ def fetch_subject(node_id: str) -> None:
                 if not isinstance(rows, list):
                     raise ValueError(f"{entity_id}: page {page} returned no data list")
 
-            enriched_rows = [
-                _enrich_row(
-                    row,
+            if rows:
+                rows_this_leg += _write_rows(
+                    node_id,
+                    fragment,
+                    rows,
                     entity_id=entity_id,
                     subject_name=subject_name,
-                    dimensions=dimensions,
-                    label_maps=label_maps,
+                    label_specs=label_specs,
                     fetched_at=fetched_at,
                 )
-                for row in rows
-            ]
-            if enriched_rows:
-                _write_rows(node_id, fragment, enriched_rows)
-                rows_this_leg += len(enriched_rows)
 
     if rows_this_leg == 0 and not committed:
         raise AssertionError(f"{node_id}: fetched zero result rows")

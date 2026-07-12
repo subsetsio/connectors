@@ -1,12 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [iso3, country, measure]
+sort: [measure, iso3, country]
 columns:
   - name: iso3
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country or territory code as published by ND-GAIN.
   - name: country
     type: VARCHAR
+    description: Country or territory name as published by ND-GAIN.
   - name: measure
     type: VARCHAR
+    description: ND-GAIN headline measure whose historical trend is summarized.
   - name: value
     type: DOUBLE
+    description: Historical trend slope value for the measure.
   - name: sign
     type: INTEGER
+    description: Direction of the historical trend as published by ND-GAIN.
