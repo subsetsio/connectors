@@ -11,6 +11,7 @@ SELECT
     TRY_CAST(TRIM(TotalSnowDepth) AS DOUBLE)         AS total_snow_depth_in,
     TRIM(Flooding)                                   AS flooding,
     TRY_CAST(TRIM(PrecipDurationMin) AS DOUBLE)      AS precip_duration_min,
+    TRY(strptime(TRIM(EntryDateTime), '%Y-%m-%d %I:%M %p'))     AS entry_datetime,
     TRY(strptime(TRIM(DateTimeStamp), '%Y-%m-%d %I:%M %p'))      AS updated_at
 FROM "cocorahs-sigwx-reports"
 WHERE TRY_CAST(TRIM(ObservationDate) AS DATE) IS NOT NULL

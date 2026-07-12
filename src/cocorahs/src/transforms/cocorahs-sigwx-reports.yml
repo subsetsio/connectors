@@ -1,30 +1,46 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [station_number, observation_date, observation_time, entry_datetime]
 temporal: observation_date
-sort: [observation_date]
+sort: [observation_date, station_number, observation_time, entry_datetime]
 columns:
   - name: station_number
     type: VARCHAR
+    description: CoCoRaHS station identifier.
   - name: station_name
     type: VARCHAR
+    description: Station display name at the time of export.
   - name: state
     type: VARCHAR
+    description: Two-letter state or territory code used for the export partition.
   - name: observation_date
     type: DATE
+    description: Local date of the significant-weather report.
   - name: observation_time
     type: VARCHAR
+    description: Observer-reported local observation time.
   - name: latitude
     type: DOUBLE
+    description: Station latitude in decimal degrees.
   - name: longitude
     type: DOUBLE
+    description: Station longitude in decimal degrees.
   - name: total_precip_in
     type: DOUBLE
+    description: Precipitation amount associated with the significant-weather report, in inches.
   - name: new_snow_in
     type: DOUBLE
+    description: New snow depth associated with the report, in inches.
   - name: total_snow_depth_in
     type: DOUBLE
+    description: Total snow depth on the ground, in inches.
   - name: flooding
     type: VARCHAR
+    description: Observer-reported flooding category or indicator.
   - name: precip_duration_min
     type: DOUBLE
+    description: Reported precipitation duration, in minutes.
+  - name: entry_datetime
+    type: TIMESTAMP
+    description: Timestamp when the observer entered the significant-weather report.
   - name: updated_at
     type: TIMESTAMP
+    description: Timestamp carried by the CoCoRaHS export for this report row.

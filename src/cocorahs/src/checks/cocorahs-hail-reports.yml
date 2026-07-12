@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cocorahs-hail-reports`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [station_number, observation_date, observation_time, entry_datetime]
+temporal: observation_date
+checks:
+  - kind: unique
+    columns: [station_number, observation_date, observation_time, entry_datetime]
+  - kind: not_null
+    col: station_number
+  - kind: not_null
+    col: observation_date
+  - kind: not_null
+    col: observation_time
+  - kind: not_null
+    col: entry_datetime
+  - kind: row_floor
+    min: 27438
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

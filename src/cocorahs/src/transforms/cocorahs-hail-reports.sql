@@ -16,6 +16,7 @@ SELECT
     TRY_CAST(TRIM(NumberOfStonesOnPad) AS DOUBLE)    AS number_of_stones_on_pad,
     TRY_CAST(TRIM(DepthOnGround) AS DOUBLE)          AS depth_on_ground_in,
     NULLIF(TRIM(Damage), '')                         AS damage,
+    TRY(strptime(TRIM(EntryDateTime), '%Y-%m-%d %I:%M %p'))     AS entry_datetime,
     TRY(strptime(TRIM(DateTimeStamp), '%Y-%m-%d %I:%M %p'))      AS updated_at
 FROM "cocorahs-hail-reports"
 WHERE TRY_CAST(TRIM(ObservationDate) AS DATE) IS NOT NULL

@@ -1,40 +1,61 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [station_number, observation_date, observation_time, entry_datetime]
 temporal: observation_date
-sort: [observation_date]
+sort: [observation_date, station_number, observation_time, entry_datetime]
 columns:
   - name: station_number
     type: VARCHAR
+    description: CoCoRaHS station identifier.
   - name: station_name
     type: VARCHAR
+    description: Station display name at the time of export.
   - name: state
     type: VARCHAR
+    description: Two-letter state or territory code used for the export partition.
   - name: observation_date
     type: DATE
+    description: Local date of the hail event observation.
   - name: observation_time
     type: VARCHAR
+    description: Observer-reported local observation time.
   - name: latitude
     type: DOUBLE
+    description: Station latitude in decimal degrees.
   - name: longitude
     type: DOUBLE
+    description: Station longitude in decimal degrees.
   - name: smallest_size_in
     type: DOUBLE
+    description: Smallest reported hailstone size, in inches.
   - name: average_size_in
     type: DOUBLE
+    description: Average reported hailstone size, in inches.
   - name: largest_size_in
     type: DOUBLE
+    description: Largest reported hailstone size, in inches.
   - name: duration_minutes
     type: DOUBLE
+    description: Reported hail duration, in minutes.
   - name: timing
     type: VARCHAR
+    description: Observer-provided timing description for the hail event.
   - name: stone_consistency
     type: VARCHAR
+    description: Reported consistency or texture of hailstones.
   - name: more_rain_than_hail
     type: VARCHAR
+    description: Indicator describing whether rain exceeded hail during the event.
   - name: number_of_stones_on_pad
     type: DOUBLE
+    description: Count of hailstones recorded on the hail pad, when supplied.
   - name: depth_on_ground_in
     type: DOUBLE
+    description: Reported hail depth on the ground, in inches.
   - name: damage
     type: VARCHAR
+    description: Free-text or coded damage description from the hail report.
+  - name: entry_datetime
+    type: TIMESTAMP
+    description: Timestamp when the observer entered the hail report.
   - name: updated_at
     type: TIMESTAMP
+    description: Timestamp carried by the CoCoRaHS export for this report row.

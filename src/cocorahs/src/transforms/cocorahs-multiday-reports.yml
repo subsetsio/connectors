@@ -1,26 +1,40 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [station_number, start_date, end_datetime, entry_datetime]
 temporal: start_date
-sort: [start_date]
+sort: [start_date, station_number, end_datetime, entry_datetime]
 columns:
   - name: station_number
     type: VARCHAR
+    description: CoCoRaHS station identifier.
   - name: station_name
     type: VARCHAR
+    description: Station display name at the time of export.
   - name: state
     type: VARCHAR
+    description: Two-letter state or territory code used for the export partition.
   - name: start_date
     type: DATE
+    description: First local date covered by the multi-day accumulation report.
   - name: end_datetime
     type: TIMESTAMP
+    description: Local ending date and time for the multi-day accumulation report.
   - name: latitude
     type: DOUBLE
+    description: Station latitude in decimal degrees.
   - name: longitude
     type: DOUBLE
+    description: Station longitude in decimal degrees.
   - name: total_precip_in
     type: DOUBLE
+    description: Total precipitation accumulated over the multi-day span, in inches.
   - name: total_snow_depth_in
     type: DOUBLE
+    description: Total snow depth on the ground, in inches.
   - name: total_snow_swe_in
     type: DOUBLE
+    description: Snow water equivalent of total snow on the ground, in inches.
+  - name: entry_datetime
+    type: TIMESTAMP
+    description: Timestamp when the observer entered the multi-day report.
   - name: updated_at
     type: TIMESTAMP
+    description: Timestamp carried by the CoCoRaHS export for this report row.

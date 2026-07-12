@@ -20,7 +20,6 @@ import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_ndjson,
@@ -139,78 +138,4 @@ def fetch_observations(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="cobs-comets", fn=fetch_comets, kind="download"),
     NodeSpec(id="cobs-observations", fn=fetch_observations, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cobs-comets-transform",
-        deps=["cobs-comets"],
-        sql='''
-            SELECT
-                CAST(id AS BIGINT)                      AS comet_id,
-                type                                    AS comet_type,
-                name,
-                fullname,
-                mpc_name,
-                icq_name,
-                component,
-                TRY_CAST(current_mag AS DOUBLE)         AS current_mag,
-                TRY_CAST(perihelion_date AS TIMESTAMP)  AS perihelion_date,
-                TRY_CAST(perihelion_mag AS DOUBLE)      AS perihelion_mag,
-                TRY_CAST(peak_mag AS DOUBLE)            AS peak_mag,
-                TRY_CAST(peak_mag_date AS DATE)         AS peak_mag_date,
-                CAST(is_observed AS BOOLEAN)            AS is_observed,
-                CAST(is_active AS BOOLEAN)              AS is_active
-            FROM "cobs-comets"
-            WHERE id IS NOT NULL
-        ''',
-        key=("comet_id",),
-        temporal="perihelion_date",
-    ),
-    SqlNodeSpec(
-        id="cobs-observations-transform",
-        deps=["cobs-observations"],
-        sql='''
-            SELECT
-                TRY_CAST(obs_date AS TIMESTAMP)             AS obs_date,
-                CAST(comet_id AS BIGINT)                    AS comet_id,
-                comet_name,
-                comet_fullname,
-                comet_mpc_name,
-                comet_icq_name,
-                obs_type,
-                observer_icq_name,
-                observer_first_name,
-                observer_last_name,
-                observer_association,
-                observer_country,
-                TRY_CAST(magnitude AS DOUBLE)              AS magnitude,
-                TRY_CAST(magnitude_error AS DOUBLE)        AS magnitude_error,
-                comet_visibility,
-                obs_method_key,
-                obs_method_name,
-                ref_catalog_key,
-                TRY_CAST(instrument_aperture AS DOUBLE)    AS instrument_aperture,
-                TRY_CAST(instrument_focal_ratio AS DOUBLE) AS instrument_focal_ratio,
-                TRY_CAST(instrument_power AS DOUBLE)       AS instrument_power,
-                instrument_type_key,
-                TRY_CAST(coma_diameter AS DOUBLE)          AS coma_diameter,
-                TRY_CAST(coma_dc AS DOUBLE)                AS coma_dc,
-                TRY_CAST(tail_length AS DOUBLE)            AS tail_length,
-                tail_length_unit,
-                TRY_CAST(tail_pa AS DOUBLE)                AS tail_pa,
-                camera_type_key,
-                chip_type_key,
-                software_type_key,
-                icq_reference,
-                extinction,
-                TRY_CAST(integration_time AS DOUBLE)       AS integration_time,
-                TRY_CAST(date_added AS TIMESTAMP)          AS date_added
-            FROM "cobs-observations"
-            WHERE obs_date IS NOT NULL AND comet_id IS NOT NULL
-        ''',
-        key=(),
-        temporal="obs_date",
-    ),
 ]

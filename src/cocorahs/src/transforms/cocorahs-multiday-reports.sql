@@ -9,6 +9,7 @@ SELECT
     TRY_CAST(TRIM(TotalPrecipAmt) AS DOUBLE)         AS total_precip_in,
     TRY_CAST(TRIM(TotalSnowDepth) AS DOUBLE)         AS total_snow_depth_in,
     TRY_CAST(TRIM(TotalSnowSWE) AS DOUBLE)           AS total_snow_swe_in,
+    TRY(strptime(TRIM(EntryDateTime), '%Y-%m-%d %I:%M %p'))     AS entry_datetime,
     TRY(strptime(TRIM(DateTimeStamp), '%Y-%m-%d %I:%M %p'))      AS updated_at
 FROM "cocorahs-multiday-reports"
 WHERE TRY_CAST(TRIM(StartDate) AS DATE) IS NOT NULL
