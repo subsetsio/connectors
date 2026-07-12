@@ -10,11 +10,11 @@ SELECT DISTINCT
     stratum,
     sex,
     age,
-    CAST(year AS INTEGER)            AS year,
-    CAST(month AS INTEGER)           AS month,
-    CAST(epiweek AS INTEGER)         AS epiweek,
-    CAST(date AS DATE)               AS date,
-    CAST(metric_value AS DOUBLE)     AS metric_value,
+    CAST(year AS INTEGER)        AS year,
+    CAST(month AS INTEGER)       AS month,
+    CAST(epiweek AS INTEGER)     AS epiweek,
+    CAST(date AS DATE)           AS date,
+    CAST(metric_value AS DOUBLE) AS metric_value,
     in_reporting_delay_period
 FROM "ukhsa-values"
 WHERE date IS NOT NULL
