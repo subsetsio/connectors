@@ -43,7 +43,7 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     dataset_id = _entity_id(node_id)
     content = _download_csv(dataset_id)
-    df = pd.read_csv(BytesIO(content))
+    df = pd.read_csv(BytesIO(content), dtype="string")
     out = BytesIO()
     df.to_parquet(out, index=False)
     save_raw_file(out.getvalue(), asset, extension="parquet")
