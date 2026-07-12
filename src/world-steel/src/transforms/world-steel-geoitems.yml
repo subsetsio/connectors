@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-steel-geoitems`. Regenerate after model-verify.
+# caution: Includes both countries and regional aggregate geographies; filter or group by the geography metadata before summing observations joined from the values table.
+key: [geoitem_id]
+sort: [geoitem_id]
+columns:
+  - name: geoitem_id
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: wsa
+    type: BIGINT
+  - name: order_id
+    type: BIGINT
+  - name: color
+    type: VARCHAR
+  - name: regions_json
+    type: VARCHAR
+  - name: children_json
+    type: VARCHAR
+  - name: metadata_json
+    type: VARCHAR
