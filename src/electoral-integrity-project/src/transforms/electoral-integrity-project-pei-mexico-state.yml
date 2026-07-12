@@ -1,579 +1,585 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `electoral-integrity-project-pei-mexico-state`. Regenerate after model-verify.
+# caution: Rows are state-level aggregates for a single Mexican election study, not a national time series.
+key: [election]
+temporal: year
+sort: [year, election]
 columns:
-  - name: "estado"
+  - name: estado
     type: VARCHAR
-  - name: "election"
+  - name: election
     type: VARCHAR
-  - name: "year"
+  - name: year
     type: BIGINT
-  - name: "STATEDATA"
+  - name: statedata
     type: DOUBLE
-  - name: "Eleccin"
+  - name: eleccin
     type: VARCHAR
-  - name: "Ganador"
+  - name: ganador
     type: VARCHAR
-  - name: "participation"
+  - name: participation
     type: DOUBLE
-  - name: "population"
+  - name: population
     type: BIGINT
-  - name: "GDP"
+  - name: gdp
     type: BIGINT
-  - name: "GDPpc"
+  - name: gdppc
     type: DOUBLE
-  - name: "contacted"
+  - name: contacted
     type: BIGINT
-  - name: "numresponses"
+  - name: numresponses
     type: BIGINT
-  - name: "responserate"
+  - name: responserate
     type: DOUBLE
-  - name: "OVERALLINTEGRITY"
+  - name: overallintegrity
     type: DOUBLE
-  - name: "PEIIndexp"
+  - name: peiindexp
     type: DOUBLE
-  - name: "PEIIndexp_lci"
+  - name: peiindexp_lci
     type: DOUBLE
-  - name: "PEIIndexp_hci"
+  - name: peiindexp_hci
     type: DOUBLE
-  - name: "PEIIndexi"
+  - name: peiindexi
     type: DOUBLE
-  - name: "PEIIndexi_lci"
+  - name: peiindexi_lci
     type: DOUBLE
-  - name: "PEIIndexi_hci"
+  - name: peiindexi_hci
     type: DOUBLE
-  - name: "PEIIndex_rank"
+  - name: peiindex_rank
     type: BIGINT
-  - name: "PEItype"
+  - name: peitype
     type: BIGINT
-  - name: "rating"
+  - name: rating
     type: DOUBLE
-  - name: "rating_lci"
+  - name: rating_lci
     type: DOUBLE
-  - name: "rating_hci"
+  - name: rating_hci
     type: DOUBLE
-  - name: "LAWS"
+  - name: laws
     type: DOUBLE
-  - name: "lawsunfair"
+  - name: lawsunfair
     type: DOUBLE
-  - name: "lawsunfair2"
+  - name: lawsunfair2
     type: DOUBLE
-  - name: "favoredincumbent"
+  - name: favoredincumbent
     type: DOUBLE
-  - name: "favoredincumbent2"
+  - name: favoredincumbent2
     type: DOUBLE
-  - name: "citizens"
+  - name: citizens
     type: DOUBLE
-  - name: "citizens2"
+  - name: citizens2
     type: DOUBLE
-  - name: "laws0"
+  - name: laws0
     type: DOUBLE
-  - name: "lawsi"
+  - name: lawsi
     type: DOUBLE
-  - name: "PROCEDURES"
+  - name: procedures
     type: DOUBLE
-  - name: "managed"
+  - name: managed
     type: DOUBLE
-  - name: "votinginfo"
+  - name: votinginfo
     type: DOUBLE
-  - name: "fairofficials"
+  - name: fairofficials
     type: DOUBLE
-  - name: "legalelections"
+  - name: legalelections
     type: DOUBLE
-  - name: "procedures0"
+  - name: procedures0
     type: DOUBLE
-  - name: "proceduresi"
+  - name: proceduresi
     type: DOUBLE
-  - name: "BOUNDARIES"
+  - name: boundaries
     type: DOUBLE
-  - name: "bdiscrim"
+  - name: bdiscrim
     type: DOUBLE
-  - name: "bdiscrim2"
+  - name: bdiscrim2
     type: DOUBLE
-  - name: "bfavored"
+  - name: bfavored
     type: DOUBLE
-  - name: "bfavored2"
+  - name: bfavored2
     type: DOUBLE
-  - name: "bimpartial"
+  - name: bimpartial
     type: DOUBLE
-  - name: "boundaries0"
+  - name: boundaries0
     type: DOUBLE
-  - name: "boundariesi"
+  - name: boundariesi
     type: DOUBLE
-  - name: "VOTERREGISTRATION"
+  - name: voterregistration
     type: DOUBLE
-  - name: "reglisted"
+  - name: reglisted
     type: DOUBLE
-  - name: "reglisted2"
+  - name: reglisted2
     type: DOUBLE
-  - name: "reginaccurate"
+  - name: reginaccurate
     type: DOUBLE
-  - name: "reginaccurate2"
+  - name: reginaccurate2
     type: DOUBLE
-  - name: "ineligible"
+  - name: ineligible
     type: DOUBLE
-  - name: "ineligible2"
+  - name: ineligible2
     type: DOUBLE
-  - name: "votereg"
+  - name: votereg
     type: DOUBLE
-  - name: "voteregi"
+  - name: voteregi
     type: DOUBLE
-  - name: "PARTYREGISTRATION"
+  - name: partyregistration
     type: DOUBLE
-  - name: "oppprevent"
+  - name: oppprevent
     type: DOUBLE
-  - name: "oppprevent2"
+  - name: oppprevent2
     type: DOUBLE
-  - name: "womenopp"
+  - name: womenopp
     type: DOUBLE
-  - name: "minorityopp"
+  - name: minorityopp
     type: DOUBLE
-  - name: "leaderselect"
+  - name: leaderselect
     type: DOUBLE
-  - name: "leaderselect2"
+  - name: leaderselect2
     type: DOUBLE
-  - name: "rallies"
+  - name: rallies
     type: DOUBLE
-  - name: "rallies2"
+  - name: rallies2
     type: DOUBLE
-  - name: "partyreg"
+  - name: partyreg
     type: DOUBLE
-  - name: "partyregi"
+  - name: partyregi
     type: DOUBLE
-  - name: "MEDIACOVERAGE"
+  - name: mediacoverage
     type: DOUBLE
-  - name: "newspapers"
+  - name: newspapers
     type: DOUBLE
-  - name: "tv"
+  - name: tv
     type: DOUBLE
-  - name: "tv2"
+  - name: tv2
     type: DOUBLE
-  - name: "fairaccess"
+  - name: fairaccess
     type: DOUBLE
-  - name: "faircoverage"
+  - name: faircoverage
     type: DOUBLE
-  - name: "socialmedia"
+  - name: socialmedia
     type: DOUBLE
-  - name: "media"
+  - name: media
     type: DOUBLE
-  - name: "mediai"
+  - name: mediai
     type: DOUBLE
-  - name: "CAMPAIGNFINANCE"
+  - name: campaignfinance
     type: DOUBLE
-  - name: "subsidies"
+  - name: subsidies
     type: DOUBLE
-  - name: "donations"
+  - name: donations
     type: DOUBLE
-  - name: "accounts"
+  - name: accounts
     type: DOUBLE
-  - name: "rich"
+  - name: rich
     type: DOUBLE
-  - name: "rich2"
+  - name: rich2
     type: DOUBLE
-  - name: "resources"
+  - name: resources
     type: DOUBLE
-  - name: "resources2"
+  - name: resources2
     type: DOUBLE
-  - name: "finance"
+  - name: finance
     type: DOUBLE
-  - name: "financei"
+  - name: financei
     type: DOUBLE
-  - name: "VOTINGPROCESS"
+  - name: votingprocess
     type: DOUBLE
-  - name: "violence"
+  - name: violence
     type: DOUBLE
-  - name: "violence2"
+  - name: violence2
     type: DOUBLE
-  - name: "fraudulent"
+  - name: fraudulent
     type: DOUBLE
-  - name: "fraudulent2"
+  - name: fraudulent2
     type: DOUBLE
-  - name: "easy"
+  - name: easy
     type: DOUBLE
-  - name: "choice"
+  - name: choice
     type: DOUBLE
-  - name: "postal"
+  - name: postal
     type: DOUBLE
-  - name: "disabled"
+  - name: disabled
     type: DOUBLE
-  - name: "expats"
+  - name: expats
     type: DOUBLE
-  - name: "internet"
+  - name: internet
     type: DOUBLE
-  - name: "voting"
+  - name: voting
     type: DOUBLE
-  - name: "votingi"
+  - name: votingi
     type: DOUBLE
-  - name: "VOTECOUNT"
+  - name: votecount
     type: DOUBLE
-  - name: "secure"
+  - name: secure
     type: DOUBLE
-  - name: "delay"
+  - name: delay
     type: DOUBLE
-  - name: "faircount"
+  - name: faircount
     type: DOUBLE
-  - name: "intlmonitors"
+  - name: intlmonitors
     type: DOUBLE
-  - name: "intlmonitors2"
+  - name: intlmonitors2
     type: DOUBLE
-  - name: "domesticmonitors"
+  - name: domesticmonitors
     type: DOUBLE
-  - name: "domesticmonitors2"
+  - name: domesticmonitors2
     type: DOUBLE
-  - name: "count"
+  - name: count
     type: DOUBLE
-  - name: "counti"
+  - name: counti
     type: DOUBLE
-  - name: "VOTINGRESULTS"
+  - name: votingresults
     type: DOUBLE
-  - name: "challenged"
+  - name: challenged
     type: DOUBLE
-  - name: "challenged2"
+  - name: challenged2
     type: DOUBLE
-  - name: "protestspeace"
+  - name: protestspeace
     type: DOUBLE
-  - name: "protestspeace2"
+  - name: protestspeace2
     type: DOUBLE
-  - name: "protestsviolent"
+  - name: protestsviolent
     type: DOUBLE
-  - name: "protestsviolent2"
+  - name: protestsviolent2
     type: DOUBLE
-  - name: "disputes"
+  - name: disputes
     type: DOUBLE
-  - name: "results"
+  - name: results
     type: DOUBLE
-  - name: "resultsi"
+  - name: resultsi
     type: DOUBLE
-  - name: "ELECTIONAUTHORITIES"
+  - name: electionauthorities
     type: DOUBLE
-  - name: "impartial"
+  - name: impartial
     type: DOUBLE
-  - name: "info"
+  - name: info
     type: DOUBLE
-  - name: "scrutiny"
+  - name: scrutiny
     type: DOUBLE
-  - name: "performance"
+  - name: performance
     type: DOUBLE
-  - name: "EMBs"
+  - name: embs
     type: DOUBLE
-  - name: "EMBsi"
+  - name: embsi
     type: DOUBLE
-  - name: "GENERALQUESTIONS"
+  - name: generalquestions
     type: DOUBLE
-  - name: "familiarity"
+  - name: familiarity
     type: DOUBLE
-  - name: "important"
+  - name: important
     type: DOUBLE
-  - name: "ORGCONFIDENCE"
+  - name: orgconfidence
     type: DOUBLE
-  - name: "courts"
+  - name: courts
     type: DOUBLE
-  - name: "gobernador"
+  - name: gobernador
     type: DOUBLE
-  - name: "localdips"
+  - name: localdips
     type: DOUBLE
-  - name: "armyforces"
+  - name: armyforces
     type: DOUBLE
-  - name: "statepolice"
+  - name: statepolice
     type: DOUBLE
-  - name: "localelecauth"
+  - name: localelecauth
     type: DOUBLE
-  - name: "statetv"
+  - name: statetv
     type: DOUBLE
-  - name: "statepress"
+  - name: statepress
     type: DOUBLE
-  - name: "stateparties"
+  - name: stateparties
     type: DOUBLE
-  - name: "BACKGROUND"
+  - name: background
     type: DOUBLE
-  - name: "employment"
+  - name: employment
     type: DOUBLE
-  - name: "public"
+  - name: public
     type: BIGINT
-  - name: "university"
+  - name: university
     type: BIGINT
-  - name: "nonprofit"
+  - name: nonprofit
     type: DOUBLE
-  - name: "agency"
+  - name: agency
     type: DOUBLE
-  - name: "private"
+  - name: private
     type: DOUBLE
-  - name: "occupation"
+  - name: occupation
     type: DOUBLE
-  - name: "agegroup"
+  - name: agegroup
     type: DOUBLE
-  - name: "sex"
+  - name: sex
     type: DOUBLE
-  - name: "education"
+  - name: education
     type: DOUBLE
-  - name: "born"
+  - name: born
     type: DOUBLE
-  - name: "lived"
+  - name: lived
     type: DOUBLE
-  - name: "candidate"
+  - name: candidate
     type: DOUBLE
-  - name: "rep"
+  - name: rep
     type: DOUBLE
-  - name: "activist"
+  - name: activist
     type: DOUBLE
-  - name: "ngo"
+  - name: ngo
     type: DOUBLE
-  - name: "voted"
+  - name: voted
     type: DOUBLE
-  - name: "norole"
+  - name: norole
     type: DOUBLE
-  - name: "natelecmonitor"
+  - name: natelecmonitor
     type: DOUBLE
-  - name: "elecofficial"
+  - name: elecofficial
     type: DOUBLE
-  - name: "citizen"
+  - name: citizen
     type: DOUBLE
-  - name: "supported"
+  - name: supported
     type: DOUBLE
-  - name: "leftrightscale"
+  - name: leftrightscale
     type: DOUBLE
-  - name: "VIGNETTES"
+  - name: vignettes
     type: DOUBLE
-  - name: "vignetteA"
+  - name: vignettea
     type: DOUBLE
-  - name: "vignetteB"
+  - name: vignetteb
     type: DOUBLE
-  - name: "vignetteC"
+  - name: vignettec
     type: DOUBLE
-  - name: "EXTRA"
+  - name: extra
     type: DOUBLE
-  - name: "inflorgcrime"
+  - name: inflorgcrime
     type: DOUBLE
-  - name: "inflamenaza"
+  - name: inflamenaza
     type: DOUBLE
-  - name: "inflfinanciamiento"
+  - name: inflfinanciamiento
     type: DOUBLE
-  - name: "orgcrimpart"
+  - name: orgcrimpart
     type: DOUBLE
-  - name: "orgcrimdecvoter"
+  - name: orgcrimdecvoter
     type: DOUBLE
-  - name: "orgcrimmunic"
+  - name: orgcrimmunic
     type: DOUBLE
-  - name: "STATEPOLITICS"
+  - name: statepolitics
     type: DOUBLE
-  - name: "votePAN"
+  - name: votepan
     type: BIGINT
-  - name: "voteperPAN"
+  - name: voteperpan
     type: DOUBLE
-  - name: "votePRI"
+  - name: votepri
     type: BIGINT
-  - name: "voteperPRI"
+  - name: voteperpri
     type: DOUBLE
-  - name: "votePRD"
+  - name: voteprd
     type: BIGINT
-  - name: "voteperPRD"
+  - name: voteperprd
     type: DOUBLE
-  - name: "votePRDPAN"
+  - name: voteprdpan
     type: DOUBLE
-  - name: "voteperPRDPAN"
+  - name: voteperprdpan
     type: DOUBLE
-  - name: "votePVEM"
+  - name: votepvem
     type: BIGINT
-  - name: "voteperPVEM"
+  - name: voteperpvem
     type: DOUBLE
-  - name: "voteMorena"
+  - name: votemorena
     type: BIGINT
-  - name: "voteperMorena"
+  - name: votepermorena
     type: DOUBLE
-  - name: "voteMC"
+  - name: votemc
     type: DOUBLE
-  - name: "voteperMC"
+  - name: votepermc
     type: DOUBLE
-  - name: "voteNA"
+  - name: votena
     type: DOUBLE
-  - name: "voteperNA"
+  - name: voteperna
     type: DOUBLE
-  - name: "votePES"
+  - name: votepes
     type: DOUBLE
-  - name: "voteperPES"
+  - name: voteperpes
     type: DOUBLE
-  - name: "votePT"
+  - name: votept
     type: DOUBLE
-  - name: "voteperPT"
+  - name: voteperpt
     type: DOUBLE
-  - name: "votePT_MC_Morena"
+  - name: votept_mc_morena
     type: DOUBLE
-  - name: "voteperPT_MC_Morena"
+  - name: voteperpt_mc_morena
     type: DOUBLE
-  - name: "votePH"
+  - name: voteph
     type: DOUBLE
-  - name: "voteperPH"
+  - name: voteperph
     type: DOUBLE
-  - name: "voteIndep"
+  - name: voteindep
     type: DOUBLE
-  - name: "voteperIndep"
+  - name: voteperindep
     type: DOUBLE
-  - name: "voteLocalpart"
+  - name: votelocalpart
     type: DOUBLE
-  - name: "voteperLocalpart"
+  - name: voteperlocalpart
     type: DOUBLE
-  - name: "voteNonregvote"
+  - name: votenonregvote
     type: DOUBLE
-  - name: "voteperNonregvote"
+  - name: votepernonregvote
     type: DOUBLE
-  - name: "voteNullvotes"
+  - name: votenullvotes
     type: BIGINT
-  - name: "voteperNullvotes"
+  - name: votepernullvotes
     type: DOUBLE
-  - name: "voteValidvotes"
+  - name: votevalidvotes
     type: BIGINT
-  - name: "voteTotal"
+  - name: votetotal
     type: BIGINT
-  - name: "nominalist"
+  - name: nominalist
     type: BIGINT
-  - name: "homicides"
+  - name: homicides
     type: BIGINT
-  - name: "homicides100m"
+  - name: homicides100m
     type: DOUBLE
-  - name: "pubspending"
+  - name: pubspending
     type: DOUBLE
-  - name: "nummunicip"
+  - name: nummunicip
     type: BIGINT
-  - name: "nummunpartgob"
+  - name: nummunpartgob
     type: BIGINT
-  - name: "popgobparty"
+  - name: popgobparty
     type: BIGINT
-  - name: "poppergobparty"
+  - name: poppergobparty
     type: DOUBLE
-  - name: "sizecongress"
+  - name: sizecongress
     type: BIGINT
-  - name: "numdipgob"
+  - name: numdipgob
     type: BIGINT
-  - name: "numdipgobcoal"
+  - name: numdipgobcoal
     type: BIGINT
-  - name: "unemployment"
+  - name: unemployment
     type: DOUBLE
-  - name: "urbanpopstate"
+  - name: urbanpopstate
     type: DOUBLE
-  - name: "poverty"
+  - name: poverty
     type: DOUBLE
-  - name: "moderpoverty"
+  - name: moderpoverty
     type: DOUBLE
-  - name: "extrempoverty"
+  - name: extrempoverty
     type: DOUBLE
-  - name: "localresources"
+  - name: localresources
     type: DOUBLE
-  - name: "genpartfund"
+  - name: genpartfund
     type: BIGINT
-  - name: "genpartfundpc"
+  - name: genpartfundpc
     type: BIGINT
-  - name: "yearprevlocelec"
+  - name: yearprevlocelec
     type: BIGINT
-  - name: "ganadort1"
+  - name: ganadort1
     type: VARCHAR
-  - name: "votePANt1"
+  - name: votepant1
     type: BIGINT
-  - name: "voteperPANt1"
+  - name: voteperpant1
     type: DOUBLE
-  - name: "votePRIt1"
+  - name: voteprit1
     type: BIGINT
-  - name: "voteperPRIt1"
+  - name: voteperprit1
     type: DOUBLE
-  - name: "votePRDt1"
+  - name: voteprdt1
     type: BIGINT
-  - name: "voteperPRDt1"
+  - name: voteperprdt1
     type: DOUBLE
-  - name: "votePRDPANt1"
+  - name: voteprdpant1
     type: DOUBLE
-  - name: "voteperPRDPANt1"
+  - name: voteperprdpant1
     type: DOUBLE
-  - name: "votePVEMt1"
+  - name: votepvemt1
     type: BIGINT
-  - name: "voteperPVEMt1"
+  - name: voteperpvemt1
     type: DOUBLE
-  - name: "voteMorenat1"
+  - name: votemorenat1
     type: DOUBLE
-  - name: "voteperMorenat1"
+  - name: votepermorenat1
     type: DOUBLE
-  - name: "voteMCt1"
+  - name: votemct1
     type: DOUBLE
-  - name: "voteperMCt1"
+  - name: votepermct1
     type: DOUBLE
-  - name: "voteNAt1"
+  - name: votenat1
     type: DOUBLE
-  - name: "voteperNAt1"
+  - name: votepernat1
     type: DOUBLE
-  - name: "votePESt1"
+  - name: votepest1
     type: DOUBLE
-  - name: "voteperPESt1"
+  - name: voteperpest1
     type: DOUBLE
-  - name: "votePTt1"
+  - name: voteptt1
     type: DOUBLE
-  - name: "voteperPTt1"
+  - name: voteperptt1
     type: DOUBLE
-  - name: "votePT_MC_Morenat1"
+  - name: votept_mc_morenat1
     type: DOUBLE
-  - name: "voteperPT_MC_Morenat1"
+  - name: voteperpt_mc_morenat1
     type: DOUBLE
-  - name: "votePHt1"
+  - name: votepht1
     type: DOUBLE
-  - name: "voteperPHt1"
+  - name: voteperpht1
     type: DOUBLE
-  - name: "voteIndept1"
+  - name: voteindept1
     type: DOUBLE
-  - name: "voteperIndept1"
+  - name: voteperindept1
     type: DOUBLE
-  - name: "voteLocalpartt1"
+  - name: votelocalpartt1
     type: BIGINT
-  - name: "voteperLocalpartt1"
+  - name: voteperlocalpartt1
     type: DOUBLE
-  - name: "voteNonregvotet1"
+  - name: votenonregvotet1
     type: DOUBLE
-  - name: "voteperNonregvotet1"
+  - name: votepernonregvotet1
     type: DOUBLE
-  - name: "voteNullvotest1"
+  - name: votenullvotest1
     type: BIGINT
-  - name: "voteperNullvotest1"
+  - name: votepernullvotest1
     type: DOUBLE
-  - name: "voteValidvotest1"
+  - name: votevalidvotest1
     type: BIGINT
-  - name: "voteTotalt1"
+  - name: votetotalt1
     type: BIGINT
-  - name: "nominalistt1"
+  - name: nominalistt1
     type: BIGINT
-  - name: "participationt1"
+  - name: participationt1
     type: DOUBLE
-  - name: "populationt1"
+  - name: populationt1
     type: BIGINT
-  - name: "GDPt1"
+  - name: gdpt1
     type: BIGINT
-  - name: "GDPpct1"
+  - name: gdppct1
     type: DOUBLE
-  - name: "homicidest1"
+  - name: homicidest1
     type: BIGINT
-  - name: "homicides100mt1"
+  - name: homicides100mt1
     type: DOUBLE
-  - name: "pubspendingt1"
+  - name: pubspendingt1
     type: DOUBLE
-  - name: "nummunicipt1"
+  - name: nummunicipt1
     type: BIGINT
-  - name: "nummunpartgobt1"
+  - name: nummunpartgobt1
     type: BIGINT
-  - name: "popgobpartyt1"
+  - name: popgobpartyt1
     type: BIGINT
-  - name: "poppergobpartyt1"
+  - name: poppergobpartyt1
     type: DOUBLE
-  - name: "sizecongresst1"
+  - name: sizecongresst1
     type: BIGINT
-  - name: "numdipgobt1"
+  - name: numdipgobt1
     type: BIGINT
-  - name: "numdipgobcoalt1"
+  - name: numdipgobcoalt1
     type: BIGINT
-  - name: "unemploymentt1"
+  - name: unemploymentt1
     type: DOUBLE
-  - name: "urbanpopstatet1"
+  - name: urbanpopstatet1
     type: DOUBLE
-  - name: "povertyt1"
+  - name: povertyt1
     type: DOUBLE
-  - name: "moderpovertyt1"
+  - name: moderpovertyt1
     type: DOUBLE
-  - name: "extrempovertyt1"
+  - name: extrempovertyt1
     type: DOUBLE
-  - name: "localresourcest1"
+  - name: localresourcest1
     type: DOUBLE
-  - name: "genpartfundt1"
+  - name: genpartfundt1
     type: BIGINT
-  - name: "genpartfundpct1"
+  - name: genpartfundpct1
     type: BIGINT

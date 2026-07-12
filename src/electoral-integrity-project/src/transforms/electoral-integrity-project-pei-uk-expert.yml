@@ -1,393 +1,398 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `electoral-integrity-project-pei-uk-expert`. Regenerate after model-verify.
+# caution: Expert-level UK microdata exposes no stable respondent identifier, so rows should be treated as individual survey records without a declared key.
+# caution: The table is a wide expert-response file with question responses and PEI scores; aggregate only after choosing the intended level of analysis.
+key: []
 columns:
-  - name: "election"
+  - name: election
     type: VARCHAR
-  - name: "OVERALLINTEGRITY"
+  - name: overallintegrity
     type: DOUBLE
-  - name: "PEI_add_original_m"
+  - name: pei_add_original_m
     type: DOUBLE
-  - name: "PEI_add_original"
+  - name: pei_add_original
     type: DOUBLE
-  - name: "PEI_add_new_m"
+  - name: pei_add_new_m
     type: DOUBLE
-  - name: "PEI_add_new"
+  - name: pei_add_new
     type: DOUBLE
-  - name: "PEI_concept_m"
+  - name: pei_concept_m
     type: DOUBLE
-  - name: "PEI_contestation_m"
+  - name: pei_contestation_m
     type: DOUBLE
-  - name: "PEI_participation_m"
+  - name: pei_participation_m
     type: DOUBLE
-  - name: "PEI_deliberation_m"
+  - name: pei_deliberation_m
     type: DOUBLE
-  - name: "PEI_adjudication_m"
+  - name: pei_adjudication_m
     type: DOUBLE
-  - name: "PEI_concept"
+  - name: pei_concept
     type: DOUBLE
-  - name: "PEI_contestation"
+  - name: pei_contestation
     type: DOUBLE
-  - name: "PEI_participation"
+  - name: pei_participation
     type: DOUBLE
-  - name: "PEI_deliberation"
+  - name: pei_deliberation
     type: DOUBLE
-  - name: "PEI_adjudication"
+  - name: pei_adjudication
     type: DOUBLE
-  - name: "rating"
+  - name: rating
     type: BIGINT
-  - name: "LAWS"
+  - name: laws
     type: DOUBLE
-  - name: "lawsunfair"
+  - name: lawsunfair
     type: VARCHAR
-  - name: "lawsunfair2"
+  - name: lawsunfair2
     type: VARCHAR
-  - name: "favoredincumbent"
+  - name: favoredincumbent
     type: VARCHAR
-  - name: "favoredincumbent2"
+  - name: favoredincumbent2
     type: VARCHAR
-  - name: "citizens"
+  - name: citizens
     type: VARCHAR
-  - name: "citizens2"
+  - name: citizens2
     type: VARCHAR
-  - name: "certainty"
+  - name: certainty
     type: VARCHAR
-  - name: "changes"
+  - name: changes
     type: VARCHAR
-  - name: "equal"
+  - name: equal
     type: VARCHAR
-  - name: "enfranchised"
+  - name: enfranchised
     type: VARCHAR
-  - name: "laws"
+  - name: laws_1
     type: DOUBLE
-  - name: "laws_m"
+  - name: laws_m
     type: DOUBLE
-  - name: "laws_new"
+  - name: laws_new
     type: DOUBLE
-  - name: "laws_new_m"
+  - name: laws_new_m
     type: DOUBLE
-  - name: "PROCEDURES"
+  - name: procedures
     type: DOUBLE
-  - name: "managed"
+  - name: managed
     type: VARCHAR
-  - name: "votinginfo"
+  - name: votinginfo
     type: VARCHAR
-  - name: "fairofficials"
+  - name: fairofficials
     type: VARCHAR
-  - name: "legalelections"
+  - name: legalelections
     type: VARCHAR
-  - name: "procedures"
+  - name: procedures_1
     type: DOUBLE
-  - name: "procedures_m"
+  - name: procedures_m
     type: DOUBLE
-  - name: "procedures_new"
+  - name: procedures_new
     type: DOUBLE
-  - name: "procedures_new_m"
+  - name: procedures_new_m
     type: DOUBLE
-  - name: "BOUNDARIES"
+  - name: boundaries
     type: DOUBLE
-  - name: "bdiscrim"
+  - name: bdiscrim
     type: VARCHAR
-  - name: "bdiscrim2"
+  - name: bdiscrim2
     type: VARCHAR
-  - name: "bfavored"
+  - name: bfavored
     type: VARCHAR
-  - name: "bfavored2"
+  - name: bfavored2
     type: VARCHAR
-  - name: "bimpartial"
+  - name: bimpartial
     type: VARCHAR
-  - name: "boundaries"
+  - name: boundaries_1
     type: DOUBLE
-  - name: "boundaries_m"
+  - name: boundaries_m
     type: DOUBLE
-  - name: "boundaries_new"
+  - name: boundaries_new
     type: DOUBLE
-  - name: "boundaries_new_m"
+  - name: boundaries_new_m
     type: DOUBLE
-  - name: "VOTERREGISTRATION"
+  - name: voterregistration
     type: DOUBLE
-  - name: "reglisted"
+  - name: reglisted
     type: VARCHAR
-  - name: "reglisted2"
+  - name: reglisted2
     type: VARCHAR
-  - name: "reginaccurate"
+  - name: reginaccurate
     type: VARCHAR
-  - name: "reginaccurate2"
+  - name: reginaccurate2
     type: VARCHAR
-  - name: "ineligible"
+  - name: ineligible
     type: VARCHAR
-  - name: "ineligible2"
+  - name: ineligible2
     type: VARCHAR
-  - name: "unlikelyreg"
+  - name: unlikelyreg
     type: VARCHAR
-  - name: "unlikelyreg2"
+  - name: unlikelyreg2
     type: VARCHAR
-  - name: "votereg"
+  - name: votereg
     type: DOUBLE
-  - name: "votereg_m"
+  - name: votereg_m
     type: DOUBLE
-  - name: "voterreg_new"
+  - name: voterreg_new
     type: DOUBLE
-  - name: "voterreg_new_m"
+  - name: voterreg_new_m
     type: DOUBLE
-  - name: "PARTYREGISTRATION"
+  - name: partyregistration
     type: DOUBLE
-  - name: "oppprevent"
+  - name: oppprevent
     type: VARCHAR
-  - name: "oppprevent2"
+  - name: oppprevent2
     type: VARCHAR
-  - name: "womenopp"
+  - name: womenopp
     type: VARCHAR
-  - name: "minorityopp"
+  - name: minorityopp
     type: VARCHAR
-  - name: "leaderselect"
+  - name: leaderselect
     type: VARCHAR
-  - name: "leaderselect2"
+  - name: leaderselect2
     type: VARCHAR
-  - name: "rallies"
+  - name: rallies
     type: VARCHAR
-  - name: "rallies2"
+  - name: rallies2
     type: VARCHAR
-  - name: "equalopp"
+  - name: equalopp
     type: VARCHAR
-  - name: "partytargeted"
+  - name: partytargeted
     type: VARCHAR
-  - name: "partytargeted2"
+  - name: partytargeted2
     type: VARCHAR
-  - name: "partyreg"
+  - name: partyreg
     type: DOUBLE
-  - name: "partyreg_m"
+  - name: partyreg_m
     type: DOUBLE
-  - name: "partyreg_new"
+  - name: partyreg_new
     type: DOUBLE
-  - name: "partyreg_new_m"
+  - name: partyreg_new_m
     type: DOUBLE
-  - name: "MEDIACOVERAGE"
+  - name: mediacoverage
     type: DOUBLE
-  - name: "balanced"
+  - name: balanced
     type: VARCHAR
-  - name: "tv"
+  - name: tv
     type: VARCHAR
-  - name: "tv2"
+  - name: tv2
     type: VARCHAR
-  - name: "fairaccess"
+  - name: fairaccess
     type: VARCHAR
-  - name: "faircoverage"
+  - name: faircoverage
     type: VARCHAR
-  - name: "socialmedia"
+  - name: socialmedia
     type: VARCHAR
-  - name: "disinformation"
+  - name: disinformation
     type: VARCHAR
-  - name: "disinformation2"
+  - name: disinformation2
     type: VARCHAR
-  - name: "deliberation"
+  - name: deliberation
     type: VARCHAR
-  - name: "media"
+  - name: media
     type: DOUBLE
-  - name: "media_m"
+  - name: media_m
     type: DOUBLE
-  - name: "media_new"
+  - name: media_new
     type: DOUBLE
-  - name: "media_new_m"
+  - name: media_new_m
     type: DOUBLE
-  - name: "CAMPAIGNFINANCE"
+  - name: campaignfinance
     type: DOUBLE
-  - name: "subsidies"
+  - name: subsidies
     type: VARCHAR
-  - name: "donations"
+  - name: donations
     type: VARCHAR
-  - name: "accounts"
+  - name: accounts
     type: VARCHAR
-  - name: "rich"
+  - name: rich
     type: VARCHAR
-  - name: "rich2"
+  - name: rich2
     type: VARCHAR
-  - name: "resources"
+  - name: resources
     type: VARCHAR
-  - name: "resources2"
+  - name: resources2
     type: VARCHAR
-  - name: "bribed"
+  - name: bribed
     type: VARCHAR
-  - name: "bribed2"
+  - name: bribed2
     type: VARCHAR
-  - name: "finance"
+  - name: finance
     type: DOUBLE
-  - name: "finance_m"
+  - name: finance_m
     type: DOUBLE
-  - name: "finance_new"
+  - name: finance_new
     type: DOUBLE
-  - name: "finance_new_m"
+  - name: finance_new_m
     type: DOUBLE
-  - name: "VOTINGPROCESS"
+  - name: votingprocess
     type: DOUBLE
-  - name: "violence"
+  - name: violence
     type: VARCHAR
-  - name: "violence2"
+  - name: violence2
     type: VARCHAR
-  - name: "fraudulent"
+  - name: fraudulent
     type: VARCHAR
-  - name: "fraudulent2"
+  - name: fraudulent2
     type: VARCHAR
-  - name: "easy"
+  - name: easy
     type: VARCHAR
-  - name: "choice"
+  - name: choice
     type: VARCHAR
-  - name: "disabled"
+  - name: disabled
     type: VARCHAR
-  - name: "expats"
+  - name: expats
     type: VARCHAR
-  - name: "internet"
+  - name: internet
     type: VARCHAR
-  - name: "gaps"
+  - name: gaps
     type: VARCHAR
-  - name: "gaps2"
+  - name: gaps2
     type: VARCHAR
-  - name: "encouraged"
+  - name: encouraged
     type: VARCHAR
-  - name: "identification"
+  - name: identification
     type: VARCHAR
-  - name: "identification2"
+  - name: identification2
     type: VARCHAR
-  - name: "voting"
+  - name: voting
     type: DOUBLE
-  - name: "voting_m"
+  - name: voting_m
     type: DOUBLE
-  - name: "voting_new"
+  - name: voting_new
     type: DOUBLE
-  - name: "voting_new_m"
+  - name: voting_new_m
     type: DOUBLE
-  - name: "VOTECOUNT"
+  - name: votecount
     type: DOUBLE
-  - name: "secure"
+  - name: secure
     type: VARCHAR
-  - name: "delay"
+  - name: delay
     type: VARCHAR
-  - name: "faircount"
+  - name: faircount
     type: VARCHAR
-  - name: "intlmonitors"
+  - name: intlmonitors
     type: VARCHAR
-  - name: "intlmonitors2"
+  - name: intlmonitors2
     type: VARCHAR
-  - name: "domesticmonitors"
+  - name: domesticmonitors
     type: VARCHAR
-  - name: "domesticmonitors2"
+  - name: domesticmonitors2
     type: VARCHAR
-  - name: "count"
+  - name: count
     type: DOUBLE
-  - name: "count_m"
+  - name: count_m
     type: DOUBLE
-  - name: "count_new"
+  - name: count_new
     type: DOUBLE
-  - name: "count_new_m"
+  - name: count_new_m
     type: DOUBLE
-  - name: "VOTINGRESULTS"
+  - name: votingresults
     type: DOUBLE
-  - name: "challenged"
+  - name: challenged
     type: VARCHAR
-  - name: "challenged2"
+  - name: challenged2
     type: VARCHAR
-  - name: "protestspeace"
+  - name: protestspeace
     type: VARCHAR
-  - name: "protestspeace2"
+  - name: protestspeace2
     type: VARCHAR
-  - name: "protestsviolent"
+  - name: protestsviolent
     type: VARCHAR
-  - name: "protestsviolent2"
+  - name: protestsviolent2
     type: VARCHAR
-  - name: "disputes"
+  - name: disputes
     type: VARCHAR
-  - name: "effective"
+  - name: effective
     type: VARCHAR
-  - name: "results"
+  - name: results
     type: DOUBLE
-  - name: "results_m"
+  - name: results_m
     type: DOUBLE
-  - name: "results_new"
+  - name: results_new
     type: DOUBLE
-  - name: "results_new_m"
+  - name: results_new_m
     type: DOUBLE
-  - name: "ELECTIONAUTHORITIES"
+  - name: electionauthorities
     type: DOUBLE
-  - name: "impartial"
+  - name: impartial
     type: VARCHAR
-  - name: "info"
+  - name: info
     type: VARCHAR
-  - name: "scrutiny"
+  - name: scrutiny
     type: VARCHAR
-  - name: "performance"
+  - name: performance
     type: VARCHAR
-  - name: "targeted"
+  - name: targeted
     type: VARCHAR
-  - name: "targeted2"
+  - name: targeted2
     type: VARCHAR
-  - name: "EMBs"
+  - name: embs
     type: DOUBLE
-  - name: "EMBs_m"
+  - name: embs_m
     type: DOUBLE
-  - name: "EMBs_new"
+  - name: embs_new
     type: DOUBLE
-  - name: "EMBs_new_m"
+  - name: embs_new_m
     type: DOUBLE
-  - name: "GENERALQUESTIONS"
+  - name: generalquestions
     type: DOUBLE
-  - name: "familiarity"
+  - name: familiarity
     type: BIGINT
-  - name: "ORGCONFIDENCE"
+  - name: orgconfidence
     type: DOUBLE
-  - name: "courts"
+  - name: courts
     type: DOUBLE
-  - name: "government"
+  - name: government
     type: BIGINT
-  - name: "parliament"
+  - name: parliament
     type: BIGINT
-  - name: "armedforces"
+  - name: armedforces
     type: DOUBLE
-  - name: "electoralauth"
+  - name: electoralauth
     type: DOUBLE
-  - name: "BACKGROUND"
+  - name: background
     type: DOUBLE
-  - name: "employment"
+  - name: employment
     type: DOUBLE
-  - name: "public"
+  - name: public
     type: VARCHAR
-  - name: "university"
+  - name: university
     type: VARCHAR
-  - name: "nonprofit"
+  - name: nonprofit
     type: VARCHAR
-  - name: "agency"
+  - name: agency
     type: DOUBLE
-  - name: "private"
+  - name: private
     type: VARCHAR
-  - name: "occupation"
+  - name: occupation
     type: VARCHAR
-  - name: "agegroup"
+  - name: agegroup
     type: VARCHAR
-  - name: "sex"
+  - name: sex
     type: VARCHAR
-  - name: "education"
+  - name: education
     type: VARCHAR
-  - name: "born"
+  - name: born
     type: VARCHAR
-  - name: "lived"
+  - name: lived
     type: VARCHAR
-  - name: "candidate"
+  - name: candidate
     type: VARCHAR
-  - name: "rep"
+  - name: rep
     type: VARCHAR
-  - name: "activist"
+  - name: activist
     type: VARCHAR
-  - name: "ngo"
+  - name: ngo
     type: VARCHAR
-  - name: "voted"
+  - name: voted
     type: VARCHAR
-  - name: "norole"
+  - name: norole
     type: VARCHAR
-  - name: "monitor"
+  - name: monitor
     type: VARCHAR
-  - name: "monitorint"
+  - name: monitorint
     type: VARCHAR
-  - name: "official"
+  - name: official
     type: VARCHAR
-  - name: "citizen"
+  - name: citizen
     type: VARCHAR
-  - name: "leftrightscale"
+  - name: leftrightscale
     type: DOUBLE
-  - name: "difficulty"
+  - name: difficulty
     type: DOUBLE
