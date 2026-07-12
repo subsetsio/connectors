@@ -31,7 +31,6 @@ import re
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -171,107 +170,4 @@ def fetch_extra(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="football-data-co-uk-matches-main", fn=fetch_main, kind="download"),
     NodeSpec(id="football-data-co-uk-matches-extra", fn=fetch_extra, kind="download"),
-]
-
-_MAIN = "football-data-co-uk-matches-main"
-_EXTRA = "football-data-co-uk-matches-extra"
-
-# Date columns are dd/mm/yyyy in modern files and dd/mm/yy in older ones; try
-# both. TRY_CAST/NULLIF turn empty cells and malformed values into nulls
-# instead of failing the whole query.
-# Try the 2-digit-year format first: '%Y' would wrongly parse a 2-digit
-# "93" as year 0093, whereas '%y' fails cleanly on a 4-digit year and falls
-# through to '%Y'. DuckDB maps %y 70-99 -> 1970-1999, 00-69 -> 2000-2069,
-# which is correct for this corpus (earliest season 1993).
-_DATE = (
-    'COALESCE(TRY_STRPTIME("Date", \'%d/%m/%y\'), '
-    'TRY_STRPTIME("Date", \'%d/%m/%Y\'))::DATE'
-)
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_MAIN}-transform",
-        deps=[_MAIN],
-        sql=f'''
-            SELECT
-                "Season"                                AS season,
-                "Div"                                   AS division,
-                {_DATE}                                 AS date,
-                NULLIF("Time", '')                      AS kickoff_time,
-                "HomeTeam"                              AS home_team,
-                "AwayTeam"                              AS away_team,
-                TRY_CAST("FTHG" AS INTEGER)             AS ft_home_goals,
-                TRY_CAST("FTAG" AS INTEGER)             AS ft_away_goals,
-                "FTR"                                   AS ft_result,
-                TRY_CAST("HTHG" AS INTEGER)             AS ht_home_goals,
-                TRY_CAST("HTAG" AS INTEGER)             AS ht_away_goals,
-                "HTR"                                   AS ht_result,
-                "Referee"                               AS referee,
-                TRY_CAST("HS"  AS INTEGER)              AS home_shots,
-                TRY_CAST("AS"  AS INTEGER)              AS away_shots,
-                TRY_CAST("HST" AS INTEGER)              AS home_shots_target,
-                TRY_CAST("AST" AS INTEGER)              AS away_shots_target,
-                TRY_CAST("HF"  AS INTEGER)              AS home_fouls,
-                TRY_CAST("AF"  AS INTEGER)              AS away_fouls,
-                TRY_CAST("HC"  AS INTEGER)              AS home_corners,
-                TRY_CAST("AC"  AS INTEGER)              AS away_corners,
-                TRY_CAST("HY"  AS INTEGER)              AS home_yellows,
-                TRY_CAST("AY"  AS INTEGER)              AS away_yellows,
-                TRY_CAST("HR"  AS INTEGER)              AS home_reds,
-                TRY_CAST("AR"  AS INTEGER)              AS away_reds,
-                TRY_CAST("B365H" AS DOUBLE)             AS b365_home,
-                TRY_CAST("B365D" AS DOUBLE)             AS b365_draw,
-                TRY_CAST("B365A" AS DOUBLE)             AS b365_away,
-                TRY_CAST("MaxH" AS DOUBLE)              AS max_home,
-                TRY_CAST("MaxD" AS DOUBLE)              AS max_draw,
-                TRY_CAST("MaxA" AS DOUBLE)              AS max_away,
-                TRY_CAST("AvgH" AS DOUBLE)              AS avg_home,
-                TRY_CAST("AvgD" AS DOUBLE)              AS avg_draw,
-                TRY_CAST("AvgA" AS DOUBLE)              AS avg_away,
-                TRY_CAST("Avg>2.5" AS DOUBLE)           AS avg_over_2_5,
-                TRY_CAST("Avg<2.5" AS DOUBLE)           AS avg_under_2_5,
-                TRY_CAST("AvgCH" AS DOUBLE)             AS avg_close_home,
-                TRY_CAST("AvgCD" AS DOUBLE)             AS avg_close_draw,
-                TRY_CAST("AvgCA" AS DOUBLE)             AS avg_close_away,
-                TRY_CAST("AHh" AS DOUBLE)               AS asian_handicap_line,
-                TRY_CAST("AvgAHH" AS DOUBLE)            AS avg_ah_home,
-                TRY_CAST("AvgAHA" AS DOUBLE)            AS avg_ah_away
-            FROM "{_MAIN}"
-            WHERE "HomeTeam" IS NOT NULL AND "AwayTeam" IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_EXTRA}-transform",
-        deps=[_EXTRA],
-        sql=f'''
-            SELECT
-                "Country"                               AS country,
-                TRIM("League")                          AS league,
-                "Season"                                AS season,
-                {_DATE}                                 AS date,
-                NULLIF("Time", '')                      AS kickoff_time,
-                "Home"                                  AS home_team,
-                "Away"                                  AS away_team,
-                TRY_CAST("HG" AS INTEGER)               AS home_goals,
-                TRY_CAST("AG" AS INTEGER)               AS away_goals,
-                "Res"                                   AS result,
-                TRY_CAST("PSCH" AS DOUBLE)              AS pinnacle_close_home,
-                TRY_CAST("PSCD" AS DOUBLE)              AS pinnacle_close_draw,
-                TRY_CAST("PSCA" AS DOUBLE)              AS pinnacle_close_away,
-                TRY_CAST("MaxCH" AS DOUBLE)             AS max_close_home,
-                TRY_CAST("MaxCD" AS DOUBLE)             AS max_close_draw,
-                TRY_CAST("MaxCA" AS DOUBLE)             AS max_close_away,
-                TRY_CAST("AvgCH" AS DOUBLE)             AS avg_close_home,
-                TRY_CAST("AvgCD" AS DOUBLE)             AS avg_close_draw,
-                TRY_CAST("AvgCA" AS DOUBLE)             AS avg_close_away,
-                TRY_CAST("BFECH" AS DOUBLE)             AS betfair_close_home,
-                TRY_CAST("BFECD" AS DOUBLE)             AS betfair_close_draw,
-                TRY_CAST("BFECA" AS DOUBLE)             AS betfair_close_away,
-                TRY_CAST("B365CH" AS DOUBLE)            AS b365_close_home,
-                TRY_CAST("B365CD" AS DOUBLE)            AS b365_close_draw,
-                TRY_CAST("B365CA" AS DOUBLE)            AS b365_close_away
-            FROM "{_EXTRA}"
-            WHERE "Home" IS NOT NULL AND "Away" IS NOT NULL
-        ''',
-    ),
 ]
