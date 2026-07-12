@@ -41,9 +41,10 @@ FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 # with the SAME RUN_ID, preserving run-scoped raw). We therefore bound each
 # invocation to a batch and request continuation while files remain, rather
 # than risk one ~38M-citation pass overrunning the 355-min GitHub job limit
-# (which is a host SIGTERM -> run marked failed, NO retrigger). ~1,334 files /
-# 250 ≈ 6 invocations.
-FILES_PER_RUN = 250
+# (which is a host SIGTERM -> run marked failed, NO retrigger). The previous
+# 250-file batch reached the runner deadline while returning continuation, so
+# keep each leg comfortably below the watchdog even when NCBI is slow.
+FILES_PER_RUN = 100
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
