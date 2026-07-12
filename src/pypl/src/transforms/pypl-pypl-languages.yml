@@ -1,13 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [date, country, language]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pypl-pypl-languages`. Regenerate after model-verify.
+# caution: The country column includes `All`, a worldwide aggregate, alongside country-specific rows; filter country before comparing regional subsets or aggregating values.
+key: [date, country, entity]
 temporal: date
-sort: [date, country, language]
+sort: [date, country, entity]
 columns:
   - name: date
     type: DATE
   - name: country
     type: VARCHAR
-  - name: language
+  - name: entity
     type: VARCHAR
   - name: share
     type: DOUBLE

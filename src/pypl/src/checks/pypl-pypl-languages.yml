@@ -3,17 +3,19 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [date, country, language]
+key: [date, country, entity]
 temporal: date
 checks:
   - kind: unique
-    columns: [date, country, language]
+    columns: [date, country, entity]
   - kind: not_null
     col: date
   - kind: not_null
     col: country
   - kind: not_null
-    col: language
+    col: entity
+  - kind: row_floor
+    min: 23940
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
