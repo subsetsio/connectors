@@ -126,13 +126,13 @@ def _chart_rows(
     id_col: str,
 ) -> list[dict[str, Any]]:
     nonce = _nonce(page_text)
-    data: list[tuple[str, str]] = [
-        ("security", nonce),
-        ("action", action),
-        ("all", "0"),
-        ("conf", "0"),
-    ]
-    data.extend(("charts[]", chart_id) for chart_id in chart_ids)
+    data = {
+        "security": nonce,
+        "action": action,
+        "all": "0",
+        "conf": "0",
+        "charts[]": chart_ids,
+    }
     response = post(AJAX_URL, data=data, timeout=(10.0, 120.0))
     response.raise_for_status()
     charts = response.text
