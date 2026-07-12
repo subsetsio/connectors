@@ -1,12 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mapping-police-violence-mapping-police-violence-killings`. Regenerate after model-verify.
+# caution: Each row is a person-level death record; incident-level counts can differ when multiple people are killed on the same date or in the same event.
+key: [date, mpv_id]
+temporal: date
+sort: [date, mpv_id]
 columns:
   - name: name
     type: VARCHAR
   - name: age
-    type: INTEGER
+    type: BIGINT
   - name: gender
     type: VARCHAR
   - name: race
+    type: VARCHAR
+  - name: victim_image
     type: VARCHAR
   - name: date
     type: DATE
@@ -31,6 +38,8 @@ columns:
   - name: disposition_official
     type: VARCHAR
   - name: officer_charged
+    type: VARCHAR
+  - name: news_urls
     type: VARCHAR
   - name: signs_of_mental_illness
     type: VARCHAR
@@ -73,7 +82,7 @@ columns:
   - name: urban_rural_nchs
     type: VARCHAR
   - name: hhincome_median_census_tract
-    type: BIGINT
+    type: HUGEINT
   - name: latitude
     type: DOUBLE
   - name: longitude
