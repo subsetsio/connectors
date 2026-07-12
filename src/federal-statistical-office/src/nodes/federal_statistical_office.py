@@ -33,6 +33,10 @@ LANGS = ("en", "de", "fr", "it")  # prefer English labels, fall back to CH langu
 # Observed empirically: ~71k cells/selection succeeds, ~142k returns 403.
 # Stay well under the boundary; bigger chunks also mean bigger responses.
 SAFE_CELLS_PER_QUERY = 50_000
+# These two urban-statistics cubes repeatedly time out / 500 on ~48k-cell
+# selections even though smaller selections succeed.
+SMALL_CHUNK_CUBES = {"px-x-2105000000_401", "px-x-2105000000_402"}
+SMALL_SAFE_CELLS_PER_QUERY = 10_000
 # Cubes larger than this were gated out at rank; defended here so an unexpectedly
 # grown cube fails loudly instead of launching tens of thousands of requests.
 MAX_CELLS = 2_000_000
@@ -125,7 +129,7 @@ def _column_map(meta):
     return colmap
 
 
-def _plan_chunks(dim_codes, value_lists):
+def _plan_chunks(dim_codes, value_lists, safe_cells=SAFE_CELLS_PER_QUERY):
     """Yield rectangular selections {dim_code: [value_codes]} each <= SAFE cells.
 
     Picks the fewest large dimensions to iterate ('outer') so the product of the
@@ -144,7 +148,7 @@ def _plan_chunks(dim_codes, value_lists):
     outer = []
     prod = total
     k = 0
-    while prod > SAFE_CELLS_PER_QUERY and k < n:
+    while prod > safe_cells and k < n:
         i = order[k]
         outer.append(i)
         inner.discard(i)
@@ -162,7 +166,7 @@ def _plan_chunks(dim_codes, value_lists):
 
     batch_dim = outer[-1]
     head = outer[:-1]
-    batch = max(1, SAFE_CELLS_PER_QUERY // inner_prod)
+    batch = max(1, safe_cells // inner_prod)
     head_ranges = [range(sizes[i]) for i in head]
 
     for combo in (iproduct(*head_ranges) if head else [()]):
@@ -220,10 +224,11 @@ def fetch_one(node_id):
     dim_codes = [v["code"] for v in meta["variables"]]
     value_lists = [list(v["values"]) for v in meta["variables"]]
     updated = meta.get("updated")
+    safe_cells = SMALL_SAFE_CELLS_PER_QUERY if cube in SMALL_CHUNK_CUBES else SAFE_CELLS_PER_QUERY
 
     n_rows = 0
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
-        for sel in _plan_chunks(dim_codes, value_lists):
+        for sel in _plan_chunks(dim_codes, value_lists, safe_cells=safe_cells):
             query = [
                 {"code": c, "selection": {"filter": "item", "values": sel[c]}}
                 for c in dim_codes
