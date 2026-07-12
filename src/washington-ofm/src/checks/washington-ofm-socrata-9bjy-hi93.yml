@@ -3,13 +3,15 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [to_sort_by_county_and_year]
+key: [county, year]
 temporal: year
 checks:
   - kind: unique
-    columns: [to_sort_by_county_and_year]
+    columns: [county, year]
   - kind: not_null
-    col: to_sort_by_county_and_year
+    col: county
+  - kind: not_null
+    col: year
   - kind: row_floor
     min: 240
 regression:

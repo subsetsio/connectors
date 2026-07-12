@@ -17,3 +17,7 @@ tests:
     certainty: 85
   - column_type: {col: status, type: integer}
     certainty: 90
+  - freshness: {col: last_updated, reaches: today - 45d}
+    reason: Docker Hub repository metadata is current-state API data; at least one official image should have recent metadata updates
+    certainty: 85
+    points_outward: true

@@ -20,3 +20,7 @@ tests:
   - not_null: snapshot_date
     reason: every row is stamped with the fetch date so snapshots are distinguishable over time
     certainty: 99
+  - freshness: {col: snapshot_date, reaches: today - 7d}
+    reason: pull statistics are captured as current snapshots on each connector refresh
+    certainty: 95
+    points_outward: true
