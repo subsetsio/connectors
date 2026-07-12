@@ -98,6 +98,14 @@ DEFERRED_ENTITY_IDS = {
     "replication-data-for-spoon-continuous-program-to-improve-nutrition-baseline",
     "replication-data-for-the-role-of-pension-systems-in-retirement-across-development",
     "sample-code-for-creating-public-payroll-indicators-a-methodological-guide",
+    "survey-of-exporting-firms-in-latin-america-and-the-caribbean-understanding-2",
+    "tables-and-figures-for-a-snapshot-on-the-quality-of-seven-home-visit-parent",
+    "tables-and-figures-for-better-pensions-better-jobs-towards-universal-covera",
+    "tables-and-figures-for-jobs-for-growth",
+    "tables-and-figures-for-measuring-the-cost-of-salaried-labor-in-latin-americ",
+    "tables-and-figures-for-salaried-labor-costs-in-latin-america-and-the-caribbean-a-ten-year-update",
+    "transmission-risk-assessment-checklist",
+    "urban-integration-and-coexistence-program-baseline-report-dataset-2014",
 }
 
 csv.field_size_limit(64 * 1024 * 1024)

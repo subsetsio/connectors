@@ -16,3 +16,6 @@ tests:
     reason: area types come from OBIS's fixed area-type vocabulary
     certainty: 75
     severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: OBIS occurrence statistics are live aggregate tables and should include the current calendar year
+    certainty: 80

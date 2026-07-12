@@ -15,3 +15,6 @@ tests:
   - distinct_count: {col: nodeid, min: 20, max: 60}
     reason: OBIS has ~38 regional/thematic nodes; most contribute data
     certainty: 80
+  - freshness: {col: year, reaches: current_year()}
+    reason: OBIS occurrence statistics are live aggregate tables and should include the current calendar year
+    certainty: 80

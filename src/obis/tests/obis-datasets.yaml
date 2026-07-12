@@ -2,7 +2,9 @@ spec_id: obis-datasets
 status: active
 tests:
   - not_null: dataset_id
-  - not_null: title
+  - nullable: {col: title, max_null_frac: 0.01}
+    reason: OBIS dataset metadata can include occasional untitled records, but titles should be present for nearly all datasets
+    certainty: 85
   - unique: dataset_id
     reason: one row per OBIS dataset; dataset id is the primary key
     certainty: 95
@@ -13,3 +15,6 @@ tests:
     reason: per-dataset record counts are non-negative
     certainty: 85
     severity: warn
+  - freshness: {col: updated, reaches: today - 400d}
+    reason: the OBIS dataset catalog is actively maintained; the latest updated timestamp should be within roughly the last year
+    certainty: 80

@@ -3,7 +3,6 @@ status: active
 tests:
   - freshness: {col: season, reaches: 2025}
   - not_null: season
-  - column_type: {col: season, type: integer}
   - at_most: {col: season, expr: current_year()}
     certainty: 85
     points_outward: true

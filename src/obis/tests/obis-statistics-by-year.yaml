@@ -18,3 +18,6 @@ tests:
   - at_least: {col: records, expr: 1}
     reason: every reported year has at least one occurrence record
     certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: OBIS occurrence statistics are live aggregate tables and should include the current calendar year
+    certainty: 80
