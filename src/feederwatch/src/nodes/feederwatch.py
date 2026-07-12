@@ -38,7 +38,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     transient_retry,
@@ -203,69 +202,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="feederwatch-observations", fn=fetch_observations, kind="download"),
     NodeSpec(id="feederwatch-site-descriptions", fn=fetch_site_descriptions, kind="download"),
     NodeSpec(id="feederwatch-species-translation", fn=fetch_species_translation, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="feederwatch-observations-transform",
-        deps=["feederwatch-observations"],
-        sql='''
-            SELECT
-                LOC_ID                              AS loc_id,
-                TRY_CAST(LATITUDE  AS DOUBLE)       AS latitude,
-                TRY_CAST(LONGITUDE AS DOUBLE)       AS longitude,
-                SUBNATIONAL1_CODE                   AS subnational1_code,
-                ENTRY_TECHNIQUE                     AS entry_technique,
-                SUB_ID                              AS sub_id,
-                OBS_ID                              AS obs_id,
-                TRY_CAST(Month AS INTEGER)          AS month,
-                TRY_CAST(Day   AS INTEGER)          AS day,
-                TRY_CAST(Year  AS INTEGER)          AS year,
-                PROJ_PERIOD_ID                      AS proj_period_id,
-                SPECIES_CODE                        AS species_code,
-                alt_full_spp_code                   AS alt_full_spp_code,
-                TRY_CAST(HOW_MANY AS INTEGER)       AS how_many,
-                PLUS_CODE                           AS plus_code,
-                TRY_CAST(VALID    AS INTEGER)       AS valid,
-                TRY_CAST(REVIEWED AS INTEGER)       AS reviewed,
-                TRY_CAST(DAY1_AM AS INTEGER)        AS day1_am,
-                TRY_CAST(DAY1_PM AS INTEGER)        AS day1_pm,
-                TRY_CAST(DAY2_AM AS INTEGER)        AS day2_am,
-                TRY_CAST(DAY2_PM AS INTEGER)        AS day2_pm,
-                TRY_CAST(EFFORT_HRS_ATLEAST AS DOUBLE) AS effort_hrs_atleast,
-                TRY_CAST(SNOW_DEP_ATLEAST   AS DOUBLE) AS snow_dep_atleast,
-                Data_Entry_Method                   AS data_entry_method
-            FROM "feederwatch-observations"
-            WHERE OBS_ID IS NOT NULL
-        ''',
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="feederwatch-site-descriptions-transform",
-        deps=["feederwatch-site-descriptions"],
-        sql='''
-            SELECT *
-            FROM "feederwatch-site-descriptions"
-            WHERE loc_id IS NOT NULL
-        ''',
-        temporal="create_dt",
-    ),
-    SqlNodeSpec(
-        id="feederwatch-species-translation-transform",
-        deps=["feederwatch-species-translation"],
-        sql='''
-            SELECT
-                species_code,
-                alt_full_spp_code,
-                TRY_CAST(n_locations AS INTEGER)          AS n_locations,
-                scientific_name,
-                american_english_name,
-                TRY_CAST(taxonomy_version AS INTEGER)     AS taxonomy_version,
-                TRY_CAST(taxonomic_sort_order AS DOUBLE)  AS taxonomic_sort_order
-            FROM "feederwatch-species-translation"
-            WHERE species_code IS NOT NULL
-        ''',
-        key=("species_code",),
-    ),
 ]
