@@ -9,5 +9,6 @@ ENTITY_IDS = [
     "pacific-cpr-zoo",
     "scotian_shelf",
     "bco-dmo",
+    "cpr-taxondata",
     "cpr_public",
 ]

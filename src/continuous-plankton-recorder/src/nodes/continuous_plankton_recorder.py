@@ -25,7 +25,6 @@ import duckdb
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -61,8 +60,10 @@ def fetch_one(node_id: str) -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         with zipfile.ZipFile(io.BytesIO(blob)) as zf:
-            zf.extract("occurrence.txt", tmp)
-        occ_path = os.path.join(tmp, "occurrence.txt")
+            names = set(zf.namelist())
+            core_name = "occurrence.txt" if "occurrence.txt" in names else "taxon.txt"
+            zf.extract(core_name, tmp)
+        core_path = os.path.join(tmp, core_name)
 
         con = duckdb.connect()
         try:
@@ -70,7 +71,7 @@ def fetch_one(node_id: str) -> None:
             # all_varchar keeps the raw faithful; the transform casts.
             rel = con.sql(
                 "SELECT * FROM read_csv('%s', delim='\\t', header=true, "
-                "all_varchar=true, quote='', nullstr='')" % occ_path
+                "all_varchar=true, quote='', nullstr='')" % core_path
             )
             reader = rel.to_arrow_reader(BATCH_ROWS)
             with raw_parquet_writer(asset, reader.schema) as writer:
@@ -87,100 +88,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# --- transforms: one published Delta table per subset -------------------------
-# The four "rich" occurrence cores (North Atlantic + Pacific phyto/zoo) carry the
-# full DwC sampling fields (date, position, depth, taxon). The three "lean" cores
-# (Scotian Shelf, BCO-DMO, public CPR) carry occurrence + count + ids only, with
-# sampling event position/time living in the archive's event extension.
-
-RICH_SQL = """
-SELECT
-    occurrenceID                              AS occurrence_id,
-    eventID                                   AS event_id,
-    catalogNumber                             AS catalog_number,
-    basisOfRecord                             AS basis_of_record,
-    TRY_CAST(year AS INTEGER)                 AS year,
-    TRY_CAST(month AS INTEGER)                AS month,
-    TRY_CAST(day AS INTEGER)                  AS day,
-    eventTime                                 AS event_time,
-    TRY_CAST(decimalLatitude AS DOUBLE)       AS decimal_latitude,
-    TRY_CAST(decimalLongitude AS DOUBLE)      AS decimal_longitude,
-    TRY_CAST(minimumDepthInMeters AS DOUBLE)  AS minimum_depth_m,
-    TRY_CAST(maximumDepthInMeters AS DOUBLE)  AS maximum_depth_m,
-    samplingProtocol                          AS sampling_protocol,
-    TRY_CAST(sampleSizeValue AS DOUBLE)       AS sample_size_value,
-    sampleSizeUnit                            AS sample_size_unit,
-    taxonID                                   AS taxon_id,
-    scientificNameID                          AS scientific_name_id,
-    scientificName                            AS scientific_name,
-    acceptedNameUsage                         AS accepted_name_usage,
-    TRY_CAST(modified AS TIMESTAMP)           AS modified
-FROM "{dep}"
-WHERE occurrenceID IS NOT NULL
-"""
-
-SCOTIAN_SQL = """
-SELECT
-    occurrenceID                       AS occurrence_id,
-    eventID                            AS event_id,
-    catalogNumber                      AS catalog_number,
-    basisOfRecord                      AS basis_of_record,
-    TRY_CAST(individualCount AS BIGINT) AS individual_count,
-    occurrenceStatus                   AS occurrence_status,
-    taxonID                            AS taxon_id,
-    scientificNameID                   AS scientific_name_id
-FROM "{dep}"
-WHERE occurrenceID IS NOT NULL
-"""
-
-BCODMO_SQL = """
-SELECT
-    occurrenceID                       AS occurrence_id,
-    eventID                            AS event_id,
-    catalogNumber                      AS catalog_number,
-    basisOfRecord                      AS basis_of_record,
-    TRY_CAST(individualCount AS BIGINT) AS individual_count,
-    taxonID                            AS taxon_id,
-    scientificNameID                   AS scientific_name_id,
-    scientificName                     AS scientific_name
-FROM "{dep}"
-WHERE occurrenceID IS NOT NULL
-"""
-
-CPR_PUBLIC_SQL = """
-SELECT
-    occurrenceID                       AS occurrence_id,
-    eventID                            AS event_id,
-    catalogNumber                      AS catalog_number,
-    basisOfRecord                      AS basis_of_record,
-    TRY_CAST(individualCount AS BIGINT) AS individual_count,
-    lifeStage                          AS life_stage,
-    occurrenceStatus                   AS occurrence_status,
-    taxonID                            AS taxon_id,
-    scientificNameID                   AS scientific_name_id,
-    scientificName                     AS scientific_name
-FROM "{dep}"
-WHERE occurrenceID IS NOT NULL
-"""
-
-SQL_BY_ENTITY = {
-    "sahfos-cpr-phyto": RICH_SQL,
-    "sahfos-cpr-zoo": RICH_SQL,
-    "pacific-cpr-phyto": RICH_SQL,
-    "pacific-cpr-zoo": RICH_SQL,
-    "scotian_shelf": SCOTIAN_SQL,
-    "bco-dmo": BCODMO_SQL,
-    "cpr_public": CPR_PUBLIC_SQL,
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=SQL_BY_ENTITY[RESOURCE_BY_NODE[s.id]].format(dep=s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
