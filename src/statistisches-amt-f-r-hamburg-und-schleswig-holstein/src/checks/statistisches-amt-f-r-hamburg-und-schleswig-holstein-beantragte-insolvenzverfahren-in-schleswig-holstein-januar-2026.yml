@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistisches-amt-f-r-hamburg-und-schleswig-holstein-beantragte-insolvenzverfahren-in-schleswig-holstein-januar-2026`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value_text, row_number, column_number, sheet_name]
+checks:
+  - kind: unique
+    columns: [value_text, row_number, column_number, sheet_name]
+  - kind: not_null
+    col: value_text
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: column_number
+  - kind: not_null
+    col: sheet_name
+  - kind: row_floor
+    min: 451
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
