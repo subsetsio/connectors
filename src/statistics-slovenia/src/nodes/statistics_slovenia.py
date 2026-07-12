@@ -108,7 +108,7 @@ def _chunked_queries(metadata: dict) -> list[tuple[str | None, dict]]:
     chunks = []
     for start in range(0, len(values), chunk_size):
         stop = min(start + chunk_size, len(values))
-        label = f"{chunk_code}-{start:05d}-{stop - 1:05d}"
+        label = f"chunk-{chunk_index:02d}-{start:05d}-{stop - 1:05d}"
         chunks.append((label, _selection_query(metadata, chunk_code, values[start:stop])))
     return chunks
 
