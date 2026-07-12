@@ -60,10 +60,15 @@ def to_date(ts) -> str:
 def projects() -> list[str]:
     """Live list of Wikimedia project hostnames from the sitematrix."""
     data = get_json(
-        "https://www.wikidata.org/w/api.php?action=sitematrix&format=json"
-        "&smstate=all&maxlag=5"
+        "https://meta.wikimedia.org/w/api.php?action=sitematrix&format=json"
+        "&smstate=all"
     )
-    sm = data["sitematrix"]
+    sm = data.get("sitematrix")
+    if not isinstance(sm, dict):
+        err = data.get("error")
+        if isinstance(err, dict):
+            raise RuntimeError(f"sitematrix unavailable: {err.get('code')}: {err.get('info')}")
+        raise RuntimeError("sitematrix response did not include a project catalog")
     hosts: list[str] = ["all-projects"]
     seen = {"all-projects"}
     groups = list(sm.values()) + [{"site": sm.get("specials", [])}]
