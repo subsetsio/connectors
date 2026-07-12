@@ -21,13 +21,11 @@ import zipfile
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
-    transient_retry,
 )
 
-BULK_URL = "https://www.domcop.com/files/top/top10milliondomains.csv.zip"
+BULK_URL = "https://openpagerank.keywordseverywhere.com/downloads/top10milliondomains.csv.zip"
 # CSV header is: "Rank","Domain","Open Page Rank" (all values quoted strings).
 BATCH_ROWS = 250_000
 # Safety floor: the corpus is ~10M rows. A successful download well below this
@@ -44,7 +42,6 @@ RAW_SCHEMA = pa.schema(
 )
 
 
-@transient_retry()
 def _download_zip(url: str) -> bytes:
     # Generous read timeout: the server throttles this static file, so the full
     # ~118 MB transfer can take many minutes. The read timeout is per-chunk, so
@@ -108,23 +105,5 @@ DOWNLOAD_SPECS = [
         id="open-pagerank-top-10-million-domains",
         fn=fetch_top10m,
         kind="download",
-    ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="open-pagerank-top-10-million-domains-transform",
-        deps=["open-pagerank-top-10-million-domains"],
-        sql='''
-            SELECT
-                CAST(rank AS BIGINT)            AS rank,
-                domain,
-                CAST(open_page_rank AS DOUBLE)  AS open_page_rank
-            FROM "open-pagerank-top-10-million-domains"
-            WHERE rank IS NOT NULL
-              AND domain IS NOT NULL
-              AND length(domain) > 0
-        ''',
     ),
 ]
