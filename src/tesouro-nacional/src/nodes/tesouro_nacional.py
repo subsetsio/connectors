@@ -22,7 +22,10 @@ import pandas as pd
 
 from subsets_utils import NodeSpec, get, raw_writer
 
-from constants import ENTITY_IDS
+try:
+    from constants import ENTITY_IDS
+except ModuleNotFoundError:  # local `python -m` imports load this as src.nodes.*
+    from src.constants import ENTITY_IDS
 
 
 SLUG = "tesouro-nacional"
