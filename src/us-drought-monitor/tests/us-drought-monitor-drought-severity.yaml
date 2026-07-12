@@ -1,0 +1,55 @@
+spec_id: us-drought-monitor-drought-severity
+status: active
+tests:
+  - not_null: date
+    reason: every severity observation is keyed by the USDM map week
+    certainty: 95
+  - not_null: region
+    reason: every severity observation is keyed by CONUS or a state/territory abbreviation
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: the raw fetch stores ISO dates as strings before transform casts to DATE
+    certainty: 95
+  - column_type: {col: none, type: float}
+    reason: severity columns are area percentages returned by the API
+    certainty: 90
+  - column_type: {col: d0, type: float}
+    reason: severity columns are area percentages returned by the API
+    certainty: 90
+  - column_type: {col: d4, type: float}
+    reason: severity columns are area percentages returned by the API
+    certainty: 90
+  - unique: [date, region]
+    reason: one severity row per USDM map week and region
+    certainty: 95
+  - distinct_count: {col: region, min: 53, max: 53}
+    reason: raw severity covers CONUS plus 50 states, DC, and Puerto Rico
+    certainty: 90
+  - row_count: {min: 60000}
+    reason: weekly history from 2000 onward across 53 regions is well above 60k rows
+    certainty: 85
+  - between: {col: none, lo: 0, hi: 100}
+    reason: none is a percent of regional area
+    certainty: 90
+  - between: {col: d0, lo: 0, hi: 100}
+    reason: d0 is a cumulative percent of regional area
+    certainty: 90
+  - between: {col: d1, lo: 0, hi: 100}
+    reason: d1 is a cumulative percent of regional area
+    certainty: 90
+  - between: {col: d2, lo: 0, hi: 100}
+    reason: d2 is a cumulative percent of regional area
+    certainty: 90
+  - between: {col: d3, lo: 0, hi: 100}
+    reason: d3 is a cumulative percent of regional area
+    certainty: 90
+  - between: {col: d4, lo: 0, hi: 100}
+    reason: d4 is a cumulative percent of regional area
+    certainty: 90
+  - at_least: {col: date, expr: "2000-01-01"}
+    reason: USDM weekly statistical history starts in 2000
+    certainty: 90
+  - freshness: {col: date, reaches: today - 21d}
+    reason: USDM is updated weekly, with slack for publication and run timing
+    certainty: 85
+    points_outward: true

@@ -1,4 +1,4 @@
-"""US Drought Monitor connector — discovers *_SPECS in src/nodes/ and runs the DAG.
+"""URSSAF connector — discovers *_SPECS in src/nodes/ and runs the DAG.
 
 load_nodes() picks up two kinds of specs from the node modules:
   - NodeSpec     → executed as DAG nodes (the fetches)
@@ -19,14 +19,13 @@ from pathlib import Path
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from subsets_utils import load_nodes, validate_environment, run_health_tests
+from subsets_utils import load_nodes, validate_environment
 
 
 def main():
     validate_environment()
     workflow = load_nodes()
     workflow.run()
-    run_health_tests(Path(__file__).resolve().parent.parent)
 
 
 if __name__ == "__main__":

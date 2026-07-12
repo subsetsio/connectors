@@ -118,7 +118,7 @@ def _read_csv_bytes(content: bytes, *, sep: str | None = None) -> pd.DataFrame:
                 encoding=encoding,
                 sep=sep,
                 engine="python",
-                on_bad_lines="warn",
+                on_bad_lines="skip",
             )
         except Exception as exc:  # try the next common Brazilian open-data encoding
             last_error = exc
@@ -245,7 +245,16 @@ def fetch_one(node_id: str) -> None:
         raise RuntimeError(f"{entity_id}: parsed tabular resources but wrote zero rows")
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-{entity_id}", fn=fetch_one, kind="download")
-    for entity_id in ENTITY_IDS
-]
+DOWNLOAD_SPECS = []
+_previous_spec_id: str | None = None
+for _entity_id in ENTITY_IDS:
+    _spec_id = f"{SLUG}-{_entity_id}"
+    DOWNLOAD_SPECS.append(
+        NodeSpec(
+            id=_spec_id,
+            fn=fetch_one,
+            kind="download",
+            deps=() if _previous_spec_id is None else (_previous_spec_id,),
+        )
+    )
+    _previous_spec_id = _spec_id

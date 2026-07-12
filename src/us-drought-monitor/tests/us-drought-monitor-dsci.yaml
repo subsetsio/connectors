@@ -1,0 +1,37 @@
+spec_id: us-drought-monitor-dsci
+status: active
+tests:
+  - not_null: date
+    reason: every DSCI observation is keyed by the USDM map week
+    certainty: 95
+  - not_null: region
+    reason: every DSCI observation is keyed by CONUS or a state/territory abbreviation
+    certainty: 95
+  - not_null: dsci
+    reason: every DSCI observation carries the drought severity and coverage index
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: the raw fetch stores ISO dates as strings before transform casts to DATE
+    certainty: 95
+  - column_type: {col: dsci, type: integer}
+    reason: DSCI is an integer index on a 0-500 scale
+    certainty: 95
+  - unique: [date, region]
+    reason: one DSCI row per USDM map week and region
+    certainty: 95
+  - distinct_count: {col: region, min: 53, max: 53}
+    reason: raw DSCI covers CONUS plus 50 states, DC, and Puerto Rico
+    certainty: 90
+  - row_count: {min: 60000}
+    reason: weekly history from 2000 onward across 53 regions is well above 60k rows
+    certainty: 85
+  - between: {col: dsci, lo: 0, hi: 500}
+    reason: DSCI is defined on a 0-500 scale
+    certainty: 95
+  - at_least: {col: date, expr: "2000-01-01"}
+    reason: USDM weekly statistical history starts in 2000
+    certainty: 90
+  - freshness: {col: date, reaches: today - 21d}
+    reason: USDM is updated weekly, with slack for publication and run timing
+    certainty: 85
+    points_outward: true
