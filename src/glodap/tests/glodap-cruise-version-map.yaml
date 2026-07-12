@@ -16,6 +16,6 @@ tests:
   - row_count: {min: 1000}
     reason: GLODAPv3 includes 1181 cruises
     certainty: 90
-  - unique: expocode
-    reason: each v3 expocode should appear once in the version mapping
+  - unique: cruise
+    reason: each GLODAPv3 integer cruise id should appear once in the version mapping
     certainty: 90

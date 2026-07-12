@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `google-community-mobility-reports`. Regenerate after model-verify.
+# caution: The table mixes country, state/province, county, metro, and other Google geography levels; filter to the intended geography level before comparing or aggregating rows.
+# caution: Percent changes are relative to Google's pre-pandemic baseline for the same geography and category, not absolute visit counts.
+key: [country_region_code, country_region, sub_region_1, sub_region_2, metro_area, iso_3166_2_code, census_fips_code, place_id, date]
 temporal: date
-sort: [date]
+sort: [date, country_region_code, country_region, sub_region_1, sub_region_2, metro_area, iso_3166_2_code, census_fips_code, place_id]
 columns:
   - name: country_region_code
     type: VARCHAR
@@ -20,15 +24,15 @@ columns:
     type: VARCHAR
   - name: date
     type: DATE
-  - name: retail_and_recreation_pct_change
-    type: DOUBLE
-  - name: grocery_and_pharmacy_pct_change
-    type: DOUBLE
-  - name: parks_pct_change
-    type: DOUBLE
-  - name: transit_stations_pct_change
-    type: DOUBLE
-  - name: workplaces_pct_change
-    type: DOUBLE
-  - name: residential_pct_change
-    type: DOUBLE
+  - name: retail_and_recreation_percent_change_from_baseline
+    type: VARCHAR
+  - name: grocery_and_pharmacy_percent_change_from_baseline
+    type: VARCHAR
+  - name: parks_percent_change_from_baseline
+    type: VARCHAR
+  - name: transit_stations_percent_change_from_baseline
+    type: VARCHAR
+  - name: workplaces_percent_change_from_baseline
+    type: VARCHAR
+  - name: residential_percent_change_from_baseline
+    type: VARCHAR

@@ -1,5 +1,8 @@
 spec_id: global-mangrove-watch-protected-areas
 status: active
+coverage:
+  frozen: true
+  reason: GMW widget annual epochs exposed by the API are a fixed historical series through 2020, not a rolling annual feed.
 tests:
   - not_null: location_id
     reason: every widget row is scoped to a location
