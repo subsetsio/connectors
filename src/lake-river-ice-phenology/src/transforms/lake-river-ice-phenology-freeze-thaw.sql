@@ -1,19 +1,23 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are seasonal waterbody observations; use `froze` and the ice-on/ice-off fields together because some seasons record no freeze-up or thaw date.
 SELECT
-    lakecode,
-    lakename,
-    lakeorriver,
-    season,
-    TRY_CAST(NULLIF(iceon_year,  '-999') AS INTEGER) AS iceon_year,
-    TRY_CAST(NULLIF(iceon_month, '-999') AS INTEGER) AS iceon_month,
-    TRY_CAST(NULLIF(iceon_day,   '-999') AS INTEGER) AS iceon_day,
-    TRY_CAST(NULLIF(iceoff_year,  '-999') AS INTEGER) AS iceoff_year,
-    TRY_CAST(NULLIF(iceoff_month, '-999') AS INTEGER) AS iceoff_month,
-    TRY_CAST(NULLIF(iceoff_day,   '-999') AS INTEGER) AS iceoff_day,
-    TRY_CAST(NULLIF(duration, '-999') AS INTEGER) AS duration_days,
-    TRY_CAST(latitude  AS DOUBLE) AS latitude,
-    TRY_CAST(longitude AS DOUBLE) AS longitude,
-    country,
-    froze,
-    NULLIF(comments, '') AS comments
+    "lakecode",
+    "lakename",
+    "lakeorriver",
+    "season",
+    CAST("iceon_year" AS BIGINT) AS iceon_year,
+    CAST("iceon_month" AS BIGINT) AS iceon_month,
+    CAST("iceon_day" AS BIGINT) AS iceon_day,
+    CAST("iceoff_year" AS BIGINT) AS iceoff_year,
+    CAST("iceoff_month" AS BIGINT) AS iceoff_month,
+    CAST("iceoff_day" AS BIGINT) AS iceoff_day,
+    CAST("duration" AS BIGINT) AS duration,
+    CAST("latitude" AS DOUBLE) AS latitude,
+    CAST("longitude" AS DOUBLE) AS longitude,
+    "country",
+    "froze",
+    "comments"
 FROM "lake-river-ice-phenology-freeze-thaw"
-WHERE lakecode IS NOT NULL AND season IS NOT NULL

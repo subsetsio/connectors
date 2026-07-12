@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `lake-river-ice-phenology-physical-characteristics`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lakecode, latitude, lakename, lat_decimal, longitude]
+checks:
+  - kind: unique
+    columns: [lakecode, latitude, lakename, lat_decimal, longitude]
+  - kind: not_null
+    col: lakecode
+  - kind: not_null
+    col: latitude
+  - kind: not_null
+    col: lakename
+  - kind: not_null
+    col: lat_decimal
+  - kind: not_null
+    col: longitude
+  - kind: row_floor
+    min: 434
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

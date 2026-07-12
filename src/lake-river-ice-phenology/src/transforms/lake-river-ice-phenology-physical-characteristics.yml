@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `lake-river-ice-phenology-physical-characteristics`. Regenerate after model-verify.
+# caution: This is a waterbody reference table, but `lakecode` alone is not unique in the measured raw data.
+key: [lakecode, latitude, lakename, lat_decimal, longitude]
+sort: [lakecode, latitude, lakename, lat_decimal, longitude]
 columns:
   - name: lakecode
     type: VARCHAR
@@ -12,41 +16,45 @@ columns:
     type: VARCHAR
   - name: state
     type: VARCHAR
-  - name: latitude_dms
-    type: VARCHAR
-  - name: longitude_dms
-    type: VARCHAR
   - name: latitude
-    type: DOUBLE
+    type: VARCHAR
   - name: longitude
+    type: VARCHAR
+  - name: elevation
     type: DOUBLE
-  - name: elevation_m
+  - name: mean_depth
     type: DOUBLE
-  - name: mean_depth_m
+  - name: max_depth
     type: DOUBLE
-  - name: median_depth_m
+  - name: surface_area
     type: DOUBLE
-  - name: max_depth_m
-    type: DOUBLE
-  - name: surface_area_km2
-    type: DOUBLE
-  - name: shoreline_km
+  - name: shoreline
     type: DOUBLE
   - name: largest_city_population
-    type: DOUBLE
-  - name: area_drained_km2
-    type: DOUBLE
-  - name: conductivity_us
-    type: DOUBLE
-  - name: secchi_depth_m
-    type: DOUBLE
+    type: BIGINT
   - name: power_plant_discharge
     type: VARCHAR
   - name: inlet_streams
     type: VARCHAR
+  - name: area_drained
+    type: BIGINT
   - name: landuse_code
     type: VARCHAR
+  - name: conductivity_us
+    type: DOUBLE
+  - name: secchi_depth
+    type: DOUBLE
   - name: contributor
     type: VARCHAR
+  - name: filename
+    type: VARCHAR
+  - name: initials
+    type: VARCHAR
+  - name: lat_decimal
+    type: DOUBLE
+  - name: lon_decimal
+    type: DOUBLE
+  - name: median_depth
+    type: DOUBLE
   - name: comments
     type: VARCHAR

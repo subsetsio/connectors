@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `lake-river-ice-phenology-freeze-thaw`. Regenerate after model-verify.
+# caution: Rows are seasonal waterbody observations; use `froze` and the ice-on/ice-off fields together because some seasons record no freeze-up or thaw date.
+key: [lakecode, season]
+temporal: season
+sort: [season, lakecode]
 columns:
   - name: lakecode
     type: VARCHAR
@@ -9,19 +14,19 @@ columns:
   - name: season
     type: VARCHAR
   - name: iceon_year
-    type: INTEGER
+    type: BIGINT
   - name: iceon_month
-    type: INTEGER
+    type: BIGINT
   - name: iceon_day
-    type: INTEGER
+    type: BIGINT
   - name: iceoff_year
-    type: INTEGER
+    type: BIGINT
   - name: iceoff_month
-    type: INTEGER
+    type: BIGINT
   - name: iceoff_day
-    type: INTEGER
-  - name: duration_days
-    type: INTEGER
+    type: BIGINT
+  - name: duration
+    type: BIGINT
   - name: latitude
     type: DOUBLE
   - name: longitude
