@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-tlc-fhv-tripdata`. Regenerate after model-verify.
+# caution: Rows are reported trip events without a stable trip identifier; do not treat any combination of timestamps, bases, and locations as a durable primary key.
+key: []
+temporal: pickup_datetime
+sort: [pickup_datetime]
+columns:
+  - name: dispatching_base_num
+    type: VARCHAR
+  - name: pickup_datetime
+    type: TIMESTAMP
+  - name: dropoff_datetime
+    type: TIMESTAMP
+  - name: pulocationid
+    type: BIGINT
+  - name: dolocationid
+    type: BIGINT
+  - name: sr_flag
+    type: BIGINT
+  - name: affiliated_base_number
+    type: VARCHAR

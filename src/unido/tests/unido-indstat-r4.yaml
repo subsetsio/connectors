@@ -1,0 +1,22 @@
+spec_id: unido-indstat-r4
+status: active
+tests:
+  - row_count: {min: 100}
+  - not_null: country
+  - not_null: indicator
+  - not_null: time_period
+  - not_null: year
+  - column_type: {col: country, type: string}
+  - column_type: {col: indicator, type: string}
+  - column_type: {col: classification, type: string}
+  - column_type: {col: classification_combo, type: string}
+  - column_type: {col: time_period, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [country, indicator, classification, classification_combo, time_period]
+    reason: one observation per country-indicator-classification-period cell
+    certainty: 90
+  - between: {col: year, lo: 1960, hi: current_year()}
+  - freshness: {col: year, reaches: current_year() - 3}
+    points_outward: true
+

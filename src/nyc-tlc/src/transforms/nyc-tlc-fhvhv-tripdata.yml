@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-tlc-fhvhv-tripdata`. Regenerate after model-verify.
+# caution: Rows are reported high-volume FHV trip events without a stable trip identifier; repeated request, pickup, and dropoff timestamps can occur for distinct trips.
+key: []
+temporal: request_datetime
+sort: [request_datetime]
+columns:
+  - name: hvfhs_license_num
+    type: VARCHAR
+  - name: dispatching_base_num
+    type: VARCHAR
+  - name: originating_base_num
+    type: VARCHAR
+  - name: request_datetime
+    type: TIMESTAMP
+  - name: on_scene_datetime
+    type: TIMESTAMP
+  - name: pickup_datetime
+    type: TIMESTAMP
+  - name: dropoff_datetime
+    type: TIMESTAMP
+  - name: pulocationid
+    type: BIGINT
+  - name: dolocationid
+    type: BIGINT
+  - name: trip_miles
+    type: DOUBLE
+  - name: trip_time
+    type: BIGINT
+  - name: base_passenger_fare
+    type: DOUBLE
+  - name: tolls
+    type: DOUBLE
+  - name: bcf
+    type: DOUBLE
+  - name: sales_tax
+    type: DOUBLE
+  - name: congestion_surcharge
+    type: DOUBLE
+  - name: airport_fee
+    type: DOUBLE
+  - name: tips
+    type: DOUBLE
+  - name: driver_pay
+    type: DOUBLE
+  - name: shared_request_flag
+    type: VARCHAR
+  - name: shared_match_flag
+    type: VARCHAR
+  - name: access_a_ride_flag
+    type: VARCHAR
+  - name: wav_request_flag
+    type: VARCHAR
+  - name: wav_match_flag
+    type: VARCHAR
+  - name: cbd_congestion_fee
+    type: DOUBLE

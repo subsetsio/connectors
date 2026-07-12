@@ -4,6 +4,9 @@ tests:
   - not_null: pickup_datetime
     reason: every FHV dispatch has a pickup timestamp
     certainty: 90
+  - freshness: {col: pickup_datetime, reaches: today - 120d}
+    reason: TLC trip parquet files are published monthly with a lag; the latest pickup timestamp should stay within roughly four months of today
+    certainty: 85
   - not_null: dispatching_base_num
     reason: the dispatching base is the core identifier of an FHV trip
     certainty: 85

@@ -10,5 +10,5 @@ SELECT
     CAST(time_period AS VARCHAR) AS time_period,
     CAST(year AS INTEGER) AS year,
     CAST(value AS DOUBLE) AS value
-FROM "unido-idsb-r4"
+FROM "unido-iip"
 WHERE value IS NOT NULL AND year IS NOT NULL

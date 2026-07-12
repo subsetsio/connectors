@@ -4,6 +4,9 @@ tests:
   - not_null: pickup_datetime
     reason: every high-volume FHV trip has a pickup timestamp
     certainty: 92
+  - freshness: {col: request_datetime, reaches: today - 120d}
+    reason: TLC trip parquet files are published monthly with a lag; the latest request timestamp should stay within roughly four months of today
+    certainty: 85
   - not_null: hvfhs_license_num
     reason: the HVFHS license code identifies the operator on every trip
     certainty: 88

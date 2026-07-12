@@ -1,7 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [country_code, indicator_code, classification_code, classification_combo_code, year]
+key: [country_code, indicator_code, classification_code, classification_combo_code, time_period]
 temporal: year
-sort: [year, country_code, indicator_code, classification_code, classification_combo_code]
+sort: [year, country_code, indicator_code, classification_code, classification_combo_code, time_period]
 columns:
   - name: country_code
     type: VARCHAR
@@ -18,6 +17,8 @@ columns:
   - name: classification_combo_code
     type: VARCHAR
   - name: classification_combo_name
+    type: VARCHAR
+  - name: time_period
     type: VARCHAR
   - name: year
     type: INTEGER

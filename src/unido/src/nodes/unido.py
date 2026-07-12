@@ -22,14 +22,15 @@ using the dimension order declared in each data response, not the DSD.
 """
 import json
 
+import re
+
 import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
+    post,
     raw_writer,
-    transient_retry,
 )
 
 # Entity union (rank-active subsets) -> SDMX dataflow id.
@@ -37,20 +38,34 @@ ENTITY_IDS = [
     "CIP",
     "IDSB_R3",
     "IDSB_R4",
+    "IIP",
     "INDSTAT_R3",
     "INDSTAT_R4",
+    "MMTD",
     "MTD",
+    "NADB",
     "SDG",
 ]
 
 SDMX_BASE = "https://stat.unido.org/portal/sdmx"
+PORTAL_BASE = "https://stat.unido.org/portal"
 ACCEPT_STRUCTURE = "application/vnd.sdmx.structure+json;version=2.0.0"
 ACCEPT_DATA = "application/vnd.sdmx.data+json;version=2.0.0"
+REST_TYPES = {
+    "IIP": ("IIP", True),
+    "MMTD": ("MMTD", True),
+    "NADB": ("NATIONAL_ACCOUNTS", False),
+}
 
 
-@transient_retry()
 def _get_json(url: str, accept: str) -> dict:
     resp = get(url, headers={"Accept": accept}, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _post_json(url: str, body: dict) -> dict:
+    resp = post(url, json=body, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
 
@@ -107,7 +122,16 @@ def _parse(payload: dict, name_maps: dict):
     series = datasets[0].get("series") or {}
     for skey, sval in series.items():
         codes = skey.split(".")
-        base: dict = {}
+        base: dict = {
+            "country": None,
+            "country_name": None,
+            "indicator": None,
+            "indicator_name": None,
+            "classification": "NA",
+            "classification_name": None,
+            "classification_combo": "NA",
+            "classification_combo_name": None,
+        }
         for did, code in zip(dim_ids, codes):
             col = did.lower()
             base[col] = code
@@ -117,12 +141,131 @@ def _parse(payload: dict, name_maps: dict):
             if vlist:
                 first = vlist[0]
                 value = first[0] if isinstance(first, list) else first
-            yield {**base, "time_period": period, "value": value}
+            yield {**base, "time_period": period, "year": _year_from_period(period), "value": value}
+
+
+def _english_name(item: dict) -> str | None:
+    return (item.get("lang") or {}).get("en")
+
+
+def _year_from_period(period: str | None) -> int | None:
+    if period is None:
+        return None
+    match = re.search(r"\d{4}", str(period))
+    return int(match.group(0)) if match else None
+
+
+def _load_rest_dataset(rest_type: str) -> dict:
+    resp = get(f"{PORTAL_BASE}/dataset/getDataset/{rest_type}", timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _parse_rest_with_activities(meta: dict, variable: dict, country: dict, payload: dict):
+    country_code = country["c"]
+    country_name = _english_name(country)
+    indicator_code = variable["c"]
+    indicator_name = _english_name(variable)
+    activity_names = {
+        activity["c"]: _english_name(activity)
+        for activity in meta.get("activities", [])
+    }
+    for row in payload.get("data") or []:
+        period = row.get("p")
+        activity_code = row.get("a") or "NA"
+        yield {
+            "country": country_code,
+            "country_name": country_name,
+            "indicator": indicator_code,
+            "indicator_name": indicator_name,
+            "classification": activity_code,
+            "classification_name": activity_names.get(activity_code),
+            "classification_combo": "NA",
+            "classification_combo_name": None,
+            "time_period": period,
+            "year": _year_from_period(period),
+            "value": row.get("v"),
+        }
+
+
+def _parse_rest_without_activities(meta: dict, country: dict, payload: dict):
+    country_code = country["c"]
+    country_name = _english_name(country)
+    variable_names = {
+        variable["c"]: _english_name(variable)
+        for variable in meta.get("variables", [])
+    }
+    for row in payload.get("data") or []:
+        period = row.get("p")
+        indicator_code = row.get("c")
+        yield {
+            "country": country_code,
+            "country_name": country_name,
+            "indicator": indicator_code,
+            "indicator_name": variable_names.get(indicator_code),
+            "classification": "NA",
+            "classification_name": None,
+            "classification_combo": "NA",
+            "classification_combo_name": None,
+            "time_period": period,
+            "year": _year_from_period(period),
+            "value": row.get("v"),
+        }
+
+
+def _fetch_rest_flow(asset: str, flow: str) -> None:
+    rest_type, has_activities = REST_TYPES[flow]
+    meta = _load_rest_dataset(rest_type)
+    countries = meta.get("countries") or []
+    variables = meta.get("variables") or []
+    periods = meta.get("periods") or []
+    activities = [activity["c"] for activity in meta.get("activities") or []]
+
+    n_rows = 0
+    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as w:
+        for country in countries:
+            if has_activities:
+                for variable in variables:
+                    body = {
+                        "datasetId": meta["id"],
+                        "countryCode": country["c"],
+                        "variableCode": variable["c"],
+                        "activityCodes": activities,
+                        "periods": periods,
+                        "fullPrecision": True,
+                    }
+                    payload = _post_json(f"{PORTAL_BASE}/dataset/getData", body)
+                    rows = _parse_rest_with_activities(meta, variable, country, payload)
+                    for row in rows:
+                        w.write(json.dumps(row, ensure_ascii=False))
+                        w.write("\n")
+                        n_rows += 1
+            else:
+                body = {
+                    "datasetId": meta["id"],
+                    "countryCode": country["c"],
+                    "variableCodes": [variable["c"] for variable in variables],
+                    "periods": periods,
+                    "fullPrecision": True,
+                }
+                payload = _post_json(f"{PORTAL_BASE}/dataset/getDataWithoutActivities", body)
+                rows = _parse_rest_without_activities(meta, country, payload)
+                for row in rows:
+                    w.write(json.dumps(row, ensure_ascii=False))
+                    w.write("\n")
+                    n_rows += 1
+
+    if n_rows == 0:
+        raise RuntimeError(f"{flow}: wrote 0 observations from frontend API")
 
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     flow = _flow_for(node_id)
+    if flow in REST_TYPES:
+        _fetch_rest_flow(asset, flow)
+        return
+
     country_codes, name_maps = _load_dsd(flow)
 
     n_rows = 0
@@ -152,43 +295,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# Every dataflow's raw shares the same long-format shape, so one transform
-# template publishes each. Codes stay VARCHAR (leading zeros, "NA" placeholders);
-# TIME_PERIOD is always a 4-digit year.
-def _transform_sql(dep: str) -> str:
-    return f'''
-        SELECT
-            CAST(country AS VARCHAR)              AS country_code,
-            CAST(country_name AS VARCHAR)         AS country_name,
-            CAST(indicator AS VARCHAR)            AS indicator_code,
-            CAST(indicator_name AS VARCHAR)       AS indicator_name,
-            CAST(classification AS VARCHAR)       AS classification_code,
-            CAST(classification_name AS VARCHAR)  AS classification_name,
-            CAST(classification_combo AS VARCHAR) AS classification_combo_code,
-            CAST(classification_combo_name AS VARCHAR) AS classification_combo_name,
-            CAST(time_period AS INTEGER)          AS year,
-            CAST(value AS DOUBLE)                 AS value
-        FROM "{dep}"
-        WHERE value IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        key=(
-            "country_code",
-            "indicator_code",
-            "classification_code",
-            "classification_combo_code",
-            "year",
-        ),
-        temporal="year",
-    )
-    for s in DOWNLOAD_SPECS
 ]

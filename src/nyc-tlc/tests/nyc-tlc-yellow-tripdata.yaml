@@ -4,6 +4,9 @@ tests:
   - not_null: tpep_pickup_datetime
     reason: every yellow trip is timestamped at pickup; nulls mean a parse/mapping miss
     certainty: 92
+  - freshness: {col: tpep_pickup_datetime, reaches: today - 120d}
+    reason: TLC trip parquet files are published monthly with a lag; the latest pickup timestamp should stay within roughly four months of today
+    certainty: 85
   - not_null: tpep_dropoff_datetime
     certainty: 88
   - column_type: {col: trip_distance, type: float}

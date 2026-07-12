@@ -4,11 +4,14 @@ tests:
   - not_null: lpep_pickup_datetime
     reason: every green trip is timestamped at pickup
     certainty: 92
+  - freshness: {col: lpep_pickup_datetime, reaches: today - 120d}
+    reason: TLC trip parquet files are published monthly with a lag; the latest pickup timestamp should stay within roughly four months of today
+    certainty: 85
   - column_type: {col: total_amount, type: float}
     certainty: 95
   - column_type: {col: trip_type, type: integer}
     reason: street-hail vs dispatch flag; normalized BIGINT
     certainty: 80
-  - row_count: {min: 100000}
-    reason: ~140 months of green trips since 2014
+  - row_count: {min: 50000}
+    reason: recent two-month green taxi slices are much smaller than historic volumes, but should still contain tens of thousands of trips
     certainty: 90
