@@ -22,7 +22,6 @@ import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     get_client,
     raw_writer,
@@ -151,31 +150,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            TRY_CAST(event_id AS BIGINT)            AS event_id,
-            TRY_CAST(timestamp AS TIMESTAMP)        AS timestamp,
-            TRY_CAST(longitude AS DOUBLE)           AS longitude,
-            TRY_CAST(latitude AS DOUBLE)            AS latitude,
-            sensor_type,
-            taxon,
-            individual_id,
-            tag_id,
-            study_name
-        FROM "{download_id}"
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="timestamp",
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

@@ -1,0 +1,12 @@
+spec_id: movebank-move-513
+status: active
+tests:
+  - row_count:
+      min: 1
+    reason: every accepted Movebank repository package should expose at least one tracking record; 0 rows means a truncated or empty download
+    certainty: 90
+  - not_null: study_name
+    reason: study-name is a standard Movebank export column written on event rows when provided by the source
+    certainty: 80
+    severity: warn
+    points_outward: false
