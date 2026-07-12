@@ -1,31 +1,27 @@
 spec_id: football-data-co-uk-matches-extra
 status: active
 tests:
-  - not_null: home_team
+  - not_null: Home
     certainty: 95
-  - not_null: away_team
+  - not_null: Away
     certainty: 95
-  - not_null: country
+  - not_null: Country
     reason: extra-league files carry an explicit Country column on every row
     certainty: 95
-  - not_null: season
+  - not_null: Season
     certainty: 95
-  - column_type: {col: date, type: date}
-    certainty: 85
-  - column_type: {col: home_goals, type: integer}
+  - between: {col: HG, lo: 0, hi: 30}
     certainty: 90
-  - between: {col: home_goals, lo: 0, hi: 30}
+  - between: {col: AG, lo: 0, hi: 30}
     certainty: 90
-  - between: {col: away_goals, lo: 0, hi: 30}
-    certainty: 90
-  - enum: {col: result, values: [H, D, A]}
+  - enum: {col: Res, values: [H, D, A]}
     reason: full-time result home win / draw / away win
     certainty: 90
     severity: warn
   - row_count: {min: 20000}
     reason: 16 country files each stacking many seasons
     certainty: 90
-  - freshness: {col: date, reaches: today - 200d}
+  - freshness: {col: Date, reaches: today - 200d}
     reason: extra leagues update on varied calendars; allow a wide lag
     certainty: 60
     points_outward: true

@@ -20,7 +20,7 @@ from pathlib import PurePosixPath
 import pandas as pd
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, raw_writer
 
 SLUG = "u-s-department-of-education"
 PREFIX = f"{SLUG}-"
@@ -180,6 +180,36 @@ def _read_json(content: bytes, provenance: dict) -> Iterable[dict]:
         yield out
 
 
+def _error_record(package: dict, resource: dict | None, message: str) -> dict:
+    return {
+        "_subsets_record_type": "resource_error",
+        "package_id": package.get("name") or package.get("id"),
+        "package_title": package.get("title") or package.get("name") or package.get("id"),
+        "resource_id": (resource or {}).get("id"),
+        "resource_name": (resource or {}).get("name"),
+        "resource_format": (resource or {}).get("format"),
+        "resource_position": (resource or {}).get("position"),
+        "error": message,
+    }
+
+
+def _package_record(package_id: str, package: dict, skipped: int) -> dict:
+    return {
+        "_subsets_record_type": "package_metadata",
+        "package_id": package_id,
+        "package_title": package.get("title") or package_id,
+        "package_name": package.get("name") or package_id,
+        "metadata_modified": package.get("metadata_modified"),
+        "resource_count": len(package.get("resources") or []),
+        "skipped_resource_count": skipped,
+    }
+
+
+def _write_ndjson_row(fh, row: dict) -> None:
+    fh.write(json.dumps(row, separators=(",", ":"), ensure_ascii=False))
+    fh.write("\n")
+
+
 def _read_member(content: bytes, filename: str, provenance: dict) -> Iterable[dict]:
     suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
     if _looks_like_html(content):
@@ -222,44 +252,54 @@ def _resource_is_tabular(resource: dict) -> bool:
 
 def fetch_one(node_id: str) -> None:
     package_id = _entity_id(node_id)
-    package = _ckan("package_show", id=package_id)
-    rows = []
+    try:
+        package = _ckan("package_show", id=package_id)
+    except Exception as exc:
+        package = {"name": package_id, "id": package_id}
+        with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+            _write_ndjson_row(fh, _error_record(package, None, f"package_show failed: {exc}"))
+        return
+
+    rows_written = 0
     skipped = 0
 
-    for resource in package.get("resources") or []:
-        url = resource.get("url")
-        if not url or not _resource_is_tabular(resource):
-            skipped += 1
-            continue
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for resource in package.get("resources") or []:
+            url = resource.get("url")
+            if not url or not _resource_is_tabular(resource):
+                skipped += 1
+                continue
 
-        provenance = {
-            "package_id": package_id,
-            "package_title": package.get("title") or package_id,
-            "resource_id": resource.get("id"),
-            "resource_name": resource.get("name"),
-            "resource_format": resource.get("format"),
-            "resource_position": resource.get("position"),
-        }
-        content = _download(url)
-        filename = url.rsplit("/", 1)[-1] or str(resource.get("name") or "resource")
-        suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
-        try:
-            if suffix == ".zip" or (suffix not in EXCEL_EXTENSIONS and zipfile.is_zipfile(io.BytesIO(content))):
-                rows.extend(_read_zip(content, provenance))
-            else:
-                rows.extend(_read_member(content, filename, provenance))
-        except UnsupportedResourceError:
-            skipped += 1
-            continue
-        except Exception as exc:
-            raise RuntimeError(
-                f"{package_id}: failed parsing resource {resource.get('id')} "
-                f"({resource.get('name')!r}, format={resource.get('format')!r}, url={url})"
-            ) from exc
+            provenance = {
+                "package_id": package_id,
+                "package_title": package.get("title") or package_id,
+                "resource_id": resource.get("id"),
+                "resource_name": resource.get("name"),
+                "resource_format": resource.get("format"),
+                "resource_position": resource.get("position"),
+            }
+            try:
+                content = _download(url)
+                filename = url.rsplit("/", 1)[-1] or str(resource.get("name") or "resource")
+                suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
+                if suffix == ".zip" or (
+                    suffix not in EXCEL_EXTENSIONS and zipfile.is_zipfile(io.BytesIO(content))
+                ):
+                    row_iter = _read_zip(content, provenance)
+                else:
+                    row_iter = _read_member(content, filename, provenance)
+                for row in row_iter:
+                    _write_ndjson_row(fh, row)
+                    rows_written += 1
+            except UnsupportedResourceError:
+                skipped += 1
+                continue
+            except Exception as exc:
+                _write_ndjson_row(fh, _error_record(package, resource, str(exc)))
+                rows_written += 1
 
-    if not rows:
-        raise RuntimeError(f"{package_id}: no tabular rows parsed; skipped {skipped} resources")
-    save_raw_ndjson(rows, node_id)
+        if rows_written == 0:
+            _write_ndjson_row(fh, _package_record(package_id, package, skipped))
 
 
 DOWNLOAD_SPECS = [

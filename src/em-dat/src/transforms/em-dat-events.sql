@@ -1,6 +1,54 @@
-SELECT * REPLACE (
-    TRY_CAST(entry_date AS DATE)  AS entry_date,
+SELECT
+    CAST(dis_no AS VARCHAR) AS dis_no,
+    CAST(historic AS VARCHAR) AS historic,
+    CAST(classification_key AS VARCHAR) AS classification_key,
+    CAST(disaster_group AS VARCHAR) AS disaster_group,
+    CAST(disaster_subgroup AS VARCHAR) AS disaster_subgroup,
+    CAST(disaster_type AS VARCHAR) AS disaster_type,
+    CAST(disaster_subtype AS VARCHAR) AS disaster_subtype,
+    CAST(external_ids AS VARCHAR) AS external_ids,
+    CAST(event_name AS VARCHAR) AS event_name,
+    CAST(iso AS VARCHAR) AS iso,
+    CAST(country AS VARCHAR) AS country,
+    CAST(subregion AS VARCHAR) AS subregion,
+    CAST(region AS VARCHAR) AS region,
+    CAST(location AS VARCHAR) AS location,
+    CAST(origin AS VARCHAR) AS origin,
+    CAST(associated_types AS VARCHAR) AS associated_types,
+    CAST(ofda_bha_response AS VARCHAR) AS ofda_bha_response,
+    CAST(appeal AS VARCHAR) AS appeal,
+    CAST(declaration AS VARCHAR) AS declaration,
+    CAST(aid_contribution_000_usd AS DOUBLE) AS aid_contribution_000_usd,
+    CAST(magnitude AS DOUBLE) AS magnitude,
+    CAST(magnitude_scale AS VARCHAR) AS magnitude_scale,
+    CAST(latitude AS DOUBLE) AS latitude,
+    CAST(longitude AS DOUBLE) AS longitude,
+    CAST(river_basin AS VARCHAR) AS river_basin,
+    CAST(start_year AS BIGINT) AS start_year,
+    CAST(start_month AS BIGINT) AS start_month,
+    CAST(start_day AS BIGINT) AS start_day,
+    CAST(end_year AS BIGINT) AS end_year,
+    CAST(end_month AS BIGINT) AS end_month,
+    CAST(end_day AS BIGINT) AS end_day,
+    CAST(total_deaths AS BIGINT) AS total_deaths,
+    CAST(no_injured AS BIGINT) AS no_injured,
+    CAST(no_affected AS BIGINT) AS no_affected,
+    CAST(no_homeless AS BIGINT) AS no_homeless,
+    CAST(total_affected AS BIGINT) AS total_affected,
+    CAST(reconstruction_costs_000_usd AS DOUBLE) AS reconstruction_costs_000_usd,
+    CAST(reconstruction_costs_adjusted_000_usd AS DOUBLE) AS reconstruction_costs_adjusted_000_usd,
+    CAST(insured_damage_000_usd AS DOUBLE) AS insured_damage_000_usd,
+    CAST(insured_damage_adjusted_000_usd AS DOUBLE) AS insured_damage_adjusted_000_usd,
+    CAST(total_damage_000_usd AS DOUBLE) AS total_damage_000_usd,
+    CAST(total_damage_adjusted_000_usd AS DOUBLE) AS total_damage_adjusted_000_usd,
+    CAST(cpi AS DOUBLE) AS cpi,
+    CAST(admin_units AS VARCHAR) AS admin_units,
+    CAST(gadm_admin_units AS VARCHAR) AS gadm_admin_units,
+    TRY_CAST(entry_date AS DATE) AS entry_date,
     TRY_CAST(last_update AS DATE) AS last_update
-)
 FROM "em-dat-events"
 WHERE dis_no IS NOT NULL
+  AND entry_date IS NOT NULL
+  AND last_update IS NOT NULL
+  AND iso IS NOT NULL
+  AND country IS NOT NULL

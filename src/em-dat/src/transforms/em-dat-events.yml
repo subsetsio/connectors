@@ -1,96 +1,145 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [dis_no, entry_date, last_update, iso, country]
+temporal: last_update
+sort: [last_update, dis_no, iso, country]
 columns:
   - name: dis_no
     type: VARCHAR
+    description: EM-DAT disaster event identifier.
   - name: historic
     type: VARCHAR
+    description: EM-DAT historic-event flag from the source archive.
   - name: classification_key
     type: VARCHAR
+    description: EM-DAT disaster classification code.
   - name: disaster_group
     type: VARCHAR
+    description: Top-level disaster group, such as Natural or Technological.
   - name: disaster_subgroup
     type: VARCHAR
+    description: Disaster subgroup assigned by EM-DAT.
   - name: disaster_type
     type: VARCHAR
+    description: Disaster type assigned by EM-DAT.
   - name: disaster_subtype
     type: VARCHAR
+    description: Disaster subtype assigned by EM-DAT, where available.
   - name: external_ids
     type: VARCHAR
+    description: External event identifiers recorded by EM-DAT.
   - name: event_name
     type: VARCHAR
+    description: Name or short label of the disaster event, where available.
   - name: iso
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country code for the affected country row.
   - name: country
     type: VARCHAR
+    description: Affected country or territory name.
   - name: subregion
     type: VARCHAR
+    description: United Nations subregion for the affected country row.
   - name: region
     type: VARCHAR
+    description: United Nations region for the affected country row.
   - name: location
     type: VARCHAR
+    description: Free-text location details within the affected country.
   - name: origin
     type: VARCHAR
+    description: Reported origin or trigger of the disaster, where supplied.
   - name: associated_types
     type: VARCHAR
+    description: Other associated disaster types recorded by EM-DAT.
   - name: ofda_bha_response
     type: VARCHAR
+    description: Indicator for OFDA/BHA response recorded in the source workbook.
   - name: appeal
     type: VARCHAR
+    description: Indicator for whether an appeal is recorded for the event.
   - name: declaration
     type: VARCHAR
+    description: Indicator for whether a disaster declaration is recorded.
   - name: aid_contribution_000_usd
     type: DOUBLE
+    description: Reported aid contribution in thousands of current US dollars.
   - name: magnitude
     type: DOUBLE
+    description: Reported event magnitude in the unit named by magnitude_scale.
   - name: magnitude_scale
     type: VARCHAR
+    description: Unit or scale used for the magnitude value.
   - name: latitude
     type: DOUBLE
+    description: Latitude reported for the event location, where available.
   - name: longitude
     type: DOUBLE
+    description: Longitude reported for the event location, where available.
   - name: river_basin
     type: VARCHAR
+    description: River basin associated with the disaster, where available.
   - name: start_year
     type: BIGINT
+    description: Calendar year in which the disaster started.
   - name: start_month
     type: BIGINT
+    description: Calendar month in which the disaster started, where available.
   - name: start_day
     type: BIGINT
+    description: Calendar day on which the disaster started, where available.
   - name: end_year
     type: BIGINT
+    description: Calendar year in which the disaster ended.
   - name: end_month
     type: BIGINT
+    description: Calendar month in which the disaster ended, where available.
   - name: end_day
     type: BIGINT
+    description: Calendar day on which the disaster ended, where available.
   - name: total_deaths
     type: BIGINT
+    description: Reported number of deaths attributed to the disaster.
   - name: no_injured
     type: BIGINT
+    description: Reported number of injured people.
   - name: no_affected
     type: BIGINT
+    description: Reported number of affected people, excluding injured and homeless counts unless included by the source.
   - name: no_homeless
     type: BIGINT
+    description: Reported number of people made homeless.
   - name: total_affected
     type: BIGINT
+    description: Reported total affected population for the event-country row.
   - name: reconstruction_costs_000_usd
     type: DOUBLE
+    description: Reported reconstruction costs in thousands of current US dollars.
   - name: reconstruction_costs_adjusted_000_usd
     type: DOUBLE
+    description: Reported reconstruction costs in thousands of inflation-adjusted US dollars.
   - name: insured_damage_000_usd
     type: DOUBLE
+    description: Reported insured damage in thousands of current US dollars.
   - name: insured_damage_adjusted_000_usd
     type: DOUBLE
+    description: Reported insured damage in thousands of inflation-adjusted US dollars.
   - name: total_damage_000_usd
     type: DOUBLE
+    description: Reported total damage in thousands of current US dollars.
   - name: total_damage_adjusted_000_usd
     type: DOUBLE
+    description: Reported total damage in thousands of inflation-adjusted US dollars.
   - name: cpi
     type: DOUBLE
+    description: Consumer price index factor used by EM-DAT for adjusted monetary values.
   - name: admin_units
     type: VARCHAR
+    description: Source administrative-unit details associated with the event.
   - name: gadm_admin_units
     type: VARCHAR
+    description: GADM administrative-unit details associated with the event.
   - name: entry_date
     type: DATE
+    description: Date the event record entered the EM-DAT archive.
   - name: last_update
     type: DATE
+    description: Date the event record was last updated in the EM-DAT archive.
