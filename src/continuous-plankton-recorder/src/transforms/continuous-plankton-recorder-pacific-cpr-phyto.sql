@@ -1,7 +1,9 @@
 SELECT
+    id                                        AS source_row_id,
     occurrenceID                              AS occurrence_id,
     eventID                                   AS event_id,
     catalogNumber                             AS catalog_number,
+    materialSampleID                          AS material_sample_id,
     basisOfRecord                             AS basis_of_record,
     TRY_CAST(year AS INTEGER)                 AS year,
     TRY_CAST(month AS INTEGER)                AS month,

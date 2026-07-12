@@ -1,4 +1,5 @@
 SELECT
+    id                                        AS source_row_id,
     occurrenceID                              AS occurrence_id,
     eventID                                   AS event_id,
     catalogNumber                             AS catalog_number,

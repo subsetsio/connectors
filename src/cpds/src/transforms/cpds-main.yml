@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [country, year]
-temporal: year
-sort: [year, country]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cpds-main`. Regenerate after model-verify.
+# caution: This is a wide annual country panel spanning political, institutional, election, fiscal, economic, welfare, and labor indicators; choose indicator columns deliberately rather than summing across unrelated measures.
+key: [year, country, iso]
+temporal: elect
+sort: [elect, year, country, iso]
 columns:
   - name: year
     type: BIGINT

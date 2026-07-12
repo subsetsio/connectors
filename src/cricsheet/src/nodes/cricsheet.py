@@ -23,11 +23,9 @@ import zipfile
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     save_raw_ndjson,
-    transient_retry,
 )
 
 DELIVERIES_ZIP_URL = "https://cricsheet.org/downloads/all_csv2.zip"
@@ -55,7 +53,6 @@ _INFO_SINGLE = [
 ]
 
 
-@transient_retry()
 def _download(url: str) -> bytes:
     # Generous read timeout: all_csv2.zip is ~120MB over a plain file server.
     resp = get(url, timeout=(10.0, 300.0))
@@ -158,98 +155,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="cricsheet-deliveries", fn=fetch_deliveries, kind="download"),
     NodeSpec(id="cricsheet-matches", fn=fetch_matches, kind="download"),
     NodeSpec(id="cricsheet-people", fn=fetch_people, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cricsheet-deliveries-transform",
-        deps=["cricsheet-deliveries"],
-        sql='''
-            SELECT
-                match_id,
-                season,
-                CAST(start_date AS DATE)                          AS start_date,
-                venue,
-                CAST(innings AS INTEGER)                          AS innings,
-                ball,
-                actual_delivery,
-                batting_team,
-                bowling_team,
-                striker,
-                non_striker,
-                bowler,
-                TRY_CAST(NULLIF(runs_off_bat, '') AS INTEGER)     AS runs_off_bat,
-                TRY_CAST(NULLIF(extras, '')       AS INTEGER)     AS extras,
-                TRY_CAST(NULLIF(wides, '')        AS INTEGER)     AS wides,
-                TRY_CAST(NULLIF(noballs, '')      AS INTEGER)     AS noballs,
-                TRY_CAST(NULLIF(byes, '')         AS INTEGER)     AS byes,
-                TRY_CAST(NULLIF(legbyes, '')      AS INTEGER)     AS legbyes,
-                TRY_CAST(NULLIF(penalty, '')      AS INTEGER)     AS penalty,
-                NULLIF(non_boundary, '')                          AS non_boundary,
-                NULLIF(wicket_type, '')                           AS wicket_type,
-                NULLIF(player_dismissed, '')                      AS player_dismissed,
-                NULLIF(other_wicket_type, '')                     AS other_wicket_type,
-                NULLIF(other_player_dismissed, '')                AS other_player_dismissed,
-                NULLIF(fielder_1, '')                             AS fielder_1,
-                NULLIF(fielder_2, '')                             AS fielder_2,
-                NULLIF(fielder_3, '')                             AS fielder_3
-            FROM "cricsheet-deliveries"
-            WHERE match_id IS NOT NULL AND match_id <> ''
-        ''',
-        # No key declared: a ball number can recur within an innings (wides/
-        # no-balls are re-bowled), so (match_id, innings, ball) is not a proven
-        # unique grain for this append-style ball-by-ball log.
-        temporal="start_date",
-    ),
-    SqlNodeSpec(
-        id="cricsheet-matches-transform",
-        deps=["cricsheet-matches"],
-        sql='''
-            SELECT
-                match_id,
-                team_type,
-                gender,
-                season,
-                TRY_STRPTIME(start_date, '%Y/%m/%d')::DATE        AS start_date,
-                TRY_STRPTIME(end_date, '%Y/%m/%d')::DATE          AS end_date,
-                event,
-                match_type,
-                TRY_CAST(NULLIF(match_number, '')   AS INTEGER)   AS match_number,
-                TRY_CAST(NULLIF(overs, '')          AS INTEGER)   AS overs,
-                TRY_CAST(NULLIF(balls_per_over, '') AS INTEGER)   AS balls_per_over,
-                venue,
-                city,
-                team1,
-                team2,
-                toss_winner,
-                toss_decision,
-                player_of_match,
-                winner,
-                TRY_CAST(NULLIF(winner_runs, '')    AS INTEGER)   AS winner_runs,
-                TRY_CAST(NULLIF(winner_wickets, '') AS INTEGER)   AS winner_wickets,
-                method,
-                outcome
-            FROM "cricsheet-matches"
-            WHERE match_id IS NOT NULL
-        ''',
-        key=("match_id",),
-        temporal="start_date",
-    ),
-    SqlNodeSpec(
-        id="cricsheet-people-transform",
-        deps=["cricsheet-people"],
-        sql='''
-            SELECT
-                identifier,
-                name,
-                unique_name,
-                NULLIF(key_cricinfo, '')   AS key_cricinfo,
-                NULLIF(key_cricinfo_2, '') AS key_cricinfo_2
-            FROM "cricsheet-people"
-            WHERE identifier IS NOT NULL AND identifier <> ''
-        ''',
-        # Player/official identity register — one row per person, no time dimension.
-        key=("identifier",),
-    ),
 ]

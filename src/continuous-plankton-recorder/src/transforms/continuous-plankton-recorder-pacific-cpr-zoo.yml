@@ -1,5 +1,10 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [source_row_id]
+temporal: modified
+sort: [modified, source_row_id]
 columns:
+  - name: source_row_id
+    type: VARCHAR
   - name: occurrence_id
     type: VARCHAR
   - name: event_id
