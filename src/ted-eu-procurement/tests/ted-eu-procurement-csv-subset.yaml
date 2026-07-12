@@ -1,0 +1,22 @@
+spec_id: ted-eu-procurement-csv-subset
+status: active
+coverage:
+  frozen: true
+  reason: the CSV subset is a historical file inventory on data.europa.eu; individual distributions are archival yearly or multi-year packages
+tests:
+  - row_count: {min: 10}
+    reason: the TED CSV subset catalog should list multiple notice-type and year package distributions
+    certainty: 85
+  - not_null: title
+    reason: every data.europa.eu distribution is titled
+    certainty: 90
+  - not_null: url
+    reason: every listed CSV subset distribution should expose an access or download URL
+    certainty: 90
+  - enum: {col: format, values: [CSV, ZIP]}
+    reason: the CSV subset is published as CSV files or ZIP packages containing CSV files
+    certainty: 85
+  - between: {col: period_start_year, lo: 2008, hi: current_year()}
+    reason: current TED CSV subset packages cover public-procurement notices by publication year
+    certainty: 75
+    severity: warn

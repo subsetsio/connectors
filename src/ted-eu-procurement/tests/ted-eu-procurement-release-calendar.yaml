@@ -1,0 +1,19 @@
+spec_id: ted-eu-procurement-release-calendar
+status: active
+tests:
+  - not_null: issue_token
+    reason: every calendar row should map to the daily package token used by TED bulk downloads
+    certainty: 95
+  - not_null: publication_date
+    reason: release calendar rows are publication dates for OJ S issues
+    certainty: 95
+  - unique: issue_token
+    reason: each OJ S issue token identifies one daily package
+    certainty: 95
+  - row_count: {min: 200}
+    reason: two years of Monday-Friday OJ S release calendars should contain hundreds of issue rows
+    certainty: 90
+  - freshness: {col: publication_date, reaches: today - 14d}
+    reason: TED release calendars include current-year OJ S issue publication dates
+    certainty: 90
+    points_outward: true
