@@ -1,6 +1,5 @@
 SELECT
     CAST(rank AS INTEGER) AS rank,
-    tld
+    CAST(tld AS VARCHAR) AS tld
 FROM "cisco-umbrella-top-1m-tlds"
 WHERE tld IS NOT NULL AND tld <> ''
-ORDER BY rank

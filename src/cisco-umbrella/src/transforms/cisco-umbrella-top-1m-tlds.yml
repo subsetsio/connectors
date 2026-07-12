@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [tld]
+sort: [rank]
 columns:
   - name: rank
     type: INTEGER
+    description: Popularity rank within the Cisco Umbrella top-level domain list; 1 is most queried.
   - name: tld
     type: VARCHAR
+    description: Top-level domain observed in Cisco Umbrella DNS resolver traffic.

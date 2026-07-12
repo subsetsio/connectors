@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [domain]
+sort: [rank]
 columns:
   - name: rank
     type: INTEGER
+    description: Popularity rank within the Cisco Umbrella top 1 million domains list; 1 is most queried.
   - name: domain
     type: VARCHAR
+    description: Domain or subdomain observed in Cisco Umbrella DNS resolver traffic.
