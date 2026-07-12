@@ -61,10 +61,6 @@ ENTITY_SOURCES = {
         "rfmo": "ICCAT",
         "urls": ["https://www.iccat.int/Data/t1nc_20260129.zip"],
     },
-    "iccat-task-2-catch-effort": {
-        "rfmo": "ICCAT",
-        "urls": ["https://www.iccat.int/Data/t2ce_20260130.zip"],
-    },
     "iccat-task-2-purse-seine-school": {
         "rfmo": "ICCAT",
         "urls": ["https://www.iccat.int/Data/t2ce_PS1991-2024_bySchool.zip"],
@@ -72,6 +68,13 @@ ENTITY_SOURCES = {
     "iotc-catch-effort": {
         "rfmo": "IOTC",
         "landing_urls": ["https://iotc.org/data/datasets/latest/CE/All"],
+    },
+    "iotc-reference-summary": {
+        "rfmo": "IOTC",
+        "landing_urls": [
+            "https://iotc.org/data/datasets/latest/CE/REF",
+            "https://iotc.org/data/datasets/latest/SF/REF",
+        ],
     },
     "iotc-retained-catch-raw": {
         "rfmo": "IOTC",
