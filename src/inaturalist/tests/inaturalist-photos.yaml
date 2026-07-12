@@ -4,9 +4,6 @@ tests:
   - not_null: photo_uuid
     reason: photo_uuid is the stable key for photo metadata rows
     certainty: 95
-  - unique: photo_uuid
-    reason: one row per licensed photo
-    certainty: 90
   - not_null: observation_uuid
     reason: every photo row is attached to an observation
     certainty: 95

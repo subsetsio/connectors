@@ -1,4 +1,5 @@
-# Cell-level long table parsed from PANGAEA .tab payloads in the GlacierLengthsAustria OAI set.
+# Cell-level long table parsed from PANGAEA .tab payloads in the GlacierLengthsAustria OAI set,
+# plus one source_doi_manifest row for each discovered DOI record.
 key: [dataset_doi, file_name, source_row_number, column_position]
 temporal: observation_year
 sort: [observation_year, dataset_doi, file_name, source_row_number, column_position]
@@ -11,25 +12,25 @@ columns:
     description: DOI record discovered from the GlacierLengthsAustria OAI set.
   - name: dataset_doi
     type: VARCHAR
-    description: DOI of the parsed tabular dataset, extracted from the file metadata when available.
+    description: DOI of the parsed tabular dataset, extracted from the file metadata when available; source manifest rows use the discovered source DOI.
   - name: file_name
     type: VARCHAR
-    description: Name of the downloaded .tab payload or archive member.
+    description: Name of the downloaded .tab payload or archive member; source manifest rows use __source_manifest__.
   - name: source_row_number
     type: BIGINT
-    description: One-based row number within the parsed source table.
+    description: One-based row number within the parsed source table; source manifest rows use 0.
   - name: observation_year
     type: BIGINT
     description: Year parsed from the Date/Time cell for the same source table row.
   - name: column_position
     type: BIGINT
-    description: One-based column position within the parsed source table.
+    description: One-based column position within the parsed source table; source manifest rows use 0.
   - name: source_column_name
     type: VARCHAR
-    description: Original PANGAEA source column name, including units or comments where provided.
+    description: Original PANGAEA source column name, including units or comments where provided; source manifest rows use source_doi_manifest.
   - name: value_text
     type: VARCHAR
-    description: Cell value as published by PANGAEA, kept as text because source columns carry mixed units and types.
+    description: Cell value as published by PANGAEA, kept as text because source columns carry mixed units and types; source manifest rows contain the discovered DOI.
   - name: metadata_text
     type: VARCHAR
     description: Header metadata block from the source .tab file, including citation, coverage, parameters, and license text.
