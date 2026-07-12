@@ -15,7 +15,7 @@ import csv
 import io
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 OWID_BLOOM_URL = (
     "https://ourworldindata.org/grapher/"
@@ -111,35 +111,5 @@ DOWNLOAD_SPECS = [
         id="kyoto-cherry-blossom-temperature-reconstruction",
         fn=fetch_temperature_reconstruction,
         kind="download",
-    ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="kyoto-cherry-blossom-bloom-dates-transform",
-        deps=["kyoto-cherry-blossom-bloom-dates"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER)               AS year,
-                CAST(day_of_year AS INTEGER)        AS day_of_year,
-                CAST(thirty_year_average AS DOUBLE) AS thirty_year_average
-            FROM "kyoto-cherry-blossom-bloom-dates"
-            WHERE day_of_year IS NOT NULL
-            ORDER BY year
-        ''',
-    ),
-    SqlNodeSpec(
-        id="kyoto-cherry-blossom-temperature-reconstruction-transform",
-        deps=["kyoto-cherry-blossom-temperature-reconstruction"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER)              AS year,
-                CAST(temp_reconstructed AS DOUBLE) AS temp_reconstructed,
-                CAST(temp_observed AS DOUBLE)      AS temp_observed
-            FROM "kyoto-cherry-blossom-temperature-reconstruction"
-            WHERE temp_reconstructed IS NOT NULL OR temp_observed IS NOT NULL
-            ORDER BY year
-        ''',
     ),
 ]

@@ -1,0 +1,26 @@
+spec_id: l2beat-projects
+status: active
+tests:
+  - row_count: {min: 80}
+    reason: L2BEAT summary enumerates roughly 116 tracked scaling projects; a much smaller catalog indicates a changed or truncated summary payload.
+    certainty: 90
+  - not_null: id
+  - not_null: name
+  - not_null: slug
+  - column_type: {col: id, type: string}
+  - column_type: {col: name, type: string}
+  - column_type: {col: slug, type: string}
+  - column_type: {col: type, type: string}
+  - column_type: {col: category, type: string}
+  - column_type: {col: is_archived, type: boolean}
+  - column_type: {col: is_under_review, type: boolean}
+  - column_type: {col: current_tvs_usd, type: float}
+  - unique: slug
+    reason: project slug is the stable key used by the per-project TVS and activity endpoints.
+    certainty: 95
+  - distinct_count: {col: type, min: 2}
+    reason: the catalog covers both layer2 and layer3 scaling projects.
+    certainty: 85
+  - distinct_count: {col: category, min: 4}
+    reason: L2BEAT classifies scaling projects across several categories such as optimistic rollups, ZK rollups, validiums, and others.
+    certainty: 80
