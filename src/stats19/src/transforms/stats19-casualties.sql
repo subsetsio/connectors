@@ -21,10 +21,10 @@ SELECT
     "pedestrian_road_maintenance_worker",
     "casualty_type",
     "casualty_imd_decile",
-    "lsoa_of_casualty",
+    CAST("lsoa_of_casualty" AS VARCHAR) AS "lsoa_of_casualty",
     "enhanced_casualty_severity",
     "casualty_injury_based",
-    "casualty_adjusted_severity_serious",
-    "casualty_adjusted_severity_slight",
+    CAST("casualty_adjusted_severity_serious" AS DOUBLE) AS "casualty_adjusted_severity_serious",
+    CAST("casualty_adjusted_severity_slight" AS DOUBLE) AS "casualty_adjusted_severity_slight",
     "casualty_distance_banding"
 FROM "stats19-casualties"
