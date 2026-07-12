@@ -1,0 +1,20 @@
+spec_id: geopolitical-risk-index-gpr-daily
+status: active
+tests:
+  - row_count: {min: 14000}
+    reason: daily GPR history starts in 1985 and should contain decades of daily rows
+    certainty: 95
+  - not_null: date
+  - column_type: {col: date, type: timestamp}
+  - unique: date
+    reason: source export has one row per calendar day
+    certainty: 95
+  - not_null: gprd
+  - column_type: {col: gprd, type: float}
+  - column_type: {col: gprd_act, type: float}
+  - column_type: {col: gprd_threat, type: float}
+  - column_type: {col: event, type: string}
+  - freshness: {col: date, reaches: today - 7d}
+    reason: daily export should extend to the recent past
+    points_outward: true
+

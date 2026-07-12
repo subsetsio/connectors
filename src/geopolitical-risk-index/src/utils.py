@@ -8,7 +8,7 @@ import io
 
 import pandas as pd
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 MONTHLY_URL = "https://www.matteoiacoviello.com/gpr_files/data_gpr_export.xls"
 DAILY_URL = "https://www.matteoiacoviello.com/gpr_files/data_gpr_daily_recent.xls"
@@ -17,7 +17,6 @@ DAILY_URL = "https://www.matteoiacoviello.com/gpr_files/data_gpr_daily_recent.xl
 _META_COLS = ("var_name", "var_label")
 
 
-@transient_retry()
 def _fetch_xls(url: str) -> pd.DataFrame:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()

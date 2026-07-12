@@ -1,0 +1,21 @@
+spec_id: geopolitical-risk-index-gpr-country-monthly
+status: active
+tests:
+  - row_count: {min: 60000}
+    reason: long table combines dozens of countries with monthly history from 1900 onward
+    certainty: 90
+  - not_null: month
+  - not_null: country
+  - column_type: {col: month, type: timestamp}
+  - column_type: {col: country, type: string}
+  - column_type: {col: gprc, type: float}
+  - column_type: {col: gprhc, type: float}
+  - unique: [month, country]
+    reason: reshape should produce one row per country-month pair
+    certainty: 95
+  - distinct_count: {col: country, min: 35}
+    reason: source documents country-specific indexes for advanced and emerging economies
+    certainty: 85
+  - freshness: {col: month, reaches: today - 70d}
+    reason: country monthly series come from the same monthly export as the global series
+    points_outward: true

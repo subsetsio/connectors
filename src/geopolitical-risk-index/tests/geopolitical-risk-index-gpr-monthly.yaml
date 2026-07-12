@@ -1,0 +1,21 @@
+spec_id: geopolitical-risk-index-gpr-monthly
+status: active
+tests:
+  - row_count: {min: 1400}
+    reason: monthly GPR history starts in 1900, so the raw table should contain more than a century of monthly rows
+    certainty: 95
+  - not_null: month
+  - column_type: {col: month, type: timestamp}
+  - unique: month
+    reason: source export has one global observation row per month
+    certainty: 95
+  - not_null: gprh
+    reason: historical headline index should exist across the long monthly history
+    certainty: 90
+  - column_type: {col: gpr, type: float}
+  - column_type: {col: gprh, type: float}
+  - column_type: {col: shareh_cat_1, type: float}
+  - freshness: {col: month, reaches: today - 70d}
+    reason: source updates the monthly export around the 10th; two-month slack avoids blocking between releases
+    points_outward: true
+
