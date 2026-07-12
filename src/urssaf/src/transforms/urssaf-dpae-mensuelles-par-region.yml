@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-dpae-mensuelles-par-region`. Regenerate after model-verify.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: duree_de_contrat
+    type: VARCHAR
+  - name: nature_de_contrat
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_mois
+    type: DATE
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: dpae_brut
+    type: BIGINT
+  - name: dpae_cvs
+    type: BIGINT

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-denombrement-annuel-des-usagers-par-region`. Regenerate after model-verify.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: categorie_cotisant
+    type: VARCHAR
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: comptes_cotisants
+    type: DOUBLE
+  - name: date_timestamp
+    type: BIGINT

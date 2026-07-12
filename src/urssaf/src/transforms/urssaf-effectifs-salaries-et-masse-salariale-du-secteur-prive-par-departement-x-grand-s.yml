@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-effectifs-salaries-et-masse-salariale-du-secteur-prive-par-departement-x-grand-s`. Regenerate after model-verify.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: departement
+    type: VARCHAR
+  - name: grand_secteur_d_activite
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: code_departement
+    type: VARCHAR
+  - name: effectifs_salaries_brut
+    type: BIGINT
+  - name: effectifs_salaries_cvs
+    type: BIGINT
+  - name: masse_salariale_brut
+    type: BIGINT
+  - name: masse_salariale_cvs
+    type: BIGINT

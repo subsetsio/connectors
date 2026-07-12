@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-prime-de-partage-de-la-valeur-du-secteur-prive-par-an-tranche-effectif`. Regenerate after model-verify.
+key: [libelle_tranche_ema]
+temporal: annee
+sort: [annee, libelle_tranche_ema]
+columns:
+  - name: libelle_tranche_ema
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: tranche_ema
+    type: VARCHAR
+  - name: nombre_etablissement_prime_ppv
+    type: BIGINT
+  - name: total_etablissements_actifs
+    type: BIGINT
+  - name: part_etablissements_avec_primes
+    type: DOUBLE
+  - name: nombre_individus_prime_ppv
+    type: BIGINT
+  - name: montant_prime_ppv
+    type: DOUBLE
+  - name: montant_ppv_moyen_par_indiv
+    type: DOUBLE
+  - name: montant_di_total_ppv
+    type: DOUBLE
+  - name: taux_de_couverture_des_di
+    type: DOUBLE

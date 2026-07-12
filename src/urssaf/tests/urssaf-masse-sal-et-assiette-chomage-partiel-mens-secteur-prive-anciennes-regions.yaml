@@ -1,2 +1,9 @@
 spec_id: urssaf-masse-sal-et-assiette-chomage-partiel-mens-secteur-prive-anciennes-regions
-status: deferred
+status: active
+tests:
+  - freshness:
+      col: dernier_jour_du_mois
+      reaches: "today - 4000d"
+    reason: URSSAF Opendatasoft export should include data in its declared temporal range.
+    certainty: 70
+    points_outward: true

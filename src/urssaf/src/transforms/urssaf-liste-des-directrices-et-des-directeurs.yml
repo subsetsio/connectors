@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-liste-des-directrices-et-des-directeurs`. Regenerate after model-verify.
+key: [libelle_organisme]
+temporal: annee_arrivee
+sort: [annee_arrivee, libelle_organisme]
+columns:
+  - name: libelle_organisme
+    type: VARCHAR
+  - name: libelle_site
+    type: VARCHAR
+  - name: code_site_v2
+    type: DOUBLE
+  - name: code_organisme_ur_regionale
+    type: DOUBLE
+  - name: code_rap_organisme
+    type: VARCHAR
+  - name: identifiant_site_rioss
+    type: VARCHAR
+  - name: siege_social
+    type: BIGINT
+  - name: adresse
+    type: VARCHAR
+  - name: code_postal
+    type: BIGINT
+  - name: ville
+    type: VARCHAR
+  - name: pays
+    type: VARCHAR
+  - name: nom_directeur_regional
+    type: VARCHAR
+  - name: prenom_directeur_regional
+    type: VARCHAR
+  - name: annee_arrivee
+    type: DATE
+  - name: annee_depart
+    type: VARCHAR

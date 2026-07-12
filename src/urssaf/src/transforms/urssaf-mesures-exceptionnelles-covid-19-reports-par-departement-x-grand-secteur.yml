@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-mesures-exceptionnelles-covid-19-reports-par-departement-x-grand-secteur`. Regenerate after model-verify.
+key: []
+temporal: date_d_observation
+sort: [date_d_observation]
+columns:
+  - name: date_d_observation
+    type: DATE
+  - name: mois_d_observation
+    type: VARCHAR
+  - name: mois_d_echeance
+    type: VARCHAR
+  - name: jour_d_echeance
+    type: VARCHAR
+  - name: echeance_de_paiement
+    type: DATE
+  - name: code_region
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: code_departement
+    type: VARCHAR
+  - name: departement
+    type: VARCHAR
+  - name: grand_secteur_d_activite
+    type: VARCHAR
+  - name: nb_etab_a_echeance
+    type: BIGINT
+  - name: cotisations_dues
+    type: BIGINT
+  - name: nb_etab_avec_report
+    type: BIGINT
+  - name: montant_reports
+    type: BIGINT
+  - name: date_num_echeance
+    type: BIGINT
+  - name: date_num_observation
+    type: BIGINT
+  - name: geo_point_2d
+    type: "GEOMETRY('OGC:CRS84')"

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-marques-deposees-acoss-urssaf`. Regenerate after model-verify.
+key: [marque]
+temporal: date_de_depot
+sort: [date_de_depot, marque]
+columns:
+  - name: ndeg_depot_ndeg_enregistrement
+    type: BIGINT
+  - name: date_de_depot
+    type: DATE
+  - name: date_d_enregistrement
+    type: DATE
+  - name: date_d_expiration
+    type: DATE
+  - name: territoire
+    type: VARCHAR
+  - name: classes
+    type: VARCHAR
+  - name: marque
+    type: VARCHAR

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-marches-notifies-par-acoss-urssaf-caisse-nationale`. Regenerate after model-verify.
+key: [objet_du_marche]
+temporal: date_de_notification
+sort: [date_de_notification, objet_du_marche]
+columns:
+  - name: nature_du_marche
+    type: VARCHAR
+  - name: objet_du_marche
+    type: VARCHAR
+  - name: montant_ht_estimatif
+    type: BIGINT
+  - name: duree_en_mois
+    type: BIGINT
+  - name: date_de_notification
+    type: DATE
+  - name: date_de_fin
+    type: DATE
+  - name: titulaire
+    type: VARCHAR
+  - name: date_de_notification_unix
+    type: BIGINT

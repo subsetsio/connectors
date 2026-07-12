@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-procedures-collectives-france-entiere`. Regenerate after model-verify.
+key: [dernier_jour_du_trimestre, annee, nature_de_procedure]
+temporal: annee
+sort: [annee, dernier_jour_du_trimestre, nature_de_procedure]
+columns:
+  - name: nature_de_procedure
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: nombre_de_procedures_brut
+    type: BIGINT
+  - name: nombre_de_procedures_cvs
+    type: BIGINT

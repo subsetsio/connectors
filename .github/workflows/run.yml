@@ -47,11 +47,15 @@ jobs:
             sudo apt-get update -qq
             sudo apt-get install -y -qq $(grep -vE '^\s*#|^\s*$' apt-packages.txt)
           fi
+      - name: Install connector dependencies
+        working-directory: src/${{ inputs.slug }}
+        # Deliberately secret-free: dependency resolution/builds can execute
+        # connector-controlled code (build hooks), so nothing sensitive may be
+        # in this step's environment.
+        run: uv sync
       - name: Run connector
         working-directory: src/${{ inputs.slug }}
-        run: |
-          uv sync
-          uv run python -m subsets_utils.runner
+        run: uv run --no-sync python -m subsets_utils.runner
         env:
           PYTHONUNBUFFERED: "1"
           CI: "true"
@@ -62,8 +66,12 @@ jobs:
           RUN_ID: ${{ inputs.run_id }}
           DAG_TARGET: ${{ inputs.dag_target }}
           DAG_ON_FAILURE: ${{ inputs.dag_on_failure }}
-          # Single-repo: every Actions secret arrives as one JSON blob; the
-          # connector runner expands it into the environment at startup. No
-          # per-connector env wiring — `sync_secrets.py` is the only place
-          # secret names are managed.
+          # Single-repo: every Actions secret arrives as one JSON blob, but it
+          # is consumed by the TRUSTED supervisor (subsets_utils.runner) only.
+          # The supervisor scrubs every blob key from the connector subprocess
+          # environment and re-injects just the R2 storage credential plus the
+          # connector's own CONN_<SLUG>_* secrets (de-prefixed) — so
+          # model-authored code never sees GH_RETRIGGER_PAT or other
+          # connectors' keys. Secret names are managed by the harness secret
+          # sync (hardened/secrets.py).
           HARNESS_SECRETS: ${{ toJSON(secrets) }}

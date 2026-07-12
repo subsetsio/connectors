@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-dpae-mensuelles-france-entiere`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dernier_jour_du_mois, annee, nature_de_contrat]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [dernier_jour_du_mois, annee, nature_de_contrat]
+  - kind: not_null
+    col: dernier_jour_du_mois
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: nature_de_contrat
+  - kind: row_floor
+    min: 309
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

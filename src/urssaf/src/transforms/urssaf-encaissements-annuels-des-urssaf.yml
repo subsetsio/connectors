@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-encaissements-annuels-des-urssaf`. Regenerate after model-verify.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: organisme
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: categorie_encaissements
+    type: VARCHAR
+  - name: categorie_encaissements_detaillee
+    type: VARCHAR
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: montant_des_encaissements
+    type: DOUBLE
+  - name: date_timestamp
+    type: BIGINT

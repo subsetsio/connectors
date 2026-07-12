@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-assiette-chomage-partiel-trimestrielle-du-secteur-prive-par-na38`. Regenerate after model-verify.
+key: [dernier_jour_du_trimestre, secteur_na38, secteur_na17, annee, grand_secteur_d_activite]
+temporal: annee
+sort: [annee, dernier_jour_du_trimestre, secteur_na38, secteur_na17, grand_secteur_d_activite]
+columns:
+  - name: grand_secteur_d_activite
+    type: VARCHAR
+  - name: secteur_na17
+    type: VARCHAR
+  - name: secteur_na38
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: masse_salariale_brute
+    type: BIGINT
+  - name: glissement_annuel_de_la_ms
+    type: DOUBLE
+  - name: assiette_chomage_partiel
+    type: BIGINT
+  - name: part_assiette_chomage_partiel
+    type: DOUBLE

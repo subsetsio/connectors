@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-exos-secteur-prive-france-entiere-par-mesures`. Regenerate after model-verify.
+key: [annee, code_mesure_d_exoneration]
+temporal: annee
+sort: [annee, code_mesure_d_exoneration]
+columns:
+  - name: grande_categorie_de_mesures
+    type: VARCHAR
+  - name: categorie_de_mesures
+    type: VARCHAR
+  - name: mesure_d_exoneration
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: code_grande_categorie_de_mesures
+    type: BIGINT
+  - name: code_categorie_de_mesures
+    type: BIGINT
+  - name: code_mesure_d_exoneration
+    type: BIGINT
+  - name: montant_des_exonerations
+    type: DOUBLE

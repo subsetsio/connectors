@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-nombre-etab-effectifs-salaries-et-masse-salariale-secteur-prive-tranche-ent`. Regenerate after model-verify.
+key: [annee, tranche_d_effectif]
+temporal: annee
+sort: [annee, tranche_d_effectif]
+columns:
+  - name: tranche_d_effectif
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: nombre_d_entreprises
+    type: BIGINT
+  - name: nombre_d_etablissements
+    type: BIGINT
+  - name: effectifs_salaries_moyens
+    type: BIGINT
+  - name: masse_salariale
+    type: DOUBLE

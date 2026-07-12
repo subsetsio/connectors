@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-masse-sal-et-assiette-chomage-partiel-mens-secteur-prive-anciennes-regions`. Regenerate after model-verify.
+key: [dernier_jour_du_mois, ancienne_region, code_ancienne_region]
+temporal: dernier_jour_du_mois
+sort: [dernier_jour_du_mois, ancienne_region, code_ancienne_region]
+columns:
+  - name: ancienne_region
+    type: VARCHAR
+  - name: dernier_jour_du_mois
+    type: DATE
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: masse_salariale_brute
+    type: BIGINT
+  - name: glissement_annuel_masse_salariale
+    type: DOUBLE
+  - name: assiette_chomage_partiel
+    type: BIGINT
+  - name: part_assiette_chomage_partiel
+    type: DOUBLE

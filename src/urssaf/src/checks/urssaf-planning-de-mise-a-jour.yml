@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-planning-de-mise-a-jour`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [debut_date_de_mise_a_jour, lien_vers_le_produit]
+temporal: date_de_mise_a_jour
+checks:
+  - kind: unique
+    columns: [debut_date_de_mise_a_jour, lien_vers_le_produit]
+  - kind: not_null
+    col: debut_date_de_mise_a_jour
+  - kind: not_null
+    col: lien_vers_le_produit
+  - kind: row_floor
+    min: 115
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

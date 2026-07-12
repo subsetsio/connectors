@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-effectifs-salaries-et-masse-salariale-du-secteur-prive-par-zone-demploi`. Regenerate after model-verify.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: libelle_zone_d_emploi
+    type: VARCHAR
+  - name: zone_d_emploi
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: libelle_zone_d_emploi_reg
+    type: VARCHAR
+  - name: zone_d_emploi_regionalisee
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: code_zone_d_emploi
+    type: VARCHAR
+  - name: code_zone_d_emploi_regionalisee
+    type: VARCHAR
+  - name: effectifs_salaries_brut
+    type: BIGINT
+  - name: effectifs_salaries_cvs
+    type: BIGINT
+  - name: masse_salariale_brut
+    type: BIGINT
+  - name: masse_salariale_cvs
+    type: BIGINT

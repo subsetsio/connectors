@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-od-effectif-cdi-cdd-caissenat`. Regenerate after model-verify.
+key: [date_dernier_jour_du_mois, code_region, region, sexe]
+temporal: date_dernier_jour_du_mois
+sort: [date_dernier_jour_du_mois, code_region, region, sexe]
+columns:
+  - name: organisme
+    type: VARCHAR
+  - name: date_dernier_jour_du_mois
+    type: DATE
+  - name: nature_du_contrat
+    type: VARCHAR
+  - name: sexe
+    type: VARCHAR
+  - name: code_region
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: effectif_organisme
+    type: BIGINT
+  - name: geom
+    type: "GEOMETRY('OGC:CRS84')"
+  - name: centroid
+    type: "GEOMETRY('OGC:CRS84')"

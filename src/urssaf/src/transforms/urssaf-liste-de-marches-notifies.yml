@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-liste-de-marches-notifies`. Regenerate after model-verify.
+key: []
+temporal: date_de_notification
+sort: [date_de_notification]
+columns:
+  - name: annee
+    type: BIGINT
+  - name: nature_du_marche
+    type: VARCHAR
+  - name: objet_du_marche
+    type: VARCHAR
+  - name: montant_ht_estimatif
+    type: BIGINT
+  - name: duree_en_mois
+    type: BIGINT
+  - name: date_de_notification
+    type: DATE
+  - name: date_de_fin
+    type: DATE
+  - name: titulaire
+    type: VARCHAR

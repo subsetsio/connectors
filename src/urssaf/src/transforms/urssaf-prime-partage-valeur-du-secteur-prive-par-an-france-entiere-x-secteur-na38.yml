@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-prime-partage-valeur-du-secteur-prive-par-an-france-entiere-x-secteur-na38`. Regenerate after model-verify.
+key: [secteur_na38i, grand_secteur_d_activite]
+temporal: annee
+sort: [annee, secteur_na38i, grand_secteur_d_activite]
+columns:
+  - name: secteur_na38i
+    type: VARCHAR
+  - name: grand_secteur_d_activite
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: nombre_etablissement_prime_ppv
+    type: BIGINT
+  - name: total_etablissements_actifs
+    type: BIGINT
+  - name: part_etablissements_avec_primes
+    type: DOUBLE
+  - name: nombre_individus_prime_ppv
+    type: BIGINT
+  - name: montant_prime_ppv
+    type: DOUBLE
+  - name: montant_ppv_moyen_par_indiv
+    type: DOUBLE
+  - name: montant_di_total_ppv
+    type: DOUBLE
+  - name: taux_de_couverture_des_di
+    type: DOUBLE

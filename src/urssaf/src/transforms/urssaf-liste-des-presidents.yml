@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-liste-des-presidents`. Regenerate after model-verify.
+key: [libelle_organisme]
+temporal: annee_arrivee
+sort: [annee_arrivee, libelle_organisme]
+columns:
+  - name: libelle_organisme
+    type: VARCHAR
+  - name: libelle_site
+    type: VARCHAR
+  - name: code_site_v2
+    type: BIGINT
+  - name: code_organisme_ur_regionale
+    type: BIGINT
+  - name: code_rap_organisme
+    type: VARCHAR
+  - name: identifiant_site_rioss
+    type: VARCHAR
+  - name: siege_social
+    type: BIGINT
+  - name: adresse
+    type: VARCHAR
+  - name: code_postal
+    type: BIGINT
+  - name: ville
+    type: VARCHAR
+  - name: pays
+    type: VARCHAR
+  - name: prenom_president_regional
+    type: VARCHAR
+  - name: nom_president_regional
+    type: VARCHAR
+  - name: annee_arrivee
+    type: DATE
+  - name: annee_depart
+    type: DATE

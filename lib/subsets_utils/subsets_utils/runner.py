@@ -326,29 +326,86 @@ def _stamp_run_enrichments(log_dir: Path) -> None:
         pass
 
 
-def _expand_bundled_secrets() -> None:
-    """Expand the single-repo secret blob into the environment.
+# Global creds the connector subprocess legitimately needs: connectors write
+# raw/state/tables straight to R2 via fsspec/deltalake, so the storage
+# credential must cross into their environment. Nothing else does — the
+# GH_RETRIGGER_PAT and the workflow GITHUB_TOKEN stay with this supervisor.
+_CONNECTOR_GLOBAL_NAMES = (
+    "R2_ACCOUNT_ID",
+    "R2_ACCESS_KEY_ID",
+    "R2_SECRET_ACCESS_KEY",
+    "R2_BUCKET_NAME",
+)
+
+
+def _connector_secret_prefix(connector: str) -> str:
+    """Actions-secret prefix marking a secret as owned by one connector.
+
+    Mirrors the naming used by the harness secret sync (hardened/secrets.py
+    sync_github): the store's per-connector secrets are pushed to the single
+    connectors repo as CONN_<SLUG>_<NAME> so this supervisor can tell whose
+    secret is whose.
+    """
+    return f"CONN_{connector.upper().replace('-', '_')}_"
+
+
+def _expand_bundled_secrets() -> set[str]:
+    """Expand the single-repo secret blob into the supervisor's environment.
 
     The connectors repo runs every connector through one workflow, which
     passes all Actions secrets as one JSON object in `HARNESS_SECRETS`
     (`toJSON(secrets)`). Expand it before anything reads R2/API credentials.
     `setdefault` so an explicitly-set env var always wins.
+
+    Returns the blob's key set so the child environment can be scrubbed:
+    only this trusted supervisor sees every secret; the connector subprocess
+    gets the scoped view built by _scoped_child_env.
     """
     blob = os.environ.pop("HARNESS_SECRETS", None)
     if not blob:
-        return
+        return set()
     try:
         bundle = json.loads(blob)
     except json.JSONDecodeError:
-        return
-    if isinstance(bundle, dict):
-        for key, val in bundle.items():
-            if isinstance(val, str):
-                os.environ.setdefault(key, val)
+        return set()
+    if not isinstance(bundle, dict):
+        return set()
+    for key, val in bundle.items():
+        if isinstance(val, str):
+            os.environ.setdefault(key, val)
+    return set(bundle.keys())
+
+
+def _scoped_child_env(env: dict, connector: str, secret_names: set[str]) -> dict:
+    """Strip the bundled secrets out of the connector subprocess environment.
+
+    Model-authored connector code must only ever see its OWN secrets: every
+    key that arrived in the HARNESS_SECRETS blob is removed, then the R2
+    storage credential is restored (connectors write to R2 directly) along
+    with this connector's own CONN_<SLUG>_* secrets under their bare names.
+    Locally (no blob) this is a no-op.
+    """
+    if not secret_names:
+        return env
+
+    scoped = {k: v for k, v in env.items() if k not in secret_names}
+
+    for name in _CONNECTOR_GLOBAL_NAMES:
+        if name in env:
+            scoped[name] = env[name]
+
+    prefix = _connector_secret_prefix(connector)
+    for name in secret_names:
+        if name.startswith(prefix) and name in env:
+            bare = name[len(prefix):]
+            if bare:
+                scoped.setdefault(bare, env[name])
+
+    return scoped
 
 
 def main():
-    _expand_bundled_secrets()
+    bundled_secret_names = _expand_bundled_secrets()
 
     connector = get_connector_name()
     os.environ["CONNECTOR_NAME"] = connector
@@ -397,7 +454,7 @@ def main():
         print(f"Raw scope:     {get_data_dir()}/raw")
     print("-" * 60)
 
-    env = os.environ.copy()
+    env = _scoped_child_env(os.environ.copy(), connector, bundled_secret_names)
     src_path = str(Path.cwd() / "src")
     env["PYTHONPATH"] = src_path + (":" + env["PYTHONPATH"] if "PYTHONPATH" in env else "")
     # Force unbuffered subprocess stdio so the user sees `load_nodes` progress,

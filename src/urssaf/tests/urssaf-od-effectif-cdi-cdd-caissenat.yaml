@@ -1,2 +1,9 @@
 spec_id: urssaf-od-effectif-cdi-cdd-caissenat
-status: deferred
+status: active
+tests:
+  - freshness:
+      col: date_dernier_jour_du_mois
+      reaches: "today - 4000d"
+    reason: URSSAF Opendatasoft export should include data in its declared temporal range.
+    certainty: 70
+    points_outward: true

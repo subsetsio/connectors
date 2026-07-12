@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-les-revenus-des-travailleurs-independants-par-secteur`. Regenerate after model-verify.
+key: [annee, secteur_d_activite, type_de_travailleur_independant]
+temporal: annee
+sort: [annee, secteur_d_activite, type_de_travailleur_independant]
+columns:
+  - name: type_de_travailleur_independant
+    type: VARCHAR
+  - name: secteur_d_activite
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: nombre_de_ti
+    type: BIGINT
+  - name: revenu
+    type: BIGINT

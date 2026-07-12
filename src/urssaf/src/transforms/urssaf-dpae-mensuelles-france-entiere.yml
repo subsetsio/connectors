@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-dpae-mensuelles-france-entiere`. Regenerate after model-verify.
+key: [dernier_jour_du_mois, annee, nature_de_contrat]
+temporal: annee
+sort: [annee, dernier_jour_du_mois, nature_de_contrat]
+columns:
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_mois
+    type: DATE
+  - name: duree_de_contrat
+    type: VARCHAR
+  - name: nature_de_contrat
+    type: VARCHAR
+  - name: dpae_brut
+    type: BIGINT
+  - name: dpae_cvs
+    type: BIGINT

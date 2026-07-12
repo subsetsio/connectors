@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-table-taux-vmrr`. Regenerate after model-verify.
+key: []
+temporal: date_debut
+sort: [date_debut]
+columns:
+  - name: code_commune
+    type: VARCHAR
+  - name: nom_commune
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: date_debut
+    type: DATE
+  - name: date_fin
+    type: DATE
+  - name: taux_vm
+    type: DOUBLE
+  - name: taux_vma
+    type: DOUBLE
+  - name: taux_vmr
+    type: DOUBLE
+  - name: code_partenaire_vm
+    type: BIGINT
+  - name: code_partenaire_vma
+    type: BIGINT
+  - name: code_partenaire_vmr
+    type: BIGINT

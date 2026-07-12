@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-primes-exceptionnelles-par-trimestre-champ-large-france-entiere`. Regenerate after model-verify.
+key: [dernier_jour_du_trimestre, annee, champ]
+temporal: dernier_jour_du_trimestre
+sort: [dernier_jour_du_trimestre, annee, champ]
+columns:
+  - name: champ
+    type: VARCHAR
+  - name: annee
+    type: BIGINT
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: montant_prime_pepa
+    type: DOUBLE
+  - name: montant_prime_covid
+    type: DOUBLE
+  - name: total_montant_primes
+    type: DOUBLE
+  - name: nombre_etablissement_prime_pepa
+    type: BIGINT
+  - name: nombre_etablissement_prime_covid
+    type: BIGINT
+  - name: total_etablissement_primes
+    type: BIGINT
+  - name: taux_de_couverture_des_di
+    type: DOUBLE

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-nombre-etab-effectifs-salaries-et-masse-salariale-secteur-prive-france-x-na88`. Regenerate after model-verify.
+key: [annee, secteur_na88i, secteur_na38i, grand_secteur_d_activite]
+temporal: annee
+sort: [annee, secteur_na88i, secteur_na38i, grand_secteur_d_activite]
+columns:
+  - name: grand_secteur_d_activite
+    type: VARCHAR
+  - name: secteur_na38i
+    type: VARCHAR
+  - name: secteur_na88i
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: nombre_d_etablissements
+    type: BIGINT
+  - name: effectifs_salaries_moyens
+    type: BIGINT
+  - name: masse_salariale
+    type: BIGINT

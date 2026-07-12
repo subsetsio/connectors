@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-masse-salariale-du-secteur-prive-france-entiere`. Regenerate after model-verify.
+key: [dernier_jour_trim]
+temporal: annee
+sort: [annee, dernier_jour_trim]
+columns:
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_trim
+    type: DATE
+  - name: ms_t_50j_brut
+    type: BIGINT
+  - name: ms_t_60j_brut
+    type: BIGINT
+  - name: ms_t_50j_cvs
+    type: BIGINT
+  - name: ms_t_60j_cvs
+    type: BIGINT
+  - name: gt_ms_t_50j_cvs
+    type: DOUBLE
+  - name: gt_ms_t_60j_cvs
+    type: DOUBLE
+  - name: ga_ms_t_50j_cvs
+    type: DOUBLE
+  - name: ga_ms_t_60j_cvs
+    type: DOUBLE

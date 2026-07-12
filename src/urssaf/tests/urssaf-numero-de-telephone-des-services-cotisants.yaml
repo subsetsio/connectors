@@ -1,2 +1,9 @@
 spec_id: urssaf-numero-de-telephone-des-services-cotisants
-status: deferred
+status: active
+tests:
+  - freshness:
+      col: date_de_mise_a_jour
+      reaches: "today - 4000d"
+    reason: URSSAF Opendatasoft export should include data in its declared temporal range.
+    certainty: 70
+    points_outward: true

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-travailleurs-independants-actifs-trimestriels`. Regenerate after model-verify.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: type_de_travailleur_independant
+    type: VARCHAR
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: nombre_de_ti_actifs
+    type: BIGINT

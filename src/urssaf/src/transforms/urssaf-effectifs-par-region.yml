@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-effectifs-par-region`. Regenerate after model-verify.
+key: [annee, ancienne_region, code_ancienne_region, nouvelle_region, code_nouvelle_region]
+temporal: annee
+sort: [annee, ancienne_region, code_ancienne_region, nouvelle_region, code_nouvelle_region]
+columns:
+  - name: annee
+    type: DATE
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: code_nouvelle_region
+    type: VARCHAR
+  - name: nouvelle_region
+    type: VARCHAR
+  - name: effectifs_urssaf
+    type: BIGINT
+  - name: effectifs_urssaf_caisse_nationale
+    type: BIGINT
+  - name: date_unix
+    type: BIGINT

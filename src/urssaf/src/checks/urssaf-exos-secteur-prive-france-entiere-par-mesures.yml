@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-exos-secteur-prive-france-entiere-par-mesures`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee, code_mesure_d_exoneration]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [annee, code_mesure_d_exoneration]
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: code_mesure_d_exoneration
+  - kind: row_floor
+    min: 444
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-primes-exceptionnelles-du-secteur-prive-par-an-france-entiere-x-secteur-na38`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee, secteur_na38i, grand_secteur_d_activite]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [annee, secteur_na38i, grand_secteur_d_activite]
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: secteur_na38i
+  - kind: not_null
+    col: grand_secteur_d_activite
+  - kind: row_floor
+    min: 72
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

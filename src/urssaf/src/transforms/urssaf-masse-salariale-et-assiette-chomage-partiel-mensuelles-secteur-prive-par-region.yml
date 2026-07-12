@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-masse-salariale-et-assiette-chomage-partiel-mensuelles-secteur-prive-par-region`. Regenerate after model-verify.
+key: [dernier_jour_du_mois, region, code_region]
+temporal: dernier_jour_du_mois
+sort: [dernier_jour_du_mois, region, code_region]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: dernier_jour_du_mois
+    type: DATE
+  - name: code_region
+    type: VARCHAR
+  - name: masse_salariale_brute
+    type: BIGINT
+  - name: glissement_annuel_masse_salariale
+    type: DOUBLE
+  - name: assiette_chomage_partiel
+    type: BIGINT
+  - name: part_assiette_chomage_partiel
+    type: DOUBLE

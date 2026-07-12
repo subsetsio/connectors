@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-exos-champ-large-par-grandes-categories`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee, grande_categorie_de_mesures, code_grande_categorie_de_mesures, champ]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [annee, grande_categorie_de_mesures, code_grande_categorie_de_mesures, champ]
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: grande_categorie_de_mesures
+  - kind: not_null
+    col: code_grande_categorie_de_mesures
+  - kind: not_null
+    col: champ
+  - kind: row_floor
+    min: 136
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

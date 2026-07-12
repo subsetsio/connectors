@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-auto-entrepreneurs-par-secteur-dactivite`. Regenerate after model-verify.
+key: [dernier_jour_du_trimestre, secteur_d_activite_me, annee]
+temporal: annee
+sort: [annee, dernier_jour_du_trimestre, secteur_d_activite_me]
+columns:
+  - name: secteur_d_activite_me
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: trimestre
+    type: BIGINT
+  - name: dernier_jour_du_trimestre
+    type: DATE
+  - name: immatriculations
+    type: DOUBLE
+  - name: radiations
+    type: DOUBLE
+  - name: economiquement_actifs
+    type: DOUBLE
+  - name: administrativement_actifs
+    type: DOUBLE
+  - name: chiffres_d_affaires
+    type: DOUBLE

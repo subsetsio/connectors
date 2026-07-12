@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-mesures-exceptionnelles-covid-19-reports-france-entiere-x-secteur-na88`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [secteur_na88, secteur_na38, echeance_de_paiement, date_d_observation, grand_secteur_d_activite]
+temporal: date_d_observation
+checks:
+  - kind: unique
+    columns: [secteur_na88, secteur_na38, echeance_de_paiement, date_d_observation, grand_secteur_d_activite]
+  - kind: not_null
+    col: secteur_na88
+  - kind: not_null
+    col: secteur_na38
+  - kind: not_null
+    col: echeance_de_paiement
+  - kind: not_null
+    col: date_d_observation
+  - kind: not_null
+    col: grand_secteur_d_activite
+  - kind: row_floor
+    min: 3950
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

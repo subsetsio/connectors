@@ -1,2 +1,9 @@
 spec_id: urssaf-prime-partage-valeur-du-secteur-prive-par-trimestre-france-entiere-x-secteur-n38
-status: deferred
+status: active
+tests:
+  - freshness:
+      col: annee
+      reaches: "today - 4000d"
+    reason: URSSAF Opendatasoft export should include data in its declared temporal range.
+    certainty: 70
+    points_outward: true

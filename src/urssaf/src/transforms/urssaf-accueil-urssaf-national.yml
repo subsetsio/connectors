@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-accueil-urssaf-national`. Regenerate after model-verify.
+key: [nom_commune, code_commune_insee, adresse, site, titre_du_site]
+temporal: date_mise_a_jour
+sort: [date_mise_a_jour, nom_commune, code_commune_insee, adresse, site, titre_du_site]
+columns:
+  - name: code_commune_insee
+    type: VARCHAR
+  - name: nom_commune
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: organisme
+    type: VARCHAR
+  - name: site
+    type: VARCHAR
+  - name: titre_du_site
+    type: VARCHAR
+  - name: adresse
+    type: VARCHAR
+  - name: date_mise_a_jour
+    type: DATE
+  - name: accueil_sans_rendez_vous
+    type: VARCHAR
+  - name: jours_d_accueil_sans_rendez_vous
+    type: VARCHAR
+  - name: horaires_d_accueil_sans_rendez_vous
+    type: VARCHAR
+  - name: nbre_demi_journees_ouverture_public
+    type: DOUBLE
+  - name: accueil_sur_rendez_vous
+    type: VARCHAR
+  - name: jour_d_accueil_sur_rendez_vous
+    type: VARCHAR
+  - name: horaires_d_accueil_sur_rendez_vous
+    type: VARCHAR
+  - name: nbre_demi_journees_accueil_sur_rdv
+    type: DOUBLE
+  - name: rdv_physiques
+    type: VARCHAR
+  - name: rdv_telephoniques
+    type: VARCHAR
+  - name: rdv_visio
+    type: VARCHAR
+  - name: accueil_commun_ti
+    type: VARCHAR
+  - name: bornes_disponibles
+    type: VARCHAR
+  - name: espace_demarche_en_ligne
+    type: VARCHAR
+  - name: paiement_par_carte_bancaire
+    type: VARCHAR
+  - name: centroid
+    type: "GEOMETRY('OGC:CRS84')"

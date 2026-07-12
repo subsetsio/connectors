@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-mesures-exceptionnelles-covid-19-reports-france-entiere-x-secteur-na88`. Regenerate after model-verify.
+key: [secteur_na88, secteur_na38, echeance_de_paiement, date_d_observation, grand_secteur_d_activite]
+temporal: date_d_observation
+sort: [date_d_observation, secteur_na88, secteur_na38, echeance_de_paiement, grand_secteur_d_activite]
+columns:
+  - name: date_d_observation
+    type: DATE
+  - name: mois_d_observation
+    type: VARCHAR
+  - name: mois_d_echeance
+    type: VARCHAR
+  - name: jour_d_echeance
+    type: VARCHAR
+  - name: echeance_de_paiement
+    type: DATE
+  - name: grand_secteur_d_activite
+    type: VARCHAR
+  - name: secteur_na38
+    type: VARCHAR
+  - name: secteur_na88
+    type: VARCHAR
+  - name: nb_etab_a_echeance
+    type: BIGINT
+  - name: cotisations_dues
+    type: BIGINT
+  - name: nb_etab_avec_report
+    type: BIGINT
+  - name: montant_reports
+    type: BIGINT
+  - name: date_num_echeance
+    type: BIGINT
+  - name: date_num_observation
+    type: BIGINT

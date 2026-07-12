@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-primes-exceptionnelles-du-secteur-prive-par-an-par-region`. Regenerate after model-verify.
+key: [annee, ancienne_region, code_ancienne_region, region, code_region]
+temporal: annee
+sort: [annee, ancienne_region, code_ancienne_region, region, code_region]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: montant_prime_pepa
+    type: DOUBLE
+  - name: montant_prime_covid
+    type: DOUBLE
+  - name: total_montant_primes
+    type: DOUBLE
+  - name: nombre_etablissement_prime_pepa
+    type: BIGINT
+  - name: nombre_etablissement_prime_covid
+    type: BIGINT
+  - name: total_etablissement_primes
+    type: BIGINT
+  - name: total_etablissements_actifs
+    type: BIGINT
+  - name: part_etablissements_avec_primes
+    type: DOUBLE
+  - name: nombre_individus_prime_pepa
+    type: BIGINT
+  - name: nombre_individus_prime_covid
+    type: BIGINT
+  - name: total_individus_primes
+    type: BIGINT
+  - name: montant_di_pepa
+    type: DOUBLE
+  - name: montant_di_prime_covid
+    type: DOUBLE
+  - name: montant_di_total_primes
+    type: DOUBLE
+  - name: montant_pepa_moyen_par_indiv
+    type: DOUBLE
+  - name: mtt_prime_covid_moyen_par_indiv
+    type: DOUBLE
+  - name: montant_primes_moyen_par_indiv
+    type: DOUBLE
+  - name: taux_de_couverture_des_di
+    type: DOUBLE

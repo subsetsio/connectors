@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `urssaf-nombre-etab-effectifs-salaries-et-masse-salariale-secteur-prive-tranche-ent`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee, tranche_d_effectif]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [annee, tranche_d_effectif]
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: tranche_d_effectif
+  - kind: row_floor
+    min: 108
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

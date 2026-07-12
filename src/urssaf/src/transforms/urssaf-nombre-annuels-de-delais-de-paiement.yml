@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `urssaf-nombre-annuels-de-delais-de-paiement`. Regenerate after model-verify.
+key: [annee, organisme]
+temporal: annee
+sort: [annee, organisme]
+columns:
+  - name: annee
+    type: DATE
+  - name: organisme
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: ancienne_region
+    type: VARCHAR
+  - name: code_region
+    type: VARCHAR
+  - name: code_ancienne_region
+    type: VARCHAR
+  - name: accords_delais
+    type: BIGINT
+  - name: date_timestamp
+    type: BIGINT
