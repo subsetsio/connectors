@@ -1,0 +1,16 @@
+key: [package_id, advisory_url, versions]
+temporal: updated_at
+sort: [updated_at, package_id, advisory_url, versions]
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: advisory_url
+    type: VARCHAR
+  - name: severity
+    type: BIGINT
+  - name: versions
+    type: VARCHAR
+  - name: page_name
+    type: VARCHAR
+  - name: updated_at
+    type: TIMESTAMP

@@ -31,7 +31,6 @@ import concurrent.futures as cf
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -39,6 +38,7 @@ from subsets_utils import (
 
 CATALOG_INDEX = "https://api.nuget.org/v3/catalog0/index.json"
 SEARCH_URL = "https://azuresearch-usnc.nuget.org/query"
+VULNERABILITY_INDEX = "https://api.nuget.org/v3/vulnerabilities/index.json"
 
 PAGES_PER_BATCH = 500
 PAGE_FETCH_WORKERS = 32
@@ -60,6 +60,15 @@ PACKAGES_SCHEMA = pa.schema([
     ("version_count", pa.int64()),
     ("authors", pa.string()),
     ("tags", pa.string()),
+])
+
+VULNERABILITIES_SCHEMA = pa.schema([
+    ("package_id", pa.string()),
+    ("advisory_url", pa.string()),
+    ("severity", pa.int64()),
+    ("versions", pa.string()),
+    ("page_name", pa.string()),
+    ("page_updated", pa.string()),  # ISO-8601; cast in the transform
 ])
 
 
@@ -144,55 +153,34 @@ def fetch_packages(node_id: str) -> None:
     save_raw_parquet(table, node_id)
 
 
+def fetch_vulnerabilities(node_id: str) -> None:
+    """Known package vulnerabilities from NuGet's VulnerabilityInfo resource."""
+    index = _get_json(VULNERABILITY_INDEX)
+    if not index:
+        raise AssertionError("vulnerability index returned 0 pages")
+
+    rows = []
+    for page in index:
+        page_data = _get_json(page["@id"])
+        for package_id, advisories in page_data.items():
+            for advisory in advisories:
+                rows.append({
+                    "package_id": package_id,
+                    "advisory_url": advisory.get("url"),
+                    "severity": int(advisory.get("severity")) if advisory.get("severity") is not None else None,
+                    "versions": advisory.get("versions"),
+                    "page_name": page.get("@name"),
+                    "page_updated": page.get("@updated"),
+                })
+
+    if not rows:
+        raise AssertionError("vulnerability pages yielded 0 advisories")
+    table = pa.Table.from_pylist(rows, schema=VULNERABILITIES_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="nuget-packages", fn=fetch_packages, kind="download"),
     NodeSpec(id="nuget-package-versions", fn=fetch_package_versions, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nuget-package-versions-transform",
-        deps=["nuget-package-versions"],
-        sql='''
-            WITH ranked AS (
-                SELECT
-                    package_id,
-                    version,
-                    commit_timestamp,
-                    is_delete,
-                    row_number() OVER (
-                        PARTITION BY lower(package_id), version
-                        ORDER BY commit_timestamp DESC
-                    ) AS rn
-                FROM "nuget-package-versions"
-            )
-            SELECT
-                package_id,
-                version,
-                CAST(commit_timestamp AS TIMESTAMP) AS published,
-                (version LIKE '%-%') AS is_prerelease
-            FROM ranked
-            WHERE rn = 1 AND is_delete = FALSE
-        ''',
-        key=("package_id", "version"),
-        temporal="published",
-    ),
-    SqlNodeSpec(
-        id="nuget-packages-transform",
-        deps=["nuget-packages"],
-        sql='''
-            SELECT
-                package_id,
-                latest_version,
-                total_downloads,
-                verified,
-                version_count,
-                authors,
-                tags
-            FROM "nuget-packages"
-            WHERE package_id IS NOT NULL
-        ''',
-        key=("package_id",),
-    ),
+    NodeSpec(id="nuget-vulnerabilities", fn=fetch_vulnerabilities, kind="download"),
 ]

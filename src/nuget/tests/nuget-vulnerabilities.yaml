@@ -1,0 +1,30 @@
+spec_id: nuget-vulnerabilities
+status: active
+tests:
+  - not_null: package_id
+    reason: the vulnerability page object is keyed by package id
+    certainty: 99
+  - not_null: advisory_url
+    reason: every advisory entry carries the advisory URL
+    certainty: 95
+  - not_null: versions
+    reason: every advisory entry carries the affected version range
+    certainty: 95
+  - column_type: {col: severity, type: integer}
+    certainty: 95
+  - between: {col: severity, lo: 0, hi: 3}
+    reason: NuGet vulnerability severity is encoded as low/moderate/high/critical integer values
+    certainty: 90
+  - matches: {col: advisory_url, pattern: "^https://github\\.com/advisories/GHSA-"}
+    reason: nuget.org documents GitHub Advisory Database as its vulnerability source
+    certainty: 85
+  - matches: {col: page_updated, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"}
+    reason: vulnerability index @updated is ISO-8601
+    certainty: 95
+  - freshness: {col: page_updated, reaches: today - 30d}
+    reason: vulnerability index pages are updated periodically and should stay recent for package auditing
+    certainty: 85
+    points_outward: true
+  - row_count: {min: 100}
+    reason: nuget.org publishes hundreds of known package vulnerability records; far fewer means page flattening broke
+    certainty: 85
