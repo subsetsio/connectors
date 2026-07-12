@@ -1,18 +1,22 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0102020000-101`. Regenerate after model-verify.
+key: [year, canton, demographic_component, citizenship_category, sex]
+temporal: year
+sort: [year, canton, demographic_component, citizenship_category, sex]
 columns:
-  - name: jahr
+  - name: year
+    type: BIGINT
+  - name: canton
     type: VARCHAR
-  - name: kanton
+  - name: citizenship_category
     type: VARCHAR
-  - name: staatsangehörigkeit_kategorie
+  - name: sex
     type: VARCHAR
-  - name: geschlecht
-    type: VARCHAR
-  - name: demografische_komponente
+  - name: demographic_component
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: HUGEINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

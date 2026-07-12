@@ -1,16 +1,19 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0604010000-101`. Regenerate after model-verify.
+key: [wirtschaftsabteilung, struktur_der_bilanz_der_unternehmen, gr_ssenklasse, jahr]
+sort: [wirtschaftsabteilung, struktur_der_bilanz_der_unternehmen, gr_ssenklasse, jahr]
 columns:
   - name: struktur_der_bilanz_der_unternehmen
     type: VARCHAR
   - name: wirtschaftsabteilung
     type: VARCHAR
-  - name: grössenklasse
+  - name: gr_ssenklasse
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: value
-    type: DOUBLE
+    type: HUGEINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

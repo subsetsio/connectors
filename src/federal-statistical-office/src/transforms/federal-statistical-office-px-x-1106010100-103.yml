@@ -1,4 +1,6 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1106010100-103`. Regenerate after model-verify.
+key: []
 columns:
   - name: unfallschwere
     type: VARCHAR
@@ -6,17 +8,17 @@ columns:
     type: VARCHAR
   - name: unfallort
     type: VARCHAR
-  - name: erlaubte_höchstgeschwindigkeit
+  - name: erlaubte_h_chstgeschwindigkeit
     type: VARCHAR
   - name: relevante_vortrittsregelung
     type: VARCHAR
   - name: strassenzustand
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

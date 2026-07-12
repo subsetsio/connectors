@@ -10,3 +10,6 @@ tests:
   - not_null: cube_id
     reason: constant provenance column stamped on every row by the fetch fn
     certainty: 99
+coverage:
+  frozen: true
+  reason: Temporal coverage is treated as a source snapshot for factory publication; future refreshes are governed by catalog re-observation and scheduled connector runs.

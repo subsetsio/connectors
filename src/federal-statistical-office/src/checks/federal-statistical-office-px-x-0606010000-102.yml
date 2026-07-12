@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-0606010000-102`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [wirtschaftliche_t_tigkeit_bfs50, jahr, gr_ssenklasse_gruppe, art_der_gruppe, beobachtungseinheit]
+checks:
+  - kind: unique
+    columns: [wirtschaftliche_t_tigkeit_bfs50, jahr, gr_ssenklasse_gruppe, art_der_gruppe, beobachtungseinheit]
+  - kind: not_null
+    col: wirtschaftliche_t_tigkeit_bfs50
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: gr_ssenklasse_gruppe
+  - kind: not_null
+    col: art_der_gruppe
+  - kind: not_null
+    col: beobachtungseinheit
+  - kind: row_floor
+    min: 11160
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,7 +1,10 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0702000000-228`. Regenerate after model-verify.
+key: [motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen, kanton, jahr, einheit]
+sort: [motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen, kanton, jahr, einheit]
 columns:
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: kanton
     type: VARCHAR
   - name: motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen
@@ -13,4 +16,4 @@ columns:
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

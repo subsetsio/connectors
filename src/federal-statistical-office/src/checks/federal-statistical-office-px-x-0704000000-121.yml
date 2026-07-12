@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-0704000000-121`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [kontoposten, jahr, masseinheit, bewertungsmethode, bereich_des_agrarsektors]
+checks:
+  - kind: unique
+    columns: [kontoposten, jahr, masseinheit, bewertungsmethode, bereich_des_agrarsektors]
+  - kind: not_null
+    col: kontoposten
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: masseinheit
+  - kind: not_null
+    col: bewertungsmethode
+  - kind: not_null
+    col: bereich_des_agrarsektors
+  - kind: row_floor
+    min: 298350
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

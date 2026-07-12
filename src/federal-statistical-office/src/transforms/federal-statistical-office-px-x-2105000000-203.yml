@@ -1,18 +1,21 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-2105000000-203`. Regenerate after model-verify.
+key: [stadt_agglomeration, jahr, indikator_zu_einkommen_und_arbeit, geschlecht, resultat]
+sort: [stadt_agglomeration, jahr, indikator_zu_einkommen_und_arbeit, geschlecht, resultat]
 columns:
-  - name: ville_agglomération
+  - name: stadt_agglomeration
     type: VARCHAR
-  - name: indicateur_du_revenu_et_du_travail
+  - name: indikator_zu_einkommen_und_arbeit
     type: VARCHAR
-  - name: sexe
+  - name: geschlecht
     type: VARCHAR
-  - name: résultat
+  - name: resultat
     type: VARCHAR
-  - name: année
-    type: VARCHAR
+  - name: jahr
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

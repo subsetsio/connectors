@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-2105000000-204`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [stadt_agglomeration, jahr, gesundheitsindikator, geschlecht]
+checks:
+  - kind: unique
+    columns: [stadt_agglomeration, jahr, gesundheitsindikator, geschlecht]
+  - kind: not_null
+    col: stadt_agglomeration
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: gesundheitsindikator
+  - kind: not_null
+    col: geschlecht
+  - kind: row_floor
+    min: 2016
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

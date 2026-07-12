@@ -1,22 +1,24 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1106010100-105`. Regenerate after model-verify.
+key: []
 columns:
-  - name: genre_d_objet_genre_d_usager
+  - name: objektart_verkehrsteilnahme
     type: VARCHAR
-  - name: responsabilité_présumée_de_l_objet
+  - name: mutmassliche_verantwortlichkeit_des_objekts
     type: VARCHAR
-  - name: sexe_du_piéton_ou_du_conducteur
+  - name: geschlecht_fussg_nger_in_bzw_fahrzeuglenker_in
     type: VARCHAR
-  - name: classe_d_âge_du_piéton_ou_du_conducteur
+  - name: altersklasse_fussg_nger_in_bzw_fahrzeuglenker_in
     type: VARCHAR
-  - name: ancienneté_du_permis_de_conduire_du_conducteur
+  - name: jahre_seit_erteilung_des_f_hrerausweises_an_fahrzeuglenker_in
     type: VARCHAR
-  - name: gravité_de_l_accident
+  - name: unfallschwere
     type: VARCHAR
-  - name: année
-    type: VARCHAR
+  - name: jahr
+    type: BIGINT
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

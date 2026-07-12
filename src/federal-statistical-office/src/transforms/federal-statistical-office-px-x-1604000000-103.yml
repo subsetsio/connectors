@@ -1,6 +1,8 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1604000000-103`. Regenerate after model-verify.
+key: []
 columns:
-  - name: online_dienste_in_zusammenhang_mit_den_behörden
+  - name: online_dienste_in_zusammenhang_mit_den_beh_rden
     type: VARCHAR
   - name: geschlecht
     type: VARCHAR
@@ -9,7 +11,7 @@ columns:
   - name: bildungsstand
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: absolut_relativ
     type: VARCHAR
   - name: resultat
@@ -19,4 +21,4 @@ columns:
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

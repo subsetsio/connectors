@@ -1,11 +1,14 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0301000000-103`. Regenerate after model-verify.
+key: [jahr, szenario_variante, staatsangeh_rigkeit_kategorie, beobachtungseinheit]
+sort: [jahr, szenario_variante, staatsangeh_rigkeit_kategorie, beobachtungseinheit]
 columns:
   - name: szenario_variante
     type: VARCHAR
-  - name: staatsangehörigkeit_kategorie
+  - name: staatsangeh_rigkeit_kategorie
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: beobachtungseinheit
     type: VARCHAR
   - name: value
@@ -13,4 +16,4 @@ columns:
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

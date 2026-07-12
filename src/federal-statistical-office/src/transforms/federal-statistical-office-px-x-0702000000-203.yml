@@ -1,16 +1,19 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0702000000-203`. Regenerate after model-verify.
+key: [leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung, familienmitglieder, geschlecht, einheit]
+sort: [leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung, familienmitglieder, geschlecht, einheit]
 columns:
   - name: familienmitglieder
     type: VARCHAR
-  - name: leitung_betriebseigentum_erwerbstätigkeit_und_soziale_absicherung
+  - name: leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung
     type: VARCHAR
   - name: geschlecht
     type: VARCHAR
   - name: einheit
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

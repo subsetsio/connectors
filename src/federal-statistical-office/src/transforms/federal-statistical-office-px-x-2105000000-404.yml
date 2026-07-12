@@ -1,16 +1,19 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-2105000000-404`. Regenerate after model-verify.
+key: [variable, jahr, stadt_land_typologie, resultat]
+sort: [variable, jahr, stadt_land_typologie, resultat]
 columns:
-  - name: typologie_urbain_rural
+  - name: stadt_land_typologie
     type: VARCHAR
   - name: variable
     type: VARCHAR
-  - name: résultat
+  - name: resultat
     type: VARCHAR
-  - name: année
-    type: VARCHAR
+  - name: jahr
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

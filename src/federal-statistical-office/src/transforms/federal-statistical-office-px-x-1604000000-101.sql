@@ -1,13 +1,16 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("internetzugang" AS VARCHAR) AS "internetzugang",
-    CAST("sprachgebiet" AS VARCHAR) AS "sprachgebiet",
-    CAST("haushaltsgrösse" AS VARCHAR) AS "haushaltsgrösse",
-    CAST("subjektive_finanzielle_situation_des_haushalts" AS VARCHAR) AS "subjektive_finanzielle_situation_des_haushalts",
-    CAST("jahr" AS VARCHAR) AS "jahr",
-    CAST("absolut_relativ" AS VARCHAR) AS "absolut_relativ",
-    CAST("resultat" AS VARCHAR) AS "resultat",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "internetzugang",
+    "sprachgebiet",
+    "haushaltsgrösse" AS haushaltsgr_sse,
+    "subjektive_finanzielle_situation_des_haushalts",
+    CAST("jahr" AS BIGINT) AS jahr,
+    "absolut_relativ",
+    "resultat",
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-1604000000-101"

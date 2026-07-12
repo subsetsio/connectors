@@ -1,18 +1,22 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1003020000-103`. Regenerate after model-verify.
+key: [visitors_country_of_residence, year, tourist_region, month, indicator]
+temporal: year
+sort: [year, visitors_country_of_residence, tourist_region, month, indicator]
 columns:
-  - name: jahr
+  - name: year
+    type: BIGINT
+  - name: month
     type: VARCHAR
-  - name: monat
+  - name: tourist_region
     type: VARCHAR
-  - name: tourismusregion
+  - name: visitors_country_of_residence
     type: VARCHAR
-  - name: herkunftsland
-    type: VARCHAR
-  - name: indikator
+  - name: indicator
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

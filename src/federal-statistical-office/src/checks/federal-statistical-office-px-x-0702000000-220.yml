@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-0702000000-220`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [bodenbedeckung_im_winter_und_bodenbearbeitung, region, jahr, einheit]
+checks:
+  - kind: unique
+    columns: [bodenbedeckung_im_winter_und_bodenbearbeitung, region, jahr, einheit]
+  - kind: not_null
+    col: bodenbedeckung_im_winter_und_bodenbearbeitung
+  - kind: not_null
+    col: region
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: einheit
+  - kind: row_floor
+    min: 208
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

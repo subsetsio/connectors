@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pvgis-country-stats-classic-2007`. Regenerate after model-verify.
+# caution: The geography columns include country and regional entries from the PVGIS workbook; filter the desired geography before aggregating values.
+key: [country_code, sheet, metric_group, statistic]
+sort: [country_code, sheet, metric_group, statistic]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: workbook_version
+    type: VARCHAR
+  - name: methodology
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: metric_group
+    type: VARCHAR
+  - name: statistic
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-0602050000-104`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [wirtschaftsart, kanton, variable, jahr]
+checks:
+  - kind: unique
+    columns: [wirtschaftsart, kanton, variable, jahr]
+  - kind: not_null
+    col: wirtschaftsart
+  - kind: not_null
+    col: kanton
+  - kind: not_null
+    col: variable
+  - kind: not_null
+    col: jahr
+  - kind: row_floor
+    min: 455339
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

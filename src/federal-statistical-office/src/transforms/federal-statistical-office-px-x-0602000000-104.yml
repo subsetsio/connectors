@@ -1,4 +1,8 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0602000000-104`. Regenerate after model-verify.
+key: [quarter, major_region, job_vacancies]
+temporal: quarter
+sort: [quarter, major_region, job_vacancies]
 columns:
   - name: job_vacancies
     type: VARCHAR
@@ -11,4 +15,4 @@ columns:
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

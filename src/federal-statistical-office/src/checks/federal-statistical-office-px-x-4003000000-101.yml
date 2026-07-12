@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-4003000000-101`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [kanton_bezirk_gemeinde, alter, geschlecht]
+checks:
+  - kind: unique
+    columns: [kanton_bezirk_gemeinde, alter, geschlecht]
+  - kind: not_null
+    col: kanton_bezirk_gemeinde
+  - kind: not_null
+    col: alter
+  - kind: not_null
+    col: geschlecht
+  - kind: row_floor
+    min: 521976
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

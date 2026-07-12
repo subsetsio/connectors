@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-1502010100-101`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [schulkanton, jahr, unterrichtsart, sonderp_dagogische_massnahmen]
+checks:
+  - kind: unique
+    columns: [schulkanton, jahr, unterrichtsart, sonderp_dagogische_massnahmen]
+  - kind: not_null
+    col: schulkanton
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: unterrichtsart
+  - kind: not_null
+    col: sonderp_dagogische_massnahmen
+  - kind: row_floor
+    min: 1792
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

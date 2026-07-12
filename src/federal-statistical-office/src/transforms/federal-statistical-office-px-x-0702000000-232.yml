@@ -1,18 +1,21 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0702000000-232`. Regenerate after model-verify.
+key: [tierkategorie, region, jahr, beobachtungseinheit, resultat]
+sort: [tierkategorie, region, jahr, beobachtungseinheit, resultat]
 columns:
-  - name: année
+  - name: jahr
+    type: BIGINT
+  - name: region
     type: VARCHAR
-  - name: région
+  - name: tierkategorie
     type: VARCHAR
-  - name: catégorie_d_animaux
+  - name: beobachtungseinheit
     type: VARCHAR
-  - name: unité_d_observation
-    type: VARCHAR
-  - name: résultat
+  - name: resultat
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

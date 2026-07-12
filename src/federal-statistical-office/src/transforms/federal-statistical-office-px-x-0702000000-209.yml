@@ -1,16 +1,19 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0702000000-209`. Regenerate after model-verify.
+key: [betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung, gr_ssenklasse_ln, jahr, beobachtungseinheit]
+sort: [betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung, gr_ssenklasse_ln, jahr, beobachtungseinheit]
 columns:
-  - name: année
+  - name: jahr
+    type: BIGINT
+  - name: gr_ssenklasse_ln
     type: VARCHAR
-  - name: classe_de_taille_sau
+  - name: betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung
     type: VARCHAR
-  - name: gestion_formation_condition_de_propriété_et_reprise
-    type: VARCHAR
-  - name: unité_d_observation
+  - name: beobachtungseinheit
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

@@ -1,10 +1,13 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("szenario_variante" AS VARCHAR) AS "szenario_variante",
-    CAST("staatsangehörigkeit_kategorie" AS VARCHAR) AS "staatsangehörigkeit_kategorie",
-    CAST("jahr" AS VARCHAR) AS "jahr",
-    CAST("beobachtungseinheit" AS VARCHAR) AS "beobachtungseinheit",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "szenario_variante",
+    "staatsangehörigkeit_kategorie" AS staatsangeh_rigkeit_kategorie,
+    CAST("jahr" AS BIGINT) AS jahr,
+    "beobachtungseinheit",
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-0301000000-103"

@@ -1,20 +1,22 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0704050000-102`. Regenerate after model-verify.
+key: []
 columns:
-  - name: poste_comptable
+  - name: kontoposten
     type: VARCHAR
-  - name: canton
+  - name: kanton
     type: VARCHAR
-  - name: branche_du_secteur_primaire
+  - name: branche_des_prim_rsektors
     type: VARCHAR
-  - name: secteur_institutionnel
+  - name: institutioneller_sektor
     type: VARCHAR
-  - name: unité
+  - name: einheit
     type: VARCHAR
-  - name: année
-    type: VARCHAR
+  - name: jahr
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

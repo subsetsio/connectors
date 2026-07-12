@@ -1,14 +1,17 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("kanton" AS VARCHAR) AS "kanton",
-    CAST("gebäudekategorie" AS VARCHAR) AS "gebäudekategorie",
-    CAST("bauperiode" AS VARCHAR) AS "bauperiode",
-    CAST("heizungsart" AS VARCHAR) AS "heizungsart",
-    CAST("energieträger_der_heizung" AS VARCHAR) AS "energieträger_der_heizung",
-    CAST("warmwasserversorgung" AS VARCHAR) AS "warmwasserversorgung",
-    CAST("energieträger_für_warmwasser" AS VARCHAR) AS "energieträger_für_warmwasser",
-    CAST("jahr" AS VARCHAR) AS "jahr",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "kanton",
+    "gebäudekategorie" AS geb_udekategorie,
+    "bauperiode",
+    "heizungsart",
+    "energieträger_der_heizung" AS energietr_ger_der_heizung,
+    "warmwasserversorgung",
+    "energieträger_für_warmwasser" AS energietr_ger_f_r_warmwasser,
+    CAST("jahr" AS BIGINT) AS jahr,
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-0902020100-122"

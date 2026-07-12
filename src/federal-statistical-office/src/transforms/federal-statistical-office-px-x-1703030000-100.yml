@@ -1,4 +1,7 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1703030000-100`. Regenerate after model-verify.
+key: [datum_und_vorlage, kanton, ergebnis]
+sort: [datum_und_vorlage, kanton, ergebnis]
 columns:
   - name: kanton
     type: VARCHAR
@@ -11,4 +14,4 @@ columns:
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

@@ -1,18 +1,21 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0606010000-102`. Regenerate after model-verify.
+key: [wirtschaftliche_t_tigkeit_bfs50, jahr, gr_ssenklasse_gruppe, art_der_gruppe, beobachtungseinheit]
+sort: [wirtschaftliche_t_tigkeit_bfs50, jahr, gr_ssenklasse_gruppe, art_der_gruppe, beobachtungseinheit]
 columns:
   - name: beobachtungseinheit
     type: VARCHAR
-  - name: wirtschaftliche_tätigkeit_bfs50
+  - name: wirtschaftliche_t_tigkeit_bfs50
     type: VARCHAR
-  - name: grössenklasse_gruppe
+  - name: gr_ssenklasse_gruppe
     type: VARCHAR
   - name: art_der_gruppe
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

@@ -1,20 +1,22 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0903020000-102`. Regenerate after model-verify.
+key: []
 columns:
-  - name: canton
+  - name: kanton
     type: VARCHAR
-  - name: nombre_de_pièces
+  - name: anzahl_zimmer
     type: VARCHAR
-  - name: mode_d_utilisation_du_logement
+  - name: belegungsart
     type: VARCHAR
-  - name: statut_d_occupation
+  - name: bewohnertyp
     type: VARCHAR
-  - name: type_de_bâtiment
+  - name: geb_udekategorie
     type: VARCHAR
-  - name: type_de_propriétaire
+  - name: hauseigent_mertyp
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

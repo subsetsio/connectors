@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-1506030200-302`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [jahr, fachbereich, hochschule, leistung, geldgeber]
+checks:
+  - kind: unique
+    columns: [jahr, fachbereich, hochschule, leistung, geldgeber]
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: fachbereich
+  - kind: not_null
+    col: hochschule
+  - kind: not_null
+    col: leistung
+  - kind: not_null
+    col: geldgeber
+  - kind: row_floor
+    min: 13794
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

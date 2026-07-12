@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-1003020000-102`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [visitors_country_of_residence, canton, year, month, indicator]
+temporal: year
+checks:
+  - kind: unique
+    columns: [visitors_country_of_residence, canton, year, month, indicator]
+  - kind: not_null
+    col: visitors_country_of_residence
+  - kind: not_null
+    col: canton
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 524508
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

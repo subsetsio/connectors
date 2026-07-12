@@ -1,7 +1,10 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0702000000-205`. Regenerate after model-verify.
+key: [innerbetriebliche_diversifikation_und_anteil_am_gesamtumsatz, jahr, region, resultat]
+sort: [innerbetriebliche_diversifikation_und_anteil_am_gesamtumsatz, jahr, region, resultat]
 columns:
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: region
     type: VARCHAR
   - name: innerbetriebliche_diversifikation_und_anteil_am_gesamtumsatz
@@ -9,8 +12,8 @@ columns:
   - name: resultat
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

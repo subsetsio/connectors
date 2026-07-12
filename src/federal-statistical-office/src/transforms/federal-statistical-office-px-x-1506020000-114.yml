@@ -1,18 +1,21 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1506020000-114`. Regenerate after model-verify.
+key: [kanton, jahr, bildungsstufe, form_des_ausbildungsbeitrags, betrag_und_bez_gerinnen_und_bez_ger]
+sort: [kanton, jahr, bildungsstufe, form_des_ausbildungsbeitrags, betrag_und_bez_gerinnen_und_bez_ger]
 columns:
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: form_des_ausbildungsbeitrags
     type: VARCHAR
   - name: kanton
     type: VARCHAR
   - name: bildungsstufe
     type: VARCHAR
-  - name: betrag_und_bezügerinnen_und_bezüger
+  - name: betrag_und_bez_gerinnen_und_bez_ger
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

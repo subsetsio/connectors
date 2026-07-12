@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-1702020000-105`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [bezirk_gemeinde, partei, jahr, ergebnisse]
+checks:
+  - kind: unique
+    columns: [bezirk_gemeinde, partei, jahr, ergebnisse]
+  - kind: not_null
+    col: bezirk_gemeinde
+  - kind: not_null
+    col: partei
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: ergebnisse
+  - kind: row_floor
+    min: 293337
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

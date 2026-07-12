@@ -1,10 +1,13 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("année" AS VARCHAR) AS "année",
-    CAST("canton_district_commune" AS VARCHAR) AS "canton_district_commune",
-    CAST("nationalité_catégorie" AS VARCHAR) AS "nationalité_catégorie",
-    CAST("langue_principale" AS VARCHAR) AS "langue_principale",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    CAST("jahr" AS BIGINT) AS jahr,
+    "kanton_bezirk_gemeinde",
+    "staatsangehörigkeit_kategorie" AS staatsangeh_rigkeit_kategorie,
+    "hauptsprache",
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-4002000000-121"

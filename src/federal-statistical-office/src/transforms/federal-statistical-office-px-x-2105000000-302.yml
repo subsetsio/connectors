@@ -1,14 +1,17 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-2105000000-302`. Regenerate after model-verify.
+key: [quartier, demografischer_indikator, jahr]
+sort: [quartier, demografischer_indikator, jahr]
 columns:
   - name: quartier
     type: VARCHAR
   - name: demografischer_indikator
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

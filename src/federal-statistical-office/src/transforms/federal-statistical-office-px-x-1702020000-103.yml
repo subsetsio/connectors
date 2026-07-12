@@ -1,18 +1,21 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1702020000-103`. Regenerate after model-verify.
+key: [kanton, partei, jahr, geschlecht, ergebnisse]
+sort: [kanton, partei, jahr, geschlecht, ergebnisse]
 columns:
-  - name: canton
+  - name: kanton
     type: VARCHAR
-  - name: année
+  - name: jahr
+    type: BIGINT
+  - name: partei
     type: VARCHAR
-  - name: parti
+  - name: geschlecht
     type: VARCHAR
-  - name: sexe
-    type: VARCHAR
-  - name: résultats
+  - name: ergebnisse
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: HUGEINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

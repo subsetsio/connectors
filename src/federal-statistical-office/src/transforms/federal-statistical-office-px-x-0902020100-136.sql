@@ -1,9 +1,12 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("gemeinde" AS VARCHAR) AS "gemeinde",
-    CAST("belegungsart" AS VARCHAR) AS "belegungsart",
-    CAST("anzahl_zimmer" AS VARCHAR) AS "anzahl_zimmer",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "gemeinde",
+    "belegungsart",
+    "anzahl_zimmer",
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-0902020100-136"

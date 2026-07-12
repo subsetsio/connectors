@@ -1,7 +1,10 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-4001000000-103`. Regenerate after model-verify.
+key: [kanton_bezirk_gemeinde, anzahl_ledige_kinder_unter_18_jahren, jahr, haushaltstyp]
+sort: [kanton_bezirk_gemeinde, anzahl_ledige_kinder_unter_18_jahren, jahr, haushaltstyp]
 columns:
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: kanton_bezirk_gemeinde
     type: VARCHAR
   - name: haushaltstyp
@@ -9,8 +12,8 @@ columns:
   - name: anzahl_ledige_kinder_unter_18_jahren
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

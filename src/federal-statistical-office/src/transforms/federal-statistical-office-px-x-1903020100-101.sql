@@ -1,11 +1,14 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("offence" AS VARCHAR) AS "offence",
-    CAST("canton" AS VARCHAR) AS "canton",
-    CAST("level_of_completion" AS VARCHAR) AS "level_of_completion",
-    CAST("level_of_detection" AS VARCHAR) AS "level_of_detection",
-    CAST("year" AS VARCHAR) AS "year",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "offence",
+    "canton",
+    "level_of_completion",
+    "level_of_detection",
+    CAST("year" AS BIGINT) AS year,
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-1903020100-101"

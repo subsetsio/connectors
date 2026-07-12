@@ -1,22 +1,24 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0902020100-105`. Regenerate after model-verify.
+key: []
 columns:
   - name: kanton
     type: VARCHAR
-  - name: gebäudekategorie
+  - name: geb_udekategorie
     type: VARCHAR
   - name: heizungsart
     type: VARCHAR
-  - name: energieträger_der_heizung
+  - name: energietr_ger_der_heizung
     type: VARCHAR
   - name: bauperiode
     type: VARCHAR
   - name: warmwasserversorgung
     type: VARCHAR
-  - name: energieträger_für_warmwasser
+  - name: energietr_ger_f_r_warmwasser
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

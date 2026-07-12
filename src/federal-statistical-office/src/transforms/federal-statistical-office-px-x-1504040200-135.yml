@@ -1,7 +1,10 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-1504040200-135`. Regenerate after model-verify.
+key: [jahr, hochschule, personalkategorie, geschlecht]
+sort: [jahr, hochschule, personalkategorie, geschlecht]
 columns:
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: personalkategorie
     type: VARCHAR
   - name: geschlecht
@@ -13,4 +16,4 @@ columns:
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

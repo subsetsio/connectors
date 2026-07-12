@@ -1,16 +1,19 @@
-# provisional pass-through for PxWeb cube; replace via compile-transforms after model-verify.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-statistical-office-px-x-0902020100-152`. Regenerate after model-verify.
+key: [gemeinde, wohnungsfl_che, anzahl_zimmer, jahr]
+sort: [gemeinde, wohnungsfl_che, anzahl_zimmer, jahr]
 columns:
   - name: gemeinde
     type: VARCHAR
   - name: anzahl_zimmer
     type: VARCHAR
-  - name: wohnungsfläche
+  - name: wohnungsfl_che
     type: VARCHAR
   - name: jahr
-    type: VARCHAR
+    type: BIGINT
   - name: value
-    type: DOUBLE
+    type: BIGINT
   - name: cube_id
     type: VARCHAR
   - name: updated
-    type: VARCHAR
+    type: JSON

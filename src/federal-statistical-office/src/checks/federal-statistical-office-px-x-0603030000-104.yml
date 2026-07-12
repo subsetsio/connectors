@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-statistical-office-px-x-0603030000-104`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [branch, year, turnover, indices_changes]
+temporal: year
+checks:
+  - kind: unique
+    columns: [branch, year, turnover, indices_changes]
+  - kind: not_null
+    col: branch
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: turnover
+  - kind: not_null
+    col: indices_changes
+  - kind: row_floor
+    min: 413
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

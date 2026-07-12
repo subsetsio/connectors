@@ -1,10 +1,13 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("familienmitglieder" AS VARCHAR) AS "familienmitglieder",
-    CAST("leitung_betriebseigentum_erwerbstätigkeit_und_soziale_absicherung" AS VARCHAR) AS "leitung_betriebseigentum_erwerbstätigkeit_und_soziale_absicherung",
-    CAST("geschlecht" AS VARCHAR) AS "geschlecht",
-    CAST("einheit" AS VARCHAR) AS "einheit",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "familienmitglieder",
+    "leitung_betriebseigentum_erwerbstätigkeit_und_soziale_absicherung" AS leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung,
+    "geschlecht",
+    "einheit",
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-0702000000-203"

@@ -1,13 +1,16 @@
--- provisional pass-through for PxWeb cube; regenerate from the settled model after model-verify.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST("genre_d_objet_genre_d_usager" AS VARCHAR) AS "genre_d_objet_genre_d_usager",
-    CAST("responsabilité_présumée_de_l_objet" AS VARCHAR) AS "responsabilité_présumée_de_l_objet",
-    CAST("sexe_du_piéton_ou_du_conducteur" AS VARCHAR) AS "sexe_du_piéton_ou_du_conducteur",
-    CAST("classe_d_âge_du_piéton_ou_du_conducteur" AS VARCHAR) AS "classe_d_âge_du_piéton_ou_du_conducteur",
-    CAST("ancienneté_du_permis_de_conduire_du_conducteur" AS VARCHAR) AS "ancienneté_du_permis_de_conduire_du_conducteur",
-    CAST("gravité_de_l_accident" AS VARCHAR) AS "gravité_de_l_accident",
-    CAST("année" AS VARCHAR) AS "année",
-    CAST(value AS DOUBLE) AS value,
-    CAST(cube_id AS VARCHAR) AS cube_id,
-    CAST(updated AS VARCHAR) AS updated
+    "objektart_verkehrsteilnahme",
+    "mutmassliche_verantwortlichkeit_des_objekts",
+    "geschlecht_fussgänger_in_bzw_fahrzeuglenker_in" AS geschlecht_fussg_nger_in_bzw_fahrzeuglenker_in,
+    "altersklasse_fussgänger_in_bzw_fahrzeuglenker_in" AS altersklasse_fussg_nger_in_bzw_fahrzeuglenker_in,
+    "jahre_seit_erteilung_des_führerausweises_an_fahrzeuglenker_in" AS jahre_seit_erteilung_des_f_hrerausweises_an_fahrzeuglenker_in,
+    "unfallschwere",
+    CAST("jahr" AS BIGINT) AS jahr,
+    "value",
+    "cube_id",
+    "updated"
 FROM "federal-statistical-office-px-x-1106010100-105"
