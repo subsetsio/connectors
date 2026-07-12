@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import time
 from itertools import product
 from urllib.parse import quote
 
@@ -122,6 +124,9 @@ def _jsonstat_rows(dataset: dict, *, entity_id: str, source_meta: dict):
 
 
 def fetch_one(spec_id: str) -> None:
+    jitter = int(hashlib.sha256(spec_id.encode("utf-8")).hexdigest()[:4], 16) / 65535
+    time.sleep(jitter * 8)
+
     entity_id = _entity_id_from_spec(spec_id)
     source_meta = ENTITY_METADATA[entity_id]
     url = _table_url(source_meta)
