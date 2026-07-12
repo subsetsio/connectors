@@ -1,0 +1,87 @@
+# Pass-through transform for the accepted UCDP PAR dataset.
+key: [id]
+temporal: date_start
+sort: [date_start, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: ged50_corresp_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: code_status
+    type: VARCHAR
+  - name: source_article
+    type: VARCHAR
+  - name: source_original
+    type: VARCHAR
+  - name: dyad_dset_id
+    type: BIGINT
+  - name: dyad_name
+    type: VARCHAR
+  - name: side_a
+    type: VARCHAR
+  - name: side_a_dset_id
+    type: BIGINT
+  - name: side_b
+    type: VARCHAR
+  - name: side_b_dset_id
+    type: BIGINT
+  - name: side_b_pko_id
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: country_id
+    type: BIGINT
+  - name: where_prec
+    type: BIGINT
+  - name: where_coordinates
+    type: VARCHAR
+  - name: adm_1
+    type: VARCHAR
+  - name: adm_2
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: geom_wkt
+    type: VARCHAR
+  - name: priogrid_gid
+    type: BIGINT
+  - name: event_clarity
+    type: BIGINT
+  - name: date_prec
+    type: BIGINT
+  - name: date_start
+    type: DATE
+  - name: date_end
+    type: DATE
+  - name: deaths_a
+    type: BIGINT
+  - name: deaths_b
+    type: BIGINT
+  - name: deaths_unknown
+    type: BIGINT
+  - name: collateral_civilians
+    type: BIGINT
+  - name: best_est
+    type: BIGINT
+  - name: high_est
+    type: BIGINT
+  - name: low_est
+    type: BIGINT
+  - name: deaths_nationals
+    type: BIGINT
+  - name: non_lethal_violence
+    type: BIGINT
+  - name: injury_non_lethal
+    type: BIGINT
+  - name: kidnap_non_lethal
+    type: BIGINT
+  - name: nationals_non_lethal
+    type: BIGINT
+  - name: nationality_pko
+    type: VARCHAR
+  - name: split
+    type: BIGINT

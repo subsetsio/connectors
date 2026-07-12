@@ -1,0 +1,58 @@
+# Pass-through transform for the accepted UCDP NS-IAD dataset.
+temporal: year
+sort: [year]
+columns:
+  - name: dyad_id
+    type: BIGINT
+  - name: dyadid_new
+    type: BIGINT
+  - name: org
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: gwno_location
+    type: BIGINT
+  - name: side_a_name
+    type: VARCHAR
+  - name: side_a_id
+    type: BIGINT
+  - name: side_a_live
+    type: BIGINT
+  - name: side_a_rel
+    type: BIGINT
+  - name: side_b_name
+    type: VARCHAR
+  - name: side_b_id
+    type: BIGINT
+  - name: side_b_live
+    type: BIGINT
+  - name: side_b_rel
+    type: BIGINT
+  - name: dyadic_live
+    type: BIGINT
+  - name: issue_territory
+    type: BIGINT
+  - name: issue_authority
+    type: BIGINT
+  - name: issue_other
+    type: BIGINT
+  - name: subissue_agland_water
+    type: BIGINT
+  - name: subissue_religious
+    type: BIGINT
+  - name: subissue_formal_aut
+    type: BIGINT
+  - name: subissue_livestock
+    type: BIGINT
+  - name: subissue_informal_authority
+    type: BIGINT
+  - name: subissue_territory
+    type: BIGINT
+  - name: subissue_other
+    type: BIGINT
+  - name: primary
+    type: BIGINT
+  - name: secondary
+    type: BIGINT
+  - name: timeref
+    type: BIGINT

@@ -17,11 +17,16 @@ stay memory-bounded. Rate limit: config says 10 calls / 10s; we self-throttle to
 8/10s and rely on ``subsets_utils`` HTTP retries for transient failures.
 """
 
+import fcntl
+import json
 import math
+import random
 import re
+import tempfile
+import time
+from pathlib import Path
 
 import pyarrow as pa
-from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
@@ -54,25 +59,59 @@ SPEC_TO_PATH = {f"{SLUG}-{eid}": path for eid, path in ENTITY_PATHS.items()}
 
 
 # --- rate limiting -----------------------------------------------------------
-@sleep_and_retry
-@limits(calls=8, period=10)  # config advertises 10/10s; stay under it
+# PSA's PXWeb config advertises 10 calls / 10s. The runtime may execute many
+# download nodes in parallel, so process-local throttles still overrun the
+# source. Coordinate all worker processes on the same runner through one lock.
+THROTTLE_PATH = Path(tempfile.gettempdir()) / "psa-openstat-throttle.json"
+REQUEST_INTERVAL_S = 1.15
+RATE_LIMIT_STATUSES = {403, 429}
+
+
 def _tick() -> None:
-    return None
+    THROTTLE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with THROTTLE_PATH.open("a+", encoding="utf-8") as f:
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        try:
+            f.seek(0)
+            try:
+                state = json.load(f)
+            except json.JSONDecodeError:
+                state = {}
+            last = float(state.get("last_request_at") or 0.0)
+            wait = REQUEST_INTERVAL_S - (time.monotonic() - last)
+            if wait > 0:
+                time.sleep(wait)
+            f.seek(0)
+            f.truncate()
+            json.dump({"last_request_at": time.monotonic()}, f)
+            f.flush()
+        finally:
+            fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+
+
+def _request_json(method: str, url: str, *, payload: dict | None = None):
+    for attempt in range(8):
+        _tick()
+        if method == "GET":
+            r = get(url, timeout=(10.0, 120.0), headers=HTTP_HEADERS)
+        else:
+            r = post(url, json=payload, timeout=(10.0, 180.0),
+                     headers=HTTP_HEADERS)
+        if r.status_code not in RATE_LIMIT_STATUSES:
+            r.raise_for_status()
+            return r.json()
+        sleep_s = min(300.0, 20.0 * (2 ** attempt)) + random.uniform(0, 5)
+        time.sleep(sleep_s)
+    r.raise_for_status()
+    return r.json()
 
 
 def _get_json(url: str):
-    _tick()
-    r = get(url, timeout=(10.0, 120.0), headers=HTTP_HEADERS)
-    r.raise_for_status()  # a 4xx (e.g. 403 over-limit) is a bug -> propagate
-    return r.json()
+    return _request_json("GET", url)
 
 
 def _post_json(url: str, payload: dict):
-    _tick()
-    r = post(url, json=payload, timeout=(10.0, 180.0),
-             headers=HTTP_HEADERS)
-    r.raise_for_status()
-    return r.json()
+    return _request_json("POST", url, payload=payload)
 
 
 # --- schema / column helpers -------------------------------------------------

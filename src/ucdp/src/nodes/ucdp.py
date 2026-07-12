@@ -20,6 +20,7 @@ asset lands as a single zstd parquet via save_raw_parquet.
 import io
 import zipfile
 
+import pyarrow as pa
 import pyarrow.csv as pacsv
 
 from subsets_utils import NodeSpec, get, save_raw_parquet

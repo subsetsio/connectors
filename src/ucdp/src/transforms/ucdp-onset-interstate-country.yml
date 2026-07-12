@@ -1,0 +1,30 @@
+# Pass-through transform for the accepted UCDP onset dataset.
+temporal: year
+sort: [year]
+columns:
+  - name: abc
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: gwno_a
+    type: BIGINT
+  - name: newconf
+    type: BIGINT
+  - name: onset1
+    type: BIGINT
+  - name: onset2
+    type: BIGINT
+  - name: onset3
+    type: BIGINT
+  - name: onset5
+    type: BIGINT
+  - name: onset10
+    type: BIGINT
+  - name: onset20
+    type: BIGINT
+  - name: "    conflict_ids"
+    type: VARCHAR
+  - name: year_prev
+    type: VARCHAR

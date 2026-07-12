@@ -2,7 +2,7 @@ spec_id: ucdp-vpp-ged
 status: active
 tests:
   - row_count: {min: 1}
-  - freshness: {col: date_start, reaches: 2025-01-01}
+  - freshness: {col: date_start, reaches: "2025-01-01"}
     reason: VPP GED 26.1 covers protest events through 2025
     certainty: 90
     points_outward: true
