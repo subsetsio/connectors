@@ -1,177 +1,209 @@
-"""GeyserTimes (Yellowstone) connector.
+"""GeyserTimes (Yellowstone) download nodes."""
 
-Mechanism: GeyserTimes REST API v5 (https://www.geysertimes.org/api/v5),
-public read-only JSON, no auth. Two published subsets:
+from __future__ import annotations
 
-  - eruptions: the core corpus of logged geyser eruption events. There is no
-    bulk-dump endpoint; the /entries/{fromEpoch}/{toEpoch} endpoint returns all
-    eruptions in a time window in one un-paginated response, so the full corpus
-    is re-pulled every run by chunking the time axis one calendar year at a time
-    (stateless full re-pull — revisions/late corrections picked up for free).
-    Each year is written as its own raw parquet batch; the transform view
-    glob-unions them. The API floors fromEpoch at 0 (negative epochs return
-    nothing), so 1970 is the earliest reachable year; the end year is discovered
-    dynamically from the wall clock.
-  - geysers: the geyser reference/dimension table (one call to /geysers).
-
-Datetimes are returned as Unix epoch seconds by default (we do NOT pass
-?iso=1) and are converted in the transform SQL. All API values arrive as JSON
-strings (or null); raw is stored as all-string parquet and cast downstream.
-"""
-
+import gzip
+import re
 from datetime import datetime, timezone
+from urllib.parse import urljoin
 
 import pyarrow as pa
+import pyarrow.compute as pc
+import pyarrow.csv as pv
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
-
-BASE = "https://www.geysertimes.org/api/v5"
-
-# Earliest year reachable via the epoch endpoint (negative epochs return nothing).
-START_YEAR = 1970
-
-# All API fields stored verbatim as strings; cast in the transform.
-ERUPTION_SCHEMA = pa.schema([
-    ("eruptionID", pa.string()),
-    ("geyserID", pa.string()),
-    ("geyser", pa.string()),
-    ("time", pa.string()),
-    ("hasSeconds", pa.string()),
-    ("exact", pa.string()),
-    ("ns", pa.string()),
-    ("ie", pa.string()),
-    ("E", pa.string()),
-    ("A", pa.string()),
-    ("wc", pa.string()),
-    ("ini", pa.string()),
-    ("maj", pa.string()),
-    ("min", pa.string()),
-    ("q", pa.string()),
-    ("duration", pa.string()),
-    ("durationSec", pa.string()),
-    ("durationRes", pa.string()),
-    ("durationMod", pa.string()),
-    ("entrant", pa.string()),
-    ("entrantID", pa.string()),
-    ("observer", pa.string()),
-    ("comment", pa.string()),
-    ("timeUpdated", pa.string()),
-    ("timeEntered", pa.string()),
-    ("primaryID", pa.string()),
-])
-
-GEYSER_SCHEMA = pa.schema([
-    ("id", pa.string()),
-    ("name", pa.string()),
-    ("latitude", pa.string()),
-    ("longitude", pa.string()),
-    ("timezone", pa.string()),
-    ("groupID", pa.string()),
-    ("groupName", pa.string()),
-    ("serverUpdate", pa.string()),
-])
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 
-@transient_retry()
-def _fetch(url):
-    resp = get(url, timeout=(10.0, 180.0))
+ARCHIVE_URL = "https://geysertimes.org/archive/"
+BASE_API = "https://www.geysertimes.org/api/v5"
+
+ARCHIVE_HEADERS = {
+    "User-Agent": "subsets.io geysertimes connector (contact: support@subsets.io)"
+}
+
+ERUPTION_SCHEMA = pa.schema(
+    [
+        ("eruption_id", pa.int64()),
+        ("geyser_name", pa.string()),
+        ("eruption_time_epoch", pa.int64()),
+        ("eruption_time", pa.timestamp("s", tz="UTC")),
+        ("has_seconds", pa.bool_()),
+        ("exact", pa.bool_()),
+        ("near_start", pa.bool_()),
+        ("in_eruption", pa.bool_()),
+        ("electronic", pa.bool_()),
+        ("approximate", pa.bool_()),
+        ("webcam", pa.bool_()),
+        ("initial", pa.bool_()),
+        ("major", pa.bool_()),
+        ("minor", pa.bool_()),
+        ("questionable", pa.bool_()),
+        ("duration_text", pa.string()),
+        ("duration_seconds", pa.int64()),
+        ("duration_resolution", pa.string()),
+        ("duration_modifier", pa.string()),
+        ("entrant", pa.string()),
+        ("observer", pa.string()),
+        ("eruption_comment", pa.string()),
+        ("time_updated_epoch", pa.int64()),
+        ("time_entered_epoch", pa.int64()),
+        ("associated_primary_id", pa.int64()),
+        ("other_comments", pa.string()),
+    ]
+)
+
+GEYSER_SCHEMA = pa.schema(
+    [
+        ("geyser_id", pa.int64()),
+        ("geyser_name", pa.string()),
+        ("latitude", pa.float64()),
+        ("longitude", pa.float64()),
+        ("timezone", pa.string()),
+        ("group_id", pa.int64()),
+        ("group_name", pa.string()),
+        ("server_update_epoch", pa.int64()),
+    ]
+)
+
+ARCHIVE_TO_RAW = {
+    "eruptionID": "eruption_id",
+    "geyser": "geyser_name",
+    "eruption_time_epoch": "eruption_time_epoch",
+    "has_seconds": "has_seconds",
+    "exact": "exact",
+    "ns": "near_start",
+    "ie": "in_eruption",
+    "E": "electronic",
+    "A": "approximate",
+    "wc": "webcam",
+    "ini": "initial",
+    "maj": "major",
+    "min": "minor",
+    "q": "questionable",
+    "duration": "duration_text",
+    "duration_seconds": "duration_seconds",
+    "duration_resolution": "duration_resolution",
+    "duration_modifier": "duration_modifier",
+    "entrant": "entrant",
+    "observer": "observer",
+    "eruption_comment": "eruption_comment",
+    "time_updated": "time_updated_epoch",
+    "time_entered": "time_entered_epoch",
+    "associated_primaryID": "associated_primary_id",
+    "other_comments": "other_comments",
+}
+
+GEYSER_TO_RAW = {
+    "id": "geyser_id",
+    "name": "geyser_name",
+    "latitude": "latitude",
+    "longitude": "longitude",
+    "timezone": "timezone",
+    "groupID": "group_id",
+    "groupName": "group_name",
+    "serverUpdate": "server_update_epoch",
+}
+
+
+def _latest_eruptions_url() -> str:
+    resp = get(ARCHIVE_URL, headers=ARCHIVE_HEADERS, timeout=(10.0, 60.0))
     resp.raise_for_status()
-    return resp.json()
+    matches = re.findall(
+        r"href=['\"](?P<href>\.?/complete/geysertimes_eruptions_complete_(?P<date>\d{4}-\d{2}-\d{2})\.tsv\.gz)['\"]",
+        resp.text,
+    )
+    if not matches:
+        raise RuntimeError("no complete eruptions archive link found")
+    href, _date = max(matches, key=lambda item: item[1])
+    return urljoin(ARCHIVE_URL, href)
 
 
-def _year_bounds(year):
-    lo = int(datetime(year, 1, 1, tzinfo=timezone.utc).timestamp())
-    hi = int(datetime(year + 1, 1, 1, tzinfo=timezone.utc).timestamp())
-    return lo, hi
+def _read_archive_tsv(url: str) -> pa.Table:
+    resp = get(url, headers=ARCHIVE_HEADERS, timeout=(10.0, 300.0))
+    resp.raise_for_status()
+    decompressed = gzip.decompress(resp.content)
+    table = pv.read_csv(
+        pa.BufferReader(decompressed),
+        read_options=pv.ReadOptions(encoding="utf8"),
+        parse_options=pv.ParseOptions(delimiter="\t"),
+        convert_options=pv.ConvertOptions(
+            strings_can_be_null=True,
+            null_values=["", "NULL"],
+            true_values=["1"],
+            false_values=["0"],
+            column_types={
+                "eruptionID": pa.int64(),
+                "geyser": pa.string(),
+                "eruption_time_epoch": pa.int64(),
+                "has_seconds": pa.bool_(),
+                "exact": pa.bool_(),
+                "ns": pa.bool_(),
+                "ie": pa.bool_(),
+                "E": pa.bool_(),
+                "A": pa.bool_(),
+                "wc": pa.bool_(),
+                "ini": pa.bool_(),
+                "maj": pa.bool_(),
+                "min": pa.bool_(),
+                "q": pa.bool_(),
+                "duration": pa.string(),
+                "duration_seconds": pa.int64(),
+                "duration_resolution": pa.string(),
+                "duration_modifier": pa.string(),
+                "entrant": pa.string(),
+                "observer": pa.string(),
+                "eruption_comment": pa.string(),
+                "time_updated": pa.int64(),
+                "time_entered": pa.int64(),
+                "associated_primaryID": pa.int64(),
+                "other_comments": pa.string(),
+            },
+        ),
+    )
+    table = table.rename_columns([ARCHIVE_TO_RAW[name] for name in table.column_names])
+    eruption_time = pc.cast(table["eruption_time_epoch"], pa.timestamp("s", tz="UTC"))
+    idx = table.column_names.index("eruption_time_epoch") + 1
+    return table.add_column(idx, "eruption_time", eruption_time)
 
 
-def fetch_eruptions(node_id):
-    """Full re-pull of every eruption, one raw parquet batch per calendar year.
-
-    Each batch overwrites itself every run; the transform globs all batches.
-    """
-    end_year = datetime.now(tz=timezone.utc).year
-    for year in range(START_YEAR, end_year + 1):
-        lo, hi = _year_bounds(year)
-        data = _fetch(f"{BASE}/entries/{lo}/{hi}")
-        rows = data.get("entries", [])
-        table = pa.Table.from_pylist(rows, schema=ERUPTION_SCHEMA)
-        save_raw_parquet(table, f"{node_id}-{year}")
+def _to_int(value: str | None) -> int | None:
+    return int(value) if value not in (None, "") else None
 
 
-def fetch_geysers(node_id):
-    """The geyser reference table — one call returns the full catalog."""
-    data = _fetch(f"{BASE}/geysers")
-    rows = data.get("geysers", [])
-    table = pa.Table.from_pylist(rows, schema=GEYSER_SCHEMA)
-    save_raw_parquet(table, node_id)
+def _to_float(value: str | None) -> float | None:
+    return float(value) if value not in (None, "") else None
+
+
+def fetch_eruptions(node_id: str) -> None:
+    """Fetch the latest nightly complete eruption archive."""
+    table = _read_archive_tsv(_latest_eruptions_url())
+    save_raw_parquet(table.cast(ERUPTION_SCHEMA), node_id)
+
+
+def fetch_geysers(node_id: str) -> None:
+    """Fetch the geyser reference catalog from the public REST API."""
+    resp = get(f"{BASE_API}/geysers", timeout=(10.0, 60.0))
+    resp.raise_for_status()
+    data = resp.json()
+    rows = []
+    for rec in data.get("geysers", []):
+        rows.append(
+            {
+                GEYSER_TO_RAW[key]: (
+                    _to_int(value)
+                    if key in {"id", "groupID", "serverUpdate"}
+                    else _to_float(value)
+                    if key in {"latitude", "longitude"}
+                    else value
+                )
+                for key, value in rec.items()
+                if key in GEYSER_TO_RAW
+            }
+        )
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=GEYSER_SCHEMA), node_id)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="geysertimes-eruptions", fn=fetch_eruptions, kind="download"),
     NodeSpec(id="geysertimes-geysers", fn=fetch_geysers, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="geysertimes-eruptions-transform",
-        deps=["geysertimes-eruptions"],
-        sql='''
-            SELECT
-                CAST(eruptionID AS BIGINT)               AS eruption_id,
-                CAST(geyserID AS BIGINT)                 AS geyser_id,
-                geyser                                   AS geyser_name,
-                to_timestamp(CAST("time" AS BIGINT))     AS eruption_time,
-                NULLIF(duration, '')                     AS duration_text,
-                CAST(NULLIF(durationSec, '') AS INTEGER) AS duration_sec,
-                durationRes                              AS duration_res,
-                durationMod                              AS duration_mod,
-                exact = '1'                              AS is_exact,
-                ns = '1'                                 AS is_ns,
-                ie = '1'                                 AS is_in_eruption,
-                E = '1'                                  AS is_electronic,
-                A = '1'                                  AS is_a,
-                wc = '1'                                 AS is_webcam,
-                ini = '1'                                AS is_initial,
-                maj = '1'                                AS is_major,
-                "min" = '1'                              AS is_minor,
-                q = '1'                                  AS is_questionable,
-                hasSeconds = '1'                         AS has_seconds,
-                NULLIF(entrant, '')                      AS entrant,
-                CAST(NULLIF(entrantID, '') AS BIGINT)    AS entrant_id,
-                NULLIF(observer, '')                     AS observer,
-                NULLIF(comment, '')                      AS comment,
-                CAST(primaryID AS BIGINT)                AS primary_id,
-                to_timestamp(CAST(timeEntered AS BIGINT)) AS entered_at,
-                to_timestamp(CAST(timeUpdated AS BIGINT)) AS updated_at
-            FROM "geysertimes-eruptions"
-            WHERE eruptionID IS NOT NULL AND "time" IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY eruptionID ORDER BY CAST(timeUpdated AS BIGINT) DESC
-            ) = 1
-        ''',
-        key=("eruption_id",),
-        temporal="eruption_time",
-    ),
-    SqlNodeSpec(
-        id="geysertimes-geysers-transform",
-        deps=["geysertimes-geysers"],
-        sql='''
-            SELECT
-                CAST(id AS BIGINT)                        AS geyser_id,
-                name                                      AS geyser_name,
-                CAST(NULLIF(latitude, '') AS DOUBLE)      AS latitude,
-                CAST(NULLIF(longitude, '') AS DOUBLE)     AS longitude,
-                NULLIF(timezone, '')                      AS timezone,
-                CAST(NULLIF(groupID, '') AS BIGINT)       AS group_id,
-                NULLIF(groupName, '')                     AS group_name,
-                to_timestamp(CAST(serverUpdate AS BIGINT)) AS server_update
-            FROM "geysertimes-geysers"
-            WHERE id IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY id ORDER BY CAST(serverUpdate AS BIGINT) DESC
-            ) = 1
-        ''',
-        key=("geyser_id",),
-    ),
 ]

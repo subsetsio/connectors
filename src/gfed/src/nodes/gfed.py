@@ -20,7 +20,7 @@ watermark/cursor — there is no incremental filter and none is needed.
 import re
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet
 
 # Per-release directory of one .txt summary table per chemical species.
 SOURCES = {
@@ -42,6 +42,35 @@ SCHEMA = pa.schema([
     ("value", pa.float64()),
     ("unit", pa.string()),
 ])
+
+REGION_SCHEMA = pa.schema([
+    ("region", pa.string()),
+    ("name", pa.string()),
+])
+
+SPECIES_SCHEMA = pa.schema([
+    ("release", pa.string()),
+    ("species", pa.string()),
+    ("unit", pa.string()),
+])
+
+REGIONS = {
+    "AUST": "Australia and New Zealand",
+    "BOAS": "Boreal Asia",
+    "BONA": "Boreal North America",
+    "CEAM": "Central America",
+    "CEAS": "Central Asia",
+    "EQAS": "Equatorial Asia",
+    "EURO": "Europe",
+    "GLOB": "Global (all regions combined)",
+    "MIDE": "Middle East",
+    "NHAF": "Northern Hemisphere Africa",
+    "NHSA": "Northern Hemisphere South America",
+    "SEAS": "Southeast Asia",
+    "SHAF": "Southern Hemisphere Africa",
+    "SHSA": "Southern Hemisphere South America",
+    "TENA": "Temperate North America",
+}
 
 # A species file must yield at least this many region rows across its 7 fire-type
 # sections; a smaller count means the fixed-width layout changed and parsing
@@ -166,34 +195,47 @@ def _fetch_release(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+def _fetch_regions(node_id: str) -> None:
+    table = pa.table(
+        {
+            "region": pa.array(list(REGIONS), pa.string()),
+            "name": pa.array(list(REGIONS.values()), pa.string()),
+        },
+        schema=REGION_SCHEMA,
+    )
+    save_raw_parquet(table, node_id)
+
+
+def _fetch_species(node_id: str) -> None:
+    release_col = []
+    species_col = []
+    unit_col = []
+
+    for cfg in SOURCES.values():
+        release = cfg["prefix"]
+        for species in _list_species(cfg["index_url"], cfg["prefix"]):
+            url = f"{cfg['index_url']}{cfg['prefix']}_{species}.txt"
+            text = _get_text(url)
+            recs = _parse_species_file(text, species)
+            unit = next((rec[5] for rec in recs if rec[5]), None)
+            release_col.append(release)
+            species_col.append(species)
+            unit_col.append(unit)
+
+    table = pa.table(
+        {
+            "release": pa.array(release_col, pa.string()),
+            "species": pa.array(species_col, pa.string()),
+            "unit": pa.array(unit_col, pa.string()),
+        },
+        schema=SPECIES_SCHEMA,
+    )
+    save_raw_parquet(table, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="gfed-emissions-gfed5", fn=_fetch_release, kind="download"),
     NodeSpec(id="gfed-emissions-gfed4", fn=_fetch_release, kind="download"),
-]
-
-# Thin parse-and-type pass: raw is already long and clean. Drop the rare
-# unparseable value, and dedup defensively on the natural key.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                species,
-                fire_type,
-                region,
-                CAST(year AS INTEGER)  AS year,
-                CAST(value AS DOUBLE)  AS value,
-                unit
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY species, fire_type, region, year
-                ORDER BY value
-            ) = 1
-        ''',
-        key=("species", "fire_type", "region", "year"),
-        temporal="year",
-    )
-    for s in DOWNLOAD_SPECS
+    NodeSpec(id="gfed-regions", fn=_fetch_regions, kind="download"),
+    NodeSpec(id="gfed-species", fn=_fetch_species, kind="download"),
 ]

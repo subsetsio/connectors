@@ -11,11 +11,11 @@ tests:
   - row_count: {min: 300}
     reason: ~480 geysers catalogued; far fewer means /geysers returned a partial payload
     certainty: 85
-  - between: {col: latitude, lo: 44.0, hi: 45.0}
-    reason: all geysers are in Yellowstone (NW Wyoming), latitude ~44.4
+  - between: {col: latitude, lo: -45.0, hi: 65.0}
+    reason: geyser catalog includes Yellowstone plus some international geysers; valid latitudes stay in a plausible terrestrial range
     certainty: 80
     severity: warn
-  - between: {col: longitude, lo: -111.5, hi: -110.0}
-    reason: all geysers are in Yellowstone, longitude ~-110.8
+  - between: {col: longitude, lo: -180.0, hi: 180.0}
+    reason: longitude values should be valid decimal degrees
     certainty: 80
     severity: warn

@@ -5,19 +5,20 @@ tests:
     reason: every eruption record has an eruptionID primary key
     certainty: 99
   - unique: eruption_id
-    reason: one row per eruption; dupes mean a year batch was double-counted or QUALIFY dedup failed
+    reason: the complete nightly archive has one row per eruption
     certainty: 95
   - column_type: {col: geyser_id, type: integer}
     certainty: 95
-  - not_null: geyser_id
-    reason: every eruption references a geyser
-    certainty: 95
+  - column_type: {col: eruption_time_epoch, type: integer}
+    certainty: 99
   - not_null: eruption_time
     certainty: 95
   - column_type: {col: eruption_time, type: timestamp}
     certainty: 90
+  - column_type: {col: exact, type: boolean}
+    certainty: 95
   - row_count: {min: 500000}
-    reason: corpus is ~1M+ eruptions 1970-present (2015 alone ~57k); <500k means year chunking dropped batches
+    reason: complete archive contains the full historical eruption corpus; <500k means the archive parse was partial
     certainty: 85
   - freshness: {col: eruption_time, reaches: today - 30d}
     reason: an active community logs eruptions continuously; a stale max means harvesting stopped
