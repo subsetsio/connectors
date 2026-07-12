@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `washington-ofm-socrata-pvty-6zcu`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [block20l, vtd, blkgrp20l, tract20l, sduniname]
+checks:
+  - kind: unique
+    columns: [block20l, vtd, blkgrp20l, tract20l, sduniname]
+  - kind: not_null
+    col: block20l
+  - kind: not_null
+    col: vtd
+  - kind: not_null
+    col: blkgrp20l
+  - kind: not_null
+    col: tract20l
+  - kind: not_null
+    col: sduniname
+  - kind: row_floor
+    min: 79046
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

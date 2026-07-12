@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `crates-io-dependencies`. Regenerate after model-verify.
+# caution: The `kind` column is an integer dependency type code from crates.io rather than a decoded label.
+key: [id]
+sort: [id]
 columns:
   - name: id
     type: BIGINT
@@ -9,8 +13,8 @@ columns:
   - name: req
     type: VARCHAR
   - name: kind
-    type: INTEGER
+    type: BIGINT
   - name: optional
-    type: BOOLEAN
+    type: VARCHAR
   - name: default_features
-    type: BOOLEAN
+    type: VARCHAR

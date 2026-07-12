@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `washington-ofm-socrata-9fmr-fbqq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [label97s]
+checks:
+  - kind: unique
+    columns: [label97s]
+  - kind: not_null
+    col: label97s
+  - kind: row_floor
+    min: 15
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
