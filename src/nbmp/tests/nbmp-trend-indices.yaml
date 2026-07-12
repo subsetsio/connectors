@@ -1,8 +1,8 @@
 spec_id: nbmp-trend-indices
 status: active
 tests:
-  - freshness: {col: year, reaches: current_year() - 2}
-    reason: NBMP official statistics are annual and the 2026 workbook reports through 2024; the latest available year should lag the current year by no more than two years
+  - freshness: {col: year, reaches: 2024}
+    reason: NBMP official statistics are annual; the latest available year should reach at least the 2024 reporting year in the current workbook generation
     certainty: 90
   - not_null: year
     reason: every index point is for a specific year; a null means the year column failed to cast

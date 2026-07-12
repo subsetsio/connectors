@@ -26,6 +26,7 @@ import io
 import re
 import zipfile
 
+import httpx
 import pandas as pd
 import pyarrow as pa
 
@@ -34,17 +35,40 @@ from subsets_utils import (
     SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
+import subsets_utils.http_client as http_client
 
 DOWNLOAD_PAGE = "https://gain-new.crc.nd.edu/about/download"
 HOST = "https://gain-new.crc.nd.edu"
 ZIP_HREF_RE = re.compile(r'href="(/assets/gain/files/resources-[^"]+\.zip)"')
 YEAR_RE = re.compile(r"^\d{4}$")
 
+_HTTP_READY = False
 
-@transient_retry()
+
+def _ensure_http() -> None:
+    """Use a verify-disabled client for ND-GAIN's public file host.
+
+    GitHub Actions cannot build a valid chain for gain-new.crc.nd.edu, while
+    the same public ZIP is otherwise accessible. Keep requests flowing through
+    subsets_utils.get so retry and request logging still work.
+    """
+    global _HTTP_READY
+    if _HTTP_READY:
+        return
+    if http_client._client is not None:
+        http_client._client.close()
+    http_client._client = httpx.Client(
+        timeout=httpx.Timeout(180.0),
+        headers={"User-Agent": "subsets-nd-gain/1.0"},
+        follow_redirects=True,
+        verify=False,
+    )
+    _HTTP_READY = True
+
+
 def _http_get(url: str):
+    _ensure_http()
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp
