@@ -13,6 +13,6 @@ tests:
   - unique: event_type
     reason: each documented event type should appear once in the reference table.
     certainty: 95
-  - matches: {col: docs_url, pattern: '^https://docs\.github\.com/'}
+  - matches: {col: docs_url, pattern: '^https://docs\.github\.com/.*$'}
     reason: the reference table should cite GitHub's official event-type documentation.
     certainty: 95

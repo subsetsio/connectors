@@ -1,0 +1,17 @@
+spec_id: glodap-expocodes
+status: active
+tests:
+  - not_null: expocode
+    reason: the file is the authoritative list of cruise expocodes
+    certainty: 95
+  - column_type: {col: expocode, type: string}
+    certainty: 95
+  - unique: expocode
+    reason: each cruise expocode should appear once
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: GLODAPv3 includes 1181 cruises
+    certainty: 90
+  - distinct_count: {col: expocode, min: 1000}
+    reason: the expocode list should cover the cruise universe
+    certainty: 90

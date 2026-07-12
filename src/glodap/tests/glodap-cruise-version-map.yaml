@@ -1,0 +1,21 @@
+spec_id: glodap-cruise-version-map
+status: active
+tests:
+  - not_null: expocode
+    reason: every mapping row identifies a GLODAPv3 cruise by expocode
+    certainty: 95
+  - not_null: cruise
+    reason: every mapping row has the GLODAPv3 integer cruise id
+    certainty: 95
+  - column_type: {col: expocode, type: string}
+    certainty: 95
+  - column_type: {col: cruise, type: integer}
+    certainty: 95
+  - column_type: {col: v2023_cruise, type: integer}
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: GLODAPv3 includes 1181 cruises
+    certainty: 90
+  - unique: expocode
+    reason: each v3 expocode should appear once in the version mapping
+    certainty: 90

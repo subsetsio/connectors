@@ -1,0 +1,23 @@
+spec_id: glodap-cruise-metadata
+status: active
+tests:
+  - not_null: expocode
+    reason: every DOI row identifies a contributing cruise by expocode
+    certainty: 95
+  - not_null: doi
+    reason: this file maps each cruise to a DOI
+    certainty: 95
+  - column_type: {col: expocode, type: string}
+    certainty: 95
+  - column_type: {col: doi, type: string}
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: GLODAPv3 includes 1181 cruises; a much smaller DOI table means truncation
+    certainty: 90
+  - distinct_count: {col: expocode, min: 1000}
+    reason: the DOI table should cover the cruise universe
+    certainty: 85
+  - matches: {col: doi, pattern: '^https://doi\\.org/'}
+    reason: upstream DOI values are DOI URLs
+    certainty: 85
+    severity: warn

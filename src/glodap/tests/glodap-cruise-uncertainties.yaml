@@ -1,0 +1,26 @@
+spec_id: glodap-cruise-uncertainties
+status: active
+tests:
+  - not_null: expocode
+    reason: uncertainties are reported at cruise level
+    certainty: 95
+  - column_type: {col: expocode, type: string}
+    certainty: 95
+  - column_type: {col: oxygen_pct, type: float}
+    certainty: 90
+  - column_type: {col: region, type: integer}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: GLODAPv3 includes 1181 cruises; a much smaller uncertainty table means truncation
+    certainty: 90
+  - distinct_count: {col: expocode, min: 1000}
+    reason: uncertainty rows should cover most or all cruises
+    certainty: 85
+  - between: {col: region, lo: 1, hi: 4}
+    reason: GLODAPv3 regional partitions are Arctic, Atlantic, Indian, and Pacific
+    certainty: 80
+    severity: warn
+  - between: {col: oxygen_pct, lo: 0, hi: 20}
+    reason: reported cruise uncertainty percentages should be small positive values
+    certainty: 70
+    severity: warn

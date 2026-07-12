@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gh-archive-github-events-daily`. Regenerate after model-verify.
+# caution: Counts are global daily aggregates of public GitHub events only; private repository activity and raw event payload details are intentionally not published.
+# caution: The table is a rolling recent window rather than full GH Archive history, so compare only dates present in the current published table.
+key: [date, event_type]
+temporal: date
+sort: [date, event_type]
+columns:
+  - name: date
+    type: DATE
+  - name: event_type
+    type: VARCHAR
+  - name: event_count
+    type: BIGINT
