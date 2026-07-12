@@ -1,0 +1,16 @@
+spec_id: ssa-beneficiares-per-totalpop-2014--0
+status: active
+coverage:
+  frozen: true
+  reason: SSA ArcGIS layer is a fixed 2014 point-in-time state/territory snapshot; the source does not advance this layer.
+tests:
+  - row_count: {min: 50, max: 70}
+    reason: one row per US state/territory
+    certainty: 90
+  - not_null: State
+  - unique: State
+    reason: one row per state/territory in the 2014 beneficiaries-per-population snapshot
+    certainty: 90
+  - column_type: {col: State, type: string}
+  - column_type: {col: Total_Pop_, type: integer}
+  - column_type: {col: TP_Benefit, type: float}

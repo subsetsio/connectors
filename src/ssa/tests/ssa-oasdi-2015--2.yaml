@@ -1,0 +1,16 @@
+spec_id: ssa-oasdi-2015--2
+status: active
+coverage:
+  frozen: true
+  reason: SSA ArcGIS layer is a fixed 2015 point-in-time state/territory snapshot; the source does not advance this layer.
+tests:
+  - row_count: {min: 50, max: 70}
+    reason: one row per US state/territory
+    certainty: 90
+  - not_null: State_Territory
+  - unique: State_Territory
+    reason: one row per state/territory in the 2015 beneficiaries-per-population snapshot
+    certainty: 90
+  - column_type: {col: State_Territory, type: string}
+  - column_type: {col: Total_Population, type: integer}
+  - column_type: {col: Total_Population_Receiving_Bene, type: float}
