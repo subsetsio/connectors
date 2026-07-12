@@ -16,6 +16,9 @@ tests:
   - between: {col: year, lo: 1985, hi: current_year()}
     reason: the all-government EFNA series begins in 1985
     certainty: 88
+  - freshness: {col: year, reaches: 2023}
+    reason: the efotw.org full-pull API currently publishes annual EFNA all-government observations through the 2023 report year
+    certainty: 85
   - at_most: {col: year, expr: current_year()}
     reason: no future projections
     certainty: 85

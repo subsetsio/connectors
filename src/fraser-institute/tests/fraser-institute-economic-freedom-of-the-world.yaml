@@ -16,6 +16,9 @@ tests:
   - between: {col: year, lo: 1970, hi: current_year()}
     reason: EFW history starts at 1970 (5-yearly to 2000, then annual)
     certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: the efotw.org full-pull API currently publishes Economic Freedom of the World observations through the 2023 report year
+    certainty: 85
   - at_most: {col: year, expr: current_year()}
     reason: no future projections in the index
     certainty: 85

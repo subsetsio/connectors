@@ -16,6 +16,9 @@ tests:
   - between: {col: year, lo: 1981, hi: current_year()}
     reason: the subnational-government EFNA series runs from 1981 (longer than all-government)
     certainty: 85
+  - freshness: {col: year, reaches: 2023}
+    reason: the efotw.org full-pull API currently publishes annual EFNA subnational-government observations through the 2023 report year
+    certainty: 85
   - at_most: {col: year, expr: current_year()}
     reason: no future projections
     certainty: 85
