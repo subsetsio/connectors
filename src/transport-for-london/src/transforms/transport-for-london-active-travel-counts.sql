@@ -25,6 +25,6 @@ FROM (
     SELECT
         *,
         strptime("date", '%d/%m/%Y')::DATE AS parsed_date,
-        NULLIF(regexp_extract("wave", '^(\\d{4})', 1), '')::INTEGER AS wave_year
+        NULLIF(regexp_extract("wave", '^([0-9]{4})', 1), '')::INTEGER AS wave_year
     FROM "transport-for-london-active-travel-counts"
 )
