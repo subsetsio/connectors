@@ -1,0 +1,26 @@
+spec_id: treasury-tic-slt3-us-treasury-securities-held-by-foreign-residents
+status: active
+tests:
+  - not_null: country
+  - not_null: country_code
+  - not_null: date
+  - column_type: {col: country, type: string}
+  - column_type: {col: country_code, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: for_treas_pos, type: float}
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: TIC SLT detail files publish observation months as YYYY-MM strings.
+    certainty: 95
+  - unique: [country_code, date]
+    reason: SLT table 3 is one row per TIC country code and month.
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: SLT table 3 covers many countries across monthly history; a much smaller table indicates a truncated parse.
+    certainty: 90
+  - distinct_count: {col: country_code, min: 50}
+    reason: SLT table 3 covers a broad country universe.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 220d}
+    reason: TIC SLT tables are monthly with reporting lag; max observation month should reach roughly the last several months.
+    certainty: 85
+    points_outward: true
