@@ -37,29 +37,4 @@ def fetch_popular_packages(node_id: str) -> None:
 
 DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="npm-popular-packages-transform",
-        deps=["npm-popular-packages"],
-        sql='''
-            SELECT
-                name,
-                version,
-                description,
-                license,
-                date,
-                publisher_username,
-                CAST(maintainers_count AS INTEGER)   AS maintainers_count,
-                keywords,
-                repository_url,
-                homepage_url,
-                npm_url,
-                CAST(monthly_downloads AS BIGINT)    AS monthly_downloads,
-                CAST(weekly_downloads AS BIGINT)     AS weekly_downloads,
-                CAST(dependents_count AS BIGINT)     AS dependents_count,
-                CAST(search_score AS DOUBLE)         AS search_score
-            FROM "npm-popular-packages"
-            WHERE name IS NOT NULL
-        ''',
-    ),
-]
+TRANSFORM_SPECS = []

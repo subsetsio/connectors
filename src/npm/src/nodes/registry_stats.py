@@ -45,17 +45,4 @@ def fetch_registry_stats(node_id: str) -> None:
 
 DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="npm-registry-stats-transform",
-        deps=["npm-registry-stats"],
-        sql='''
-            SELECT
-                CAST(observation_date AS DATE) AS observation_date,
-                CAST(doc_count AS BIGINT)      AS doc_count,
-                CAST(update_seq AS BIGINT)     AS update_seq
-            FROM "npm-registry-stats"
-            WHERE observation_date IS NOT NULL
-        ''',
-    ),
-]
+TRANSFORM_SPECS = []

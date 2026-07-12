@@ -85,23 +85,4 @@ def fetch_security_advisories(node_id: str) -> None:
 
 DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="npm-security-advisories-transform",
-        deps=["npm-security-advisories"],
-        sql='''
-            SELECT
-                package,
-                CAST(advisory_id AS BIGINT) AS advisory_id,
-                url,
-                title,
-                severity,
-                vulnerable_versions,
-                cwe,
-                CAST(cvss_score AS DOUBLE)  AS cvss_score,
-                cvss_vector
-            FROM "npm-security-advisories"
-            WHERE package IS NOT NULL AND advisory_id IS NOT NULL
-        ''',
-    ),
-]
+TRANSFORM_SPECS = []

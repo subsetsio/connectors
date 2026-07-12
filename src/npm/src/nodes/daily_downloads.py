@@ -68,17 +68,4 @@ def fetch_daily_downloads(node_id: str) -> None:
 
 DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="npm-daily-downloads-transform",
-        deps=["npm-daily-downloads"],
-        sql='''
-            SELECT
-                package,
-                CAST(date AS DATE)        AS date,
-                CAST(downloads AS BIGINT) AS downloads
-            FROM "npm-daily-downloads"
-            WHERE package IS NOT NULL AND date IS NOT NULL
-        ''',
-    ),
-]
+TRANSFORM_SPECS = []
