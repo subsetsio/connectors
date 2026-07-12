@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pangaea-glacierlengthsaustria`. Regenerate after model-verify.
+# caution: Raw rows mix source DOI manifest records with long-cell observation records; query cell records for measured glacier length values.
+key: []
+columns:
+  - name: record_type
+    type: VARCHAR
+  - name: collection
+    type: VARCHAR
+  - name: source_doi
+    type: VARCHAR
+  - name: dataset_doi
+    type: VARCHAR
+  - name: file_name
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: column_position
+    type: BIGINT
+  - name: column_name
+    type: VARCHAR
+  - name: value
+    type: VARCHAR
+  - name: metadata_text
+    type: VARCHAR

@@ -1,26 +1,44 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gun-violence-archive-incidents`. Regenerate after model-verify.
+# caution: Rows represent membership in GVA standing-report populations, not a deduplicated all-incidents universe; the same incident_id can appear under multiple report_population values.
+# caution: Some high-volume standing reports are capped by the source export API, so report populations can represent the most recent exported incidents rather than complete history.
+key: [incident_id, city_or_county, incident_date, state, report_population]
+temporal: incident_date
+sort: [incident_date, incident_id, city_or_county, state, report_population]
 columns:
   - name: incident_id
     type: BIGINT
+    description: Gun Violence Archive incident identifier.
   - name: incident_date
     type: DATE
+    description: Calendar date of the incident, parsed from the source export date text.
   - name: state
     type: VARCHAR
+    description: US state where the incident occurred.
   - name: city_or_county
     type: VARCHAR
+    description: City or county location reported by Gun Violence Archive.
   - name: address
     type: VARCHAR
+    description: Street address or location detail reported for the incident, when available.
   - name: victims_killed
     type: BIGINT
+    description: Number of victims killed in the incident.
   - name: victims_injured
     type: BIGINT
+    description: Number of victims injured in the incident.
   - name: suspects_killed
     type: BIGINT
+    description: Number of suspects killed in the incident.
   - name: suspects_injured
     type: BIGINT
+    description: Number of suspects injured in the incident.
   - name: suspects_arrested
     type: BIGINT
+    description: Number of suspects arrested in the incident.
   - name: report_population
     type: VARCHAR
+    description: Standing-report slug whose export included this incident row.
   - name: report_name
     type: VARCHAR
+    description: Human-readable Gun Violence Archive standing-report name.

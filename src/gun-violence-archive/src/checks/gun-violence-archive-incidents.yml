@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `gun-violence-archive-incidents`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [incident_id, city_or_county, incident_date, state, report_population]
+temporal: incident_date
+checks:
+  - kind: unique
+    columns: [incident_id, city_or_county, incident_date, state, report_population]
+  - kind: not_null
+    col: incident_id
+  - kind: not_null
+    col: city_or_county
+  - kind: not_null
+    col: incident_date
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: report_population
+  - kind: row_floor
+    min: 10412
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
