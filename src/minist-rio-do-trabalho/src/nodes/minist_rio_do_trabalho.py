@@ -51,9 +51,8 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, load_state, raw_writer, save_state
+from subsets_utils import NodeSpec, list_raw_fragments, raw_writer
 
-STATE_VERSION = 1
 FTP_ROOT = "ftp://ftp.mtps.gov.br/pdet/microdados/"
 FTP_CURL_FLAGS = [
     "--ipv4",
@@ -281,7 +280,7 @@ def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
     return txts
 
 
-def _process_archive(file_url: str, asset: str, extra: dict) -> int:
+def _process_archive(file_url: str, asset: str, fragment: str, extra: dict) -> int:
     """Fetch one .7z, extract its TXT(s), stream rows to a `ndjson.gz` raw
     asset. Returns the row count written."""
     with tempfile.TemporaryDirectory() as td:
@@ -294,7 +293,14 @@ def _process_archive(file_url: str, asset: str, extra: dict) -> int:
         txts = _extract_archive(z7, td, file_url)
         os.remove(z7)  # free disk before streaming the (large) TXT
         n = 0
-        with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip", encoding="utf-8") as out:
+        with raw_writer(
+            asset,
+            "ndjson.gz",
+            mode="wt",
+            compression="gzip",
+            encoding="utf-8",
+            fragment=fragment,
+        ) as out:
             for tp in txts:
                 enc = _detect_encoding(tp)
                 for row in _iter_rows(tp, enc, extra):
@@ -307,24 +313,20 @@ def _process_archive(file_url: str, asset: str, extra: dict) -> int:
 
 
 def _run_entity(node_id: str, batches: list[tuple[str, str, dict]]) -> None:
-    """Process every (batch_key, file_url, extra), skipping batch keys already
-    recorded done. Raw is written before state on each batch so an interrupted
-    re-triggered run resumes safely."""
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "done": []}
-    done = set(state.get("done", []))
+    """Process every (batch_key, file_url, extra).
+
+    Resume decisions come from the committed raw manifest, not private state:
+    a batch is skipped only when its raw fragment exists for this logical asset.
+    """
+    done = set(list_raw_fragments(node_id, "ndjson.gz"))
     if not batches:
         raise AssertionError(f"{node_id}: discovery found 0 archives — FTP layout changed?")
     for batch_key, file_url, extra in batches:
         if batch_key in done:
             continue
         print(f"  fetching {node_id} batch {batch_key}: {file_url}", flush=True)
-        asset = f"{node_id}-{batch_key}"
-        _process_archive(file_url, asset, extra)
+        _process_archive(file_url, node_id, batch_key, extra)
         done.add(batch_key)
-        state["done"] = sorted(done)
-        save_state(node_id, state)
 
 
 # --- discovery -------------------------------------------------------------

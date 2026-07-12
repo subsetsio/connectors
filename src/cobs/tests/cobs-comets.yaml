@@ -13,6 +13,9 @@ tests:
   - row_count: {min: 1500}
     reason: comet_list.api reported ~2446 comets (Sept 2025 docs cite 1640+ observed, total grows); a tiny count means truncation
     certainty: 85
+  - freshness: {col: perihelion_date, reaches: today - 400d}
+    reason: the catalog should include comets with recent or upcoming perihelion dates; an old maximum date means the API returned stale or truncated orbital coverage
+    certainty: 70
   - enum: {col: is_observed, values: [true, false]}
     reason: is_observed is a boolean flag in the catalog JSON
     certainty: 80

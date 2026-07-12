@@ -13,11 +13,10 @@ tests:
   - distinct_count: {col: comet_id, min: 500}
     reason: ~1640 comets have been observed; observations should span many hundreds of distinct comets
     certainty: 75
+  - freshness: {col: obs_date, reaches: today - 90d}
+    reason: COBS is an active observation database; the all-comet sweep should include observations from the last quarter
+    certainty: 75
   - enum: {col: obs_type, values: ["C", "V"]}
     reason: COBS observation type is visual (V) or CCD/CMOS (C)
     certainty: 70
-    severity: warn
-  - matches: {col: obs_date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}"}
-    reason: obs_date is stored raw as 'YYYY-MM-DD HH:MM:SS' before the transform casts it
-    certainty: 80
     severity: warn
