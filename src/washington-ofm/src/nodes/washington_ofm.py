@@ -6,7 +6,7 @@ import io
 import re
 from html.parser import HTMLParser
 from urllib.error import HTTPError
-from urllib.parse import urljoin, urlparse
+from urllib.parse import quote, urljoin, urlparse
 from urllib.request import Request, urlopen
 from zipfile import ZipFile
 
@@ -59,12 +59,13 @@ def _html_links(url: str) -> list[str]:
 
 
 def _ofm_get_bytes(url: str, timeout: float = 240.0) -> tuple[bytes, str]:
-    request = Request(url, headers=OFM_HEADERS)
+    request_url = quote(url, safe=":/?#[]@!$&'()*+,;=%")
+    request = Request(request_url, headers=OFM_HEADERS)
     try:
         with urlopen(request, timeout=timeout) as response:
             return response.read(), response.url
     except HTTPError as exc:
-        raise RuntimeError(f"OFM request failed with HTTP {exc.code} for {url}") from exc
+        raise RuntimeError(f"OFM request failed with HTTP {exc.code} for {request_url}") from exc
 
 
 def _ofm_get_text(url: str) -> str:
