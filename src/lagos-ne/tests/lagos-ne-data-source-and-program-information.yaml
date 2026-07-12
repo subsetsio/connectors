@@ -1,0 +1,21 @@
+spec_id: lagos-ne-data-source-and-program-information
+status: active
+tests:
+  - not_null: programtableid
+    reason: programtableid identifies each source program table row
+    certainty: 95
+  - unique: programtableid
+    reason: one row per program table in the source metadata table
+    certainty: 90
+  - not_null: programid
+    reason: every program table belongs to a source program
+    certainty: 95
+  - not_null: sourcename
+    reason: each program table is tied to a source organization/data source
+    certainty: 90
+  - column_type: {col: lakecount, type: integer}
+    reason: lakecount is a count of lakes represented by the program/source
+    certainty: 90
+  - row_count: {min: 50}
+    reason: edi.101.3 includes 107 program/source rows; far fewer means a truncated metadata download
+    certainty: 85

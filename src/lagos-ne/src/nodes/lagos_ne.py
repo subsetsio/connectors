@@ -28,7 +28,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -41,6 +40,7 @@ SCOPE_ID = "edi/101"  # EDI scope=edi identifier=101 == LAGOS-NE-LIMNO
 # Published subsets (the rank-accepted entity union). Each is the slug of a
 # dataTable entityName in the EDI EML; the download fn maps it to that revision's
 # data-object hash at fetch time.
+PROGRAMS = f"{SLUG}-data-source-and-program-information"
 MEAS = f"{SLUG}-in-situ-measurements-of-epilimnetic-nutrients-and-secchi-data"
 MORPH = f"{SLUG}-lake-identifiers-and-morphometry"
 
@@ -118,21 +118,7 @@ def fetch_one(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id=PROGRAMS, fn=fetch_one, kind="download"),
     NodeSpec(id=MEAS, fn=fetch_one, kind="download"),
     NodeSpec(id=MORPH, fn=fetch_one, kind="download"),
-]
-
-# Thin parse-and-publish: types are already correct in raw parquet; the transform
-# drops rows with a null primary key (a 0-row result fails the node by design).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{MEAS}-transform",
-        deps=[MEAS],
-        sql=f'SELECT * FROM "{MEAS}" WHERE eventida10873 IS NOT NULL',
-    ),
-    SqlNodeSpec(
-        id=f"{MORPH}-transform",
-        deps=[MORPH],
-        sql=f'SELECT * FROM "{MORPH}" WHERE lagoslakeid IS NOT NULL',
-    ),
 ]
