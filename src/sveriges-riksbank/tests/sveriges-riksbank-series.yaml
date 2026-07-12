@@ -1,0 +1,28 @@
+spec_id: sveriges-riksbank-series
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: the SWEA /Series catalog currently contains over one hundred time series.
+    certainty: 85
+  - not_null: series_id
+  - not_null: group_id
+  - not_null: observation_min_date
+  - not_null: observation_max_date
+  - column_type: {col: series_id, type: string}
+  - column_type: {col: source, type: string}
+  - column_type: {col: group_id, type: integer}
+  - column_type: {col: observation_min_date, type: string}
+  - column_type: {col: observation_max_date, type: string}
+  - column_type: {col: series_closed, type: boolean}
+  - unique: series_id
+    reason: each SWEA series id should appear once in the catalog.
+    certainty: 95
+  - distinct_count: {col: group_id, min: 10}
+    reason: series should span the Riksbank's published SWEA group taxonomy.
+    certainty: 85
+  - matches: {col: observation_min_date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+    reason: API date strings are ISO YYYY-MM-DD.
+    certainty: 95
+  - matches: {col: observation_max_date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+    reason: API date strings are ISO YYYY-MM-DD.
+    certainty: 95

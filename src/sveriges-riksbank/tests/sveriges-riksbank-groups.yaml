@@ -1,0 +1,15 @@
+spec_id: sveriges-riksbank-groups
+status: active
+tests:
+  - row_count: {min: 10}
+    reason: SWEA series are organized into more than ten published groups.
+    certainty: 90
+  - not_null: group_id
+  - not_null: name
+  - column_type: {col: group_id, type: integer}
+  - column_type: {col: name, type: string}
+  - column_type: {col: description, type: string}
+  - column_type: {col: child_group_ids, type: string}
+  - unique: group_id
+    reason: one row per SWEA group id.
+    certainty: 95

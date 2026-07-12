@@ -5,7 +5,7 @@
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import fetch_series_catalog
 
 SERIES_SCHEMA = pa.schema([
@@ -40,30 +40,3 @@ def fetch_series(node_id: str) -> None:
     ]
     table = pa.Table.from_pylist(rows, schema=SERIES_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="sveriges-riksbank-series", fn=fetch_series, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="sveriges-riksbank-series-transform",
-        deps=["sveriges-riksbank-series"],
-        sql='''
-            SELECT
-                series_id,
-                source,
-                short_description,
-                mid_description,
-                long_description,
-                group_id,
-                CAST(observation_min_date AS DATE) AS observation_min_date,
-                CAST(observation_max_date AS DATE) AS observation_max_date,
-                series_closed
-            FROM "sveriges-riksbank-series"
-            WHERE series_id IS NOT NULL
-        ''',
-    ),
-]

@@ -12,7 +12,7 @@ parameter on the API, and re-pulling picks up revisions/backfills for free.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import raw_parquet_writer
 from utils import BASE, fetch_series_catalog, get_json
 
 VALUES_SCHEMA = pa.schema([
@@ -54,35 +54,3 @@ def fetch_values(node_id: str) -> None:
 
     if total == 0:
         raise AssertionError("fetched 0 observations across all series — API shape likely changed")
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="sveriges-riksbank-values", fn=fetch_values, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="sveriges-riksbank-values-transform",
-        deps=["sveriges-riksbank-values"],
-        sql='''
-            SELECT series_id, group_id, date, value
-            FROM (
-                SELECT
-                    series_id,
-                    group_id,
-                    CAST(date AS DATE)   AS date,
-                    CAST(value AS DOUBLE) AS value,
-                    row_number() OVER (
-                        PARTITION BY series_id, CAST(date AS DATE)
-                        ORDER BY value
-                    ) AS rn
-                FROM "sveriges-riksbank-values"
-                WHERE series_id IS NOT NULL
-                  AND date IS NOT NULL
-                  AND value IS NOT NULL
-            )
-            WHERE rn = 1
-        ''',
-    ),
-]
