@@ -26,7 +26,7 @@ import httpx
 import pyarrow as pa
 from tenacity import retry, retry_if_exception, stop_after_attempt
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, is_transient, raw_parquet_writer
+from subsets_utils import NodeSpec, get, is_transient, raw_parquet_writer
 
 ENTITY_IDS = ["models", "datasets", "spaces"]
 
@@ -179,6 +179,8 @@ def fetch_one(node_id: str) -> None:
 
     pages = 0
     total = 0
+    seen_ids: set[str] = set()
+    duplicate_ids = 0
     with raw_parquet_writer(asset, schema) as writer:
         while True:
             if pages >= MAX_PAGES:
@@ -190,6 +192,17 @@ def fetch_one(node_id: str) -> None:
             rows = resp.json()
             pages += 1
             if rows:
+                deduped = []
+                for row in rows:
+                    repo_id = row.get("id")
+                    if repo_id in seen_ids:
+                        duplicate_ids += 1
+                        continue
+                    if repo_id is not None:
+                        seen_ids.add(repo_id)
+                    deduped.append(row)
+                rows = deduped
+            if rows:
                 writer.write_batch(_rows_to_batch(rows, columns))
                 total += len(rows)
             nxt = _next_url(resp.headers.get("link"))
@@ -200,7 +213,8 @@ def fetch_one(node_id: str) -> None:
 
     if total == 0:
         raise RuntimeError(f"{asset}: crawl produced 0 rows")
-    print(f"  {asset}: {total} rows across {pages} pages")
+    suffix = f", skipped {duplicate_ids} duplicate ids" if duplicate_ids else ""
+    print(f"  {asset}: {total} rows across {pages} pages{suffix}")
 
 
 DOWNLOAD_SPECS = [
@@ -210,58 +224,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(entity: str) -> str:
-    """Thin parse-and-type pass: dedup by repo id (cursor crawls can briefly
-    double-list a repo that shifts pages mid-crawl), drop null ids, parse the
-    ISO-8601 timestamps, and cast the quantitative columns."""
-    asset = f"huggingface-{entity}"
-    select_cols = [
-        "id",
-        "author",
-    ]
-    if entity in ("models", "datasets"):
-        select_cols.append("CAST(downloads AS BIGINT) AS downloads")
-    select_cols.append("CAST(likes AS BIGINT) AS likes")
-    select_cols.append("CAST(trendingScore AS BIGINT) AS trending_score")
-    if entity == "models":
-        select_cols += ["pipeline_tag", "library_name", "gated"]
-    if entity == "datasets":
-        select_cols.append("gated")
-    if entity == "spaces":
-        select_cols.append("sdk")
-    select_cols += [
-        "private",
-        "try_strptime(createdAt, '%Y-%m-%dT%H:%M:%S.%fZ') AS created_at",
-        "try_strptime(lastModified, '%Y-%m-%dT%H:%M:%S.%fZ') AS last_modified",
-        "tags",
-    ]
-    cols = ",\n            ".join(select_cols)
-    return f'''
-        SELECT
-            {cols}
-        FROM (
-            SELECT *, row_number() OVER (
-                PARTITION BY id ORDER BY lastModified DESC
-            ) AS _rn
-            FROM "{asset}"
-            WHERE id IS NOT NULL
-        )
-        WHERE _rn = 1
-    '''
-
-
-# All three catalogs are one-row-per-repo (deduped by repo id) with lastModified
-# as the per-repo observation timestamp — uniform grain across the comprehension.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id[len("huggingface-"):]),
-        key=("id",),
-        temporal="last_modified",
-    )
-    for s in DOWNLOAD_SPECS
 ]
