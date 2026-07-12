@@ -2,15 +2,12 @@
 
 Single static academic deposit archived on the DANS Data Station (a Dataverse
 instance, persistent DOI 10.17026/dans-zsu-xavf, "The Allen Unger Commodities
-Dataset", v2.1). The original publisher site (gcpdb.info) is dead, so DANS is the
-canonical source. The deposit holds three ingested tables; only the core price
-table (Commodities, fileId 183974) clears the publish threshold.
+Dataset", v2.1). The original publisher site (gcpdb.info) is dead, so DANS is
+the canonical source.
 
-Fetch shape: stateless full re-pull. The deposit is a single ~37MB tab file that
-downloads whole in one request and fits comfortably in RAM, so there is no
-watermark/cursor — every run re-fetches and overwrites. Freshness (whether to run
-at all) is the maintain step's job; a deposit version bump would be picked up for
-free on the next run.
+Fetch shape: stateless full re-pull. The deposit has three ingested TSV tables
+that download whole in one request and fit comfortably in RAM, so there is no
+watermark or cursor; every run re-fetches and overwrites.
 """
 
 import csv
@@ -18,43 +15,111 @@ import io
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 DATAVERSE_BASE = "https://ssh.datastations.nl/api"
-# fileId of Commodities.tab inside DANS deposit doi:10.17026/dans-zsu-xavf.
-COMMODITIES_FILE_ID = 183974
+SLUG = "allen-unger-commodity-prices"
 
-# Header of the upstream tab file, in order — asserted on every fetch so a silent
-# upstream schema change trips loudly instead of misaligning columns.
-SOURCE_HEADER = [
-    "Commodity", "Variety", "Market", "Original Measure", "Standard Measure",
-    "Original Currency", "Standard Currency", "Item_Years",
-    "Item_Value_Original", "Item_Value_Standardized", "Notes", "Source_Raw",
-]
+FILE_IDS = {
+    "commodities": 183974,
+    "currencies": 183975,
+    "measures": 183973,
+}
 
-RAW_COLUMNS = [
-    "commodity", "variety", "market", "original_measure", "standard_measure",
-    "original_currency", "standard_currency", "item_year",
-    "item_value_original", "item_value_standardized", "notes", "source_raw",
-]
+SOURCE_HEADERS = {
+    "commodities": [
+        "Commodity", "Variety", "Market", "Original Measure", "Standard Measure",
+        "Original Currency", "Standard Currency", "Item_Years",
+        "Item_Value_Original", "Item_Value_Standardized", "Notes", "Source_Raw",
+    ],
+    "currencies": [
+        "Geography", "Variety", "Market", "Name", "Year", "Factor", "Unit",
+        "Metal", "Source Location", "Source", "Notes", "Interpolated",
+        "Constructed",
+    ],
+    "measures": [
+        "Measure_Name", "Measure", "Measure_SubType", "Market", "Factor",
+        "Units", "Type", "SubType", "Alternative_Name", "Source_Raw",
+    ],
+}
 
-SCHEMA = pa.schema([
-    ("commodity", pa.string()),
-    ("variety", pa.string()),
-    ("market", pa.string()),
-    ("original_measure", pa.string()),
-    ("standard_measure", pa.string()),
-    ("original_currency", pa.string()),
-    ("standard_currency", pa.string()),
-    ("item_year", pa.int64()),
-    ("item_value_original", pa.float64()),
-    ("item_value_standardized", pa.float64()),
-    ("notes", pa.string()),
-    ("source_raw", pa.string()),
-])
+RAW_COLUMNS = {
+    "commodities": [
+        "commodity", "variety", "market", "original_measure", "standard_measure",
+        "original_currency", "standard_currency", "item_year",
+        "item_value_original", "item_value_standardized", "notes", "source_raw",
+    ],
+    "currencies": [
+        "geography", "variety", "market", "name", "year", "factor", "unit",
+        "metal", "source_location", "source", "notes", "interpolated",
+        "constructed",
+    ],
+    "measures": [
+        "measure_name", "measure", "measure_subtype", "market", "factor",
+        "units", "type", "subtype", "alternative_name", "source_raw",
+    ],
+}
+
+SCHEMAS = {
+    "commodities": pa.schema([
+        ("commodity", pa.string()),
+        ("variety", pa.string()),
+        ("market", pa.string()),
+        ("original_measure", pa.string()),
+        ("standard_measure", pa.string()),
+        ("original_currency", pa.string()),
+        ("standard_currency", pa.string()),
+        ("item_year", pa.int64()),
+        ("item_value_original", pa.float64()),
+        ("item_value_standardized", pa.float64()),
+        ("notes", pa.string()),
+        ("source_raw", pa.string()),
+    ]),
+    "currencies": pa.schema([
+        ("geography", pa.string()),
+        ("variety", pa.string()),
+        ("market", pa.string()),
+        ("name", pa.string()),
+        ("year", pa.int64()),
+        ("factor", pa.float64()),
+        ("unit", pa.string()),
+        ("metal", pa.string()),
+        ("source_location", pa.string()),
+        ("source", pa.string()),
+        ("notes", pa.string()),
+        ("interpolated", pa.bool_()),
+        ("constructed", pa.bool_()),
+    ]),
+    "measures": pa.schema([
+        ("measure_name", pa.string()),
+        ("measure", pa.string()),
+        ("measure_subtype", pa.string()),
+        ("market", pa.string()),
+        ("factor", pa.float64()),
+        ("units", pa.string()),
+        ("type", pa.string()),
+        ("subtype", pa.string()),
+        ("alternative_name", pa.string()),
+        ("source_raw", pa.string()),
+    ]),
+}
+
+PARSERS = {
+    "commodities": [
+        "str", "str", "str", "str", "str", "str", "str", "int", "float",
+        "float", "str", "str",
+    ],
+    "currencies": [
+        "str", "str", "str", "str", "int", "float", "str", "str", "str",
+        "str", "str", "bool", "bool",
+    ],
+    "measures": [
+        "str", "str", "str", "str", "float", "str", "str", "str", "str",
+        "str",
+    ],
+}
 
 
-@transient_retry()
 def _download_tab(file_id: int) -> bytes:
     # Ingested .tab is UTF-8 tab-separated (charset=UTF-8). The whole-dataset zip
     # and ?format=original CSV exist too, but the ingested .tab is the cleanest
@@ -79,70 +144,79 @@ def _to_float(value: str):
     return float(value) if value else None
 
 
-def fetch_commodities(node_id: str) -> None:
-    asset = node_id  # the runtime passes the spec id; it IS the asset name
-    # Free-text Notes/Source_Raw fields carry U+FFFD replacement chars baked in at
-    # DANS ingest time (a lossy non-UTF8 -> UTF-8 conversion upstream); errors=
-    # "replace" keeps the decode total and never touches the numeric/key columns.
-    text = _download_tab(COMMODITIES_FILE_ID).decode("utf-8", errors="replace")
+def _to_bool(value: str):
+    value = value.strip().upper()
+    if not value:
+        return None
+    if value == "TRUE":
+        return True
+    if value == "FALSE":
+        return False
+    raise ValueError(f"unexpected boolean value: {value!r}")
+
+
+def _parse(value: str, kind: str):
+    if kind == "str":
+        return _clean(value)
+    if kind == "int":
+        return _to_int(value)
+    if kind == "float":
+        return _to_float(value)
+    if kind == "bool":
+        return _to_bool(value)
+    raise AssertionError(f"unknown parser kind: {kind}")
+
+
+def _entity_from_node_id(node_id: str) -> str:
+    prefix = f"{SLUG}-"
+    if not node_id.startswith(prefix):
+        raise AssertionError(f"unexpected node id: {node_id}")
+    entity = node_id.removeprefix(prefix)
+    if entity not in FILE_IDS:
+        raise AssertionError(f"unknown entity: {entity}")
+    return entity
+
+
+def fetch_dataverse_table(node_id: str) -> None:
+    entity = _entity_from_node_id(node_id)
+    # Free-text fields carry occasional U+FFFD replacement chars baked in at DANS
+    # ingest time; errors="replace" keeps the decode total and leaves keys/numeric
+    # columns unaffected.
+    text = _download_tab(FILE_IDS[entity]).decode("utf-8", errors="replace")
     reader = csv.reader(io.StringIO(text), delimiter="\t")
     header = next(reader)
-    if header != SOURCE_HEADER:
+    if header != SOURCE_HEADERS[entity]:
         raise AssertionError(f"unexpected upstream header: {header}")
 
-    cols = {name: [] for name in RAW_COLUMNS}
+    columns = RAW_COLUMNS[entity]
+    parsers = PARSERS[entity]
+    cols = {name: [] for name in columns}
     for row in reader:
         if not row:
             continue
-        if len(row) != 12:
+        if len(row) != len(columns):
             raise AssertionError(f"ragged row ({len(row)} cols): {row[:3]}")
-        cols["commodity"].append(_clean(row[0]))
-        cols["variety"].append(_clean(row[1]))
-        cols["market"].append(_clean(row[2]))
-        cols["original_measure"].append(_clean(row[3]))
-        cols["standard_measure"].append(_clean(row[4]))
-        cols["original_currency"].append(_clean(row[5]))
-        cols["standard_currency"].append(_clean(row[6]))
-        cols["item_year"].append(_to_int(row[7]))
-        cols["item_value_original"].append(_to_float(row[8]))
-        cols["item_value_standardized"].append(_to_float(row[9]))
-        cols["notes"].append(_clean(row[10]))
-        cols["source_raw"].append(_clean(row[11]))
+        for name, value, parser in zip(columns, row, parsers, strict=True):
+            cols[name].append(_parse(value, parser))
 
-    table = pa.table({name: cols[name] for name in RAW_COLUMNS}, schema=SCHEMA)
-    save_raw_parquet(table, asset)
+    table = pa.table({name: cols[name] for name in columns}, schema=SCHEMAS[entity])
+    save_raw_parquet(table, node_id)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(
         id="allen-unger-commodity-prices-commodities",
-        fn=fetch_commodities,
+        fn=fetch_dataverse_table,
         kind="download",
     ),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="allen-unger-commodity-prices-commodities-transform",
-        deps=["allen-unger-commodity-prices-commodities"],
-        sql='''
-            SELECT
-                commodity,
-                variety,
-                market,
-                original_measure,
-                standard_measure,
-                original_currency,
-                standard_currency,
-                CAST(item_year AS INTEGER)        AS year,
-                item_value_original               AS value_original,
-                item_value_standardized           AS value_standardized,
-                notes,
-                source_raw                        AS source
-            FROM "allen-unger-commodity-prices-commodities"
-            WHERE item_year IS NOT NULL
-              AND commodity IS NOT NULL
-              AND market IS NOT NULL
-        ''',
+    NodeSpec(
+        id="allen-unger-commodity-prices-currencies",
+        fn=fetch_dataverse_table,
+        kind="download",
+    ),
+    NodeSpec(
+        id="allen-unger-commodity-prices-measures",
+        fn=fetch_dataverse_table,
+        kind="download",
     ),
 ]

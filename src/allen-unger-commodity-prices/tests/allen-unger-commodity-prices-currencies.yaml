@@ -1,0 +1,37 @@
+spec_id: allen-unger-commodity-prices-currencies
+status: active
+coverage:
+  frozen: true
+  reason: DANS Dataverse deposit version 2.1 is a static historical archive covering monetary reference data through 1914
+tests:
+  - not_null: year
+    reason: every currency conversion row is anchored to a year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - not_null: market
+    reason: currency rows are scoped to a named market or region
+    certainty: 90
+  - not_null: name
+    reason: the currency name identifies the monetary unit being standardized
+    certainty: 90
+  - column_type: {col: factor, type: float}
+    certainty: 95
+  - column_type: {col: interpolated, type: boolean}
+    certainty: 95
+  - column_type: {col: constructed, type: boolean}
+    certainty: 95
+  - between: {col: year, lo: 1200, hi: 1920}
+    reason: the archive covers historical commodity data ending around 1914, with margins for early reference rows
+    certainty: 88
+  - at_most: {col: year, expr: current_year()}
+    reason: historical archive should not contain future-dated reference rows
+    certainty: 97
+    points_outward: true
+    severity: warn
+  - row_count: {min: 25000}
+    reason: v2.1 of the deposit has roughly 30,000 currency rows; a large shortfall means a truncated download
+    certainty: 88
+  - distinct_count: {col: market, min: 50}
+    reason: the archive spans many markets and towns rather than a single region
+    certainty: 85

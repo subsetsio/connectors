@@ -1,5 +1,8 @@
 spec_id: allen-unger-commodity-prices-commodities
 status: active
+coverage:
+  frozen: true
+  reason: DANS Dataverse deposit version 2.1 is a static historical archive covering prices through 1914
 tests:
   - not_null: item_year
     reason: every price observation is anchored to a year; a null year means a parse misalignment

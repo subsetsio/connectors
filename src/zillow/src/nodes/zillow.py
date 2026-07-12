@@ -7,14 +7,13 @@ already carries the full monthly history, so this is a stateless full re-pull
 every run (overwrite). Not every metric exists at every geography; missing
 combos return 404 and are skipped.
 
-Each download entity (a theme: home_value, rent, inventory, sales, market_heat)
-fetches all of its metric variants across all geography levels, melts each wide
-CSV (id columns + one column per month-end date) into long rows
-(region_id, region_type, region_name, state_code, date, metric, value), and
-streams them to one parquet asset — one batch per source CSV, so peak memory is
-bounded to a single file's melt. The SQL transform pivots the long raw back to
-one wide column per metric, keyed (date, region_id). Geography level is carried
-as the region_type column (Zillow's RegionID is globally unique across levels).
+Each download entity (a theme: home_value, forecast, rent, inventory, sales,
+market_heat) fetches all of its metric variants across all geography levels,
+melts each wide CSV into long rows, and streams them to one parquet asset - one
+batch per source CSV, so peak memory is bounded to a single file's melt. The SQL
+transform pivots the long raw back to one wide column per metric, keyed by the
+time dimension and region_id. Geography level is carried as the region_type
+column (Zillow's RegionID is globally unique across levels).
 """
 
 import io
@@ -49,6 +48,10 @@ METRICS = {
         ("bottom_tier", "zhvi", "zhvi_uc_sfrcondo_tier_0.0_0.33_sm_sa_month"),
         ("top_tier", "zhvi", "zhvi_uc_sfrcondo_tier_0.67_1.0_sm_sa_month"),
     ],
+    "forecast": [
+        ("forecast_smoothed_seasonally_adjusted", "zhvf_growth", "zhvf_growth_uc_sfrcondo_tier_0.33_0.67_sm_sa_month"),
+        ("forecast_raw", "zhvf_growth", "zhvf_growth_uc_sfrcondo_tier_0.33_0.67_month"),
+    ],
     "rent": [
         ("rent", "zori", "zori_uc_sfrcondomfr_sm_sa_month"),
     ],
@@ -72,7 +75,7 @@ METRICS = {
 }
 
 # entity union — keep in sync with data/sources/zillow/work/entity_union.json
-ENTITY_IDS = ["home_value", "inventory", "market_heat", "rent", "sales"]
+ENTITY_IDS = ["forecast", "home_value", "inventory", "market_heat", "rent", "sales"]
 
 LONG_SCHEMA = pa.schema([
     ("region_id", pa.int64()),
@@ -80,6 +83,7 @@ LONG_SCHEMA = pa.schema([
     ("region_name", pa.string()),
     ("state_code", pa.string()),
     ("date", pa.string()),
+    ("base_date", pa.string()),
     ("metric", pa.string()),
     ("value", pa.float64()),
 ])
@@ -106,11 +110,17 @@ def _melt_csv(text: str, metric_name: str) -> pa.Table:
 
     df = pd.read_csv(io.StringIO(text), dtype={"RegionName": str, "StateName": str})
     date_cols = [c for c in df.columns if c[:1].isdigit()]
-    df = df[_ID_COLS + date_cols]
+    id_cols = _ID_COLS + (["BaseDate"] if "BaseDate" in df.columns else [])
+    df = df[id_cols + date_cols]
     long = df.melt(
-        id_vars=_ID_COLS, value_vars=date_cols, var_name="date", value_name="value"
+        id_vars=id_cols, value_vars=date_cols, var_name="date", value_name="value"
     )
     long = long.dropna(subset=["value"])
+    base_date = (
+        [None if pd.isna(x) else str(x) for x in long["BaseDate"]]
+        if "BaseDate" in long.columns
+        else [None] * len(long)
+    )
 
     state = [None if pd.isna(x) else str(x) for x in long["StateName"]]
     return pa.table(
@@ -120,6 +130,7 @@ def _melt_csv(text: str, metric_name: str) -> pa.Table:
             "region_name": pa.array(long["RegionName"].astype(str), pa.string()),
             "state_code": pa.array(state, pa.string()),
             "date": pa.array(long["date"].astype(str), pa.string()),
+            "base_date": pa.array(base_date, pa.string()),
             "metric": pa.array([metric_name] * len(long), pa.string()),
             "value": pa.array(long["value"].astype("float64"), pa.float64()),
         },

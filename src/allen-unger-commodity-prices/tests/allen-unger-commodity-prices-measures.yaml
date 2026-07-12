@@ -1,0 +1,29 @@
+spec_id: allen-unger-commodity-prices-measures
+status: active
+coverage:
+  frozen: true
+  reason: DANS Dataverse deposit version 2.1 is a static historical archive of measure standardization reference data
+tests:
+  - not_null: measure_name
+    reason: measure_name is the source-specific identifier for each conversion row
+    certainty: 95
+  - not_null: measure
+    reason: measure is the normalized unit name being standardized
+    certainty: 90
+  - not_null: market
+    reason: local measures are scoped to a named market or region
+    certainty: 90
+  - column_type: {col: factor, type: float}
+    certainty: 95
+  - not_null: units
+    reason: units names the standardized target unit for the conversion factor
+    certainty: 90
+  - row_count: {min: 1800}
+    reason: v2.1 of the deposit has 2,047 measure rows; a large shortfall means a truncated download
+    certainty: 88
+  - distinct_count: {col: market, min: 50}
+    reason: the conversion table covers many local markets, not a single reference system
+    certainty: 85
+  - distinct_count: {col: type, min: 4}
+    reason: measures include multiple physical dimensions such as count, length, volume, and weight
+    certainty: 85

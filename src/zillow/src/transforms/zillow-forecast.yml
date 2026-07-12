@@ -1,0 +1,28 @@
+# Zillow Home Value Forecast (ZHVF) by geography, vintage, and forecast horizon.
+key: [region_id, base_date, forecast_date]
+temporal: base_date
+columns:
+  - name: base_date
+    type: DATE
+    description: "Forecast vintage month, as the source BaseDate month-end date."
+  - name: forecast_date
+    type: DATE
+    description: "Forecast horizon month, as the month-end date."
+  - name: region_id
+    type: BIGINT
+    description: "Zillow RegionID; globally unique across geography levels."
+  - name: region_type
+    type: VARCHAR
+    description: "Geography level of the region: one of country, msa (metro), zip."
+  - name: region_name
+    type: VARCHAR
+    description: "Human-readable region name."
+  - name: state_code
+    type: VARCHAR
+    description: "USPS two-letter state code; null for the national row and for regions that span states."
+  - name: forecast_smoothed_seasonally_adjusted
+    type: DOUBLE
+    description: "ZHVF forecast growth percentage for all homes, mid-tier, smoothed and seasonally adjusted."
+  - name: forecast_raw
+    type: DOUBLE
+    description: "ZHVF forecast growth percentage for all homes, mid-tier, raw."
