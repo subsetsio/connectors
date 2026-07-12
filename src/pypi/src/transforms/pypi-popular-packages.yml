@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `pypi-popular-packages`. Regenerate after model-verify.
+# caution: This is a current popularity snapshot ranked by recent 30-day downloads, not a historical download time series.
+key: [package]
+temporal: snapshot_last_update
+sort: [snapshot_last_update, package]
+columns:
+  - name: package
+    type: VARCHAR
+  - name: rank
+    type: BIGINT
+  - name: download_count_30d
+    type: BIGINT
+  - name: snapshot_last_update
+    type: TIMESTAMP
+  - name: version
+    type: VARCHAR
+  - name: summary
+    type: VARCHAR
+  - name: author
+    type: VARCHAR
+  - name: author_email
+    type: VARCHAR
+  - name: license
+    type: VARCHAR
+  - name: license_expression
+    type: VARCHAR
+  - name: requires_python
+    type: VARCHAR
+  - name: home_page
+    type: VARCHAR
+  - name: project_urls
+    type: VARCHAR
+  - name: keywords
+    type: VARCHAR
+  - name: classifiers
+    type: VARCHAR
+  - name: yanked
+    type: BOOLEAN

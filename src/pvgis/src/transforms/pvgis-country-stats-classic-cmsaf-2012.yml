@@ -1,24 +1,33 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `pvgis-country-stats-classic-cmsaf-2012`. Regenerate after model-verify.
-# caution: The geography columns include country and regional entries from the PVGIS workbook; filter the desired geography before aggregating values.
+# caution: The country_code column includes both geography codes and workbook summary rows such as minimum, maximum, and country-average statistics; country_name is only populated for geography rows. Filter the desired row type before aggregating values.
 key: [country_code, sheet, metric_group, statistic]
 sort: [country_code, sheet, metric_group, statistic]
 columns:
   - name: source_file
     type: VARCHAR
+    description: Source PVGIS spreadsheet filename.
   - name: workbook_version
     type: VARCHAR
+    description: Historical PVGIS workbook/version represented by this table.
   - name: methodology
     type: VARCHAR
+    description: PVGIS input data and modelling methodology used for the workbook.
   - name: sheet
     type: VARCHAR
+    description: Original workbook sheet from which the metric was extracted.
   - name: country_code
     type: VARCHAR
+    description: PVGIS workbook country code or summary-row label such as minimum, maximum, or country average.
   - name: country_name
     type: VARCHAR
+    description: Country name from the PVGIS workbook; null for workbook summary rows.
   - name: metric_group
     type: VARCHAR
+    description: Group of related solar radiation or photovoltaic potential metrics.
   - name: statistic
     type: VARCHAR
+    description: Statistic or measurement label within the metric group.
   - name: value
     type: DOUBLE
+    description: Numeric value reported by PVGIS for the geography, sheet, metric group, and statistic.

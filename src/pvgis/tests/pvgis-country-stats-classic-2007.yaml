@@ -9,7 +9,8 @@ tests:
     certainty: 90
   - not_null: country_code
     certainty: 95
-  - not_null: country_name
+  - nullable: {col: country_name, max_null_frac: 0.07}
+    reason: workbook summary rows such as min/max/country average do not carry a country name
     certainty: 95
   - not_null: metric_group
     certainty: 95
@@ -17,8 +18,8 @@ tests:
     certainty: 95
   - column_type: {col: value, type: float}
     certainty: 95
-  - distinct_count: {col: country_code, min: 30, max: 30}
-    reason: classic workbook covers 30 EU and neighbouring countries
+  - distinct_count: {col: country_code, min: 35, max: 40}
+    reason: classic workbook includes country codes plus preserved workbook summary row labels
     certainty: 90
   - distinct_count: {col: sheet, min: 6, max: 6}
     reason: workbook has six data sheets plus the explanation sheet, which is normalized as metadata
