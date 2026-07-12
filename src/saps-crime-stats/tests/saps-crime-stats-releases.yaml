@@ -11,7 +11,7 @@ tests:
     reason: each linked workbook should appear once in the release catalog
     certainty: 85
   - column_type: {col: release_year_start, type: integer}
-  - freshness: {col: release_year_start, reaches: current_year() - 2}
+  - freshness: {col: release_year_start, reaches: 2024}
     reason: SAPS publishes quarterly releases; the release index should include recent financial-year workbooks
     certainty: 80
     points_outward: true

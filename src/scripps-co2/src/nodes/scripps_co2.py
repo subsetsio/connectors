@@ -24,7 +24,6 @@ from subsets_utils import (
     NodeSpec,
     get,
     save_raw_ndjson,
-    transient_retry,
 )
 
 BASE = "https://keelinglabsites.ucsd.edu/websitedataco2/"
@@ -80,9 +79,8 @@ _RE_DMY = re.compile(r"^\d{1,2}-[A-Za-z]{3}-\d{2}$")
 # --------------------------------------------------------------------------- #
 
 
-@transient_retry()
 def _download(url: str) -> str:
-    resp = get(url, timeout=(10.0, 120.0))
+    resp = get(url, timeout=(5.0, 120.0))
     resp.raise_for_status()
     return resp.text
 

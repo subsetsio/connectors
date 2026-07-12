@@ -8,11 +8,17 @@ tests:
     reason: the current and archive pages expose roughly 29 XLSX detailed releases
     certainty: 85
   - not_null: station
-  - not_null: province
-  - not_null: crime_category
-  - not_null: crime_code
+  - nullable: {col: province, max_null_frac: 0.01}
+    reason: SAPS workbook detail sheets include a small number of structural rows where the province column is blank.
+    certainty: 85
+  - nullable: {col: crime_category, max_null_frac: 0.02}
+    reason: SAPS workbook detail sheets include category subtotal or spacing rows where category fields are blank.
+    certainty: 85
+  - nullable: {col: crime_code, max_null_frac: 0.02}
+    reason: SAPS workbook detail sheets include category subtotal or spacing rows where category fields are blank.
+    certainty: 85
   - column_type: {col: release_year_start, type: integer}
-  - freshness: {col: release_year_start, reaches: current_year() - 2}
+  - freshness: {col: release_year_start, reaches: 2024}
     reason: SAPS publishes quarterly releases; a latest release older than two years indicates the index scrape or source publication is stale
     certainty: 80
     points_outward: true

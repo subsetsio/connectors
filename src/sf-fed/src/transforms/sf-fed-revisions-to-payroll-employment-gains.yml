@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sf-fed-revisions-to-payroll-employment-gains`. Regenerate after model-verify.
+key: [sheet, row_idx, series]
+temporal: period_date
+sort: [period_date, sheet, row_idx, series]
 columns:
   - name: sheet
     type: VARCHAR
@@ -6,11 +10,11 @@ columns:
     type: BIGINT
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_date
     type: DATE
   - name: series
     type: VARCHAR
   - name: value
     type: DOUBLE
   - name: value_text
-    type: VARCHAR
+    type: DATE

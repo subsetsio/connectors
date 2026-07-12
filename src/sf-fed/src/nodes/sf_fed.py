@@ -28,7 +28,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -273,24 +272,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"sf-fed-{eid}", fn=fetch_one, kind="download")
     for eid in FILE_URL
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                sheet,
-                row_idx,
-                period,
-                CAST(period_date AS DATE) AS date,
-                series,
-                value,
-                value_text
-            FROM "{s.id}"
-            WHERE value IS NOT NULL OR value_text IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
