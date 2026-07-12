@@ -1,0 +1,23 @@
+spec_id: umweltbundesamt-annualbalances
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: annual balances cover many stations, pollutants, scopes, and years since 2016.
+    certainty: 90
+  - not_null: component_id
+  - not_null: scope_id
+  - not_null: year
+  - not_null: station_id
+  - column_type: {col: component_id, type: integer}
+  - column_type: {col: scope_id, type: integer}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: annual_mean, type: float}
+  - between: {col: year, lo: 2016, hi: current_year()}
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: annualbalances includes current-year provisional annual rows as the year advances; final audited data follows later.
+    certainty: 75
+    points_outward: true
+  - distinct_count: {col: component_id, min: 5}
+    reason: annual balances are available for several pollutant components.
+    certainty: 90

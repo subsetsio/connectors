@@ -37,7 +37,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -148,87 +147,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=spec_id, fn=fetch_one, kind="download") for spec_id in _ENTITIES
-]
-
-
-# --- transforms: one published Delta table per subset --------------------------
-# The download already parsed, typed and renamed everything, so each transform is
-# a thin parse-and-publish pass over typed parquet: cast to publishable types and
-# drop rows with no year.
-
-_METRICS_SQL = '''
-        CAST(permanent_sq_km           AS DOUBLE) AS permanent_sq_km,
-        CAST(projected_permanent_sq_km AS DOUBLE) AS projected_permanent_sq_km,
-        CAST(permanent_5yr_sq_km       AS DOUBLE) AS permanent_5yr_sq_km,
-        CAST(seasonal_sq_km            AS DOUBLE) AS seasonal_sq_km,
-        CAST(projected_seasonal_sq_km  AS DOUBLE) AS projected_seasonal_sq_km,
-        CAST(seasonal_5yr_sq_km        AS DOUBLE) AS seasonal_5yr_sq_km'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="unep-national-transform",
-        deps=["unep-national"],
-        key=("adm0_code", "year"),
-        temporal="year",
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)      AS year,
-                CAST(adm0_code AS BIGINT)  AS adm0_code,
-                country_name,
-                {_METRICS_SQL}
-            FROM "unep-national"
-            WHERE year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="unep-subnational-adm1-transform",
-        deps=["unep-subnational-adm1"],
-        key=("adm0_code", "adm1_code", "year"),
-        temporal="year",
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)      AS year,
-                CAST(adm0_code AS BIGINT)  AS adm0_code,
-                country_name,
-                CAST(adm1_code AS BIGINT)  AS adm1_code,
-                region_name,
-                {_METRICS_SQL}
-            FROM "unep-subnational-adm1"
-            WHERE year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="unep-subnational-adm2-transform",
-        deps=["unep-subnational-adm2"],
-        key=("adm0_code", "adm1_code", "adm2_code", "year"),
-        temporal="year",
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)      AS year,
-                CAST(adm0_code AS BIGINT)  AS adm0_code,
-                country_name,
-                CAST(adm1_code AS BIGINT)  AS adm1_code,
-                region_name,
-                CAST(adm2_code AS BIGINT)  AS adm2_code,
-                district_name,
-                {_METRICS_SQL}
-            FROM "unep-subnational-adm2"
-            WHERE year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="unep-basins-transform",
-        deps=["unep-basins"],
-        key=("pfaf_id", "basin_level", "year"),
-        temporal="year",
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)    AS year,
-                CAST(pfaf_id AS BIGINT)  AS pfaf_id,
-                CAST(level AS INTEGER)   AS basin_level,
-                {_METRICS_SQL}
-            FROM "unep-basins"
-            WHERE year IS NOT NULL
-        ''',
-    ),
 ]

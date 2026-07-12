@@ -1,0 +1,14 @@
+spec_id: umweltbundesamt-networks
+status: active
+coverage:
+  frozen: true
+  reason: measurement-network code list is reference metadata, not an advancing observation table
+tests:
+  - row_count: {min: 16}
+    reason: network list covers German state networks plus the federal UBA network.
+    certainty: 95
+  - not_null: network_id
+  - not_null: network_code
+  - not_null: network_name
+  - unique: network_id
+  - column_type: {col: network_id, type: integer}

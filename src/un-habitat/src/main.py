@@ -1,4 +1,4 @@
-"""Umweltbundesamt connector — discovers *_SPECS in src/nodes/ and runs the DAG.
+"""UN-Habitat connector — discovers *_SPECS in src/nodes/ and runs the DAG.
 
 load_nodes() picks up two kinds of specs from the node modules:
   - NodeSpec     → executed as DAG nodes (the fetches)

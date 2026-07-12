@@ -1,0 +1,21 @@
+spec_id: umweltbundesamt-transgressions
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: exceedance tables cover stations and years for pollutants with limit values.
+    certainty: 85
+  - not_null: component_id
+  - not_null: year
+  - not_null: station_id
+  - not_null: day_first
+  - not_null: day_recent
+  - column_type: {col: component_id, type: integer}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: day_recent, type: date}
+  - between: {col: year, lo: 2016, hi: current_year()}
+    certainty: 95
+  - freshness: {col: day_recent, reaches: today - 800d}
+    reason: exceedance data should include recent or current-year station periods.
+    certainty: 80
+    points_outward: true

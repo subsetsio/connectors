@@ -1,0 +1,15 @@
+spec_id: umweltbundesamt-components
+status: active
+coverage:
+  frozen: true
+  reason: pollutant component code list is reference metadata, not an advancing observation table
+tests:
+  - row_count: {min: 12}
+    reason: UBA air-data API publishes 12 pollutant components.
+    certainty: 95
+  - not_null: component_id
+  - not_null: component_code
+  - not_null: component_name
+  - unique: component_id
+  - column_type: {col: component_id, type: integer}
+  - distinct_count: {col: component_code, min: 12}

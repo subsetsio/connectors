@@ -1,0 +1,16 @@
+spec_id: umweltbundesamt-scopes
+status: active
+coverage:
+  frozen: true
+  reason: averaging-scope code list is reference metadata, not an advancing observation table
+tests:
+  - row_count: {min: 6}
+    reason: UBA air-data API publishes six averaging scopes.
+    certainty: 95
+  - not_null: scope_id
+  - not_null: scope_code
+  - not_null: scope_name
+  - unique: scope_id
+  - column_type: {col: scope_id, type: integer}
+  - enum: {col: scope_time_base, values: ["day", "hour"]}
+    certainty: 90
