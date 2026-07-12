@@ -5,7 +5,9 @@ import hashlib
 import io
 import re
 from html.parser import HTMLParser
+from urllib.error import HTTPError
 from urllib.parse import urljoin, urlparse
+from urllib.request import Request, urlopen
 from zipfile import ZipFile
 
 import pandas as pd
@@ -17,6 +19,10 @@ PREFIX = f"{SLUG}-"
 OFM_START = "https://ofm.wa.gov/data-research/"
 SOCRATA_ENDPOINT = "https://data.wa.gov/resource/{dataset_id}.json"
 FILE_EXTENSIONS = (".xlsx", ".xls", ".csv", ".zip", ".json", ".xml", ".sas7bdat")
+OFM_HEADERS = {
+    "User-Agent": "DataIntegrations/1.0",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+}
 
 
 class LinkParser(HTMLParser):
@@ -47,11 +53,23 @@ def _entity_from_spec_id(spec_id: str) -> str:
 
 
 def _html_links(url: str) -> list[str]:
-    response = get(url, timeout=(10.0, 60.0))
-    response.raise_for_status()
     parser = LinkParser()
-    parser.feed(response.text)
+    parser.feed(_ofm_get_text(url))
     return [urljoin(url, href).split("#", 1)[0] for href in parser.links]
+
+
+def _ofm_get_bytes(url: str, timeout: float = 240.0) -> tuple[bytes, str]:
+    request = Request(url, headers=OFM_HEADERS)
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            return response.read(), response.url
+    except HTTPError as exc:
+        raise RuntimeError(f"OFM request failed with HTTP {exc.code} for {url}") from exc
+
+
+def _ofm_get_text(url: str) -> str:
+    content, _final_url = _ofm_get_bytes(url, timeout=60.0)
+    return content.decode("utf-8", "replace")
 
 
 def _walk_ofm_links() -> list[str]:
@@ -304,13 +322,11 @@ def _rows_from_file(content: bytes, *, entity_id: str, source_url: str) -> list[
 
 def _fetch_ofm_file(spec_id: str, entity_id: str) -> None:
     url = _ofm_file_url(entity_id)
-    response = get(url, timeout=(10.0, 240.0))
-    response.raise_for_status()
-    rows = _rows_from_file(response.content, entity_id=entity_id, source_url=str(response.url))
+    content, final_url = _ofm_get_bytes(url)
+    rows = _rows_from_file(content, entity_id=entity_id, source_url=final_url)
     if not rows:
         raise ValueError(f"{entity_id}: no tabular cells parsed from {url}")
     save_raw_ndjson(rows, spec_id)
-    record_source_signature(spec_id, url, response=response)
 
 
 def _fetch_socrata(spec_id: str, entity_id: str) -> None:
