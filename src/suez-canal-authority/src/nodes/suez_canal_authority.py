@@ -25,12 +25,11 @@ SUM the metric) — the same reduction the SCA report displays.
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
-    save_raw_ndjson,
-    transient_retry,
+    save_raw_parquet,
 )
+import pyarrow as pa
 from constants import ENTITY_IDS, REPORT_KEYS
 
 SLUG = "suez-canal-authority"
@@ -39,14 +38,12 @@ RESOURCE_HEADER = "X-PowerBI-ResourceKey"
 WINDOW = 30000  # querydata row cap per request; reports are far smaller
 
 
-@transient_retry()
 def _get_json(url, key):
     resp = get(url, headers={RESOURCE_HEADER: key}, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.json()
 
 
-@transient_retry()
 def _post_json(url, key, payload):
     resp = post(url, headers={RESOURCE_HEADER: key}, json=payload, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -125,6 +122,35 @@ def _decode_dsr(data):
     return rows
 
 
+def _arrow_type(values):
+    non_null = [v for v in values if v is not None]
+    if not non_null:
+        return pa.string()
+    if all(isinstance(v, bool) for v in non_null):
+        return pa.bool_()
+    if all(isinstance(v, int) and not isinstance(v, bool) for v in non_null):
+        return pa.int64()
+    if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in non_null):
+        return pa.float64()
+    return pa.string()
+
+
+def _to_arrow_table(rows):
+    columns = list(rows[0].keys())
+    fields = []
+    arrays = []
+    for col in columns:
+        values = [row.get(col) for row in rows]
+        typ = _arrow_type(values)
+        if pa.types.is_string(typ):
+            values = [None if v is None else str(v) for v in values]
+        elif pa.types.is_floating(typ):
+            values = [None if v is None else float(v) for v in values]
+        fields.append(pa.field(col, typ))
+        arrays.append(pa.array(values, type=typ))
+    return pa.Table.from_arrays(arrays, schema=pa.schema(fields))
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity_id = node_id[len(SLUG) + 1:]
@@ -193,7 +219,7 @@ def fetch_one(node_id: str) -> None:
     if not rows:
         raise AssertionError(f"{asset}: querydata returned no rows")
 
-    save_raw_ndjson(rows, asset)
+    save_raw_parquet(_to_arrow_table(rows), asset)
 
 
 DOWNLOAD_SPECS = [
@@ -203,105 +229,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# --- Transforms: one published Delta table per report ----------------------
-# Each SQL parses/casts the faithful raw rows and, where the source stores
-# sub-component rows, sums them to the published grain (GROUP BY visible dims).
-# View name == download id (dashes -> must be quoted).
-
-_M = f"{SLUG}-01-monthly-number-net-ton-by-ship-type"
-_FY = f"{SLUG}-02-fiscal-year-statistical"
-_Y = f"{SLUG}-03-yearly-statistics"
-_CD = f"{SLUG}-04-yearly-cargo-ton-by-direction"
-_Q = f"{SLUG}-05-yealy-cargo-ton-by-region"
-_RG = f"{SLUG}-06-yealy-cargo-ton-by-region-cont"
-_CT = f"{SLUG}-07-yearly-cargo-ton-by-cargo-type"
-
-_SQL = {
-    _M: f'''
-        SELECT
-            make_date(CAST(year AS INTEGER), CAST("Month" AS INTEGER), 1) AS date,
-            CAST(year AS INTEGER)              AS year,
-            CAST("Month" AS INTEGER)           AS month,
-            "Ship Type"                        AS ship_type,
-            "Direction"                        AS direction,
-            "State"                            AS cargo_state,
-            CAST(SUM(GREATEST(TRY_CAST("No" AS BIGINT), 0)) AS BIGINT) AS num_vessels,
-            SUM(GREATEST(TRY_CAST("NetTonnage" AS DOUBLE), 0)) AS net_tonnage
-        FROM "{_M}"
-        WHERE year IS NOT NULL AND "Ship Type" IS NOT NULL
-        GROUP BY 1, 2, 3, 4, 5, 6
-    ''',
-    _FY: f'''
-        SELECT
-            "Fiscal Year"                          AS fiscal_year,
-            TRY_CAST("No ( Vessel )" AS BIGINT)    AS num_vessels,
-            TRY_CAST("Net Ton" AS DOUBLE)          AS net_ton,
-            TRY_CAST("Cargo Ton" AS DOUBLE)        AS cargo_ton,
-            TRY_CAST("Tolls (Million $ )" AS DOUBLE)     AS tolls_million_usd,
-            TRY_CAST("Tolls (Million L.E. )" AS DOUBLE)  AS tolls_million_egp
-        FROM "{_FY}"
-        WHERE "Fiscal Year" IS NOT NULL
-    ''',
-    _Y: f'''
-        SELECT
-            CAST("Year" AS INTEGER)                AS year,
-            TRY_CAST("No ( Vessel )" AS BIGINT)    AS num_vessels,
-            TRY_CAST("Net Ton" AS DOUBLE)          AS net_ton,
-            TRY_CAST("Cargo Ton" AS DOUBLE)        AS cargo_ton,
-            TRY_CAST("Tolls (Million $ )" AS DOUBLE)     AS tolls_million_usd,
-            TRY_CAST("Tolls (Million L.E. )" AS DOUBLE)  AS tolls_million_egp
-        FROM "{_Y}"
-        WHERE "Year" IS NOT NULL
-    ''',
-    _CD: f'''
-        SELECT
-            CAST("Year" AS INTEGER)         AS year,
-            "Direction"                     AS direction,
-            TRY_CAST("Cargo Ton" AS DOUBLE) AS cargo_ton
-        FROM "{_CD}"
-        WHERE "Year" IS NOT NULL
-    ''',
-    _Q: f'''
-        SELECT
-            CAST(year AS INTEGER)              AS year,
-            CAST("Quarter" AS INTEGER)         AS quarter,
-            "CategoryName_en"                  AS ship_type,
-            "Port"                             AS direction,
-            CAST(SUM(GREATEST(TRY_CAST("No" AS BIGINT), 0)) AS BIGINT) AS num_vessels,
-            SUM(GREATEST(TRY_CAST("NetTonnage" AS DOUBLE), 0)) AS net_tonnage
-        FROM "{_Q}"
-        WHERE year IS NOT NULL AND "CategoryName_en" IS NOT NULL
-        GROUP BY 1, 2, 3, 4
-    ''',
-    _RG: f'''
-        SELECT
-            CAST(year AS INTEGER)                  AS year,
-            "Region"                               AS region,
-            "Region_Code"                          AS region_code,
-            "Direction"                            AS direction,
-            "Terminal"                             AS terminal,
-            SUM(GREATEST(TRY_CAST("CargoTonnage" AS DOUBLE), 0)) AS cargo_tonnage
-        FROM "{_RG}"
-        WHERE year IS NOT NULL AND "Region" IS NOT NULL
-        GROUP BY 1, 2, 3, 4, 5
-    ''',
-    _CT: f'''
-        SELECT
-            CAST("Year" AS INTEGER)                AS year,
-            "CargoType"                            AS cargo_type,
-            "Goods"                                AS cargo_group,
-            "Direction"                            AS direction,
-            SUM(GREATEST(TRY_CAST("CargoTonnage" AS DOUBLE), 0)) AS cargo_tonnage
-        FROM "{_CT}"
-        WHERE "Year" IS NOT NULL AND "CargoType" IS NOT NULL
-        GROUP BY 1, 2, 3, 4
-    ''',
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id])
-    for s in DOWNLOAD_SPECS
 ]
