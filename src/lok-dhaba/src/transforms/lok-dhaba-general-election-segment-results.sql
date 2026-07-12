@@ -1,0 +1,51 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are candidate results within assembly segments of parliamentary constituencies; do not combine them with constituency-level general-election rows without accounting for the lower geographic level.
+-- caution: Vote totals are segment-level candidate votes and should not be summed across candidates as turnout or electorate totals.
+SELECT
+    CAST("Assembly_No" AS BIGINT) AS assembly_no,
+    "State_Name" AS state_name,
+    CAST("Constituency_No" AS BIGINT) AS constituency_no,
+    CAST("Poll_No" AS BIGINT) AS poll_no,
+    CAST("Year" AS BIGINT) AS year,
+    "PC_Name" AS pc_name,
+    CAST("PC_No" AS BIGINT) AS pc_no,
+    "Constituency_Name" AS constituency_name,
+    "Constituency_Type" AS constituency_type,
+    CAST("CandID" AS BIGINT) AS candid,
+    "Candidate" AS candidate,
+    "Party" AS party,
+    CAST("Votes" AS BIGINT) AS votes,
+    CAST("Position" AS BIGINT) AS position,
+    CAST("N_Cand" AS BIGINT) AS n_cand,
+    CAST("Valid_Votes" AS BIGINT) AS valid_votes,
+    CAST("Vote_Share_Percentage" AS DOUBLE) AS vote_share_percentage,
+    "Deposit_Lost" AS deposit_lost,
+    CAST("Margin" AS BIGINT) AS margin,
+    CAST("Margin_Percentage" AS DOUBLE) AS margin_percentage,
+    CAST("ENOP" AS DOUBLE) AS enop,
+    "Sex" AS sex,
+    "pid",
+    "Candidate_Type" AS candidate_type,
+    CAST("DelimID" AS BIGINT) AS delimid,
+    CAST("Party_ID" AS BIGINT) AS party_id,
+    "Party_Type_TCPD" AS party_type_tcpd,
+    CAST("Contested" AS BIGINT) AS contested,
+    "Last_Party" AS last_party,
+    CAST("Last_Party_ID" AS BIGINT) AS last_party_id,
+    "Last_Constituency_Name" AS last_constituency_name,
+    CAST("Same_Constituency" AS BOOLEAN) AS same_constituency,
+    CAST("Same_Party" AS BOOLEAN) AS same_party,
+    CAST("No_Terms" AS BIGINT) AS no_terms,
+    CAST("Turncoat" AS BOOLEAN) AS turncoat,
+    CAST("Incumbent" AS BOOLEAN) AS incumbent,
+    CAST("Recontest" AS BOOLEAN) AS recontest,
+    "MyNeta_education" AS myneta_education,
+    "TCPD_Prof_Main" AS tcpd_prof_main,
+    "TCPD_Prof_Main_Desc" AS tcpd_prof_main_desc,
+    "TCPD_Prof_Second" AS tcpd_prof_second,
+    "TCPD_Prof_Second_Desc" AS tcpd_prof_second_desc,
+    "Election_Type" AS election_type
+FROM "lok-dhaba-general-election-segment-results"

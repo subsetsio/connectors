@@ -9,8 +9,12 @@ tests:
   - not_null: Constituency_No
   - not_null: Year
   - not_null: Candidate
-  - not_null: Party
-  - not_null: Votes
+  - nullable: {col: Party, max_null_frac: 0.001}
+    reason: a small number of historical candidate rows have blank party labels in the source CSV
+    certainty: 90
+  - nullable: {col: Votes, max_null_frac: 0.001}
+    reason: a small number of historical candidate rows have blank vote totals in the source CSV
+    certainty: 90
   - not_null: Election_Type
   - column_type: {col: Year, type: string}
   - column_type: {col: Votes, type: string}
@@ -18,5 +22,5 @@ tests:
   - row_count: {min: 50000}
     reason: verified all-states GE export has roughly ninety thousand rows
     certainty: 85
-  - matches: {col: Election_Type, pattern: 'Lok Sabha Election'}
+  - matches: {col: Election_Type, pattern: '.*Lok Sabha Election.*'}
     certainty: 90

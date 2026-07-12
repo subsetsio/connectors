@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `lok-dhaba-general-election-results`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state_name, assembly_no, year, constituency_no, poll_no, position]
+temporal: year
+checks:
+  - kind: unique
+    columns: [state_name, assembly_no, year, constituency_no, poll_no, position]
+  - kind: not_null
+    col: state_name
+  - kind: not_null
+    col: assembly_no
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: constituency_no
+  - kind: not_null
+    col: poll_no
+  - kind: not_null
+    col: position
+  - kind: row_floor
+    min: 45834
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

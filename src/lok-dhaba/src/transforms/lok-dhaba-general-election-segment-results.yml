@@ -1,0 +1,94 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `lok-dhaba-general-election-segment-results`. Regenerate after model-verify.
+# caution: Rows are candidate results within assembly segments of parliamentary constituencies; do not combine them with constituency-level general-election rows without accounting for the lower geographic level.
+# caution: Vote totals are segment-level candidate votes and should not be summed across candidates as turnout or electorate totals.
+key: [state_name, assembly_no, year, pc_no, constituency_no, poll_no, position]
+temporal: year
+sort: [year, state_name, assembly_no, pc_no, constituency_no, poll_no, position]
+columns:
+  - name: assembly_no
+    type: BIGINT
+  - name: state_name
+    type: VARCHAR
+  - name: constituency_no
+    type: BIGINT
+  - name: poll_no
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: pc_name
+    type: VARCHAR
+  - name: pc_no
+    type: BIGINT
+  - name: constituency_name
+    type: VARCHAR
+  - name: constituency_type
+    type: VARCHAR
+  - name: candid
+    type: BIGINT
+  - name: candidate
+    type: VARCHAR
+  - name: party
+    type: VARCHAR
+  - name: votes
+    type: BIGINT
+  - name: position
+    type: BIGINT
+  - name: n_cand
+    type: BIGINT
+  - name: valid_votes
+    type: BIGINT
+  - name: vote_share_percentage
+    type: DOUBLE
+  - name: deposit_lost
+    type: VARCHAR
+  - name: margin
+    type: BIGINT
+  - name: margin_percentage
+    type: DOUBLE
+  - name: enop
+    type: DOUBLE
+  - name: sex
+    type: VARCHAR
+  - name: pid
+    type: VARCHAR
+  - name: candidate_type
+    type: VARCHAR
+  - name: delimid
+    type: BIGINT
+  - name: party_id
+    type: BIGINT
+  - name: party_type_tcpd
+    type: VARCHAR
+  - name: contested
+    type: BIGINT
+  - name: last_party
+    type: VARCHAR
+  - name: last_party_id
+    type: BIGINT
+  - name: last_constituency_name
+    type: VARCHAR
+  - name: same_constituency
+    type: BOOLEAN
+  - name: same_party
+    type: BOOLEAN
+  - name: no_terms
+    type: BIGINT
+  - name: turncoat
+    type: BOOLEAN
+  - name: incumbent
+    type: BOOLEAN
+  - name: recontest
+    type: BOOLEAN
+  - name: myneta_education
+    type: VARCHAR
+  - name: tcpd_prof_main
+    type: VARCHAR
+  - name: tcpd_prof_main_desc
+    type: VARCHAR
+  - name: tcpd_prof_second
+    type: VARCHAR
+  - name: tcpd_prof_second_desc
+    type: VARCHAR
+  - name: election_type
+    type: VARCHAR
