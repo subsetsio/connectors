@@ -3,18 +3,23 @@ status: active
 tests:
   - not_null: product_id
   - not_null: product_title
+  - not_null: series_id
   - not_null: source_file
-  - not_null: source_format
-  - not_null: row_number
-  - row_count: {min: 1000}
-    reason: the accepted time-series products should produce many tabular rows across ZIP files
-    certainty: 70
+  - not_null: period
+  - not_null: period_code
+  - not_null: source_row_number
+  - row_count: {min: 10000}
+    reason: the selected official ISIbalo economic time-series JSON files should produce many long-form observations
+    certainty: 85
   - column_type: {col: product_id, type: string}
   - column_type: {col: product_title, type: string}
+  - column_type: {col: series_id, type: string}
   - column_type: {col: source_file, type: string}
-  - column_type: {col: source_format, type: string}
-  - column_type: {col: row_number, type: integer}
-  - enum: {col: source_format, values: [ascii, excel]}
+  - column_type: {col: source_row_number, type: integer}
+  - column_type: {col: period, type: string}
+  - column_type: {col: period_code, type: string}
+  - column_type: {col: value, type: float}
+  - enum: {col: period_frequency, values: [monthly, quarterly, annual]}
   - freshness: {col: fetched_at, reaches: today - 14d}
     reason: raw files are fetched by the connector run; fetched_at should reflect a current run
     points_outward: false

@@ -4,16 +4,16 @@ tests:
   - not_null: product_id
   - not_null: title
   - unique: product_id
-    reason: each catalogue row should describe one stable Stats SA time-series product
+    reason: each curated ISIbalo row should describe one stable Stats SA time-series product
     certainty: 85
-  - row_count: {min: 50}
-    reason: research observed about 90 products; far fewer likely means the catalogue parser hit only a partial page
-    certainty: 80
+  - row_count: {min: 8}
+    reason: the connector covers the accessible official ISIbalo economic time-series JSON products instead of the Incapsula-blocked listing page
+    certainty: 90
   - column_type: {col: product_id, type: string}
   - column_type: {col: title, type: string}
-  - column_type: {col: excel_available, type: boolean}
-  - column_type: {col: ascii_available, type: boolean}
-  - column_type: {col: link_count, type: integer}
+  - column_type: {col: frequency, type: string}
+  - column_type: {col: landing_url, type: string}
+  - column_type: {col: json_file_count, type: integer}
   - freshness: {col: fetched_at, reaches: today - 14d}
     reason: raw files are fetched by the connector run; fetched_at should reflect a current run
     points_outward: false
