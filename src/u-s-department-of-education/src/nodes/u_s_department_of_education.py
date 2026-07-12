@@ -12,6 +12,7 @@ import csv
 import io
 import json
 import re
+import warnings
 import zipfile
 from collections.abc import Iterable
 from pathlib import PurePosixPath
@@ -61,6 +62,10 @@ SKIP_FORMAT_HINTS = (
 TEXT_EXTENSIONS = {".csv", ".tsv", ".txt", ".dat", ".asc", ".ascii"}
 EXCEL_EXTENSIONS = {".xls", ".xlsx", ".xlsm"}
 JSON_EXTENSIONS = {".json"}
+
+
+class UnsupportedResourceError(ValueError):
+    pass
 
 
 def _entity_id(node_id: str) -> str:
@@ -149,7 +154,9 @@ def _read_delimited(content: bytes, filename: str, provenance: dict) -> Iterable
 
 
 def _read_excel(content: bytes, provenance: dict) -> Iterable[dict]:
-    sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, dtype=str)
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message="Unknown extension is not supported")
+        sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, dtype=str)
     for sheet_name, df in sheets.items():
         sheet_provenance = {**provenance, "sheet_name": str(sheet_name)}
         yield from _records_from_frame(df, sheet_provenance)
@@ -175,6 +182,8 @@ def _read_json(content: bytes, provenance: dict) -> Iterable[dict]:
 
 def _read_member(content: bytes, filename: str, provenance: dict) -> Iterable[dict]:
     suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
+    if _looks_like_html(content):
+        raise UnsupportedResourceError("resource returned HTML")
     if suffix in EXCEL_EXTENSIONS:
         yield from _read_excel(content, provenance)
     elif suffix in JSON_EXTENSIONS:
@@ -195,6 +204,11 @@ def _read_zip(content: bytes, provenance: dict) -> Iterable[dict]:
             member_provenance = {**provenance, "archive_member": name}
             with zf.open(info) as fh:
                 yield from _read_member(fh.read(), name, member_provenance)
+
+
+def _looks_like_html(content: bytes) -> bool:
+    head = content[:512].lstrip().lower()
+    return head.startswith(b"<!doctype html") or head.startswith(b"<html")
 
 
 def _resource_is_tabular(resource: dict) -> bool:
@@ -228,11 +242,15 @@ def fetch_one(node_id: str) -> None:
         }
         content = _download(url)
         filename = url.rsplit("/", 1)[-1] or str(resource.get("name") or "resource")
+        suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
         try:
-            if zipfile.is_zipfile(io.BytesIO(content)):
+            if suffix == ".zip" or (suffix not in EXCEL_EXTENSIONS and zipfile.is_zipfile(io.BytesIO(content))):
                 rows.extend(_read_zip(content, provenance))
             else:
                 rows.extend(_read_member(content, filename, provenance))
+        except UnsupportedResourceError:
+            skipped += 1
+            continue
         except Exception as exc:
             raise RuntimeError(
                 f"{package_id}: failed parsing resource {resource.get('id')} "

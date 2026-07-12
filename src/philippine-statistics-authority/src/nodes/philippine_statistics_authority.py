@@ -19,7 +19,6 @@ stay memory-bounded. Rate limit: config says 10 calls / 10s; we self-throttle to
 
 import fcntl
 import json
-import math
 import random
 import re
 import tempfile
