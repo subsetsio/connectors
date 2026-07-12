@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `huggingface-spaces`. Regenerate after model-verify.
+# caution: This is a current catalog snapshot: likes, trending score, tags, SDK, and repository metadata describe the Space at crawl time and do not provide historical changes.
+key: [id]
+temporal: createdat
+sort: [createdat, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: author
+    type: VARCHAR
+  - name: likes
+    type: BIGINT
+  - name: trendingscore
+    type: BIGINT
+  - name: sdk
+    type: VARCHAR
+  - name: private
+    type: BOOLEAN
+  - name: createdat
+    type: TIMESTAMP
+  - name: lastmodified
+    type: TIMESTAMP
+  - name: tags
+    type: "VARCHAR[]"

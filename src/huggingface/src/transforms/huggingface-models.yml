@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `huggingface-models`. Regenerate after model-verify.
+# caution: This is a current catalog snapshot: downloads, likes, trending score, tags, and repository metadata describe the repository at crawl time and do not provide historical changes.
+key: [id]
+temporal: createdat
+sort: [createdat, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: author
+    type: VARCHAR
+  - name: downloads
+    type: BIGINT
+  - name: likes
+    type: BIGINT
+  - name: trendingscore
+    type: BIGINT
+  - name: pipeline_tag
+    type: VARCHAR
+  - name: library_name
+    type: VARCHAR
+  - name: gated
+    type: VARCHAR
+  - name: private
+    type: BOOLEAN
+  - name: createdat
+    type: TIMESTAMP
+  - name: lastmodified
+    type: TIMESTAMP
+  - name: tags
+    type: "VARCHAR[]"
