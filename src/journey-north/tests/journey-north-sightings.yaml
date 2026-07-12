@@ -32,6 +32,10 @@ tests:
   - distinct_count: {col: map_slug, min: 20}
     reason: the raw asset unions ~34 map layers across years; far fewer means slug enumeration or fetching silently broke.
     certainty: 90
+  - freshness: {col: year, reaches: current_year()}
+    reason: Journey North maps receive current-year observations during active migration seasons.
+    certainty: 85
+    points_outward: true
   - unique: [map_slug, sighting_id]
     reason: an observation should appear once per map layer; dupes within a layer mean a batch was written twice.
     certainty: 70

@@ -1,0 +1,17 @@
+spec_id: journey-north-maps
+status: active
+coverage:
+  frozen: true
+  reason: map-layer taxonomy is a reference list collected from the public Journey North map index, not an advancing observation table
+tests:
+  - not_null: map_slug
+    reason: each reference row is keyed by the public map slug used in sightings queries.
+    certainty: 99
+  - unique: map_slug
+    reason: duplicate map slugs would duplicate sightings joins downstream.
+    certainty: 99
+  - row_count: {min: 30, max: 50}
+    reason: research and collect found 34 public Journey North map layers.
+    certainty: 90
+  - not_null: display_name
+    certainty: 95
