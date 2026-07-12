@@ -22,7 +22,7 @@ def main() -> int:
 
     if args.live:
         r2 = lib.R2()
-        rows, _ = lib.observe_fleet(r2, lib.GitHub())
+        rows, _ = lib.observe_fleet(r2, lib.GitHub(), r2.get_json(lib.STATUS_KEY))
         doc = {
             "generated_at": lib.utcnow().isoformat(),
             "live": True,

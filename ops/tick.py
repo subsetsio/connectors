@@ -3,7 +3,8 @@ publish `_operate/status.json` to R2.
 
 Deterministic and idempotent — safe to run on any schedule from any machine.
 A duplicate dispatch is harmless (the workflow's per-slug concurrency group
-queues it), a failed tick just runs again next time. Repair is NOT this
+replaces a still-pending duplicate and queues behind a running one), a failed
+tick just runs again next time. Repair is NOT this
 program's job: broken connectors are flagged in the status document and fixed
 through the factory harness.
 
@@ -32,7 +33,10 @@ def main() -> int:
     r2 = lib.R2()
     gh = lib.GitHub()
 
-    rows, _ = lib.observe_fleet(r2, gh)
+    # The previous status document carries last tick's `dispatched` list —
+    # how a dispatch that never left a trace on R2 gets noticed (dispatch-lost).
+    prev_status = r2.get_json(lib.STATUS_KEY)
+    rows, _ = lib.observe_fleet(r2, gh, prev_status)
     if args.only:
         only = set(args.only)
         rows = [r for r in rows if r["slug"] in only]

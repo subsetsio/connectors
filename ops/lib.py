@@ -14,7 +14,9 @@ identical answers from any machine, including a GitHub Actions runner.
 
 Protocol facts mirrored from the connectors repo + workflow (keep in sync):
   * workflow file `run.yml`, run-name `<slug> :: <run_id>`, per-slug
-    concurrency group (a duplicate dispatch queues; it never cancels).
+    concurrency group (a duplicate dispatch replaces any still-pending
+    duplicate in the group and queues behind a running one; a RUNNING run
+    is never cancelled — `cancel-in-progress: false`).
   * dispatch inputs: {slug, run_id, dag_on_failure: "continue"}.
   * run_id format: UTC `%Y%m%d-%H%M%S` (lexicographic == chronological).
   * run.json `status`: done | done_with_failures | failed | needs_continuation.
@@ -36,13 +38,17 @@ RUN_NAME_SEP = " :: "
 RUN_ID_FORMAT = "%Y%m%d-%H%M%S"
 
 # How many recent run.json documents to read per connector each tick. Enough
-# to see a failure streak; small enough to keep a 36-connector tick fast.
+# to see a failure streak; small enough to keep a ~250-connector tick fast.
 SCAN_RUNS = 5
 # Hard-failure streak that stops dispatching (repair is factory's job).
 AUTO_HOLD_AFTER = 3
 
 DEFAULT_CADENCE_DAYS = int(os.environ.get("OPERATE_DEFAULT_CADENCE_DAYS", "7"))
-DEFAULT_DISPATCH_LIMIT = int(os.environ.get("OPERATE_DISPATCH_LIMIT", "10"))
+# The dispatch limit exists only to bound a runaway tick, so it is sized well
+# ABOVE sustained demand, never below it: ~230 connectors on a 7-day cadence
+# is ~34 due per day, and a "wasted" dispatch costs minutes by design. An
+# under-demand limit silently starves the fleet into `stale`.
+DEFAULT_DISPATCH_LIMIT = int(os.environ.get("OPERATE_DISPATCH_LIMIT", "50"))
 
 # GH Actions is free on the public connectors repo; this prices what the runs
 # WOULD cost on paid GH-hosted linux runners ($0.008/min), from the run.json's
@@ -182,21 +188,29 @@ class GitHub:
         return r
 
     def in_flight(self) -> dict[str, dict]:
-        """slug -> {run_id, url} for every queued/in-progress run.yml run."""
+        """slug -> {run_id, url} for every queued/in-progress run.yml run.
+
+        Paginated: during a backlog drain more than 100 runs can be queued,
+        and a slug missed here would be re-dispatched as a duplicate."""
         out: dict[str, dict] = {}
         for status in ("queued", "in_progress"):
-            runs = self._req(
-                "GET", f"/actions/workflows/{WORKFLOW_FILE}/runs",
-                params={"status": status, "per_page": 100},
-            ).json().get("workflow_runs", [])
-            for run in runs:
-                name = run.get("name") or ""
-                if RUN_NAME_SEP not in name:
-                    continue
-                slug, run_id = name.split(RUN_NAME_SEP, 1)
-                out.setdefault(slug.strip(), {
-                    "run_id": run_id.strip(), "url": run.get("html_url"),
-                })
+            page = 1
+            while True:
+                runs = self._req(
+                    "GET", f"/actions/workflows/{WORKFLOW_FILE}/runs",
+                    params={"status": status, "per_page": 100, "page": page},
+                ).json().get("workflow_runs", [])
+                for run in runs:
+                    name = run.get("name") or ""
+                    if RUN_NAME_SEP not in name:
+                        continue
+                    slug, run_id = name.split(RUN_NAME_SEP, 1)
+                    out.setdefault(slug.strip(), {
+                        "run_id": run_id.strip(), "url": run.get("html_url"),
+                    })
+                if len(runs) < 100:
+                    break
+                page += 1
         return out
 
     def dispatch(self, slug: str) -> str:
@@ -261,6 +275,7 @@ class Observation:
     consecutive_hard_failures: int = 0
     data_last_changed_at: str | None = None
     never_ran: bool = False
+    newest_run_id: str | None = None                # newest run dir on R2, run.json or not
 
 
 def _data_changed(run_doc: dict) -> bool:
@@ -288,6 +303,7 @@ def observe(r2: R2, slug: str, in_flight_run_id: str | None) -> Observation:
     if not run_ids:
         obs.never_ran = True
         return obs
+    obs.newest_run_id = run_ids[0]
 
     streak_open = True
     for rid in run_ids[:SCAN_RUNS]:
@@ -335,12 +351,41 @@ def observe(r2: R2, slug: str, in_flight_run_id: str | None) -> Observation:
 # ---- policy --------------------------------------------------------------------
 
 
-def classify(contract: dict, obs: Observation, in_flight: dict | None) -> dict:
+def dispatch_lost_streak(obs: Observation, in_flight: dict | None,
+                         prev_row: dict, dispatched_run_id: str | None) -> int:
+    """Consecutive dispatches that vanished: the previous tick dispatched a
+    run_id, but no run dir ever appeared on R2 and nothing is live on GH —
+    the run died at the GitHub level before the runner could write run.json
+    (broken uv sync, bad apt package, secrets, runner infra). Those leave no
+    failure record, so `observe`'s streak never sees them; this synthetic
+    streak is persisted through the published status document instead.
+
+    Resets the moment a new run dir reaches R2 (evidence flows through
+    run.json again); carried unchanged while there is no new evidence either
+    way — including while auto-held, so the hold doesn't self-release.
+    Run ids are UTC timestamps, so lexicographic order is chronological.
+    """
+    prev = prev_row.get("dispatch_lost_streak")
+    prev = int(prev) if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0
+    if in_flight:
+        return prev  # queued/running on GH: no evidence either way yet
+    if dispatched_run_id and (obs.newest_run_id is None or obs.newest_run_id < dispatched_run_id):
+        return prev + 1  # dispatched last tick; nothing landed, nothing live
+    if obs.newest_run_id and obs.newest_run_id != prev_row.get("newest_run_id"):
+        return 0  # a new run reached R2 since the last tick
+    return prev
+
+
+def classify(contract: dict, obs: Observation, in_flight: dict | None,
+             lost_streak: int = 0) -> dict:
     """One connector's verdict: attention word + whether to dispatch now.
 
-    Attention: paused | in-flight | auto-held | failing | degraded | never-ran
-    | due | ok. Exactly one per connector; needs_attention marks the ones a
-    human (or a factory repair session) should look at.
+    Attention: paused | in-flight | auto-held | dispatch-lost | failing |
+    degraded | never-ran | due | ok. Exactly one per connector;
+    needs_attention marks the ones a human (or a factory repair session)
+    should look at. Lost dispatches (see dispatch_lost_streak) count toward
+    the auto-hold threshold exactly like hard failures — a connector whose
+    runs die before writing run.json must not be re-dispatched forever.
     """
     age = age_days(obs.last_concluded_at)
     due = obs.last_concluded_at is None or (age is not None and age >= contract["cadence_days"])
@@ -350,8 +395,10 @@ def classify(contract: dict, obs: Observation, in_flight: dict | None) -> dict:
         attention, dispatch = "paused", False
     elif in_flight:
         attention, dispatch = "in-flight", False
-    elif obs.consecutive_hard_failures >= AUTO_HOLD_AFTER:
+    elif obs.consecutive_hard_failures + lost_streak >= AUTO_HOLD_AFTER:
         attention, dispatch = "auto-held", False
+    elif lost_streak:
+        attention, dispatch = "dispatch-lost", True
     elif obs.never_ran:
         attention, dispatch = "never-ran", True
     elif obs.latest and obs.latest["status"] == "failed":
@@ -363,7 +410,8 @@ def classify(contract: dict, obs: Observation, in_flight: dict | None) -> dict:
     else:
         attention, dispatch = "ok", False
 
-    needs_attention = attention in ("auto-held", "failing", "degraded", "never-ran") or stale
+    needs_attention = attention in ("auto-held", "dispatch-lost", "failing",
+                                    "degraded", "never-ran") or stale
     return {
         "attention": attention,
         "should_dispatch": dispatch,
@@ -373,16 +421,31 @@ def classify(contract: dict, obs: Observation, in_flight: dict | None) -> dict:
     }
 
 
-def observe_fleet(r2: R2, gh: GitHub) -> tuple[list[dict], dict[str, dict]]:
+def observe_fleet(r2: R2, gh: GitHub,
+                  prev_status: dict | None = None) -> tuple[list[dict], dict[str, dict]]:
     """One row per production-gated connector: contract + observation + verdict.
-    Returns (rows, in_flight_map). Dispatching is the caller's job."""
+    Returns (rows, in_flight_map). Dispatching is the caller's job.
+
+    `prev_status` is the previously published status document; it carries the
+    per-slug `dispatched` list and lost-dispatch streaks that let this tick
+    notice a dispatch that never left a trace on R2 (see dispatch_lost_streak).
+    """
     gate = r2.production_gate()
     inflight = gh.in_flight()
+    prev_rows: dict[str, dict] = {}
+    prev_dispatched: dict[str, str] = {}
+    if prev_status:
+        prev_rows = {r["slug"]: r for r in prev_status.get("connectors") or []
+                     if isinstance(r, dict) and r.get("slug")}
+        prev_dispatched = {d["slug"]: d["run_id"] for d in prev_status.get("dispatched") or []
+                           if isinstance(d, dict) and d.get("slug") and d.get("run_id")}
     rows: list[dict] = []
     for slug in gate:
         contract = maintenance_contract(slug, gh)
         obs = observe(r2, slug, (inflight.get(slug) or {}).get("run_id"))
-        verdict = classify(contract, obs, inflight.get(slug))
+        lost = dispatch_lost_streak(obs, inflight.get(slug),
+                                    prev_rows.get(slug) or {}, prev_dispatched.get(slug))
+        verdict = classify(contract, obs, inflight.get(slug), lost)
         scanned_minutes = sum(r["minutes"] for r in obs.runs if r["minutes"] is not None)
         rows.append({
             "slug": slug,
@@ -390,6 +453,8 @@ def observe_fleet(r2: R2, gh: GitHub) -> tuple[list[dict], dict[str, dict]]:
             "last_ok_at": obs.last_concluded_at,
             "latest": obs.latest,
             "consecutive_failures": obs.consecutive_hard_failures,
+            "dispatch_lost_streak": lost,
+            "newest_run_id": obs.newest_run_id,
             "data_last_changed_at": obs.data_last_changed_at,
             "in_flight": inflight.get(slug),
             "run_minutes_scanned": round(scanned_minutes, 1),
@@ -418,8 +483,8 @@ def gha_cost(rows: list[dict]) -> dict:
 # ---- rendering -------------------------------------------------------------------
 
 
-_ATTENTION_ORDER = ("auto-held", "failing", "degraded", "never-ran", "due",
-                    "in-flight", "paused", "ok")
+_ATTENTION_ORDER = ("auto-held", "dispatch-lost", "failing", "degraded", "never-ran",
+                    "due", "in-flight", "paused", "ok")
 
 
 def sort_rows(rows: list[dict]) -> list[dict]:
