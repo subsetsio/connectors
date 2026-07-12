@@ -20,10 +20,9 @@ asset lands as a single zstd parquet via save_raw_parquet.
 import io
 import zipfile
 
-import pyarrow as pa
 import pyarrow.csv as pacsv
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 # entity_id -> (url, kind[, dta_member])
 #   kind: "csv_zip" | "csv" | "dta_zip"
@@ -39,18 +38,29 @@ ENTITY_META = {
     "cid-dyadyear": ("https://ucdp.uu.se/downloads/cid/ucdp_issues_dataset_dyadyear_232.csv", "csv"),
     "deco": ("https://ucdp.uu.se/downloads/deco/DECO_v.1.0.csv", "csv"),
     "dyadic": ("https://ucdp.uu.se/downloads/dyadic/ucdp-dyadic-261-csv.zip", "csv_zip"),
+    "eosv": ("https://ucdp.uu.se/downloads/eosv/EOSV_Dataset.zip", "dta_zip", "EOSV Dataset.dta"),
     "esd-ay": ("https://ucdp.uu.se/downloads/extsup/ESD/ucdp-esd-ay-181.zip", "dta_zip", "ucdp-esd-ay-181.dta"),
     "esd-dy": ("https://ucdp.uu.se/downloads/extsup/ESD/ucdp-esd-dy-181.zip", "dta_zip", "ucdp-esd-dy-181.dta"),
     "esd-ty": ("https://ucdp.uu.se/downloads/extsup/ESD/ucdp-esd-ty-181.zip", "dta_zip", "ucdp-esd-ty-181.dta"),
     "ged": ("https://ucdp.uu.se/downloads/ged/ged261-csv.zip", "csv_zip"),
+    "mic": ("https://ucdp.uu.se/downloads/micmilc/ucdp-mic-22.zip", "csv_zip"),
+    "mic-actorlist": ("https://ucdp.uu.se/downloads/micmilc/micactorlist.csv", "csv"),
     "nonstate": ("https://ucdp.uu.se/downloads/nsos/ucdp-nonstate-261-csv.zip", "csv_zip"),
+    "nonstate-iad": ("https://ucdp.uu.se/downloads/nonstateconflict/UCDP_NS_IAD.csv.zip", "csv_zip"),
     "onesided": ("https://ucdp.uu.se/downloads/nsos/ucdp-onesided-261-csv.zip", "csv_zip"),
     "onset-interstate-conflict": ("https://ucdp.uu.se/downloads/onset/ucdp-interstate-conflict-onset-251.csv", "csv"),
+    "onset-interstate-country": ("https://ucdp.uu.se/downloads/onset/ucdp-interstate-country-onset-251.csv", "csv"),
+    "onset-interstate-country-multiple": ("https://ucdp.uu.se/downloads/onset/ucdp-interstate-country-multiple-onset-251.csv", "csv"),
     "onset-intrastate-conflict": ("https://ucdp.uu.se/downloads/onset/ucdp-intrastate-conflict-onset-251.csv", "csv"),
     "onset-intrastate-country": ("https://ucdp.uu.se/downloads/onset/ucdp-intrastate-country-onset-251.csv", "csv"),
+    "onset-intrastate-country-multiple": ("https://ucdp.uu.se/downloads/onset/ucdp-intrastate-country-multiple-onset-251.csv", "csv"),
     "organizedviolencecy": ("https://ucdp.uu.se/downloads/organizedviolencecy/organizedviolencecy-261-csv.zip", "csv_zip"),
+    "par": ("https://ucdp.uu.se/downloads/par/par.csv", "csv"),
     "term-conflict": ("https://ucdp.uu.se/downloads/monadterm/UCDPConflictTerminationDataset_v4_2024_Conflict.csv", "csv"),
     "term-dyad": ("https://ucdp.uu.se/downloads/monadterm/UCDPConflictTerminationDataset_v4_2024_Dyad.csv", "csv"),
+    "translate-actor": ("https://ucdp.uu.se/downloads/actor/translate_actor.csv", "csv"),
+    "translate-conf": ("https://ucdp.uu.se/downloads/actor/translate_conf.csv", "csv"),
+    "translate-dyad": ("https://ucdp.uu.se/downloads/actor/translate_dyad.csv", "csv"),
     "ucdp-prio-acd": ("https://ucdp.uu.se/downloads/ucdpprio/ucdp-prio-acd-261-csv.zip", "csv_zip"),
     "vpp-ged": ("https://ucdp.uu.se/downloads/vpp/GEDEvent_v26_1_4_1101_2512.csv", "csv"),
 }
@@ -129,49 +139,5 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{_PREFIX}{eid}", fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
-]
-
-# Per-dataset grain declarations (entity id -> optional key/temporal kwargs).
-# Event-level datasets (the GED family, CACE, DECO, the External Support
-# Datasets) carry a genuine unique event/row id, verified unique in the profile.
-# The yearly conflict/dyad/country panels get their observation period (year)
-# but no key — their composite grain is not verified unique here, so declaring
-# one is unsafe. Entities absent from this map (e.g. actor) stay undeclared.
-GRAINS = {
-    "cace": {"key": ("id",), "temporal": "year"},
-    "candidate-ged": {"key": ("id",), "temporal": "date_start"},
-    "deco": {"key": ("id",), "temporal": "year"},
-    "esd-ay": {"key": ("id",), "temporal": "year"},
-    "esd-dy": {"key": ("id",), "temporal": "year"},
-    "esd-ty": {"key": ("id",), "temporal": "year"},
-    "ged": {"key": ("id",), "temporal": "date_start"},
-    "vpp-ged": {"key": ("id",), "temporal": "date_start"},
-    "brd-conf": {"temporal": "year"},
-    "brd-dyadic": {"temporal": "year"},
-    "dyadic": {"temporal": "year"},
-    "nonstate": {"temporal": "year"},
-    "onesided": {"temporal": "year"},
-    "term-conflict": {"temporal": "year"},
-    "term-dyad": {"temporal": "year"},
-    "ucdp-prio-acd": {"temporal": "year"},
-    "organizedviolencecy": {"temporal": "year"},
-    "onset-interstate-conflict": {"temporal": "year"},
-    "onset-intrastate-conflict": {"temporal": "year"},
-    "onset-intrastate-country": {"temporal": "year"},
-    "cid-dyadyear": {"temporal": "year"},
-    "cid-dyadissueyear": {"temporal": "year"},
-}
-
-# One published Delta table per dataset. The raw parquet is already clean,
-# typed, full-snapshot tabular, so the transform is a straight pass-through; the
-# runtime overwrites the table named (transform id minus "-transform").
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_PREFIX}{eid}-transform",
-        deps=(f"{_PREFIX}{eid}",),
-        sql=f'SELECT * FROM "{_PREFIX}{eid}"',
-        **GRAINS.get(eid, {}),
-    )
     for eid in ENTITY_IDS
 ]

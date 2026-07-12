@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `texas-workforce-commission-socrata-wmur-pmzc`. Regenerate after model-verify.
+key: [state_id]
+temporal: reporting_date
+sort: [reporting_date, state_id]
+columns:
+  - name: state_id
+    type: BIGINT
+  - name: provider_name
+    type: VARCHAR
+  - name: accepts_cc_subsidy
+    type: BIGINT
+  - name: reporting_date
+    type: TIMESTAMP
+  - name: trs_effective_sd
+    type: TIMESTAMP
+  - name: trs_effective_ed
+    type: TIMESTAMP
+  - name: tx_rising_star_rating
+    type: VARCHAR
