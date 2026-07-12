@@ -6,65 +6,12 @@ import zipfile
 from urllib.parse import urlencode
 
 import pandas as pd
+from constants import ENTITY_IDS
 from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 
 SLUG = "texas-workforce-commission"
 PREFIX = f"{SLUG}-"
-
-ENTITY_IDS = [
-    "lmi-1015",
-    "lmi-1024",
-    "lmi-1025",
-    "lmi-1026",
-    "lmi-1027",
-    "lmi-834",
-    "lmi-840",
-    "lmi-844",
-    "lmi-856",
-    "lmi-857",
-    "lmi-865",
-    "lmi-866",
-    "lmi-868",
-    "lmi-875",
-    "lmi-877",
-    "lmi-878",
-    "lmi-926",
-    "lmi-929",
-    "lmi-930",
-    "lmi-934",
-    "lmi-939",
-    "lmi-947",
-    "lmi-948",
-    "lmi-956",
-    "lmi-957",
-    "lmi-959",
-    "lmi-963",
-    "lmi-964",
-    "lmi-966",
-    "lmi-967",
-    "lmi-978",
-    "lmi-979",
-    "lmi-980",
-    "lmi-981",
-    "lmi-982",
-    "lmi-983",
-    "socrata-5y4h-z3jb",
-    "socrata-7fsw-4u57",
-    "socrata-82dp-wjdt",
-    "socrata-8ppv-vbjt",
-    "socrata-8w53-c4f6",
-    "socrata-bsvz-ncuc",
-    "socrata-d3pe-3f9f",
-    "socrata-hcbr-9ms7",
-    "socrata-i53j-vj7m",
-    "socrata-karz-jr5v",
-    "socrata-mpjn-894n",
-    "socrata-n7tu-pqdh",
-    "socrata-w3ma-qigb",
-    "socrata-wmur-pmzc",
-    "socrata-ysby-bbvc",
-]
 
 
 def _entity_id(node_id: str) -> str:
