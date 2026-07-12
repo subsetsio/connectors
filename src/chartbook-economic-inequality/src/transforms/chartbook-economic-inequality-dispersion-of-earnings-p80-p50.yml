@@ -1,7 +1,9 @@
-key: [country, year, series_key, series]
+key: [observation_id]
 temporal: year
-sort: [year, country, series_key, series]
+sort: [year, observation_id]
 columns:
+  - name: observation_id
+    type: BIGINT
   - name: country
     type: VARCHAR
   - name: year

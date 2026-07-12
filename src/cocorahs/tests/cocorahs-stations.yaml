@@ -7,8 +7,8 @@ tests:
   - not_null: State
     reason: every station record carries its state
     certainty: 95
-  - matches: {col: StationNumber, pattern: '^[A-Z]{2}-.+'}
-    reason: station numbers are namespaced by a 2-letter state prefix (StationNumber is the first CSV field, unpadded)
+  - matches: {col: StationNumber, pattern: '^\s*\S.*$'}
+    reason: station numbers are non-empty station identifiers; legacy records are not always namespaced by state prefix
     certainty: 92
   - distinct_count: {col: StationNumber, min: 1000}
     reason: the network has tens of thousands of stations; a tiny distinct count means the sweep broke

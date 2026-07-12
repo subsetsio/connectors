@@ -1,6 +1,7 @@
 spec_id: cocorahs-sigwx-reports
 status: active
 tests:
+  - freshness: {col: ObservationDate, reaches: today - 14d}
   - not_null: StationNumber
     reason: every significant-weather report is filed by a station
     certainty: 96

@@ -1,6 +1,7 @@
 spec_id: cocorahs-daily-reports
 status: active
 tests:
+  - freshness: {col: ObservationDate, reaches: today - 7d}
   - not_null: StationNumber
     reason: every CoCoRaHS report is filed by a station; a null means the parse lost the natural key
     certainty: 97

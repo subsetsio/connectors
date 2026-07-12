@@ -24,8 +24,8 @@ from subsets_utils import NodeSpec, get, raw_parquet_writer
 REPORTS_URL = "https://data.cocorahs.org/export/exportreports.aspx"
 STATIONS_URL = "https://data.cocorahs.org/export/exportstations.aspx"
 
-# US states + DC + territories. CoCoRaHS station numbers are namespaced by these
-# 2-letter codes; a state with no data returns a header-only response (skipped).
+# US states + DC + territories. A state with no data returns a header-only
+# response (skipped).
 STATES = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
     "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN",

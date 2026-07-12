@@ -1,6 +1,7 @@
 spec_id: cocorahs-multiday-reports
 status: active
 tests:
+  - freshness: {col: StartDate, reaches: today - 14d}
   - not_null: StationNumber
     reason: every multi-day accumulation report is filed by a station
     certainty: 96

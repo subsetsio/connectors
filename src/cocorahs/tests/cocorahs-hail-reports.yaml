@@ -1,6 +1,7 @@
 spec_id: cocorahs-hail-reports
 status: active
 tests:
+  - freshness: {col: ObservationDate, reaches: today - 14d}
   - not_null: StationNumber
     reason: every hail report is filed by a station
     certainty: 96

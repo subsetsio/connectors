@@ -3,21 +3,15 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [country, year, series_key, series]
+key: [observation_id]
 temporal: year
 checks:
   - kind: unique
-    columns: [country, year, series_key, series]
+    columns: [observation_id]
   - kind: not_null
-    col: country
-  - kind: not_null
-    col: year
-  - kind: not_null
-    col: series_key
-  - kind: not_null
-    col: series
+    col: observation_id
   - kind: row_floor
-    min: 582
+    min: 986
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1

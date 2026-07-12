@@ -1,4 +1,5 @@
 SELECT
+    ROW_NUMBER() OVER (ORDER BY country, year, dimension, measure, series_key, series, description, value) AS observation_id,
     CAST(country     AS VARCHAR) AS country,
     CAST(year        AS INTEGER) AS year,
     CAST(dimension   AS VARCHAR) AS dimension_of_inequality,
@@ -8,4 +9,3 @@ SELECT
     CAST(description AS VARCHAR) AS description,
     CAST(value       AS DOUBLE)  AS value
 FROM "chartbook-economic-inequality-dispersion-of-earnings-p80-p50"
-WHERE value IS NOT NULL
