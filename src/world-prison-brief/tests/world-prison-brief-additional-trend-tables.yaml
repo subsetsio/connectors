@@ -9,8 +9,8 @@ tests:
   - distinct_count: {col: jurisdiction_id, min: 80, max: 240}
     reason: additional trend tables are common but not universal
     certainty: 70
-  - distinct_count: {col: table_title, min: 2, max: 20}
-    reason: expected categories include pre-trial/remand and female prisoner trends, plus occasional historical tables
+  - distinct_count: {col: table_title, min: 1, max: 20}
+    reason: expected categories include pre-trial/remand and, when exposed by the current site markup, female prisoner trends or occasional historical tables
     certainty: 70
-  - matches: {col: country_url, pattern: "^https://www\\.prisonstudies\\.org/country/"}
+  - matches: {col: country_url, pattern: "^https://www\\.prisonstudies\\.org/country/.+"}
     certainty: 95

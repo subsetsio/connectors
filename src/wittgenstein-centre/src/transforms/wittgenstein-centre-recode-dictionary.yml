@@ -1,10 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [variable, code]
+sort: [variable, code]
 columns:
   - name: variable
     type: VARCHAR
+    description: Source variable namespace for the code.
   - name: variable_label
     type: VARCHAR
+    description: Source label for the variable namespace.
   - name: code
     type: VARCHAR
+    description: Code value used in source data.
   - name: description
     type: VARCHAR
+    description: Human-readable code description.

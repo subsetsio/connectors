@@ -1,3 +1,4 @@
+-- caution: Rows include both countries and regional aggregates.
 SELECT
     region,
     region_name,

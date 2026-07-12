@@ -1,16 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [region, year, sex, age_start, scenario]
+temporal: year
+sort: [year, region, sex, age_start, scenario]
 columns:
   - name: region
     type: VARCHAR
+    description: WIC region or country code.
   - name: region_name
     type: VARCHAR
+    description: Region or country name decoded from the source recode dictionary.
   - name: year
     type: INTEGER
+    description: Projection year.
   - name: sex
     type: VARCHAR
+    description: Sex code.
   - name: age_start
     type: INTEGER
+    description: Starting age of the age group.
   - name: scenario
     type: VARCHAR
+    description: Shared Socioeconomic Pathway scenario code.
   - name: mean_years_schooling
     type: DOUBLE
+    description: Mean years of schooling for the population aged 15 and above.

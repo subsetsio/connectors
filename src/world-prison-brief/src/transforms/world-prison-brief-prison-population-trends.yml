@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-prison-brief-prison-population-trends`. Regenerate after model-verify.
+# caution: The two measures in each row are separate historical series for the same jurisdiction and date: total prison population and prison population rate.
+key: [jurisdiction_id, observation_date]
+temporal: observation_date
+sort: [observation_date, jurisdiction_id]
+columns:
+  - name: jurisdiction_id
+    type: VARCHAR
+  - name: jurisdiction_name
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: observation_date
+    type: DATE
+  - name: year_text
+    type: BIGINT
+  - name: prison_population_total_text
+    type: VARCHAR
+  - name: prison_population_rate_text
+    type: VARCHAR
+  - name: country_url
+    type: VARCHAR

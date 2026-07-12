@@ -54,6 +54,11 @@ DICT_FIELDS = [
 
 DICT_SCHEMA = pa.schema([(f, pa.string()) for f in DICT_FIELDS])
 
+ASSETS_SCHEMA = pa.schema([
+    ("asset", pa.string()),
+    ("full_name", pa.string()),
+])
+
 VALUES_SCHEMA = pa.schema([
     ("asset", pa.string()),
     ("metric", pa.string()),
@@ -105,6 +110,22 @@ def fetch_catalog(node_id: str) -> None:
             rows.append({f: (rec.get(f) if rec.get(f) is not None else None) for f in DICT_FIELDS})
     table = pa.Table.from_pylist(rows, schema=DICT_SCHEMA)
     save_raw_parquet(table, asset)
+
+
+# --------------------------------------------------------------------------- #
+# Fetch: asset reference                                                        #
+# --------------------------------------------------------------------------- #
+def fetch_assets(node_id: str) -> None:
+    data = _get_json(f"{BASE}/catalog/assets").get("data", [])
+    rows = [
+        {
+            "asset": rec.get("asset"),
+            "full_name": rec.get("full_name"),
+        }
+        for rec in data
+    ]
+    table = pa.Table.from_pylist(rows, schema=ASSETS_SCHEMA)
+    save_raw_parquet(table, node_id)
 
 
 # --------------------------------------------------------------------------- #
@@ -187,6 +208,7 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="coin-metrics-asset-metrics-catalog", fn=fetch_catalog, kind="download"),
     NodeSpec(id="coin-metrics-asset-metrics-values", fn=fetch_values, kind="download"),
+    NodeSpec(id="coin-metrics-assets", fn=fetch_assets, kind="download"),
 ]
 
 TRANSFORM_SPECS = [

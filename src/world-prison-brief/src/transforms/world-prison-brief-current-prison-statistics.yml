@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-prison-brief-current-prison-statistics`. Regenerate after model-verify.
+# caution: Each row is one named current indicator, and value_text may include units, dates, estimates, or textual qualifiers rather than a directly aggregable number.
+key: [jurisdiction_name, country_url, jurisdiction_id, region, indicator]
+sort: [jurisdiction_name, country_url, jurisdiction_id, region, indicator]
+columns:
+  - name: jurisdiction_id
+    type: VARCHAR
+  - name: jurisdiction_name
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: value_text
+    type: VARCHAR
+  - name: note
+    type: VARCHAR
+  - name: country_url
+    type: VARCHAR

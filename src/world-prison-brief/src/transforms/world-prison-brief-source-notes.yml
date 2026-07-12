@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-prison-brief-source-notes`. Regenerate after model-verify.
+# caution: Notes mix current-statistic comments with jurisdiction metadata, so filter note_type and subject before treating note_text as a comparable field.
+key: [note_text, jurisdiction_name, country_url, jurisdiction_id, subject]
+sort: [note_text, jurisdiction_name, country_url, jurisdiction_id, subject]
+columns:
+  - name: jurisdiction_id
+    type: VARCHAR
+  - name: jurisdiction_name
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: note_type
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: note_text
+    type: VARCHAR
+  - name: country_url
+    type: VARCHAR
