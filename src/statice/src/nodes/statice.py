@@ -11,7 +11,7 @@ import re
 import time
 import urllib.parse
 
-from subsets_utils import NodeSpec, get, post, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, get, post, raw_asset_exists, raw_writer
 from constants import ENTITY_IDS, ENTITY_NAMES, ENTITY_PATHS, ENTITY_UPDATED
 
 
@@ -20,6 +20,7 @@ SLUG = "statice"
 MAX_CELLS = 80_000
 MAX_VALUES = 4_900
 PACE_SECONDS = 0.15
+MAINTAIN_MAX_AGE_DAYS = 7
 
 
 def _url_for(entity: str) -> str:
@@ -223,4 +224,20 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{entity.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for entity in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Full PX-Web table refresh; skip committed raw assets younger than "
+            "7 days to match the connector maintenance cadence."
+        ),
+        check=lambda asset_id: raw_asset_exists(
+            asset_id,
+            "ndjson.gz",
+            max_age_days=MAINTAIN_MAX_AGE_DAYS,
+        ),
+    )
+    for spec in DOWNLOAD_SPECS
 ]

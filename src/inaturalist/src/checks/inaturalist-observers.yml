@@ -9,6 +9,8 @@ checks:
     columns: [observer_id]
   - kind: not_null
     col: observer_id
+  - kind: row_floor
+    min: 650213
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
