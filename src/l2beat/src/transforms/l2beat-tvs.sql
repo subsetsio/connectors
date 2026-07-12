@@ -6,6 +6,7 @@
 SELECT
     "project_slug",
     "timestamp",
+    "date",
     "native",
     "canonical",
     "external",

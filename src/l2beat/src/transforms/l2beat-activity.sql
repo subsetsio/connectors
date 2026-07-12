@@ -6,6 +6,7 @@
 SELECT
     "project_slug",
     "timestamp",
+    "date",
     "tx_count",
     "uops_count"
 FROM "l2beat-activity"

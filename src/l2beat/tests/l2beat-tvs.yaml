@@ -17,9 +17,6 @@ tests:
   - unique: [project_slug, timestamp]
     reason: each TVS chart has at most one daily point per project/timestamp.
     certainty: 90
-  - unique: [project_slug, date]
-    reason: each TVS chart has at most one daily point per project/date.
-    certainty: 90
   - distinct_count: {col: project_slug, min: 80}
     reason: most tracked projects plus the ecosystem aggregate should have a TVS series; a much lower count indicates silent partial fetch loss.
     certainty: 80

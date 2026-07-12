@@ -2,8 +2,8 @@
 # of raw asset `l2beat-tvs`. Regenerate after model-verify.
 # caution: Includes a synthetic ecosystem aggregate row series alongside project-level series; filter it out before summing across projects.
 key: [project_slug, timestamp]
-temporal: timestamp
-sort: [timestamp, project_slug]
+temporal: date
+sort: [date, project_slug, timestamp]
 columns:
   - name: project_slug
     type: VARCHAR
@@ -11,6 +11,9 @@ columns:
   - name: timestamp
     type: BIGINT
     description: Observation timestamp in Unix seconds, daily cadence.
+  - name: date
+    type: DATE
+    description: Observation date in UTC, derived from the source timestamp.
   - name: native
     type: DOUBLE
     description: Native-token component of total value secured, in USD.

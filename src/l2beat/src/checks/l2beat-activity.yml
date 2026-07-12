@@ -4,7 +4,7 @@
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
 key: [project_slug, timestamp]
-temporal: timestamp
+temporal: date
 checks:
   - kind: unique
     columns: [project_slug, timestamp]
