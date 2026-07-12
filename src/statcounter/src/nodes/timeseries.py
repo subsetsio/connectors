@@ -25,7 +25,7 @@ import time
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import raw_parquet_writer
 from utils import (
     BASE_URL,
     SOURCE_MIN_MONTH,
@@ -157,36 +157,3 @@ def fetch_statistic(node_id: str) -> None:
             raise RuntimeError(f"{asset}: produced 0 rows; source format likely changed")
 
     print(f"  {asset}: {total_rows} rows across {regions_written} regions ({len(failed)} skipped)")
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id=f"statcounter-{eid}", fn=fetch_statistic, kind="download")
-    for eid in STATS
-]
-
-
-def _timeseries_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            CAST(date || '-01' AS DATE)   AS date,
-            region_code,
-            region_name,
-            region_type,
-            category,
-            CAST(market_share AS DOUBLE)  AS market_share
-        FROM "{download_id}"
-        WHERE market_share IS NOT NULL
-        QUALIFY row_number() OVER (
-            PARTITION BY date, region_code, category ORDER BY market_share DESC
-        ) = 1
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_timeseries_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
-]

@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import raw_parquet_writer
 from utils import (
     BASE_URL,
     SOURCE_MIN_YEAR,
@@ -114,34 +114,3 @@ def fetch_resolution(node_id: str) -> None:
             raise RuntimeError(f"{asset}: produced 0 rows; source format likely changed")
 
     print(f"  {asset}: {total_rows} rows across {len(regions)} regions x {len(years)} years")
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="statcounter-screen-resolution", fn=fetch_resolution, kind="download"),
-]
-
-
-_RESOLUTION_SQL = '''
-    SELECT
-        make_date(year, 1, 1)         AS year_start,
-        year,
-        region_code,
-        region_name,
-        region_type,
-        resolution,
-        CAST(market_share AS DOUBLE)  AS market_share
-    FROM "statcounter-screen-resolution"
-    WHERE market_share IS NOT NULL
-    QUALIFY row_number() OVER (
-        PARTITION BY year, region_code, resolution ORDER BY market_share DESC
-    ) = 1
-'''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="statcounter-screen-resolution-transform",
-        deps=["statcounter-screen-resolution"],
-        sql=_RESOLUTION_SQL,
-    ),
-]

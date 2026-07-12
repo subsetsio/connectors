@@ -1,0 +1,26 @@
+spec_id: statcounter-screen-resolution
+status: active
+tests:
+  - not_null: year
+  - not_null: region_code
+  - not_null: region_name
+  - not_null: region_type
+  - not_null: resolution
+  - not_null: market_share
+  - column_type: {col: year, type: integer}
+  - column_type: {col: region_code, type: string}
+  - column_type: {col: region_name, type: string}
+  - column_type: {col: region_type, type: string}
+  - column_type: {col: resolution, type: string}
+  - column_type: {col: market_share, type: float}
+  - enum: {col: region_type, values: [worldwide, continent]}
+  - between: {col: market_share, lo: 0, hi: 100}
+  - between: {col: year, lo: 2009, hi: current_year()}
+  - unique: [year, region_code, resolution]
+    reason: one screen-resolution share observation per year and selected region
+    certainty: 90
+  - row_count: {min: 500}
+  - freshness: {col: year, reaches: current_year()}
+    reason: connector requests the current year aggregate from StatCounter
+    certainty: 80
+    points_outward: true

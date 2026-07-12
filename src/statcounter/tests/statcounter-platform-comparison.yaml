@@ -1,0 +1,27 @@
+spec_id: statcounter-platform-comparison
+status: active
+tests:
+  - not_null: date
+  - not_null: region_code
+  - not_null: region_name
+  - not_null: region_type
+  - not_null: category
+  - not_null: market_share
+  - column_type: {col: date, type: string}
+  - column_type: {col: region_code, type: string}
+  - column_type: {col: region_name, type: string}
+  - column_type: {col: region_type, type: string}
+  - column_type: {col: category, type: string}
+  - column_type: {col: market_share, type: float}
+  - matches: {col: date, pattern: '^\d{4}-\d{2}$'}
+  - enum: {col: region_type, values: [worldwide, continent, country]}
+  - enum: {col: category, values: [Mobile, Desktop, Tablet, Console]}
+  - between: {col: market_share, lo: 0, hi: 100}
+  - unique: [date, region_code, category]
+    reason: one platform-share observation per month and region
+    certainty: 95
+  - row_count: {min: 1000}
+  - freshness: {col: date, reaches: today - 75d}
+    reason: StatCounter Global Stats is refreshed monthly
+    certainty: 85
+    points_outward: true

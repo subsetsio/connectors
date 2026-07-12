@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 import httpx
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 BASE_URL = "https://gs.statcounter.com/chart.php"
 HOME_URL = "https://gs.statcounter.com/"
@@ -26,7 +26,6 @@ _CONTINENT_CODES = {"af", "an", "as", "eu", "na", "oc", "sa"}
 _MONTH_RE = _re.compile(r"^\d{4}-\d{2}$")
 
 
-@transient_retry()
 def _get_text(url: str, params: dict | None = None) -> str:
     resp = get(url, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
