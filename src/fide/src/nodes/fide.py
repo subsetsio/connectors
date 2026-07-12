@@ -16,7 +16,7 @@ import zipfile
 import xml.etree.ElementTree as ET
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 
 # Combined list: one <player> per rated player with standard/rapid/blitz fields.
 COMBINED_URL = "https://ratings.fide.com/download/players_list_xml.zip"
@@ -53,7 +53,6 @@ _INT_FIELDS = ("rating", "games", "k", "rapid_rating", "rapid_games", "rapid_k",
                "blitz_rating", "blitz_games", "blitz_k", "birthday")
 
 
-@transient_retry()  # 6 attempts, exponential backoff over transient net errors / 429 / 5xx
 def _download_combined() -> bytes:
     resp = get(COMBINED_URL, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -129,36 +128,4 @@ def fetch_players(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="fide-players", fn=fetch_players, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="fide-players-transform",
-        deps=["fide-players"],
-        sql='''
-            SELECT
-                fideid                                          AS fide_id,
-                name,
-                country                                         AS federation,
-                sex,
-                NULLIF(title, '')                               AS title,
-                NULLIF(w_title, '')                             AS women_title,
-                NULLIF(o_title, '')                             AS other_title,
-                NULLIF(foa_title, '')                           AS foa_title,
-                rating                                          AS standard_rating,
-                games                                           AS standard_games,
-                k                                               AS standard_k,
-                rapid_rating,
-                rapid_games,
-                rapid_k,
-                blitz_rating,
-                blitz_games,
-                blitz_k,
-                CASE WHEN birthday > 0 THEN birthday END        AS birth_year,
-                NULLIF(flag, '')                                AS inactive_flag
-            FROM "fide-players"
-            WHERE fideid IS NOT NULL
-        ''',
-        key=("fide_id",),
-    ),
 ]

@@ -25,8 +25,8 @@ tests:
     reason: blitz ratings run slightly higher than standard but stay well under 3200
     certainty: 90
     severity: warn
-  - between: {col: birthday, lo: 0, hi: 2025}
-    reason: raw birth year carries a 0 sentinel (nulled in transform) up to the current year; a value >2025 is impossible and signals a mis-parsed column
+  - between: {col: birthday, lo: 0, hi: current_year()}
+    reason: raw birth year carries a 0 sentinel (nulled in transform) up to the current year; a value above the current year is impossible and signals a mis-parsed column
     certainty: 90
     points_outward: true
     severity: warn
