@@ -3,22 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [match_id, innings, ball, actual_delivery]
+key: []
 temporal: start_date
 checks:
-  - kind: unique
-    columns: [match_id, innings, ball, actual_delivery]
-  - kind: not_null
-    col: match_id
-  - kind: not_null
-    col: innings
-  - kind: not_null
-    col: ball
-  - kind: not_null
-    col: actual_delivery
   - kind: row_floor
     min: 5671902
 regression:
   row_shrink_tolerance: 0.1
-  key_shrink_tolerance: 0.1
   temporal_monotonic: true

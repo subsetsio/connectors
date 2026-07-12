@@ -2,7 +2,7 @@
 -- profiles (model/tables + columns). Faithful pass-through: verified
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
--- caution: A cricket over/ball label is not a unique delivery identifier because wides and no-balls can repeat a nominal ball within the same innings.
+-- caution: Cricsheet delivery labels are not globally unique row identifiers: wides, no-balls, and occasional source corrections can repeat the same match, innings, ball, and actual_delivery labels.
 SELECT
     "match_id",
     "season",

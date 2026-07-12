@@ -22,8 +22,8 @@ SELECT
     "method",
     "outcome",
     "match_id",
-    strptime(replace("start_date", '/', '-'), '%Y-%m-%d')::DATE AS start_date,
-    strptime(replace("end_date", '/', '-'), '%Y-%m-%d')::DATE AS end_date,
+    "start_date",
+    "end_date",
     "team1",
     "team2"
 FROM "cricsheet-matches"

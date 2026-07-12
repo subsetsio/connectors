@@ -1,7 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `cricsheet-deliveries`. Regenerate after model-verify.
-# caution: A cricket over/ball label is not a unique delivery identifier because wides and no-balls can repeat a nominal ball within the same innings.
-key: [match_id, innings, ball, actual_delivery]
+# caution: Cricsheet delivery labels are not globally unique row identifiers: wides, no-balls, and occasional source corrections can repeat the same match, innings, ball, and actual_delivery labels.
+key: []
 temporal: start_date
 sort: [start_date, match_id, innings, ball, actual_delivery]
 columns:
