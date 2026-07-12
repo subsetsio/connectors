@@ -23,6 +23,9 @@ tests:
   - row_count: {min: 50000, max: 150000}
     reason: SATCAT holds ~69k objects cataloged since 1957 and grows steadily
     certainty: 90
+  - freshness: {col: launch_date, reaches: current_year()}
+    reason: CelesTrak SATCAT is updated once or twice daily and should include launches from the current calendar year
+    certainty: 80
   - matches: {col: launch_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
     reason: SATCAT launch dates are ISO YYYY-MM-DD strings
     certainty: 75
