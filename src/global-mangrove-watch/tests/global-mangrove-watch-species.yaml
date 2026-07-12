@@ -1,0 +1,12 @@
+spec_id: global-mangrove-watch-species
+status: active
+tests:
+  - not_null: scientific_name
+    reason: species records are keyed by scientific name in the API payload
+    certainty: 95
+  - not_null: red_list_cat
+    reason: GMW species records carry IUCN Red List category codes
+    certainty: 85
+  - row_count: {min: 50}
+    reason: collect observed 64 species; substantially fewer means the endpoint truncated
+    certainty: 90

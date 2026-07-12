@@ -1,0 +1,18 @@
+spec_id: github-affected
+status: active
+tests:
+  - not_null: ghsa_id
+    reason: affected-package rows are exploded from advisory records and retain their parent advisory id
+    certainty: 95
+  - not_null: ecosystem
+    reason: fetch_affected skips affected entries without a package ecosystem
+    certainty: 95
+  - not_null: package_name
+    reason: fetch_affected skips affected entries without a package name
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: the advisory database has affected-package records across many ecosystems
+    certainty: 90
+  - enum: {col: source_directory, values: ["github-reviewed", "unreviewed"]}
+    reason: archive advisories are partitioned into reviewed and unreviewed source directories
+    certainty: 95

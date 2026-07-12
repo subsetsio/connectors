@@ -23,7 +23,6 @@ import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -132,172 +131,29 @@ def fetch_locations(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
+def fetch_species(node_id: str) -> None:
+    """Fetch the mangrove species reference list."""
+    data = _get_json(f"{BASE}/species").get("data", [])
+    if not isinstance(data, list) or not data:
+        raise AssertionError("species endpoint returned no data")
+
+    rows = []
+    for species in data:
+        rows.append({
+            "scientific_name": species.get("scientific_name"),
+            "common_name": species.get("common_name"),
+            "red_list_cat": species.get("red_list_cat"),
+            "iucn_url": species.get("iucn_url"),
+            "location_ids": json.dumps(species.get("location_ids") or []),
+        })
+    print(f"[{node_id}] {len(rows)} species")
+    save_raw_ndjson(rows, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id("locations"), fn=fetch_locations, kind="download"),
+    NodeSpec(id=_spec_id("species"), fn=fetch_species, kind="download"),
 ] + [
     NodeSpec(id=_spec_id(eid), fn=fetch_widget, kind="download")
     for eid in WIDGET_IDS
-]
-
-
-# --- Transforms: one published Delta table per subset --------------------
-# Shared leading location columns for every widget table.
-_LOC = 'CAST(location_id AS BIGINT) AS location_id, iso, location_type, location_name'
-
-_TRANSFORM_SQL = {
-    "locations": f'''
-        SELECT
-            CAST(id AS BIGINT)              AS location_id,
-            location_uuid,
-            iso,
-            location_type,
-            name                           AS location_name,
-            TRY_CAST(area_m2 AS DOUBLE)        AS area_m2,
-            TRY_CAST(coast_length_m AS DOUBLE) AS coast_length_m,
-            TRY_CAST(perimeter_m AS DOUBLE)    AS perimeter_m
-        FROM "{_spec_id("locations")}"
-    ''',
-    "habitat_extent": f'''
-        SELECT {_LOC},
-            CAST(year AS INTEGER) AS year,
-            indicator,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("habitat_extent")}"
-        WHERE value IS NOT NULL
-    ''',
-    "net_change": f'''
-        -- gain/loss are returned by the API but always null on this endpoint; dropped.
-        SELECT {_LOC},
-            CAST(year AS INTEGER)      AS year,
-            CAST(net_change AS DOUBLE) AS net_change
-        FROM "{_spec_id("net_change")}"
-        WHERE net_change IS NOT NULL
-    ''',
-    "aboveground_biomass": f'''
-        SELECT {_LOC},
-            CAST(year AS INTEGER) AS year,
-            indicator,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("aboveground_biomass")}"
-        WHERE value IS NOT NULL
-    ''',
-    "blue_carbon": f'''
-        SELECT {_LOC},
-            CAST(year AS INTEGER) AS year,
-            indicator,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("blue_carbon")}"
-        WHERE value IS NOT NULL
-    ''',
-    "tree_height": f'''
-        SELECT {_LOC},
-            CAST(year AS INTEGER) AS year,
-            indicator,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("tree_height")}"
-        WHERE value IS NOT NULL
-    ''',
-    "degradation-and-loss": f'''
-        SELECT {_LOC},
-            indicator,
-            label,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("degradation-and-loss")}"
-        WHERE value IS NOT NULL
-    ''',
-    "restoration-potential": f'''
-        SELECT {_LOC},
-            TRY_CAST(restoration_potential_score AS DOUBLE) AS restoration_potential_score,
-            TRY_CAST(restorable_area AS DOUBLE)             AS restorable_area,
-            TRY_CAST(restorable_area_perc AS DOUBLE)        AS restorable_area_perc,
-            TRY_CAST(mangrove_area_extent AS DOUBLE)        AS mangrove_area_extent
-        FROM "{_spec_id("restoration-potential")}"
-    ''',
-    "mitigation_potentials": f'''
-        -- the API returns year=null for every mitigation-potential row (these are
-        -- static potential estimates, not time-indexed); year column dropped.
-        SELECT {_LOC},
-            indicator,
-            category,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("mitigation_potentials")}"
-        WHERE value IS NOT NULL
-    ''',
-    "protected-areas": f'''
-        SELECT {_LOC},
-            CAST(year AS INTEGER)          AS year,
-            CAST(total_area AS DOUBLE)     AS total_area,
-            CAST(protected_area AS DOUBLE) AS protected_area
-        FROM "{_spec_id("protected-areas")}"
-    ''',
-    "ecosystem_services": f'''
-        SELECT {_LOC},
-            indicator,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("ecosystem_services")}"
-        WHERE value IS NOT NULL
-    ''',
-    "biodiversity": f'''
-        SELECT {_LOC},
-            CAST(total AS INTEGER)      AS total_species,
-            CAST(threatened AS INTEGER) AS threatened_species,
-            categories                  AS categories_json
-        FROM "{_spec_id("biodiversity")}"
-    ''',
-    "blue-carbon-investment": f'''
-        SELECT {_LOC},
-            category,
-            label,
-            CAST(value AS DOUBLE)      AS value,
-            CAST(percentage AS DOUBLE) AS percentage
-        FROM "{_spec_id("blue-carbon-investment")}"
-        WHERE value IS NOT NULL
-    ''',
-    "drivers_of_change": f'''
-        SELECT {_LOC},
-            variable,
-            primary_driver,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("drivers_of_change")}"
-        WHERE value IS NOT NULL
-    ''',
-    "ecoregions": f'''
-        SELECT {_LOC},
-            indicator,
-            category,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("ecoregions")}"
-        WHERE value IS NOT NULL
-    ''',
-    "fisheries": f'''
-        SELECT {_LOC},
-            indicator,
-            category,
-            TRY_CAST(year AS INTEGER) AS year,
-            CAST(value AS DOUBLE)     AS value
-        FROM "{_spec_id("fisheries")}"
-        WHERE value IS NOT NULL
-    ''',
-    "fishery_mitigation_potentials": f'''
-        SELECT {_LOC},
-            indicator,
-            indicator_type,
-            CAST(value AS DOUBLE) AS value
-        FROM "{_spec_id("fishery_mitigation_potentials")}"
-        WHERE value IS NOT NULL
-    ''',
-    "international_status": f'''
-        SELECT {_LOC},
-            * EXCLUDE (location_id, iso, location_type, location_name)
-        FROM "{_spec_id("international_status")}"
-    ''',
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=_TRANSFORM_SQL[ROUTE_BY_ID.get(spec.id, "locations")],
-    )
-    for spec in DOWNLOAD_SPECS
 ]

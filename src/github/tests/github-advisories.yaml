@@ -1,0 +1,19 @@
+spec_id: github-advisories
+status: active
+tests:
+  - not_null: ghsa_id
+    reason: every OSV advisory file in github/advisory-database is keyed by its GHSA id
+    certainty: 95
+  - matches: {col: ghsa_id, pattern: "^GHSA-"}
+    reason: advisory ids in this corpus use GHSA identifiers
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: GitHub Advisory Database contains hundreds of thousands of reviewed and unreviewed advisories
+    certainty: 90
+  - enum: {col: source_directory, values: ["github-reviewed", "unreviewed"]}
+    reason: archive advisories are partitioned into reviewed and unreviewed source directories
+    certainty: 95
+  - freshness: {col: modified_at, reaches: today - 30d}
+    reason: the advisory database is updated continuously; recent modified timestamps should be present
+    certainty: 90
+    points_outward: true

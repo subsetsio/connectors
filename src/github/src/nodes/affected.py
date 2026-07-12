@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import json
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_writer
+from subsets_utils import raw_writer
 from utils import iter_osv
 
 
@@ -70,27 +70,3 @@ def fetch_affected(node_id: str) -> None:
     if n == 0:
         raise AssertionError(f"{asset}: parsed 0 affected-package rows from archive")
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="github-affected", fn=fetch_affected, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="github-affected-transform",
-        deps=["github-affected"],
-        sql='''
-            SELECT DISTINCT
-                ghsa_id,
-                ecosystem,
-                package_name,
-                vulnerable_version_range,
-                first_patched_version,
-                source_directory
-            FROM "github-affected"
-            WHERE ghsa_id IS NOT NULL
-              AND ecosystem IS NOT NULL
-              AND package_name IS NOT NULL
-        ''',
-    ),
-]
