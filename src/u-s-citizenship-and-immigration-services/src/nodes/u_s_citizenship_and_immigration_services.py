@@ -6,15 +6,24 @@ from urllib.parse import unquote, urljoin
 
 import openpyxl
 import pyarrow as pa
+import requests
 from openpyxl.utils import get_column_letter
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 SLUG = "u-s-citizenship-and-immigration-services"
 PREFIX = f"{SLUG}-"
-USER_AGENT = "Mozilla/5.0 (compatible; subsets.io USCIS connector)"
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 MAIN_PAGE = (
     "https://www.uscis.gov/tools/reports-and-studies/"
-    "immigration-and-citizenship-data?items_per_page=100"
+    "immigration-and-citizenship-data"
 )
 
 MONTHS = (
@@ -89,7 +98,7 @@ class LinkParser(HTMLParser):
 
 
 def _html(url: str) -> str:
-    response = get(url, headers={"User-Agent": USER_AGENT}, timeout=60.0)
+    response = requests.get(url, headers=HEADERS, timeout=60)
     response.raise_for_status()
     return response.text
 
@@ -179,7 +188,7 @@ def _urls_for_entity(entity_id: str) -> list[str]:
 
 
 def _download(url: str) -> bytes:
-    response = get(url, headers={"User-Agent": USER_AGENT}, timeout=120.0)
+    response = requests.get(url, headers=HEADERS, timeout=120)
     response.raise_for_status()
     return response.content
 

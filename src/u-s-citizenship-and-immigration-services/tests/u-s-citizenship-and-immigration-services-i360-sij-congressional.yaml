@@ -1,0 +1,12 @@
+spec_id: u-s-citizenship-and-immigration-services-i360-sij-congressional
+status: active
+tests:
+  - row_count: {min: 10}
+  - not_null: source_file
+  - not_null: value_text
+  - column_type: {col: source_year, type: integer}
+  - column_type: {col: row_index, type: integer}
+  - column_type: {col: column_index, type: integer}
+  - freshness: {col: source_year, reaches: current_year()}
+    points_outward: true
+    reason: USCIS current-quarter report filenames carry the current fiscal year.

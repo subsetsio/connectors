@@ -1,0 +1,12 @@
+spec_id: u-s-citizenship-and-immigration-services-h2b-employer-data-hub
+status: active
+coverage:
+  frozen: true
+  reason: USCIS serves H-2B Employer Data Hub files from an archive page with historical annual CSVs through FY2023 and no published refresh cadence.
+tests:
+  - row_count: {min: 100}
+  - not_null: source_file
+  - not_null: value_text
+  - column_type: {col: source_year, type: integer}
+  - column_type: {col: row_index, type: integer}
+  - column_type: {col: column_index, type: integer}
