@@ -1,10 +1,11 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `npm-package-inventory`. Regenerate after model-verify.
-# caution: The row identity is the registry document revision rather than package name; historical deleted package documents can share package-like names across revisions.
-key: [rev]
-sort: [rev]
+key: [package]
+sort: [package]
 columns:
   - name: package
     type: VARCHAR
+    description: Current npm package document id.
   - name: rev
     type: VARCHAR
+    description: CouchDB revision token for the package document.

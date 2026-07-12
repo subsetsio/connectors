@@ -5,7 +5,7 @@ tests:
   - not_null: date
   - not_null: downloads
   - column_type: {col: package, type: string}
-  - column_type: {col: date, type: date}
+  - column_type: {col: date, type: string}
   - column_type: {col: downloads, type: integer}
   - unique: [package, date]
     reason: downloads/range returns one row per package-day

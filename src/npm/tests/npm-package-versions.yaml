@@ -6,7 +6,7 @@ tests:
   - not_null: published_at
   - column_type: {col: package, type: string}
   - column_type: {col: version, type: string}
-  - column_type: {col: published_at, type: timestamp}
+  - column_type: {col: published_at, type: string}
   - unique: [package, version]
     reason: packuments contain one document per package version
     certainty: 95

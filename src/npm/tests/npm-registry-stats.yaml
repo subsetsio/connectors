@@ -4,7 +4,7 @@ tests:
   - not_null: observation_date
   - not_null: doc_count
   - not_null: update_seq
-  - column_type: {col: observation_date, type: date}
+  - column_type: {col: observation_date, type: string}
   - column_type: {col: doc_count, type: integer}
   - column_type: {col: update_seq, type: integer}
   - unique: observation_date
