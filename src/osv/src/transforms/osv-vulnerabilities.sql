@@ -3,6 +3,7 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 -- caution: Nested advisory fields such as affected packages, ranges, references, severity, credits, and database-specific data are preserved as JSON strings.
+SET arrow_large_buffer_size=true;
 SELECT
     "id",
     "schema_version",

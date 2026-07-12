@@ -81,6 +81,16 @@ def _ecosystem_from_path(path: str) -> str | None:
     return path.split("/", 1)[0]
 
 
+def _ecosystem_from_affected(record: dict) -> str | None:
+    ecosystems = []
+    for affected in record.get("affected") or []:
+        package = affected.get("package") if isinstance(affected, dict) else None
+        ecosystem = package.get("ecosystem") if isinstance(package, dict) else None
+        if ecosystem and ecosystem not in ecosystems:
+            ecosystems.append(ecosystem)
+    return ecosystems[0] if ecosystems else None
+
+
 def _ts(value: str | None) -> datetime | None:
     if not value or not isinstance(value, str):
         return None
@@ -115,7 +125,7 @@ def _vulnerability_row(path: str, record: dict) -> dict:
         "modified": _ts(record.get("modified")),
         "withdrawn": _ts(record.get("withdrawn")),
         "source_path": path,
-        "source_ecosystem": _ecosystem_from_path(path),
+        "source_ecosystem": _ecosystem_from_path(path) or _ecosystem_from_affected(record),
         "aliases": _json_or_none(record.get("aliases")),
         "related": _json_or_none(record.get("related")),
         "summary": record.get("summary"),
