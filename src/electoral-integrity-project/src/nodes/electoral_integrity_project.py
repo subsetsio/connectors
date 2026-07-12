@@ -146,6 +146,11 @@ def fetch_one(node_id: str) -> None:
         df = pd.read_csv(BytesIO(content), sep="\t", low_memory=False)
     if df.empty:
         raise RuntimeError(f"{node_id}: downloaded table parsed to 0 rows")
+    if "year" in df.columns:
+        years = pd.to_numeric(df["year"], errors="coerce")
+        non_null = years.dropna()
+        if ((non_null % 1) == 0).all():
+            df["year"] = years.astype("Int64")
 
     table = pa.Table.from_pandas(df, preserve_index=False)
     save_raw_parquet(table, node_id)
