@@ -1,5 +1,8 @@
 spec_id: washington-ofm-socrata-amzw-95sz
 status: active
+coverage:
+  frozen: true
+  reason: Population forecast vintage is published as a fixed projection series with no incremental refresh cadence in the source metadata.
 tests:
   - row_count: {min: 1}
     reason: each accepted OFM file or Socrata dataset should yield at least one SQL-readable raw row.

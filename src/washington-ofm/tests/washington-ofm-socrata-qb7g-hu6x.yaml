@@ -1,5 +1,8 @@
 spec_id: washington-ofm-socrata-qb7g-hu6x
 status: active
+coverage:
+  frozen: true
+  reason: Medicare chronic-condition data covers the closed 2007-2018 historical period.
 tests:
   - row_count: {min: 1}
     reason: each accepted OFM file or Socrata dataset should yield at least one SQL-readable raw row.

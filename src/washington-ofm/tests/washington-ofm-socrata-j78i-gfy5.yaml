@@ -1,5 +1,8 @@
 spec_id: washington-ofm-socrata-j78i-gfy5
 status: active
+coverage:
+  frozen: true
+  reason: Source metadata provides a historical public extract and no refresh cadence for this reporting-period dataset.
 tests:
   - row_count: {min: 1}
     reason: each accepted OFM file or Socrata dataset should yield at least one SQL-readable raw row.
