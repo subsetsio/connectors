@@ -1,0 +1,16 @@
+spec_id: wri-ndc-content
+status: active
+tests:
+  - not_null: iso_code3
+  - not_null: indicator_id
+  - column_type: {col: iso_code3, type: string}
+  - column_type: {col: value, type: string}
+  - row_count: {min: 100000}
+    reason: NDC content contains many country-indicator text rows
+    certainty: 90
+  - distinct_count: {col: iso_code3, min: 150}
+    reason: Climate Watch NDC content covers most countries
+    certainty: 90
+  - distinct_count: {col: indicator_id, min: 100}
+    reason: NDC content spans many indicator definitions
+    certainty: 85

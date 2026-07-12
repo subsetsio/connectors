@@ -1,0 +1,16 @@
+spec_id: wri-net-zero-content
+status: active
+tests:
+  - not_null: iso_code3
+  - not_null: indicator_id
+  - column_type: {col: iso_code3, type: string}
+  - column_type: {col: value, type: string}
+  - row_count: {min: 500}
+    reason: net-zero content covers country target fields, but is smaller than NDC content
+    certainty: 90
+  - distinct_count: {col: iso_code3, min: 100}
+    reason: Climate Watch net-zero target content covers many countries
+    certainty: 85
+  - distinct_count: {col: indicator_id, min: 5}
+    reason: target status, year, source, and related fields are separate indicators
+    certainty: 85

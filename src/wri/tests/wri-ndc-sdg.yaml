@@ -1,0 +1,17 @@
+spec_id: wri-ndc-sdg
+status: active
+tests:
+  - not_null: iso_code3
+  - not_null: sdg
+  - not_null: sdg_target
+  - column_type: {col: iso_code3, type: string}
+  - column_type: {col: indc_text, type: string}
+  - row_count: {min: 10000}
+    reason: NDC-SDG linkages cover thousands of country pledge excerpts
+    certainty: 90
+  - distinct_count: {col: iso_code3, min: 100}
+    reason: Climate Watch NDC-SDG content covers many countries
+    certainty: 90
+  - enum: {col: climate_response, values: ["Adaptation", "Both", "Mitigation", "Not Specified"]}
+    reason: collect observed this closed Climate Watch response vocabulary
+    certainty: 90

@@ -8,7 +8,7 @@ import csv
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import raw_parquet_writer
 from utils import download_zip, open_member
 
 _EMISSIONS_SCHEMA = pa.schema([
@@ -76,29 +76,3 @@ def fetch_emissions(node_id: str) -> None:
         _flush(writer)
 
     assert n_written > 0, "historical_emissions produced 0 long rows"
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="wri-historical-emissions", fn=fetch_emissions, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="wri-historical-emissions-transform",
-        deps=["wri-historical-emissions"],
-        sql='''
-            SELECT
-                iso_code3,
-                country,
-                data_source,
-                sector,
-                gas,
-                unit,
-                CAST(year AS SMALLINT)  AS year,
-                CAST(value AS DOUBLE)   AS value
-            FROM "wri-historical-emissions"
-            WHERE value IS NOT NULL
-        ''',
-    ),
-]

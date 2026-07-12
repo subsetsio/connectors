@@ -12,7 +12,7 @@ import csv
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import download_zip, open_member
 
 _CONTENT_SCHEMA = pa.schema([
@@ -64,51 +64,3 @@ def fetch_content(node_id: str) -> None:
     assert rows, f"{endpoint} produced 0 rows"
     table = pa.Table.from_pylist(rows, schema=_CONTENT_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="wri-ndc-content", fn=fetch_content, kind="download"),
-    NodeSpec(id="wri-net-zero-content", fn=fetch_content, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="wri-ndc-content-transform",
-        deps=["wri-ndc-content"],
-        sql='''
-            SELECT
-                iso_code3,
-                country,
-                global_category,
-                overview_category,
-                sector,
-                subsector,
-                indicator_id,
-                indicator_name,
-                source,
-                value
-            FROM "wri-ndc-content"
-            WHERE indicator_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="wri-net-zero-content-transform",
-        deps=["wri-net-zero-content"],
-        sql='''
-            SELECT
-                iso_code3,
-                country,
-                global_category,
-                overview_category,
-                sector,
-                subsector,
-                indicator_id,
-                indicator_name,
-                source,
-                value
-            FROM "wri-net-zero-content"
-            WHERE indicator_id IS NOT NULL
-        ''',
-    ),
-]
