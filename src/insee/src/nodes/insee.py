@@ -31,6 +31,7 @@ import csv
 import io
 import zipfile
 import re
+import time
 
 import httpx
 
@@ -51,7 +52,9 @@ PAGE_SIZE = 10000
 MIN_PAGE_SIZE = 1000
 MAX_PAGES = 10000   # safety ceiling (~100M obs/datacube); largest real datacube ~1430 pages
 RANGE_CHUNK_SIZE = 1024 * 1024
-RANGE_ATTEMPTS = 3
+RANGE_ATTEMPTS = 5
+FULL_ZIP_ATTEMPTS = 4
+RANGE_THROTTLE_S = 2.1
 
 from constants import ENTITY_IDS
 
@@ -62,8 +65,8 @@ def _get_json(url: str, params: dict | None = None) -> dict:
     return resp.json()
 
 
-def _csv_product_url(entity_id: str) -> str:
-    """Return the primary packaged CSV product for a Melodi datacube."""
+def _csv_product(entity_id: str) -> tuple[str, int | None]:
+    """Return the primary packaged CSV product URL and catalog byte size."""
     catalog = _get_json(f"{BASE_URL}/catalog/all")
     for item in catalog:
         if item.get("identifier") != entity_id:
@@ -75,17 +78,17 @@ def _csv_product_url(entity_id: str) -> str:
                 and product.get("language") == "FR"
                 and product.get("accessURL")
             ):
-                return product["accessURL"]
+                return product["accessURL"], product.get("byteSize")
         for product in products:
             if product.get("format") == "CSV" and product.get("accessURL"):
-                return product["accessURL"]
+                return product["accessURL"], product.get("byteSize")
     raise RuntimeError(f"{entity_id}: no packaged CSV product found in Melodi catalog")
 
 
 def _request_range(url: str, start: int, end: int) -> httpx.Response:
     expected = end - start + 1
     last_error: BaseException | None = None
-    for _ in range(RANGE_ATTEMPTS):
+    for attempt in range(1, RANGE_ATTEMPTS + 1):
         try:
             resp = httpx.get(
                 url,
@@ -94,6 +97,7 @@ def _request_range(url: str, start: int, end: int) -> httpx.Response:
                     "Range": f"bytes={start}-{end}",
                 },
                 timeout=(10.0, 120.0),
+                follow_redirects=True,
             )
             resp.raise_for_status()
             if resp.status_code != 206:
@@ -108,6 +112,8 @@ def _request_range(url: str, start: int, end: int) -> httpx.Response:
             return resp
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = exc
+            if attempt < RANGE_ATTEMPTS:
+                time.sleep(min(30, 2 * attempt))
     raise RuntimeError(f"{url}: failed range {start}-{end}") from last_error
 
 
@@ -115,7 +121,19 @@ def _get_range(url: str, start: int, end: int) -> bytes:
     return _request_range(url, start, end).content
 
 
-def _download_full_zip(url: str) -> bytes:
+def _validate_zip_payload(url: str, payload: bytes, expected_size: int | None = None) -> None:
+    if expected_size is not None and len(payload) != expected_size:
+        raise RuntimeError(
+            f"{url}: downloaded {len(payload)} bytes, expected {expected_size}"
+        )
+    if not payload.startswith(b"PK"):
+        prefix = payload[:120].decode("utf-8", errors="replace")
+        raise RuntimeError(f"{url}: packaged CSV response is not a zip: {prefix!r}")
+    if not zipfile.is_zipfile(io.BytesIO(payload)):
+        raise RuntimeError(f"{url}: packaged CSV response is not a valid zip")
+
+
+def _fetch_full_zip_payload(url: str) -> bytes:
     resp = get(
         url,
         headers={"Accept": "application/octet-stream"},
@@ -131,25 +149,75 @@ def _download_full_zip(url: str) -> bytes:
     return payload
 
 
-def _download_packaged_zip(url: str) -> bytes:
+def _complete_zip_with_ranges(url: str, prefix: bytes, expected_size: int) -> bytes:
+    chunks = [prefix]
+    start = len(prefix)
+    while start < expected_size:
+        end = min(expected_size - 1, start + RANGE_CHUNK_SIZE - 1)
+        chunks.append(_get_range(url, start, end))
+        start = end + 1
+        if start < expected_size:
+            time.sleep(RANGE_THROTTLE_S)
+    return b"".join(chunks)
+
+
+def _download_full_zip(url: str, expected_size: int | None = None) -> bytes:
+    last_error: BaseException | None = None
+    for attempt in range(1, FULL_ZIP_ATTEMPTS + 1):
+        try:
+            payload = _fetch_full_zip_payload(url)
+            if (
+                expected_size is not None
+                and payload.startswith(b"PK")
+                and len(payload) < expected_size
+            ):
+                print(
+                    f"  packaged CSV full download returned {len(payload)} of "
+                    f"{expected_size} bytes; completing with byte ranges"
+                )
+                payload = _complete_zip_with_ranges(url, payload, expected_size)
+            _validate_zip_payload(url, payload, expected_size)
+            return payload
+        except (httpx.HTTPError, RuntimeError) as exc:
+            last_error = exc
+            if attempt == FULL_ZIP_ATTEMPTS:
+                break
+            wait = min(60, 5 * attempt)
+            print(
+                f"  packaged CSV full download failed ({exc}); "
+                f"retry {attempt}/{FULL_ZIP_ATTEMPTS - 1} in {wait}s"
+            )
+            time.sleep(wait)
+    raise RuntimeError(f"{url}: packaged CSV full download failed") from last_error
+
+
+def _download_packaged_zip(url: str, expected_size: int | None = None) -> bytes:
+    try:
+        return _download_full_zip(url, expected_size)
+    except RuntimeError as full_exc:
+        print(f"  packaged CSV full download failed ({full_exc}); trying byte ranges")
+
     try:
         first = _request_range(url, 0, 0)
     except RuntimeError as exc:
-        print(f"  packaged CSV range probe failed ({exc}); downloading full zip")
-        return _download_full_zip(url)
+        raise RuntimeError(f"{url}: packaged CSV range probe failed") from exc
     content_range = first.headers.get("content-range") or ""
     match = re.match(r"bytes 0-0/(\d+)$", content_range)
     if first.status_code != 206 or not match:
-        print("  packaged CSV endpoint does not support ranges; downloading full zip")
-        return _download_full_zip(url)
+        raise RuntimeError(f"{url}: packaged CSV endpoint does not support ranges")
     size = int(match.group(1))
+    if expected_size is not None and size != expected_size:
+        raise RuntimeError(f"{url}: range size {size}, catalog expected {expected_size}")
     chunks = [first.content]
     for start in range(1, size, RANGE_CHUNK_SIZE):
         end = min(size - 1, start + RANGE_CHUNK_SIZE - 1)
         chunks.append(_get_range(url, start, end))
+        if end < size - 1:
+            time.sleep(RANGE_THROTTLE_S)
     payload = b"".join(chunks)
     if len(payload) != size:
         raise RuntimeError(f"{url}: assembled {len(payload)} bytes, expected {size}")
+    _validate_zip_payload(url, payload, expected_size)
     return payload
 
 
@@ -163,8 +231,8 @@ def _row_from_csv(row: dict) -> dict:
 
 
 def _fetch_csv_product(asset: str, entity_id: str) -> None:
-    url = _csv_product_url(entity_id)
-    payload = _download_packaged_zip(url)
+    url, expected_size = _csv_product(entity_id)
+    payload = _download_packaged_zip(url, expected_size)
     with zipfile.ZipFile(io.BytesIO(payload)) as zf:
         data_names = [
             name for name in zf.namelist()
