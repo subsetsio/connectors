@@ -54,16 +54,8 @@ def fetch_csv(node_id: str) -> None:
                         out.write(chunk)
 
         with duckdb.connect(":memory:") as conn:
-            conn.execute(
-                """
-                COPY (
-                    SELECT *
-                    FROM read_csv_auto(?, header = true, sample_size = -1)
-                )
-                TO ? (FORMAT PARQUET, COMPRESSION ZSTD)
-                """,
-                [str(csv_path), str(parquet_path)],
-            )
+            relation = conn.read_csv(str(csv_path), header=True, sample_size=-1)
+            relation.write_parquet(str(parquet_path), compression="zstd")
 
         with raw_writer(node_id, extension="parquet", mode="wb") as out:
             with parquet_path.open("rb") as src:
