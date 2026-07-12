@@ -41,7 +41,7 @@ import unicodedata
 import urllib.error
 import urllib.request
 from datetime import date
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 import py7zr
 from tenacity import (
@@ -159,31 +159,15 @@ def _ftp_download(url: str, dest: str) -> None:
 
 @_ftp_retry
 def _ftp_exists(url: str) -> bool:
-    """Probe one expected FTP file without listing its parent directory."""
-    proc = subprocess.run(
-        [
-            "curl",
-            "--fail",
-            "--silent",
-            "--show-error",
-            *FTP_CURL_FLAGS,
-            "--connect-timeout",
-            "20",
-            "--max-time",
-            "60",
-            "-I",
-            url,
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    if proc.returncode == 0:
-        return True
-    # FTP servers report missing path components as 9 and missing files as 78.
-    if proc.returncode in (9, 78):
-        return False
-    raise subprocess.CalledProcessError(proc.returncode, proc.args, output=proc.stderr)
+    """Probe one expected FTP file by listing its parent directory.
+
+    The PDET server sometimes stalls FTP HEAD requests from GitHub Actions.
+    Directory listings use the same FTP path as the eventual download and have
+    proven more reliable for existence checks.
+    """
+    parent, name = url.rsplit("/", 1)
+    _, files = _ftp_list(parent + "/")
+    return unquote(name) in files
 
 
 def _month_ints(start_year: int, start_month: int, end_year: int, end_month: int) -> list[int]:
