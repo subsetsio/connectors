@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `globe-at-night-observations`. Regenerate after model-verify.
+# caution: Rows are voluntary citizen-science observations, not a spatially or temporally regular survey grid; aggregate by location or date only after accounting for uneven observer coverage and repeat submissions.
+key: [id]
+temporal: local_date
+sort: [local_date, id]
+columns:
+  - name: id
+    type: BIGINT
+    description: Source observation identifier.
+  - name: obs_type
+    type: VARCHAR
+    description: GLOBE at Night observation submission type.
+  - name: latitude
+    type: DOUBLE
+    description: Observation latitude in decimal degrees.
+  - name: longitude
+    type: DOUBLE
+    description: Observation longitude in decimal degrees.
+  - name: elevation_m
+    type: DOUBLE
+    description: Observation elevation in meters.
+  - name: local_date
+    type: DATE
+    description: Local calendar date of the observation.
+  - name: local_time
+    type: VARCHAR
+    description: Local clock time of the observation as reported by the source.
+  - name: ut_date
+    type: DATE
+    description: UTC calendar date of the observation.
+  - name: ut_time
+    type: VARCHAR
+    description: UTC clock time of the observation as reported by the source.
+  - name: limiting_mag
+    type: BIGINT
+    description: Naked-eye limiting magnitude estimate for the observed sky, where larger values indicate fainter visible stars.
+  - name: sqm_reading
+    type: DOUBLE
+    description: Sky Quality Meter reading in magnitudes per square arcsecond, when supplied.
+  - name: sqm_serial
+    type: VARCHAR
+    description: Sky Quality Meter serial number, when supplied.
+  - name: cloud_cover
+    type: VARCHAR
+    description: Reported cloud-cover category during the observation.
+  - name: constellation
+    type: VARCHAR
+    description: Constellation used for the observation chart.
+  - name: sky_comment
+    type: VARCHAR
+    description: Observer's free-text comment about sky conditions.
+  - name: location_comment
+    type: VARCHAR
+    description: Observer's free-text comment about the observation location.
+  - name: country
+    type: VARCHAR
+    description: Country associated with the submitted observation location.
+  - name: file_year
+    type: BIGINT
+    description: Calendar year of the source CSV file from which the row was downloaded.

@@ -19,6 +19,9 @@ tests:
   - row_count: {min: 150000}
     reason: ~250k-300k observations across 2006-2025; well above 150k even allowing for shrinkage
     certainty: 85
+  - freshness: {col: local_date, reaches: today - 800d}
+    reason: source publishes annual/current-year observation CSVs; max LocalDate should remain within the latest two observation years even when a new calendar-year file has not appeared yet
+    certainty: 80
   - distinct_count: {col: file_year, min: 18}
     reason: 2006-2025 inventory = 20 years; allow a small margin for a year being temporarily unlisted
     certainty: 85
