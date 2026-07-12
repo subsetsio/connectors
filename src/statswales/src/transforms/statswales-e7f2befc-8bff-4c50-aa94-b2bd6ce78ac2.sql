@@ -1,0 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("Data values" AS BIGINT) AS data_values,
+    "Data description" AS data_description,
+    CAST("Year" AS BIGINT) AS year,
+    "Area name" AS area_name,
+    "Disability" AS disability,
+    "Welsh" AS welsh,
+    "Notes" AS notes
+FROM "statswales-e7f2befc-8bff-4c50-aa94-b2bd6ce78ac2"

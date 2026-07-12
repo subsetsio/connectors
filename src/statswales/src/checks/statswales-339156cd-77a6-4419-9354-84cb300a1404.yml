@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-339156cd-77a6-4419-9354-84cb300a1404`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [data_values, country, data_description, migrant_status_of_the_head_of_household, time_period]
+checks:
+  - kind: unique
+    columns: [data_values, country, data_description, migrant_status_of_the_head_of_household, time_period]
+  - kind: not_null
+    col: data_values
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: data_description
+  - kind: not_null
+    col: migrant_status_of_the_head_of_household
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 45
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

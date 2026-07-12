@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-b0a18593-6cc0-4c91-8557-604354ab72d1`. Regenerate after model-verify.
+key: [built_up_area, period, transaction_type, data_description]
+temporal: period
+sort: [period, built_up_area, transaction_type, data_description]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: built_up_area
+    type: VARCHAR
+  - name: transaction_type
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

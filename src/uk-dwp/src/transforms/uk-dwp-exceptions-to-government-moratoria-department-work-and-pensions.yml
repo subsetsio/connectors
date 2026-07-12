@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-exceptions-to-government-moratoria-department-work-and-pensions`. Regenerate after model-verify.
+# caution: Rows are unioned from many spending-moratoria CSV resources with schema drift; similar approval, amount, grade, and activity fields can be split across year-specific columns.
+# caution: Use `resource_name` and `resource_last_modified` to identify the source period or file before aggregating.
+key: [resource_id, row_index]
+temporal: date
+sort: [date, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR
@@ -11,7 +17,7 @@ columns:
   - name: row_index
     type: BIGINT
   - name: aa_ao
-    type: VARCHAR
+    type: BIGINT
   - name: activity
     type: VARCHAR
   - name: activity_type
@@ -127,23 +133,23 @@ columns:
   - name: eo
     type: VARCHAR
   - name: grade_6_7
-    type: VARCHAR
+    type: BIGINT
   - name: grade_fte
-    type: VARCHAR
+    type: BIGINT
   - name: grade_fte_1
-    type: VARCHAR
+    type: BIGINT
   - name: grade_fte_2
-    type: VARCHAR
+    type: BIGINT
   - name: grade_fte_3
-    type: VARCHAR
+    type: BIGINT
   - name: grade_headcount_aa_ao
-    type: VARCHAR
+    type: BIGINT
   - name: grade_headcount_eo
-    type: VARCHAR
+    type: BIGINT
   - name: grade_headcount_grade6_7
-    type: VARCHAR
+    type: BIGINT
   - name: grade_headcount_heo_seo
-    type: VARCHAR
+    type: BIGINT
   - name: heo_seo
     type: VARCHAR
   - name: hmg_ref
@@ -163,7 +169,7 @@ columns:
   - name: organisation_name
     type: VARCHAR
   - name: other
-    type: VARCHAR
+    type: BIGINT
   - name: owning_dept_alb_department
     type: VARCHAR
   - name: project_name
@@ -183,11 +189,11 @@ columns:
   - name: requirement_description
     type: VARCHAR
   - name: scs_level
-    type: VARCHAR
+    type: BIGINT
   - name: scs_level_fte
-    type: VARCHAR
+    type: BIGINT
   - name: scs_level_headcount_scs_level
-    type: VARCHAR
+    type: BIGINT
   - name: site
     type: VARCHAR
   - name: status_decision_result
@@ -201,13 +207,13 @@ columns:
   - name: total_1
     type: VARCHAR
   - name: total_approvals_fte
-    type: VARCHAR
+    type: BIGINT
   - name: total_approvals_full_time_equivalent
     type: VARCHAR
   - name: total_approvals_headcount
     type: VARCHAR
   - name: total_exemptions_headcount
-    type: VARCHAR
+    type: BIGINT
   - name: total_value
     type: VARCHAR
   - name: total_value_1
@@ -217,7 +223,7 @@ columns:
   - name: total_value_approved
     type: VARCHAR
   - name: total_value_approved_0
-    type: VARCHAR
+    type: BIGINT
   - name: total_value_approved_m
     type: VARCHAR
   - name: total_value_approved_revised_value
@@ -227,9 +233,9 @@ columns:
   - name: total_value_requested_m
     type: VARCHAR
   - name: unknown_other
-    type: VARCHAR
+    type: BIGINT
   - name: unknown_other_headcount
-    type: VARCHAR
+    type: BIGINT
   - name: value
     type: VARCHAR
   - name: value_approved

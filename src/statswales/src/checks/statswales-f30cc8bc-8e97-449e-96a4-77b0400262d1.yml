@@ -1,0 +1,10 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-f30cc8bc-8e97-449e-96a4-77b0400262d1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+checks:
+  - kind: row_floor
+    min: 891
+regression:
+  row_shrink_tolerance: 0.1

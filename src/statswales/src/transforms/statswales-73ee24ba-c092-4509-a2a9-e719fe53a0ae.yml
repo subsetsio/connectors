@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-73ee24ba-c092-4509-a2a9-e719fe53a0ae`. Regenerate after model-verify.
+key: [data_values, year, data_description, age_group, sex]
+temporal: year
+sort: [year, data_values, data_description, age_group, sex]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

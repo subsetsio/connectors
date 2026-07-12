@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-5c5c13c0-78f9-4232-8afa-5f343ef2b0d5`. Regenerate after model-verify.
+key: [period, area, accommodation_type, data_description, length_of_stay]
+temporal: period
+sort: [period, area, accommodation_type, data_description, length_of_stay]
+columns:
+  - name: data_values
+    type: BIGINT
+  - name: data_description
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: area
+    type: VARCHAR
+  - name: accommodation_type
+    type: VARCHAR
+  - name: length_of_stay
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

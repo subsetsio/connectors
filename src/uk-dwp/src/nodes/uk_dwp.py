@@ -41,7 +41,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_parquet_writer
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 
 # --- the entity union (rank-accepted CKAN package ids) -----------------------
 ENTITY_IDS = [
@@ -363,13 +363,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(e), fn=fetch_one, kind="download") for e in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

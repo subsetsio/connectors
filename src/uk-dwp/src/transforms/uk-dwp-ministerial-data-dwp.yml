@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-ministerial-data-dwp`. Regenerate after model-verify.
+# caution: This table combines different ministerial disclosure types such as meetings, gifts, hospitality, and travel; filter to the applicable populated columns before counting events.
+# caution: Rows are unioned from many CSV resources whose headers changed over time, so equivalent names and dates can appear in multiple columns.
+key: [resource_id, row_index]
+temporal: date
+sort: [date, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR

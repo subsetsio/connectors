@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-2604676e-4495-4a87-8482-d3eaf8e97a2d`. Regenerate after model-verify.
+key: [data_values, year, breastfeeding_status, data_description, number_of_babies]
+temporal: year
+sort: [year, data_values, breastfeeding_status, data_description, number_of_babies]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: number_of_babies
+    type: VARCHAR
+  - name: breastfeeding_status
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-d3a61e62-8646-4d48-a91b-d009d0e25f7c`. Regenerate after model-verify.
+key: [type_of_cargo, year, traffic_direction_and_region]
+temporal: year
+sort: [year, type_of_cargo, traffic_direction_and_region]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: traffic_direction_and_region
+    type: VARCHAR
+  - name: type_of_cargo
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

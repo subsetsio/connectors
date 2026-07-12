@@ -1,11 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-dwp-prompt-payment-data`. Regenerate after model-verify.
+# caution: Rows are unioned from separate CSV resources with financial-year and period columns that vary by file; filter to the intended period representation before comparing percentages.
+key: [resource_id, row_index]
+temporal: resource_last_modified
+sort: [resource_last_modified, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR
   - name: resource_id
     type: VARCHAR
   - name: resource_last_modified
-    type: VARCHAR
+    type: TIMESTAMP
   - name: source_url
     type: VARCHAR
   - name: row_index

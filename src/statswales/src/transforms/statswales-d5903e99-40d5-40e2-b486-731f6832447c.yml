@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-d5903e99-40d5-40e2-b486-731f6832447c`. Regenerate after model-verify.
+key: [local_authority, type_of_care_and_support, age_group, residence, year]
+temporal: year
+sort: [year, local_authority, type_of_care_and_support, age_group, residence]
+columns:
+  - name: data_values
+    type: BIGINT
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: local_authority
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: residence
+    type: VARCHAR
+  - name: type_of_care_and_support
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

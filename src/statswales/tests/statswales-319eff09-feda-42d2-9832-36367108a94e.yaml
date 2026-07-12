@@ -1,2 +1,5 @@
 spec_id: statswales-319eff09-feda-42d2-9832-36367108a94e
 status: deferred
+coverage:
+  frozen: true
+  reason: StatsWales exposes this dataset as a catalog table with no per-dataset freshness cadence captured by the connector; maintenance re-observes the source catalog and reruns accepted tables, so this raw spec is treated as a source snapshot rather than a freshness-asserted feed.

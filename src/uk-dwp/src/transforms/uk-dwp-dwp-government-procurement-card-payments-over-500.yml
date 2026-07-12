@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-dwp-government-procurement-card-payments-over-500`. Regenerate after model-verify.
+# caution: Rows are unioned from many monthly CSV resources whose headers changed over time; equivalent concepts can appear in different columns across resource periods.
+# caution: Use `resource_name` and `resource_last_modified` to identify the source period or file before aggregating.
+key: [resource_id, row_index]
+temporal: transaction_date
+sort: [transaction_date, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR
@@ -33,9 +39,9 @@ columns:
   - name: july_2022_gov_uk_title
     type: VARCHAR
   - name: line
-    type: VARCHAR
+    type: BIGINT
   - name: line_no
-    type: VARCHAR
+    type: BIGINT
   - name: line_number
     type: VARCHAR
   - name: mch_merchant_category_code_mcc
@@ -61,10 +67,10 @@ columns:
   - name: transaction_amount
     type: VARCHAR
   - name: transaction_date
-    type: VARCHAR
+    type: DATE
   - name: transaction_ref_number
-    type: VARCHAR
+    type: BIGINT
   - name: transaction_reference_number
-    type: VARCHAR
+    type: BIGINT
   - name: transcation_posting_date
-    type: VARCHAR
+    type: DATE

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-abba2e1e-3aff-4df5-8a4c-a1679e4d32e3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [data_values, date, specialty, weeks_waited, local_health_board_provider]
+temporal: date
+checks:
+  - kind: unique
+    columns: [data_values, date, specialty, weeks_waited, local_health_board_provider]
+  - kind: not_null
+    col: data_values
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: specialty
+  - kind: not_null
+    col: weeks_waited
+  - kind: not_null
+    col: local_health_board_provider
+  - kind: row_floor
+    min: 683959
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

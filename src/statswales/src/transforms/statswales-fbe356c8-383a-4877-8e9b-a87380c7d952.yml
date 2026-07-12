@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-fbe356c8-383a-4877-8e9b-a87380c7d952`. Regenerate after model-verify.
+key: [data_values, year, welsh_port, vessel]
+temporal: year
+sort: [year, data_values, welsh_port, vessel]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: vessel
+    type: VARCHAR
+  - name: welsh_port
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

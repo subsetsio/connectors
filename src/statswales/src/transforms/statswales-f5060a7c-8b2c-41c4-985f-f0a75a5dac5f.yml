@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-f5060a7c-8b2c-41c4-985f-f0a75a5dac5f`. Regenerate after model-verify.
+key: [local_authority, year, flying_start_status, data_description, immunisation_status]
+temporal: year
+sort: [year, local_authority, flying_start_status, data_description, immunisation_status]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: local_authority
+    type: VARCHAR
+  - name: immunisation_status
+    type: VARCHAR
+  - name: flying_start_status
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

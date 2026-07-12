@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-d3a61e62-8646-4d48-a91b-d009d0e25f7c`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [type_of_cargo, year, traffic_direction_and_region]
+temporal: year
+checks:
+  - kind: unique
+    columns: [type_of_cargo, year, traffic_direction_and_region]
+  - kind: not_null
+    col: type_of_cargo
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: traffic_direction_and_region
+  - kind: row_floor
+    min: 788
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

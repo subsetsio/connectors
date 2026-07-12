@@ -1,5 +1,8 @@
 spec_id: statswales-6d704dbd-12ab-4d8d-9f2f-0058c1c6fdf1
 status: active
+coverage:
+  frozen: true
+  reason: StatsWales exposes this dataset as a catalog table with no per-dataset freshness cadence captured by the connector; maintenance re-observes the source catalog and reruns accepted tables, so this raw spec is treated as a source snapshot rather than a freshness-asserted feed.
 tests:
   - row_count: {min: 1}
     reason: every published StatsWales dataset returns at least one long-format data row; an empty CSV means the download failed or the dataset was withdrawn

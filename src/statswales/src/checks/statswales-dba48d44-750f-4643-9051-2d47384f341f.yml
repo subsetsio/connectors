@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-dba48d44-750f-4643-9051-2d47384f341f`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [gestational_age_completed_weeks, year, data_description]
+temporal: year
+checks:
+  - kind: unique
+    columns: [gestational_age_completed_weeks, year, data_description]
+  - kind: not_null
+    col: gestational_age_completed_weeks
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: data_description
+  - kind: row_floor
+    min: 322
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

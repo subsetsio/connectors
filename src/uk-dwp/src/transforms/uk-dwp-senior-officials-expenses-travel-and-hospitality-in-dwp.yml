@@ -1,11 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-senior-officials-expenses-travel-and-hospitality-in-dwp`. Regenerate after model-verify.
+# caution: This table combines senior-official expenses, travel, and hospitality disclosures; filter to the relevant populated date, name, cost, or hospitality columns before counting or summing events.
+# caution: Rows are unioned from many CSV resources whose headers changed over time, so equivalent fields can appear in multiple columns.
+key: [resource_id, row_index]
+temporal: resource_last_modified
+sort: [resource_last_modified, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR
   - name: resource_id
     type: VARCHAR
   - name: resource_last_modified
-    type: VARCHAR
+    type: TIMESTAMP
   - name: source_url
     type: VARCHAR
   - name: row_index
@@ -49,7 +55,7 @@ columns:
   - name: date_dd_mm_yyyy
     type: VARCHAR
   - name: date_of_departure
-    type: VARCHAR
+    type: DATE
   - name: dates
     type: VARCHAR
   - name: destination

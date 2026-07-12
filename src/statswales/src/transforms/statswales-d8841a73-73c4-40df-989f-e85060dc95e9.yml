@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-d8841a73-73c4-40df-989f-e85060dc95e9`. Regenerate after model-verify.
+key: [data_values, patient_health_board, service_health_board, year]
+temporal: year
+sort: [year, data_values, patient_health_board, service_health_board]
+columns:
+  - name: data_values
+    type: BIGINT
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: service_health_board
+    type: VARCHAR
+  - name: patient_health_board
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

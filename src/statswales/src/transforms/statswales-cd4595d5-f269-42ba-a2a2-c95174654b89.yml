@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-cd4595d5-f269-42ba-a2a2-c95174654b89`. Regenerate after model-verify.
+key: [census_date, local_health_board, age_group, sex]
+temporal: census_date
+sort: [census_date, local_health_board, age_group, sex]
+columns:
+  - name: data_values
+    type: BIGINT
+  - name: data_description
+    type: VARCHAR
+  - name: census_date
+    type: DATE
+  - name: local_health_board
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-3ba96615-4707-49ea-a519-cfde41b0a4d1`. Regenerate after model-verify.
+key: [data_values, patient_residence, date, country_of_general_practice]
+temporal: date
+sort: [date, data_values, patient_residence, country_of_general_practice]
+columns:
+  - name: data_values
+    type: BIGINT
+  - name: data_description
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: patient_residence
+    type: VARCHAR
+  - name: country_of_general_practice
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

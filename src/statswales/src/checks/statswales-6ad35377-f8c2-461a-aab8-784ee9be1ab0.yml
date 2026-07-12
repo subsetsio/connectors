@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-6ad35377-f8c2-461a-aab8-784ee9be1ab0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [area_code, local_authority, data_description, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [area_code, local_authority, data_description, year]
+  - kind: not_null
+    col: area_code
+  - kind: not_null
+    col: local_authority
+  - kind: not_null
+    col: data_description
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 368
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

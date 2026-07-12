@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statswales-bc054818-eaae-4505-b3ed-234c77ef14df`. Regenerate after model-verify.
+key: [area, year, bmi_group, mothers_weight_gain, data_description]
+temporal: year
+sort: [year, area, bmi_group, mothers_weight_gain, data_description]
+columns:
+  - name: data_values
+    type: DOUBLE
+  - name: data_description
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: area
+    type: VARCHAR
+  - name: mothers_weight_gain
+    type: VARCHAR
+  - name: bmi_group
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR

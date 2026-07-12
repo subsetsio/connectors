@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-99273abe-d554-4c80-8215-cb7dce1b89d7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sexual_orientation_of_the_head_of_household, data_description, time_period]
+checks:
+  - kind: unique
+    columns: [sexual_orientation_of_the_head_of_household, data_description, time_period]
+  - kind: not_null
+    col: sexual_orientation_of_the_head_of_household
+  - kind: not_null
+    col: data_description
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 18
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

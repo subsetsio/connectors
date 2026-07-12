@@ -1,11 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-organogram-of-staff-roles-salaries30092019`. Regenerate after model-verify.
+# caution: This organogram combines senior and junior staff resources; filter by source resource and grade-related fields before treating rows as a single staff-role population.
+key: [resource_id, row_index]
+temporal: resource_last_modified
+sort: [resource_last_modified, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR
   - name: resource_id
     type: VARCHAR
   - name: resource_last_modified
-    type: VARCHAR
+    type: TIMESTAMP
   - name: source_url
     type: VARCHAR
   - name: row_index
@@ -19,7 +24,7 @@ columns:
   - name: contact_phone
     type: VARCHAR
   - name: fte
-    type: VARCHAR
+    type: DOUBLE
   - name: generic_job_title
     type: VARCHAR
   - name: grade
@@ -35,7 +40,7 @@ columns:
   - name: notes
     type: VARCHAR
   - name: number_of_posts_in_fte
-    type: VARCHAR
+    type: DOUBLE
   - name: office_region
     type: VARCHAR
   - name: organisation
@@ -43,9 +48,9 @@ columns:
   - name: parent_department
     type: VARCHAR
   - name: payscale_maximum
-    type: VARCHAR
+    type: BIGINT
   - name: payscale_minimum
-    type: VARCHAR
+    type: BIGINT
   - name: post_unique_reference
     type: VARCHAR
   - name: professional_occupational_group
@@ -59,4 +64,4 @@ columns:
   - name: unit
     type: VARCHAR
   - name: valid
-    type: VARCHAR
+    type: DOUBLE

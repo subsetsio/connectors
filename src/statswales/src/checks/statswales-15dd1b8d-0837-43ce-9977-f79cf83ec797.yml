@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statswales-15dd1b8d-0837-43ce-9977-f79cf83ec797`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [data_values, welsh_index_of_multiple_deprivation_quintile, year, breastfeeding_status, data_description]
+temporal: year
+checks:
+  - kind: unique
+    columns: [data_values, welsh_index_of_multiple_deprivation_quintile, year, breastfeeding_status, data_description]
+  - kind: not_null
+    col: data_values
+  - kind: not_null
+    col: welsh_index_of_multiple_deprivation_quintile
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: breastfeeding_status
+  - kind: not_null
+    col: data_description
+  - kind: row_floor
+    min: 252
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

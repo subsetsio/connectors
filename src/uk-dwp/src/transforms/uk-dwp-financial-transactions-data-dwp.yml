@@ -1,17 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dwp-financial-transactions-data-dwp`. Regenerate after model-verify.
+# caution: Rows are unioned from monthly spend CSV resources whose supplier, amount, date, and identifier columns changed names over time; choose the relevant period-specific columns before summing spend.
+# caution: Use `resource_name` and `resource_last_modified` to identify the source period or file before aggregating.
+key: [resource_id, row_index]
+temporal: resource_last_modified
+sort: [resource_last_modified, resource_id, row_index]
 columns:
   - name: resource_name
     type: VARCHAR
   - name: resource_id
     type: VARCHAR
   - name: resource_last_modified
-    type: VARCHAR
+    type: TIMESTAMP
   - name: source_url
     type: VARCHAR
   - name: row_index
     type: BIGINT
   - name: account_code
-    type: VARCHAR
+    type: BIGINT
   - name: amount
     type: VARCHAR
   - name: cleansed_supplier
@@ -19,7 +25,7 @@ columns:
   - name: col_8
     type: VARCHAR
   - name: cost_centre
-    type: VARCHAR
+    type: BIGINT
   - name: date
     type: VARCHAR
   - name: department
