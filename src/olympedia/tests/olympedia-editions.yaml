@@ -1,5 +1,8 @@
 spec_id: olympedia-editions
 status: active
+coverage:
+  frozen: true
+  reason: Olympic editions are a historical schedule corpus; it changes only when Olympedia adds or revises Games records, not on a fixed freshness cadence.
 tests:
   - not_null: edition_id
   - column_type: {col: edition_id, type: integer}

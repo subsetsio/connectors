@@ -1,5 +1,8 @@
 spec_id: olympedia-medal-table-by-edition
 status: active
+coverage:
+  frozen: true
+  reason: Per-edition medal standings are historical Games results; the year column is an edition year, not a regular publication freshness timestamp.
 tests:
   - not_null: edition_id
   - not_null: noc_code
@@ -10,8 +13,8 @@ tests:
   - relationship: {left: total, op: ">=", right: gold}
     reason: per-edition NOC totals; total >= gold
     certainty: 95
-  - unique: [edition_id, noc_code]
-    reason: one medal row per (edition, NOC)
+  - unique: [edition_id, noc_code, category]
+    reason: medal rows are separated by edition, NOC, and Olympedia's category split
     certainty: 90
   - distinct_count: {col: edition_id, min: 30}
     reason: ~58 past editions have medal tables (future ones contribute no rows)

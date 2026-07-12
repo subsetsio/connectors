@@ -1,5 +1,8 @@
 spec_id: olympedia-olympic-records
 status: active
+coverage:
+  frozen: true
+  reason: Olympic record dates are event dates for standing records; they do not imply a scheduled source freshness cadence and may remain old until a record is broken.
 tests:
   - not_null: event
   - not_null: discipline_code
