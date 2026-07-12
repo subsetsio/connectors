@@ -1,0 +1,10 @@
+spec_id: tesouro-nacional-garantias-concedidas-em-operacoes-de-credito
+status: active
+tests:
+  - not_null: source_entity_id
+  - not_null: source_resource_id
+  - not_null: source_row_number
+  - column_type: {col: source_row_number, type: integer}
+  - row_count: {min: 1}
+    reason: each accepted CKAN package has at least one tabular resource; zero rows means the resource parser or source payload changed.
+    certainty: 85
