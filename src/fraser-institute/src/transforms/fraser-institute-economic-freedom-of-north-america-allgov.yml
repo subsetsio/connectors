@@ -1,30 +1,46 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, iso_code]
+temporal: year
+sort: [year, iso_code]
 columns:
   - name: year
     type: INTEGER
+    description: Report year for the Economic Freedom of North America all-government index observation.
   - name: country
     type: VARCHAR
+    description: North American country code for the jurisdiction.
   - name: state_province
     type: VARCHAR
+    description: Subnational jurisdiction name.
   - name: iso_code
     type: VARCHAR
+    description: ISO-style subnational jurisdiction code identifying the province, state, or Mexican state.
   - name: jurisdiction_type
     type: VARCHAR
+    description: Source jurisdiction type or grouping for the subnational observation.
   - name: economic_freedom_summary
     type: DOUBLE
+    description: Overall all-government Economic Freedom of North America score.
   - name: rank
     type: INTEGER
+    description: Rank of the jurisdiction in the all-government Economic Freedom of North America index for the year.
   - name: quintile
     type: INTEGER
+    description: Quintile grouping assigned by the source for the all-government index score.
   - name: government_spending
     type: DOUBLE
+    description: Area score for government spending.
   - name: taxes
     type: DOUBLE
+    description: Area score for taxes.
   - name: labor_market_freedom
     type: DOUBLE
+    description: Area score for labor market freedom.
   - name: legal_system_property_rights
     type: DOUBLE
+    description: Area score for legal system and property rights.
   - name: sound_money
     type: DOUBLE
+    description: Area score for sound money.
   - name: freedom_to_trade_internationally
     type: DOUBLE
+    description: Area score for freedom to trade internationally.

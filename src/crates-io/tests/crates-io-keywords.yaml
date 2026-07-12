@@ -15,3 +15,6 @@ tests:
   - column_type: {col: id, type: string}
   - column_type: {col: keyword, type: string}
   - column_type: {col: crates_cnt, type: string}
+  - freshness: {col: created_at, reaches: today - 30d}
+    reason: active registry keyword vocabulary should include newly created keywords in the last month
+    certainty: 85

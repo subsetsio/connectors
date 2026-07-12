@@ -1,5 +1,8 @@
 spec_id: crates-io-categories
 status: active
+coverage:
+  frozen: true
+  reason: crates.io categories are a slowly changing reference taxonomy; created_at is category creation metadata, not time-series coverage.
 tests:
   - row_count: {min: 20}
     reason: crates.io maintains a non-empty curated category taxonomy

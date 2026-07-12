@@ -1,34 +1,52 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, iso_code]
+temporal: year
+sort: [year, iso_code]
 columns:
   - name: year
     type: INTEGER
+    description: Report year for the Economic Freedom of the World observation.
   - name: country
     type: VARCHAR
+    description: Country name as published by the Fraser Institute.
   - name: iso_code
     type: VARCHAR
+    description: ISO3 country code identifying the country-year observation.
   - name: economic_freedom_summary
     type: DOUBLE
+    description: Overall Economic Freedom of the World summary score.
   - name: world_rank
     type: INTEGER
+    description: Country rank in the Economic Freedom of the World index for the year.
   - name: quartile
     type: INTEGER
+    description: Quartile grouping assigned by the source for the overall index score.
   - name: size_of_government
     type: DOUBLE
+    description: Area score for size of government.
   - name: size_of_government_rank
     type: INTEGER
+    description: Country rank for the size of government area.
   - name: legal_system_property_rights
     type: DOUBLE
+    description: Area score for legal system and property rights.
   - name: legal_system_property_rights_rank
     type: INTEGER
+    description: Country rank for the legal system and property rights area.
   - name: sound_money
     type: DOUBLE
+    description: Area score for sound money.
   - name: sound_money_rank
     type: INTEGER
+    description: Country rank for the sound money area.
   - name: freedom_to_trade_internationally
     type: DOUBLE
+    description: Area score for freedom to trade internationally.
   - name: freedom_to_trade_internationally_rank
     type: INTEGER
+    description: Country rank for the freedom to trade internationally area.
   - name: regulation
     type: DOUBLE
+    description: Area score for regulation.
   - name: regulation_rank
     type: INTEGER
+    description: Country rank for the regulation area.

@@ -14,7 +14,6 @@ year keys) are picked up for free. No auth, no documented rate limit.
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_ndjson,
@@ -71,79 +70,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=spec_id, fn=fetch_one, kind="download") for spec_id in ENDPOINTS
-]
-
-
-_EFW = "fraser-institute-economic-freedom-of-the-world"
-_ALLGOV = "fraser-institute-economic-freedom-of-north-america-allgov"
-_SUBNAT = "fraser-institute-economic-freedom-of-north-america-subnational"
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_EFW}-transform",
-        deps=[_EFW],
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)            AS year,
-                country,
-                iso_code,
-                TRY_CAST(summary_index AS DOUBLE) AS economic_freedom_summary,
-                TRY_CAST(rank AS INTEGER)         AS world_rank,
-                TRY_CAST(quartile AS INTEGER)     AS quartile,
-                TRY_CAST(area1 AS DOUBLE)         AS size_of_government,
-                TRY_CAST(area1rank AS INTEGER)    AS size_of_government_rank,
-                TRY_CAST(area2 AS DOUBLE)         AS legal_system_property_rights,
-                TRY_CAST(area2rank AS INTEGER)    AS legal_system_property_rights_rank,
-                TRY_CAST(area3 AS DOUBLE)         AS sound_money,
-                TRY_CAST(area3rank AS INTEGER)    AS sound_money_rank,
-                TRY_CAST(area4 AS DOUBLE)         AS freedom_to_trade_internationally,
-                TRY_CAST(area4rank AS INTEGER)    AS freedom_to_trade_internationally_rank,
-                TRY_CAST(area5 AS DOUBLE)         AS regulation,
-                TRY_CAST(area5rank AS INTEGER)    AS regulation_rank
-            FROM "{_EFW}"
-            WHERE iso_code IS NOT NULL AND iso_code <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_ALLGOV}-transform",
-        deps=[_ALLGOV],
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)            AS year,
-                country,
-                state_province,
-                iso_code,
-                type                              AS jurisdiction_type,
-                TRY_CAST(summary_index AS DOUBLE) AS economic_freedom_summary,
-                TRY_CAST(rank AS INTEGER)         AS rank,
-                TRY_CAST(quantile AS INTEGER)     AS quintile,
-                TRY_CAST(area1 AS DOUBLE)         AS government_spending,
-                TRY_CAST(area2 AS DOUBLE)         AS taxes,
-                TRY_CAST(area3 AS DOUBLE)         AS labor_market_freedom,
-                TRY_CAST(area4 AS DOUBLE)         AS legal_system_property_rights,
-                TRY_CAST(area5 AS DOUBLE)         AS sound_money,
-                TRY_CAST(area6 AS DOUBLE)         AS freedom_to_trade_internationally
-            FROM "{_ALLGOV}"
-            WHERE iso_code IS NOT NULL AND iso_code <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_SUBNAT}-transform",
-        deps=[_SUBNAT],
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)            AS year,
-                country,
-                state_province,
-                iso_code,
-                TRY_CAST(summary_index AS DOUBLE) AS economic_freedom_summary,
-                TRY_CAST(rank AS INTEGER)         AS rank,
-                TRY_CAST(quantile AS INTEGER)     AS quintile,
-                TRY_CAST(area1 AS DOUBLE)         AS government_spending,
-                TRY_CAST(area2 AS DOUBLE)         AS taxes,
-                TRY_CAST(area3 AS DOUBLE)         AS labor_market_freedom
-            FROM "{_SUBNAT}"
-            WHERE iso_code IS NOT NULL AND iso_code <> ''
-        ''',
-    ),
 ]
