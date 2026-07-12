@@ -1,19 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `comparative-constitutions-project-constitutions`. Regenerate after model-verify.
+# caution: Rows describe constitutional texts in the Constitute corpus and can include current, historic, and draft texts; filter the status and in-force fields for current-law analysis.
+key: [id]
+temporal: date_drafted
+sort: [date_drafted, id]
 columns:
-  - name: id
+  - name: copyright
     type: VARCHAR
   - name: country
     type: VARCHAR
   - name: country_id
     type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: title
-    type: VARCHAR
-  - name: title_long
-    type: VARCHAR
-  - name: title_short
-    type: VARCHAR
   - name: date_drafted
+    type: DATE
+  - name: id
     type: VARCHAR
   - name: in_force
     type: BOOLEAN
@@ -23,23 +23,39 @@ columns:
     type: BOOLEAN
   - name: public
     type: BOOLEAN
+  - name: region
+    type: VARCHAR
   - name: show
     type: BOOLEAN
+  - name: title
+    type: VARCHAR
+  - name: title_long
+    type: VARCHAR
+  - name: title_short
+    type: VARCHAR
   - name: translator
     type: VARCHAR
   - name: update_needed
     type: BOOLEAN
   - name: word_length
-    type: INTEGER
+    type: BIGINT
   - name: word_rank
-    type: INTEGER
+    type: BIGINT
+  - name: year_drafted
+    type: BIGINT
   - name: year_enacted
-    type: INTEGER
+    type: BIGINT
+  - name: year_reinstated
+    type: BIGINT
+  - name: year_revised
+    type: BIGINT
   - name: year_to
-    type: INTEGER
+    type: BIGINT
+  - name: year_updated
+    type: BIGINT
+  - name: years_amended
+    type: BIGINT
   - name: years_in_force
-    type: INTEGER
-  - name: years_since_last_amended
-    type: INTEGER
-  - name: copyright
+    type: HUGEINT
+  - name: language
     type: VARCHAR

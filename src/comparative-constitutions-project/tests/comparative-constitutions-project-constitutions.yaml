@@ -24,3 +24,7 @@ tests:
     reason: a constitution's end-year falls within the modern constitutional era
     certainty: 75
     severity: warn
+  - freshness: {col: date_drafted, reaches: today - 3y}
+    reason: the Constitute metadata API includes current constitutional records; at least one drafted date should be recent within a multi-year slack window
+    certainty: 75
+    points_outward: true

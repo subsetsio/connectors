@@ -9,11 +9,11 @@ tests:
   - not_null: year
     reason: the panel is keyed by country-year; year is the time axis
     certainty: 95
-  - column_type: {col: year, type: integer}
-    reason: transform TRY_CASTs the year key to INTEGER
+  - column_type: {col: year, type: string}
+    reason: raw CCP CSV columns are preserved as strings; the transform casts the year key to BIGINT
     certainty: 90
-  - column_type: {col: cowcode, type: integer}
-    reason: transform TRY_CASTs the cowcode key to INTEGER
+  - column_type: {col: cowcode, type: string}
+    reason: raw CCP CSV columns are preserved as strings; the transform casts cowcode to BIGINT
     certainty: 80
   - row_count: {min: 12000}
     reason: CNC v5 ships ~21.7k country-year rows; well above any plausible floor
@@ -24,3 +24,7 @@ tests:
   - distinct_count: {col: year, min: 150}
     reason: 1789-present yields ~235 distinct years of constitutional history
     certainty: 85
+  - freshness: {col: year, reaches: 2023}
+    reason: CCP-CNC v5 is a versioned country-year panel release documented through 2023; a lower max year means the current bulk file regressed or an older release was fetched
+    certainty: 90
+    points_outward: true

@@ -5,7 +5,7 @@ coverage:
   reason: the Chartbook is a fixed 2017 academic replication corpus rather than a continuously updated feed
 tests:
   - not_null: country
-    reason: every observation belongs to one of the 25 covered countries
+    reason: every observation belongs to one of the country labels in the released Chartbook grid
     certainty: 95
   - not_null: year
     reason: long-format file always carries a year per row
@@ -17,8 +17,8 @@ tests:
     certainty: 85
     points_outward: true
     severity: warn
-  - distinct_count: {col: country, min: 25, max: 25}
-    reason: the Chartbook documents exactly 25 countries
+  - distinct_count: {col: country, min: 27, max: 27}
+    reason: the released Chartbook grid currently carries 27 country labels
     certainty: 90
   - enum:
       col: dimension

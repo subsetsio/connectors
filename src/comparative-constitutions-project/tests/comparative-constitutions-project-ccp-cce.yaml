@@ -8,10 +8,11 @@ tests:
   - not_null: year
     reason: every event row is stamped with the year it occurred
     certainty: 95
-  - column_type: {col: year, type: integer}
-    reason: transform TRY_CASTs the year key to INTEGER
+  - column_type: {col: year, type: string}
+    reason: raw CCP CSV columns are preserved as strings; the transform casts the year key to BIGINT
     certainty: 90
-  - column_type: {col: cowcode, type: integer}
+  - column_type: {col: cowcode, type: string}
+    reason: raw CCP CSV columns are preserved as strings; the transform casts cowcode to BIGINT
     certainty: 80
   - row_count: {min: 8000}
     reason: CCE v6 ships ~20.6k event rows (non-event/amendment/new/...); floor well below that
@@ -23,4 +24,8 @@ tests:
     reason: most rows carry an event type, but a minority are blank placeholders
     certainty: 55
     severity: warn
+    points_outward: true
+  - freshness: {col: year, reaches: 2025}
+    reason: CCP-CCE v6 is a versioned chronology release documented as updated through 2025; a lower max year means the current bulk file regressed or an older release was fetched
+    certainty: 90
     points_outward: true

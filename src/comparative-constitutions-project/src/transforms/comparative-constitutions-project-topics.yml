@@ -1,13 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `comparative-constitutions-project-topics`. Regenerate after model-verify.
+key: [key]
+sort: [key]
 columns:
-  - name: key
-    type: VARCHAR
-  - name: label
-    type: VARCHAR
+  - name: count
+    type: BIGINT
   - name: description
     type: VARCHAR
-  - name: count
-    type: INTEGER
+  - name: key
+    type: VARCHAR
   - name: keywords
-    type: VARCHAR[]
+    type: "JSON[]"
+  - name: label
+    type: VARCHAR
   - name: topics
-    type: JSON
+    type: "STRUCT(count BIGINT, description VARCHAR, \"key\" VARCHAR, keywords VARCHAR[], \"label\" VARCHAR, topics STRUCT(count BIGINT, description VARCHAR, \"key\" VARCHAR, keywords VARCHAR[], \"label\" VARCHAR, topics JSON[])[])[]"

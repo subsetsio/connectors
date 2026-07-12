@@ -1,129 +1,134 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `comparative-constitutions-project-ccp-cnc`. Regenerate after model-verify.
+# caution: This is a wide coded panel with many constitutional-characteristic variables; rows are distinguished by country, year, event type, and weighting group, so do not treat country-year alone as unique.
+key: [year, cowcode, country, evnttype, wg]
+temporal: year
+sort: [year, cowcode, country, evnttype, wg]
 columns:
   - name: cowcode
-    type: INTEGER
+    type: BIGINT
   - name: country
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: wg
-    type: VARCHAR
+    type: BIGINT
   - name: sample_deviation_type
-    type: VARCHAR
+    type: BIGINT
   - name: syst
-    type: VARCHAR
+    type: BIGINT
   - name: systid
-    type: VARCHAR
+    type: BIGINT
   - name: systyear
-    type: VARCHAR
+    type: BIGINT
   - name: evnt
-    type: VARCHAR
+    type: BIGINT
   - name: evntid
-    type: VARCHAR
+    type: BIGINT
   - name: evntyear
-    type: VARCHAR
+    type: BIGINT
   - name: evnttype
-    type: VARCHAR
+    type: BIGINT
   - name: multiple
-    type: VARCHAR
+    type: BIGINT
   - name: c_inforce
-    type: VARCHAR
+    type: BIGINT
   - name: coding_available
-    type: VARCHAR
+    type: BIGINT
   - name: coding_imputed
-    type: VARCHAR
+    type: BIGINT
   - name: imputed_evntid
-    type: VARCHAR
+    type: BIGINT
   - name: imputed_evntyear
-    type: VARCHAR
+    type: BIGINT
   - name: imputation_type
-    type: VARCHAR
+    type: BIGINT
   - name: source
-    type: VARCHAR
+    type: BIGINT
   - name: source_article
     type: VARCHAR
   - name: source_comments
     type: VARCHAR
   - name: langsrce
-    type: VARCHAR
+    type: BIGINT
   - name: langsrce_article
     type: VARCHAR
   - name: langsrce_comments
     type: VARCHAR
   - name: translat
-    type: VARCHAR
+    type: BIGINT
   - name: translat_article
     type: VARCHAR
   - name: translat_comments
     type: VARCHAR
   - name: doctit
-    type: VARCHAR
+    type: BIGINT
   - name: doctit_article
     type: VARCHAR
   - name: doctit_comments
     type: VARCHAR
   - name: model
-    type: VARCHAR
+    type: BIGINT
   - name: model_article
     type: VARCHAR
   - name: model_comments
     type: VARCHAR
   - name: length
-    type: VARCHAR
+    type: BIGINT
   - name: length_article
     type: VARCHAR
   - name: length_comments
     type: VARCHAR
   - name: docs
-    type: VARCHAR
+    type: BIGINT
   - name: docs_article
     type: VARCHAR
   - name: docs_comments
     type: VARCHAR
   - name: tranprov
-    type: VARCHAR
+    type: BIGINT
   - name: tranprov_article
     type: VARCHAR
   - name: tranprov_comments
     type: VARCHAR
   - name: preamble
-    type: VARCHAR
+    type: BIGINT
   - name: preamble_article
     type: VARCHAR
   - name: preamble_comments
     type: VARCHAR
   - name: preambw
-    type: VARCHAR
+    type: BIGINT
   - name: preambw_article
     type: VARCHAR
   - name: preambw_comments
     type: VARCHAR
   - name: rightsw
-    type: VARCHAR
+    type: BIGINT
   - name: rightsw_article
     type: VARCHAR
   - name: rightsw_comments
     type: VARCHAR
   - name: rghtwrds
-    type: VARCHAR
+    type: BIGINT
   - name: rghtwrds_article
     type: VARCHAR
   - name: rghtwrds_comments
     type: VARCHAR
   - name: colony
-    type: VARCHAR
+    type: BIGINT
   - name: colony_article
     type: VARCHAR
   - name: colony_comments
     type: VARCHAR
   - name: colrule
-    type: VARCHAR
+    type: BIGINT
   - name: colrule_article
     type: VARCHAR
   - name: colrule_comments
     type: VARCHAR
   - name: indcon
-    type: VARCHAR
+    type: BIGINT
   - name: indcon_article
     type: VARCHAR
   - name: indcon_comments
@@ -133,7 +138,7 @@ columns:
   - name: region_comments
     type: VARCHAR
   - name: region
-    type: VARCHAR
+    type: BIGINT
   - name: regions
     type: VARCHAR
   - name: regions_article
@@ -141,227 +146,227 @@ columns:
   - name: regions_comments
     type: VARCHAR
   - name: prevcond
-    type: VARCHAR
+    type: BIGINT
   - name: prevcond_article
     type: VARCHAR
   - name: prevcond_comments
     type: VARCHAR
   - name: truthcom
-    type: VARCHAR
+    type: BIGINT
   - name: truthcom_article
     type: VARCHAR
   - name: truthcom_comments
     type: VARCHAR
   - name: prevlead
-    type: VARCHAR
+    type: BIGINT
   - name: prevlead_article
     type: VARCHAR
   - name: prevlead_comments
     type: VARCHAR
   - name: democ
-    type: VARCHAR
+    type: BIGINT
   - name: democ_article
     type: VARCHAR
   - name: democ_comments
     type: VARCHAR
   - name: demonum
-    type: VARCHAR
+    type: BIGINT
   - name: demonum_article
     type: VARCHAR
   - name: demonum_comments
     type: VARCHAR
   - name: oath
-    type: VARCHAR
+    type: BIGINT
   - name: oath_article
     type: VARCHAR
   - name: oath_comments
     type: VARCHAR
   - name: socialsm
-    type: VARCHAR
+    type: BIGINT
   - name: socialsm_article
     type: VARCHAR
   - name: socialsm_comments
     type: VARCHAR
   - name: market
-    type: VARCHAR
+    type: BIGINT
   - name: market_article
     type: VARCHAR
   - name: market_comments
     type: VARCHAR
   - name: forinves
-    type: VARCHAR
+    type: BIGINT
   - name: forinves_article
     type: VARCHAR
   - name: forinves_comments
     type: VARCHAR
   - name: fortrad
-    type: VARCHAR
+    type: BIGINT
   - name: fortrad_article
     type: VARCHAR
   - name: fortrad_comments
     type: VARCHAR
   - name: dignity
-    type: VARCHAR
+    type: BIGINT
   - name: dignity_article
     type: VARCHAR
   - name: dignity_comments
     type: VARCHAR
   - name: god
-    type: VARCHAR
+    type: BIGINT
   - name: god_article
     type: VARCHAR
   - name: god_comments
     type: VARCHAR
   - name: figures
-    type: VARCHAR
+    type: BIGINT
   - name: figures_article
     type: VARCHAR
   - name: figures_comments
     type: VARCHAR
   - name: solid
-    type: VARCHAR
+    type: BIGINT
   - name: solid_article
     type: VARCHAR
   - name: solid_comments
     type: VARCHAR
   - name: overthrw
-    type: VARCHAR
+    type: BIGINT
   - name: overthrw_article
     type: VARCHAR
   - name: overthrw_comments
     type: VARCHAR
   - name: terr
-    type: VARCHAR
+    type: BIGINT
   - name: terr_article
     type: VARCHAR
   - name: terr_comments
     type: VARCHAR
   - name: capital
-    type: VARCHAR
+    type: BIGINT
   - name: capital_article
     type: VARCHAR
   - name: capital_comments
     type: VARCHAR
   - name: anthem
-    type: VARCHAR
+    type: BIGINT
   - name: anthem_article
     type: VARCHAR
   - name: anthem_comments
     type: VARCHAR
   - name: flag
-    type: VARCHAR
+    type: BIGINT
   - name: flag_article
     type: VARCHAR
   - name: flag_comments
     type: VARCHAR
   - name: motto
-    type: VARCHAR
+    type: BIGINT
   - name: motto_article
     type: VARCHAR
   - name: motto_comments
     type: VARCHAR
   - name: amend
-    type: VARCHAR
+    type: BIGINT
   - name: amend_article
     type: VARCHAR
   - name: amend_comments
     type: VARCHAR
   - name: unamend
-    type: VARCHAR
+    type: BIGINT
   - name: unamend_article
     type: VARCHAR
   - name: unamend_comments
     type: VARCHAR
   - name: amndprop_1
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_2
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_3
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_4
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_5
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_6
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_7
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_8
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_9
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_10
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_96
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_98
-    type: VARCHAR
+    type: BIGINT
   - name: amndprop_article
     type: VARCHAR
   - name: amndprop_comments
     type: VARCHAR
   - name: amndappr_1
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_2
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_3
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_4
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_5
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_6
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_7
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_8
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_96
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_98
-    type: VARCHAR
+    type: BIGINT
   - name: amndappr_article
     type: VARCHAR
   - name: amndappr_comments
     type: VARCHAR
   - name: amndamaj
-    type: VARCHAR
+    type: BIGINT
   - name: amndamaj_article
     type: VARCHAR
   - name: amndamaj_comments
     type: VARCHAR
   - name: amndapct
-    type: VARCHAR
+    type: BIGINT
   - name: amndapct_article
     type: VARCHAR
   - name: amndapct_comments
     type: VARCHAR
   - name: execindp
-    type: VARCHAR
+    type: BIGINT
   - name: execindp_article
     type: VARCHAR
   - name: execindp_comments
     type: VARCHAR
   - name: execnum
-    type: VARCHAR
+    type: BIGINT
   - name: execnum_article
     type: VARCHAR
   - name: execnum_comments
     type: VARCHAR
   - name: hoshog
-    type: VARCHAR
+    type: BIGINT
   - name: hoshog_article
     type: VARCHAR
   - name: hoshog_comments
     type: VARCHAR
   - name: hosid
-    type: VARCHAR
+    type: BIGINT
   - name: hosid_article
     type: VARCHAR
   - name: hosid_comments
     type: VARCHAR
   - name: hogid
-    type: VARCHAR
+    type: BIGINT
   - name: hogid_article
     type: VARCHAR
   - name: hogid_comments
@@ -373,13 +378,13 @@ columns:
   - name: hosname_comments
     type: VARCHAR
   - name: hoselect
-    type: VARCHAR
+    type: BIGINT
   - name: hoselect_article
     type: VARCHAR
   - name: hoselect_comments
     type: VARCHAR
   - name: hoselsys
-    type: VARCHAR
+    type: BIGINT
   - name: hoselsys_article
     type: VARCHAR
   - name: hoselsys_comments
@@ -391,183 +396,183 @@ columns:
   - name: hosterm_comments
     type: VARCHAR
   - name: hosterml
-    type: VARCHAR
+    type: BIGINT
   - name: hosterml_article
     type: VARCHAR
   - name: hosterml_comments
     type: VARCHAR
   - name: hosage
-    type: VARCHAR
+    type: BIGINT
   - name: hosage_article
     type: VARCHAR
   - name: hosage_comments
     type: VARCHAR
   - name: hosrest_1
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_2
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_3
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_4
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_5
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_6
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_7
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_8
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_9
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_10
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_11
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_90
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_96
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_98
-    type: VARCHAR
+    type: BIGINT
   - name: hosrest_article
     type: VARCHAR
   - name: hosrest_comments
     type: VARCHAR
   - name: hosdiss
-    type: VARCHAR
+    type: BIGINT
   - name: hosdiss_article
     type: VARCHAR
   - name: hosdiss_comments
     type: VARCHAR
   - name: hosdcond_1
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_2
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_3
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_4
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_5
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_90
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_96
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_98
-    type: VARCHAR
+    type: BIGINT
   - name: hosdcond_article
     type: VARCHAR
   - name: hosdcond_comments
     type: VARCHAR
   - name: hospdiss_1
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_2
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_3
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_4
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_5
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_6
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_7
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_8
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_9
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_90
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_96
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_98
-    type: VARCHAR
+    type: BIGINT
   - name: hospdiss_article
     type: VARCHAR
   - name: hospdiss_comments
     type: VARCHAR
   - name: hosadiss_1
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_2
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_3
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_4
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_5
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_6
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_7
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_8
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_9
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_10
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_90
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_96
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_98
-    type: VARCHAR
+    type: BIGINT
   - name: hosadiss_article
     type: VARCHAR
   - name: hosadiss_comments
     type: VARCHAR
   - name: hossucc
-    type: VARCHAR
+    type: BIGINT
   - name: hossucc_article
     type: VARCHAR
   - name: hossucc_comments
     type: VARCHAR
   - name: hosimm
-    type: VARCHAR
+    type: BIGINT
   - name: hosimm_article
     type: VARCHAR
   - name: hosimm_comments
     type: VARCHAR
   - name: hosstaff
-    type: VARCHAR
+    type: BIGINT
   - name: hosstaff_article
     type: VARCHAR
   - name: hosstaff_comments
     type: VARCHAR
   - name: hosdec
-    type: VARCHAR
+    type: BIGINT
   - name: hosdec_article
     type: VARCHAR
   - name: hosdec_comments
     type: VARCHAR
   - name: hosdecim
-    type: VARCHAR
+    type: BIGINT
   - name: hosdecim_article
     type: VARCHAR
   - name: hosdecim_comments
     type: VARCHAR
   - name: hosdecex
-    type: VARCHAR
+    type: BIGINT
   - name: hosdecex_article
     type: VARCHAR
   - name: hosdecex_comments
     type: VARCHAR
   - name: hospard
-    type: VARCHAR
+    type: BIGINT
   - name: hospard_article
     type: VARCHAR
   - name: hospard_comments
     type: VARCHAR
   - name: hogname
-    type: VARCHAR
+    type: BIGINT
   - name: hogname_article
     type: VARCHAR
   - name: hogname_comments
     type: VARCHAR
   - name: hogelect
-    type: VARCHAR
+    type: BIGINT
   - name: hogelect_article
     type: VARCHAR
   - name: hogelect_comments
@@ -579,173 +584,173 @@ columns:
   - name: hogterm_comments
     type: VARCHAR
   - name: hogterml
-    type: VARCHAR
+    type: BIGINT
   - name: hogterml_article
     type: VARCHAR
   - name: hogterml_comments
     type: VARCHAR
   - name: hogage
-    type: VARCHAR
+    type: BIGINT
   - name: hogage_article
     type: VARCHAR
   - name: hogage_comments
     type: VARCHAR
   - name: hoglegr
-    type: VARCHAR
+    type: BIGINT
   - name: hoglegr_article
     type: VARCHAR
   - name: hoglegr_comments
     type: VARCHAR
   - name: hogrest_1
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_2
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_3
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_4
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_5
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_6
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_7
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_8
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_9
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_10
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_11
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_90
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_96
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_98
-    type: VARCHAR
+    type: BIGINT
   - name: hogrest_article
     type: VARCHAR
   - name: hogrest_comments
     type: VARCHAR
   - name: hogdiss
-    type: VARCHAR
+    type: BIGINT
   - name: hogdiss_article
     type: VARCHAR
   - name: hogdiss_comments
     type: VARCHAR
   - name: hogdcond_1
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_2
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_3
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_4
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_5
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_90
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_96
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_98
-    type: VARCHAR
+    type: BIGINT
   - name: hogdcond_article
     type: VARCHAR
   - name: hogdcond_comments
     type: VARCHAR
   - name: hogpdiss_1
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_2
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_3
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_4
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_5
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_6
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_7
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_8
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_9
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_90
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_96
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_98
-    type: VARCHAR
+    type: BIGINT
   - name: hogpdiss_article
     type: VARCHAR
   - name: hogpdiss_comments
     type: VARCHAR
   - name: hogadiss_1
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_2
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_3
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_4
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_5
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_6
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_7
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_8
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_90
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_96
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_98
-    type: VARCHAR
+    type: BIGINT
   - name: hogadiss_article
     type: VARCHAR
   - name: hogadiss_comments
     type: VARCHAR
   - name: hogsucc
-    type: VARCHAR
+    type: BIGINT
   - name: hogsucc_article
     type: VARCHAR
   - name: hogsucc_comments
     type: VARCHAR
   - name: hogimm
-    type: VARCHAR
+    type: BIGINT
   - name: hogimm_article
     type: VARCHAR
   - name: hogimm_comments
     type: VARCHAR
   - name: hogdec
-    type: VARCHAR
+    type: BIGINT
   - name: hogdec_article
     type: VARCHAR
   - name: hogdec_comments
     type: VARCHAR
   - name: hogdecim
-    type: VARCHAR
+    type: BIGINT
   - name: hogdecim_article
     type: VARCHAR
   - name: hogdecim_comments
     type: VARCHAR
   - name: hogdecex
-    type: VARCHAR
+    type: BIGINT
   - name: hogdecex_article
     type: VARCHAR
   - name: hogdecex_comments
     type: VARCHAR
   - name: hogpard
-    type: VARCHAR
+    type: BIGINT
   - name: hogpard_article
     type: VARCHAR
   - name: hogpard_comments
     type: VARCHAR
   - name: depexec
-    type: VARCHAR
+    type: BIGINT
   - name: depexec_article
     type: VARCHAR
   - name: depexec_comments
@@ -757,231 +762,231 @@ columns:
   - name: depname_comments
     type: VARCHAR
   - name: depsel
-    type: VARCHAR
+    type: BIGINT
   - name: depsel_article
     type: VARCHAR
   - name: depsel_comments
     type: VARCHAR
   - name: depnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: depnom_article
     type: VARCHAR
   - name: depnom_comments
     type: VARCHAR
   - name: depapp_1
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_2
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_3
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_4
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_5
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_6
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_7
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_90
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_96
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_98
-    type: VARCHAR
+    type: BIGINT
   - name: depapp_article
     type: VARCHAR
   - name: depapp_comments
     type: VARCHAR
   - name: cabinet
-    type: VARCHAR
+    type: BIGINT
   - name: cabinet_article
     type: VARCHAR
   - name: cabinet_comments
     type: VARCHAR
   - name: cabappt_1
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_2
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_3
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_4
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_5
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_90
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_96
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_98
-    type: VARCHAR
+    type: BIGINT
   - name: cabappt_article
     type: VARCHAR
   - name: cabappt_comments
     type: VARCHAR
   - name: cabappr_1
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_2
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_3
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_4
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_5
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_6
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_7
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_90
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_96
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_98
-    type: VARCHAR
+    type: BIGINT
   - name: cabappr_article
     type: VARCHAR
   - name: cabappr_comments
     type: VARCHAR
   - name: cabcoll
-    type: VARCHAR
+    type: BIGINT
   - name: cabcoll_article
     type: VARCHAR
   - name: cabcoll_comments
     type: VARCHAR
   - name: cabdiss_1
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_2
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_3
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_4
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_5
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_6
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_7
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_8
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_90
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_96
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_98
-    type: VARCHAR
+    type: BIGINT
   - name: cabdiss_article
     type: VARCHAR
   - name: cabdiss_comments
     type: VARCHAR
   - name: cabage
-    type: VARCHAR
+    type: BIGINT
   - name: cabage_article
     type: VARCHAR
   - name: cabage_comments
     type: VARCHAR
   - name: cabrestl
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestl_article
     type: VARCHAR
   - name: cabrestl_comments
     type: VARCHAR
   - name: cabrestm_1
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_2
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_3
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_4
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_5
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_6
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_7
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_8
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_9
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_90
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_96
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_98
-    type: VARCHAR
+    type: BIGINT
   - name: cabrestm_article
     type: VARCHAR
   - name: cabrestm_comments
     type: VARCHAR
   - name: atgen
-    type: VARCHAR
+    type: BIGINT
   - name: atgen_article
     type: VARCHAR
   - name: atgen_comments
     type: VARCHAR
   - name: agnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: agnom_article
     type: VARCHAR
   - name: agnom_comments
     type: VARCHAR
   - name: agap_1
-    type: VARCHAR
+    type: BIGINT
   - name: agap_2
-    type: VARCHAR
+    type: BIGINT
   - name: agap_3
-    type: VARCHAR
+    type: BIGINT
   - name: agap_4
-    type: VARCHAR
+    type: BIGINT
   - name: agap_5
-    type: VARCHAR
+    type: BIGINT
   - name: agap_6
-    type: VARCHAR
+    type: BIGINT
   - name: agap_7
-    type: VARCHAR
+    type: BIGINT
   - name: agap_90
-    type: VARCHAR
+    type: BIGINT
   - name: agap_96
-    type: VARCHAR
+    type: BIGINT
   - name: agap_98
-    type: VARCHAR
+    type: BIGINT
   - name: agap_article
     type: VARCHAR
   - name: agap_comments
@@ -993,145 +998,145 @@ columns:
   - name: agterm_comments
     type: VARCHAR
   - name: agterml
-    type: VARCHAR
+    type: BIGINT
   - name: agterml_article
     type: VARCHAR
   - name: agterml_comments
     type: VARCHAR
   - name: agage
-    type: VARCHAR
+    type: BIGINT
   - name: agage_article
     type: VARCHAR
   - name: agage_comments
     type: VARCHAR
   - name: agres_1
-    type: VARCHAR
+    type: BIGINT
   - name: agres_2
-    type: VARCHAR
+    type: BIGINT
   - name: agres_3
-    type: VARCHAR
+    type: BIGINT
   - name: agres_4
-    type: VARCHAR
+    type: BIGINT
   - name: agres_5
-    type: VARCHAR
+    type: BIGINT
   - name: agres_6
-    type: VARCHAR
+    type: BIGINT
   - name: agres_7
-    type: VARCHAR
+    type: BIGINT
   - name: agres_8
-    type: VARCHAR
+    type: BIGINT
   - name: agres_9
-    type: VARCHAR
+    type: BIGINT
   - name: agres_90
-    type: VARCHAR
+    type: BIGINT
   - name: agres_96
-    type: VARCHAR
+    type: BIGINT
   - name: agres_98
-    type: VARCHAR
+    type: BIGINT
   - name: agres_article
     type: VARCHAR
   - name: agres_comments
     type: VARCHAR
   - name: em
-    type: VARCHAR
+    type: BIGINT
   - name: em_article
     type: VARCHAR
   - name: em_comments
     type: VARCHAR
   - name: emdecl
-    type: VARCHAR
+    type: BIGINT
   - name: emdecl_article
     type: VARCHAR
   - name: emdecl_comments
     type: VARCHAR
   - name: emappr_1
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_2
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_3
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_4
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_5
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_6
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_7
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_8
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_90
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_96
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_98
-    type: VARCHAR
+    type: BIGINT
   - name: emappr_article
     type: VARCHAR
   - name: emappr_comments
     type: VARCHAR
   - name: emcond_1
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_2
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_3
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_4
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_5
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_6
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_90
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_96
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_98
-    type: VARCHAR
+    type: BIGINT
   - name: emcond_article
     type: VARCHAR
   - name: emcond_comments
     type: VARCHAR
   - name: emrights
-    type: VARCHAR
+    type: BIGINT
   - name: emrights_article
     type: VARCHAR
   - name: emrights_comments
     type: VARCHAR
   - name: emother_1
-    type: VARCHAR
+    type: BIGINT
   - name: emother_2
-    type: VARCHAR
+    type: BIGINT
   - name: emother_3
-    type: VARCHAR
+    type: BIGINT
   - name: emother_4
-    type: VARCHAR
+    type: BIGINT
   - name: emother_5
-    type: VARCHAR
+    type: BIGINT
   - name: emother_90
-    type: VARCHAR
+    type: BIGINT
   - name: emother_96
-    type: VARCHAR
+    type: BIGINT
   - name: emother_98
-    type: VARCHAR
+    type: BIGINT
   - name: emother_article
     type: VARCHAR
   - name: emother_comments
     type: VARCHAR
   - name: legisl
-    type: VARCHAR
+    type: BIGINT
   - name: legisl_article
     type: VARCHAR
   - name: legisl_comments
     type: VARCHAR
   - name: housenum
-    type: VARCHAR
+    type: BIGINT
   - name: housenum_article
     type: VARCHAR
   - name: housenum_comments
     type: VARCHAR
   - name: legjoint
-    type: VARCHAR
+    type: BIGINT
   - name: legjoint_article
     type: VARCHAR
   - name: legjoint_comments
@@ -1143,7 +1148,7 @@ columns:
   - name: lhname_comments
     type: VARCHAR
   - name: lhlead
-    type: VARCHAR
+    type: BIGINT
   - name: lhlead_article
     type: VARCHAR
   - name: lhlead_comments
@@ -1155,105 +1160,105 @@ columns:
   - name: lhseats_comments
     type: VARCHAR
   - name: lhlegis
-    type: VARCHAR
+    type: BIGINT
   - name: lhlegis_article
     type: VARCHAR
   - name: lhlegis_comments
     type: VARCHAR
   - name: lhselect_1
-    type: VARCHAR
+    type: BIGINT
   - name: lhselect_2
-    type: VARCHAR
+    type: BIGINT
   - name: lhselect_3
-    type: VARCHAR
+    type: BIGINT
   - name: lhselect_90
-    type: VARCHAR
+    type: BIGINT
   - name: lhselect_96
-    type: VARCHAR
+    type: BIGINT
   - name: lhselect_98
-    type: VARCHAR
+    type: BIGINT
   - name: lhselect_article
     type: VARCHAR
   - name: lhselect_comments
     type: VARCHAR
   - name: lhcohort
-    type: VARCHAR
+    type: BIGINT
   - name: lhcohort_article
     type: VARCHAR
   - name: lhcohort_comments
     type: VARCHAR
   - name: lhelsys
-    type: VARCHAR
+    type: BIGINT
   - name: lhelsys_article
     type: VARCHAR
   - name: lhelsys_comments
     type: VARCHAR
   - name: lhage
-    type: VARCHAR
+    type: BIGINT
   - name: lhage_article
     type: VARCHAR
   - name: lhage_comments
     type: VARCHAR
   - name: lhrest_1
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_2
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_3
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_4
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_5
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_6
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_7
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_8
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_9
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_90
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_96
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_98
-    type: VARCHAR
+    type: BIGINT
   - name: lhrest_article
     type: VARCHAR
   - name: lhrest_comments
     type: VARCHAR
   - name: lhterm
-    type: VARCHAR
+    type: BIGINT
   - name: lhterm_article
     type: VARCHAR
   - name: lhterm_comments
     type: VARCHAR
   - name: lhtrmlim
-    type: VARCHAR
+    type: BIGINT
   - name: lhtrmlim_article
     type: VARCHAR
   - name: lhtrmlim_comments
     type: VARCHAR
   - name: lhquota
-    type: VARCHAR
+    type: BIGINT
   - name: lhquota_article
     type: VARCHAR
   - name: lhquota_comments
     type: VARCHAR
   - name: lhquotad_1
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_2
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_3
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_4
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_5
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_96
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_98
-    type: VARCHAR
+    type: BIGINT
   - name: lhquotad_article
     type: VARCHAR
   - name: lhquotad_comments
@@ -1265,7 +1270,7 @@ columns:
   - name: uhname_comments
     type: VARCHAR
   - name: uhlead
-    type: VARCHAR
+    type: BIGINT
   - name: uhlead_article
     type: VARCHAR
   - name: uhlead_comments
@@ -1277,69 +1282,69 @@ columns:
   - name: uhseats_comments
     type: VARCHAR
   - name: uhlegisl
-    type: VARCHAR
+    type: BIGINT
   - name: uhlegisl_article
     type: VARCHAR
   - name: uhlegisl_comments
     type: VARCHAR
   - name: uhselect_1
-    type: VARCHAR
+    type: BIGINT
   - name: uhselect_2
-    type: VARCHAR
+    type: BIGINT
   - name: uhselect_3
-    type: VARCHAR
+    type: BIGINT
   - name: uhselect_90
-    type: VARCHAR
+    type: BIGINT
   - name: uhselect_96
-    type: VARCHAR
+    type: BIGINT
   - name: uhselect_98
-    type: VARCHAR
+    type: BIGINT
   - name: uhselect_article
     type: VARCHAR
   - name: uhselect_comments
     type: VARCHAR
   - name: uhcohort
-    type: VARCHAR
+    type: BIGINT
   - name: uhcohort_article
     type: VARCHAR
   - name: uhcohort_comments
     type: VARCHAR
   - name: uhelsys
-    type: VARCHAR
+    type: BIGINT
   - name: uhelsys_article
     type: VARCHAR
   - name: uhelsys_comments
     type: VARCHAR
   - name: uhage
-    type: VARCHAR
+    type: BIGINT
   - name: uhage_article
     type: VARCHAR
   - name: uhage_comments
     type: VARCHAR
   - name: uhrest_1
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_2
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_3
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_4
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_5
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_6
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_7
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_8
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_9
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_90
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_96
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_98
-    type: VARCHAR
+    type: BIGINT
   - name: uhrest_article
     type: VARCHAR
   - name: uhrest_comments
@@ -1351,261 +1356,261 @@ columns:
   - name: uhterm_comments
     type: VARCHAR
   - name: uhtrmlim
-    type: VARCHAR
+    type: BIGINT
   - name: uhtrmlim_article
     type: VARCHAR
   - name: uhtrmlim_comments
     type: VARCHAR
   - name: uhquota
-    type: VARCHAR
+    type: BIGINT
   - name: uhquota_article
     type: VARCHAR
   - name: uhquota_comments
     type: VARCHAR
   - name: uhquotad_1
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_2
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_3
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_4
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_5
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_96
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_98
-    type: VARCHAR
+    type: BIGINT
   - name: uhquotad_article
     type: VARCHAR
   - name: uhquotad_comments
     type: VARCHAR
   - name: legdiss
-    type: VARCHAR
+    type: BIGINT
   - name: legdiss_article
     type: VARCHAR
   - name: legdiss_comments
     type: VARCHAR
   - name: remleg
-    type: VARCHAR
+    type: BIGINT
   - name: remleg_article
     type: VARCHAR
   - name: remleg_comments
     type: VARCHAR
   - name: rempro_1
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_2
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_3
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_4
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_5
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_6
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_7
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_90
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_96
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_98
-    type: VARCHAR
+    type: BIGINT
   - name: rempro_article
     type: VARCHAR
   - name: rempro_comments
     type: VARCHAR
   - name: legrep
-    type: VARCHAR
+    type: BIGINT
   - name: legrep_article
     type: VARCHAR
   - name: legrep_comments
     type: VARCHAR
   - name: immunity
-    type: VARCHAR
+    type: BIGINT
   - name: immunity_article
     type: VARCHAR
   - name: immunity_comments
     type: VARCHAR
   - name: intexec
-    type: VARCHAR
+    type: BIGINT
   - name: intexec_article
     type: VARCHAR
   - name: intexec_comments
     type: VARCHAR
   - name: invexe
-    type: VARCHAR
+    type: BIGINT
   - name: invexe_article
     type: VARCHAR
   - name: invexe_comments
     type: VARCHAR
   - name: leg_in_1
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_2
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_3
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_4
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_5
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_6
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_7
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_96
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_98
-    type: VARCHAR
+    type: BIGINT
   - name: leg_in_article
     type: VARCHAR
   - name: leg_in_comments
     type: VARCHAR
   - name: legsupr
-    type: VARCHAR
+    type: BIGINT
   - name: legsupr_article
     type: VARCHAR
   - name: legsupr_comments
     type: VARCHAR
   - name: legapp
-    type: VARCHAR
+    type: BIGINT
   - name: legapp_article
     type: VARCHAR
   - name: legapp_comments
     type: VARCHAR
   - name: legappdf
-    type: VARCHAR
+    type: BIGINT
   - name: legappdf_article
     type: VARCHAR
   - name: legappdf_comments
     type: VARCHAR
   - name: legapppt
-    type: VARCHAR
+    type: BIGINT
   - name: legapppt_article
     type: VARCHAR
   - name: legapppt_comments
     type: VARCHAR
   - name: override
-    type: VARCHAR
+    type: BIGINT
   - name: override_article
     type: VARCHAR
   - name: override_comments
     type: VARCHAR
   - name: overwho
-    type: VARCHAR
+    type: BIGINT
   - name: overwho_article
     type: VARCHAR
   - name: overwho_comments
     type: VARCHAR
   - name: overpct
-    type: VARCHAR
+    type: BIGINT
   - name: overpct_article
     type: VARCHAR
   - name: overpct_comments
     type: VARCHAR
   - name: specleg_1
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_2
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_3
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_4
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_5
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_96
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_98
-    type: VARCHAR
+    type: BIGINT
   - name: specleg_article
     type: VARCHAR
   - name: specleg_comments
     type: VARCHAR
   - name: attend
-    type: VARCHAR
+    type: BIGINT
   - name: attend_article
     type: VARCHAR
   - name: attend_comments
     type: VARCHAR
   - name: exsess_1
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_2
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_3
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_4
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_5
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_6
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_96
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_98
-    type: VARCHAR
+    type: BIGINT
   - name: exsess_article
     type: VARCHAR
   - name: exsess_comments
     type: VARCHAR
   - name: profleg
-    type: VARCHAR
+    type: BIGINT
   - name: profleg_article
     type: VARCHAR
   - name: profleg_comments
     type: VARCHAR
   - name: assets
-    type: VARCHAR
+    type: BIGINT
   - name: assets_article
     type: VARCHAR
   - name: assets_comments
     type: VARCHAR
   - name: income_1
-    type: VARCHAR
+    type: BIGINT
   - name: income_2
-    type: VARCHAR
+    type: BIGINT
   - name: income_3
-    type: VARCHAR
+    type: BIGINT
   - name: income_4
-    type: VARCHAR
+    type: BIGINT
   - name: income_5
-    type: VARCHAR
+    type: BIGINT
   - name: income_6
-    type: VARCHAR
+    type: BIGINT
   - name: income_7
-    type: VARCHAR
+    type: BIGINT
   - name: income_8
-    type: VARCHAR
+    type: BIGINT
   - name: income_90
-    type: VARCHAR
+    type: BIGINT
   - name: income_96
-    type: VARCHAR
+    type: BIGINT
   - name: income_98
-    type: VARCHAR
+    type: BIGINT
   - name: income_article
     type: VARCHAR
   - name: income_comments
     type: VARCHAR
   - name: pubmeet
-    type: VARCHAR
+    type: BIGINT
   - name: pubmeet_article
     type: VARCHAR
   - name: pubmeet_comments
     type: VARCHAR
   - name: pubmin
-    type: VARCHAR
+    type: BIGINT
   - name: pubmin_article
     type: VARCHAR
   - name: pubmin_comments
     type: VARCHAR
   - name: recvote
-    type: VARCHAR
+    type: BIGINT
   - name: recvote_article
     type: VARCHAR
   - name: recvote_comments
     type: VARCHAR
   - name: quorum
-    type: VARCHAR
+    type: BIGINT
   - name: quorum_article
     type: VARCHAR
   - name: quorum_comments
@@ -1617,57 +1622,57 @@ columns:
   - name: quorumw_comments
     type: VARCHAR
   - name: commit
-    type: VARCHAR
+    type: BIGINT
   - name: commit_article
     type: VARCHAR
   - name: commit_comments
     type: VARCHAR
   - name: levjud
-    type: VARCHAR
+    type: BIGINT
   - name: levjud_article
     type: VARCHAR
   - name: levjud_comments
     type: VARCHAR
   - name: judcrts_1
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_2
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_3
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_4
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_5
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_6
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_7
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_8
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_9
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_96
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_98
-    type: VARCHAR
+    type: BIGINT
   - name: judcrts_article
     type: VARCHAR
   - name: judcrts_comments
     type: VARCHAR
   - name: judind
-    type: VARCHAR
+    type: BIGINT
   - name: judind_article
     type: VARCHAR
   - name: judind_comments
     type: VARCHAR
   - name: judprec
-    type: VARCHAR
+    type: BIGINT
   - name: judprec_article
     type: VARCHAR
   - name: judprec_comments
     type: VARCHAR
   - name: judfin
-    type: VARCHAR
+    type: BIGINT
   - name: judfin_article
     type: VARCHAR
   - name: judfin_comments
@@ -1679,73 +1684,73 @@ columns:
   - name: supname_comments
     type: VARCHAR
   - name: hocop
-    type: VARCHAR
+    type: BIGINT
   - name: hocop_article
     type: VARCHAR
   - name: hocop_comments
     type: VARCHAR
   - name: hocopw_1
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_2
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_3
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_4
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_5
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_96
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_98
-    type: VARCHAR
+    type: BIGINT
   - name: hocopw_article
     type: VARCHAR
   - name: hocopw_comments
     type: VARCHAR
   - name: chiefnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: chiefnom_article
     type: VARCHAR
   - name: chiefnom_comments
     type: VARCHAR
   - name: chiefap_1
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_2
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_3
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_4
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_5
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_6
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_7
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_90
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_96
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_98
-    type: VARCHAR
+    type: BIGINT
   - name: chiefap_article
     type: VARCHAR
   - name: chiefap_comments
@@ -1757,139 +1762,139 @@ columns:
   - name: chfterm_comments
     type: VARCHAR
   - name: chftrmnm
-    type: VARCHAR
+    type: BIGINT
   - name: chftrmnm_article
     type: VARCHAR
   - name: chftrmnm_comments
     type: VARCHAR
   - name: chfage
-    type: VARCHAR
+    type: BIGINT
   - name: chfage_article
     type: VARCHAR
   - name: chfage_comments
     type: VARCHAR
   - name: chfres_1
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_2
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_3
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_4
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_5
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_6
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_7
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_8
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_9
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_10
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_90
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_96
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_98
-    type: VARCHAR
+    type: BIGINT
   - name: chfres_article
     type: VARCHAR
   - name: chfres_comments
     type: VARCHAR
   - name: supnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: supnom_article
     type: VARCHAR
   - name: supnom_comments
     type: VARCHAR
   - name: supap_1
-    type: VARCHAR
+    type: BIGINT
   - name: supap_2
-    type: VARCHAR
+    type: BIGINT
   - name: supap_3
-    type: VARCHAR
+    type: BIGINT
   - name: supap_4
-    type: VARCHAR
+    type: BIGINT
   - name: supap_5
-    type: VARCHAR
+    type: BIGINT
   - name: supap_6
-    type: VARCHAR
+    type: BIGINT
   - name: supap_7
-    type: VARCHAR
+    type: BIGINT
   - name: supap_90
-    type: VARCHAR
+    type: BIGINT
   - name: supap_96
-    type: VARCHAR
+    type: BIGINT
   - name: supap_98
-    type: VARCHAR
+    type: BIGINT
   - name: supap_article
     type: VARCHAR
   - name: supap_comments
     type: VARCHAR
   - name: supterm
-    type: VARCHAR
+    type: BIGINT
   - name: supterm_article
     type: VARCHAR
   - name: supterm_comments
     type: VARCHAR
   - name: suptermn
-    type: VARCHAR
+    type: BIGINT
   - name: suptermn_article
     type: VARCHAR
   - name: suptermn_comments
     type: VARCHAR
   - name: supage
-    type: VARCHAR
+    type: BIGINT
   - name: supage_article
     type: VARCHAR
   - name: supage_comments
     type: VARCHAR
   - name: supres_1
-    type: VARCHAR
+    type: BIGINT
   - name: supres_2
-    type: VARCHAR
+    type: BIGINT
   - name: supres_3
-    type: VARCHAR
+    type: BIGINT
   - name: supres_4
-    type: VARCHAR
+    type: BIGINT
   - name: supres_5
-    type: VARCHAR
+    type: BIGINT
   - name: supres_6
-    type: VARCHAR
+    type: BIGINT
   - name: supres_7
-    type: VARCHAR
+    type: BIGINT
   - name: supres_8
-    type: VARCHAR
+    type: BIGINT
   - name: supres_9
-    type: VARCHAR
+    type: BIGINT
   - name: supres_10
-    type: VARCHAR
+    type: BIGINT
   - name: supres_90
-    type: VARCHAR
+    type: BIGINT
   - name: supres_96
-    type: VARCHAR
+    type: BIGINT
   - name: supres_98
-    type: VARCHAR
+    type: BIGINT
   - name: supres_article
     type: VARCHAR
   - name: supres_comments
@@ -1901,49 +1906,49 @@ columns:
   - name: ordname_comments
     type: VARCHAR
   - name: ordnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: ordnom_article
     type: VARCHAR
   - name: ordnom_comments
     type: VARCHAR
   - name: ordap_1
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_2
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_3
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_4
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_5
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_6
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_7
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_90
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_96
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_98
-    type: VARCHAR
+    type: BIGINT
   - name: ordap_article
     type: VARCHAR
   - name: ordap_comments
@@ -1955,91 +1960,91 @@ columns:
   - name: ordterm_comments
     type: VARCHAR
   - name: ordterml
-    type: VARCHAR
+    type: BIGINT
   - name: ordterml_article
     type: VARCHAR
   - name: ordterml_comments
     type: VARCHAR
   - name: ordage
-    type: VARCHAR
+    type: BIGINT
   - name: ordage_article
     type: VARCHAR
   - name: ordage_comments
     type: VARCHAR
   - name: ordres_1
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_2
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_3
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_4
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_5
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_6
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_7
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_8
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_9
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_10
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_90
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_96
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_98
-    type: VARCHAR
+    type: BIGINT
   - name: ordres_article
     type: VARCHAR
   - name: ordres_comments
     type: VARCHAR
   - name: adnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: adnom_article
     type: VARCHAR
   - name: adnom_comments
     type: VARCHAR
   - name: adap_1
-    type: VARCHAR
+    type: BIGINT
   - name: adap_2
-    type: VARCHAR
+    type: BIGINT
   - name: adap_3
-    type: VARCHAR
+    type: BIGINT
   - name: adap_4
-    type: VARCHAR
+    type: BIGINT
   - name: adap_5
-    type: VARCHAR
+    type: BIGINT
   - name: adap_6
-    type: VARCHAR
+    type: BIGINT
   - name: adap_7
-    type: VARCHAR
+    type: BIGINT
   - name: adap_90
-    type: VARCHAR
+    type: BIGINT
   - name: adap_96
-    type: VARCHAR
+    type: BIGINT
   - name: adap_98
-    type: VARCHAR
+    type: BIGINT
   - name: adap_article
     type: VARCHAR
   - name: adap_comments
@@ -2051,103 +2056,103 @@ columns:
   - name: adterm_comments
     type: VARCHAR
   - name: adtermn
-    type: VARCHAR
+    type: BIGINT
   - name: adtermn_article
     type: VARCHAR
   - name: adtermn_comments
     type: VARCHAR
   - name: adage
-    type: VARCHAR
+    type: BIGINT
   - name: adage_article
     type: VARCHAR
   - name: adage_comments
     type: VARCHAR
   - name: adres_1
-    type: VARCHAR
+    type: BIGINT
   - name: adres_2
-    type: VARCHAR
+    type: BIGINT
   - name: adres_3
-    type: VARCHAR
+    type: BIGINT
   - name: adres_4
-    type: VARCHAR
+    type: BIGINT
   - name: adres_5
-    type: VARCHAR
+    type: BIGINT
   - name: adres_6
-    type: VARCHAR
+    type: BIGINT
   - name: adres_7
-    type: VARCHAR
+    type: BIGINT
   - name: adres_8
-    type: VARCHAR
+    type: BIGINT
   - name: adres_9
-    type: VARCHAR
+    type: BIGINT
   - name: adres_10
-    type: VARCHAR
+    type: BIGINT
   - name: adres_90
-    type: VARCHAR
+    type: BIGINT
   - name: adres_96
-    type: VARCHAR
+    type: BIGINT
   - name: adres_98
-    type: VARCHAR
+    type: BIGINT
   - name: adres_article
     type: VARCHAR
   - name: adres_comments
     type: VARCHAR
   - name: illadmin
-    type: VARCHAR
+    type: BIGINT
   - name: illadmin_article
     type: VARCHAR
   - name: illadmin_comments
     type: VARCHAR
   - name: connom_1
-    type: VARCHAR
+    type: BIGINT
   - name: connom_2
-    type: VARCHAR
+    type: BIGINT
   - name: connom_3
-    type: VARCHAR
+    type: BIGINT
   - name: connom_4
-    type: VARCHAR
+    type: BIGINT
   - name: connom_5
-    type: VARCHAR
+    type: BIGINT
   - name: connom_6
-    type: VARCHAR
+    type: BIGINT
   - name: connom_7
-    type: VARCHAR
+    type: BIGINT
   - name: connom_90
-    type: VARCHAR
+    type: BIGINT
   - name: connom_96
-    type: VARCHAR
+    type: BIGINT
   - name: connom_98
-    type: VARCHAR
+    type: BIGINT
   - name: connom_article
     type: VARCHAR
   - name: connom_comments
     type: VARCHAR
   - name: conap_1
-    type: VARCHAR
+    type: BIGINT
   - name: conap_2
-    type: VARCHAR
+    type: BIGINT
   - name: conap_3
-    type: VARCHAR
+    type: BIGINT
   - name: conap_4
-    type: VARCHAR
+    type: BIGINT
   - name: conap_5
-    type: VARCHAR
+    type: BIGINT
   - name: conap_6
-    type: VARCHAR
+    type: BIGINT
   - name: conap_7
-    type: VARCHAR
+    type: BIGINT
   - name: conap_90
-    type: VARCHAR
+    type: BIGINT
   - name: conap_96
-    type: VARCHAR
+    type: BIGINT
   - name: conap_98
-    type: VARCHAR
+    type: BIGINT
   - name: conap_article
     type: VARCHAR
   - name: conap_comments
     type: VARCHAR
   - name: conrem
-    type: VARCHAR
+    type: BIGINT
   - name: conrem_article
     type: VARCHAR
   - name: conrem_comments
@@ -2159,539 +2164,539 @@ columns:
   - name: conterm_comments
     type: VARCHAR
   - name: conlim
-    type: VARCHAR
+    type: BIGINT
   - name: conlim_article
     type: VARCHAR
   - name: conlim_comments
     type: VARCHAR
   - name: conage
-    type: VARCHAR
+    type: BIGINT
   - name: conage_article
     type: VARCHAR
   - name: conage_comments
     type: VARCHAR
   - name: conres_1
-    type: VARCHAR
+    type: BIGINT
   - name: conres_2
-    type: VARCHAR
+    type: BIGINT
   - name: conres_3
-    type: VARCHAR
+    type: BIGINT
   - name: conres_4
-    type: VARCHAR
+    type: BIGINT
   - name: conres_5
-    type: VARCHAR
+    type: BIGINT
   - name: conres_6
-    type: VARCHAR
+    type: BIGINT
   - name: conres_7
-    type: VARCHAR
+    type: BIGINT
   - name: conres_8
-    type: VARCHAR
+    type: BIGINT
   - name: conres_9
-    type: VARCHAR
+    type: BIGINT
   - name: conres_10
-    type: VARCHAR
+    type: BIGINT
   - name: conres_90
-    type: VARCHAR
+    type: BIGINT
   - name: conres_96
-    type: VARCHAR
+    type: BIGINT
   - name: conres_98
-    type: VARCHAR
+    type: BIGINT
   - name: conres_article
     type: VARCHAR
   - name: conres_comments
     type: VARCHAR
   - name: conpow_1
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_2
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_3
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_4
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_5
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_6
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_90
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_96
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_98
-    type: VARCHAR
+    type: BIGINT
   - name: conpow_article
     type: VARCHAR
   - name: conpow_comments
     type: VARCHAR
   - name: concop
-    type: VARCHAR
+    type: BIGINT
   - name: concop_article
     type: VARCHAR
   - name: concop_comments
     type: VARCHAR
   - name: concopw_1
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_2
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_3
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_4
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_5
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_90
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_96
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_98
-    type: VARCHAR
+    type: BIGINT
   - name: concopw_article
     type: VARCHAR
   - name: concopw_comments
     type: VARCHAR
   - name: interp_1
-    type: VARCHAR
+    type: BIGINT
   - name: interp_2
-    type: VARCHAR
+    type: BIGINT
   - name: interp_3
-    type: VARCHAR
+    type: BIGINT
   - name: interp_4
-    type: VARCHAR
+    type: BIGINT
   - name: interp_5
-    type: VARCHAR
+    type: BIGINT
   - name: interp_6
-    type: VARCHAR
+    type: BIGINT
   - name: interp_7
-    type: VARCHAR
+    type: BIGINT
   - name: interp_90
-    type: VARCHAR
+    type: BIGINT
   - name: interp_96
-    type: VARCHAR
+    type: BIGINT
   - name: interp_98
-    type: VARCHAR
+    type: BIGINT
   - name: interp_article
     type: VARCHAR
   - name: interp_comments
     type: VARCHAR
   - name: unconper
-    type: VARCHAR
+    type: BIGINT
   - name: unconper_article
     type: VARCHAR
   - name: unconper_comments
     type: VARCHAR
   - name: challeg_1
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_2
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_3
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_4
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_5
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_6
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_7
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_8
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_9
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_90
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_96
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_98
-    type: VARCHAR
+    type: BIGINT
   - name: challeg_article
     type: VARCHAR
   - name: challeg_comments
     type: VARCHAR
   - name: chalstag
-    type: VARCHAR
+    type: BIGINT
   - name: chalstag_article
     type: VARCHAR
   - name: chalstag_comments
     type: VARCHAR
   - name: amparo
-    type: VARCHAR
+    type: BIGINT
   - name: amparo_article
     type: VARCHAR
   - name: amparo_comments
     type: VARCHAR
   - name: jrem
-    type: VARCHAR
+    type: BIGINT
   - name: jrem_article
     type: VARCHAR
   - name: jrem_comments
     type: VARCHAR
   - name: jremcon_1
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_2
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_3
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_4
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_5
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_90
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_96
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_98
-    type: VARCHAR
+    type: BIGINT
   - name: jremcon_article
     type: VARCHAR
   - name: jremcon_comments
     type: VARCHAR
   - name: jrempro_1
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_2
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_3
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_4
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_5
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_6
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_7
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_8
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_9
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_90
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_96
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_98
-    type: VARCHAR
+    type: BIGINT
   - name: jrempro_article
     type: VARCHAR
   - name: jrempro_comments
     type: VARCHAR
   - name: jremap_1
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_2
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_3
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_4
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_5
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_6
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_7
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_90
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_96
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_98
-    type: VARCHAR
+    type: BIGINT
   - name: jremap_article
     type: VARCHAR
   - name: jremap_comments
     type: VARCHAR
   - name: judsal
-    type: VARCHAR
+    type: BIGINT
   - name: judsal_article
     type: VARCHAR
   - name: judsal_comments
     type: VARCHAR
   - name: judretir
-    type: VARCHAR
+    type: BIGINT
   - name: judretir_article
     type: VARCHAR
   - name: judretir_comments
     type: VARCHAR
   - name: fedunit
-    type: VARCHAR
+    type: BIGINT
   - name: fedunit_article
     type: VARCHAR
   - name: fedunit_comments
     type: VARCHAR
   - name: federal_1
-    type: VARCHAR
+    type: BIGINT
   - name: federal_2
-    type: VARCHAR
+    type: BIGINT
   - name: federal_3
-    type: VARCHAR
+    type: BIGINT
   - name: federal_96
-    type: VARCHAR
+    type: BIGINT
   - name: federal_98
-    type: VARCHAR
+    type: BIGINT
   - name: federal_article
     type: VARCHAR
   - name: federal_comments
     type: VARCHAR
   - name: fedsep
-    type: VARCHAR
+    type: BIGINT
   - name: fedsep_article
     type: VARCHAR
   - name: fedsep_comments
     type: VARCHAR
   - name: fedrev
-    type: VARCHAR
+    type: BIGINT
   - name: fedrev_article
     type: VARCHAR
   - name: fedrev_comments
     type: VARCHAR
   - name: seccess
-    type: VARCHAR
+    type: BIGINT
   - name: seccess_article
     type: VARCHAR
   - name: seccess_comments
     type: VARCHAR
   - name: access
-    type: VARCHAR
+    type: BIGINT
   - name: access_article
     type: VARCHAR
   - name: access_comments
     type: VARCHAR
   - name: indpolgr_1
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_2
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_3
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_4
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_5
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_6
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_7
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_90
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_96
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_98
-    type: VARCHAR
+    type: BIGINT
   - name: indpolgr_article
     type: VARCHAR
   - name: indpolgr_comments
     type: VARCHAR
   - name: indcit
-    type: VARCHAR
+    type: BIGINT
   - name: indcit_article
     type: VARCHAR
   - name: indcit_comments
     type: VARCHAR
   - name: part
-    type: VARCHAR
+    type: BIGINT
   - name: part_article
     type: VARCHAR
   - name: part_comments
     type: VARCHAR
   - name: partrght
-    type: VARCHAR
+    type: BIGINT
   - name: partrght_article
     type: VARCHAR
   - name: partrght_comments
     type: VARCHAR
   - name: partprf
-    type: VARCHAR
+    type: BIGINT
   - name: partprf_article
     type: VARCHAR
   - name: partprf_comments
     type: VARCHAR
   - name: partprh
-    type: VARCHAR
+    type: BIGINT
   - name: partprh_article
     type: VARCHAR
   - name: partprh_comments
     type: VARCHAR
   - name: partunco_1
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_2
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_3
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_4
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_5
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_6
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_90
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_96
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_98
-    type: VARCHAR
+    type: BIGINT
   - name: partunco_article
     type: VARCHAR
   - name: partunco_comments
     type: VARCHAR
   - name: initiat
-    type: VARCHAR
+    type: BIGINT
   - name: initiat_article
     type: VARCHAR
   - name: initiat_comments
     type: VARCHAR
   - name: initiatp_1
-    type: VARCHAR
+    type: BIGINT
   - name: initiatp_2
-    type: VARCHAR
+    type: BIGINT
   - name: initiatp_3
-    type: VARCHAR
+    type: BIGINT
   - name: initiatp_90
-    type: VARCHAR
+    type: BIGINT
   - name: initiatp_96
-    type: VARCHAR
+    type: BIGINT
   - name: initiatp_98
-    type: VARCHAR
+    type: BIGINT
   - name: initiatp_article
     type: VARCHAR
   - name: initiatp_comments
     type: VARCHAR
   - name: referen
-    type: VARCHAR
+    type: BIGINT
   - name: referen_article
     type: VARCHAR
   - name: referen_comments
     type: VARCHAR
   - name: referenp_1
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_2
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_3
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_4
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_5
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_6
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_7
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_8
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_9
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_90
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_96
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_98
-    type: VARCHAR
+    type: BIGINT
   - name: referenp_article
     type: VARCHAR
   - name: referenp_comments
     type: VARCHAR
   - name: voteres
-    type: VARCHAR
+    type: BIGINT
   - name: voteres_article
     type: VARCHAR
   - name: voteres_comments
     type: VARCHAR
   - name: votemin
-    type: VARCHAR
+    type: BIGINT
   - name: votemin_article
     type: VARCHAR
   - name: votemin_comments
     type: VARCHAR
   - name: votelim_1
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_2
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_3
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_4
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_5
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_6
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_7
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_8
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_9
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_10
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_11
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_12
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_13
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_14
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_15
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_90
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_96
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_98
-    type: VARCHAR
+    type: BIGINT
   - name: votelim_article
     type: VARCHAR
   - name: votelim_comments
     type: VARCHAR
   - name: voteun
-    type: VARCHAR
+    type: BIGINT
   - name: voteun_article
     type: VARCHAR
   - name: voteun_comments
     type: VARCHAR
   - name: oversght
-    type: VARCHAR
+    type: BIGINT
   - name: oversght_article
     type: VARCHAR
   - name: oversght_comments
     type: VARCHAR
   - name: ecnom_1
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_2
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_3
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_4
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_5
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_6
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_7
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_90
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_96
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_98
-    type: VARCHAR
+    type: BIGINT
   - name: ecnom_article
     type: VARCHAR
   - name: ecnom_comments
     type: VARCHAR
   - name: ecap_1
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_2
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_3
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_4
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_5
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_6
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_7
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_90
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_96
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_98
-    type: VARCHAR
+    type: BIGINT
   - name: ecap_article
     type: VARCHAR
   - name: ecap_comments
@@ -2703,137 +2708,137 @@ columns:
   - name: ecterm_comments
     type: VARCHAR
   - name: ecterml
-    type: VARCHAR
+    type: BIGINT
   - name: ecterml_article
     type: VARCHAR
   - name: ecterml_comments
     type: VARCHAR
   - name: ecage
-    type: VARCHAR
+    type: BIGINT
   - name: ecage_article
     type: VARCHAR
   - name: ecage_comments
     type: VARCHAR
   - name: ecres_1
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_2
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_3
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_4
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_5
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_6
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_7
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_8
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_9
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_90
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_96
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_98
-    type: VARCHAR
+    type: BIGINT
   - name: ecres_article
     type: VARCHAR
   - name: ecres_comments
     type: VARCHAR
   - name: compvote
-    type: VARCHAR
+    type: BIGINT
   - name: compvote_article
     type: VARCHAR
   - name: compvote_comments
     type: VARCHAR
   - name: freeelec
-    type: VARCHAR
+    type: BIGINT
   - name: freeelec_article
     type: VARCHAR
   - name: freeelec_comments
     type: VARCHAR
   - name: electsch
-    type: VARCHAR
+    type: BIGINT
   - name: electsch_article
     type: VARCHAR
   - name: electsch_comments
     type: VARCHAR
   - name: camppubf
-    type: VARCHAR
+    type: BIGINT
   - name: camppubf_article
     type: VARCHAR
   - name: camppubf_comments
     type: VARCHAR
   - name: electfin
-    type: VARCHAR
+    type: BIGINT
   - name: electfin_article
     type: VARCHAR
   - name: electfin_comments
     type: VARCHAR
   - name: electsam
-    type: VARCHAR
+    type: BIGINT
   - name: electsam_article
     type: VARCHAR
   - name: electsam_comments
     type: VARCHAR
   - name: census
-    type: VARCHAR
+    type: BIGINT
   - name: census_article
     type: VARCHAR
   - name: census_comments
     type: VARCHAR
   - name: ombuds
-    type: VARCHAR
+    type: BIGINT
   - name: ombuds_article
     type: VARCHAR
   - name: ombuds_comments
     type: VARCHAR
   - name: bank
-    type: VARCHAR
+    type: BIGINT
   - name: bank_article
     type: VARCHAR
   - name: bank_comments
     type: VARCHAR
   - name: bankgoal
-    type: VARCHAR
+    type: BIGINT
   - name: bankgoal_article
     type: VARCHAR
   - name: bankgoal_comments
     type: VARCHAR
   - name: medcom
-    type: VARCHAR
+    type: BIGINT
   - name: medcom_article
     type: VARCHAR
   - name: medcom_comments
     type: VARCHAR
   - name: jc
-    type: VARCHAR
+    type: BIGINT
   - name: jc_article
     type: VARCHAR
   - name: jc_comments
     type: VARCHAR
   - name: cc
-    type: VARCHAR
+    type: BIGINT
   - name: cc_article
     type: VARCHAR
   - name: cc_comments
     type: VARCHAR
   - name: civil
-    type: VARCHAR
+    type: BIGINT
   - name: civil_article
     type: VARCHAR
   - name: civil_comments
     type: VARCHAR
   - name: hr
-    type: VARCHAR
+    type: BIGINT
   - name: hr_article
     type: VARCHAR
   - name: hr_comments
     type: VARCHAR
   - name: exinst
-    type: VARCHAR
+    type: BIGINT
   - name: exinst_article
     type: VARCHAR
   - name: exinst_comments
@@ -2845,1157 +2850,1157 @@ columns:
   - name: exinst1_comments
     type: VARCHAR
   - name: intlaw
-    type: VARCHAR
+    type: BIGINT
   - name: intlaw_article
     type: VARCHAR
   - name: intlaw_comments
     type: VARCHAR
   - name: custlaw
-    type: VARCHAR
+    type: BIGINT
   - name: custlaw_article
     type: VARCHAR
   - name: custlaw_comments
     type: VARCHAR
   - name: custlaw2
-    type: VARCHAR
+    type: BIGINT
   - name: custlaw2_article
     type: VARCHAR
   - name: custlaw2_comments
     type: VARCHAR
   - name: intorgs
-    type: VARCHAR
+    type: BIGINT
   - name: intorgs_article
     type: VARCHAR
   - name: intorgs_comments
     type: VARCHAR
   - name: headforn
-    type: VARCHAR
+    type: BIGINT
   - name: headforn_article
     type: VARCHAR
   - name: headforn_comments
     type: VARCHAR
   - name: war_1
-    type: VARCHAR
+    type: BIGINT
   - name: war_2
-    type: VARCHAR
+    type: BIGINT
   - name: war_3
-    type: VARCHAR
+    type: BIGINT
   - name: war_4
-    type: VARCHAR
+    type: BIGINT
   - name: war_5
-    type: VARCHAR
+    type: BIGINT
   - name: war_6
-    type: VARCHAR
+    type: BIGINT
   - name: war_7
-    type: VARCHAR
+    type: BIGINT
   - name: war_8
-    type: VARCHAR
+    type: BIGINT
   - name: war_90
-    type: VARCHAR
+    type: BIGINT
   - name: war_96
-    type: VARCHAR
+    type: BIGINT
   - name: war_98
-    type: VARCHAR
+    type: BIGINT
   - name: war_article
     type: VARCHAR
   - name: war_comments
     type: VARCHAR
   - name: warap
-    type: VARCHAR
+    type: BIGINT
   - name: warap_article
     type: VARCHAR
   - name: warap_comments
     type: VARCHAR
   - name: treat
-    type: VARCHAR
+    type: BIGINT
   - name: treat_article
     type: VARCHAR
   - name: treat_comments
     type: VARCHAR
   - name: treatini_1
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_2
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_3
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_4
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_5
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_6
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_90
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_96
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_98
-    type: VARCHAR
+    type: BIGINT
   - name: treatini_article
     type: VARCHAR
   - name: treatini_comments
     type: VARCHAR
   - name: treatap_1
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_2
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_3
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_4
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_5
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_6
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_90
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_96
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_98
-    type: VARCHAR
+    type: BIGINT
   - name: treatap_article
     type: VARCHAR
   - name: treatap_comments
     type: VARCHAR
   - name: treatrvw
-    type: VARCHAR
+    type: BIGINT
   - name: treatrvw_article
     type: VARCHAR
   - name: treatrvw_comments
     type: VARCHAR
   - name: treatst
-    type: VARCHAR
+    type: BIGINT
   - name: treatst_article
     type: VARCHAR
   - name: treatst_comments
     type: VARCHAR
   - name: provwork
-    type: VARCHAR
+    type: BIGINT
   - name: provwork_article
     type: VARCHAR
   - name: provwork_comments
     type: VARCHAR
   - name: provhlth
-    type: VARCHAR
+    type: BIGINT
   - name: provhlth_article
     type: VARCHAR
   - name: provhlth_comments
     type: VARCHAR
   - name: cultrght
-    type: VARCHAR
+    type: BIGINT
   - name: cultrght_article
     type: VARCHAR
   - name: cultrght_comments
     type: VARCHAR
   - name: buildsoc
-    type: VARCHAR
+    type: BIGINT
   - name: buildsoc_article
     type: VARCHAR
   - name: buildsoc_comments
     type: VARCHAR
   - name: taxes
-    type: VARCHAR
+    type: BIGINT
   - name: taxes_article
     type: VARCHAR
   - name: taxes_comments
     type: VARCHAR
   - name: milserv
-    type: VARCHAR
+    type: BIGINT
   - name: milserv_article
     type: VARCHAR
   - name: milserv_comments
     type: VARCHAR
   - name: work
-    type: VARCHAR
+    type: BIGINT
   - name: work_article
     type: VARCHAR
   - name: work_comments
     type: VARCHAR
   - name: prtyduty
-    type: VARCHAR
+    type: BIGINT
   - name: prtyduty_article
-    type: VARCHAR
+    type: DOUBLE
   - name: prtyduty_comments
     type: VARCHAR
   - name: tradeun
-    type: VARCHAR
+    type: BIGINT
   - name: tradeun_article
     type: VARCHAR
   - name: tradeun_comments
     type: VARCHAR
   - name: jury
-    type: VARCHAR
+    type: BIGINT
   - name: jury_article
     type: VARCHAR
   - name: jury_comments
     type: VARCHAR
   - name: grjury
-    type: VARCHAR
+    type: BIGINT
   - name: grjury_article
     type: VARCHAR
   - name: grjury_comments
     type: VARCHAR
   - name: vicright
-    type: VARCHAR
+    type: BIGINT
   - name: vicright_article
     type: VARCHAR
   - name: vicright_comments
     type: VARCHAR
   - name: excrim
-    type: VARCHAR
+    type: BIGINT
   - name: excrim_article
     type: VARCHAR
   - name: excrim_comments
     type: VARCHAR
   - name: evidence
-    type: VARCHAR
+    type: BIGINT
   - name: evidence_article
     type: VARCHAR
   - name: evidence_comments
     type: VARCHAR
   - name: prerel
-    type: VARCHAR
+    type: BIGINT
   - name: prerel_article
     type: VARCHAR
   - name: prerel_comments
     type: VARCHAR
   - name: habcorp
-    type: VARCHAR
+    type: BIGINT
   - name: habcorp_article
     type: VARCHAR
   - name: habcorp_comments
     type: VARCHAR
   - name: wolaw
-    type: VARCHAR
+    type: BIGINT
   - name: wolaw_article
     type: VARCHAR
   - name: wolaw_comments
     type: VARCHAR
   - name: rghtapp
-    type: VARCHAR
+    type: BIGINT
   - name: rghtapp_article
     type: VARCHAR
   - name: rghtapp_comments
     type: VARCHAR
   - name: prisonrg
-    type: VARCHAR
+    type: BIGINT
   - name: prisonrg_article
     type: VARCHAR
   - name: prisonrg_comments
     type: VARCHAR
   - name: cappun
-    type: VARCHAR
+    type: BIGINT
   - name: cappun_article
     type: VARCHAR
   - name: cappun_comments
     type: VARCHAR
   - name: corppun
-    type: VARCHAR
+    type: BIGINT
   - name: corppun_article
     type: VARCHAR
   - name: corppun_comments
     type: VARCHAR
   - name: dueproc
-    type: VARCHAR
+    type: BIGINT
   - name: dueproc_article
     type: VARCHAR
   - name: dueproc_comments
     type: VARCHAR
   - name: examwit
-    type: VARCHAR
+    type: BIGINT
   - name: examwit_article
     type: VARCHAR
   - name: examwit_comments
     type: VARCHAR
   - name: expost
-    type: VARCHAR
+    type: BIGINT
   - name: expost_article
     type: VARCHAR
   - name: expost_comments
     type: VARCHAR
   - name: falseimp
-    type: VARCHAR
+    type: BIGINT
   - name: falseimp_article
     type: VARCHAR
   - name: falseimp_comments
     type: VARCHAR
   - name: fairtri
-    type: VARCHAR
+    type: BIGINT
   - name: fairtri_article
     type: VARCHAR
   - name: fairtri_comments
     type: VARCHAR
   - name: speedtri
-    type: VARCHAR
+    type: BIGINT
   - name: speedtri_article
     type: VARCHAR
   - name: speedtri_comments
     type: VARCHAR
   - name: pubtri
-    type: VARCHAR
+    type: BIGINT
   - name: pubtri_article
     type: VARCHAR
   - name: pubtri_comments
     type: VARCHAR
   - name: presinoc
-    type: VARCHAR
+    type: BIGINT
   - name: presinoc_article
     type: VARCHAR
   - name: presinoc_comments
     type: VARCHAR
   - name: trilang
-    type: VARCHAR
+    type: BIGINT
   - name: trilang_article
     type: VARCHAR
   - name: trilang_comments
     type: VARCHAR
   - name: juvenile
-    type: VARCHAR
+    type: BIGINT
   - name: juvenile_article
     type: VARCHAR
   - name: juvenile_comments
     type: VARCHAR
   - name: doubjep
-    type: VARCHAR
+    type: BIGINT
   - name: doubjep_article
     type: VARCHAR
   - name: doubjep_comments
     type: VARCHAR
   - name: miranda
-    type: VARCHAR
+    type: BIGINT
   - name: miranda_article
     type: VARCHAR
   - name: miranda_comments
     type: VARCHAR
   - name: couns
-    type: VARCHAR
+    type: BIGINT
   - name: couns_article
     type: VARCHAR
   - name: couns_comments
     type: VARCHAR
   - name: counscos
-    type: VARCHAR
+    type: BIGINT
   - name: counscos_article
     type: VARCHAR
   - name: counscos_comments
     type: VARCHAR
   - name: debtors
-    type: VARCHAR
+    type: BIGINT
   - name: debtors_article
     type: VARCHAR
   - name: debtors_comments
     type: VARCHAR
   - name: bankrupt
-    type: VARCHAR
+    type: BIGINT
   - name: bankrupt_article
     type: VARCHAR
   - name: bankrupt_comments
     type: VARCHAR
   - name: nat
-    type: VARCHAR
+    type: BIGINT
   - name: nat_article
     type: VARCHAR
   - name: nat_comments
     type: VARCHAR
   - name: natcit
-    type: VARCHAR
+    type: BIGINT
   - name: natcit_article
     type: VARCHAR
   - name: natcit_comments
     type: VARCHAR
   - name: citrev_1
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_2
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_3
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_4
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_90
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_96
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_98
-    type: VARCHAR
+    type: BIGINT
   - name: citrev_article
     type: VARCHAR
   - name: citrev_comments
     type: VARCHAR
   - name: citren
-    type: VARCHAR
+    type: BIGINT
   - name: citren_article
     type: VARCHAR
   - name: citren_comments
     type: VARCHAR
   - name: citdep
-    type: VARCHAR
+    type: BIGINT
   - name: citdep_article
     type: VARCHAR
   - name: citdep_comments
     type: VARCHAR
   - name: resenex
-    type: VARCHAR
+    type: BIGINT
   - name: resenex_article
     type: VARCHAR
   - name: resenex_comments
     type: VARCHAR
   - name: rulelaw
-    type: VARCHAR
+    type: BIGINT
   - name: rulelaw_article
     type: VARCHAR
   - name: rulelaw_comments
     type: VARCHAR
   - name: equal
-    type: VARCHAR
+    type: BIGINT
   - name: equal_article
     type: VARCHAR
   - name: equal_comments
     type: VARCHAR
   - name: equalgr_1
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_2
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_3
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_4
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_5
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_6
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_7
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_8
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_9
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_10
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_11
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_12
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_13
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_14
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_15
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_16
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_90
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_96
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_98
-    type: VARCHAR
+    type: BIGINT
   - name: equalgr_article
     type: VARCHAR
   - name: equalgr_comments
     type: VARCHAR
   - name: rightres_1
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_2
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_3
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_4
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_5
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_6
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_7
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_8
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_90
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_96
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_98
-    type: VARCHAR
+    type: BIGINT
   - name: rightres_article
     type: VARCHAR
   - name: rightres_comments
     type: VARCHAR
   - name: binding
-    type: VARCHAR
+    type: BIGINT
   - name: binding_article
     type: VARCHAR
   - name: binding_comments
     type: VARCHAR
   - name: infoacc
-    type: VARCHAR
+    type: BIGINT
   - name: infoacc_article
     type: VARCHAR
   - name: infoacc_comments
     type: VARCHAR
   - name: infoaccw
-    type: VARCHAR
+    type: BIGINT
   - name: infoaccw_article
     type: VARCHAR
   - name: infoaccw_comments
     type: VARCHAR
   - name: libel
-    type: VARCHAR
+    type: BIGINT
   - name: libel_article
     type: VARCHAR
   - name: libel_comments
     type: VARCHAR
   - name: offrel
-    type: VARCHAR
+    type: BIGINT
   - name: offrel_article
     type: VARCHAR
   - name: offrel_comments
     type: VARCHAR
   - name: offrelw
-    type: VARCHAR
+    type: BIGINT
   - name: offrelw_article
     type: VARCHAR
   - name: offrelw_comments
     type: VARCHAR
   - name: freerel
-    type: VARCHAR
+    type: BIGINT
   - name: freerel_article
     type: VARCHAR
   - name: freerel_comments
     type: VARCHAR
   - name: rellaw_1
-    type: VARCHAR
+    type: BIGINT
   - name: rellaw_2
-    type: VARCHAR
+    type: BIGINT
   - name: rellaw_3
-    type: VARCHAR
+    type: BIGINT
   - name: rellaw_90
-    type: VARCHAR
+    type: BIGINT
   - name: rellaw_96
-    type: VARCHAR
+    type: BIGINT
   - name: rellaw_98
-    type: VARCHAR
+    type: BIGINT
   - name: rellaw_article
     type: VARCHAR
   - name: rellaw_comments
     type: VARCHAR
   - name: rellawv
-    type: VARCHAR
+    type: BIGINT
   - name: rellawv_article
     type: VARCHAR
   - name: rellawv_comments
     type: VARCHAR
   - name: seprel
-    type: VARCHAR
+    type: BIGINT
   - name: seprel_article
     type: VARCHAR
   - name: seprel_comments
     type: VARCHAR
   - name: reltax
-    type: VARCHAR
+    type: BIGINT
   - name: reltax_article
     type: VARCHAR
   - name: reltax_comments
     type: VARCHAR
   - name: exprop
-    type: VARCHAR
+    type: BIGINT
   - name: exprop_article
     type: VARCHAR
   - name: exprop_comments
     type: VARCHAR
   - name: exprcomp
-    type: VARCHAR
+    type: BIGINT
   - name: exprcomp_article
     type: VARCHAR
   - name: exprcomp_comments
     type: VARCHAR
   - name: expcond_1
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_2
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_3
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_4
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_5
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_6
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_7
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_90
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_96
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_98
-    type: VARCHAR
+    type: BIGINT
   - name: expcond_article
     type: VARCHAR
   - name: expcond_comments
     type: VARCHAR
   - name: explim_1
-    type: VARCHAR
+    type: BIGINT
   - name: explim_2
-    type: VARCHAR
+    type: BIGINT
   - name: explim_3
-    type: VARCHAR
+    type: BIGINT
   - name: explim_4
-    type: VARCHAR
+    type: BIGINT
   - name: explim_90
-    type: VARCHAR
+    type: BIGINT
   - name: explim_96
-    type: VARCHAR
+    type: BIGINT
   - name: explim_98
-    type: VARCHAR
+    type: BIGINT
   - name: explim_article
     type: VARCHAR
   - name: explim_comments
     type: VARCHAR
   - name: socecon
-    type: VARCHAR
+    type: BIGINT
   - name: socecon_article
     type: VARCHAR
   - name: socecon_comments
     type: VARCHAR
   - name: remuner
-    type: VARCHAR
+    type: BIGINT
   - name: remuner_article
     type: VARCHAR
   - name: remuner_comments
     type: VARCHAR
   - name: jointrde
-    type: VARCHAR
+    type: BIGINT
   - name: jointrde_article
     type: VARCHAR
   - name: jointrde_comments
     type: VARCHAR
   - name: strike
-    type: VARCHAR
+    type: BIGINT
   - name: strike_article
     type: VARCHAR
   - name: strike_comments
     type: VARCHAR
   - name: leisure
-    type: VARCHAR
+    type: BIGINT
   - name: leisure_article
     type: VARCHAR
   - name: leisure_comments
     type: VARCHAR
   - name: standliv
-    type: VARCHAR
+    type: BIGINT
   - name: standliv_article
     type: VARCHAR
   - name: standliv_comments
     type: VARCHAR
   - name: transfer
-    type: VARCHAR
+    type: BIGINT
   - name: transfer_article
     type: VARCHAR
   - name: transfer_comments
     type: VARCHAR
   - name: testate
-    type: VARCHAR
+    type: BIGINT
   - name: testate_article
     type: VARCHAR
   - name: testate_comments
     type: VARCHAR
   - name: inherit
-    type: VARCHAR
+    type: BIGINT
   - name: inherit_article
     type: VARCHAR
   - name: inherit_comments
     type: VARCHAR
   - name: intprop_1
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_2
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_3
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_4
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_90
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_96
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_98
-    type: VARCHAR
+    type: BIGINT
   - name: intprop_article
     type: VARCHAR
   - name: intprop_comments
     type: VARCHAR
   - name: busines
-    type: VARCHAR
+    type: BIGINT
   - name: busines_article
     type: VARCHAR
   - name: busines_comments
     type: VARCHAR
   - name: conright
-    type: VARCHAR
+    type: BIGINT
   - name: conright_article
     type: VARCHAR
   - name: conright_comments
     type: VARCHAR
   - name: socsec
-    type: VARCHAR
+    type: BIGINT
   - name: socsec_article
     type: VARCHAR
   - name: socsec_comments
     type: VARCHAR
   - name: finsup_1
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_2
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_3
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_4
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_90
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_96
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_98
-    type: VARCHAR
+    type: BIGINT
   - name: finsup_article
     type: VARCHAR
   - name: finsup_comments
     type: VARCHAR
   - name: proprght
-    type: VARCHAR
+    type: BIGINT
   - name: proprght_article
     type: VARCHAR
   - name: proprght_comments
     type: VARCHAR
   - name: freecomp
-    type: VARCHAR
+    type: BIGINT
   - name: freecomp_article
     type: VARCHAR
   - name: freecomp_comments
     type: VARCHAR
   - name: scifree
-    type: VARCHAR
+    type: BIGINT
   - name: scifree_article
     type: VARCHAR
   - name: scifree_comments
     type: VARCHAR
   - name: occupate
-    type: VARCHAR
+    type: BIGINT
   - name: occupate_article
     type: VARCHAR
   - name: occupate_comments
     type: VARCHAR
   - name: safework
-    type: VARCHAR
+    type: BIGINT
   - name: safework_article
     type: VARCHAR
   - name: safework_comments
     type: VARCHAR
   - name: childwrk
-    type: VARCHAR
+    type: BIGINT
   - name: childwrk_article
     type: VARCHAR
   - name: childwrk_comments
     type: VARCHAR
   - name: shelter
-    type: VARCHAR
+    type: BIGINT
   - name: shelter_article
     type: VARCHAR
   - name: shelter_comments
     type: VARCHAR
   - name: marriage
-    type: VARCHAR
+    type: BIGINT
   - name: marriage_article
     type: VARCHAR
   - name: marriage_comments
     type: VARCHAR
   - name: samesexm
-    type: VARCHAR
+    type: BIGINT
   - name: samesexm_article
     type: VARCHAR
   - name: samesexm_comments
     type: VARCHAR
   - name: fndfam
-    type: VARCHAR
+    type: BIGINT
   - name: fndfam_article
     type: VARCHAR
   - name: fndfam_comments
     type: VARCHAR
   - name: matequal
-    type: VARCHAR
+    type: BIGINT
   - name: matequal_article
     type: VARCHAR
   - name: matequal_comments
     type: VARCHAR
   - name: childpro
-    type: VARCHAR
+    type: BIGINT
   - name: childpro_article
     type: VARCHAR
   - name: childpro_comments
     type: VARCHAR
   - name: civmar
-    type: VARCHAR
+    type: BIGINT
   - name: civmar_article
     type: VARCHAR
   - name: civmar_comments
     type: VARCHAR
   - name: selfdet
-    type: VARCHAR
+    type: BIGINT
   - name: selfdet_article
     type: VARCHAR
   - name: selfdet_comments
     type: VARCHAR
   - name: healthr
-    type: VARCHAR
+    type: BIGINT
   - name: healthr_article
     type: VARCHAR
   - name: healthr_comments
     type: VARCHAR
   - name: healthf
-    type: VARCHAR
+    type: BIGINT
   - name: healthf_article
     type: VARCHAR
   - name: healthf_comments
     type: VARCHAR
   - name: life
-    type: VARCHAR
+    type: BIGINT
   - name: life_article
     type: VARCHAR
   - name: life_comments
     type: VARCHAR
   - name: slave
-    type: VARCHAR
+    type: BIGINT
   - name: slave_article
     type: VARCHAR
   - name: slave_comments
     type: VARCHAR
   - name: torture
-    type: VARCHAR
+    type: BIGINT
   - name: torture_article
     type: VARCHAR
   - name: torture_comments
     type: VARCHAR
   - name: cruelty
-    type: VARCHAR
+    type: BIGINT
   - name: cruelty_article
     type: VARCHAR
   - name: cruelty_comments
     type: VARCHAR
   - name: privacy
-    type: VARCHAR
+    type: BIGINT
   - name: privacy_article
     type: VARCHAR
   - name: privacy_comments
     type: VARCHAR
   - name: freemove
-    type: VARCHAR
+    type: BIGINT
   - name: freemove_article
     type: VARCHAR
   - name: freemove_comments
     type: VARCHAR
   - name: opinion
-    type: VARCHAR
+    type: BIGINT
   - name: opinion_article
     type: VARCHAR
   - name: opinion_comments
     type: VARCHAR
   - name: express
-    type: VARCHAR
+    type: BIGINT
   - name: express_article
     type: VARCHAR
   - name: express_comments
     type: VARCHAR
   - name: petition
-    type: VARCHAR
+    type: BIGINT
   - name: petition_article
     type: VARCHAR
   - name: petition_comments
     type: VARCHAR
   - name: censor
-    type: VARCHAR
+    type: BIGINT
   - name: censor_article
     type: VARCHAR
   - name: censor_comments
     type: VARCHAR
   - name: press
-    type: VARCHAR
+    type: BIGINT
   - name: press_article
     type: VARCHAR
   - name: press_comments
     type: VARCHAR
   - name: intrght_1
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_2
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_3
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_4
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_5
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_6
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_7
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_8
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_9
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_96
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_98
-    type: VARCHAR
+    type: BIGINT
   - name: intrght_article
     type: VARCHAR
   - name: intrght_comments
     type: VARCHAR
   - name: assem
-    type: VARCHAR
+    type: BIGINT
   - name: assem_article
     type: VARCHAR
   - name: assem_comments
     type: VARCHAR
   - name: assoc
-    type: VARCHAR
+    type: BIGINT
   - name: assoc_article
     type: VARCHAR
   - name: assoc_comments
     type: VARCHAR
   - name: inalrght
-    type: VARCHAR
+    type: BIGINT
   - name: inalrght_article
     type: VARCHAR
   - name: inalrght_comments
     type: VARCHAR
   - name: devlpers
-    type: VARCHAR
+    type: BIGINT
   - name: devlpers_article
     type: VARCHAR
   - name: devlpers_comments
     type: VARCHAR
   - name: nomil
-    type: VARCHAR
+    type: BIGINT
   - name: nomil_article
     type: VARCHAR
   - name: nomil_comments
     type: VARCHAR
   - name: asylum
-    type: VARCHAR
+    type: BIGINT
   - name: asylum_article
     type: VARCHAR
   - name: asylum_comments
     type: VARCHAR
   - name: arms
-    type: VARCHAR
+    type: BIGINT
   - name: arms_article
     type: VARCHAR
   - name: arms_comments
     type: VARCHAR
   - name: env
-    type: VARCHAR
+    type: BIGINT
   - name: env_article
     type: VARCHAR
   - name: env_comments
     type: VARCHAR
   - name: envref_1
-    type: VARCHAR
+    type: BIGINT
   - name: envref_2
-    type: VARCHAR
+    type: BIGINT
   - name: envref_3
-    type: VARCHAR
+    type: BIGINT
   - name: envref_4
-    type: VARCHAR
+    type: BIGINT
   - name: envref_90
-    type: VARCHAR
+    type: BIGINT
   - name: envref_96
-    type: VARCHAR
+    type: BIGINT
   - name: envref_98
-    type: VARCHAR
+    type: BIGINT
   - name: envref_article
     type: VARCHAR
   - name: envref_comments
     type: VARCHAR
   - name: envpart_1
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_2
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_3
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_4
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_5
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_6
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_7
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_8
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_9
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_10
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_11
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_12
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_13
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_90
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_96
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_98
-    type: VARCHAR
+    type: BIGINT
   - name: envpart_article
     type: VARCHAR
   - name: envpart_comments
     type: VARCHAR
   - name: resrce
-    type: VARCHAR
+    type: BIGINT
   - name: resrce_article
     type: VARCHAR
   - name: resrce_comments
     type: VARCHAR
   - name: resrces_1
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_2
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_3
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_4
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_5
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_6
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_7
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_8
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_9
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_10
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_90
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_96
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_98
-    type: VARCHAR
+    type: BIGINT
   - name: resrces_article
     type: VARCHAR
   - name: resrces_comments
     type: VARCHAR
   - name: artists
-    type: VARCHAR
+    type: BIGINT
   - name: artists_article
     type: VARCHAR
   - name: artists_comments
     type: VARCHAR
   - name: artspec_1
-    type: VARCHAR
+    type: BIGINT
   - name: artspec_2
-    type: VARCHAR
+    type: BIGINT
   - name: artspec_3
-    type: VARCHAR
+    type: BIGINT
   - name: artspec_90
-    type: VARCHAR
+    type: BIGINT
   - name: artspec_96
-    type: VARCHAR
+    type: BIGINT
   - name: artspec_98
-    type: VARCHAR
+    type: BIGINT
   - name: artspec_article
     type: VARCHAR
   - name: artspec_comments
     type: VARCHAR
   - name: science
-    type: VARCHAR
+    type: BIGINT
   - name: science_article
     type: VARCHAR
   - name: science_comments
     type: VARCHAR
   - name: telecom
-    type: VARCHAR
+    type: BIGINT
   - name: telecom_article
     type: VARCHAR
   - name: telecom_comments
     type: VARCHAR
   - name: radio
-    type: VARCHAR
+    type: BIGINT
   - name: radio_article
     type: VARCHAR
   - name: radio_comments
     type: VARCHAR
   - name: tv
-    type: VARCHAR
+    type: BIGINT
   - name: tv_article
     type: VARCHAR
   - name: tv_comments
     type: VARCHAR
   - name: govmed
-    type: VARCHAR
+    type: BIGINT
   - name: govmed_article
     type: VARCHAR
   - name: govmed_comments
     type: VARCHAR
   - name: medmark_1
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_2
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_3
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_4
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_5
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_6
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_7
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_90
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_96
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_98
-    type: VARCHAR
+    type: BIGINT
   - name: medmark_article
     type: VARCHAR
   - name: medmark_comments
     type: VARCHAR
   - name: military
-    type: VARCHAR
+    type: BIGINT
   - name: military_article
     type: VARCHAR
   - name: military_comments
     type: VARCHAR
   - name: comchief
-    type: VARCHAR
+    type: BIGINT
   - name: comchief_article
     type: VARCHAR
   - name: comchief_comments
     type: VARCHAR
   - name: terror
-    type: VARCHAR
+    type: BIGINT
   - name: terror_article
     type: VARCHAR
   - name: terror_comments
     type: VARCHAR
   - name: econplan
-    type: VARCHAR
+    type: BIGINT
   - name: econplan_article
     type: VARCHAR
   - name: econplan_comments
     type: VARCHAR
   - name: ethincl
-    type: VARCHAR
+    type: BIGINT
   - name: ethincl_article
     type: VARCHAR
   - name: ethincl_comments
     type: VARCHAR
   - name: opgroup
-    type: VARCHAR
+    type: BIGINT
   - name: opgroup_article
     type: VARCHAR
   - name: opgroup_comments
     type: VARCHAR
   - name: lang
-    type: VARCHAR
+    type: BIGINT
   - name: lang_article
     type: VARCHAR
   - name: lang_comments
@@ -4013,49 +4018,49 @@ columns:
   - name: langnatw_comments
     type: VARCHAR
   - name: langprot
-    type: VARCHAR
+    type: BIGINT
   - name: langprot_article
     type: VARCHAR
   - name: langprot_comments
     type: VARCHAR
   - name: educate
-    type: VARCHAR
+    type: BIGINT
   - name: educate_article
     type: VARCHAR
   - name: educate_comments
     type: VARCHAR
   - name: edcomp
-    type: VARCHAR
+    type: BIGINT
   - name: edcomp_article
     type: VARCHAR
   - name: edcomp_comments
     type: VARCHAR
   - name: edcompl
-    type: VARCHAR
+    type: BIGINT
   - name: edcompl_article
     type: VARCHAR
   - name: edcompl_comments
     type: VARCHAR
   - name: edfree
-    type: VARCHAR
+    type: BIGINT
   - name: edfree_article
     type: VARCHAR
   - name: edfree_comments
     type: VARCHAR
   - name: edfreel
-    type: VARCHAR
+    type: BIGINT
   - name: edfreel_article
     type: VARCHAR
   - name: edfreel_comments
     type: VARCHAR
   - name: acfree
-    type: VARCHAR
+    type: BIGINT
   - name: acfree_article
     type: VARCHAR
   - name: acfree_comments
     type: VARCHAR
   - name: achighed
-    type: VARCHAR
+    type: BIGINT
   - name: achighed_article
     type: VARCHAR
   - name: achighed_comments
