@@ -2,7 +2,7 @@
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import SUMMARY_URL, _get_json
 
 _PROJECTS_SCHEMA = pa.schema([
@@ -69,31 +69,3 @@ def fetch_projects(node_id: str) -> None:
         })
     table = pa.Table.from_pylist(rows, schema=_PROJECTS_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="l2beat-projects", fn=fetch_projects, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="l2beat-projects-transform",
-        deps=["l2beat-projects"],
-        sql='''
-            SELECT
-                id,
-                name,
-                slug,
-                type,
-                host_chain,
-                category,
-                stage,
-                is_archived,
-                is_under_review,
-                providers,
-                purposes,
-                current_tvs_usd
-            FROM "l2beat-projects"
-        ''',
-    ),
-]

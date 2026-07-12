@@ -9,7 +9,7 @@ import time
 import httpx
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, TRANSIENT_EXC, save_raw_parquet
+from subsets_utils import TRANSIENT_EXC, save_raw_parquet
 from utils import (
     BASE,
     THROTTLE_S,
@@ -100,31 +100,3 @@ def fetch_tvs(node_id: str) -> None:
         print(f"[l2beat-tvs] skipped {len(skipped)}/{len(slugs)} projects: {skipped}")
     table = pa.Table.from_pylist(rows, schema=_TVS_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="l2beat-tvs", fn=fetch_tvs, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="l2beat-tvs-transform",
-        deps=["l2beat-tvs"],
-        sql='''
-            SELECT
-                project_slug,
-                CAST(to_timestamp(timestamp) AS DATE) AS date,
-                native,
-                canonical,
-                external,
-                COALESCE(native, 0) + COALESCE(canonical, 0) + COALESCE(external, 0) AS total_usd,
-                eth_price
-            FROM "l2beat-tvs"
-            WHERE timestamp IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY project_slug, CAST(to_timestamp(timestamp) AS DATE)
-                ORDER BY timestamp DESC
-            ) = 1
-        ''',
-    ),
-]

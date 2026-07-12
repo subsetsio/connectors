@@ -3,6 +3,7 @@ import json
 import math
 from functools import lru_cache
 
+import httpx
 import pyarrow as pa
 from subsets_utils import NodeSpec, configure_http, get, save_raw_parquet
 
@@ -11,7 +12,7 @@ from constants import ENTITY_IDS
 
 BASE_URL = "https://data.statistics.sk/api/v2"
 SLUG = "statistics-slovakia"
-MAX_CELLS = 2000
+MAX_CELLS = 9000
 MAX_URL_LEN = 1800
 
 RAW_SCHEMA = pa.schema(
@@ -90,6 +91,10 @@ def _split_selection(table_code: str, dim_codes: list[str], selection: dict[str,
         yield selection
         return
 
+    yield from _split_once(table_code, dim_codes, selection)
+
+
+def _split_once(table_code: str, dim_codes: list[str], selection: dict[str, tuple[str, ...]]):
     split_dim = max((d for d in dim_codes if len(selection[d]) > 1), key=lambda d: len(selection[d]), default=None)
     if split_dim is None:
         yield selection
@@ -101,6 +106,27 @@ def _split_selection(table_code: str, dim_codes: list[str], selection: dict[str,
         child = dict(selection)
         child[split_dim] = part
         yield from _split_selection(table_code, dim_codes, child)
+
+
+def _iter_datasets(table_code: str, dim_codes: list[str], selection: dict[str, tuple[str, ...]]):
+    url = _dataset_url(table_code, dim_codes, selection)
+    try:
+        yield _json_get(url)
+        return
+    except httpx.ReadTimeout as exc:
+        caught_exc = exc
+        should_split = True
+    except RuntimeError as exc:
+        caught_exc = exc
+        should_split = "Too many results" in str(exc)
+        if not should_split:
+            raise
+
+    if not should_split or all(len(selection[dim]) == 1 for dim in dim_codes):
+        raise caught_exc
+
+    for child in _split_once(table_code, dim_codes, selection):
+        yield from _iter_datasets(table_code, dim_codes, child)
 
 
 def _ordered_category_codes(dataset: dict, dim_id: str) -> list[str]:
@@ -181,13 +207,12 @@ def fetch_one(node_id: str) -> None:
     rows = []
     row_index = 0
     for i, chunk in enumerate(_split_selection(table_code, dim_codes, selection)):
-        url = _dataset_url(table_code, dim_codes, chunk)
-        dataset = _json_get(url)
-        if dataset.get("class") != "dataset":
-            raise RuntimeError(f"{table_code}: unexpected response for slice {i}: {dataset}")
-        slice_rows = list(_iter_rows(table_code, dataset, f"slice-{i:04d}", row_index))
-        row_index += len(slice_rows)
-        rows.extend(slice_rows)
+        for dataset in _iter_datasets(table_code, dim_codes, chunk):
+            if dataset.get("class") != "dataset":
+                raise RuntimeError(f"{table_code}: unexpected response for slice {i}: {dataset}")
+            slice_rows = list(_iter_rows(table_code, dataset, f"slice-{i:04d}", row_index))
+            row_index += len(slice_rows)
+            rows.extend(slice_rows)
 
     if not rows:
         raise RuntimeError(f"{table_code}: fetched zero rows")

@@ -9,7 +9,7 @@ import time
 import httpx
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, TRANSIENT_EXC, save_raw_parquet
+from subsets_utils import TRANSIENT_EXC, save_raw_parquet
 from utils import (
     BASE,
     THROTTLE_S,
@@ -91,28 +91,3 @@ def fetch_activity(node_id: str) -> None:
         print(f"[l2beat-activity] skipped {len(skipped)}/{len(slugs)} projects: {skipped}")
     table = pa.Table.from_pylist(rows, schema=_ACTIVITY_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="l2beat-activity", fn=fetch_activity, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="l2beat-activity-transform",
-        deps=["l2beat-activity"],
-        sql='''
-            SELECT
-                project_slug,
-                CAST(to_timestamp(timestamp) AS DATE) AS date,
-                tx_count,
-                uops_count
-            FROM "l2beat-activity"
-            WHERE timestamp IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY project_slug, CAST(to_timestamp(timestamp) AS DATE)
-                ORDER BY timestamp DESC
-            ) = 1
-        ''',
-    ),
-]
