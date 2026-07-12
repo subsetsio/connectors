@@ -1,6 +1,6 @@
 """Canonical download specs for the crates.io connector."""
 
-from subsets_utils import NodeSpec
+from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists
 
 from nodes.categories import fetch_categories
 from nodes.crate_categories import fetch_crate_categories
@@ -25,4 +25,19 @@ DOWNLOAD_SPECS = [
         kind="download",
     ),
     NodeSpec(id="crates-io-versions", fn=fetch_versions, kind="download"),
+]
+
+
+_MAINTAIN_DESCRIPTION = (
+    "crates.io publishes a full db-dump snapshot daily at "
+    "https://static.crates.io/db-dump.tar.gz; reuse raw assets younger than one day."
+)
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=_MAINTAIN_DESCRIPTION,
+        check=lambda asset_id: raw_asset_exists(asset_id, "parquet", max_age_days=1),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
