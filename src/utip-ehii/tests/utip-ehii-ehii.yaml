@@ -1,0 +1,30 @@
+spec_id: utip-ehii-ehii
+status: active
+coverage:
+  frozen: true
+  reason: official EHII workbook is a historical panel covering 1963-2015 with no published refresh cadence
+tests:
+  - row_count: {min: 9000, max: 10000}
+    reason: two workbook sheets contain about 9.1k non-null country-year observations after long normalization
+    certainty: 85
+  - not_null: country_code
+  - not_null: country_alpha3
+  - not_null: country_name
+  - not_null: measure
+  - not_null: year
+  - not_null: value
+  - enum: {col: measure, values: ["gini", "theil"]}
+    reason: the official workbook has exactly gini and theil sheets
+    certainty: 95
+  - unique: [country_alpha3, measure, year]
+    reason: each country has at most one value per measure-year in the workbook
+    certainty: 95
+  - between: {col: year, lo: 1963, hi: 2015}
+    reason: UTIP describes this revision as covering 1963-2015
+    certainty: 95
+  - between: {col: value, lo: 0, hi: 100}
+    reason: Gini values are on a 0-100 scale and Theil values are non-negative and below that bound
+    certainty: 90
+  - distinct_count: {col: country_alpha3, min: 140, max: 170}
+    reason: source describes global coverage and the probed workbook has 154 country rows
+    certainty: 85
