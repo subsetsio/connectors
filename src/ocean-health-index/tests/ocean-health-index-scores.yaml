@@ -1,6 +1,9 @@
 spec_id: ocean-health-index-scores
 status: active
 tests:
+  - freshness: {col: scenario, reaches: 2025}
+    reason: the current OHI global assessment pull includes scenarios through 2025.
+    certainty: 85
   - not_null: scenario
     reason: every row is stamped with the assessment year it was computed for
     certainty: 97
