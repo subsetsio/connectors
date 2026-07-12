@@ -1,0 +1,24 @@
+# faithful pass-through of Sea Around Us raw catch data.
+# caution: Region families overlap; filter region_type before aggregating across regions.
+key: [region_type, region_id, year, commercial_group]
+temporal: year
+sort: [year, region_type, region_id, commercial_group]
+columns:
+  - name: region_type
+    type: VARCHAR
+    description: Sea Around Us region family for this observation.
+  - name: region_id
+    type: BIGINT
+    description: Region identifier within the Sea Around Us region family.
+  - name: region_name
+    type: VARCHAR
+    description: Sea Around Us region display name.
+  - name: year
+    type: BIGINT
+    description: Observation year.
+  - name: commercial_group
+    type: VARCHAR
+    description: Sea Around Us commercial group category.
+  - name: landed_value_usd
+    type: DOUBLE
+    description: Reconstructed marine fisheries landed value in constant 2010 US dollars.

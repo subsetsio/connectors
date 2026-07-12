@@ -21,11 +21,11 @@ a typed-parquet pass (rather than handing the raw text to DuckDB) is the safe
 contract. The transform SQL then NULLIFs the sentinels and projects a tidy table
 per subset.
 """
-import httpx
 import pyarrow as pa
+import httpx
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 _BASE = "https://www.sidc.be/SILSO/DATA"
 
@@ -67,18 +67,11 @@ _HEM_MONTHLY_SMOOTHED = [
     ("std_total", "f"), ("std_north", "f"), ("std_south", "f"),
     ("n_obs_total", "i"), ("n_obs_north", "i"), ("n_obs_south", "i"),
 ]
-
-# entity id (matches the entity union) -> (url, numeric column spec)
-SERIES = {
-    "daily-total":                  (f"{_BASE}/SN_d_tot_V2.0.txt",  _TOT_DAILY),
-    "monthly-total":                (f"{_BASE}/SN_m_tot_V2.0.txt",  _TOT_MONTHLY),
-    "monthly-smoothed-total":       (f"{_BASE}/SN_ms_tot_V2.0.txt", _TOT_MONTHLY_SMOOTHED),
-    "yearly-total":                 (f"{_BASE}/SN_y_tot_V2.0.txt",  _TOT_YEARLY),
-    "daily-hemispheric":            (f"{_BASE}/SN_d_hem_V2.0.txt",  _HEM_DAILY),
-    "monthly-hemispheric":          (f"{_BASE}/SN_m_hem_V2.0.txt",  _HEM_MONTHLY),
-    "monthly-smoothed-hemispheric": (f"{_BASE}/SN_ms_hem_V2.0.txt", _HEM_MONTHLY_SMOOTHED),
-}
-
+_EISN_DAILY = [
+    ("year", "i"), ("month", "i"), ("day", "i"), ("decimal_date", "f"),
+    ("estimated_sunspot_number", "f"), ("estimated_std_dev", "f"),
+    ("n_calculated", "i"), ("n_available", "i"),
+]
 
 def _is_transient(exc: BaseException) -> bool:
     # httpx.TransportError is the base for ConnectError/ReadError/WriteError and
@@ -148,7 +141,14 @@ def _fetch_text(url: str) -> str:
     return buf.decode("utf-8")
 
 
-def _parse(text: str, columns: list[tuple[str, str]]) -> pa.Table:
+def _schema(columns: list[tuple[str, str]], *, definitive: bool) -> pa.Schema:
+    fields = [pa.field(name, pa.int64() if kind == "i" else pa.float64()) for name, kind in columns]
+    if definitive:
+        fields.append(pa.field("definitive", pa.int64()))
+    return pa.schema(fields)
+
+
+def _parse_text(text: str, columns: list[tuple[str, str]]) -> pa.Table:
     n = len(columns)
     cols: dict[str, list] = {name: [] for name, _ in columns}
     definitive: list[int] = []
@@ -168,18 +168,46 @@ def _parse(text: str, columns: list[tuple[str, str]]) -> pa.Table:
         for (name, kind), raw in zip(columns, parts):
             cols[name].append(int(raw) if kind == "i" else float(raw))
         definitive.append(is_def)
-    fields = [pa.field(name, pa.int64() if kind == "i" else pa.float64()) for name, kind in columns]
-    fields.append(pa.field("definitive", pa.int64()))
     data = {name: cols[name] for name, _ in columns}
     data["definitive"] = definitive
-    return pa.table(data, schema=pa.schema(fields))
+    return pa.table(data, schema=_schema(columns, definitive=True))
+
+
+def _parse_csv(text: str, columns: list[tuple[str, str]]) -> pa.Table:
+    n = len(columns)
+    cols: dict[str, list] = {name: [] for name, _ in columns}
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        parts = [p.strip() for p in line.split(",")]
+        if parts and parts[-1] == "":
+            parts = parts[:-1]
+        if len(parts) != n:
+            raise ValueError(f"expected {n} comma fields, got {len(parts)}: {line!r}")
+        for (name, kind), raw in zip(columns, parts):
+            cols[name].append(int(raw) if kind == "i" else float(raw))
+    return pa.table(cols, schema=_schema(columns, definitive=False))
+
+
+# entity id (matches the entity union) -> (url, numeric column spec, parser)
+SERIES = {
+    "daily-total":                  (f"{_BASE}/SN_d_tot_V2.0.txt",      _TOT_DAILY, _parse_text),
+    "monthly-total":                (f"{_BASE}/SN_m_tot_V2.0.txt",      _TOT_MONTHLY, _parse_text),
+    "monthly-smoothed-total":       (f"{_BASE}/SN_ms_tot_V2.0.txt",     _TOT_MONTHLY_SMOOTHED, _parse_text),
+    "yearly-total":                 (f"{_BASE}/SN_y_tot_V2.0.txt",      _TOT_YEARLY, _parse_text),
+    "daily-hemispheric":            (f"{_BASE}/SN_d_hem_V2.0.txt",      _HEM_DAILY, _parse_text),
+    "monthly-hemispheric":          (f"{_BASE}/SN_m_hem_V2.0.txt",      _HEM_MONTHLY, _parse_text),
+    "monthly-smoothed-hemispheric": (f"{_BASE}/SN_ms_hem_V2.0.txt",     _HEM_MONTHLY_SMOOTHED, _parse_text),
+    "daily-estimated":              (f"{_BASE}/EISN/EISN_current.csv",  _EISN_DAILY, _parse_csv),
+}
 
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     entity = node_id[len("silso-"):]
-    url, columns = SERIES[entity]
-    table = _parse(_fetch_text(url), columns)
+    url, columns, parser = SERIES[entity]
+    table = parser(_fetch_text(url), columns)
     if table.num_rows == 0:
         raise ValueError(f"{node_id}: parsed 0 rows from {url}")
     save_raw_parquet(table, asset)

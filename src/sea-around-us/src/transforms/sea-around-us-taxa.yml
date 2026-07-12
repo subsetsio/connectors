@@ -1,0 +1,21 @@
+key: [taxon_key]
+sort: [taxon_key]
+columns:
+  - name: taxon_key
+    type: BIGINT
+    description: Sea Around Us taxon identifier.
+  - name: scientific_name
+    type: VARCHAR
+    description: Scientific name for the taxon.
+  - name: common_name
+    type: VARCHAR
+    description: Common name for the taxon when published.
+  - name: functional_group
+    type: BIGINT
+    description: Sea Around Us functional group code.
+  - name: commercial_group
+    type: BIGINT
+    description: Sea Around Us commercial group code.
+  - name: is_taxon_distribution_backfilled
+    type: BOOLEAN
+    description: Whether Sea Around Us marks the taxon distribution as backfilled.

@@ -1,0 +1,15 @@
+key: [region_type, region_id]
+sort: [region_type, region_id]
+columns:
+  - name: region_type
+    type: VARCHAR
+    description: Sea Around Us region family, such as EEZ, LME, RFMO, or global.
+  - name: region_id
+    type: BIGINT
+    description: Region identifier within the Sea Around Us region family.
+  - name: title
+    type: VARCHAR
+    description: Sea Around Us region display name.
+  - name: long_title
+    type: VARCHAR
+    description: Longer Sea Around Us region name when published; otherwise null or the display name for synthetic global.

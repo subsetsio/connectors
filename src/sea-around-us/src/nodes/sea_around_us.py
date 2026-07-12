@@ -8,9 +8,10 @@ reconstructions (not a continuously-updated feed) and exposes no incremental
 transform overwrites the published table. The corpus is a few thousand small
 JSON time series, comfortably re-pullable per run.
 
-Publishable units (15): 14 catch tables, one per (measure, dimension), each a
+Publishable units (17): 14 catch tables, one per (measure, dimension), each a
 long-format annual time series (1950-present) spanning every spatial region
-type as a `region_type` column; plus the `taxa` reference taxonomy.
+type as a `region_type` column; plus regions, fishing entities, and taxa
+reference tables.
 
 Catch endpoint: /{region_type}/{measure}/{dimension}/?region_id={id} returns
 {"data": [{"key", "values": [[year, amount], ...], "scientific_name"?,
@@ -31,9 +32,7 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
     raw_parquet_writer,
 )
@@ -81,6 +80,19 @@ TAXA_SCHEMA = pa.schema([
     ("is_taxon_distribution_backfilled", pa.bool_()),
 ])
 
+FISHING_ENTITIES_SCHEMA = pa.schema([
+    ("country_id", pa.int64()),
+    ("fishing_entity_id", pa.int64()),
+    ("title", pa.string()),
+])
+
+REGIONS_SCHEMA = pa.schema([
+    ("region_type", pa.string()),
+    ("region_id", pa.int64()),
+    ("title", pa.string()),
+    ("long_title", pa.string()),
+])
+
 CATCH_PREFIX = "sea-around-us-catch-"
 
 
@@ -88,7 +100,6 @@ CATCH_PREFIX = "sea-around-us-catch-"
 # HTTP
 # ---------------------------------------------------------------------------
 
-@transient_retry()
 def _get_json(url, params=None):
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -214,6 +225,51 @@ def fetch_taxa(node_id):
     save_raw_parquet(pa.Table.from_pylist(rows, schema=TAXA_SCHEMA), asset)
 
 
+def fetch_fishing_entities(node_id):
+    """Reference list of fishing entities/countries used by catch slices."""
+    payload = _get_json(f"{BASE}/fishing-entity/")
+    data = payload.get("data", [])
+    rows = []
+    for entity in data:
+        rows.append({
+            "country_id": _to_int(entity.get("country_id")),
+            "fishing_entity_id": int(entity["id"]),
+            "title": entity.get("title"),
+        })
+    if not rows:
+        raise AssertionError("fishing-entity: endpoint returned 0 records")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=FISHING_ENTITIES_SCHEMA), node_id)
+
+
+def fetch_regions(node_id):
+    """Reference list of spatial regions used by catch slices."""
+    rows = []
+    for region_type in SPATIAL_REGION_TYPES:
+        payload = _get_json(f"{BASE}/{region_type}/")
+        data = payload.get("data", {})
+        features = data.get("features", []) if isinstance(data, dict) else []
+        for feat in features:
+            props = (feat or {}).get("properties") or {}
+            rid = props.get("region_id")
+            if rid is None:
+                continue
+            rows.append({
+                "region_type": region_type,
+                "region_id": int(rid),
+                "title": props.get("title"),
+                "long_title": props.get("long_title"),
+            })
+    rows.append({
+        "region_type": GLOBAL_REGION[0],
+        "region_id": GLOBAL_REGION[1],
+        "title": GLOBAL_REGION[2],
+        "long_title": GLOBAL_REGION[2],
+    })
+    if not rows:
+        raise AssertionError("regions: endpoint returned 0 records")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=REGIONS_SCHEMA), node_id)
+
+
 # ---------------------------------------------------------------------------
 # Specs
 # ---------------------------------------------------------------------------
@@ -224,54 +280,7 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=f"sea-around-us-{e}", fn=fetch_catch, kind="download")
     for e in _CATCH_ENTITIES
 ] + [
+    NodeSpec(id="sea-around-us-fishing-entities", fn=fetch_fishing_entities, kind="download"),
+    NodeSpec(id="sea-around-us-regions", fn=fetch_regions, kind="download"),
     NodeSpec(id="sea-around-us-taxa", fn=fetch_taxa, kind="download"),
 ]
-
-
-def _catch_transform_sql(download_id, measure, dimension):
-    dim_col = DIM_COL[dimension]
-    meas_col = MEASURE_COL[measure]
-    taxon_cols = ""
-    if dimension == "taxon":
-        taxon_cols = (
-            "TRY_CAST(entity_id AS BIGINT) AS taxon_key,\n"
-            "            scientific_name,\n            "
-        )
-    return f'''
-        SELECT
-            region_type,
-            region_id,
-            region_name,
-            year,
-            {taxon_cols}category AS {dim_col},
-            value AS {meas_col}
-        FROM "{download_id}"
-        WHERE value IS NOT NULL AND category IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = []
-for _e in _CATCH_ENTITIES:
-    _did = f"sea-around-us-{_e}"
-    _m, _d = _parse_catch_id(_did)
-    TRANSFORM_SPECS.append(
-        SqlNodeSpec(id=f"{_did}-transform", deps=[_did], sql=_catch_transform_sql(_did, _m, _d))
-    )
-
-TRANSFORM_SPECS.append(
-    SqlNodeSpec(
-        id="sea-around-us-taxa-transform",
-        deps=["sea-around-us-taxa"],
-        sql='''
-            SELECT
-                taxon_key,
-                scientific_name,
-                common_name,
-                functional_group,
-                commercial_group,
-                is_taxon_distribution_backfilled
-            FROM "sea-around-us-taxa"
-            WHERE taxon_key IS NOT NULL
-        ''',
-    )
-)

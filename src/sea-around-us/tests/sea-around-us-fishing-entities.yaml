@@ -1,0 +1,16 @@
+spec_id: sea-around-us-fishing-entities
+status: active
+tests:
+  - not_null: fishing_entity_id
+  - column_type: {col: fishing_entity_id, type: integer}
+  - unique: fishing_entity_id
+    reason: fishing entity id is the source identifier; duplicates mean the list was concatenated twice
+    certainty: 95
+  - not_null: title
+    reason: each fishing entity has a display title in the API list
+    certainty: 90
+  - row_count: {min: 150}
+    reason: the fishing entity list had ~217 records when probed; <150 means a truncated fetch
+    certainty: 90
+  - distinct_count: {col: fishing_entity_id, min: 150}
+    certainty: 90
