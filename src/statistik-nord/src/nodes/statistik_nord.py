@@ -50,10 +50,7 @@ SCHEMA = pa.schema(
 
 
 def _entity_from_node_id(node_id: str) -> str:
-    entity_id = node_id.removeprefix(PREFIX)
-    if entity_id not in ENTITY_IDS:
-        raise RuntimeError(f"unknown Statistik Nord entity id: {entity_id}")
-    return entity_id
+    return node_id.removeprefix(PREFIX)
 
 
 def _package_show(entity_id: str) -> dict:
