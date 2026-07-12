@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-organizedviolencecy`. Regenerate after model-verify.
+# caution: This is a country-year aggregate over state-based, non-state, and one-sided violence; avoid summing it with the component event or dyad tables as if they were independent observations.
+key: [country_id, year]
 temporal: year
-sort: [year]
+sort: [year, country_id]
 columns:
   - name: country
     type: VARCHAR
@@ -148,5 +151,5 @@ columns:
     type: BIGINT
   - name: cumulative_total_deaths_in_orgvio_low
     type: BIGINT
-  - name: Version
+  - name: version
     type: DOUBLE

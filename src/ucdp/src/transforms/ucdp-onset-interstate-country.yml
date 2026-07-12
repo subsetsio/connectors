@@ -1,6 +1,8 @@
-# Pass-through transform for the accepted UCDP onset dataset.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-onset-interstate-country`. Regenerate after model-verify.
+key: [abc, name, year, year_prev]
 temporal: year
-sort: [year]
+sort: [year, abc, name, year_prev]
 columns:
   - name: abc
     type: VARCHAR
@@ -24,7 +26,7 @@ columns:
     type: BIGINT
   - name: onset20
     type: BIGINT
-  - name: "    conflict_ids"
+  - name: conflict_ids
     type: VARCHAR
   - name: year_prev
     type: VARCHAR

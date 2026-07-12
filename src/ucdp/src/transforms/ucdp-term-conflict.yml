@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-term-conflict`. Regenerate after model-verify.
+# caution: Conflict termination rows can repeat conflict episode identifiers across annual conflict attributes; do not treat conflict_id plus episode fields as unique.
+key: []
+temporal: start_date
+sort: [start_date]
 columns:
   - name: conflict_id
     type: BIGINT

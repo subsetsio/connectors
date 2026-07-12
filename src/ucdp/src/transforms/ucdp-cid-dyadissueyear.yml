@@ -1,8 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-cid-dyadissueyear`. Regenerate after model-verify.
+# caution: Rows describe dyad-issue-years, but the source contains duplicate issue classifications under the natural dyad/year/issue fields; do not assume one row per dyad-year issue.
+key: []
 temporal: year
 sort: [year]
 columns:
-  - name: C0
+  - name: c0
     type: BIGINT
   - name: dyad_id
     type: BIGINT

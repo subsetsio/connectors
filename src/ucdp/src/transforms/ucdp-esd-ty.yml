@@ -1,7 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-esd-ty`. Regenerate after model-verify.
+key: [id, actor_id, oppo_id, dyad_id, actor_name]
 temporal: year
-sort: [year, id]
+sort: [year, id, actor_id, oppo_id, dyad_id, actor_name]
 columns:
   - name: id
     type: INTEGER

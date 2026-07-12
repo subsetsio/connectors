@@ -1,4 +1,8 @@
-# Pass-through transform for an accepted UCDP dataset.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-mic`. Regenerate after model-verify.
+key: [row_id]
+temporal: start_event
+sort: [start_event, row_id]
 columns:
   - name: row_id
     type: BIGINT
@@ -21,9 +25,9 @@ columns:
   - name: intensity
     type: BIGINT
   - name: start_event
-    type: VARCHAR
+    type: DATE
   - name: end_event
-    type: VARCHAR
+    type: DATE
   - name: temporal_precision
     type: BIGINT
   - name: source

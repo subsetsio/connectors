@@ -1,1 +1,44 @@
-SELECT * FROM "ucdp-esd-ty"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "active",
+    "year",
+    "actor_id",
+    "actor_name",
+    "actor_nonstate",
+    "oppo_id",
+    "oppo_name",
+    "dyad_id",
+    "dyad_name",
+    "civil",
+    "conflict_id",
+    "location",
+    "gwno_a",
+    "country_a",
+    "gwno_b",
+    "country_b",
+    "ext_id",
+    "ext_name",
+    "ext_nonstate",
+    "ext_coalition",
+    "ext_coalition_name",
+    "ext_elements",
+    "ext_bothsides",
+    "ext_alleged",
+    "ext_sup",
+    "ext_x",
+    "ext_p",
+    "ext_y",
+    "ext_w",
+    "ext_m",
+    "ext_t",
+    "ext_f",
+    "ext_i",
+    "ext_l",
+    "ext_o",
+    "ext_u",
+    "ext_sum"
+FROM "ucdp-esd-ty"

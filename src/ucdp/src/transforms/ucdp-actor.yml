@@ -1,72 +1,75 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-actor`. Regenerate after model-verify.
+# caution: The actor catalog can contain repeated or partially blank actor-name rows for one actor identifier; treat it as a source roster rather than a unique actor dimension.
+key: []
 columns:
-  - name: ActorId
+  - name: actorid
     type: BIGINT
-  - name: NameData
+  - name: namedata
     type: BLOB
-  - name: NameOrig
+  - name: nameorig
     type: BLOB
-  - name: NameOrigFull
+  - name: nameorigfull
     type: BLOB
-  - name: NameOrigFullEng
+  - name: nameorigfulleng
     type: BLOB
-  - name: NameChange
+  - name: namechange
     type: BIGINT
-  - name: NewName
+  - name: newname
     type: BLOB
-  - name: NewNameFullMotherTongue
+  - name: newnamefullmothertongue
     type: BLOB
-  - name: NewNameFullEng
+  - name: newnamefulleng
     type: BLOB
-  - name: Org
+  - name: org
     type: BIGINT
-  - name: ConflictId
+  - name: conflictid
     type: VARCHAR
-  - name: DyadId
+  - name: dyadid
     type: VARCHAR
-  - name: PrimaryParty
+  - name: primaryparty
     type: BIGINT
-  - name: OSID
+  - name: osid
     type: BIGINT
-  - name: OSCoalition
+  - name: oscoalition
     type: BIGINT
-  - name: OSCoalitionID
+  - name: oscoalitionid
     type: VARCHAR
-  - name: NSID
+  - name: nsid
     type: VARCHAR
-  - name: NSCoalition
+  - name: nscoalition
     type: BIGINT
-  - name: NSCoalitionID
+  - name: nscoalitionid
     type: VARCHAR
-  - name: Splinter
+  - name: splinter
     type: BIGINT
-  - name: NamePrev
+  - name: nameprev
     type: BLOB
-  - name: ActorIdPrev
+  - name: actoridprev
     type: VARCHAR
-  - name: SplitTemp
+  - name: splittemp
     type: BIGINT
-  - name: NameSplitTemp
+  - name: namesplittemp
     type: VARCHAR
-  - name: ActorIdSplitTemp
+  - name: actoridsplittemp
     type: BIGINT
-  - name: Alliance
+  - name: alliance
     type: BIGINT
-  - name: NameAlliance
+  - name: namealliance
     type: BLOB
-  - name: ActorIdAlliance
+  - name: actoridalliance
     type: VARCHAR
-  - name: JoinGroup
+  - name: joingroup
     type: BIGINT
-  - name: GroupName
+  - name: groupname
     type: VARCHAR
-  - name: ActorIdGroup
+  - name: actoridgroup
     type: VARCHAR
-  - name: Location
+  - name: location
     type: VARCHAR
-  - name: GWNOLoc
+  - name: gwnoloc
     type: VARCHAR
-  - name: Region
+  - name: region
     type: VARCHAR
-  - name: Version
+  - name: version
     type: DOUBLE

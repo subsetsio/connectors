@@ -1,4 +1,5 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-cace`. Regenerate after model-verify.
 key: [id]
 temporal: year
 sort: [year, id]
@@ -33,17 +34,17 @@ columns:
     type: BIGINT
   - name: where_coordinates
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: CACE cityname
+  - name: cace_cityname
     type: VARCHAR
-  - name: Capital
+  - name: capital
     type: VARCHAR
-  - name: Majorcity
+  - name: majorcity
     type: VARCHAR
-  - name: Top3cities
+  - name: top3cities
     type: VARCHAR
-  - name: Comment
+  - name: comment
     type: VARCHAR
   - name: adm_1
     type: VARCHAR
@@ -87,7 +88,7 @@ columns:
     type: BIGINT
   - name: high
     type: BIGINT
-  - name: C42
+  - name: c42
     type: INTEGER
-  - name: _1
+  - name: "1"
     type: VARCHAR

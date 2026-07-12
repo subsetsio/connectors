@@ -1,106 +1,109 @@
-# Pass-through transform for an accepted UCDP dataset.
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-eosv`. Regenerate after model-verify.
+# caution: Ethnic one-sided violence rows are actor-year observations with repeated actor/year combinations across ethnic group fields; aggregate only after choosing the relevant ethnic-group columns.
+key: []
+temporal: year
+sort: [year]
 columns:
-  - name: ActorId
-    type: BIGINT
-  - name: ActorName
+  - name: actorid
+    type: INTEGER
+  - name: actorname
     type: VARCHAR
-  - name: Year
-    type: BIGINT
-  - name: BestFatalityEstimate
-    type: BIGINT
-  - name: HighFatalityEstimate
-    type: BIGINT
-  - name: IsGovernmentActor
-    type: BIGINT
-  - name: Location
+  - name: year
+    type: SMALLINT
+  - name: bestfatalityestimate
+    type: INTEGER
+  - name: highfatalityestimate
+    type: INTEGER
+  - name: isgovernmentactor
+    type: TINYINT
+  - name: location
     type: VARCHAR
-  - name: GWNOLocation
+  - name: gwnolocation
     type: VARCHAR
-  - name: Region
-    type: BIGINT
-  - name: EthnGr1
+  - name: region
+    type: TINYINT
+  - name: ethngr1
     type: VARCHAR
-  - name: EthnGrID1
+  - name: ethngrid1
     type: DOUBLE
-  - name: Typ1
+  - name: typ1
     type: DOUBLE
-  - name: Int1
+  - name: int1
     type: DOUBLE
-  - name: Intconf1
+  - name: intconf1
     type: DOUBLE
-  - name: Dats1
+  - name: dats1
     type: VARCHAR
-  - name: EthnGr2
+  - name: ethngr2
     type: VARCHAR
-  - name: EthnGrID2
+  - name: ethngrid2
     type: DOUBLE
-  - name: Typ2
+  - name: typ2
     type: DOUBLE
-  - name: Int2
+  - name: int2
     type: DOUBLE
-  - name: Intconf2
+  - name: intconf2
     type: DOUBLE
-  - name: Dats2
+  - name: dats2
     type: VARCHAR
-  - name: EthnGr3
+  - name: ethngr3
     type: VARCHAR
-  - name: EthnGrID3
+  - name: ethngrid3
     type: DOUBLE
-  - name: Typ3
+  - name: typ3
     type: DOUBLE
-  - name: Int3
+  - name: int3
     type: DOUBLE
-  - name: Intconf3
+  - name: intconf3
     type: DOUBLE
-  - name: Dats3
+  - name: dats3
     type: VARCHAR
-  - name: EthnGr4
+  - name: ethngr4
     type: VARCHAR
-  - name: EthnGrID4
+  - name: ethngrid4
     type: DOUBLE
-  - name: Typ4
+  - name: typ4
     type: DOUBLE
-  - name: Int4
+  - name: int4
     type: DOUBLE
-  - name: Intconf4
+  - name: intconf4
     type: DOUBLE
-  - name: Dats4
+  - name: dats4
     type: VARCHAR
-  - name: EthnGr5
+  - name: ethngr5
     type: VARCHAR
-  - name: EthnGrID5
+  - name: ethngrid5
     type: DOUBLE
-  - name: Typ5
+  - name: typ5
     type: DOUBLE
-  - name: Int5
+  - name: int5
     type: DOUBLE
-  - name: Intconf5
+  - name: intconf5
     type: DOUBLE
-  - name: Dats5
+  - name: dats5
     type: VARCHAR
-  - name: EthnGr6
+  - name: ethngr6
     type: VARCHAR
-  - name: EthnGrID6
+  - name: ethngrid6
     type: DOUBLE
-  - name: Typ6
+  - name: typ6
     type: DOUBLE
-  - name: Int6
+  - name: int6
     type: DOUBLE
-  - name: Intconf6
+  - name: intconf6
     type: DOUBLE
-  - name: Dats6
+  - name: dats6
     type: VARCHAR
-  - name: EthnGr7
+  - name: ethngr7
     type: VARCHAR
-  - name: EthnGrID7
+  - name: ethngrid7
     type: DOUBLE
-  - name: Typ7
+  - name: typ7
     type: DOUBLE
-  - name: Int7
+  - name: int7
     type: DOUBLE
-  - name: Intconf7
+  - name: intconf7
     type: DOUBLE
-  - name: Dats7
+  - name: dats7
     type: VARCHAR

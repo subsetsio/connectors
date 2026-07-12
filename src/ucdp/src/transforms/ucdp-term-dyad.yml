@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-term-dyad`. Regenerate after model-verify.
+# caution: Dyad termination rows can repeat dyad episode identifiers across annual dyad attributes; do not treat dyad_id plus episode fields as unique.
+key: []
+temporal: start_date
+sort: [start_date]
 columns:
   - name: dyad_id
     type: BIGINT

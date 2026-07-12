@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-ucdp-prio-acd`. Regenerate after model-verify.
+key: [conflict_id, year]
+temporal: start_date
+sort: [start_date, conflict_id, year]
 columns:
   - name: conflict_id
     type: BIGINT

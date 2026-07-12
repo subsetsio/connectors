@@ -1,1 +1,47 @@
-SELECT * FROM "ucdp-deco"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "type_of_violence",
+    "conflict_new_id",
+    "conflict_name",
+    "dyad_new_id",
+    "side_a_new_id",
+    "side_a",
+    "side_b_new_id",
+    "side_b",
+    "country_id",
+    "country",
+    "region",
+    "source_article",
+    "year",
+    "date_start",
+    "date_end",
+    "deaths_a",
+    "deaths_b",
+    "civilian_deaths",
+    "unknown",
+    "best",
+    "high",
+    "low",
+    "latitude",
+    "longitude",
+    "electoral_vio",
+    "electoral_vio_uncertainty",
+    "electoral_vio_source",
+    "electoral_purpose",
+    "electoral_side_a",
+    "electoral_side_a_2",
+    "electoral_side_a_inc",
+    "electoral_side_b",
+    "electoral_side_b_2",
+    "electoral_side_b_inc",
+    "electoral_perpetrator",
+    "electoral_targets",
+    "electoral_type",
+    "electoral_timing",
+    "relid",
+    "ucdp_ged"
+FROM "ucdp-deco"

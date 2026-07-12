@@ -1,1 +1,47 @@
-SELECT * FROM "ucdp-par"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "ged50_corresp_id",
+    "year",
+    "code_status",
+    "source_article",
+    "source_original",
+    "dyad_dset_id",
+    "dyad_name",
+    "side_a",
+    "side_a_dset_id",
+    "side_b",
+    "side_b_dset_id",
+    "side_b_pko_id",
+    "country",
+    "country_id",
+    "where_prec",
+    "where_coordinates",
+    "adm_1",
+    "adm_2",
+    "latitude",
+    "longitude",
+    "geom_wkt",
+    "priogrid_gid",
+    "event_clarity",
+    "date_prec",
+    "date_start",
+    "date_end",
+    "deaths_a",
+    "deaths_b",
+    "deaths_unknown",
+    "collateral_civilians",
+    "best_est",
+    "high_est",
+    "low_est",
+    "deaths_nationals",
+    "non_lethal_violence",
+    "injury_non_lethal",
+    "kidnap_non_lethal",
+    "nationals_non_lethal",
+    "nationality_pko",
+    "split"
+FROM "ucdp-par"

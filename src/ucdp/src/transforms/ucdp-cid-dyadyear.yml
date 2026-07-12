@@ -1,8 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-cid-dyadyear`. Regenerate after model-verify.
+key: [side_b_id, dyad_id, conflict_id, year, active_year]
 temporal: year
-sort: [year]
+sort: [year, side_b_id, dyad_id, conflict_id, active_year]
 columns:
-  - name: C0
+  - name: c0
     type: BIGINT
   - name: dyad_id
     type: BIGINT

@@ -1,4 +1,7 @@
-# Pass-through transform for the accepted UCDP dyad translation table.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ucdp-translate-dyad`. Regenerate after model-verify.
+key: [new_id, old_id, type_of_violence]
+sort: [new_id, old_id, type_of_violence]
 columns:
   - name: new_id
     type: BIGINT
