@@ -31,6 +31,8 @@ tests:
   - matches: {col: Date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
     reason: meet start date is published in ISO-8601 YYYY-MM-DD
     certainty: 92
+  - freshness: {col: Date, reaches: today - 365d}
+    reason: the public OpenPowerlifting corpus is updated frequently and should contain meet results from the last year
   - distinct_count: {col: Federation, min: 100}
     reason: OpenPowerlifting aggregates hundreds of distinct federations worldwide
     certainty: 80

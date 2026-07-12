@@ -15,3 +15,6 @@ tests:
     points_outward: true
   - column_type: {col: is_open_data_licensed, type: boolean}
     certainty: 90
+  - freshness: {col: date_last_imported, reaches: today - 3650d}
+    reason: Data provider import timestamps are per-provider provenance dates, not the scrape timestamp; inactive providers can legitimately be years old.
+    certainty: 80
