@@ -1,0 +1,25 @@
+spec_id: wikipedia-edited-pages
+status: active
+tests:
+  - not_null: project
+  - not_null: date
+  - not_null: edited_pages
+  - column_type: {col: project, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: edited_pages, type: integer}
+  - unique: [project, date]
+    reason: monthly all-editor/all-page/all-activity aggregate should have one row per project-month
+    certainty: 95
+  - distinct_count: {col: project, min: 100}
+    reason: Wikimedia sitematrix should yield data for many active projects
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: monthly history across many projects should be far above a smoke-test-sized pull
+    certainty: 95
+  - at_least: {col: edited_pages, expr: 0}
+    reason: edited-page counts cannot be negative
+    certainty: 95
+  - freshness: {col: date, reaches: today - 75d}
+    reason: AQS monthly aggregate should include a recent complete month
+    certainty: 85
+    points_outward: true

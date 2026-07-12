@@ -1,0 +1,25 @@
+spec_id: wikipedia-registered-users-new
+status: active
+tests:
+  - not_null: project
+  - not_null: date
+  - not_null: new_registered_users
+  - column_type: {col: project, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: new_registered_users, type: integer}
+  - unique: [project, date]
+    reason: monthly new-users aggregate should have one row per project-month
+    certainty: 95
+  - distinct_count: {col: project, min: 100}
+    reason: Wikimedia sitematrix should yield data for many active projects
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: monthly history across many projects should be far above a smoke-test-sized pull
+    certainty: 95
+  - at_least: {col: new_registered_users, expr: 0}
+    reason: user-registration counts cannot be negative
+    certainty: 95
+  - freshness: {col: date, reaches: today - 75d}
+    reason: AQS monthly aggregate should include a recent complete month
+    certainty: 85
+    points_outward: true

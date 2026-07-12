@@ -1,0 +1,28 @@
+spec_id: wikipedia-mediarequests
+status: active
+tests:
+  - not_null: media_type
+  - not_null: date
+  - not_null: requests
+  - column_type: {col: media_type, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: requests, type: integer}
+  - unique: [media_type, date]
+    reason: monthly all-referer/all-agent aggregate should have one row per media type-month
+    certainty: 95
+  - enum: {col: media_type, values: [all-media-types, image, audio, video, document, other]}
+    reason: downloader intentionally requests the documented media type breakdown
+    certainty: 95
+  - distinct_count: {col: media_type, min: 5, max: 6}
+    reason: most or all documented media types should be present
+    certainty: 85
+  - row_count: {min: 300}
+    reason: monthly history across media types should be well above a smoke-test-sized pull
+    certainty: 90
+  - at_least: {col: requests, expr: 0}
+    reason: request counts cannot be negative
+    certainty: 95
+  - freshness: {col: date, reaches: today - 75d}
+    reason: AQS monthly aggregate should include a recent complete month
+    certainty: 85
+    points_outward: true

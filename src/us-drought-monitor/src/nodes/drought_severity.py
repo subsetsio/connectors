@@ -50,6 +50,15 @@ def fetch_drought_severity(node_id: str) -> None:
                 "d2": item["d2"], "d3": item["d3"], "d4": item["d4"],
             })
 
+    expected_regions = REGION_CODES | {"US"}
+    observed_regions = {row["region"] for row in rows}
+    if observed_regions != expected_regions:
+        raise ValueError(
+            "Unexpected USDM severity regions: "
+            f"missing={sorted(expected_regions - observed_regions)!r}, "
+            f"extra={sorted(observed_regions - expected_regions)!r}"
+        )
+
     table = pa.Table.from_pylist(rows, schema=SEVERITY_SCHEMA)
     print(f"  {asset}: {len(table):,} rows")
     save_raw_parquet(table, asset)

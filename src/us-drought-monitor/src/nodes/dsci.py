@@ -8,7 +8,7 @@ the 50 states, DC, and Puerto Rico (53 region codes total).
 import pyarrow as pa
 
 from subsets_utils import save_raw_parquet
-from utils import STATE_FIPS, fetch, iso_to_date
+from utils import REGION_CODES, STATE_FIPS, fetch, iso_to_date
 
 # State DSCI rows carry the full state `name`; severity rows carry
 # `stateAbbreviation` directly. Map names to abbreviations so both subsets emit
@@ -63,6 +63,15 @@ def fetch_dsci(node_id: str) -> None:
                 "region": abbrev,
                 "dsci": item["dsci"],
             })
+
+    expected_regions = REGION_CODES | {"US"}
+    observed_regions = {row["region"] for row in rows}
+    if observed_regions != expected_regions:
+        raise ValueError(
+            "Unexpected USDM DSCI regions: "
+            f"missing={sorted(expected_regions - observed_regions)!r}, "
+            f"extra={sorted(observed_regions - expected_regions)!r}"
+        )
 
     table = pa.Table.from_pylist(rows, schema=DSCI_SCHEMA)
     print(f"  {asset}: {len(table):,} rows")
