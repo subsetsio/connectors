@@ -1,0 +1,18 @@
+spec_id: transport-for-london-active-travel-monitoring-locations
+status: active
+tests:
+  - not_null: site_id
+    reason: monitoring locations are keyed by TfL Site ID
+    certainty: 95
+  - unique: site_id
+    reason: one row per monitoring location
+    certainty: 90
+  - not_null: latitude
+    reason: count sites include coordinates for joining and mapping
+    certainty: 90
+  - not_null: longitude
+    reason: count sites include coordinates for joining and mapping
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: current monitoring-location catalog has more than 2,000 rows
+    certainty: 80

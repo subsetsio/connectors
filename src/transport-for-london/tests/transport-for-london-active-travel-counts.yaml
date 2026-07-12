@@ -10,6 +10,10 @@ tests:
   - not_null: date
     reason: each count row carries its survey date
     certainty: 85
+  - freshness: {col: date, reaches: today - 550d}
+    reason: TfL Active Travel Counts has files through 2025 and is periodically refreshed
+    certainty: 75
+    points_outward: true
   - row_count: {min: 100000}
     reason: ~87 quarterly/regional CSVs at tens of thousands of 15-minute rows each
     certainty: 75

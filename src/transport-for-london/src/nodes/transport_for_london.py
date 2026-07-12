@@ -1,26 +1,11 @@
-"""Transport for London connector.
+"""Transport for London downloads.
 
-Four published subsets, two access surfaces (both anonymous):
-
-* PRIMARY — the public S3 bucket ``cycling.data.tfl.gov.uk`` (mechanism
-  ``cycling_s3``). Folders are enumerated via the S3 ListBucketV2 XML at the
-  ``s3-eu-west-1.amazonaws.com`` origin; individual files are pulled by stable
-  key from the CDN host. CSV column layouts drift across eras (the Santander
-  cycle-hire extract was re-schemed in ~2024), so every fetch normalises to a
-  fixed all-string parquet schema and the real typing happens in the SQL
-  transform. The cycle-counter files carry a ``.xls`` extension but are plain
-  108-column CSVs of per-vehicle records.
-* SECONDARY — the Unified API (``unified_api_rest``), used only for
-  ``/AccidentStats/{year}`` (full-year road-casualty JSON, no key required).
-
-The three bucket-backed assets are large and made of immutable historical
-files, so they ingest file-by-file (one parquet batch per source file) and keep
-a per-asset watermark of completed keys in state — a run interrupted partway
-resumes instead of restarting, and newly-published files are picked up on the
-next refresh. AccidentStats is small (~15 years) and re-pulled in full each run.
+The accepted datasets use TfL's anonymous cycling S3 bucket. Count extracts are
+ingested file-by-file as fragments of one logical raw asset so interrupted runs
+can resume, while the monitoring-location reference CSV is fetched as one table.
+Every column is normalised to string; model/transform owns typing.
 """
 
-import datetime
 import io
 import re
 import urllib.parse
@@ -31,12 +16,10 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     load_state,
     save_raw_parquet,
     save_state,
-    transient_retry,
 )
 
 SLUG = "transport-for-london"
@@ -44,35 +27,16 @@ STATE_VERSION = 1
 
 S3_ORIGIN = "https://s3-eu-west-1.amazonaws.com/cycling.data.tfl.gov.uk/"
 CDN = "https://cycling.data.tfl.gov.uk/"
-ACCIDENT_API = "https://api.tfl.gov.uk/AccidentStats"
-# Documented earliest AccidentStats year; the upper bound is discovered live by
-# probing each year up to the current one (the API 400s on out-of-range years),
-# so this is not a hardcoded coverage window.
-ACCIDENT_MIN_YEAR = 2005
+MONITORING_LOCATIONS_KEY = "ActiveTravelCountsProgramme/1 Monitoring locations.csv"
 
 
 # --------------------------------------------------------------------------- #
 # HTTP helpers
 # --------------------------------------------------------------------------- #
-@transient_retry()
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
     return resp.content
-
-
-@transient_retry()
-def _accident_year(year: int):
-    """Full-year AccidentStats payload, or None when the year is out of range.
-
-    The API answers an unavailable year with HTTP 400 (a permanent signal, not a
-    transient error) — treat that as 'no data for this year' rather than raising.
-    """
-    resp = get(f"{ACCIDENT_API}/{year}", timeout=(10.0, 300.0))
-    if resp.status_code == 400:
-        return None
-    resp.raise_for_status()
-    return resp.json()
 
 
 # --------------------------------------------------------------------------- #
@@ -184,19 +148,18 @@ COUNTS_MAP = {
     "count": ["count"],
 }
 
-COUNTERS_MAP = {
-    "site_number": ["sitenumber"],
+LOCATIONS_MAP = {
     "site_id": ["siteid"],
-    "serial": ["serialnumber"],
-    "date": ["date"],
-    "time_string": ["timestring"],
-    "lane": ["lane"],
-    "direction": ["direction"],
-    "direction_number": ["directionnumber"],
-    "speed": ["speed"],
-    "speed_mph": ["speedmph"],
-    "vclass": ["class"],
-    "length": ["length"],
+    "location_description": ["locationdescription"],
+    "borough": ["borough"],
+    "functional_area": ["functionalareaformonitoring"],
+    "road_type": ["roadtype"],
+    "strategic_cio_panel": ["isitonthestrategicciopanel"],
+    "old_site_id": ["oldsiteidlegacy"],
+    "easting": ["eastingukgrid"],
+    "northing": ["northingukgrid"],
+    "latitude": ["latitude"],
+    "longitude": ["longitude"],
 }
 
 
@@ -208,8 +171,8 @@ def _parse_counts(content: bytes, key: str) -> pa.Table:
     return _string_table(_read_csv(content), COUNTS_MAP)
 
 
-def _parse_counters(content: bytes, key: str) -> pa.Table:
-    return _string_table(_read_csv(content), COUNTERS_MAP)
+def _parse_locations(content: bytes) -> pa.Table:
+    return _string_table(_read_csv(content), LOCATIONS_MAP)
 
 
 # --------------------------------------------------------------------------- #
@@ -246,7 +209,7 @@ def _ingest(node_id: str, prefix: str, file_filter, parser) -> None:
         content = _get_bytes(CDN + urllib.parse.quote(k, safe="/"))
         table = parser(content, k)
         if table is not None and table.num_rows > 0:
-            save_raw_parquet(table, f"{node_id}-{_batch_key(k, prefix)}")  # raw first
+            save_raw_parquet(table, node_id, fragment=_batch_key(k, prefix))
         done.add(k)
         state["done"] = sorted(done)
         save_state(node_id, state)  # then advance the watermark
@@ -255,49 +218,6 @@ def _ingest(node_id: str, prefix: str, file_filter, parser) -> None:
 # --------------------------------------------------------------------------- #
 # Download fns — one per entity-union entry
 # --------------------------------------------------------------------------- #
-ACCIDENT_SCHEMA = pa.schema([
-    ("accident_id", pa.int64()),
-    ("year", pa.int32()),
-    ("date", pa.string()),
-    ("lat", pa.float64()),
-    ("lon", pa.float64()),
-    ("location", pa.string()),
-    ("severity", pa.string()),
-    ("borough", pa.string()),
-    ("n_casualties", pa.int32()),
-    ("n_vehicles", pa.int32()),
-])
-
-
-def fetch_accident_stats(node_id: str) -> None:
-    this_year = datetime.datetime.now(datetime.timezone.utc).year
-    rows = []
-    for year in range(ACCIDENT_MIN_YEAR, this_year + 1):
-        data = _accident_year(year)
-        if not data:
-            continue
-        for rec in data:
-            rows.append({
-                "accident_id": rec.get("id"),
-                "year": year,
-                "date": rec.get("date"),
-                "lat": rec.get("lat"),
-                "lon": rec.get("lon"),
-                "location": rec.get("location"),
-                "severity": rec.get("severity"),
-                "borough": rec.get("borough"),
-                "n_casualties": len(rec.get("casualties") or []),
-                "n_vehicles": len(rec.get("vehicles") or []),
-            })
-    if not rows:
-        raise RuntimeError("AccidentStats returned no data for any probed year")
-    save_raw_parquet(pa.Table.from_pylist(rows, schema=ACCIDENT_SCHEMA), node_id)
-
-
-def fetch_cycle_hire_journeys(node_id: str) -> None:
-    _ingest(node_id, "usage-stats/", lambda k: k.lower().endswith(".csv"), _parse_journeys)
-
-
 def fetch_active_travel_counts(node_id: str) -> None:
     # Quarterly count CSVs are named "<year> Q.. (..)-<region>.csv"; the leading
     # 4-digit year distinguishes them from the reference files ("1 Monitoring
@@ -309,115 +229,19 @@ def fetch_active_travel_counts(node_id: str) -> None:
     _ingest(node_id, "ActiveTravelCountsProgramme/", is_count_csv, _parse_counts)
 
 
-def fetch_cycle_counters(node_id: str) -> None:
-    # The ".xls" files are actually comma-delimited CSVs of per-vehicle records.
-    _ingest(node_id, "CycleCounters/", lambda k: k.lower().endswith(".xls"), _parse_counters)
+def fetch_active_travel_monitoring_locations(node_id: str) -> None:
+    content = _get_bytes(CDN + urllib.parse.quote(MONITORING_LOCATIONS_KEY, safe="/"))
+    table = _parse_locations(content)
+    if table.num_rows == 0:
+        raise RuntimeError("monitoring locations CSV contained no rows")
+    save_raw_parquet(table, node_id)
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-accident-stats", fn=fetch_accident_stats, kind="download"),
     NodeSpec(id=f"{SLUG}-active-travel-counts", fn=fetch_active_travel_counts, kind="download"),
-    NodeSpec(id=f"{SLUG}-cycle-counters", fn=fetch_cycle_counters, kind="download"),
-    NodeSpec(id=f"{SLUG}-cycle-hire-journeys", fn=fetch_cycle_hire_journeys, kind="download"),
-]
-
-
-# --------------------------------------------------------------------------- #
-# Transforms — one published Delta table per subset
-# --------------------------------------------------------------------------- #
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-accident-stats-transform",
-        deps=[f"{SLUG}-accident-stats"],
-        sql=f'''
-            SELECT
-                CAST(accident_id AS BIGINT)                                   AS accident_id,
-                CAST(year AS INTEGER)                                          AS year,
-                COALESCE(try_strptime(date, '%Y-%m-%dT%H:%M:%SZ'),
-                         try_cast(date AS TIMESTAMP))                          AS occurred_at,
-                CAST(lat AS DOUBLE)                                            AS lat,
-                CAST(lon AS DOUBLE)                                            AS lon,
-                location,
-                severity,
-                borough,
-                CAST(n_casualties AS INTEGER)                                  AS n_casualties,
-                CAST(n_vehicles AS INTEGER)                                    AS n_vehicles
-            FROM "{SLUG}-accident-stats"
-            WHERE accident_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-cycle-hire-journeys-transform",
-        deps=[f"{SLUG}-cycle-hire-journeys"],
-        # Journey-level extracts aggregated to daily trip counts per start
-        # station — the publishable statistical time series. Start-date format
-        # drifts across eras (DD/MM/YYYY in the legacy extracts, ISO in the 2024+
-        # re-scheme), so parse defensively. Duration is omitted: its units/format
-        # are inconsistent across eras (seconds vs "14m 30s") and not reconcilable
-        # in a thin transform.
-        sql=f'''
-            WITH parsed AS (
-                SELECT
-                    CAST(COALESCE(
-                        try_strptime(start_date, '%d/%m/%Y %H:%M'),
-                        try_strptime(start_date, '%d/%m/%Y %H:%M:%S'),
-                        try_strptime(start_date, '%Y-%m-%d %H:%M'),
-                        try_strptime(start_date, '%Y-%m-%d %H:%M:%S'),
-                        try_cast(start_date AS TIMESTAMP)
-                    ) AS DATE)                       AS date,
-                    start_station_id,
-                    start_station_name
-                FROM "{SLUG}-cycle-hire-journeys"
-            )
-            SELECT
-                date,
-                start_station_id,
-                any_value(start_station_name)        AS start_station_name,
-                COUNT(*)                             AS trips
-            FROM parsed
-            WHERE date IS NOT NULL AND start_station_id IS NOT NULL
-            GROUP BY date, start_station_id
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-active-travel-counts-transform",
-        deps=[f"{SLUG}-active-travel-counts"],
-        sql=f'''
-            SELECT
-                wave,
-                site_id,
-                CAST(COALESCE(try_strptime(date, '%d/%m/%Y'),
-                              try_cast(date AS DATE)) AS DATE)  AS date,
-                time,
-                day,
-                direction,
-                path,
-                mode,
-                weather,
-                try_cast(count AS BIGINT)                       AS count
-            FROM "{SLUG}-active-travel-counts"
-            WHERE try_cast(count AS BIGINT) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-cycle-counters-transform",
-        deps=[f"{SLUG}-cycle-counters"],
-        sql=f'''
-            SELECT
-                site_id,
-                site_number,
-                serial,
-                COALESCE(try_strptime(date, '%d/%m/%Y %H:%M:%S'),
-                         try_cast(date AS TIMESTAMP))           AS observed_at,
-                time_string,
-                direction,
-                try_cast(direction_number AS INTEGER)           AS direction_number,
-                try_cast(speed AS INTEGER)                      AS speed,
-                try_cast(speed_mph AS DOUBLE)                   AS speed_mph,
-                vclass                                          AS class,
-                try_cast(length AS INTEGER)                     AS length
-            FROM "{SLUG}-cycle-counters"
-            WHERE site_id IS NOT NULL
-        ''',
+    NodeSpec(
+        id=f"{SLUG}-active-travel-monitoring-locations",
+        fn=fetch_active_travel_monitoring_locations,
+        kind="download",
     ),
 ]
