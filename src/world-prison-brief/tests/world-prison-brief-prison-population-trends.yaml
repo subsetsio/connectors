@@ -1,0 +1,18 @@
+spec_id: world-prison-brief-prison-population-trends
+status: active
+tests:
+  - not_null: jurisdiction_id
+  - not_null: year_text
+  - row_count: {min: 1000, max: 3500}
+    reason: many jurisdictions have biennial overview trend rows from 2000 onward
+    certainty: 80
+  - distinct_count: {col: jurisdiction_id, min: 120, max: 240}
+    reason: trend data are available for most but not necessarily all WPB jurisdictions
+    certainty: 80
+  - matches: {col: year_text, pattern: "^[0-9]{4}$"}
+    reason: overview trend rows use calendar years as labels
+    certainty: 85
+  - freshness: {col: observation_date, reaches: today - 2500d}
+    reason: overview trend tables are sparse two-year intervals and can lag current headline statistics
+    certainty: 70
+    points_outward: true

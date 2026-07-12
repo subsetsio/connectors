@@ -1,0 +1,14 @@
+spec_id: world-prison-brief-jurisdictions
+status: active
+tests:
+  - not_null: jurisdiction_id
+  - not_null: name
+  - not_null: region
+  - unique: jurisdiction_id
+    reason: one row per WPB jurisdiction slug
+    certainty: 95
+  - row_count: {min: 210, max: 240}
+    reason: WPB says it holds statistics on about 224 jurisdictions
+    certainty: 90
+  - matches: {col: country_path, pattern: "^/country/"}
+    certainty: 95

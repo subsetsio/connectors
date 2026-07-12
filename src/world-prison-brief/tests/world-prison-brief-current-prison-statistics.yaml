@@ -1,0 +1,17 @@
+spec_id: world-prison-brief-current-prison-statistics
+status: active
+tests:
+  - not_null: jurisdiction_id
+  - not_null: indicator
+  - not_null: value_text
+  - row_count: {min: 1200, max: 2300}
+    reason: roughly 224 jurisdictions times several current prison indicators, allowing missing categories
+    certainty: 85
+  - distinct_count: {col: jurisdiction_id, min: 200, max: 240}
+    reason: current-stat rows should cover nearly every jurisdiction page
+    certainty: 90
+  - distinct_count: {col: indicator, min: 6, max: 20}
+    reason: WPB country pages expose a small fixed set of current-stat labels
+    certainty: 85
+  - matches: {col: country_url, pattern: "^https://www\\.prisonstudies\\.org/country/"}
+    certainty: 95

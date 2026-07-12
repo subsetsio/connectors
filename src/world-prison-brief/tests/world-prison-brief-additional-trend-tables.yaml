@@ -1,0 +1,16 @@
+spec_id: world-prison-brief-additional-trend-tables
+status: active
+tests:
+  - not_null: jurisdiction_id
+  - not_null: table_title
+  - row_count: {min: 500, max: 3000}
+    reason: many country Further information tabs include pre-trial/remand or female-prisoner trend tables
+    certainty: 70
+  - distinct_count: {col: jurisdiction_id, min: 80, max: 240}
+    reason: additional trend tables are common but not universal
+    certainty: 70
+  - distinct_count: {col: table_title, min: 2, max: 20}
+    reason: expected categories include pre-trial/remand and female prisoner trends, plus occasional historical tables
+    certainty: 70
+  - matches: {col: country_url, pattern: "^https://www\\.prisonstudies\\.org/country/"}
+    certainty: 95

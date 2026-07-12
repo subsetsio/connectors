@@ -1,0 +1,15 @@
+spec_id: world-prison-brief-source-notes
+status: active
+tests:
+  - not_null: jurisdiction_id
+  - not_null: note_type
+  - not_null: subject
+  - not_null: note_text
+  - row_count: {min: 1000, max: 4000}
+    reason: source comments and jurisdiction metadata are present across most country pages
+    certainty: 80
+  - enum: {col: note_type, values: [current_statistic, jurisdiction_metadata]}
+    certainty: 95
+  - distinct_count: {col: jurisdiction_id, min: 200, max: 240}
+    reason: notes should cover nearly all jurisdiction pages
+    certainty: 85
