@@ -1,0 +1,25 @@
+spec_id: freightos-baltic-index-values
+status: active
+tests:
+  - not_null: date
+  - not_null: index_code
+  - not_null: value
+  - unique: [date, index_code]
+    reason: the FBX Full Data grid has one weekly value per index code
+    certainty: 95
+  - enum: {col: index_code, values: [FBX, FBX01, FBX03, FBX11, FBX13]}
+    reason: these are the public index columns in the FBX Full Data sheet
+    certainty: 90
+  - distinct_count: {col: index_code, min: 5, max: 5}
+    reason: the free public embed exposes five FBX index series
+    certainty: 90
+  - row_count: {min: 500}
+    reason: five weekly series beginning in 2023 should produce hundreds of observations
+    certainty: 85
+  - between: {col: value, lo: 1, hi: 50000}
+    reason: FBX values are USD spot rates per 40ft container, not percentages or cents
+    certainty: 90
+  - freshness: {col: date, reaches: today - 120d}
+    reason: public FBX weekly data should be refreshed regularly, allowing slack for publication or embed delays
+    certainty: 80
+    points_outward: true

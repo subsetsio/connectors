@@ -1,0 +1,28 @@
+spec_id: freightos-baltic-index-series
+status: active
+tests:
+  - row_count: {min: 5, max: 5}
+    reason: the free public FBX embed exposes global FBX plus four public trade-lane indexes
+    certainty: 90
+  - not_null: index_code
+  - unique: index_code
+    reason: one metadata row per FBX index code
+    certainty: 95
+  - enum: {col: index_code, values: [FBX, FBX01, FBX03, FBX11, FBX13]}
+    reason: these are the public index columns in the FBX Full Data sheet
+    certainty: 90
+  - enum: {col: currency, values: [USD]}
+    reason: FBX is published in US dollars per FEU
+    certainty: 95
+  - enum: {col: frequency, values: [weekly]}
+    reason: this public embed is the weekly free FBX slice
+    certainty: 90
+  - column_type: {col: first_date, type: string}
+  - column_type: {col: last_date, type: string}
+  - at_least: {col: observation_count, expr: 100}
+    reason: the public history starts in 2023 and should retain well over 100 weekly observations
+    certainty: 85
+  - freshness: {col: last_date, reaches: today - 120d}
+    reason: public FBX weekly data should be refreshed regularly, allowing slack for publication or embed delays
+    certainty: 80
+    points_outward: true
