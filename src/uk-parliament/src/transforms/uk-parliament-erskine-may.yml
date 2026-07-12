@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-erskine-may`. Regenerate after model-verify.
+# caution: This table combines Erskine May part records and index-term records; filter `source_endpoint` before interpreting the nested `record` schema.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(number BIGINT, title VARCHAR, description VARCHAR, chapters STRUCT(partNumber BIGINT, number BIGINT, title VARCHAR, description JSON, sections JSON[])[], id BIGINT, displayAs VARCHAR, seeValue VARCHAR)"

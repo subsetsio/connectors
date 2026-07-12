@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-parliament-now`. Regenerate after model-verify.
+# caution: This table contains current Annunciator messages by chamber; filter `source_endpoint` to separate Commons and Lords records.
+key: [source_endpoint]
+sort: [source_endpoint]
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(annunciatorDisabled BOOLEAN, id BIGINT, slides STRUCT(lines JSON[], \"type\" VARCHAR, carouselOrder BIGINT, carouselDisplaySeconds BIGINT, speakerTime JSON, slideTime VARCHAR, soundToPlay JSON, id BIGINT)[], scrollingMessages JSON[], annunciatorType VARCHAR, publishTime VARCHAR, isSecurityOverride BOOLEAN, showCommonsBell BOOLEAN, showLordsBell BOOLEAN)"

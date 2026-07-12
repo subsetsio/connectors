@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-members`. Regenerate after model-verify.
+# caution: Rows are raw member-search API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(\"value\" STRUCT(id BIGINT, nameListAs VARCHAR, nameDisplayAs VARCHAR, nameFullTitle VARCHAR, nameAddressAs VARCHAR, latestParty STRUCT(id BIGINT, \"name\" VARCHAR, abbreviation VARCHAR, backgroundColour VARCHAR, foregroundColour VARCHAR, isLordsMainParty BOOLEAN, isLordsSpiritualParty BOOLEAN, governmentType BIGINT, isIndependentParty BOOLEAN), gender VARCHAR, latestHouseMembership STRUCT(membershipFrom VARCHAR, membershipFromId BIGINT, house BIGINT, membershipStartDate TIMESTAMP, membershipEndDate TIMESTAMP, membershipEndReason VARCHAR, membershipEndReasonNotes VARCHAR, membershipEndReasonId BIGINT, membershipStatus STRUCT(statusIsActive BOOLEAN, statusDescription VARCHAR, statusNotes VARCHAR, statusId BIGINT, status BIGINT, statusStartDate TIMESTAMP)), thumbnailUrl VARCHAR), links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[])"

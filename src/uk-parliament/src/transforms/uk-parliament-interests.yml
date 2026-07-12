@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-interests`. Regenerate after model-verify.
+# caution: Rows are raw register-of-interests API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(id BIGINT, summary VARCHAR, parentInterestId BIGINT, registrationDate DATE, publishedDate DATE, updatedDates DATE[], category STRUCT(id BIGINT, number VARCHAR, \"name\" VARCHAR, parentCategoryIds JSON[], \"type\" VARCHAR, links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[]), member STRUCT(id BIGINT, nameDisplayAs VARCHAR, nameListAs VARCHAR, house VARCHAR, memberFrom VARCHAR, party VARCHAR, links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[]), fields STRUCT(\"name\" VARCHAR, description VARCHAR, \"type\" VARCHAR, typeInfo STRUCT(currencyCode VARCHAR), \"value\" JSON, \"values\" STRUCT(\"name\" VARCHAR, description VARCHAR, \"type\" VARCHAR, typeInfo STRUCT(currencyCode VARCHAR), \"value\" JSON)[][])[], links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[], rectified BOOLEAN, rectifiedDetails VARCHAR)"

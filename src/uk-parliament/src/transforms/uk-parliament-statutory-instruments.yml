@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-statutory-instruments`. Regenerate after model-verify.
+# caution: Rows are raw statutory-instrument API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(\"value\" STRUCT(paperPrefix VARCHAR, paperNumber BIGINT, paperYear VARCHAR, \"procedure\" STRUCT(id VARCHAR, \"name\" VARCHAR), paperMadeDate TIMESTAMP, commonsLayingDate TIMESTAMP, lordsLayingDate TIMESTAMP, workpackageId VARCHAR, id VARCHAR, \"name\" VARCHAR), links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[])"

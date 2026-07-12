@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-treaties`. Regenerate after model-verify.
+# caution: Rows are raw treaty API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(\"value\" STRUCT(id VARCHAR, \"name\" VARCHAR, uri VARCHAR, commandPaperPrefix VARCHAR, commandPaperNumber BIGINT, commonsLayingDate TIMESTAMP, lordsLayingDate TIMESTAMP, webLink VARCHAR, treatySeriesMembership STRUCT(seriesMembershipType VARCHAR, uri VARCHAR, citation VARCHAR), leadDepartment STRUCT(id BIGINT, \"name\" VARCHAR), layingBodyDepartment STRUCT(id BIGINT, \"name\" VARCHAR), parliamentaryConclusion VARCHAR, debateScheduled VARCHAR, broughtToAttentionDate TIMESTAMP, signedDate TIMESTAMP, laidDate TIMESTAMP, pertinentDate TIMESTAMP, workpackageId VARCHAR), links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[])"

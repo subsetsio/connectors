@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-lords-votes`. Regenerate after model-verify.
+# caution: Rows are raw Lords division API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(divisionId BIGINT, date TIMESTAMP, number BIGINT, notes VARCHAR, title VARCHAR, isWhipped BOOLEAN, isGovernmentContent BOOLEAN, authoritativeContentCount BIGINT, authoritativeNotContentCount BIGINT, divisionHadTellers BOOLEAN, tellerContentCount BIGINT, tellerNotContentCount BIGINT, memberContentCount BIGINT, memberNotContentCount BIGINT, sponsoringMemberId BIGINT, isHouse BOOLEAN, isInquorate BOOLEAN, amendmentMotionNotes VARCHAR, isGovernmentWin BOOLEAN, remoteVotingStart TIMESTAMP, remoteVotingEnd TIMESTAMP, divisionWasExclusivelyRemote BOOLEAN, contentTellers STRUCT(memberId BIGINT, \"name\" VARCHAR, listAs VARCHAR, memberFrom VARCHAR, party VARCHAR, partyColour VARCHAR, partyAbbreviation VARCHAR, partyIsMainParty BOOLEAN)[], notContentTellers STRUCT(memberId BIGINT, \"name\" VARCHAR, listAs VARCHAR, memberFrom VARCHAR, party VARCHAR, partyColour VARCHAR, partyAbbreviation VARCHAR, partyIsMainParty BOOLEAN)[], contents STRUCT(memberId BIGINT, \"name\" VARCHAR, listAs VARCHAR, memberFrom VARCHAR, party VARCHAR, partyColour VARCHAR, partyAbbreviation VARCHAR, partyIsMainParty BOOLEAN)[], notContents STRUCT(memberId BIGINT, \"name\" VARCHAR, listAs VARCHAR, memberFrom VARCHAR, party VARCHAR, partyColour VARCHAR, partyAbbreviation VARCHAR, partyIsMainParty BOOLEAN)[])"

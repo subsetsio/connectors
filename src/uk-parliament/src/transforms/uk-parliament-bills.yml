@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-bills`. Regenerate after model-verify.
+# caution: Rows are raw bill API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(billId BIGINT, shortTitle VARCHAR, formerShortTitle VARCHAR, currentHouse VARCHAR, originatingHouse VARCHAR, lastUpdate VARCHAR, billWithdrawn TIMESTAMP, isDefeated BOOLEAN, billTypeId BIGINT, introducedSessionId BIGINT, includedSessionIds BIGINT[], isAct BOOLEAN, currentStage STRUCT(id BIGINT, stageId BIGINT, sessionId BIGINT, description VARCHAR, abbreviation VARCHAR, house VARCHAR, stageSittings STRUCT(id BIGINT, stageId BIGINT, billStageId BIGINT, billId BIGINT, date TIMESTAMP)[], sortOrder BIGINT))"

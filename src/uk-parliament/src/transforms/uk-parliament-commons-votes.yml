@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-commons-votes`. Regenerate after model-verify.
+# caution: Rows are raw Commons division API items with nested JSON in `record`; use source documentation for the fields inside each item.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(DivisionId BIGINT, Date TIMESTAMP, PublicationUpdated TIMESTAMP, Number BIGINT, IsDeferred BOOLEAN, EVELType VARCHAR, EVELCountry VARCHAR, Title VARCHAR, AyeCount BIGINT, NoCount BIGINT, DoubleMajorityAyeCount JSON, DoubleMajorityNoCount JSON, AyeTellers STRUCT(MemberId BIGINT, \"Name\" VARCHAR, Party VARCHAR, SubParty JSON, PartyColour VARCHAR, PartyAbbreviation VARCHAR, MemberFrom VARCHAR, ListAs VARCHAR, ProxyName JSON)[], NoTellers STRUCT(MemberId BIGINT, \"Name\" VARCHAR, Party VARCHAR, SubParty JSON, PartyColour VARCHAR, PartyAbbreviation VARCHAR, MemberFrom VARCHAR, ListAs VARCHAR, ProxyName JSON)[], Ayes JSON[], Noes JSON[], FriendlyDescription JSON, FriendlyTitle JSON, NoVoteRecorded JSON[], RemoteVotingStart JSON, RemoteVotingEnd JSON)"

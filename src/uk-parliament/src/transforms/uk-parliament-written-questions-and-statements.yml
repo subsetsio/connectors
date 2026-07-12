@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-parliament-written-questions-and-statements`. Regenerate after model-verify.
+# caution: This table combines daily-report and written-statement endpoints; filter `source_endpoint` before interpreting the nested `record` schema.
+key: []
+columns:
+  - name: source_entity
+    type: VARCHAR
+  - name: source_endpoint
+    type: VARCHAR
+  - name: source_skip
+    type: BIGINT
+  - name: record
+    type: "STRUCT(\"value\" STRUCT(house VARCHAR, date TIMESTAMP, fileSizeBytes BIGINT, url VARCHAR, id BIGINT, memberId BIGINT, member JSON, memberRole VARCHAR, uin VARCHAR, dateMade TIMESTAMP, answeringBodyId BIGINT, answeringBodyName VARCHAR, title VARCHAR, \"text\" VARCHAR, noticeNumber BIGINT, hasAttachments BOOLEAN, hasLinkedStatements BOOLEAN, linkedStatements STRUCT(linkedStatementId BIGINT, linkType VARCHAR, linkDate TIMESTAMP)[], attachments STRUCT(url VARCHAR, title VARCHAR, fileType VARCHAR, fileSizeBytes BIGINT)[]), links STRUCT(rel VARCHAR, href VARCHAR, \"method\" VARCHAR)[])"
