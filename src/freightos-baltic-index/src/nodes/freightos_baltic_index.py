@@ -22,7 +22,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -46,6 +45,25 @@ _SCHEMA = pa.schema([
     ("index_code", pa.string()),  # FBX, FBX01, FBX03, FBX11, FBX13
     ("value", pa.float64()),      # USD spot rate per 40ft container (FEU)
 ])
+
+_SERIES_SCHEMA = pa.schema([
+    ("index_code", pa.string()),
+    ("name", pa.string()),
+    ("unit", pa.string()),
+    ("currency", pa.string()),
+    ("frequency", pa.string()),
+    ("first_date", pa.string()),
+    ("last_date", pa.string()),
+    ("observation_count", pa.int64()),
+])
+
+_SERIES_NAMES = {
+    "FBX": "Freightos Baltic Global Container Index",
+    "FBX01": "Freightos Baltic China/East Asia to North America West Coast Index",
+    "FBX03": "Freightos Baltic China/East Asia to North America East Coast Index",
+    "FBX11": "Freightos Baltic China/East Asia to North Europe Index",
+    "FBX13": "Freightos Baltic China/East Asia to Mediterranean Index",
+}
 
 
 @transient_retry()
@@ -123,23 +141,47 @@ def fetch_values(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="freightos-baltic-index-values", fn=fetch_values, kind="download"),
-]
+def fetch_series(node_id: str) -> None:
+    asset = node_id
+    grid = _resolve_full_data_grid()
+    if not grid or len(grid) < 2:
+        raise RuntimeError("FBX Full Data grid empty or header-only: %r" % grid)
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="freightos-baltic-index-values-transform",
-        deps=["freightos-baltic-index-values"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE)    AS date,
-                index_code,
-                CAST(value AS DOUBLE) AS value
-            FROM "freightos-baltic-index-values"
-            WHERE value IS NOT NULL
-              AND date IS NOT NULL
-              AND index_code IS NOT NULL
-        ''',
-    ),
+    header = grid[0]
+    codes = [c for c in header[1:] if c]
+    rows = []
+    for col, code in enumerate(header[1:], start=1):
+        if not code:
+            continue
+        dates = []
+        observed = 0
+        for record in grid[1:]:
+            if not record or not record[0]:
+                continue
+            value = record[col] if col < len(record) else None
+            if _parse_money(value) is None:
+                continue
+            dates.append(str(record[0]))
+            observed += 1
+        rows.append({
+            "index_code": code,
+            "name": _SERIES_NAMES.get(code, "Freightos Baltic Index %s" % code),
+            "unit": "spot rate per 40ft container (FEU)",
+            "currency": "USD",
+            "frequency": "weekly",
+            "first_date": min(dates) if dates else None,
+            "last_date": max(dates) if dates else None,
+            "observation_count": observed,
+        })
+
+    if set(codes) != set(_SERIES_NAMES):
+        raise RuntimeError("unexpected FBX code set in header: %r" % codes)
+
+    table = pa.Table.from_pylist(rows, schema=_SERIES_SCHEMA)
+    save_raw_parquet(table, asset)
+
+
+DOWNLOAD_SPECS = [
+    NodeSpec(id="freightos-baltic-index-series", fn=fetch_series, kind="download"),
+    NodeSpec(id="freightos-baltic-index-values", fn=fetch_values, kind="download"),
 ]
