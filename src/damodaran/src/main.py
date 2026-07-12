@@ -19,13 +19,16 @@ from pathlib import Path
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from subsets_utils import load_nodes, validate_environment
+from subsets_utils import load_nodes, validate_environment, run_health_tests
 
 
 def main():
     validate_environment()
     workflow = load_nodes()
     workflow.run()
+    # Model-authored health tests run here post-DAG, so raw data access resolves
+    # the same way locally and on GitHub Actions.
+    run_health_tests(Path(__file__).resolve().parent.parent)
 
 
 if __name__ == "__main__":
