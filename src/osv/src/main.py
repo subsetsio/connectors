@@ -24,6 +24,10 @@ from subsets_utils import load_nodes, validate_environment, run_health_tests
 
 def main():
     validate_environment()
+    import osv_runtime
+    import subsets_utils.sql_transform
+
+    subsets_utils.sql_transform.run_sql_node = osv_runtime.run_sql_node
     workflow = load_nodes()
     workflow.run()
     # Model-authored health tests run here — post-DAG, in-connector — so data
