@@ -1,0 +1,14 @@
+spec_id: openchargemap-chargertypes
+status: active
+tests:
+  - not_null: id
+    reason: ChargerTypes entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: charger level ID is the primary key of this lookup table
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - row_count: {min: 3, max: 10}
+    reason: OCM has three charger levels; allow only small taxonomy growth
+    certainty: 90

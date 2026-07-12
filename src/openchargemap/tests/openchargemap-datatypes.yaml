@@ -1,0 +1,14 @@
+spec_id: openchargemap-datatypes
+status: active
+tests:
+  - not_null: id
+    reason: DataTypes entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: data type ID is the primary key of this lookup table
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - row_count: {min: 5, max: 20}
+    reason: referencedata.json contained 6 metadata data types when researched
+    certainty: 90

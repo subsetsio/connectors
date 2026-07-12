@@ -1,0 +1,14 @@
+spec_id: openchargemap-usercommenttypes
+status: active
+tests:
+  - not_null: id
+    reason: UserCommentTypes entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: user comment type ID is the primary key of this lookup table
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - row_count: {min: 4, max: 20}
+    reason: referencedata.json contained 5 user comment types when researched
+    certainty: 90

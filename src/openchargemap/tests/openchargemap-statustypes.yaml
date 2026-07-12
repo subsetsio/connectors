@@ -1,0 +1,16 @@
+spec_id: openchargemap-statustypes
+status: active
+tests:
+  - not_null: id
+    reason: StatusTypes entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: status type ID is the primary key and joins to POIs
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - row_count: {min: 8, max: 30}
+    reason: referencedata.json contained 10 status types when researched
+    certainty: 90
+  - column_type: {col: is_operational, type: boolean}
+    certainty: 90

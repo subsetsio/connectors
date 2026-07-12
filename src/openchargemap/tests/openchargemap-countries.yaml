@@ -1,0 +1,17 @@
+spec_id: openchargemap-countries
+status: active
+tests:
+  - not_null: id
+    reason: Countries entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: country ID is the primary key of this lookup table
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - not_null: iso_code
+    reason: OCM country records include an ISOCode used by country folders and display filters
+    certainty: 95
+  - row_count: {min: 200, max: 300}
+    reason: referencedata.json contained 250 countries when researched
+    certainty: 90

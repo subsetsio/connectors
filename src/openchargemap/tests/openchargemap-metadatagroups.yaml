@@ -1,0 +1,16 @@
+spec_id: openchargemap-metadatagroups
+status: active
+tests:
+  - not_null: id
+    reason: MetadataGroups entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: metadata group ID is the primary key of this lookup table
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - row_count: {min: 2, max: 20}
+    reason: referencedata.json contained two metadata groups when researched
+    certainty: 85
+  - column_type: {col: is_public_interest, type: boolean}
+    certainty: 90

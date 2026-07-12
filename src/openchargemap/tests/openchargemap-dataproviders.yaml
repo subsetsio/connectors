@@ -1,0 +1,17 @@
+spec_id: openchargemap-dataproviders
+status: active
+tests:
+  - not_null: id
+    reason: DataProviders entries are keyed by integer ID in referencedata.json
+    certainty: 99
+  - unique: id
+    reason: data provider ID is the primary key and joins to POIs
+    certainty: 98
+  - not_null: title
+    certainty: 95
+  - row_count: {min: 40, max: 150}
+    reason: referencedata.json contained 49 data providers when researched
+    certainty: 85
+    points_outward: true
+  - column_type: {col: is_open_data_licensed, type: boolean}
+    certainty: 90
