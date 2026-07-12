@@ -48,6 +48,57 @@ TABULAR_FILE_FORMATS = {"CSV", "TSV", "TXT", "XLSX", "XLS", "XLSM"}
 BATCH_ROWS = 50_000
 SQL_PAGE = 30_000          # keyset page size for datastore_search_sql
 MAX_SQL_PAGES = 5_000      # safety ceiling (≈150M rows) — raises, never silent
+DEFERRED_ENTITY_IDS = {
+    "2010-infrascope-index-for-latin-america-and-the-caribbean",
+    "2018-global-microscope-on-financial-inclusion-dataset",
+    "2019-idb-climate-finance-database",
+    "2019-pension-indicators-for-latin-america-and-the-caribbean",
+    "2020-better-jobs-index-database-latin-america",
+    "2020-idb-climate-finance-database",
+    "2020-pension-indicators-for-latin-america-and-the-caribbean",
+    "2021-idb-climate-finance-database",
+    "2022-idb-climate-finance-database",
+    "2022-suriname-survey-of-living-conditions",
+    "barbados-survey-of-living-conditions-2016",
+    "baseline-salud-mesoamerica-guatemala-health-facility-survey-2015",
+    "baseline-salud-mesoamerica-guatemala-household-survey-2015",
+    "baseline-salud-mesoamerica-honduras-health-facility-survey-2015",
+    "baseline-salud-mesoamerica-mexico-health-facility-survey-2015",
+    "baseline-salud-mesoamerica-mexico-household-survey-2015",
+    "baseline-salud-mesoamerica-panama-health-facility-survey-2015",
+    "benchmarking-index-2009-economist-intelligence-unit",
+    "bibliographic-database-on-the-bolivian-labor-market-2011-2019",
+    "bolivia-labor-market-survey-supply-2022-aggregated-data",
+    "cost-simulation-tool-for-long-term-care-systems-in-latin-america-and-the-ca",
+    "data-associated-with-aging-in-latin-america-and-the-caribbean-social-protec",
+    "data-associated-with-development-effects-of-rural-electrification",
+    "data-associated-with-overview-of-aging-and-dependency-in-latin-america-and-",
+    "data-associated-with-social-pulse-in-latin-america-and-the-caribbean-2016",
+    "data-associated-with-social-pulse-in-latin-america-and-the-caribbean-2017",
+    "data-associated-with-urban-integration-and-coexistence-program-results-of-t",
+    "database-of-equivalent-fiscal-pressure-1990-2018",
+    "dataset-for-the-national-day-care-service-program-cuna-ms",
+    "dataset-learning-better-public-policy-for-skills-development-1990-2016",
+    "departmental-gdp-data-and-regional-inequality-analysis-in-peru-1795-2017",
+    "freight-transport-and-logistics-statistics-yearbook-2012-2014",
+    "harmonized-latin-american-innovation-surveys-database-lais-firm-level-micro",
+    "idb-data-portals",
+    "idb-group-data-wall-2026",
+    "labor-market-survey-data-in-bolivia-2015-2016",
+    "latin-america-and-the-caribbean-public-debt-database-dec-2019",
+    "latin-america-and-the-caribbean-public-debt-database-dec-2020",
+    "latin-america-and-the-caribbean-public-debt-database-dec-2021",
+    "latin-america-and-the-caribbean-public-debt-database-dec-2022",
+    "latin-america-and-the-caribbean-public-debt-database-dec-2023",
+    "latin-america-and-the-caribbean-public-debt-database-jun-2019",
+    "latin-america-and-the-caribbean-public-debt-database-jun-2022",
+    "latin-america-and-the-caribbean-public-debt-database-jun-2023",
+    "latin-american-public-opinion-project-victimization-and-crime-survey-bahama",
+    "model-for-estimating-the-costs-of-managing-recyclable-waste-with-the-inclus",
+    "replication-data-for-spoon-continuous-program-to-improve-nutrition-baseline",
+    "replication-data-for-the-role-of-pension-systems-in-retirement-across-development",
+    "sample-code-for-creating-public-payroll-indicators-a-methodological-guide",
+}
 
 csv.field_size_limit(64 * 1024 * 1024)
 
@@ -276,5 +327,5 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+    if eid not in DEFERRED_ENTITY_IDS
 ]
-
