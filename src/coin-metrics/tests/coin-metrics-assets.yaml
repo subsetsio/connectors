@@ -1,0 +1,16 @@
+spec_id: coin-metrics-assets
+status: active
+tests:
+  - not_null: asset
+    reason: every asset reference row is keyed by Coin Metrics' asset code
+    certainty: 99
+  - unique: asset
+    reason: catalog/assets returns one reference row per asset code
+    certainty: 95
+  - column_type: {col: asset, type: string}
+    certainty: 99
+  - column_type: {col: full_name, type: string}
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: Coin Metrics' community catalog currently lists thousands of assets
+    certainty: 90

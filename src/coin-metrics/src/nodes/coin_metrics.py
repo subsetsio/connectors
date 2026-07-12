@@ -22,7 +22,6 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     save_raw_parquet,
@@ -209,48 +208,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="coin-metrics-asset-metrics-catalog", fn=fetch_catalog, kind="download"),
     NodeSpec(id="coin-metrics-asset-metrics-values", fn=fetch_values, kind="download"),
     NodeSpec(id="coin-metrics-assets", fn=fetch_assets, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="coin-metrics-asset-metrics-catalog-transform",
-        deps=["coin-metrics-asset-metrics-catalog"],
-        sql='''
-            SELECT
-                metric,
-                full_name,
-                description,
-                product,
-                category,
-                subcategory,
-                unit,
-                data_type,
-                type,
-                display_name,
-                docs_url
-            FROM "coin-metrics-asset-metrics-catalog"
-            WHERE metric IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="coin-metrics-asset-metrics-values-transform",
-        deps=["coin-metrics-asset-metrics-values"],
-        sql='''
-            SELECT
-                asset,
-                metric,
-                CAST(date AS DATE) AS date,
-                value
-            FROM (
-                SELECT
-                    asset, metric, date, value,
-                    row_number() OVER (
-                        PARTITION BY asset, metric, date ORDER BY value
-                    ) AS rn
-                FROM "coin-metrics-asset-metrics-values"
-                WHERE value IS NOT NULL
-            )
-            WHERE rn = 1
-        ''',
-    ),
 ]

@@ -1,11 +1,14 @@
 spec_id: wittgenstein-centre-projection-results
+coverage:
+  frozen: true
+  reason: WIC Population and Human Capital Projections 2023 v3.0 is a fixed Zenodo release; projection years are future scenario horizons, not an updating observation period.
 status: active
 tests:
   - not_null: region
     reason: every projection row is keyed to a region/country code
     certainty: 99
-  - column_type: {col: year, type: integer}
-  - between: {col: year, lo: 2020, hi: 2100}
+  - column_type: {col: Time, type: integer}
+  - between: {col: Time, lo: 2020, hi: 2100}
     reason: WIC v3 projections run 2020-2100 in 5-year steps
     certainty: 95
   - enum: {col: sex, values: [f, m]}
@@ -16,7 +19,7 @@ tests:
   - enum: {col: scenario, values: [SSP1, SSP2, SSP2mig0, SSP2mig2x, SSP3, SSP4, SSP5]}
     reason: the 7 per-scenario files unioned into one asset
     certainty: 95
-  - at_least: {col: population, expr: 0}
+  - at_least: {col: pop, expr: 0}
     reason: population counts (in thousands) are non-negative
     certainty: 99
   - at_least: {col: deaths, expr: 0}
