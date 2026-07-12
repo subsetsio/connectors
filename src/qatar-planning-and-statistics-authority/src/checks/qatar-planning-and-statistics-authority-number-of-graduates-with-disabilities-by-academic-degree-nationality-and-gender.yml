@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-number-of-graduates-with-disabilities-by-academic-degree-nationality-and-gender`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [university_degree, ldrj_l_lmy, nationality, gender, lnw]
+checks:
+  - kind: unique
+    columns: [university_degree, ldrj_l_lmy, nationality, gender, lnw]
+  - kind: not_null
+    col: university_degree
+  - kind: not_null
+    col: ldrj_l_lmy
+  - kind: not_null
+    col: nationality
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: lnw
+  - kind: row_floor
+    min: 10
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

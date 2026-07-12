@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-top-importing-countries-by-certificate-type`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ldwl_lmstwrd_l_l, top_importing_country, certificate_type, nw_lshhd, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [ldwl_lmstwrd_l_l, top_importing_country, certificate_type, nw_lshhd, year]
+  - kind: not_null
+    col: ldwl_lmstwrd_l_l
+  - kind: not_null
+    col: top_importing_country
+  - kind: not_null
+    col: certificate_type
+  - kind: not_null
+    col: nw_lshhd
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 581
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

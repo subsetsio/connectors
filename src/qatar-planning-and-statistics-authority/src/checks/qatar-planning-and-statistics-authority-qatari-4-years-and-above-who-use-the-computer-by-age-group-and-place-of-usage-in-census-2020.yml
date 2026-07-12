@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-qatari-4-years-and-above-who-use-the-computer-by-age-group-and-place-of-usage-in-census-2020`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age_group, fy_t_l_mr, place_of_usage, mkn_lstkhdm]
+checks:
+  - kind: unique
+    columns: [age_group, fy_t_l_mr, place_of_usage, mkn_lstkhdm]
+  - kind: not_null
+    col: age_group
+  - kind: not_null
+    col: fy_t_l_mr
+  - kind: not_null
+    col: place_of_usage
+  - kind: not_null
+    col: mkn_lstkhdm
+  - kind: row_floor
+    min: 4
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-number-of-employees-by-sex-nationality-and-main-economic-activity-activity-codes-6021-6420-isic-rev3-less-than-10-employees`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [main_economic_activity_ar, main_economic_activity, year, nationality, sex]
+temporal: year
+checks:
+  - kind: unique
+    columns: [main_economic_activity_ar, main_economic_activity, year, nationality, sex]
+  - kind: not_null
+    col: main_economic_activity_ar
+  - kind: not_null
+    col: main_economic_activity
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: nationality
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 78
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-district-cooling-plants-by-municipality-sector-quantity-used-and-disposal-method-m3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cooling_plant_discharge_method, municipality, slwb_ltkhls_mn_myh_mhtt_ltbryd_lmrfwd, lbldy, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [cooling_plant_discharge_method, municipality, slwb_ltkhls_mn_myh_mhtt_ltbryd_lmrfwd, lbldy, year]
+  - kind: not_null
+    col: cooling_plant_discharge_method
+  - kind: not_null
+    col: municipality
+  - kind: not_null
+    col: slwb_ltkhls_mn_myh_mhtt_ltbryd_lmrfwd
+  - kind: not_null
+    col: lbldy
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 40
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

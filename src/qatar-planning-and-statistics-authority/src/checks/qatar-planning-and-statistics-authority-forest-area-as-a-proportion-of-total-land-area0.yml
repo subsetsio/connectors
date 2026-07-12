@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-forest-area-as-a-proportion-of-total-land-area0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, statement, lbyn, unit, lwhd]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, statement, lbyn, unit, lwhd]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: statement
+  - kind: not_null
+    col: lbyn
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: lwhd
+  - kind: row_floor
+    min: 15
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

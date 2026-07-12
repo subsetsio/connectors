@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-workers-in-paid-employment-15-years-and-above-and-monthly-average-wage-q1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [occupation, lmhn, year, gender, lnw]
+temporal: year
+checks:
+  - kind: unique
+    columns: [occupation, lmhn, year, gender, lnw]
+  - kind: not_null
+    col: occupation
+  - kind: not_null
+    col: lmhn
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: lnw
+  - kind: row_floor
+    min: 36
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

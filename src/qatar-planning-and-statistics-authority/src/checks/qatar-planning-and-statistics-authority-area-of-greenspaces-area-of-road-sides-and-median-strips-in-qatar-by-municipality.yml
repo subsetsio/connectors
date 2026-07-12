@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-area-of-greenspaces-area-of-road-sides-and-median-strips-in-qatar-by-municipality`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [item, lbyn, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [item, lbyn, year]
+  - kind: not_null
+    col: item
+  - kind: not_null
+    col: lbyn
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 16
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

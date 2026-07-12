@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-cargo-and-mail-via-doha-international-airport-by-type-year-and-month`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [month, month_ar, type, type_ar]
+temporal: year
+checks:
+  - kind: unique
+    columns: [month, month_ar, type, type_ar]
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: month_ar
+  - kind: not_null
+    col: type
+  - kind: not_null
+    col: type_ar
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

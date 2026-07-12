@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-percentage-of-people-affected-by-secondhand-smoking-by-gender-and-type-of-exposure0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [type_of_secondhand_smoke_exposure]
+temporal: year
+checks:
+  - kind: unique
+    columns: [type_of_secondhand_smoke_exposure]
+  - kind: not_null
+    col: type_of_secondhand_smoke_exposure
+  - kind: row_floor
+    min: 1
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

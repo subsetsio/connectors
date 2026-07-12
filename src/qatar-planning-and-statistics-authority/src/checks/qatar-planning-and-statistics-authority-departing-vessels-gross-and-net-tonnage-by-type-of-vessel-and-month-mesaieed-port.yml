@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-departing-vessels-gross-and-net-tonnage-by-type-of-vessel-and-month-mesaieed-port`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lshhr, month, type_of_vessel, nw_lsfyn, dd_lsfn_w_lhmwl]
+temporal: month
+checks:
+  - kind: unique
+    columns: [lshhr, month, type_of_vessel, nw_lsfyn, dd_lsfn_w_lhmwl]
+  - kind: not_null
+    col: lshhr
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: type_of_vessel
+  - kind: not_null
+    col: nw_lsfyn
+  - kind: not_null
+    col: dd_lsfn_w_lhmwl
+  - kind: row_floor
+    min: 162
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

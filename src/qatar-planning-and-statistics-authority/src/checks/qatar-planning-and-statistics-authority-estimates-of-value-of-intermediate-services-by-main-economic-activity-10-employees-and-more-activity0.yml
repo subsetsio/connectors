@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-estimates-of-value-of-intermediate-services-by-main-economic-activity-10-employees-and-more-activity0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lnsht_lqtsdy_lry_ysy, main_economic_activity, intermediate_services, lmstlzmt_lkhdmy, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [lnsht_lqtsdy_lry_ysy, main_economic_activity, intermediate_services, lmstlzmt_lkhdmy, year]
+  - kind: not_null
+    col: lnsht_lqtsdy_lry_ysy
+  - kind: not_null
+    col: main_economic_activity
+  - kind: not_null
+    col: intermediate_services
+  - kind: not_null
+    col: lmstlzmt_lkhdmy
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 195
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

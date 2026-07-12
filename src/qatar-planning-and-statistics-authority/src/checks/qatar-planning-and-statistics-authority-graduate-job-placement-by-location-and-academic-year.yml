@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-graduate-job-placement-by-location-and-academic-year`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [academic_year_of_graduation]
+checks:
+  - kind: unique
+    columns: [academic_year_of_graduation]
+  - kind: not_null
+    col: academic_year_of_graduation
+  - kind: row_floor
+    min: 1
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

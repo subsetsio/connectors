@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-visitors-to-hamad-port-visitor-center-aquarium-cinema-and-museum-by-age-groups-and-month`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lshhr, month, visitor_category, fy_lzy_r, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [lshhr, month, visitor_category, fy_lzy_r, year]
+  - kind: not_null
+    col: lshhr
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: visitor_category
+  - kind: not_null
+    col: fy_lzy_r
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 40
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

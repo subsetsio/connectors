@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-employed-persons-15-years-and-above-and-average-work-hours-by-gender-and-educational-status`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, educational_status, lhl_lt_lymy, gender, ljns]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, educational_status, lhl_lt_lymy, gender, ljns]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: educational_status
+  - kind: not_null
+    col: lhl_lt_lymy
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: ljns
+  - kind: row_floor
+    min: 42
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

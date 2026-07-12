@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-economically-active-males-15-years-and-above-by-status-in-employment-and-occupation`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [occupation, lmhn, year, status_in_employment, lhl_l_mly]
+temporal: year
+checks:
+  - kind: unique
+    columns: [occupation, lmhn, year, status_in_employment, lhl_l_mly]
+  - kind: not_null
+    col: occupation
+  - kind: not_null
+    col: lmhn
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: status_in_employment
+  - kind: not_null
+    col: lhl_l_mly
+  - kind: row_floor
+    min: 126
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

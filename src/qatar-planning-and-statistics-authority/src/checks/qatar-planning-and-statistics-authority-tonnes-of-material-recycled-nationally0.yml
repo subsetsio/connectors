@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-tonnes-of-material-recycled-nationally0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, e_waste_collection_and_recycling_metrics]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, e_waste_collection_and_recycling_metrics]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: e_waste_collection_and_recycling_metrics
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

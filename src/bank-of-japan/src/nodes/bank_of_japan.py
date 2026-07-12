@@ -32,7 +32,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     save_raw_parquet,
     load_state,
     save_state,
@@ -297,80 +296,4 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="bank-of-japan-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bank-of-japan-values", fn=fetch_values, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="bank-of-japan-series-transform",
-        deps=["bank-of-japan-series"],
-        sql='''
-            SELECT
-                db,
-                series_code,
-                name,
-                unit,
-                frequency,
-                category,
-                layer1, layer2, layer3, layer4, layer5,
-                -- Catalog dates arrive at mixed widths by frequency: YYYYMMDD
-                -- (daily), YYYYMM (monthly/quarterly), YYYY (annual). strptime
-                -- *raises* on a width mismatch and TRY_CAST does not catch a
-                -- function error, so parse with try_strptime (NULL on miss) and
-                -- coalesce widest-first, defaulting the missing parts to the 1st.
-                COALESCE(
-                    try_strptime(NULLIF(start_date, ''), '%Y%m%d'),
-                    try_strptime(NULLIF(start_date, ''), '%Y%m'),
-                    try_strptime(NULLIF(start_date, ''), '%Y')
-                )::DATE AS start_date,
-                COALESCE(
-                    try_strptime(NULLIF(end_date, ''), '%Y%m%d'),
-                    try_strptime(NULLIF(end_date, ''), '%Y%m'),
-                    try_strptime(NULLIF(end_date, ''), '%Y')
-                )::DATE AS end_date,
-                COALESCE(
-                    try_strptime(NULLIF(last_update, ''), '%Y%m%d'),
-                    try_strptime(NULLIF(last_update, ''), '%Y%m'),
-                    try_strptime(NULLIF(last_update, ''), '%Y')
-                )::DATE AS last_update,
-                notes
-            FROM "bank-of-japan-series"
-            WHERE series_code IS NOT NULL AND series_code <> ''
-            QUALIFY row_number() OVER (
-                PARTITION BY db, series_code
-                ORDER BY last_update DESC NULLS LAST
-            ) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bank-of-japan-values-transform",
-        deps=["bank-of-japan-values"],
-        sql='''
-            SELECT
-                db,
-                series_code,
-                frequency,
-                -- survey_date width tracks frequency too (YYYYMMDD / YYYYMM /
-                -- YYYY); parse robustly like the catalog so a single odd value
-                -- can't abort the whole publish (strptime raises; try_strptime
-                -- yields NULL).
-                COALESCE(
-                    try_strptime(CAST(survey_date AS VARCHAR), '%Y%m%d'),
-                    try_strptime(CAST(survey_date AS VARCHAR), '%Y%m'),
-                    try_strptime(CAST(survey_date AS VARCHAR), '%Y')
-                )::DATE AS date,
-                CAST(value AS DOUBLE) AS value,
-                COALESCE(
-                    try_strptime(CAST(last_update AS VARCHAR), '%Y%m%d'),
-                    try_strptime(CAST(last_update AS VARCHAR), '%Y%m'),
-                    try_strptime(CAST(last_update AS VARCHAR), '%Y')
-                )::DATE AS last_update
-            FROM "bank-of-japan-values"
-            WHERE value IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY db, series_code, survey_date
-                ORDER BY last_update DESC NULLS LAST
-            ) = 1
-        ''',
-    ),
 ]

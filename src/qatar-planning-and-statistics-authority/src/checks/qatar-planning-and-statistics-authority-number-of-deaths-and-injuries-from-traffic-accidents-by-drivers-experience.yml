@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-number-of-deaths-and-injuries-from-traffic-accidents-by-drivers-experience`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [experience_years_for_the_driver_ar, experience_years_for_the_driver, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [experience_years_for_the_driver_ar, experience_years_for_the_driver, year]
+  - kind: not_null
+    col: experience_years_for_the_driver_ar
+  - kind: not_null
+    col: experience_years_for_the_driver
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 23
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

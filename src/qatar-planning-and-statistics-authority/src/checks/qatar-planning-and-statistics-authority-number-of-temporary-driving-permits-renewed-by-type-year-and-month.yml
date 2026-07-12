@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-number-of-temporary-driving-permits-renewed-by-type-year-and-month`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [month, lshhr, year, permit_type, nw_ltsryh]
+temporal: year
+checks:
+  - kind: unique
+    columns: [month, lshhr, year, permit_type, nw_ltsryh]
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: lshhr
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: permit_type
+  - kind: not_null
+    col: nw_ltsryh
+  - kind: row_floor
+    min: 150
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

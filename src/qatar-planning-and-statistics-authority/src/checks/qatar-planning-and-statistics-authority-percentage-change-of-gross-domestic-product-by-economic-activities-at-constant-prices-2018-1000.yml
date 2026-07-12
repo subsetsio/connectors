@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-percentage-change-of-gross-domestic-product-by-economic-activities-at-constant-prices-2018-1000`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lnsht_lqtsdy, economic_activity, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [lnsht_lqtsdy, economic_activity, year]
+  - kind: not_null
+    col: lnsht_lqtsdy
+  - kind: not_null
+    col: economic_activity
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 47
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

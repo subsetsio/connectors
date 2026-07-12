@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-hotels-and-hotel-apartments-by-municipality`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [number, municipality, lbldy, year, facility_type]
+temporal: year
+checks:
+  - kind: unique
+    columns: [number, municipality, lbldy, year, facility_type]
+  - kind: not_null
+    col: number
+  - kind: not_null
+    col: municipality
+  - kind: not_null
+    col: lbldy
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: facility_type
+  - kind: row_floor
+    min: 24
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

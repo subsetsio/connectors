@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-district-cooling-plants-by-economic-activity-water-source-and-quantity-used-m3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lnsht_lqtsdy, economic_activity, year, quantity_of_compensatory_cooling_water_used_by_source_m3, kmy_myh_ltbryd_lt_wydy_lmstkhdm_hsb_lmsdr_m3]
+temporal: year
+checks:
+  - kind: unique
+    columns: [lnsht_lqtsdy, economic_activity, year, quantity_of_compensatory_cooling_water_used_by_source_m3, kmy_myh_ltbryd_lt_wydy_lmstkhdm_hsb_lmsdr_m3]
+  - kind: not_null
+    col: lnsht_lqtsdy
+  - kind: not_null
+    col: economic_activity
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: quantity_of_compensatory_cooling_water_used_by_source_m3
+  - kind: not_null
+    col: kmy_myh_ltbryd_lt_wydy_lmstkhdm_hsb_lmsdr_m3
+  - kind: row_floor
+    min: 108
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

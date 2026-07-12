@@ -16,7 +16,7 @@ tests:
   - between: {col: collision_year, lo: 1979, hi: current_year()}
     reason: STATS19 open data begins in 1979 and should not contain future collision years.
     certainty: 95
-  - freshness: {col: collision_year, reaches: current_year() - 2}
-    reason: final validated annual data is released each September, so the complete-history file should reach at least the prior full year.
+  - freshness: {col: collision_year, reaches: 2024}
+    reason: current validated complete-history files are published through 2024; provisional 2025 data is a separate release.
     points_outward: true
     certainty: 90

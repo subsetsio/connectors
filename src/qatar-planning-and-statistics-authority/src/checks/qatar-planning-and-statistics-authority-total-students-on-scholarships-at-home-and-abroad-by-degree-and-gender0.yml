@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-total-students-on-scholarships-at-home-and-abroad-by-degree-and-gender0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [level_of_education, lmrhl_lt_lymy, year_lsn, nationality, gender]
+checks:
+  - kind: unique
+    columns: [level_of_education, lmrhl_lt_lymy, year_lsn, nationality, gender]
+  - kind: not_null
+    col: level_of_education
+  - kind: not_null
+    col: lmrhl_lt_lymy
+  - kind: not_null
+    col: year_lsn
+  - kind: not_null
+    col: nationality
+  - kind: not_null
+    col: gender
+  - kind: row_floor
+    min: 56
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

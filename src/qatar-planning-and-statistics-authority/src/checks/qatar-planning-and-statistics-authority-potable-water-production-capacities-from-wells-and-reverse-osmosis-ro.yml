@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-potable-water-production-capacities-from-wells-and-reverse-osmosis-ro`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [remarks, well_fields_and_ro, hqwl_labr_wmhtt_ltndh, mlhzt, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [remarks, well_fields_and_ro, hqwl_labr_wmhtt_ltndh, mlhzt, year]
+  - kind: not_null
+    col: remarks
+  - kind: not_null
+    col: well_fields_and_ro
+  - kind: not_null
+    col: hqwl_labr_wmhtt_ltndh
+  - kind: not_null
+    col: mlhzt
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 9
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

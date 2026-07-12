@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-of-japan-values`. Regenerate after model-verify.
+# caution: Rows combine observations from many BOJ databases and reporting frequencies; aggregate only after filtering to comparable series or grouping by db, series_code, and frequency.
+# caution: The date column normalizes daily, monthly, quarterly, and annual BOJ survey dates to calendar dates, defaulting missing month/day components to the first day.
+key: [db, series_code, date]
+temporal: date
+sort: [date, db, series_code]
 columns:
   - name: db
     type: VARCHAR

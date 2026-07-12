@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-education-statistics-number-of-new-students-on-scholarships-and-graduates-abroad-by-scientific`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, scientific_degree, scientific_degree_ar, gender, gender_ar]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, scientific_degree, scientific_degree_ar, gender, gender_ar]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: scientific_degree
+  - kind: not_null
+    col: scientific_degree_ar
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: gender_ar
+  - kind: row_floor
+    min: 32
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

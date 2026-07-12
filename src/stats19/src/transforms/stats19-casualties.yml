@@ -1,0 +1,53 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stats19-casualties`. Regenerate after model-verify.
+# caution: One collision can have multiple casualty rows, so aggregating this table by collision attributes counts casualties unless deduplicated to the collision grain.
+key: [collision_index, vehicle_reference, casualty_reference]
+temporal: collision_year
+sort: [collision_year, collision_index, vehicle_reference, casualty_reference]
+columns:
+  - name: collision_index
+    type: VARCHAR
+  - name: collision_year
+    type: BIGINT
+  - name: collision_ref_no
+    type: VARCHAR
+  - name: vehicle_reference
+    type: BIGINT
+  - name: casualty_reference
+    type: BIGINT
+  - name: casualty_class
+    type: BIGINT
+  - name: sex_of_casualty
+    type: BIGINT
+  - name: age_of_casualty
+    type: BIGINT
+  - name: age_band_of_casualty
+    type: BIGINT
+  - name: casualty_severity
+    type: BIGINT
+  - name: pedestrian_location
+    type: BIGINT
+  - name: pedestrian_movement
+    type: BIGINT
+  - name: car_passenger
+    type: BIGINT
+  - name: bus_or_coach_passenger
+    type: BIGINT
+  - name: pedestrian_road_maintenance_worker
+    type: BIGINT
+  - name: casualty_type
+    type: BIGINT
+  - name: casualty_imd_decile
+    type: BIGINT
+  - name: lsoa_of_casualty
+    type: VARCHAR
+  - name: enhanced_casualty_severity
+    type: BIGINT
+  - name: casualty_injury_based
+    type: BIGINT
+  - name: casualty_adjusted_severity_serious
+    type: DOUBLE
+  - name: casualty_adjusted_severity_slight
+    type: DOUBLE
+  - name: casualty_distance_banding
+    type: BIGINT

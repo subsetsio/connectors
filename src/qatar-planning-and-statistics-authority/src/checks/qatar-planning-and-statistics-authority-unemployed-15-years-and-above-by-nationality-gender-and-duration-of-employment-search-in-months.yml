@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-unemployed-15-years-and-above-by-nationality-gender-and-duration-of-employment-search-in-months`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, duration_of_employment_search_in_months, nationality, ljnsy, gender]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, duration_of_employment_search_in_months, nationality, ljnsy, gender]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: duration_of_employment_search_in_months
+  - kind: not_null
+    col: nationality
+  - kind: not_null
+    col: ljnsy
+  - kind: not_null
+    col: gender
+  - kind: row_floor
+    min: 42
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

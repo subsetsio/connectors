@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-events-at-qatar-national-theatre-by-type-of-events`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [number, year, event_type, nw_lf_ly]
+temporal: year
+checks:
+  - kind: unique
+    columns: [number, year, event_type, nw_lf_ly]
+  - kind: not_null
+    col: number
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: event_type
+  - kind: not_null
+    col: nw_lf_ly
+  - kind: row_floor
+    min: 68
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

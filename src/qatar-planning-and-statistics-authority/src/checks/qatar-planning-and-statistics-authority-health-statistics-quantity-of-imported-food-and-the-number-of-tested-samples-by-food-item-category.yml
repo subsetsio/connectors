@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-health-statistics-quantity-of-imported-food-and-the-number-of-tested-samples-by-food-item-category`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [food_item_category_ar, food_item_category, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [food_item_category_ar, food_item_category, year]
+  - kind: not_null
+    col: food_item_category_ar
+  - kind: not_null
+    col: food_item_category
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 33
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

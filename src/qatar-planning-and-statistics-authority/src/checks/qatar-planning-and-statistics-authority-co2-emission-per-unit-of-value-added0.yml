@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-co2-emission-per-unit-of-value-added0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, sub_indicator, lmw_shr_lfr_y]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, sub_indicator, lmw_shr_lfr_y]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: sub_indicator
+  - kind: not_null
+    col: lmw_shr_lfr_y
+  - kind: row_floor
+    min: 10
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

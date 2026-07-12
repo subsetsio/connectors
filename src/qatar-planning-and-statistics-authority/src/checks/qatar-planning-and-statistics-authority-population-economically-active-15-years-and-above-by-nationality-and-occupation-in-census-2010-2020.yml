@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-population-economically-active-15-years-and-above-by-nationality-and-occupation-in-census-2010-2020`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [column5, column0, column1, column2, column3]
+checks:
+  - kind: unique
+    columns: [column5, column0, column1, column2, column3]
+  - kind: not_null
+    col: column5
+  - kind: not_null
+    col: column0
+  - kind: not_null
+    col: column1
+  - kind: not_null
+    col: column2
+  - kind: not_null
+    col: column3
+  - kind: row_floor
+    min: 9
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

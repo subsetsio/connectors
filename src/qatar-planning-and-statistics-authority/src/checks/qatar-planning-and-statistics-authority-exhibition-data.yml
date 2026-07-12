@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-exhibition-data`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [exhibitions, public_closing_date, public_opening_date, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [exhibitions, public_closing_date, public_opening_date, year]
+  - kind: not_null
+    col: exhibitions
+  - kind: not_null
+    col: public_closing_date
+  - kind: not_null
+    col: public_opening_date
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 124
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

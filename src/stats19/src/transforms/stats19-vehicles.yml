@@ -1,0 +1,71 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stats19-vehicles`. Regenerate after model-verify.
+# caution: One collision can have multiple vehicle rows, so aggregating this table by collision attributes counts vehicles unless deduplicated to the collision grain.
+key: [collision_index, vehicle_reference]
+temporal: collision_year
+sort: [collision_year, collision_index, vehicle_reference]
+columns:
+  - name: collision_index
+    type: VARCHAR
+  - name: collision_year
+    type: BIGINT
+  - name: collision_ref_no
+    type: VARCHAR
+  - name: vehicle_reference
+    type: BIGINT
+  - name: vehicle_type
+    type: BIGINT
+  - name: towing_and_articulation
+    type: BIGINT
+  - name: vehicle_manoeuvre_historic
+    type: BIGINT
+  - name: vehicle_manoeuvre
+    type: BIGINT
+  - name: vehicle_direction_from
+    type: BIGINT
+  - name: vehicle_direction_to
+    type: BIGINT
+  - name: vehicle_location_restricted_lane_historic
+    type: BIGINT
+  - name: vehicle_location_restricted_lane
+    type: BIGINT
+  - name: junction_location
+    type: BIGINT
+  - name: skidding_and_overturning
+    type: BIGINT
+  - name: hit_object_in_carriageway
+    type: BIGINT
+  - name: vehicle_leaving_carriageway
+    type: BIGINT
+  - name: hit_object_off_carriageway
+    type: BIGINT
+  - name: first_point_of_impact
+    type: BIGINT
+  - name: vehicle_left_hand_drive
+    type: BIGINT
+  - name: journey_purpose_of_driver_historic
+    type: BIGINT
+  - name: journey_purpose_of_driver
+    type: BIGINT
+  - name: sex_of_driver
+    type: BIGINT
+  - name: age_of_driver
+    type: BIGINT
+  - name: age_band_of_driver
+    type: BIGINT
+  - name: engine_capacity_cc
+    type: BIGINT
+  - name: propulsion_code
+    type: BIGINT
+  - name: age_of_vehicle
+    type: BIGINT
+  - name: generic_make_model
+    type: VARCHAR
+  - name: driver_imd_decile
+    type: BIGINT
+  - name: lsoa_of_driver
+    type: VARCHAR
+  - name: escooter_flag
+    type: BIGINT
+  - name: driver_distance_banding
+    type: BIGINT

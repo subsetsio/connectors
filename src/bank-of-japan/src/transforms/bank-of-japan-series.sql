@@ -1,3 +1,4 @@
+-- caution: This catalog mixes many BOJ database groups and frequencies; filter by db, category, layer fields, or series_code before interpreting series together.
 SELECT
     db,
     series_code,

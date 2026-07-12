@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-growth-of-business-establishments-and-employees-in-census-2010-compared-to-census-2015`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [census_type]
+checks:
+  - kind: unique
+    columns: [census_type]
+  - kind: not_null
+    col: census_type
+  - kind: row_floor
+    min: 1
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

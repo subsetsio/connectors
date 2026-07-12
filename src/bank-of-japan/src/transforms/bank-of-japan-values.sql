@@ -1,3 +1,5 @@
+-- caution: Rows combine observations from many BOJ databases and reporting frequencies; aggregate only after filtering to comparable series or grouping by db, series_code, and frequency.
+-- caution: The date column normalizes daily, monthly, quarterly, and annual BOJ survey dates to calendar dates, defaulting missing month/day components to the first day.
 SELECT
     db,
     series_code,

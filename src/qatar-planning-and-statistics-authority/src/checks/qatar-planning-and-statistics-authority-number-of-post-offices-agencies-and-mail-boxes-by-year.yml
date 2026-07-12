@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-number-of-post-offices-agencies-and-mail-boxes-by-year`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, particulars, lbyn]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, particulars, lbyn]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: particulars
+  - kind: not_null
+    col: lbyn
+  - kind: row_floor
+    min: 10
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

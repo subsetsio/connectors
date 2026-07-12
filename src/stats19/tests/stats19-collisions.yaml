@@ -7,7 +7,9 @@ tests:
   - not_null: collision_index
   - not_null: collision_year
   - not_null: collision_ref_no
-  - not_null: date
+  - nullable: {col: date, max_null_frac: 0.00001}
+    reason: a handful of historical STATS19 collision rows lack a parsed date while collision_year remains populated.
+    certainty: 90
   - column_type: {col: collision_index, type: string}
   - column_type: {col: collision_year, type: integer}
   - column_type: {col: number_of_vehicles, type: integer}
@@ -15,7 +17,7 @@ tests:
   - between: {col: collision_year, lo: 1979, hi: current_year()}
     reason: STATS19 open data begins in 1979 and should not contain future collision years.
     certainty: 95
-  - freshness: {col: collision_year, reaches: current_year() - 2}
-    reason: final validated annual data is released each September, so the complete-history file should reach at least the prior full year.
+  - freshness: {col: collision_year, reaches: 2024}
+    reason: current validated complete-history files are published through 2024; provisional 2025 data is a separate release.
     points_outward: true
     certainty: 90

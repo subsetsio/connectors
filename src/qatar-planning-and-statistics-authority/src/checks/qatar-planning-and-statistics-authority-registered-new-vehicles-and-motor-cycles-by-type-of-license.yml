@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-registered-new-vehicles-and-motor-cycles-by-type-of-license`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, nw_ltrkhys, type_of_license]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, nw_ltrkhys, type_of_license]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: nw_ltrkhys
+  - kind: not_null
+    col: type_of_license
+  - kind: row_floor
+    min: 54
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

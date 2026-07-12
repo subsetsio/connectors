@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-athletes-registered-with-disabled-sports-federation-by-type-of-disability-age-groups-and-gender-2021`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [type_of_disability]
+checks:
+  - kind: unique
+    columns: [type_of_disability]
+  - kind: not_null
+    col: type_of_disability
+  - kind: row_floor
+    min: 2
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

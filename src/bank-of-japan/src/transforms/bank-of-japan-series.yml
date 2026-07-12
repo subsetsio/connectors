@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-of-japan-series`. Regenerate after model-verify.
+# caution: This catalog mixes many BOJ database groups and frequencies; filter by db, category, layer fields, or series_code before interpreting series together.
+key: [db, series_code]
+temporal: last_update
+sort: [last_update, db, series_code]
 columns:
   - name: db
     type: VARCHAR

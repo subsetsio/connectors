@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `qatar-planning-and-statistics-authority-female-economic-participation-rate-by-educational-status-and-age-group`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age_groups, nationality]
+checks:
+  - kind: unique
+    columns: [age_groups, nationality]
+  - kind: not_null
+    col: age_groups
+  - kind: not_null
+    col: nationality
+  - kind: row_floor
+    min: 13
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
