@@ -25,6 +25,9 @@ from __future__ import annotations
 import io
 import csv
 import json
+import os
+import time
+import fcntl
 import zipfile
 
 import httpx
@@ -38,6 +41,9 @@ SQL_URL = "https://discodata.eea.europa.eu/sql"
 
 PAGE = 5000          # rows per SQL page — small enough to stay a light query
 MAX_PAGES = 100_000  # safety ceiling; raises rather than silently truncating
+SQL_MIN_INTERVAL = 1.5
+SQL_LOCK_PATH = "/tmp/european_environment_agency_discodata_sql.lock"
+SQL_LAST_REQUEST_PATH = "/tmp/european_environment_agency_discodata_sql.last"
 
 
 def _spec_id(entity_id: str) -> str:
@@ -55,6 +61,38 @@ class _Offline(Exception):
 
 def _retryable(exc: BaseException) -> bool:
     return isinstance(exc, _Offline) or is_transient(exc)
+
+
+def _throttled_sql_get(query: str, page: int) -> httpx.Response:
+    """Serialize Discodata SQL calls across DAG worker processes.
+
+    The SQL endpoint returns a 200-body "Service currently offline" when hit
+    with bursts. Bulk ZIP downloads stay concurrent; only SQL page requests use
+    this process-wide lock.
+    """
+    os.makedirs(os.path.dirname(SQL_LOCK_PATH), exist_ok=True)
+    with open(SQL_LOCK_PATH, "a+", encoding="utf-8") as lock:
+        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        try:
+            last = 0.0
+            try:
+                with open(SQL_LAST_REQUEST_PATH, "r", encoding="utf-8") as state:
+                    last = float(state.read().strip() or "0")
+            except (FileNotFoundError, ValueError):
+                pass
+            delay = SQL_MIN_INTERVAL - (time.monotonic() - last)
+            if delay > 0:
+                time.sleep(delay)
+            response = get(
+                SQL_URL,
+                params={"query": query, "nrOfHits": PAGE, "p": page},
+                timeout=(10.0, 300.0),
+            )
+            with open(SQL_LAST_REQUEST_PATH, "w", encoding="utf-8") as state:
+                state.write(str(time.monotonic()))
+            return response
+        finally:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
 
 
 # ---- blob path -------------------------------------------------------------
@@ -104,8 +142,7 @@ def _fetch_blob(node_id: str, blob_url: str) -> None:
        wait=wait_exponential(multiplier=8, min=8, max=120),
        stop=stop_after_attempt(8), reraise=True)
 def _sql_page(query: str, page: int) -> list[dict]:
-    r = get(SQL_URL, params={"query": query, "nrOfHits": PAGE, "p": page},
-            timeout=(10.0, 300.0))
+    r = _throttled_sql_get(query, page)
     r.raise_for_status()
     payload = r.json()
     errors = payload.get("errors") if isinstance(payload, dict) else None
