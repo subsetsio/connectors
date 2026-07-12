@@ -7,4 +7,3 @@ SELECT
     region_name,
     CAST(value AS DOUBLE) AS value
 FROM "ocean-health-index-scores"
-WHERE value IS NOT NULL
