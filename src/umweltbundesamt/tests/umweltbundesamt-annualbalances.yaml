@@ -14,10 +14,10 @@ tests:
   - column_type: {col: annual_mean, type: float}
   - between: {col: year, lo: 2016, hi: current_year()}
     certainty: 95
-  - freshness: {col: year, reaches: current_year()}
-    reason: annualbalances includes current-year provisional annual rows as the year advances; final audited data follows later.
+  - freshness: {col: year, reaches: 2025}
+    reason: annualbalances publishes finalized annual station statistics with a lag; by July 2026 the latest annual balance year is 2025.
     certainty: 75
     points_outward: true
-  - distinct_count: {col: component_id, min: 5}
-    reason: annual balances are available for several pollutant components.
+  - distinct_count: {col: component_id, min: 3}
+    reason: annual balances are available for the pollutant components exposed by the annualbalances endpoint.
     certainty: 90

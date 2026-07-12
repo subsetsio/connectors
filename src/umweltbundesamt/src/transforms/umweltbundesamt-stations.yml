@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `umweltbundesamt-stations`. Regenerate after model-verify.
+# caution: Station records include both active and inactive monitoring sites; use the active date columns when analyzing availability for a specific period.
+key: [station_id]
+temporal: station_active_from
+sort: [station_active_from, station_id]
+columns:
+  - name: station_id
+    type: BIGINT
+  - name: station_code
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: station_city
+    type: VARCHAR
+  - name: station_synonym
+    type: VARCHAR
+  - name: station_active_from
+    type: DATE
+  - name: station_active_to
+    type: DATE
+  - name: station_longitude
+    type: DOUBLE
+  - name: station_latitude
+    type: DOUBLE
+  - name: network_id
+    type: BIGINT
+  - name: station_setting_id
+    type: BIGINT
+  - name: station_type_id
+    type: BIGINT
+  - name: network_code
+    type: VARCHAR
+  - name: network_name
+    type: VARCHAR
+  - name: station_setting_name
+    type: VARCHAR
+  - name: station_setting_short_name
+    type: VARCHAR
+  - name: station_type_name
+    type: VARCHAR
+  - name: station_street
+    type: VARCHAR
+  - name: station_street_nr
+    type: VARCHAR
+  - name: station_zip_code
+    type: VARCHAR

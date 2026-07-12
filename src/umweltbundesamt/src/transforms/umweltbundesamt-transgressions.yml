@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `umweltbundesamt-transgressions`. Regenerate after model-verify.
+# caution: Rows are yearly exceedance summaries with monthly count columns; summing across months and value_of_year together double-counts the same exceedance information.
+key: [component_id, year, station_id]
+temporal: day_first
+sort: [day_first, component_id, year, station_id]
+columns:
+  - name: component_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: station_id
+    type: BIGINT
+  - name: day_first
+    type: DATE
+  - name: day_recent
+    type: DATE
+  - name: value_of_year
+    type: BIGINT
+  - name: month_01
+    type: BIGINT
+  - name: month_02
+    type: BIGINT
+  - name: month_03
+    type: BIGINT
+  - name: month_04
+    type: BIGINT
+  - name: month_05
+    type: BIGINT
+  - name: month_06
+    type: BIGINT
+  - name: month_07
+    type: BIGINT
+  - name: month_08
+    type: BIGINT
+  - name: month_09
+    type: BIGINT
+  - name: month_10
+    type: BIGINT
+  - name: month_11
+    type: BIGINT
+  - name: month_12
+    type: BIGINT

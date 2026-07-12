@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `umweltbundesamt-annualbalances`. Regenerate after model-verify.
+# caution: Contains pre-aggregated annual statistics by station, pollutant component, and averaging scope; do not combine rows across scopes or components without filtering or grouping by those dimensions.
+key: [station_id, year, scope_id, component_id]
+temporal: year
+sort: [year, station_id, scope_id, component_id]
+columns:
+  - name: component_id
+    type: BIGINT
+  - name: scope_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: station_id
+    type: BIGINT
+  - name: annual_mean
+    type: DOUBLE
+  - name: exceedance_days
+    type: BIGINT
+  - name: extra_value
+    type: DOUBLE
