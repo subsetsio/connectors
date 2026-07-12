@@ -18,3 +18,7 @@ tests:
     reason: a goal minute lies within regulation+stoppage/extra time
     certainty: 75
     severity: warn
+  - freshness: {col: league_season, reaches: current_year()}
+    reason: current-season competitions should have goal events once play has started
+    certainty: 70
+    points_outward: true

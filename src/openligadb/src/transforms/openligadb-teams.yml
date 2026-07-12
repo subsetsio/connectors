@@ -1,0 +1,25 @@
+key: [league_shortcut, league_season, team_id]
+temporal: league_season
+sort: [league_season, league_shortcut, team_id]
+columns:
+  - name: league_shortcut
+    type: VARCHAR
+    description: Source shortcut used with league_season to identify a league-season.
+  - name: league_season
+    type: INTEGER
+    description: Starting year of the league season.
+  - name: team_id
+    type: BIGINT
+    description: OpenLigaDB team identifier.
+  - name: team_name
+    type: VARCHAR
+    description: Source-provided full team name.
+  - name: short_name
+    type: VARCHAR
+    description: Source-provided abbreviated team name.
+  - name: team_icon_url
+    type: VARCHAR
+    description: Source-provided team icon URL.
+  - name: team_group_name
+    type: VARCHAR
+    description: Source-provided team group label when present.

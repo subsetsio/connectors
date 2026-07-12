@@ -1,0 +1,25 @@
+spec_id: openligadb-leagues
+status: active
+tests:
+  - not_null: league_id
+    reason: every cataloged league-season has a stable integer leagueId
+    certainty: 95
+  - not_null: league_shortcut
+    certainty: 95
+  - not_null: league_season
+    certainty: 95
+  - column_type: {col: league_id, type: integer}
+    certainty: 95
+  - unique: league_id
+    reason: getavailableleagues returns one row per leagueId
+    certainty: 90
+  - row_count: {min: 600}
+    reason: the source catalog has roughly 800 league-seasons; a much smaller count means the catalog endpoint changed or truncated
+    certainty: 90
+  - between: {col: league_season, lo: 1962, hi: 2027}
+    reason: catalog spans historical and current league-seasons; allow slack for newly added seasons
+    certainty: 90
+  - freshness: {col: league_season, reaches: current_year()}
+    reason: the league catalog includes current-season competitions
+    certainty: 95
+    points_outward: true

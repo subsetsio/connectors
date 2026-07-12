@@ -19,3 +19,7 @@ tests:
     severity: warn
   - between: {col: league_season, lo: 1962, hi: 2027}
     certainty: 90
+  - freshness: {col: league_season, reaches: current_year()}
+    reason: current-season scorer tables should exist for active competitions
+    certainty: 70
+    points_outward: true

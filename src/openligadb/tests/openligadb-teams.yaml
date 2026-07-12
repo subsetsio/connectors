@@ -1,0 +1,24 @@
+spec_id: openligadb-teams
+status: active
+tests:
+  - not_null: team_id
+    reason: every team returned by getavailableteams has a stable integer teamId
+    certainty: 95
+  - not_null: league_shortcut
+    certainty: 95
+  - not_null: league_season
+    certainty: 95
+  - column_type: {col: team_id, type: integer}
+    certainty: 95
+  - unique: [league_shortcut, league_season, team_id]
+    reason: each team should appear at most once within a league-season roster
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: hundreds of league-seasons each carry team rosters; a much smaller count indicates partial fetch
+    certainty: 85
+  - between: {col: league_season, lo: 1962, hi: 2027}
+    certainty: 90
+  - freshness: {col: league_season, reaches: current_year()}
+    reason: team rosters should be present for current-season competitions
+    certainty: 85
+    points_outward: true

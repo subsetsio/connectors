@@ -22,3 +22,7 @@ tests:
     reason: a side's full-time score is small and non-negative across all sports here
     certainty: 80
     severity: warn
+  - freshness: {col: match_datetime_utc, reaches: today - 90d}
+    reason: OpenLigaDB includes current and upcoming fixtures, so the match schedule should reach recent dates
+    certainty: 85
+    points_outward: true

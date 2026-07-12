@@ -1,46 +1,30 @@
-"""Open Charge Map connector.
+"""Open Charge Map downloads.
 
 Source: the official keyless bulk export of the live Open Charge Map registry
-(GitHub repo openchargemap/ocm-export, default branch 'main'). Two subsets:
-
-  * openchargemap-pois       one row per EV charging location (POI). Built from
-                             the per-POI JSON files in the export tarball — a
-                             single ~23MB gzip holding the whole global corpus
-                             (~129k POIs across 126 country folders). Connections
-                             (the per-plug array) are summarised onto each POI
-                             row (count / total quantity / max power / plug-type
-                             id set) so the grain stays one-row-per-location.
-  * openchargemap-operators  the charging-network operator directory, parsed from
-                             data/referencedata.json in the same export.
-
-Stateless full re-pull each run (shape 1): the whole corpus is a single small
-tarball, so we re-fetch and overwrite every refresh — revisions and removals are
-picked up for free. The underlying live REST API supports modifiedsince/cursor
-filtering but requires a registered API key for all calls; the keyless GitHub
-export is used instead (see research download_handoff).
+(GitHub repo openchargemap/ocm-export, default branch 'main').
 """
 
 import io
+import json
 import re
 import tarfile
 
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    transient_retry,
-    save_raw_parquet,
-)
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 EXPORT_TARBALL_URL = "https://codeload.github.com/openchargemap/ocm-export/tar.gz/refs/heads/main"
 REFERENCEDATA_URL = "https://raw.githubusercontent.com/openchargemap/ocm-export/main/data/referencedata.json"
 
-# tarball member path looks like: ocm-export-<sha>/data/<ISO2>/OCM-<id>.json
 _COUNTRY_DIR_RE = re.compile(r"^[A-Z]{2}$")
+_PREFIX = "openchargemap-"
 
-POIS_SCHEMA = pa.schema([
+
+def _schema(*fields: tuple[str, pa.DataType]) -> pa.Schema:
+    return pa.schema(list(fields))
+
+
+POIS_SCHEMA = _schema(
     ("id", pa.int64()),
     ("uuid", pa.string()),
     ("country_code", pa.string()),
@@ -66,31 +50,216 @@ POIS_SCHEMA = pa.schema([
     ("date_created", pa.string()),
     ("date_last_verified", pa.string()),
     ("date_last_status_update", pa.string()),
-])
+)
 
-OPERATORS_SCHEMA = pa.schema([
-    ("id", pa.int64()),
-    ("title", pa.string()),
-    ("website_url", pa.string()),
-    ("comments", pa.string()),
-    ("contact_email", pa.string()),
-    ("fault_report_email", pa.string()),
-    ("phone_primary", pa.string()),
-    ("phone_secondary", pa.string()),
-    ("booking_url", pa.string()),
-    ("is_private_individual", pa.bool_()),
-    ("is_restricted_edit", pa.bool_()),
-])
+REFERENCE_CONFIGS = {
+    "chargertypes": {
+        "source_key": "ChargerTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("comments", pa.string()),
+            ("is_fast_charge_capable", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "comments": r.get("Comments"),
+            "is_fast_charge_capable": _as_bool(r.get("IsFastChargeCapable")),
+        },
+    },
+    "checkinstatustypes": {
+        "source_key": "CheckinStatusTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("is_automated_checkin", pa.bool_()),
+            ("is_positive", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "is_automated_checkin": _as_bool(r.get("IsAutomatedCheckin")),
+            "is_positive": _as_bool(r.get("IsPositive")),
+        },
+    },
+    "connectiontypes": {
+        "source_key": "ConnectionTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("formal_name", pa.string()),
+            ("is_discontinued", pa.bool_()),
+            ("is_obsolete", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "formal_name": r.get("FormalName"),
+            "is_discontinued": _as_bool(r.get("IsDiscontinued")),
+            "is_obsolete": _as_bool(r.get("IsObsolete")),
+        },
+    },
+    "countries": {
+        "source_key": "Countries",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("iso_code", pa.string()),
+            ("continent_code", pa.string()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "iso_code": r.get("ISOCode"),
+            "continent_code": r.get("ContinentCode"),
+        },
+    },
+    "currenttypes": {
+        "source_key": "CurrentTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("description", pa.string()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "description": r.get("Description"),
+        },
+    },
+    "dataproviders": {
+        "source_key": "DataProviders",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("website_url", pa.string()),
+            ("comments", pa.string()),
+            ("status_type_id", pa.int64()),
+            ("status_type_title", pa.string()),
+            ("is_provider_enabled", pa.bool_()),
+            ("is_restricted_edit", pa.bool_()),
+            ("is_open_data_licensed", pa.bool_()),
+            ("is_approved_import", pa.bool_()),
+            ("license", pa.string()),
+            ("date_last_imported", pa.string()),
+        ),
+        "row": lambda r: _data_provider_row(r),
+    },
+    "datatypes": {
+        "source_key": "DataTypes",
+        "schema": _schema(("id", pa.int64()), ("title", pa.string())),
+        "row": lambda r: {"id": _as_int(r.get("ID")), "title": r.get("Title")},
+    },
+    "metadatagroups": {
+        "source_key": "MetadataGroups",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("data_provider_id", pa.int64()),
+            ("is_restricted_edit", pa.bool_()),
+            ("is_public_interest", pa.bool_()),
+            ("metadata_fields_json", pa.string()),
+            ("metadata_field_count", pa.int64()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "data_provider_id": _as_int(r.get("DataProviderID")),
+            "is_restricted_edit": _as_bool(r.get("IsRestrictedEdit")),
+            "is_public_interest": _as_bool(r.get("IsPublicInterest")),
+            "metadata_fields_json": _json_text(r.get("MetadataFields")),
+            "metadata_field_count": len(r.get("MetadataFields") or []),
+        },
+    },
+    "operators": {
+        "source_key": "Operators",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("website_url", pa.string()),
+            ("comments", pa.string()),
+            ("contact_email", pa.string()),
+            ("fault_report_email", pa.string()),
+            ("phone_primary", pa.string()),
+            ("phone_secondary", pa.string()),
+            ("booking_url", pa.string()),
+            ("is_private_individual", pa.bool_()),
+            ("is_restricted_edit", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "website_url": r.get("WebsiteURL"),
+            "comments": r.get("Comments"),
+            "contact_email": r.get("ContactEmail"),
+            "fault_report_email": r.get("FaultReportEmail"),
+            "phone_primary": r.get("PhonePrimaryContact"),
+            "phone_secondary": r.get("PhoneSecondaryContact"),
+            "booking_url": r.get("BookingURL"),
+            "is_private_individual": _as_bool(r.get("IsPrivateIndividual")),
+            "is_restricted_edit": _as_bool(r.get("IsRestrictedEdit")),
+        },
+    },
+    "statustypes": {
+        "source_key": "StatusTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("is_operational", pa.bool_()),
+            ("is_user_selectable", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "is_operational": _as_bool(r.get("IsOperational")),
+            "is_user_selectable": _as_bool(r.get("IsUserSelectable")),
+        },
+    },
+    "submissionstatustypes": {
+        "source_key": "SubmissionStatusTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("is_live", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "is_live": _as_bool(r.get("IsLive")),
+        },
+    },
+    "usagetypes": {
+        "source_key": "UsageTypes",
+        "schema": _schema(
+            ("id", pa.int64()),
+            ("title", pa.string()),
+            ("is_pay_at_location", pa.bool_()),
+            ("is_membership_required", pa.bool_()),
+            ("is_access_key_required", pa.bool_()),
+        ),
+        "row": lambda r: {
+            "id": _as_int(r.get("ID")),
+            "title": r.get("Title"),
+            "is_pay_at_location": _as_bool(r.get("IsPayAtLocation")),
+            "is_membership_required": _as_bool(r.get("IsMembershipRequired")),
+            "is_access_key_required": _as_bool(r.get("IsAccessKeyRequired")),
+        },
+    },
+    "usercommenttypes": {
+        "source_key": "UserCommentTypes",
+        "schema": _schema(("id", pa.int64()), ("title", pa.string())),
+        "row": lambda r: {"id": _as_int(r.get("ID")), "title": r.get("Title")},
+    },
+}
 
 
-@transient_retry()
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content
 
 
-@transient_retry()
 def _get_json(url: str):
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -115,8 +284,35 @@ def _as_float(v):
         return None
 
 
+def _as_bool(v):
+    return v if isinstance(v, bool) else None
+
+
+def _json_text(value) -> str | None:
+    if value is None:
+        return None
+    return json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
+
+
+def _data_provider_row(r: dict) -> dict:
+    status = r.get("DataProviderStatusType") or {}
+    return {
+        "id": _as_int(r.get("ID")),
+        "title": r.get("Title"),
+        "website_url": r.get("WebsiteURL"),
+        "comments": r.get("Comments"),
+        "status_type_id": _as_int(status.get("ID")),
+        "status_type_title": status.get("Title"),
+        "is_provider_enabled": _as_bool(status.get("IsProviderEnabled")),
+        "is_restricted_edit": _as_bool(r.get("IsRestrictedEdit")),
+        "is_open_data_licensed": _as_bool(r.get("IsOpenDataLicensed")),
+        "is_approved_import": _as_bool(r.get("IsApprovedImport")),
+        "license": r.get("License"),
+        "date_last_imported": r.get("DateLastImported"),
+    }
+
+
 def _summarise_connections(connections):
-    """Collapse a POI's Connections[] array into per-location summary fields."""
     n = 0
     total_qty = 0
     saw_qty = False
@@ -144,7 +340,6 @@ def _summarise_connections(connections):
 
 def _poi_to_row(poi: dict, country_code: str) -> dict:
     addr = poi.get("AddressInfo") or {}
-    conn = _summarise_connections(poi.get("Connections"))
     return {
         "id": _as_int(poi.get("ID")),
         "uuid": poi.get("UUID"),
@@ -167,14 +362,17 @@ def _poi_to_row(poi: dict, country_code: str) -> dict:
         "date_created": poi.get("DateCreated"),
         "date_last_verified": poi.get("DateLastVerified"),
         "date_last_status_update": poi.get("DateLastStatusUpdate"),
-        **conn,
+        **_summarise_connections(poi.get("Connections")),
     }
 
 
-def fetch_pois(node_id: str) -> None:
-    import json
+def _entity_id(node_id: str) -> str:
+    if not node_id.startswith(_PREFIX):
+        raise ValueError(f"unexpected node id {node_id!r}")
+    return node_id.removeprefix(_PREFIX)
 
-    asset = node_id
+
+def fetch_pois(node_id: str) -> None:
     raw = _get_bytes(EXPORT_TARBALL_URL)
     rows = []
     with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as tf:
@@ -185,110 +383,46 @@ def fetch_pois(node_id: str) -> None:
             if "data" not in parts:
                 continue
             rest = parts[parts.index("data") + 1:]
-            # want data/<ISO2>/OCM-<id>.json (skip data/referencedata.json)
             if len(rest) != 2 or not _COUNTRY_DIR_RE.match(rest[0]) or not rest[1].endswith(".json"):
                 continue
             fh = tf.extractfile(member)
             if fh is None:
                 continue
-            poi = json.loads(fh.read())
-            rows.append(_poi_to_row(poi, rest[0]))
+            rows.append(_poi_to_row(json.loads(fh.read()), rest[0]))
 
     if not rows:
-        raise AssertionError("OCM export tarball yielded 0 POI rows — layout changed?")
-
-    table = pa.Table.from_pylist(rows, schema=POIS_SCHEMA)
-    save_raw_parquet(table, asset)
+        raise AssertionError("OCM export tarball yielded 0 POI rows; layout changed")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=POIS_SCHEMA), node_id)
 
 
-def fetch_operators(node_id: str) -> None:
-    asset = node_id
+def fetch_reference(node_id: str) -> None:
+    entity_id = _entity_id(node_id)
+    config = REFERENCE_CONFIGS.get(entity_id)
+    if config is None:
+        raise ValueError(f"no reference config for {entity_id!r}")
+
     ref = _get_json(REFERENCEDATA_URL)
-    operators = ref.get("Operators") or []
-    rows = [
-        {
-            "id": _as_int(o.get("ID")),
-            "title": o.get("Title"),
-            "website_url": o.get("WebsiteURL"),
-            "comments": o.get("Comments"),
-            "contact_email": o.get("ContactEmail"),
-            "fault_report_email": o.get("FaultReportEmail"),
-            "phone_primary": o.get("PhonePrimaryContact"),
-            "phone_secondary": o.get("PhoneSecondaryContact"),
-            "booking_url": o.get("BookingURL"),
-            "is_private_individual": o.get("IsPrivateIndividual"),
-            "is_restricted_edit": o.get("IsRestrictedEdit"),
-        }
-        for o in operators
-    ]
+    source_key = config["source_key"]
+    source_rows = ref.get(source_key) or []
+    rows = [config["row"](row) for row in source_rows]
     if not rows:
-        raise AssertionError("referencedata.json had no Operators — layout changed?")
-
-    table = pa.Table.from_pylist(rows, schema=OPERATORS_SCHEMA)
-    save_raw_parquet(table, asset)
+        raise AssertionError(f"referencedata.json had no {source_key} rows; layout changed")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=config["schema"]), node_id)
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="openchargemap-chargertypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-checkinstatustypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-connectiontypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-countries", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-currenttypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-dataproviders", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-datatypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-metadatagroups", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-operators", fn=fetch_reference, kind="download"),
     NodeSpec(id="openchargemap-pois", fn=fetch_pois, kind="download"),
-    NodeSpec(id="openchargemap-operators", fn=fetch_operators, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="openchargemap-pois-transform",
-        deps=["openchargemap-pois"],
-        key=("id",),
-        temporal="date_last_verified",
-        sql='''
-            SELECT
-                id,
-                uuid,
-                country_code,
-                country_id,
-                data_provider_id,
-                operator_id,
-                usage_type_id,
-                status_type_id,
-                submission_status_type_id,
-                usage_cost,
-                number_of_points,
-                title,
-                address_line1,
-                town,
-                state_or_province,
-                postcode,
-                latitude,
-                longitude,
-                num_connections,
-                total_quantity,
-                max_power_kw,
-                connection_type_ids,
-                try_cast(date_created AS TIMESTAMP)            AS date_created,
-                try_cast(date_last_verified AS TIMESTAMP)      AS date_last_verified,
-                try_cast(date_last_status_update AS TIMESTAMP) AS date_last_status_update
-            FROM "openchargemap-pois"
-            WHERE id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="openchargemap-operators-transform",
-        deps=["openchargemap-operators"],
-        key=("id",),
-        sql='''
-            SELECT
-                id,
-                title,
-                website_url,
-                comments,
-                contact_email,
-                fault_report_email,
-                phone_primary,
-                phone_secondary,
-                booking_url,
-                is_private_individual,
-                is_restricted_edit
-            FROM "openchargemap-operators"
-            WHERE id IS NOT NULL
-        ''',
-    ),
+    NodeSpec(id="openchargemap-statustypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-submissionstatustypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-usagetypes", fn=fetch_reference, kind="download"),
+    NodeSpec(id="openchargemap-usercommenttypes", fn=fetch_reference, kind="download"),
 ]

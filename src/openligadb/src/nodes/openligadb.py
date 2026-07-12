@@ -6,7 +6,9 @@ endpoint is keyed by (leagueShortcut, leagueSeason). We re-pull the full corpus
 each run (stateless full snapshot — the whole source is a few thousand small
 JSON responses, finishing in minutes) and overwrite.
 
-Four published subsets, each a long-format table across all league-seasons:
+Six published subsets, each a long-format table across all league-seasons:
+  - leagues     (one row per league-season) from getavailableleagues
+  - teams       (one row per team-season)    from getavailableteams
   - matches     (one row per match)        from getmatchdata
   - goals       (one row per goal event)   from getmatchdata (nested goals)
   - standings   (one row per team-season)  from getbltable
@@ -22,16 +24,13 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_ndjson,
 )
 
 BASE = "https://api.openligadb.de"
 
 
-@transient_retry()
 def _get_json(path):
     resp = get(f"{BASE}{path}", timeout=(10.0, 120.0), headers={"Accept": "application/json"})
     resp.raise_for_status()
@@ -79,6 +78,41 @@ def _league_seasons():
             continue
         pairs[(sc, str(season))] = True
     return sorted(pairs.keys())
+
+
+def fetch_leagues(node_id: str) -> None:
+    rows = []
+    for lg in _get_json("/getavailableleagues"):
+        sport = lg.get("sport") or {}
+        rows.append({
+            "league_id": lg.get("leagueId"),
+            "league_name": lg.get("leagueName"),
+            "league_shortcut": lg.get("leagueShortcut"),
+            "league_season": _season_int(lg.get("leagueSeason"), lg.get("leagueSeason")),
+            "sport_id": sport.get("sportId"),
+            "sport_name": sport.get("sportName"),
+        })
+    save_raw_ndjson(rows, node_id)
+
+
+def fetch_teams(node_id: str) -> None:
+    rows = []
+    for shortcut, season in _league_seasons():
+        teams = _get_league_json("getavailableteams", shortcut, season)
+        if not teams:
+            continue
+        season_int = _season_int(season, season)
+        for t in teams:
+            rows.append({
+                "league_shortcut": shortcut,
+                "league_season": season_int,
+                "team_id": t.get("teamId"),
+                "team_name": t.get("teamName"),
+                "short_name": t.get("shortName"),
+                "team_icon_url": t.get("teamIconUrl"),
+                "team_group_name": t.get("teamGroupName"),
+            })
+    save_raw_ndjson(rows, node_id)
 
 
 def _extract_results(match_results):
@@ -231,111 +265,10 @@ def fetch_goalgetters(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="openligadb-leagues", fn=fetch_leagues, kind="download"),
+    NodeSpec(id="openligadb-teams", fn=fetch_teams, kind="download"),
     NodeSpec(id="openligadb-matches", fn=fetch_matches, kind="download"),
     NodeSpec(id="openligadb-goals", fn=fetch_goals, kind="download"),
     NodeSpec(id="openligadb-standings", fn=fetch_standings, kind="download"),
     NodeSpec(id="openligadb-goalgetters", fn=fetch_goalgetters, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="openligadb-matches-transform",
-        deps=["openligadb-matches"],
-        key=("match_id",),
-        temporal="match_datetime_utc",
-        sql='''
-            SELECT
-                CAST(match_id AS BIGINT)             AS match_id,
-                league_shortcut,
-                CAST(league_season AS INTEGER)       AS league_season,
-                CAST(league_id AS BIGINT)            AS league_id,
-                league_name,
-                CAST(matchday AS INTEGER)            AS matchday,
-                matchday_name,
-                CAST(match_datetime_utc AS TIMESTAMP) AS match_datetime_utc,
-                CAST(match_is_finished AS BOOLEAN)   AS match_is_finished,
-                CAST(team1_id AS BIGINT)             AS team1_id,
-                team1_name,
-                CAST(team2_id AS BIGINT)             AS team2_id,
-                team2_name,
-                CAST(halftime_team1 AS INTEGER)      AS halftime_team1,
-                CAST(halftime_team2 AS INTEGER)      AS halftime_team2,
-                CAST(final_team1 AS INTEGER)         AS final_team1,
-                CAST(final_team2 AS INTEGER)         AS final_team2,
-                location_city,
-                location_stadium,
-                CAST(number_of_viewers AS BIGINT)    AS number_of_viewers
-            FROM "openligadb-matches"
-            WHERE match_id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY match_id ORDER BY last_update DESC NULLS LAST) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="openligadb-goals-transform",
-        deps=["openligadb-goals"],
-        key=("goal_id",),
-        temporal="league_season",
-        sql='''
-            SELECT
-                CAST(goal_id AS BIGINT)        AS goal_id,
-                CAST(match_id AS BIGINT)       AS match_id,
-                league_shortcut,
-                CAST(league_season AS INTEGER) AS league_season,
-                CAST(score_team1 AS INTEGER)   AS score_team1,
-                CAST(score_team2 AS INTEGER)   AS score_team2,
-                CAST(match_minute AS INTEGER)  AS match_minute,
-                CAST(goal_getter_id AS BIGINT) AS goal_getter_id,
-                goal_getter_name,
-                CAST(is_penalty AS BOOLEAN)    AS is_penalty,
-                CAST(is_own_goal AS BOOLEAN)   AS is_own_goal,
-                CAST(is_overtime AS BOOLEAN)   AS is_overtime,
-                comment
-            FROM "openligadb-goals"
-            WHERE goal_id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY goal_id ORDER BY goal_id) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="openligadb-standings-transform",
-        deps=["openligadb-standings"],
-        key=("league_shortcut", "league_season", "team_id"),
-        temporal="league_season",
-        sql='''
-            SELECT
-                league_shortcut,
-                CAST(league_season AS INTEGER) AS league_season,
-                CAST(team_id AS BIGINT)        AS team_id,
-                team_name,
-                short_name,
-                CAST(points AS INTEGER)        AS points,
-                CAST(matches AS INTEGER)       AS matches,
-                CAST(won AS INTEGER)           AS won,
-                CAST(draw AS INTEGER)          AS draw,
-                CAST(lost AS INTEGER)          AS lost,
-                CAST(goals AS INTEGER)         AS goals,
-                CAST(opponent_goals AS INTEGER) AS opponent_goals,
-                CAST(goal_diff AS INTEGER)     AS goal_diff
-            FROM "openligadb-standings"
-            WHERE team_id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY league_shortcut, league_season, team_id ORDER BY points DESC) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="openligadb-goalgetters-transform",
-        deps=["openligadb-goalgetters"],
-        key=("league_shortcut", "league_season", "goal_getter_id"),
-        temporal="league_season",
-        sql='''
-            SELECT
-                league_shortcut,
-                CAST(league_season AS INTEGER) AS league_season,
-                CAST(goal_getter_id AS BIGINT) AS goal_getter_id,
-                goal_getter_name,
-                CAST(goal_count AS INTEGER)    AS goal_count
-            FROM "openligadb-goalgetters"
-            WHERE goal_getter_id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY league_shortcut, league_season, goal_getter_id ORDER BY goal_count DESC) = 1
-        ''',
-    ),
 ]

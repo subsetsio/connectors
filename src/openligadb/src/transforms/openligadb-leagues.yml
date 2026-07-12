@@ -1,0 +1,22 @@
+key: [league_id]
+temporal: league_season
+sort: [league_season, league_id]
+columns:
+  - name: league_id
+    type: BIGINT
+    description: OpenLigaDB league-season identifier.
+  - name: league_name
+    type: VARCHAR
+    description: Source-provided league-season name.
+  - name: league_shortcut
+    type: VARCHAR
+    description: Source shortcut used with league_season to query league-season endpoints.
+  - name: league_season
+    type: INTEGER
+    description: Starting year of the league season.
+  - name: sport_id
+    type: BIGINT
+    description: OpenLigaDB sport identifier.
+  - name: sport_name
+    type: VARCHAR
+    description: Source-provided sport name.
