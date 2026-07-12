@@ -1,6 +1,6 @@
 """Comparative Constitutions Project (CCP).
 
-Three published subsets, three independent download nodes:
+Four published subsets, four independent download nodes:
 
   ccp-cnc        Characteristics of National Constitutions — the flagship coded
                  panel (one row per country-year a constitution was in force;
@@ -11,6 +11,8 @@ Three published subsets, three independent download nodes:
   constitutions  Constitute API constitution metadata — one row per
                  constitutional text in the Constitute corpus (238 records:
                  country, region, year_enacted, word_length, in_force, ...). REST JSON.
+  topics         Constitute API topic taxonomy — top-level constitutional
+                 topic groups with nested child topics. REST JSON.
 
 Fetch strategy (mechanism `bulk_download` for the two coded datasets):
   The CCP download page (comparativeconstitutionsproject.org/download-data/) is
@@ -44,7 +46,6 @@ import duckdb
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     save_raw_parquet,
@@ -54,6 +55,7 @@ from subsets_utils import (
 SLUG = "comparative-constitutions-project"
 DOWNLOAD_PAGE = "https://comparativeconstitutionsproject.org/download-data/"
 CONSTITUTIONS_URL = "https://www.constituteproject.org/service/constitutions?lang=en"
+TOPICS_URL = "https://www.constituteproject.org/service/topics?lang=en"
 HTTP_TIMEOUT = (10.0, 300.0)  # (connect, read); CNC zip is ~118MB
 
 # The CCP download page is a WordPress site behind a bot filter that 403s
@@ -219,42 +221,17 @@ def fetch_constitutions(node_id: str) -> None:
     save_raw_ndjson(data, asset)
 
 
+def fetch_topics(node_id: str) -> None:
+    asset = node_id
+    data = _get_json(TOPICS_URL)
+    if not isinstance(data, list) or not data:
+        raise RuntimeError(f"{node_id}: topics endpoint returned no records")
+    save_raw_ndjson(data, asset)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-ccp-cnc", fn=fetch_bulk_csv, kind="download"),
     NodeSpec(id=f"{SLUG}-ccp-cce", fn=fetch_bulk_csv, kind="download"),
     NodeSpec(id=f"{SLUG}-constitutions", fn=fetch_constitutions, kind="download"),
-]
-
-# One published Delta table per subset. The coded panels pass through faithfully
-# (all columns text) except the two structural keys, which we cast to INTEGER so
-# downstream joins/filters on country-code and year are typed. The constitutions
-# table is already typed by NDJSON inference, so it passes through as-is.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-ccp-cnc-transform",
-        deps=[f"{SLUG}-ccp-cnc"],
-        sql=f'''
-            SELECT * REPLACE (
-                TRY_CAST(year AS INTEGER)    AS year,
-                TRY_CAST(cowcode AS INTEGER) AS cowcode
-            )
-            FROM "{SLUG}-ccp-cnc"
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-ccp-cce-transform",
-        deps=[f"{SLUG}-ccp-cce"],
-        sql=f'''
-            SELECT * REPLACE (
-                TRY_CAST(year AS INTEGER)    AS year,
-                TRY_CAST(cowcode AS INTEGER) AS cowcode
-            )
-            FROM "{SLUG}-ccp-cce"
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-constitutions-transform",
-        deps=[f"{SLUG}-constitutions"],
-        sql=f'SELECT * FROM "{SLUG}-constitutions"',
-    ),
+    NodeSpec(id=f"{SLUG}-topics", fn=fetch_topics, kind="download"),
 ]

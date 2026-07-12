@@ -1,0 +1,26 @@
+spec_id: common-crawl-statistics
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: Per-crawl aggregate stats span many metric families across more than one hundred crawls.
+    certainty: 90
+  - not_null: crawl_id
+  - not_null: crawl_date
+  - not_null: metric_family
+  - not_null: key
+  - not_null: count
+  - column_type: {col: crawl_id, type: string}
+  - column_type: {col: crawl_date, type: date}
+  - column_type: {col: metric_family, type: string}
+  - column_type: {col: key, type: string}
+  - column_type: {col: count, type: integer}
+  - unique: [crawl_id, metric_family, key]
+    reason: Each stats line is one metric-family/key aggregate for one crawl after dropping non-count sketches.
+    certainty: 90
+  - distinct_count: {col: crawl_id, min: 100}
+    reason: Crawl-analysis stats are available for most published Common Crawl collections.
+    certainty: 85
+  - freshness: {col: crawl_date, reaches: today - 180d}
+    reason: Latest crawl stats can lag the crawl catalog; allow several months for publication.
+    certainty: 80
+    points_outward: true

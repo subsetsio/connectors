@@ -1,0 +1,18 @@
+spec_id: comparative-constitutions-project-topics
+status: active
+tests:
+  - not_null: key
+    reason: each top-level Constitute topic group has a stable topic key
+    certainty: 95
+  - unique: key
+    reason: topic keys identify top-level taxonomy groups
+    certainty: 95
+  - not_null: label
+    reason: every topic group has a display label
+    certainty: 95
+  - row_count: {min: 10}
+    reason: the Constitute taxonomy exposes 12 top-level topic groups
+    certainty: 90
+  - distinct_count: {col: key, min: 10}
+    reason: topic keys should cover the published top-level taxonomy
+    certainty: 90

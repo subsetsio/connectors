@@ -1,0 +1,16 @@
+key: [crawl_id]
+temporal: to_ts
+sort: [to_ts, crawl_id]
+columns:
+  - name: crawl_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: from_ts
+    type: TIMESTAMP
+  - name: to_ts
+    type: TIMESTAMP
+  - name: cdx_api
+    type: VARCHAR
+  - name: timegate
+    type: VARCHAR

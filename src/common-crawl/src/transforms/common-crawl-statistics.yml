@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [crawl_id, metric_family, key]
+temporal: crawl_date
+sort: [crawl_date, crawl_id, metric_family, key]
 columns:
   - name: crawl_id
     type: VARCHAR

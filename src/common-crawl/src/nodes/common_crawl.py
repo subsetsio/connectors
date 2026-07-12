@@ -31,17 +31,15 @@ the `common-crawl-statistics-*` layout.
 """
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 import httpx
 import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 logger = logging.getLogger(__name__)
@@ -57,15 +55,22 @@ SCHEMA = pa.schema([
     ("count", pa.int64()),
 ])
 
+CRAWLS_SCHEMA = pa.schema([
+    ("crawl_id", pa.string()),
+    ("name", pa.string()),
+    ("from_ts", pa.timestamp("us", tz="UTC")),
+    ("to_ts", pa.timestamp("us", tz="UTC")),
+    ("cdx_api", pa.string()),
+    ("timegate", pa.string()),
+])
 
-@transient_retry()
+
 def _get_json(url: str):
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.json()
 
 
-@transient_retry()
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -81,6 +86,19 @@ def _to_date(iso: str | None):
     except ValueError:
         logger.warning("common-crawl: unparseable crawl timestamp %r", iso)
         return None
+
+
+def _to_timestamp(iso: str | None):
+    if not iso:
+        return None
+    try:
+        dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    except ValueError:
+        logger.warning("common-crawl: unparseable crawl timestamp %r", iso)
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
 
 
 def _dim(d) -> str:
@@ -158,6 +176,28 @@ def _parse_stats(text: str, crawl_id: str, crawl_date) -> list[dict]:
     return rows
 
 
+def fetch_crawls(node_id: str) -> None:
+    """Fetch the Common Crawl collection catalog from collinfo.json."""
+    crawls = _get_json(COLLINFO_URL)
+    if not isinstance(crawls, list) or not crawls:
+        raise RuntimeError(f"collinfo.json returned no crawls: {type(crawls)}")
+
+    rows = []
+    for c in crawls:
+        rows.append({
+            "crawl_id": c.get("id"),
+            "name": c.get("name"),
+            "from_ts": _to_timestamp(c.get("from")),
+            "to_ts": _to_timestamp(c.get("to")),
+            "cdx_api": c.get("cdx-api"),
+            "timegate": c.get("timegate"),
+        })
+
+    table = pa.Table.from_pylist(rows, schema=CRAWLS_SCHEMA)
+    save_raw_parquet(table, node_id)
+    logger.info("common-crawl: wrote %d crawl catalog rows", len(table))
+
+
 def fetch_statistics(node_id: str) -> None:
     """Re-fetch every crawl's stats file, writing one raw parquet batch per
     crawl into this run's raw snapshot. A crawl whose stats file is not yet
@@ -197,22 +237,6 @@ def fetch_statistics(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="common-crawl-crawls", fn=fetch_crawls, kind="download"),
     NodeSpec(id="common-crawl-statistics", fn=fetch_statistics, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="common-crawl-statistics-transform",
-        deps=["common-crawl-statistics"],
-        sql='''
-            SELECT
-                crawl_id,
-                CAST(crawl_date AS DATE)   AS crawl_date,
-                metric_family,
-                key,
-                CAST("count" AS BIGINT)    AS count
-            FROM "common-crawl-statistics"
-            WHERE "count" IS NOT NULL
-        ''',
-    ),
 ]
