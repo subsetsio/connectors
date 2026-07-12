@@ -18,6 +18,10 @@ tests:
   - matches: {col: incident_date, pattern: '^[A-Z][a-z]+ [0-9]{1,2}, [0-9]{4}$'}
     reason: dates render as the source's free text e.g. "June 13, 2026"; a format change breaks the transform's strptime
     certainty: 85
+  - freshness: {col: incident_date_parsed, reaches: today - 30d}
+    reason: Gun Violence Archive standing reports are live incident feeds; the combined export should include an incident within the last month.
+    certainty: 80
+    points_outward: true
   - column_type: {col: victims_killed, type: integer}
     certainty: 85
   - between: {col: victims_killed, lo: 0, hi: 100}

@@ -27,6 +27,7 @@ Source quirks handled here:
 
 import io
 import re
+from datetime import datetime
 
 import httpx
 import pandas as pd
@@ -124,6 +125,7 @@ _COUNT_COLS = (
 SCHEMA = pa.schema([
     ("incident_id", pa.int64()),
     ("incident_date", pa.string()),
+    ("incident_date_parsed", pa.date32()),
     ("state", pa.string()),
     ("city_or_county", pa.string()),
     ("address", pa.string()),
@@ -211,6 +213,7 @@ def _crawl_report(slug):
             row = {
                 "incident_id": int(rec["incident_id"]),
                 "incident_date": _clean_str(rec.get("incident_date")),
+                "incident_date_parsed": _parse_incident_date(rec.get("incident_date")),
                 "state": _clean_str(rec.get("state")),
                 "city_or_county": _clean_str(rec.get("city_or_county")),
                 "address": _clean_str(rec.get("address")),
@@ -238,6 +241,13 @@ def _clean_str(v):
 def _clean_int(v):
     if v is None or (isinstance(v, float) and pd.isna(v)):
         return None
+
+
+def _parse_incident_date(v):
+    s = _clean_str(v)
+    if not s:
+        return None
+    return datetime.strptime(s, "%B %d, %Y").date()
     try:
         return int(v)
     except (TypeError, ValueError):
