@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `lagos-ne-in-situ-measurements-of-epilimnetic-nutrients-and-secchi-data`. Regenerate after model-verify.
+# caution: Rows are wide sampling events with many analyte columns; aggregate each analyte column separately and use its paired qualifier, censor code, detection limit, and method columns when interpreting measurements.
+key: [eventida10873]
+temporal: sampledate
+sort: [sampledate, eventida10873]
 columns:
   - name: eventida10873
     type: BIGINT

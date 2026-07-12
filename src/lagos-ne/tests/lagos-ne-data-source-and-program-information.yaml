@@ -1,5 +1,8 @@
 spec_id: lagos-ne-data-source-and-program-information
 status: active
+coverage:
+  frozen: true
+  reason: LAGOS-NE-LIMNO EDI package 101.3 is a versioned academic snapshot; beg_year describes source program history, not a rolling publication date.
 tests:
   - not_null: programtableid
     reason: programtableid identifies each source program table row

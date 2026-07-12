@@ -1,5 +1,8 @@
 spec_id: lagos-ne-in-situ-measurements-of-epilimnetic-nutrients-and-secchi-data
 status: active
+coverage:
+  frozen: true
+  reason: LAGOS-NE-LIMNO EDI package 101.3 is a versioned academic snapshot; sampledate is an observation date, not a rolling freshness signal.
 tests:
   - not_null: eventida10873
     reason: eventida10873 is the sampling-event primary key; never missing

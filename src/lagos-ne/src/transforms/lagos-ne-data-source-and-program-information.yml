@@ -1,3 +1,9 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `lagos-ne-data-source-and-program-information`. Regenerate after model-verify.
+# caution: This table is keyed by source program table, not by program id; one monitoring program can contribute multiple source tables.
+key: [programtable]
+temporal: beg_year
+sort: [beg_year, programtable]
 columns:
   - name: programid
     type: BIGINT
