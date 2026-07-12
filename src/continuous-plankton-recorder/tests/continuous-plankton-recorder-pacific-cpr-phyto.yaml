@@ -18,3 +18,7 @@ tests:
     reason: Pacific CPR phytoplankton v1.4 holds ~136k occurrence rows
     certainty: 75
     severity: warn
+  - freshness: {col: modified, reaches: today - 2y}
+    reason: DASSH IPT CPR resources are republished on a slow annual cadence; the DwC modified timestamp should remain within a two-year window
+    certainty: 80
+    points_outward: true
