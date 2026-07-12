@@ -25,3 +25,7 @@ tests:
   - row_count: {min: 1500, max: 3000}
     reason: ~36 countries x 64 years ~= 2300; loose bounds for partial-coverage countries
     certainty: 80
+  - freshness: {col: year, reaches: 2023}
+    reason: the current CPDS 2025 release is documented as covering through 2023
+    certainty: 95
+    points_outward: true

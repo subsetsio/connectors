@@ -20,7 +20,7 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet, save_raw_ndjson
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet, save_raw_ndjson
 
 DATA_PAGE = "https://cpds-data.org/data/"
 
@@ -187,23 +187,4 @@ def fetch_government_composition(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="cpds-main", fn=fetch_main, kind="download"),
     NodeSpec(id="cpds-government-composition", fn=fetch_government_composition, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cpds-main-transform",
-        deps=("cpds-main",),
-        sql='SELECT * FROM "cpds-main" ORDER BY country, year',
-        key=("country", "year"),
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="cpds-government-composition-transform",
-        deps=("cpds-government-composition",),
-        sql='SELECT * FROM "cpds-government-composition" ORDER BY country, year',
-        # No key: a country can have multiple governments in one year (the sheet
-        # carries investiture_date / investiture_date_2), so (country, year) is
-        # not a unique grain.
-        temporal="year",
-    ),
 ]
