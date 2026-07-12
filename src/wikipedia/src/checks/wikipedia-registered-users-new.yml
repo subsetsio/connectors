@@ -1,16 +1,20 @@
-# compiled by `hardened compile-checks` — post-publish audit of `cocorahs-stations`.
+# compiled by `hardened compile-checks` — post-publish audit of `wikipedia-registered-users-new`.
 # Grain/temporal from the transform contract, row floor from the measured
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [station_number]
+key: [project, date]
+temporal: date
 checks:
   - kind: unique
-    columns: [station_number]
+    columns: [project, date]
   - kind: not_null
-    col: station_number
+    col: project
+  - kind: not_null
+    col: date
   - kind: row_floor
-    min: 53770
+    min: 63415
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
+  temporal_monotonic: true
