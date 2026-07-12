@@ -1,10 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [fiscal_year, budget_subfunction_id]
+temporal: fiscal_year
+sort: [fiscal_year, budget_subfunction_id]
 columns:
   - name: fiscal_year
     type: BIGINT
+    description: Federal fiscal year for the annual aggregate.
+  - name: budget_subfunction_id
+    type: VARCHAR
+    description: USAspending budget subfunction identifier.
   - name: budget_subfunction_code
     type: VARCHAR
+    description: Budget subfunction code.
   - name: budget_subfunction_name
     type: VARCHAR
+    description: Budget subfunction name.
   - name: total_obligations
     type: DOUBLE
+    description: Total obligations for the budget subfunction and fiscal year, in US dollars.

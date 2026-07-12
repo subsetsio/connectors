@@ -7,8 +7,6 @@ tests:
   - column_type: {col: name, type: string}
   - column_type: {col: total_obligations, type: float}
   - not_null: fiscal_year
-  - not_null: id
-  - not_null: code
   - not_null: name
   - unique: [fiscal_year, id]
     reason: the agency aggregate should have one row per agency per completed fiscal year

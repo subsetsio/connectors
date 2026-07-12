@@ -1,18 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
+    description: Calendar month for the spending aggregate.
   - name: total_obligations
     type: DOUBLE
+    description: Total federal obligations for the month, in US dollars.
   - name: contract_obligations
     type: DOUBLE
+    description: Contract obligations for the month, in US dollars.
   - name: direct_payment_obligations
     type: DOUBLE
+    description: Direct payment obligations for the month, in US dollars.
   - name: grant_obligations
     type: DOUBLE
+    description: Grant obligations for the month, in US dollars.
   - name: idv_obligations
     type: DOUBLE
+    description: Indefinite-delivery vehicle obligations for the month, in US dollars.
   - name: loan_obligations
     type: DOUBLE
+    description: Loan obligations for the month, in US dollars.
   - name: other_obligations
     type: DOUBLE
+    description: Other award-type obligations for the month, in US dollars.

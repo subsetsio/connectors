@@ -1,12 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [program_activity_id]
+temporal: fiscal_year
+sort: [fiscal_year, program_activity_id]
 columns:
   - name: fiscal_year
     type: BIGINT
+    description: Federal fiscal year for the annual aggregate.
   - name: program_activity_id
     type: VARCHAR
+    description: USAspending program activity identifier.
   - name: program_activity_code
     type: VARCHAR
+    description: Program activity code.
   - name: program_activity_name
     type: VARCHAR
+    description: Program activity name, when reported by the source.
   - name: total_obligations
     type: DOUBLE
+    description: Total obligations for the program activity record, in US dollars.

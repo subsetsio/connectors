@@ -8,7 +8,6 @@ tests:
   - column_type: {col: total_obligations, type: float}
   - not_null: fiscal_year
   - not_null: id
-  - not_null: name
   - unique: [fiscal_year, id]
     reason: the program activity aggregate should have one row per source activity id per completed fiscal year
     certainty: 90

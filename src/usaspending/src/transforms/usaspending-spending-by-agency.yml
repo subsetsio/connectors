@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [fiscal_year, agency_name]
+temporal: fiscal_year
+sort: [fiscal_year, agency_name]
 columns:
   - name: fiscal_year
     type: BIGINT
+    description: Federal fiscal year for the annual aggregate.
   - name: agency_code
     type: VARCHAR
+    description: USAspending agency code, when reported by the source.
   - name: agency_name
     type: VARCHAR
+    description: Federal agency name.
   - name: total_obligations
     type: DOUBLE
+    description: Total obligations for the agency and fiscal year, in US dollars.

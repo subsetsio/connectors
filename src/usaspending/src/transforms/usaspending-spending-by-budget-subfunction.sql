@@ -1,4 +1,5 @@
 SELECT fiscal_year,
+       id AS budget_subfunction_id,
        code AS budget_subfunction_code,
        name AS budget_subfunction_name,
        total_obligations
