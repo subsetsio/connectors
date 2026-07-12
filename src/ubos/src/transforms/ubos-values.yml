@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ubos-values`. Regenerate after model-verify.
+# caution: Rows mix national totals with disaggregations such as sex, age, education, disability status, product type, and urbanisation; filter the relevant disaggregation columns before aggregating values.
+# caution: The raw Open SDG export does not expose a null-free observation identifier, so repeated indicator-year-disaggregation rows are preserved as published by the source.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+  - name: year
+    type: SMALLINT
+  - name: value
+    type: DOUBLE
+  - name: observation_status
+    type: VARCHAR
+  - name: unit_multiplier
+    type: VARCHAR
+  - name: source_details
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: reference_area
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: composite_breakdown
+    type: VARCHAR
+  - name: degree_of_urbanisation
+    type: VARCHAR
+  - name: disability_status
+    type: VARCHAR
+  - name: education_level
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: time_period_details
+    type: BIGINT
+  - name: type_of_product
+    type: VARCHAR

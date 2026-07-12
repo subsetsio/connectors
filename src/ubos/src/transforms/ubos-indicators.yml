@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ubos-indicators`. Regenerate after model-verify.
+# caution: Indicator metadata includes all indicators exposed by the Open SDG metadata endpoint; not every metadata indicator has observation rows in the values export.
+key: [indicator_id]
+sort: [indicator_id]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: graph_title
+    type: VARCHAR
+  - name: reporting_status
+    type: VARCHAR
+  - name: sdg_goal
+    type: VARCHAR
+  - name: sdg_target
+    type: VARCHAR
+  - name: sdg_indicator
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: meta_last_update
+    type: VARCHAR
+  - name: copyright
+    type: VARCHAR
+  - name: raw_metadata_json
+    type: VARCHAR
