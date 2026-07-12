@@ -1,19 +1,19 @@
 spec_id: north-american-breeding-bird-survey-vehicle-data
 status: active
 tests:
-  - not_null: route_data_id
-  - column_type: {col: year, type: integer}
-  - between: {col: year, lo: 1966, hi: current_year()}
+  - freshness: {col: Year, reaches: 2025}
+  - not_null: RouteDataID
+  - between: {col: Year, lo: 1966, hi: 2025}
     reason: vehicle/noise observations are recorded alongside annual BBS route runs
     certainty: 85
   - row_count: {min: 50000}
     reason: one row per route-run over many years where vehicle counts were recorded
     certainty: 75
-  - at_least: {col: car1, expr: 0}
+  - at_least: {col: Car1, expr: 0}
     reason: per-stop vehicle counts are non-negative
     certainty: 90
     severity: warn
-  - at_least: {col: noise1, expr: 0}
+  - at_least: {col: Noise1, expr: 0}
     reason: per-stop noise codes are non-negative
     certainty: 80
     severity: warn

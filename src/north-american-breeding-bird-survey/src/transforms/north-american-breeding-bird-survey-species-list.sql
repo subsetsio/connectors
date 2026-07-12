@@ -1,10 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The table includes species, races, and unidentified taxon groupings, so rows are BBS taxa rather than only biological species.
 SELECT
-    TRY_CAST(TRIM(Seq) AS INTEGER) AS seq,
-    TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
-    TRIM(English_Common_Name)      AS english_common_name,
-    TRIM(French_Common_Name)       AS french_common_name,
-    TRIM("Order")                  AS "order",
-    TRIM(Family)                   AS family,
-    TRIM(Genus)                    AS genus,
-    TRIM(Species)                  AS species
+    CAST("Seq" AS BIGINT) AS seq,
+    "AOU" AS aou,
+    "English_Common_Name" AS english_common_name,
+    "French_Common_Name" AS french_common_name,
+    "Order" AS order,
+    "Family" AS family,
+    "Genus" AS genus,
+    "Species" AS species
 FROM "north-american-breeding-bird-survey-species-list"

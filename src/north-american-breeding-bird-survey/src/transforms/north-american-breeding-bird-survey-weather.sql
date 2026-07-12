@@ -1,24 +1,29 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Weather and effort fields describe the survey run conditions and are not bird-count observations.
 SELECT
-    TRY_CAST(TRIM(RouteDataID) AS BIGINT)   AS route_data_id,
-    TRY_CAST(TRIM(CountryNum) AS INTEGER)   AS country_num,
-    TRIM(StateNum)                          AS state_num,
-    TRIM(Route)                             AS route,
-    TRIM(RPID)                              AS rpid,
-    TRY_CAST(TRIM(Year) AS INTEGER)         AS year,
-    TRY_CAST(TRIM(Month) AS INTEGER)        AS month,
-    TRY_CAST(TRIM(Day) AS INTEGER)          AS day,
-    TRIM(ObsN)                              AS observer_id,
-    TRY_CAST(TRIM(TotalSpp) AS INTEGER)     AS total_spp,
-    TRY_CAST(TRIM(StartTemp) AS DOUBLE)     AS start_temp,
-    TRY_CAST(TRIM(EndTemp) AS DOUBLE)       AS end_temp,
-    TRIM(TempScale)                         AS temp_scale,
-    TRY_CAST(TRIM(StartWind) AS INTEGER)    AS start_wind,
-    TRY_CAST(TRIM(EndWind) AS INTEGER)      AS end_wind,
-    TRY_CAST(TRIM(StartSky) AS INTEGER)     AS start_sky,
-    TRY_CAST(TRIM(EndSky) AS INTEGER)       AS end_sky,
-    TRIM(StartTime)                         AS start_time,
-    TRIM(EndTime)                           AS end_time,
-    TRY_CAST(TRIM(Assistant) AS INTEGER)    AS assistant,
-    TRY_CAST(TRIM(QualityCurrentID) AS INTEGER) AS quality_current_id,
-    TRY_CAST(TRIM(RunType) AS INTEGER)      AS run_type
+    CAST("RouteDataID" AS BIGINT) AS routedataid,
+    CAST("CountryNum" AS BIGINT) AS countrynum,
+    "StateNum" AS statenum,
+    "Route" AS route,
+    CAST("RPID" AS BIGINT) AS rpid,
+    CAST("Year" AS BIGINT) AS year,
+    "Month" AS month,
+    "Day" AS day,
+    "ObsN" AS obsn,
+    "TotalSpp" AS totalspp,
+    "StartTemp" AS starttemp,
+    "EndTemp" AS endtemp,
+    "TempScale" AS tempscale,
+    CAST("StartWind" AS BIGINT) AS startwind,
+    CAST("EndWind" AS BIGINT) AS endwind,
+    CAST("StartSky" AS BIGINT) AS startsky,
+    CAST("EndSky" AS BIGINT) AS endsky,
+    "StartTime" AS starttime,
+    "EndTime" AS endtime,
+    "Assistant" AS assistant,
+    CAST("QualityCurrentID" AS BIGINT) AS qualitycurrentid,
+    CAST("RunType" AS BIGINT) AS runtype
 FROM "north-american-breeding-bird-survey-weather"

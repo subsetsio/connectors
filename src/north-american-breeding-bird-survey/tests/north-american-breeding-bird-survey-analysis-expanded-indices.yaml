@@ -1,13 +1,13 @@
 spec_id: north-american-breeding-bird-survey-analysis-expanded-indices
 status: active
 tests:
-  - not_null: aou
-  - not_null: region
-  - column_type: {col: year, type: integer}
-  - between: {col: year, lo: 1993, hi: current_year()}
+  - freshness: {col: Year, reaches: 2025}
+  - not_null: AOU
+  - not_null: Region
+  - between: {col: Year, lo: 1993, hi: 2025}
     reason: expanded indices cover the 1993-present window
     certainty: 85
-  - at_least: {col: annual_index, expr: 0}
+  - at_least: {col: Index, expr: 0}
     reason: modeled abundance indices are non-negative
     certainty: 80
     severity: warn

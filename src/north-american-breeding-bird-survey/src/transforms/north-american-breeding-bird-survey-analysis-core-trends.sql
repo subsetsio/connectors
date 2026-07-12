@@ -1,19 +1,23 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Trend estimates are modeled percent-change summaries over the period named in the `Years` column, not annual observations.
 SELECT
-    TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
-    TRIM(Region) AS region,
-    TRIM("Region Name") AS region_name,
-    TRIM(Species) AS species,
-    TRIM(Model) AS model,
-    TRIM("Credibility Code") AS credibility_code,
-    TRIM("Sample Size Code") AS sample_size_code,
-    TRIM("Precision Code") AS precision_code,
-    TRIM("Abundance Code") AS abundance_code,
-    TRIM(Significance) AS significance,
-    TRY_CAST(TRIM("N Routes") AS INTEGER) AS n_routes,
-    TRY_CAST(TRIM(Trend) AS DOUBLE) AS trend,
-    TRY_CAST(TRIM("2.5%CI") AS DOUBLE) AS ci_lower,
-    TRY_CAST(TRIM("97.5%CI") AS DOUBLE) AS ci_upper,
-    TRY_CAST(TRIM("Relative Abundance") AS DOUBLE) AS relative_abundance,
-    TRIM(Years) AS years
+    "Credibility Code" AS credibility_code,
+    "Sample Size Code" AS sample_size_code,
+    "Precision Code" AS precision_code,
+    "Abundance Code" AS abundance_code,
+    "Significance" AS significance,
+    CAST("AOU" AS BIGINT) AS aou,
+    "Region" AS region,
+    "Species" AS species,
+    "Region Name" AS region_name,
+    "Model" AS model,
+    CAST("N Routes" AS BIGINT) AS n_routes,
+    CAST("Trend" AS DOUBLE) AS trend,
+    CAST("2.5%CI" AS DOUBLE) AS 2_5_ci,
+    CAST("97.5%CI" AS DOUBLE) AS 97_5_ci,
+    CAST("Relative Abundance" AS DOUBLE) AS relative_abundance,
+    "Years" AS years
 FROM "north-american-breeding-bird-survey-analysis-core-trends"
-WHERE TRIM(AOU) <> ''

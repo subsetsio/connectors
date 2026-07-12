@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `north-american-breeding-bird-survey-migrant-nonbreeder`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [routedataid, aou, route, statenum, stop50]
+temporal: year
+checks:
+  - kind: unique
+    columns: [routedataid, aou, route, statenum, stop50]
+  - kind: not_null
+    col: routedataid
+  - kind: not_null
+    col: aou
+  - kind: not_null
+    col: route
+  - kind: not_null
+    col: statenum
+  - kind: not_null
+    col: stop50
+  - kind: row_floor
+    min: 5274
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

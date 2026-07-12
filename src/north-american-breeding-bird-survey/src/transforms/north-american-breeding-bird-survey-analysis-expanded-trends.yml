@@ -1,15 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `north-american-breeding-bird-survey-analysis-expanded-trends`. Regenerate after model-verify.
+# caution: Expanded trend estimates use the shorter expanded-coverage analysis window and should not be mixed with core trend estimates without preserving the analysis scope.
+key: [aou, region, model]
+sort: [aou, region, model]
 columns:
-  - name: aou
-    type: INTEGER
-  - name: region
-    type: VARCHAR
-  - name: region_name
-    type: VARCHAR
-  - name: species
-    type: VARCHAR
-  - name: model
-    type: VARCHAR
   - name: credibility_code
     type: VARCHAR
   - name: sample_size_code
@@ -20,13 +14,23 @@ columns:
     type: VARCHAR
   - name: significance
     type: VARCHAR
+  - name: aou
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: model
+    type: VARCHAR
   - name: n_routes
-    type: INTEGER
+    type: BIGINT
   - name: trend
     type: DOUBLE
-  - name: ci_lower
+  - name: "2_5_ci"
     type: DOUBLE
-  - name: ci_upper
+  - name: "97_5_ci"
     type: DOUBLE
   - name: relative_abundance
     type: DOUBLE

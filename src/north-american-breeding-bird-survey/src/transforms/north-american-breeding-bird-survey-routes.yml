@@ -1,24 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `north-american-breeding-bird-survey-routes`. Regenerate after model-verify.
+# caution: Routes are reference geography, not annual survey runs; join to count and weather tables using country, state, and route identifiers.
+key: [longitude, latitude, routename, route, stratum]
+sort: [longitude, latitude, routename, route, stratum]
 columns:
-  - name: country_num
-    type: INTEGER
-  - name: state_num
+  - name: countrynum
+    type: BIGINT
+  - name: statenum
     type: VARCHAR
   - name: route
     type: VARCHAR
-  - name: route_name
+  - name: routename
     type: VARCHAR
   - name: active
-    type: INTEGER
+    type: VARCHAR
   - name: latitude
-    type: DOUBLE
+    type: VARCHAR
   - name: longitude
-    type: DOUBLE
+    type: VARCHAR
   - name: stratum
-    type: INTEGER
+    type: VARCHAR
   - name: bcr
-    type: INTEGER
-  - name: route_type_id
-    type: INTEGER
-  - name: route_type_detail_id
-    type: INTEGER
+    type: VARCHAR
+  - name: routetypeid
+    type: BIGINT
+  - name: routetypedetailid
+    type: BIGINT

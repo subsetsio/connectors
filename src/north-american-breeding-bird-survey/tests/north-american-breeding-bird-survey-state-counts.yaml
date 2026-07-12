@@ -1,16 +1,16 @@
 spec_id: north-american-breeding-bird-survey-state-counts
 status: active
 tests:
-  - not_null: aou
-  - not_null: route_data_id
-  - column_type: {col: year, type: integer}
-  - between: {col: year, lo: 1966, hi: current_year()}
+  - freshness: {col: Year, reaches: 2025}
+  - not_null: AOU
+  - not_null: RouteDataID
+  - between: {col: Year, lo: 1966, hi: 2025}
     reason: 10-stop summary counts span the full survey period from 1966
     certainty: 90
   - row_count: {min: 1000000}
     reason: one row per (route-run, species); millions over the full period
     certainty: 85
-  - at_least: {col: stoptotal, expr: 0}
+  - at_least: {col: StopTotal, expr: 0}
     reason: bird counts are non-negative
     certainty: 90
     severity: warn

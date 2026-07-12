@@ -1,14 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `north-american-breeding-bird-survey-analysis-expanded-indices`. Regenerate after model-verify.
+# caution: Expanded indices use the shorter expanded-coverage analysis window; do not combine them with core indices as if they were the same statistical product.
+key: [index, "2_5_ci", aou, region, year]
+temporal: year
+sort: [year, index, "2_5_ci", aou, region]
 columns:
   - name: aou
-    type: INTEGER
+    type: BIGINT
   - name: region
     type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: annual_index
+    type: BIGINT
+  - name: index
     type: DOUBLE
-  - name: ci_lower
+  - name: "2_5_ci"
     type: DOUBLE
-  - name: ci_upper
+  - name: "97_5_ci"
     type: DOUBLE

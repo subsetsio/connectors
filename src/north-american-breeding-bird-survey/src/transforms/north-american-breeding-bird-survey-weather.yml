@@ -1,46 +1,51 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `north-american-breeding-bird-survey-weather`. Regenerate after model-verify.
+# caution: Weather and effort fields describe the survey run conditions and are not bird-count observations.
+key: [routedataid]
+temporal: year
+sort: [year, routedataid]
 columns:
-  - name: route_data_id
+  - name: routedataid
     type: BIGINT
-  - name: country_num
-    type: INTEGER
-  - name: state_num
+  - name: countrynum
+    type: BIGINT
+  - name: statenum
     type: VARCHAR
   - name: route
     type: VARCHAR
   - name: rpid
-    type: VARCHAR
+    type: BIGINT
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: month
-    type: INTEGER
+    type: VARCHAR
   - name: day
-    type: INTEGER
-  - name: observer_id
     type: VARCHAR
-  - name: total_spp
-    type: INTEGER
-  - name: start_temp
-    type: DOUBLE
-  - name: end_temp
-    type: DOUBLE
-  - name: temp_scale
+  - name: obsn
     type: VARCHAR
-  - name: start_wind
-    type: INTEGER
-  - name: end_wind
-    type: INTEGER
-  - name: start_sky
-    type: INTEGER
-  - name: end_sky
-    type: INTEGER
-  - name: start_time
+  - name: totalspp
     type: VARCHAR
-  - name: end_time
+  - name: starttemp
+    type: VARCHAR
+  - name: endtemp
+    type: VARCHAR
+  - name: tempscale
+    type: VARCHAR
+  - name: startwind
+    type: BIGINT
+  - name: endwind
+    type: BIGINT
+  - name: startsky
+    type: BIGINT
+  - name: endsky
+    type: BIGINT
+  - name: starttime
+    type: VARCHAR
+  - name: endtime
     type: VARCHAR
   - name: assistant
-    type: INTEGER
-  - name: quality_current_id
-    type: INTEGER
-  - name: run_type
-    type: INTEGER
+    type: VARCHAR
+  - name: qualitycurrentid
+    type: BIGINT
+  - name: runtype
+    type: BIGINT
