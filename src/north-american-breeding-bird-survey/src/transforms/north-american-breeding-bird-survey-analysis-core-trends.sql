@@ -16,8 +16,8 @@ SELECT
     "Model" AS model,
     CAST("N Routes" AS BIGINT) AS n_routes,
     CAST("Trend" AS DOUBLE) AS trend,
-    CAST("2.5%CI" AS DOUBLE) AS 2_5_ci,
-    CAST("97.5%CI" AS DOUBLE) AS 97_5_ci,
+    CAST("2.5%CI" AS DOUBLE) AS "2_5_ci",
+    CAST("97.5%CI" AS DOUBLE) AS "97_5_ci",
     CAST("Relative Abundance" AS DOUBLE) AS relative_abundance,
     "Years" AS years
 FROM "north-american-breeding-bird-survey-analysis-core-trends"

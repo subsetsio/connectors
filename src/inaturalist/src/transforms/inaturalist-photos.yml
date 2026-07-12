@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inaturalist-photos`. Regenerate after model-verify.
+# caution: Photos are media metadata linked to observations; joining photos to observations can duplicate observation rows when an observation has multiple photos.
+# caution: The source includes photo_uuid as the media record identifier, but this factory model publishes the large photo snapshot as keyless because exact uniqueness verification is impractical in the local model profiler.
+key: []
+columns:
+  - name: photo_uuid
+    type: VARCHAR
+  - name: photo_id
+    type: BIGINT
+  - name: observation_uuid
+    type: VARCHAR
+  - name: observer_id
+    type: BIGINT
+  - name: extension
+    type: VARCHAR
+  - name: license
+    type: VARCHAR
+  - name: width
+    type: BIGINT
+  - name: height
+    type: BIGINT
+  - name: position
+    type: BIGINT

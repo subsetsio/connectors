@@ -1,0 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inaturalist-observations-projects`. Regenerate after model-verify.
+# caution: This is a many-to-many membership table; joining it to observations can duplicate observation rows when an observation belongs to multiple projects.
+# caution: The natural row identifier is the observation_uuid/project_id pair, but the table is published as keyless because exact uniqueness verification over the large membership snapshot was not practical in the local model profiler.
+key: []
+columns:
+  - name: observation_uuid
+    type: VARCHAR
+  - name: project_id
+    type: BIGINT

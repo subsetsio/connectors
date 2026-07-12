@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inaturalist-observations`. Regenerate after model-verify.
+# caution: Observation counts reflect iNaturalist submissions, not systematic biodiversity survey effort; filter or stratify by quality_grade, geography, taxon, and date before interpreting trends.
+# caution: The source includes observation_uuid as the record identifier, but this factory model publishes the large observation snapshot as keyless because exact uniqueness verification is impractical in the local model profiler.
+key: []
+temporal: observed_on
+sort: [observed_on, observation_uuid]
+columns:
+  - name: observation_uuid
+    type: VARCHAR
+  - name: observer_id
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: positional_accuracy
+    type: DOUBLE
+  - name: taxon_id
+    type: BIGINT
+  - name: quality_grade
+    type: VARCHAR
+  - name: observed_on
+    type: DATE
+  - name: anomaly_score
+    type: DOUBLE

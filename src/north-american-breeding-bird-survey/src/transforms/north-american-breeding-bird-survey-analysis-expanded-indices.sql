@@ -8,6 +8,6 @@ SELECT
     "Region" AS region,
     CAST("Year" AS BIGINT) AS year,
     CAST("Index" AS DOUBLE) AS index,
-    CAST("2.5%CI" AS DOUBLE) AS 2_5_ci,
-    CAST("97.5%CI" AS DOUBLE) AS 97_5_ci
+    CAST("2.5%CI" AS DOUBLE) AS "2_5_ci",
+    CAST("97.5%CI" AS DOUBLE) AS "97_5_ci"
 FROM "north-american-breeding-bird-survey-analysis-expanded-indices"

@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inaturalist-taxa`. Regenerate after model-verify.
+key: [taxon_id]
+sort: [taxon_id]
+columns:
+  - name: taxon_id
+    type: BIGINT
+  - name: ancestry
+    type: VARCHAR
+  - name: rank_level
+    type: DOUBLE
+  - name: rank
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: active
+    type: BOOLEAN
