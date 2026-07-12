@@ -32,7 +32,7 @@ import math
 import pandas as pd
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 from constants import FAMILIES, ENTITY_IDS, REGION_TOKEN, REGIONS
 
 BASE = "https://pages.stern.nyu.edu/~adamodar/pc/datasets"
@@ -174,45 +174,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"damodaran-{eid.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(slug: str, dep_id: str) -> str:
-    if FAMILIES[slug]["regional"]:
-        cols = "region, category, metric"
-    else:
-        # single-region family: region is constant, drop it
-        cols = "category, metric"
-    return (
-        f'SELECT {cols}, CAST(value AS DOUBLE) AS value '
-        f'FROM "{dep_id}" '
-        f'WHERE value IS NOT NULL AND category IS NOT NULL AND metric IS NOT NULL'
-    )
-
-
-# Single-region families whose row dimension (`category`) is a time period
-# rather than an industry/country — their headline table is anchored on a
-# Year/Date column, so `category` IS the observation period.
-_CATEGORY_TEMPORAL = {"histretsp", "histimpl", "macro"}
-
-
-def _transform_key(slug: str) -> tuple[str, ...]:
-    # Long/tidy schema: one value per dimension tuple. Regional families keep a
-    # region column; single-region families drop it (see _transform_sql).
-    if FAMILIES[slug]["regional"]:
-        return ("region", "category", "metric")
-    return ("category", "metric")
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=_transform_sql(spec.id[len("damodaran-"):], spec.id),
-        key=_transform_key(spec.id[len("damodaran-"):]),
-        temporal=(
-            "category" if spec.id[len("damodaran-"):] in _CATEGORY_TEMPORAL else None
-        ),
-    )
-    for spec in DOWNLOAD_SPECS
 ]

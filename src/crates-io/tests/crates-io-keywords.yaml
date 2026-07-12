@@ -1,0 +1,17 @@
+spec_id: crates-io-keywords
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: crates.io has a large normalized keyword vocabulary
+    certainty: 90
+  - not_null: id
+  - not_null: keyword
+  - unique: id
+    reason: keywords.id is the source primary key
+    certainty: 95
+  - unique: keyword
+    reason: keyword values are normalized public identifiers
+    certainty: 90
+  - column_type: {col: id, type: string}
+  - column_type: {col: keyword, type: string}
+  - column_type: {col: crates_cnt, type: string}

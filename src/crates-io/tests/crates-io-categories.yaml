@@ -1,0 +1,18 @@
+spec_id: crates-io-categories
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: crates.io maintains a non-empty curated category taxonomy
+    certainty: 95
+  - not_null: id
+  - not_null: slug
+  - not_null: category
+  - unique: id
+    reason: categories.id is the source primary key
+    certainty: 95
+  - unique: slug
+    reason: category slugs are stable public identifiers
+    certainty: 95
+  - column_type: {col: id, type: string}
+  - column_type: {col: slug, type: string}
+  - column_type: {col: crates_cnt, type: string}

@@ -1,0 +1,21 @@
+spec_id: crates-io-crates
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: crates.io has well over 100k published crates
+    certainty: 95
+  - not_null: id
+  - not_null: name
+  - unique: id
+    reason: crates.id is the source primary key
+    certainty: 95
+  - unique: name
+    reason: crates.io crate names are unique registry identifiers
+    certainty: 95
+  - column_type: {col: id, type: string}
+  - column_type: {col: name, type: string}
+  - column_type: {col: downloads, type: string}
+  - freshness: {col: updated_at, reaches: today - 30d}
+    reason: active registry metadata should include crates updated in the last month
+    certainty: 85
+    points_outward: true

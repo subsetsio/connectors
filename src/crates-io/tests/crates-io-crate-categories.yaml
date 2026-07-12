@@ -1,0 +1,13 @@
+spec_id: crates-io-crate-categories
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: many crates are assigned to at least one category
+    certainty: 90
+  - not_null: crate_id
+  - not_null: category_id
+  - unique: [crate_id, category_id]
+    reason: the join table should have one row per crate-category assignment
+    certainty: 95
+  - column_type: {col: crate_id, type: string}
+  - column_type: {col: category_id, type: string}

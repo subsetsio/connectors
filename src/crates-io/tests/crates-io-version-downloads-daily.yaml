@@ -1,0 +1,18 @@
+spec_id: crates-io-version-downloads-daily
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: rolling daily downloads cover many package versions over roughly 90 days
+    certainty: 90
+  - not_null: version_id
+  - not_null: date
+  - unique: [version_id, date]
+    reason: source grain is one daily download count per version
+    certainty: 95
+  - column_type: {col: version_id, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: downloads, type: string}
+  - freshness: {col: date, reaches: today - 7d}
+    reason: the dump is generated daily and version_downloads is a rolling window
+    certainty: 90
+    points_outward: true

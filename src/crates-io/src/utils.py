@@ -1,9 +1,9 @@
 """Shared transport + extraction for the crates.io connector.
 
-The source is a single CC0 PostgreSQL dump (``db-dump.tar.gz``, ~1.3 GB gzipped,
-regenerated daily ~02:00 UTC) bundling ~15 CSV tables. We publish five Delta
-tables, each from its own download node, but all five share ONE underlying
-artifact: the dump. To avoid re-downloading 1.3 GB five times, the first node to
+The source is a single public PostgreSQL dump (``db-dump.tar.gz``, ~1.6 GB
+gzipped, regenerated daily ~02:00 UTC) bundling ~15 CSV tables. We publish eight Delta
+tables, each from its own download node, but all eight share ONE underlying
+artifact: the dump. To avoid re-downloading the archive eight times, the first node to
 run downloads the archive into a process-shared temp cache (guarded by a file
 lock and keyed by the archive's ETag); the remaining nodes reuse it. The cache
 lives in the OS temp dir, so it is naturally fresh per CI container.

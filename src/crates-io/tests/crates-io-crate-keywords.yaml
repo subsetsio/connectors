@@ -1,0 +1,13 @@
+spec_id: crates-io-crate-keywords
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: many crates declare at least one keyword
+    certainty: 90
+  - not_null: crate_id
+  - not_null: keyword_id
+  - unique: [crate_id, keyword_id]
+    reason: the join table should have one row per crate-keyword assignment
+    certainty: 95
+  - column_type: {col: crate_id, type: string}
+  - column_type: {col: keyword_id, type: string}

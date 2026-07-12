@@ -1,0 +1,20 @@
+spec_id: crates-io-versions
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: crates.io has over one million published versions
+    certainty: 95
+  - not_null: id
+  - not_null: crate_id
+  - not_null: num
+  - unique: id
+    reason: versions.id is the source primary key
+    certainty: 95
+  - column_type: {col: id, type: string}
+  - column_type: {col: crate_id, type: string}
+  - column_type: {col: num, type: string}
+  - column_type: {col: downloads, type: string}
+  - freshness: {col: created_at, reaches: today - 30d}
+    reason: active registry should include newly published versions in the last month
+    certainty: 85
+    points_outward: true

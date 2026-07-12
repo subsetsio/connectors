@@ -1,0 +1,18 @@
+spec_id: crates-io-dependencies
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: crates.io dependency graph contains millions of edges
+    certainty: 95
+  - not_null: id
+  - not_null: version_id
+  - not_null: crate_id
+  - unique: id
+    reason: dependencies.id is the source primary key
+    certainty: 95
+  - column_type: {col: id, type: string}
+  - column_type: {col: version_id, type: string}
+  - column_type: {col: crate_id, type: string}
+  - enum: {col: kind, values: ["0", "1", "2"]}
+    reason: crates.io encodes normal, build, and dev dependency kinds as integers
+    certainty: 90
