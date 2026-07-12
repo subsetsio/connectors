@@ -1,5 +1,8 @@
 spec_id: economist-big-mac-index-big-mac-historical-source-data
 status: active
+coverage:
+  frozen: true
+  reason: The Economist publishes this as a fixed legacy 1986-1999 source-data file; modern observations are in the separate source-data table.
 tests:
   - not_null: date
   - not_null: iso_a3

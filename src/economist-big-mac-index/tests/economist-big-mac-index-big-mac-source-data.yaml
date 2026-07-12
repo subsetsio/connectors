@@ -14,8 +14,8 @@ tests:
     certainty: 95
   - matches: {col: iso_a3, pattern: '^[A-Z]{3}$'}
     certainty: 90
-  - between: {col: local_price, lo: 0, hi: 1000000}
-    reason: positive local-currency price
+  - between: {col: local_price, lo: 0, hi: 20000000}
+    reason: positive local-currency price; weak-currency observations can reach tens of millions
     certainty: 90
   - between: {col: dollar_ex, lo: 0, hi: 100000000}
     reason: USD exchange rate is positive; some weak-currency rates are very large
