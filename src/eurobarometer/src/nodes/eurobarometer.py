@@ -190,10 +190,11 @@ def fetch_responses(node_id: str) -> None:
     """Parse every Volume-A workbook into long format, one fragment per dataset."""
     datasets = enumerate_commu_datasets()
     run_id = os.environ.get("RUN_ID", "unknown")
-    committed = {
-        fragment for fragment, meta in list_raw_fragments(node_id, "parquet").items()
-        if meta.get("run_id") == run_id
-    }
+    # GitHub's six-hour deadline can finalize a crawl before the DAG's same-run
+    # continuation chain completes. Treat manifest-committed Volume-A fragments
+    # as durable work: the corpus is historical, and re-enumeration below still
+    # discovers and fetches new surveys that do not have a fragment yet.
+    committed = set(list_raw_fragments(node_id, "parquet"))
     if committed:
         print(f"[responses] resuming run {run_id}: {len(committed)} fragments already committed")
 
