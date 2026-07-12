@@ -1,8 +1,8 @@
 """US Drought Monitor — drought severity subset.
 
 Percent of area in each drought category (D0-D4) + none, per (date, region).
-`region` is "US" (national CONUS) or a state/territory abbreviation, covering
-CONUS plus 50 states, DC, and Puerto Rico (53 region codes total).
+`region` is "US" (national CONUS) or a state/territory abbreviation: CONUS,
+the 50 states, DC, and Puerto Rico (53 region codes total).
 """
 
 import pyarrow as pa
@@ -37,7 +37,7 @@ def fetch_drought_severity(node_id: str) -> None:
             "d2": item["d2"], "d3": item["d3"], "d4": item["d4"],
         })
 
-    # Per-state — `stateAbbreviation` is the region directly.
+    # Per-state/DC/PR — `stateAbbreviation` is the region directly.
     for fips in STATE_FIPS:
         for item in fetch("StateStatistics/GetDroughtSeverityStatisticsByAreaPercent", fips):
             region = item["stateAbbreviation"]

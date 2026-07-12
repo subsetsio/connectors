@@ -1,8 +1,8 @@
 """US Drought Monitor — DSCI subset.
 
 Drought Severity and Coverage Index (0-500), per (date, region).
-`region` is "US" (national CONUS) or a state/territory abbreviation, covering
-CONUS plus 50 states, DC, and Puerto Rico (53 region codes total).
+`region` is "US" (national CONUS) or a state/territory abbreviation: CONUS,
+the 50 states, DC, and Puerto Rico (53 region codes total).
 """
 
 import pyarrow as pa
@@ -51,7 +51,7 @@ def fetch_dsci(node_id: str) -> None:
             "dsci": item["dsci"],
         })
 
-    # Per-state — state DSCI rows carry the full state `name`.
+    # Per-state/DC/PR — state DSCI rows carry the full state `name`.
     for fips in STATE_FIPS:
         for item in fetch("StateStatistics/GetDSCI", fips):
             name = item.get("name") or ""
