@@ -7,9 +7,9 @@ distinct-schema *product*; period (year / yyyymm) and region/UF are partition
 coordinates that become row values, not separate subsets.
 
 Access is plain FTP — there is no HTTP/`subsets_utils.get` path for this host,
-so the fetch helpers below use `urllib.request` for the ftp:// scheme
-deliberately (the "route HTTP through subsets_utils" rule is about HTTP; FTP has
-no library equivalent). FTP calls are wrapped in a tenacity transient retry.
+so the fetch helpers below use curl for the ftp:// scheme deliberately (the
+"route HTTP through subsets_utils" rule is about HTTP; FTP has no library
+equivalent). FTP calls are wrapped in a tenacity transient retry.
 
 Shape — **batched immutable archives** (incremental-by-immutable-batch): every
 period/region archive is fetched once and never changes. Each entity's fetch fn
@@ -213,6 +213,53 @@ def _iter_rows(path: str, encoding: str, extra: dict):
             yield row
 
 
+def _txt_paths(root_dir: str) -> list[str]:
+    return [
+        os.path.join(root, f)
+        for root, _, files in os.walk(root_dir)
+        for f in files
+        if f.lower().endswith(".txt")
+    ]
+
+
+def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
+    try:
+        with py7zr.SevenZipFile(z7_path) as z:
+            z.extractall(path=out_dir)
+    except Exception as py_error:
+        txts = _txt_paths(out_dir)
+        if txts:
+            print(f"  [warn] {file_url}: py7zr reported {type(py_error).__name__}, using extracted TXT(s)", flush=True)
+            return txts
+
+        fallback_output = ""
+        for name in ("7z", "7zz", "7za", "bsdtar"):
+            exe = shutil.which(name)
+            if not exe:
+                continue
+            if name == "bsdtar":
+                args = [exe, "-xf", z7_path, "-C", out_dir]
+            else:
+                args = [exe, "x", "-y", f"-o{out_dir}", z7_path]
+            proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+            fallback_output = proc.stdout[-2000:]
+            txts = _txt_paths(out_dir)
+            if txts:
+                if proc.returncode != 0:
+                    print(f"  [warn] {file_url}: {name} exited {proc.returncode} but produced TXT(s)", flush=True)
+                return txts
+
+        raise RuntimeError(
+            f"{file_url}: failed to extract 7z archive with py7zr and system fallbacks; "
+            f"py7zr={type(py_error).__name__}: {py_error}; fallback_tail={fallback_output!r}"
+        ) from py_error
+
+    txts = _txt_paths(out_dir)
+    if not txts:
+        raise RuntimeError(f"{file_url}: extracted archive contains no TXT files")
+    return txts
+
+
 def _process_archive(file_url: str, asset: str, extra: dict) -> int:
     """Fetch one .7z, extract its TXT(s), stream rows to a `ndjson.gz` raw
     asset. Returns the row count written."""
@@ -223,18 +270,8 @@ def _process_archive(file_url: str, asset: str, extra: dict) -> int:
             magic = fh.read(6)
         if magic != b"7z\xbc\xaf'\x1c":
             raise RuntimeError(f"{file_url}: downloaded payload is not a 7z archive (magic={magic.hex()})")
-        try:
-            with py7zr.SevenZipFile(z7) as z:
-                z.extractall(path=td)
-        except Exception as e:
-            raise RuntimeError(f"{file_url}: failed to extract 7z archive") from e
+        txts = _extract_archive(z7, td, file_url)
         os.remove(z7)  # free disk before streaming the (large) TXT
-        txts = [
-            os.path.join(root, f)
-            for root, _, files in os.walk(td)
-            for f in files
-            if f.lower().endswith(".txt")
-        ]
         n = 0
         with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip", encoding="utf-8") as out:
             for tp in txts:
