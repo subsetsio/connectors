@@ -102,7 +102,9 @@ def _to_timestamp(iso: str | None):
 
 
 def _dim(d) -> str:
-    return d if isinstance(d, str) else json.dumps(d) if isinstance(d, (list, dict)) else str(d)
+    if isinstance(d, str):
+        return d
+    return json.dumps(d, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
 def _parse_stats(text: str, crawl_id: str, crawl_date) -> list[dict]:
