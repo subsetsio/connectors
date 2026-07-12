@@ -6,7 +6,13 @@
 SELECT
     "wave",
     "site_id",
-    strptime("date", '%d/%m/%Y')::DATE AS date,
+    "date" AS source_date,
+    CASE
+        WHEN parsed_date > DATE '2026-01-01' AND wave_year IS NOT NULL
+            THEN make_date(wave_year, date_part('month', parsed_date)::INTEGER, date_part('day', parsed_date)::INTEGER)
+        ELSE parsed_date
+    END AS date,
+    parsed_date > DATE '2026-01-01' AND wave_year IS NOT NULL AS date_corrected_from_wave_year,
     "weather",
     "time",
     "day",
@@ -15,4 +21,10 @@ SELECT
     "path",
     "mode",
     CAST("count" AS BIGINT) AS count
-FROM "transport-for-london-active-travel-counts"
+FROM (
+    SELECT
+        *,
+        strptime("date", '%d/%m/%Y')::DATE AS parsed_date,
+        NULLIF(regexp_extract("wave", '^(\\d{4})', 1), '')::INTEGER AS wave_year
+    FROM "transport-for-london-active-travel-counts"
+)
