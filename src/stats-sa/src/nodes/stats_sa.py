@@ -4,7 +4,16 @@ import re
 from datetime import UTC, datetime
 from urllib.parse import urlparse
 
-from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_ndjson
+import pyarrow as pa
+
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    raw_asset_exists,
+    save_raw_ndjson,
+    save_raw_parquet,
+)
 
 
 SPEC_PRODUCTS = "stats-sa-time-series-products"
@@ -38,6 +47,49 @@ HEADER_LABELS = {
     "H24": "start_date",
     "H25": "frequency",
 }
+
+VALUES_SCHEMA = pa.schema(
+    [
+        pa.field("product_id", pa.string()),
+        pa.field("product_title", pa.string()),
+        pa.field("source_url", pa.string()),
+        pa.field("source_file", pa.string()),
+        pa.field("source_table", pa.string()),
+        pa.field("source_row_number", pa.int64()),
+        pa.field("series_id", pa.string()),
+        pa.field("period_code", pa.string()),
+        pa.field("period", pa.string()),
+        pa.field("period_frequency", pa.string()),
+        pa.field("value", pa.float64()),
+        pa.field("value_raw", pa.string()),
+        pa.field("fetched_at", pa.timestamp("us")),
+        pa.field("release_no", pa.string()),
+        pa.field("series_name", pa.string()),
+        pa.field("variable_name", pa.string()),
+        pa.field("description_1", pa.string()),
+        pa.field("description_2", pa.string()),
+        pa.field("description_3", pa.string()),
+        pa.field("description_4", pa.string()),
+        pa.field("description_5", pa.string()),
+        pa.field("description_6", pa.string()),
+        pa.field("description_7", pa.string()),
+        pa.field("description_8", pa.string()),
+        pa.field("description_9", pa.string()),
+        pa.field("area_1", pa.string()),
+        pa.field("area_2", pa.string()),
+        pa.field("constant", pa.string()),
+        pa.field("seasonal", pa.string()),
+        pa.field("unit", pa.string()),
+        pa.field("base", pa.string()),
+        pa.field("reserved_1", pa.string()),
+        pa.field("reserved_2", pa.string()),
+        pa.field("reserved_3", pa.string()),
+        pa.field("reserved_4", pa.string()),
+        pa.field("release_date", pa.string()),
+        pa.field("start_date", pa.string()),
+        pa.field("frequency", pa.string()),
+    ]
+)
 
 PRODUCTS = [
     {
@@ -170,6 +222,12 @@ def _numeric_value(value: object) -> float | None:
         return None
 
 
+def _text(value: object) -> str | None:
+    if value is None:
+        return None
+    return str(value)
+
+
 def fetch_products(node_id: str) -> None:
     fetched_at = datetime.now(UTC).isoformat()
     rows = [
@@ -194,7 +252,7 @@ def _records_for_product(product: dict, fetched_at: str) -> list[dict]:
         table_name, records = _table_items(document, url)
         source_file = urlparse(url).path.rsplit("/", 1)[-1]
         for source_row_number, record in enumerate(records, start=1):
-            header = {HEADER_LABELS[key]: record.get(key) for key in HEADER_LABELS}
+            header = {HEADER_LABELS[key]: _text(record.get(key)) for key in HEADER_LABELS}
             variable_name = str(record.get("H03") or "").strip()
             for key, value in record.items():
                 period, period_frequency = _period_from_code(key)
@@ -222,13 +280,13 @@ def _records_for_product(product: dict, fetched_at: str) -> list[dict]:
 
 
 def fetch_values(node_id: str) -> None:
-    fetched_at = datetime.now(UTC).isoformat()
+    fetched_at = datetime.now(UTC).replace(tzinfo=None)
     rows = []
     for product in PRODUCTS:
         rows.extend(_records_for_product(product, fetched_at))
     if not rows:
         raise RuntimeError("Stats SA JSON files contained no time-series observations")
-    save_raw_ndjson(rows, node_id)
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=VALUES_SCHEMA), node_id)
 
 
 DOWNLOAD_SPECS = [
@@ -245,6 +303,6 @@ MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=SPEC_VALUES,
         description="Stats SA ISIbalo economic time-series JSON files; refreshed weekly (inferred from Stats SA time-series publication pages).",
-        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=7),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=7),
     ),
 ]
