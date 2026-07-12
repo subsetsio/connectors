@@ -1,0 +1,25 @@
+spec_id: usaspending-monthly-spending-by-award-type
+status: active
+tests:
+  - column_type: {col: date, type: string}
+  - column_type: {col: total_obligations, type: float}
+  - column_type: {col: contract_obligations, type: float}
+  - column_type: {col: direct_payment_obligations, type: float}
+  - column_type: {col: grant_obligations, type: float}
+  - column_type: {col: idv_obligations, type: float}
+  - column_type: {col: loan_obligations, type: float}
+  - column_type: {col: other_obligations, type: float}
+  - not_null: date
+  - unique: date
+    reason: the API returns one aggregate row per calendar month
+    certainty: 95
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-01$'}
+    reason: fetch normalizes fiscal months to first-of-calendar-month dates
+    certainty: 95
+  - row_count: {min: 200}
+    reason: monthly history begins in fiscal year 2008
+    certainty: 95
+  - freshness: {col: date, reaches: today - 45d}
+    reason: spending_over_time accepts an end date of today and should include recent monthly aggregates
+    certainty: 85
+    points_outward: true

@@ -1,0 +1,24 @@
+spec_id: usaspending-spending-by-budget-function
+status: active
+tests:
+  - column_type: {col: fiscal_year, type: integer}
+  - column_type: {col: id, type: string}
+  - column_type: {col: code, type: string}
+  - column_type: {col: name, type: string}
+  - column_type: {col: total_obligations, type: float}
+  - not_null: fiscal_year
+  - not_null: id
+  - not_null: code
+  - not_null: name
+  - unique: [fiscal_year, id]
+    reason: the budget function aggregate should have one row per function per completed fiscal year
+    certainty: 95
+  - between: {col: fiscal_year, lo: 2017, hi: current_year()}
+    certainty: 95
+  - row_count: {min: 150}
+    reason: budget functions are a compact annual classification across completed fiscal years
+    certainty: 80
+  - freshness: {col: fiscal_year, reaches: 2025}
+    reason: period-12 submission periods are revealed after each completed federal fiscal year
+    certainty: 90
+    points_outward: true
