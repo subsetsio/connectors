@@ -22,3 +22,4 @@ tests:
   - at_least: {col: download_count_30d, expr: 0}
     reason: download counts cannot be negative
     certainty: 99
+  - freshness: {col: snapshot_last_update, reaches: today - 60d}

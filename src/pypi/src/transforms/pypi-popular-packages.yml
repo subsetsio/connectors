@@ -7,33 +7,49 @@ sort: [snapshot_last_update, package]
 columns:
   - name: package
     type: VARCHAR
+    description: PyPI project name.
   - name: rank
     type: BIGINT
+    description: Rank within the source snapshot by 30-day download count, with 1 as most downloaded.
   - name: download_count_30d
     type: BIGINT
+    description: Downloads in the trailing 30-day window reported by the source snapshot.
   - name: snapshot_last_update
     type: TIMESTAMP
+    description: Timestamp when the upstream top-pypi-packages snapshot was last updated.
   - name: version
     type: VARCHAR
+    description: Current project version from the PyPI JSON API at download time.
   - name: summary
     type: VARCHAR
+    description: Short project summary from PyPI project metadata.
   - name: author
     type: VARCHAR
+    description: Author name from PyPI project metadata, when supplied.
   - name: author_email
     type: VARCHAR
+    description: Author email from PyPI project metadata, when supplied.
   - name: license
     type: VARCHAR
+    description: License text or label from PyPI project metadata.
   - name: license_expression
     type: VARCHAR
+    description: SPDX-style license expression from PyPI project metadata, when supplied.
   - name: requires_python
     type: VARCHAR
+    description: Python version requirement specifier from PyPI project metadata.
   - name: home_page
     type: VARCHAR
+    description: Project home page URL from PyPI project metadata, when supplied.
   - name: project_urls
     type: VARCHAR
+    description: Newline-separated project URL labels and URLs from PyPI project metadata.
   - name: keywords
     type: VARCHAR
+    description: Project keywords from PyPI project metadata.
   - name: classifiers
     type: VARCHAR
+    description: Newline-separated trove classifiers from PyPI project metadata.
   - name: yanked
     type: BOOLEAN
+    description: Whether the current release reported by PyPI is yanked.
