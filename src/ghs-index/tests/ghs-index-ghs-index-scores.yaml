@@ -1,5 +1,8 @@
 spec_id: ghs-index-ghs-index-scores
 status: active
+coverage:
+  frozen: true
+  reason: Fixed 2021 GHS Index release file; it carries the 2019 and 2021 assessment years and is not updated as an ongoing time series.
 tests:
   - not_null: country
     reason: every melted row carries a country name from the source's Country column
@@ -26,8 +29,8 @@ tests:
   - distinct_count: {col: country, min: 190, max: 200}
     reason: the Index assesses 195 countries
     certainty: 90
-  - distinct_count: {col: indicator_code, min: 305, max: 315}
-    reason: 311 hierarchical score columns (overall + 6 categories + 37 indicators + sub-indicators + questions)
+  - distinct_count: {col: indicator_code, min: 320, max: 335}
+    reason: the release has 327 hierarchical score columns after parsing headers into indicator codes
     certainty: 85
   - row_count: {min: 100000, max: 130000}
     reason: ~390 country-year rows x 311 indicators ~= 121k cells, all populated
