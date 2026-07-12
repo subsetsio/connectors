@@ -1,0 +1,21 @@
+spec_id: huggingface-models
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: Hugging Face model catalog has been above one million public model repos; a lower count usually means pagination stopped early.
+    certainty: 90
+  - not_null: id
+  - unique: id
+    reason: each Hub model repo id should appear once after a full cursor crawl
+    certainty: 95
+  - column_type: {col: id, type: string}
+  - column_type: {col: downloads, type: integer}
+  - column_type: {col: likes, type: integer}
+  - column_type: {col: trendingScore, type: integer}
+  - column_type: {col: private, type: boolean}
+  - column_type: {col: lastModified, type: string}
+  - freshness: {col: lastModified, reaches: today - 7d}
+    reason: the public Hub catalog changes continuously; newest modified model should be recent
+    certainty: 95
+    points_outward: true
+

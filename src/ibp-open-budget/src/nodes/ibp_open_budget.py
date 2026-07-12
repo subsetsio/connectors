@@ -1,7 +1,8 @@
-"""International Budget Partnership — Open Budget Survey (via World Bank Data360).
+"""International Budget Partnership - Open Budget Survey (via World Bank Data360).
 
-Single subset: `values`, the long-format Open Budget Survey observations across
-all 6 IBP_OBS indicators (Open Budget Index / transparency, country rank, public
+Raw subsets: `indicators`, the catalog of IBP_OBS indicator codes, and
+`values`, the long-format Open Budget Survey observations across all 6 IBP_OBS
+indicators (Open Budget Index / transparency, country rank, public
 participation, overall/legislative/audit oversight) x ~125 countries x survey
 rounds 2006-2023.
 
@@ -18,16 +19,21 @@ casting and null-dropping so a shape change fails loudly there.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 DATASET_ID = "IBP_OBS"
 BASE = "https://data360api.worldbank.org/data360"
 PAGE_SIZE = 1000
 MAX_PAGES_ABS = 100  # safety ceiling per indicator (~100k rows); raises if exceeded
 
-# Raw schema — the source's fields kept as delivered (strings for the numeric
+INDICATORS_SCHEMA = pa.schema([
+    ("dataset_id", pa.string()),
+    ("indicator_code", pa.string()),
+])
+
+# Raw schema - the source's fields kept as delivered (strings for the numeric
 # fields, which the transform casts). Declared once; every indicator conforms.
-SCHEMA = pa.schema([
+VALUES_SCHEMA = pa.schema([
     ("indicator_code", pa.string()),
     ("ref_area", pa.string()),
     ("time_period", pa.string()),
@@ -38,7 +44,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _get_json(url, **params):
     resp = get(url, params=params or None, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -50,6 +55,13 @@ def _discover_indicators():
     if not isinstance(codes, list) or not codes:
         raise ValueError(f"unexpected indicators response: {codes!r}")
     return [str(c) for c in codes]
+
+
+def fetch_indicators(node_id: str) -> None:
+    codes = _discover_indicators()
+    rows = [{"dataset_id": DATASET_ID, "indicator_code": code} for code in codes]
+    table = pa.Table.from_pylist(rows, schema=INDICATORS_SCHEMA)
+    save_raw_parquet(table, node_id)
 
 
 def _fetch_indicator(code):
@@ -92,30 +104,11 @@ def fetch_values(node_id: str) -> None:
         rows.extend(_fetch_indicator(code))
     if not rows:
         raise RuntimeError("IBP_OBS returned no observations across any indicator")
-    table = pa.Table.from_pylist(rows, schema=SCHEMA)
+    table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
     save_raw_parquet(table, asset)
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="ibp-open-budget-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="ibp-open-budget-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ibp-open-budget-values-transform",
-        deps=["ibp-open-budget-values"],
-        sql='''
-            SELECT DISTINCT
-                indicator_code,
-                ref_area                         AS country_iso3,
-                CAST(time_period AS INTEGER)     AS year,
-                CAST(obs_value AS DOUBLE)        AS value,
-                unit_measure
-            FROM "ibp-open-budget-values"
-            WHERE obs_value IS NOT NULL
-              AND obs_value <> ''
-              AND lower(obs_value) <> 'nan'
-              AND time_period IS NOT NULL
-        ''',
-    ),
 ]

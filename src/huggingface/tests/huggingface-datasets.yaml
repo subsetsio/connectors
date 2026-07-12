@@ -1,0 +1,21 @@
+spec_id: huggingface-datasets
+status: active
+tests:
+  - row_count: {min: 200000}
+    reason: Hugging Face dataset catalog has hundreds of thousands of public dataset repos; a lower count usually means pagination stopped early.
+    certainty: 90
+  - not_null: id
+  - unique: id
+    reason: each Hub dataset repo id should appear once after a full cursor crawl
+    certainty: 95
+  - column_type: {col: id, type: string}
+  - column_type: {col: downloads, type: integer}
+  - column_type: {col: likes, type: integer}
+  - column_type: {col: trendingScore, type: integer}
+  - column_type: {col: private, type: boolean}
+  - column_type: {col: lastModified, type: string}
+  - freshness: {col: lastModified, reaches: today - 7d}
+    reason: the public Hub catalog changes continuously; newest modified dataset should be recent
+    certainty: 95
+    points_outward: true
+
