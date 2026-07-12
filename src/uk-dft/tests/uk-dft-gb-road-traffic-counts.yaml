@@ -1,0 +1,13 @@
+spec_id: uk-dft-gb-road-traffic-counts
+status: active
+tests:
+  - not_null: local_authority_id
+  - not_null: year
+  - column_type: {col: year, type: string}
+  - row_count: {min: 5000}
+    reason: annual local-authority traffic estimates span GB authorities from 1993 onward
+    certainty: 90
+  - freshness: {col: year, reaches: current_year() - 2}
+    reason: DfT road traffic statistics are annual and should include a recent release
+    certainty: 85
+    points_outward: true

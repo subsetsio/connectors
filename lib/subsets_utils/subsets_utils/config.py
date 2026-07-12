@@ -6,7 +6,15 @@ which URI a path-builder returns.
 """
 
 import os
+import re
 from pathlib import Path
+
+# The platform's public sign endpoint (table_sign._KEY on the server) only
+# signs R2 keys whose connector and dataset segments match these charsets.
+# Enforced here — where names become paths — because an out-of-charset name
+# syncs fine in dogfood S3 mode and fails only for public API users.
+SIGNABLE_CONNECTOR = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
+SIGNABLE_DATASET_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 
 
 # =============================================================================
@@ -216,8 +224,26 @@ def subsets_uri(dataset_name: str) -> str:
     Cloud writes live under the connector's own prefix
     (<connector>/datasets/<dataset_name>) — the Subsets server poller
     walks connector roots from the repo, not a global namespace.
+
+    Names are validated against the signable charset in both modes (the
+    dataset name always ends up in the path; the connector name only in
+    cloud, where it is the R2 prefix) so a bad name fails at the first
+    write, not at the first public download.
     """
+    if not SIGNABLE_DATASET_ID.match(dataset_name or ""):
+        raise ValueError(
+            f"dataset name {dataset_name!r} is outside the signable charset "
+            f"[A-Za-z0-9][A-Za-z0-9._-]* — it would publish but fail every "
+            f"public download"
+        )
     if is_cloud():
+        connector = get_connector_name()
+        if not SIGNABLE_CONNECTOR.match(connector or ""):
+            raise ValueError(
+                f"connector name {connector!r} is outside the signable charset "
+                f"[a-z0-9][a-z0-9_-]* — its tables would publish but fail every "
+                f"public download"
+            )
         return f"s3://{get_bucket_name()}/{get_r2_base()}/subsets/{dataset_name}"
     return str(Path(get_data_dir()) / "subsets" / dataset_name)
 

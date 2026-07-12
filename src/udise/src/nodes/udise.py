@@ -1,6 +1,6 @@
 import json
 
-from constants import ENTITY_IDS
+from constants import ENTITY_IDS, REPORT_MAP_IDS
 from subsets_utils import NodeSpec, post, save_raw_ndjson
 
 
@@ -17,7 +17,7 @@ def _entity_id_from_asset(asset_id: str) -> str:
 
 def fetch_report(asset_id: str) -> None:
     entity_id = _entity_id_from_asset(asset_id)
-    map_id = int(entity_id.removeprefix("R"))
+    map_id = REPORT_MAP_IDS[entity_id]
     dependency = {
         "year": YEAR_ID,
         "state": "all",

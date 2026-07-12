@@ -1,0 +1,13 @@
+spec_id: uk-dft-nptg
+status: active
+tests:
+  - not_null: NptgLocalityCode
+  - row_count: {min: 10000}
+    reason: NPTG is the national locality gazetteer and should contain many thousands of locality records
+    certainty: 90
+  - distinct_count: {col: NptgLocalityCode, min: 10000}
+    reason: locality codes should cover the national gazetteer universe
+    certainty: 90
+coverage:
+  frozen: true
+  reason: NPTG is a current reference snapshot without an observation-period column in the raw CSV

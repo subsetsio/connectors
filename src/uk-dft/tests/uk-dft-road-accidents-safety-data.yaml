@@ -1,0 +1,13 @@
+spec_id: uk-dft-road-accidents-safety-data
+status: active
+tests:
+  - not_null: collision_index
+  - not_null: collision_year
+  - column_type: {col: collision_year, type: string}
+  - row_count: {min: 1000000}
+    reason: combined STATS19 collision file covers reported injury collisions from 1979 to latest published year
+    certainty: 95
+  - freshness: {col: collision_year, reaches: current_year() - 2}
+    reason: STATS19 annual collision data should include the latest published year with normal publication lag
+    certainty: 85
+    points_outward: true

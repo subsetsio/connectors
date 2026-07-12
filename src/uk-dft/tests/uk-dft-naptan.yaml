@@ -1,0 +1,13 @@
+spec_id: uk-dft-naptan
+status: active
+tests:
+  - not_null: ATCOCode
+  - row_count: {min: 100000}
+    reason: NaPTAN is the national public transport access-node reference table for Great Britain
+    certainty: 90
+  - distinct_count: {col: ATCOCode, min: 100000}
+    reason: stop/access-node identifiers should cover a large national reference universe
+    certainty: 90
+coverage:
+  frozen: true
+  reason: NaPTAN is a current reference snapshot without an observation-period column in the raw CSV
