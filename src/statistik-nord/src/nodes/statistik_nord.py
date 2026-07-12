@@ -20,7 +20,7 @@ from openpyxl.utils import get_column_letter
 
 from subsets_utils import NodeSpec, get, save_raw_parquet
 
-from src.constants import ENTITY_IDS
+from constants import ENTITY_IDS
 
 CKAN_PACKAGE_SHOW = "https://opendata.schleswig-holstein.de/api/3/action/package_show"
 PREFIX = "statistik-nord-"

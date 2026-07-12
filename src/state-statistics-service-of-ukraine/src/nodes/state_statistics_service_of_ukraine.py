@@ -5,11 +5,15 @@ so the raw download preserves the source SDMX-CSV response exactly and lets the
 model stage profile each table's observed columns.
 """
 
+from datetime import datetime
+import re
+
 from constants import ENTITY_IDS
 from subsets_utils import NodeSpec, get, save_raw_file
 
 SLUG = "state-statistics-service-of-ukraine"
 SDMX_BASE = "https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/2.1"
+SDMX3_BASE = "https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/3.0"
 
 CSV_HEADERS = {
     "Accept": "text/csv",
@@ -139,21 +143,76 @@ _ENTITY_VERSION = {
 }
 
 
+def _looks_like_sdmx_csv(content: bytes) -> bool:
+    head = content[:4096].decode("utf-8-sig", "replace")
+    return "DATAFLOW" in head and "TIME_PERIOD" in head and "OBS_VALUE" in head and "\n" in head
+
+
+def _csv_row_count(content: bytes) -> int:
+    text = content.decode("utf-8-sig", "replace")
+    lines = [line for line in text.splitlines() if line.strip()]
+    return max(len(lines) - 1, 0)
+
+
+def _year(value: str) -> int:
+    match = re.search(r"\d{4}", value or "")
+    if not match:
+        raise ValueError(f"cannot read year from availability value {value!r}")
+    return int(match.group(0))
+
+
+def _availability_years(entity_id: str, version: str) -> range:
+    url = f"{SDMX3_BASE}/availability/dataflow/SSSU/{entity_id}/{version}/all"
+    response = get(url, headers={"Accept": "application/json"}, timeout=(10.0, 120.0))
+    response.raise_for_status()
+    payload = response.json()
+    constraints = payload.get("data", {}).get("dataConstraints", [])
+    if not constraints:
+        raise ValueError(f"{entity_id}: availability response has no data constraints")
+
+    annotations = constraints[0].get("annotations", [])
+    metrics = {
+        item.get("id"): item.get("title")
+        for item in annotations
+        if item.get("type") == "sdmx_metrics"
+    }
+    start = _year(metrics.get("time_period_start", ""))
+    end = min(_year(metrics.get("time_period_end", "")), datetime.utcnow().year)
+    if end < start:
+        raise ValueError(f"{entity_id}: invalid availability range {start}..{end}")
+    return range(start, end + 1)
+
+
+def _fetch_csv(url: str) -> bytes | None:
+    response = get(url, headers=CSV_HEADERS, timeout=(10.0, 900.0))
+    if response.status_code >= 400:
+        return None
+    content = response.content
+    if not _looks_like_sdmx_csv(content):
+        return None
+    return content
+
+
 def fetch_one(node_id: str) -> None:
     entity_id = _SPEC_TO_ENTITY[node_id]
     version = _ENTITY_VERSION[entity_id]
     url = f"{SDMX_BASE}/data/SSSU,{entity_id},{version}"
-    response = get(url, headers=CSV_HEADERS, timeout=(10.0, 900.0))
-    response.raise_for_status()
+    content = _fetch_csv(url)
+    if content is not None:
+        save_raw_file(content, node_id, extension="csv")
+        return
 
-    content = response.content
-    head = content[:4096].decode("utf-8-sig", "replace")
-    if "DATAFLOW" not in head or "TIME_PERIOD" not in head or "OBS_VALUE" not in head:
-        raise ValueError(f"{entity_id}: response does not look like SDMX-CSV")
-    if "\n" not in head:
-        raise ValueError(f"{entity_id}: response has no data rows")
+    saved = 0
+    for year in _availability_years(entity_id, version):
+        part_url = f"{url}?startPeriod={year}&endPeriod={year}"
+        part = _fetch_csv(part_url)
+        if part is None or _csv_row_count(part) == 0:
+            continue
+        save_raw_file(part, node_id, extension="csv", fragment=str(year))
+        saved += 1
 
-    save_raw_file(content, node_id, extension="csv")
+    if saved == 0:
+        raise ValueError(f"{entity_id}: no SDMX-CSV rows returned by full or yearly requests")
 
 
 DOWNLOAD_SPECS = [
