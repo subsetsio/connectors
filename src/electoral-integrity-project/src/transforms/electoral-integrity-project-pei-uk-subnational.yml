@@ -1,36 +1,6 @@
 columns:
   - name: "election"
     type: VARCHAR
-  - name: "country"
-    type: VARCHAR
-  - name: "ISO"
-    type: VARCHAR
-  - name: "year"
-    type: BIGINT
-  - name: "date"
-    type: DATE
-  - name: "office"
-    type: VARCHAR
-  - name: "numresponses"
-    type: DOUBLE
-  - name: "COUNTRYDATA"
-    type: DOUBLE
-  - name: "PR"
-    type: BIGINT
-  - name: "CL"
-    type: BIGINT
-  - name: "fhcategory"
-    type: BIGINT
-  - name: "development"
-    type: DOUBLE
-  - name: "gdp_pc_ppp"
-    type: DOUBLE
-  - name: "region"
-    type: DOUBLE
-  - name: "region9"
-    type: DOUBLE
-  - name: "oecd"
-    type: DOUBLE
   - name: "OVERALLINTEGRITY"
     type: DOUBLE
   - name: "PEI_add_original_m"
@@ -207,7 +177,7 @@ columns:
     type: DOUBLE
   - name: "disinformation2"
     type: DOUBLE
-  - name: "informed"
+  - name: "deliberation"
     type: DOUBLE
   - name: "media"
     type: DOUBLE
@@ -330,7 +300,7 @@ columns:
   - name: "results_m"
     type: DOUBLE
   - name: "results_new"
-    type: DOUBLE
+    type: BIGINT
   - name: "results_new_m"
     type: DOUBLE
   - name: "ELECTIONAUTHORITIES"
@@ -359,8 +329,6 @@ columns:
     type: DOUBLE
   - name: "familiarity"
     type: DOUBLE
-  - name: "important"
-    type: DOUBLE
   - name: "ORGCONFIDENCE"
     type: DOUBLE
   - name: "courts"
@@ -376,166 +344,56 @@ columns:
   - name: "BACKGROUND"
     type: DOUBLE
   - name: "expertdomestic"
-    type: DOUBLE
+    type: BIGINT
   - name: "currentlylive"
-    type: DOUBLE
+    type: BIGINT
   - name: "electionlive"
-    type: DOUBLE
+    type: BIGINT
   - name: "employment"
     type: DOUBLE
   - name: "public"
-    type: DOUBLE
+    type: BIGINT
   - name: "university"
-    type: DOUBLE
+    type: BIGINT
   - name: "nonprofit"
     type: DOUBLE
   - name: "agency"
     type: DOUBLE
   - name: "private"
-    type: DOUBLE
+    type: BIGINT
   - name: "occupation"
-    type: DOUBLE
+    type: BIGINT
   - name: "agegroup"
     type: DOUBLE
   - name: "sex"
     type: DOUBLE
   - name: "education"
-    type: DOUBLE
+    type: BIGINT
   - name: "born"
     type: DOUBLE
   - name: "lived"
     type: DOUBLE
   - name: "candidate"
-    type: DOUBLE
+    type: BIGINT
   - name: "rep"
-    type: DOUBLE
+    type: BIGINT
   - name: "activist"
-    type: DOUBLE
+    type: BIGINT
   - name: "ngo"
-    type: DOUBLE
+    type: BIGINT
   - name: "voted"
     type: DOUBLE
   - name: "norole"
     type: DOUBLE
   - name: "monitor"
-    type: DOUBLE
+    type: BIGINT
   - name: "monitorint"
-    type: DOUBLE
+    type: BIGINT
   - name: "official"
-    type: DOUBLE
+    type: BIGINT
   - name: "citizen"
     type: DOUBLE
   - name: "leftrightscale"
     type: DOUBLE
   - name: "difficulty"
-    type: DOUBLE
-  - name: "VIGNETTES"
-    type: DOUBLE
-  - name: "vignettea"
-    type: DOUBLE
-  - name: "vignetteb"
-    type: DOUBLE
-  - name: "vignettec"
-    type: DOUBLE
-  - name: "vignetted"
-    type: DOUBLE
-  - name: "vignettee"
-    type: DOUBLE
-  - name: "vignettef"
-    type: DOUBLE
-  - name: "ROTATING"
-    type: DOUBLE
-  - name: "freetovote"
-    type: DOUBLE
-  - name: "fearviolence"
-    type: DOUBLE
-  - name: "fearviolence2"
-    type: DOUBLE
-  - name: "ballotconfidential"
-    type: DOUBLE
-  - name: "freefairelect"
-    type: DOUBLE
-  - name: "cashforvotes"
-    type: DOUBLE
-  - name: "cashforvotes2"
-    type: DOUBLE
-  - name: "patronage"
-    type: DOUBLE
-  - name: "patronage2"
-    type: DOUBLE
-  - name: "audit"
-    type: DOUBLE
-  - name: "hacking"
-    type: DOUBLE
-  - name: "campaignnews"
-    type: DOUBLE
-  - name: "govtnews"
-    type: DOUBLE
-  - name: "fakenews"
-    type: DOUBLE
-  - name: "fakenews2"
-    type: DOUBLE
-  - name: "hatespeech"
-    type: DOUBLE
-  - name: "hatespeech2"
-    type: DOUBLE
-  - name: "informedchoices"
-    type: DOUBLE
-  - name: "foreigninterference"
-    type: DOUBLE
-  - name: "foreigninterference2"
-    type: DOUBLE
-  - name: "mediamonitors"
-    type: DOUBLE
-  - name: "cyberattacks"
-    type: DOUBLE
-  - name: "cyberattacks2"
-    type: DOUBLE
-  - name: "diversenews"
-    type: DOUBLE
-  - name: "journalisticstandards"
-    type: DOUBLE
-  - name: "partisanjournalists"
-    type: DOUBLE
-  - name: "partisanjournalists2"
-    type: DOUBLE
-  - name: "fakesocial"
-    type: DOUBLE
-  - name: "fakesocial2"
-    type: DOUBLE
-  - name: "emergency"
-    type: DOUBLE
-  - name: "emergency2"
-    type: DOUBLE
-  - name: "safetyvoters"
-    type: DOUBLE
-  - name: "safetyworkers"
-    type: DOUBLE
-  - name: "safetyworkers2"
-    type: DOUBLE
-  - name: "opportunitycampaign"
-    type: DOUBLE
-  - name: "opportunitycampaign2"
-    type: DOUBLE
-  - name: "incumbentcampaign"
-    type: DOUBLE
-  - name: "incumbentcampaign2"
-    type: DOUBLE
-  - name: "postponed"
-    type: DOUBLE
-  - name: "postponed2"
-    type: DOUBLE
-  - name: "hesitant"
-    type: DOUBLE
-  - name: "hesitant2"
-    type: DOUBLE
-  - name: "support"
-    type: DOUBLE
-  - name: "shortage"
-    type: DOUBLE
-  - name: "shortage2"
-    type: DOUBLE
-  - name: "resourced"
-    type: DOUBLE
-  - name: "resourced2"
     type: DOUBLE

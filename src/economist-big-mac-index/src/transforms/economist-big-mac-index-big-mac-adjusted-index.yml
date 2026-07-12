@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `economist-big-mac-index-big-mac-adjusted-index`. Regenerate after model-verify.
+# caution: GDP-adjusted index table is a column subset of the full index table; use the full index when raw and adjusted measures need to be compared in one query.
+key: [date, name, iso_a3, currency_code]
+temporal: date
+sort: [date, name, iso_a3, currency_code]
+columns:
+  - name: date
+    type: DATE
+  - name: iso_a3
+    type: VARCHAR
+  - name: currency_code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: local_price
+    type: DOUBLE
+  - name: dollar_ex
+    type: DOUBLE
+  - name: dollar_price
+    type: DOUBLE
+  - name: gdp_bigmac
+    type: DOUBLE
+  - name: adj_price
+    type: DOUBLE
+  - name: usd
+    type: DOUBLE
+  - name: eur
+    type: DOUBLE
+  - name: gbp
+    type: DOUBLE
+  - name: jpy
+    type: DOUBLE
+  - name: cny
+    type: DOUBLE

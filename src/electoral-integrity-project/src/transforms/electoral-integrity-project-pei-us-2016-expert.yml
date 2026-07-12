@@ -1,0 +1,361 @@
+columns:
+  - name: "expert"
+    type: BIGINT
+  - name: "state"
+    type: VARCHAR
+  - name: "stateabbr"
+    type: VARCHAR
+  - name: "statecode"
+    type: BIGINT
+  - name: "election"
+    type: VARCHAR
+  - name: "year"
+    type: BIGINT
+  - name: "wave"
+    type: BIGINT
+  - name: "OVERALLINTEGRITY"
+    type: DOUBLE
+  - name: "PEIIndexp"
+    type: DOUBLE
+  - name: "PEIIndexi"
+    type: DOUBLE
+  - name: "ratingstate"
+    type: DOUBLE
+  - name: "ratingcountry"
+    type: DOUBLE
+  - name: "LAWS"
+    type: DOUBLE
+  - name: "lawsunfair"
+    type: VARCHAR
+  - name: "lawsunfair2"
+    type: VARCHAR
+  - name: "favoredincumbent"
+    type: VARCHAR
+  - name: "favoredincumbent2"
+    type: VARCHAR
+  - name: "citizens"
+    type: VARCHAR
+  - name: "citizens2"
+    type: VARCHAR
+  - name: "laws"
+    type: DOUBLE
+  - name: "lawsi"
+    type: DOUBLE
+  - name: "PROCEDURES"
+    type: DOUBLE
+  - name: "managed"
+    type: VARCHAR
+  - name: "votinginfo"
+    type: VARCHAR
+  - name: "fairofficials"
+    type: VARCHAR
+  - name: "legalelections"
+    type: VARCHAR
+  - name: "procedures"
+    type: DOUBLE
+  - name: "proceduresi"
+    type: DOUBLE
+  - name: "BOUNDARIES"
+    type: DOUBLE
+  - name: "bdiscrim"
+    type: VARCHAR
+  - name: "bdiscrim2"
+    type: VARCHAR
+  - name: "bfavored"
+    type: VARCHAR
+  - name: "bfavored2"
+    type: VARCHAR
+  - name: "bimpartial"
+    type: VARCHAR
+  - name: "boundaries"
+    type: DOUBLE
+  - name: "boundariesi"
+    type: DOUBLE
+  - name: "VOTERREGISTRATION"
+    type: DOUBLE
+  - name: "reglisted"
+    type: VARCHAR
+  - name: "reglisted2"
+    type: VARCHAR
+  - name: "reginaccurate"
+    type: VARCHAR
+  - name: "reginaccurate2"
+    type: VARCHAR
+  - name: "ineligible"
+    type: VARCHAR
+  - name: "ineligible2"
+    type: VARCHAR
+  - name: "votereg"
+    type: DOUBLE
+  - name: "voteregi"
+    type: DOUBLE
+  - name: "PARTYREGISTRATION"
+    type: DOUBLE
+  - name: "oppprevent"
+    type: VARCHAR
+  - name: "oppprevent2"
+    type: VARCHAR
+  - name: "womenopp"
+    type: VARCHAR
+  - name: "minorityopp"
+    type: VARCHAR
+  - name: "leaderselect"
+    type: VARCHAR
+  - name: "leaderselect2"
+    type: VARCHAR
+  - name: "rallies"
+    type: VARCHAR
+  - name: "rallies2"
+    type: VARCHAR
+  - name: "partyreg"
+    type: DOUBLE
+  - name: "partyregi"
+    type: DOUBLE
+  - name: "MEDIACOVERAGE"
+    type: DOUBLE
+  - name: "newspapers"
+    type: VARCHAR
+  - name: "tv"
+    type: VARCHAR
+  - name: "tv2"
+    type: VARCHAR
+  - name: "fairaccess"
+    type: VARCHAR
+  - name: "faircoverage"
+    type: VARCHAR
+  - name: "socialmedia"
+    type: VARCHAR
+  - name: "media"
+    type: DOUBLE
+  - name: "mediai"
+    type: DOUBLE
+  - name: "CAMPAIGNFINANCE"
+    type: DOUBLE
+  - name: "subsidies"
+    type: VARCHAR
+  - name: "donations"
+    type: VARCHAR
+  - name: "accounts"
+    type: VARCHAR
+  - name: "rich"
+    type: VARCHAR
+  - name: "rich2"
+    type: VARCHAR
+  - name: "resources"
+    type: VARCHAR
+  - name: "resources2"
+    type: VARCHAR
+  - name: "finance"
+    type: DOUBLE
+  - name: "financei"
+    type: DOUBLE
+  - name: "VOTINGPROCESS"
+    type: DOUBLE
+  - name: "violence"
+    type: VARCHAR
+  - name: "violence2"
+    type: VARCHAR
+  - name: "fraudulent"
+    type: VARCHAR
+  - name: "fraudulent2"
+    type: VARCHAR
+  - name: "easy"
+    type: VARCHAR
+  - name: "choice"
+    type: VARCHAR
+  - name: "postal"
+    type: VARCHAR
+  - name: "disabled"
+    type: VARCHAR
+  - name: "expats"
+    type: VARCHAR
+  - name: "internet"
+    type: VARCHAR
+  - name: "voting"
+    type: DOUBLE
+  - name: "votingi"
+    type: DOUBLE
+  - name: "VOTECOUNT"
+    type: DOUBLE
+  - name: "secure"
+    type: VARCHAR
+  - name: "delay"
+    type: VARCHAR
+  - name: "faircount"
+    type: VARCHAR
+  - name: "intlmonitors"
+    type: VARCHAR
+  - name: "intlmonitors2"
+    type: VARCHAR
+  - name: "domesticmonitors"
+    type: VARCHAR
+  - name: "domesticmonitors2"
+    type: VARCHAR
+  - name: "count"
+    type: DOUBLE
+  - name: "counti"
+    type: DOUBLE
+  - name: "VOTINGRESULTS"
+    type: DOUBLE
+  - name: "challenged"
+    type: VARCHAR
+  - name: "challenged2"
+    type: VARCHAR
+  - name: "protestspeace"
+    type: VARCHAR
+  - name: "protestspeace2"
+    type: VARCHAR
+  - name: "protestsviolent"
+    type: VARCHAR
+  - name: "protestsviolent2"
+    type: VARCHAR
+  - name: "disputes"
+    type: VARCHAR
+  - name: "results"
+    type: DOUBLE
+  - name: "resultsi"
+    type: DOUBLE
+  - name: "ELECTIONAUTHORITIES"
+    type: DOUBLE
+  - name: "impartial"
+    type: VARCHAR
+  - name: "info"
+    type: VARCHAR
+  - name: "scrutiny"
+    type: VARCHAR
+  - name: "performance"
+    type: VARCHAR
+  - name: "EMBs"
+    type: DOUBLE
+  - name: "EMBsi"
+    type: DOUBLE
+  - name: "GENERALQUESTIONS"
+    type: DOUBLE
+  - name: "familiarity"
+    type: DOUBLE
+  - name: "important"
+    type: VARCHAR
+  - name: "ORGCONFIDENCE"
+    type: DOUBLE
+  - name: "courts"
+    type: DOUBLE
+  - name: "government"
+    type: DOUBLE
+  - name: "parliament"
+    type: DOUBLE
+  - name: "police"
+    type: DOUBLE
+  - name: "electoralauth"
+    type: DOUBLE
+  - name: "BACKGROUND"
+    type: DOUBLE
+  - name: "employment"
+    type: VARCHAR
+  - name: "public"
+    type: VARCHAR
+  - name: "university"
+    type: VARCHAR
+  - name: "nonprofit"
+    type: VARCHAR
+  - name: "agency"
+    type: VARCHAR
+  - name: "private"
+    type: VARCHAR
+  - name: "occupation"
+    type: VARCHAR
+  - name: "agegroup"
+    type: VARCHAR
+  - name: "sex"
+    type: VARCHAR
+  - name: "education"
+    type: VARCHAR
+  - name: "born"
+    type: VARCHAR
+  - name: "lived"
+    type: VARCHAR
+  - name: "rep"
+    type: VARCHAR
+  - name: "candidate"
+    type: VARCHAR
+  - name: "activist"
+    type: VARCHAR
+  - name: "monitor"
+    type: VARCHAR
+  - name: "ngo"
+    type: VARCHAR
+  - name: "voted"
+    type: VARCHAR
+  - name: "norole"
+    type: VARCHAR
+  - name: "official"
+    type: VARCHAR
+  - name: "citizen"
+    type: VARCHAR
+  - name: "supported"
+    type: VARCHAR
+  - name: "leftrightscale"
+    type: DOUBLE
+  - name: "difficulty"
+    type: DOUBLE
+  - name: "VIGNETTES"
+    type: DOUBLE
+  - name: "vignetteA"
+    type: BIGINT
+  - name: "vignetteB"
+    type: BIGINT
+  - name: "vignetteC"
+    type: BIGINT
+  - name: "EXTRA"
+    type: DOUBLE
+  - name: "rigged"
+    type: VARCHAR
+  - name: "rigged2"
+    type: VARCHAR
+  - name: "machinesaccurate"
+    type: VARCHAR
+  - name: "recordssecure"
+    type: VARCHAR
+  - name: "waited"
+    type: VARCHAR
+  - name: "waited2"
+    type: VARCHAR
+  - name: "multiple"
+    type: VARCHAR
+  - name: "multiple2"
+    type: VARCHAR
+  - name: "regrestrictive"
+    type: VARCHAR
+  - name: "regrestrictive2"
+    type: VARCHAR
+  - name: "obsintimidate"
+    type: VARCHAR
+  - name: "obsintimidate2"
+    type: VARCHAR
+  - name: "popularwill"
+    type: VARCHAR
+  - name: "timely"
+    type: VARCHAR
+  - name: "SUBFIELD"
+    type: DOUBLE
+  - name: "elections"
+    type: VARCHAR
+  - name: "ampol"
+    type: VARCHAR
+  - name: "statepol"
+    type: VARCHAR
+  - name: "comparative"
+    type: VARCHAR
+  - name: "inter"
+    type: VARCHAR
+  - name: "polcomm"
+    type: VARCHAR
+  - name: "theory"
+    type: VARCHAR
+  - name: "publicadmin"
+    type: VARCHAR
+  - name: "publicpol"
+    type: VARCHAR
+  - name: "methods"
+    type: VARCHAR
+  - name: "socio"
+    type: VARCHAR

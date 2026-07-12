@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `economist-big-mac-index-big-mac-source-data`. Regenerate after model-verify.
+key: [date, name, iso_a3, currency_code]
+temporal: date
+sort: [date, name, iso_a3, currency_code]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: iso_a3
+    type: VARCHAR
+  - name: currency_code
+    type: VARCHAR
+  - name: local_price
+    type: DOUBLE
+  - name: dollar_ex
+    type: DOUBLE
+  - name: gdp_dollar
+    type: DOUBLE
+  - name: gdp_local
+    type: DOUBLE
+  - name: date
+    type: DATE

@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `economist-big-mac-index-big-mac-full-index`. Regenerate after model-verify.
+# caution: This is the canonical combined index table and includes columns also published in the raw-index and adjusted-index subset tables.
+key: [date, name, iso_a3, currency_code]
+temporal: date
+sort: [date, name, iso_a3, currency_code]
+columns:
+  - name: date
+    type: DATE
+  - name: iso_a3
+    type: VARCHAR
+  - name: currency_code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: local_price
+    type: DOUBLE
+  - name: dollar_ex
+    type: DOUBLE
+  - name: dollar_price
+    type: DOUBLE
+  - name: usd_raw
+    type: DOUBLE
+  - name: eur_raw
+    type: DOUBLE
+  - name: gbp_raw
+    type: DOUBLE
+  - name: jpy_raw
+    type: DOUBLE
+  - name: cny_raw
+    type: DOUBLE
+  - name: gdp_bigmac
+    type: DOUBLE
+  - name: adj_price
+    type: DOUBLE
+  - name: usd_adjusted
+    type: DOUBLE
+  - name: eur_adjusted
+    type: DOUBLE
+  - name: gbp_adjusted
+    type: DOUBLE
+  - name: jpy_adjusted
+    type: DOUBLE
+  - name: cny_adjusted
+    type: DOUBLE

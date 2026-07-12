@@ -1,68 +1,32 @@
 columns:
+  - name: "expert"
+    type: BIGINT
+  - name: "oblast"
+    type: VARCHAR
   - name: "election"
-    type: VARCHAR
-  - name: "country"
-    type: VARCHAR
-  - name: "ISO"
     type: VARCHAR
   - name: "year"
     type: BIGINT
-  - name: "date"
-    type: DATE
-  - name: "office"
+  - name: "Winner"
     type: VARCHAR
-  - name: "numresponses"
+  - name: "STATEDATA"
     type: DOUBLE
-  - name: "COUNTRYDATA"
-    type: DOUBLE
-  - name: "PR"
+  - name: "popul"
     type: BIGINT
-  - name: "CL"
+  - name: "grppc"
+    type: DOUBLE
+  - name: "urbanpopulation"
     type: BIGINT
-  - name: "fhcategory"
-    type: BIGINT
-  - name: "development"
-    type: DOUBLE
-  - name: "gdp_pc_ppp"
-    type: DOUBLE
-  - name: "region"
-    type: DOUBLE
-  - name: "region9"
-    type: DOUBLE
-  - name: "oecd"
+  - name: "ginicoeff"
     type: DOUBLE
   - name: "OVERALLINTEGRITY"
     type: DOUBLE
-  - name: "PEI_add_original_m"
+  - name: "PEIIndexp"
     type: DOUBLE
-  - name: "PEI_add_original"
-    type: DOUBLE
-  - name: "PEI_add_new_m"
-    type: DOUBLE
-  - name: "PEI_add_new"
-    type: DOUBLE
-  - name: "PEI_concept_m"
-    type: DOUBLE
-  - name: "PEI_contestation_m"
-    type: DOUBLE
-  - name: "PEI_participation_m"
-    type: DOUBLE
-  - name: "PEI_deliberation_m"
-    type: DOUBLE
-  - name: "PEI_adjudication_m"
-    type: DOUBLE
-  - name: "PEI_concept"
-    type: DOUBLE
-  - name: "PEI_contestation"
-    type: DOUBLE
-  - name: "PEI_participation"
-    type: DOUBLE
-  - name: "PEI_deliberation"
-    type: DOUBLE
-  - name: "PEI_adjudication"
+  - name: "PEIIndexi"
     type: DOUBLE
   - name: "rating"
-    type: DOUBLE
+    type: BIGINT
   - name: "LAWS"
     type: DOUBLE
   - name: "lawsunfair"
@@ -77,21 +41,9 @@ columns:
     type: DOUBLE
   - name: "citizens2"
     type: DOUBLE
-  - name: "certainty"
+  - name: "laws0"
     type: DOUBLE
-  - name: "changes"
-    type: DOUBLE
-  - name: "equal"
-    type: DOUBLE
-  - name: "enfranchised"
-    type: DOUBLE
-  - name: "laws"
-    type: DOUBLE
-  - name: "laws_m"
-    type: DOUBLE
-  - name: "laws_new"
-    type: DOUBLE
-  - name: "laws_new_m"
+  - name: "lawsi"
     type: DOUBLE
   - name: "PROCEDURES"
     type: DOUBLE
@@ -103,13 +55,9 @@ columns:
     type: DOUBLE
   - name: "legalelections"
     type: DOUBLE
-  - name: "procedures"
+  - name: "procedures0"
     type: DOUBLE
-  - name: "procedures_m"
-    type: DOUBLE
-  - name: "procedures_new"
-    type: DOUBLE
-  - name: "procedures_new_m"
+  - name: "proceduresi"
     type: DOUBLE
   - name: "BOUNDARIES"
     type: DOUBLE
@@ -123,13 +71,9 @@ columns:
     type: DOUBLE
   - name: "bimpartial"
     type: DOUBLE
-  - name: "boundaries"
+  - name: "boundaries0"
     type: DOUBLE
-  - name: "boundaries_m"
-    type: DOUBLE
-  - name: "boundaries_new"
-    type: DOUBLE
-  - name: "boundaries_new_m"
+  - name: "boundariesi"
     type: DOUBLE
   - name: "VOTERREGISTRATION"
     type: DOUBLE
@@ -145,17 +89,9 @@ columns:
     type: DOUBLE
   - name: "ineligible2"
     type: DOUBLE
-  - name: "unlikelyreg"
-    type: DOUBLE
-  - name: "unlikelyreg2"
-    type: DOUBLE
   - name: "votereg"
     type: DOUBLE
-  - name: "votereg_m"
-    type: DOUBLE
-  - name: "voterreg_new"
-    type: DOUBLE
-  - name: "voterreg_new_m"
+  - name: "voteregi"
     type: DOUBLE
   - name: "PARTYREGISTRATION"
     type: DOUBLE
@@ -175,23 +111,13 @@ columns:
     type: DOUBLE
   - name: "rallies2"
     type: DOUBLE
-  - name: "equalopp"
-    type: DOUBLE
-  - name: "partytargeted"
-    type: DOUBLE
-  - name: "partytargeted2"
-    type: DOUBLE
   - name: "partyreg"
     type: DOUBLE
-  - name: "partyreg_m"
-    type: DOUBLE
-  - name: "partyreg_new"
-    type: DOUBLE
-  - name: "partyreg_new_m"
+  - name: "partyregi"
     type: DOUBLE
   - name: "MEDIACOVERAGE"
     type: DOUBLE
-  - name: "balanced"
+  - name: "newspapers"
     type: DOUBLE
   - name: "tv"
     type: DOUBLE
@@ -203,19 +129,9 @@ columns:
     type: DOUBLE
   - name: "socialmedia"
     type: DOUBLE
-  - name: "disinformation"
-    type: DOUBLE
-  - name: "disinformation2"
-    type: DOUBLE
-  - name: "informed"
-    type: DOUBLE
   - name: "media"
     type: DOUBLE
-  - name: "media_m"
-    type: DOUBLE
-  - name: "media_new"
-    type: DOUBLE
-  - name: "media_new_m"
+  - name: "mediai"
     type: DOUBLE
   - name: "CAMPAIGNFINANCE"
     type: DOUBLE
@@ -233,17 +149,9 @@ columns:
     type: DOUBLE
   - name: "resources2"
     type: DOUBLE
-  - name: "bribed"
-    type: DOUBLE
-  - name: "bribed2"
-    type: DOUBLE
   - name: "finance"
     type: DOUBLE
-  - name: "finance_m"
-    type: DOUBLE
-  - name: "finance_new"
-    type: DOUBLE
-  - name: "finance_new_m"
+  - name: "financei"
     type: DOUBLE
   - name: "VOTINGPROCESS"
     type: DOUBLE
@@ -259,29 +167,17 @@ columns:
     type: DOUBLE
   - name: "choice"
     type: DOUBLE
+  - name: "postal"
+    type: DOUBLE
   - name: "disabled"
     type: DOUBLE
   - name: "expats"
     type: DOUBLE
   - name: "internet"
     type: DOUBLE
-  - name: "gaps"
-    type: DOUBLE
-  - name: "gaps2"
-    type: DOUBLE
-  - name: "encouraged"
-    type: DOUBLE
-  - name: "identification"
-    type: DOUBLE
-  - name: "identification2"
-    type: DOUBLE
   - name: "voting"
     type: DOUBLE
-  - name: "voting_m"
-    type: DOUBLE
-  - name: "voting_new"
-    type: DOUBLE
-  - name: "voting_new_m"
+  - name: "votingi"
     type: DOUBLE
   - name: "VOTECOUNT"
     type: DOUBLE
@@ -301,11 +197,7 @@ columns:
     type: DOUBLE
   - name: "count"
     type: DOUBLE
-  - name: "count_m"
-    type: DOUBLE
-  - name: "count_new"
-    type: DOUBLE
-  - name: "count_new_m"
+  - name: "counti"
     type: DOUBLE
   - name: "VOTINGRESULTS"
     type: DOUBLE
@@ -323,15 +215,9 @@ columns:
     type: DOUBLE
   - name: "disputes"
     type: DOUBLE
-  - name: "effective"
-    type: DOUBLE
   - name: "results"
     type: DOUBLE
-  - name: "results_m"
-    type: DOUBLE
-  - name: "results_new"
-    type: DOUBLE
-  - name: "results_new_m"
+  - name: "resultsi"
     type: DOUBLE
   - name: "ELECTIONAUTHORITIES"
     type: DOUBLE
@@ -343,43 +229,37 @@ columns:
     type: DOUBLE
   - name: "performance"
     type: DOUBLE
-  - name: "targeted"
-    type: DOUBLE
-  - name: "targeted2"
-    type: DOUBLE
   - name: "EMBs"
     type: DOUBLE
-  - name: "EMBs_m"
-    type: DOUBLE
-  - name: "EMBs_new"
-    type: DOUBLE
-  - name: "EMBs_new_m"
+  - name: "EMBsi"
     type: DOUBLE
   - name: "GENERALQUESTIONS"
     type: DOUBLE
   - name: "familiarity"
-    type: DOUBLE
+    type: BIGINT
   - name: "important"
     type: DOUBLE
   - name: "ORGCONFIDENCE"
     type: DOUBLE
   - name: "courts"
-    type: DOUBLE
+    type: BIGINT
   - name: "government"
     type: DOUBLE
   - name: "parliament"
     type: DOUBLE
   - name: "armedforces"
     type: DOUBLE
+  - name: "police"
+    type: DOUBLE
   - name: "electoralauth"
     type: DOUBLE
+  - name: "television"
+    type: DOUBLE
+  - name: "press"
+    type: DOUBLE
+  - name: "parties"
+    type: BIGINT
   - name: "BACKGROUND"
-    type: DOUBLE
-  - name: "expertdomestic"
-    type: DOUBLE
-  - name: "currentlylive"
-    type: DOUBLE
-  - name: "electionlive"
     type: DOUBLE
   - name: "employment"
     type: DOUBLE
@@ -396,15 +276,15 @@ columns:
   - name: "occupation"
     type: DOUBLE
   - name: "agegroup"
-    type: DOUBLE
+    type: BIGINT
   - name: "sex"
-    type: DOUBLE
+    type: BIGINT
   - name: "education"
     type: DOUBLE
   - name: "born"
-    type: DOUBLE
+    type: BIGINT
   - name: "lived"
-    type: DOUBLE
+    type: BIGINT
   - name: "candidate"
     type: DOUBLE
   - name: "rep"
@@ -424,118 +304,98 @@ columns:
   - name: "official"
     type: DOUBLE
   - name: "citizen"
-    type: DOUBLE
+    type: BIGINT
+  - name: "supported"
+    type: BIGINT
   - name: "leftrightscale"
-    type: DOUBLE
+    type: BIGINT
   - name: "difficulty"
-    type: DOUBLE
+    type: BIGINT
   - name: "VIGNETTES"
     type: DOUBLE
-  - name: "vignettea"
+  - name: "vignetteA"
+    type: BIGINT
+  - name: "vignetteB"
+    type: BIGINT
+  - name: "vignetteC"
+    type: BIGINT
+  - name: "EXTRA"
     type: DOUBLE
-  - name: "vignetteb"
+  - name: "inducementLDPR"
     type: DOUBLE
-  - name: "vignettec"
+  - name: "inducementCPRF"
     type: DOUBLE
-  - name: "vignetted"
+  - name: "inducementJR"
     type: DOUBLE
-  - name: "vignettee"
+  - name: "inducementUR"
     type: DOUBLE
-  - name: "vignettef"
+  - name: "inducementCR"
     type: DOUBLE
-  - name: "ROTATING"
+  - name: "inducementPR"
     type: DOUBLE
-  - name: "freetovote"
+  - name: "inducementPP"
     type: DOUBLE
-  - name: "fearviolence"
+  - name: "inducementHOM"
     type: DOUBLE
-  - name: "fearviolence2"
+  - name: "inducementYAB"
     type: DOUBLE
-  - name: "ballotconfidential"
+  - name: "inducementGRE"
     type: DOUBLE
-  - name: "freefairelect"
+  - name: "inducementPAR"
     type: DOUBLE
-  - name: "cashforvotes"
+  - name: "promiseLDPR"
     type: DOUBLE
-  - name: "cashforvotes2"
+  - name: "promiseCPRF"
     type: DOUBLE
-  - name: "patronage"
+  - name: "promiseJR"
     type: DOUBLE
-  - name: "patronage2"
+  - name: "promiseUR"
     type: DOUBLE
-  - name: "audit"
+  - name: "promiseCR"
     type: DOUBLE
-  - name: "hacking"
+  - name: "promisePR"
     type: DOUBLE
-  - name: "campaignnews"
+  - name: "promisePP"
     type: DOUBLE
-  - name: "govtnews"
+  - name: "promiseHOM"
     type: DOUBLE
-  - name: "fakenews"
+  - name: "promiseYAB"
     type: DOUBLE
-  - name: "fakenews2"
+  - name: "promiseGRE"
     type: DOUBLE
-  - name: "hatespeech"
+  - name: "promisePAR"
     type: DOUBLE
-  - name: "hatespeech2"
+  - name: "checvotLDPR"
     type: DOUBLE
-  - name: "informedchoices"
+  - name: "checvotCPRF"
     type: DOUBLE
-  - name: "foreigninterference"
+  - name: "checvotJR"
     type: DOUBLE
-  - name: "foreigninterference2"
+  - name: "checvotUR"
     type: DOUBLE
-  - name: "mediamonitors"
+  - name: "checvotCR"
     type: DOUBLE
-  - name: "cyberattacks"
+  - name: "checvotPR"
     type: DOUBLE
-  - name: "cyberattacks2"
+  - name: "checvotPP"
     type: DOUBLE
-  - name: "diversenews"
+  - name: "checvotHOM"
     type: DOUBLE
-  - name: "journalisticstandards"
+  - name: "checvotYAB"
     type: DOUBLE
-  - name: "partisanjournalists"
+  - name: "checvotGRE"
     type: DOUBLE
-  - name: "partisanjournalists2"
+  - name: "checvotPAR"
     type: DOUBLE
-  - name: "fakesocial"
+  - name: "elecmech"
     type: DOUBLE
-  - name: "fakesocial2"
+  - name: "elecopport"
     type: DOUBLE
-  - name: "emergency"
+  - name: "elecivil"
     type: DOUBLE
-  - name: "emergency2"
+  - name: "elecvehicle"
     type: DOUBLE
-  - name: "safetyvoters"
+  - name: "elecompeti"
     type: DOUBLE
-  - name: "safetyworkers"
-    type: DOUBLE
-  - name: "safetyworkers2"
-    type: DOUBLE
-  - name: "opportunitycampaign"
-    type: DOUBLE
-  - name: "opportunitycampaign2"
-    type: DOUBLE
-  - name: "incumbentcampaign"
-    type: DOUBLE
-  - name: "incumbentcampaign2"
-    type: DOUBLE
-  - name: "postponed"
-    type: DOUBLE
-  - name: "postponed2"
-    type: DOUBLE
-  - name: "hesitant"
-    type: DOUBLE
-  - name: "hesitant2"
-    type: DOUBLE
-  - name: "support"
-    type: DOUBLE
-  - name: "shortage"
-    type: DOUBLE
-  - name: "shortage2"
-    type: DOUBLE
-  - name: "resourced"
-    type: DOUBLE
-  - name: "resourced2"
+  - name: "elecunity"
     type: DOUBLE

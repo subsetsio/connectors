@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `economist-big-mac-index-big-mac-historical-source-data`. Regenerate after model-verify.
+# caution: Historical 1986-1999 inputs contain price and exchange-rate fields only and predate the modern GDP-adjusted source fields.
+key: [date, iso_a3, name, currency_code]
+temporal: date
+sort: [date, iso_a3, name, currency_code]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: iso_a3
+    type: VARCHAR
+  - name: currency_code
+    type: VARCHAR
+  - name: local_price
+    type: DOUBLE
+  - name: dollar_ex
+    type: DOUBLE
+  - name: date
+    type: DATE
