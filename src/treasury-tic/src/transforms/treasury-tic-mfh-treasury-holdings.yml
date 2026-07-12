@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `treasury-tic-mfh-treasury-holdings`. Regenerate after model-verify.
+# caution: The country column includes jurisdiction and aggregate categories such as total foreign holdings, so filter to the desired geography level before summing across countries.
+key: [date, country]
+temporal: date
+sort: [date, country]
 columns:
   - name: country
     type: VARCHAR

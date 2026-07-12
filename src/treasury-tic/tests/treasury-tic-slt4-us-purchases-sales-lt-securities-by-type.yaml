@@ -14,8 +14,8 @@ tests:
   - unique: [country_code, date]
     reason: SLT table 4 is one row per TIC country code and month.
     certainty: 90
-  - row_count: {min: 5000}
-    reason: SLT table 4 covers many countries across monthly history; a much smaller table indicates a truncated parse.
+  - row_count: {min: 3000}
+    reason: SLT table 4 starts later than the other SLT detail tables but still covers many countries across monthly history; a much smaller table indicates a truncated parse.
     certainty: 90
   - distinct_count: {col: country_code, min: 50}
     reason: SLT table 4 covers a broad country universe.
