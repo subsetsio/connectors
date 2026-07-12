@@ -1,13 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The component domain includes current and historical Heritage index components; compare or aggregate component scores across years only after accounting for source taxonomy changes.
 SELECT
-    CAST(year AS INTEGER) AS year,
-    country,
-    region,
-    component,
-    CAST(score AS DOUBLE) AS score
+    "year",
+    "country",
+    "region",
+    "component",
+    "score"
 FROM "heritage-foundation-index-of-economic-freedom"
-WHERE score IS NOT NULL
-  AND country IS NOT NULL
-  AND component IS NOT NULL
-QUALIFY row_number() OVER (
-    PARTITION BY year, country, component ORDER BY score DESC
-) = 1

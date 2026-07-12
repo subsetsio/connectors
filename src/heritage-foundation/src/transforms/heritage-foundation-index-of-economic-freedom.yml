@@ -1,7 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `heritage-foundation-index-of-economic-freedom`. Regenerate after model-verify.
+# caution: The component domain includes current and historical Heritage index components; compare or aggregate component scores across years only after accounting for source taxonomy changes.
+key: [country, year, component]
+temporal: year
+sort: [year, country, component]
 columns:
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: country
     type: VARCHAR
   - name: region
