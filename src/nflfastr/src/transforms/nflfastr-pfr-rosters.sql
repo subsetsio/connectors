@@ -1,0 +1,20 @@
+SELECT
+    "season",
+    "pfr",
+    "nfl",
+    "pfr_player_id",
+    "no",
+    "player",
+    "age",
+    "pos",
+    "g",
+    "gs",
+    "wt",
+    "ht",
+    "college_univ",
+    "birth_date",
+    "yrs",
+    "av",
+    "drafted_tm_rnd_yr",
+    "salary"
+FROM "nflfastr-pfr-rosters"

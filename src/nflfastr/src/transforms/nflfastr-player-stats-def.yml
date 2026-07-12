@@ -1,0 +1,68 @@
+# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
+temporal: season
+sort: [season]
+columns:
+  - name: season
+    type: INTEGER
+  - name: week
+    type: INTEGER
+  - name: season_type
+    type: VARCHAR
+  - name: player_id
+    type: VARCHAR
+  - name: player_name
+    type: VARCHAR
+  - name: player_display_name
+    type: VARCHAR
+  - name: position
+    type: VARCHAR
+  - name: position_group
+    type: VARCHAR
+  - name: headshot_url
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: def_tackles
+    type: INTEGER
+  - name: def_tackles_solo
+    type: INTEGER
+  - name: def_tackles_with_assist
+    type: INTEGER
+  - name: def_tackle_assists
+    type: INTEGER
+  - name: def_tackles_for_loss
+    type: INTEGER
+  - name: def_tackles_for_loss_yards
+    type: DOUBLE
+  - name: def_fumbles_forced
+    type: INTEGER
+  - name: def_sacks
+    type: DOUBLE
+  - name: def_sack_yards
+    type: DOUBLE
+  - name: def_qb_hits
+    type: DOUBLE
+  - name: def_interceptions
+    type: DOUBLE
+  - name: def_interception_yards
+    type: DOUBLE
+  - name: def_pass_defended
+    type: DOUBLE
+  - name: def_tds
+    type: DOUBLE
+  - name: def_fumbles
+    type: DOUBLE
+  - name: def_fumble_recovery_own
+    type: DOUBLE
+  - name: def_fumble_recovery_yards_own
+    type: DOUBLE
+  - name: def_fumble_recovery_opp
+    type: DOUBLE
+  - name: def_fumble_recovery_yards_opp
+    type: DOUBLE
+  - name: def_safety
+    type: INTEGER
+  - name: def_penalty
+    type: DOUBLE
+  - name: def_penalty_yards
+    type: DOUBLE

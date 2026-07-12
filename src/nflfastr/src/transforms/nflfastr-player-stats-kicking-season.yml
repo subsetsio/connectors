@@ -1,0 +1,92 @@
+# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
+temporal: season
+sort: [season]
+columns:
+  - name: season
+    type: INTEGER
+  - name: season_type
+    type: VARCHAR
+  - name: player_id
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: player_name
+    type: VARCHAR
+  - name: player_display_name
+    type: VARCHAR
+  - name: games
+    type: INTEGER
+  - name: position
+    type: VARCHAR
+  - name: position_group
+    type: VARCHAR
+  - name: headshot_url
+    type: VARCHAR
+  - name: fg_made
+    type: INTEGER
+  - name: fg_att
+    type: DOUBLE
+  - name: fg_missed
+    type: INTEGER
+  - name: fg_blocked
+    type: INTEGER
+  - name: fg_long
+    type: DOUBLE
+  - name: fg_pct
+    type: DOUBLE
+  - name: fg_made_0_19
+    type: INTEGER
+  - name: fg_made_20_29
+    type: INTEGER
+  - name: fg_made_30_39
+    type: INTEGER
+  - name: fg_made_40_49
+    type: INTEGER
+  - name: fg_made_50_59
+    type: INTEGER
+  - name: fg_made_60_
+    type: INTEGER
+  - name: fg_missed_0_19
+    type: INTEGER
+  - name: fg_missed_20_29
+    type: INTEGER
+  - name: fg_missed_30_39
+    type: INTEGER
+  - name: fg_missed_40_49
+    type: INTEGER
+  - name: fg_missed_50_59
+    type: INTEGER
+  - name: fg_missed_60_
+    type: INTEGER
+  - name: fg_made_list
+    type: VARCHAR
+  - name: fg_missed_list
+    type: VARCHAR
+  - name: fg_blocked_list
+    type: VARCHAR
+  - name: fg_made_distance
+    type: DOUBLE
+  - name: fg_missed_distance
+    type: DOUBLE
+  - name: fg_blocked_distance
+    type: DOUBLE
+  - name: pat_made
+    type: INTEGER
+  - name: pat_att
+    type: DOUBLE
+  - name: pat_missed
+    type: INTEGER
+  - name: pat_blocked
+    type: INTEGER
+  - name: pat_pct
+    type: DOUBLE
+  - name: gwfg_att
+    type: INTEGER
+  - name: gwfg_distance_list
+    type: VARCHAR
+  - name: gwfg_made
+    type: INTEGER
+  - name: gwfg_missed
+    type: INTEGER
+  - name: gwfg_blocked
+    type: INTEGER

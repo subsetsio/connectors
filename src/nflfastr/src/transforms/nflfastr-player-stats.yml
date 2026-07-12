@@ -1,0 +1,110 @@
+# provisional pass-through; regenerate with `hardened compile-transforms` after model-verify
+temporal: season
+sort: [season]
+columns:
+  - name: player_id
+    type: VARCHAR
+  - name: player_name
+    type: VARCHAR
+  - name: player_display_name
+    type: VARCHAR
+  - name: position
+    type: VARCHAR
+  - name: position_group
+    type: VARCHAR
+  - name: headshot_url
+    type: VARCHAR
+  - name: recent_team
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: week
+    type: INTEGER
+  - name: season_type
+    type: VARCHAR
+  - name: opponent_team
+    type: VARCHAR
+  - name: completions
+    type: INTEGER
+  - name: attempts
+    type: INTEGER
+  - name: passing_yards
+    type: DOUBLE
+  - name: passing_tds
+    type: INTEGER
+  - name: interceptions
+    type: DOUBLE
+  - name: sacks
+    type: DOUBLE
+  - name: sack_yards
+    type: DOUBLE
+  - name: sack_fumbles
+    type: INTEGER
+  - name: sack_fumbles_lost
+    type: INTEGER
+  - name: passing_air_yards
+    type: DOUBLE
+  - name: passing_yards_after_catch
+    type: DOUBLE
+  - name: passing_first_downs
+    type: DOUBLE
+  - name: passing_epa
+    type: DOUBLE
+  - name: passing_2pt_conversions
+    type: INTEGER
+  - name: pacr
+    type: DOUBLE
+  - name: dakota
+    type: DOUBLE
+  - name: carries
+    type: INTEGER
+  - name: rushing_yards
+    type: DOUBLE
+  - name: rushing_tds
+    type: INTEGER
+  - name: rushing_fumbles
+    type: DOUBLE
+  - name: rushing_fumbles_lost
+    type: DOUBLE
+  - name: rushing_first_downs
+    type: DOUBLE
+  - name: rushing_epa
+    type: DOUBLE
+  - name: rushing_2pt_conversions
+    type: INTEGER
+  - name: receptions
+    type: INTEGER
+  - name: targets
+    type: INTEGER
+  - name: receiving_yards
+    type: DOUBLE
+  - name: receiving_tds
+    type: INTEGER
+  - name: receiving_fumbles
+    type: DOUBLE
+  - name: receiving_fumbles_lost
+    type: DOUBLE
+  - name: receiving_air_yards
+    type: DOUBLE
+  - name: receiving_yards_after_catch
+    type: DOUBLE
+  - name: receiving_first_downs
+    type: DOUBLE
+  - name: receiving_epa
+    type: DOUBLE
+  - name: receiving_2pt_conversions
+    type: INTEGER
+  - name: racr
+    type: DOUBLE
+  - name: target_share
+    type: DOUBLE
+  - name: air_yards_share
+    type: DOUBLE
+  - name: wopr
+    type: DOUBLE
+  - name: special_teams_tds
+    type: DOUBLE
+  - name: fantasy_points
+    type: DOUBLE
+  - name: fantasy_points_ppr
+    type: DOUBLE
