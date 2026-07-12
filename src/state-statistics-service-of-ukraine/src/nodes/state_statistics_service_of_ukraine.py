@@ -6,10 +6,15 @@ model stage profile each table's observed columns.
 """
 
 from datetime import datetime
+import csv
+import io
 import re
 
+import pyarrow as pa
+import pyarrow.csv as pacsv
+
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_file
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 SLUG = "state-statistics-service-of-ukraine"
 SDMX_BASE = "https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/2.1"
@@ -154,6 +159,23 @@ def _csv_row_count(content: bytes) -> int:
     return max(len(lines) - 1, 0)
 
 
+def _csv_to_table(content: bytes) -> pa.Table:
+    header = content.splitlines()[0].decode("utf-8-sig")
+    columns = next(csv.reader(io.StringIO(header)))
+    return pacsv.read_csv(
+        pa.BufferReader(content),
+        read_options=pacsv.ReadOptions(encoding="utf8"),
+        convert_options=pacsv.ConvertOptions(
+            column_types={column: pa.string() for column in columns},
+            strings_can_be_null=True,
+        ),
+    )
+
+
+def _save_sdmx_csv(content: bytes, node_id: str, *, fragment: str | None = None) -> None:
+    save_raw_parquet(_csv_to_table(content), node_id, fragment=fragment)
+
+
 def _year(value: str) -> int:
     match = re.search(r"\d{4}", value or "")
     if not match:
@@ -199,7 +221,7 @@ def fetch_one(node_id: str) -> None:
     url = f"{SDMX_BASE}/data/SSSU,{entity_id},{version}"
     content = _fetch_csv(url)
     if content is not None:
-        save_raw_file(content, node_id, extension="csv")
+        _save_sdmx_csv(content, node_id)
         return
 
     saved = 0
@@ -208,7 +230,7 @@ def fetch_one(node_id: str) -> None:
         part = _fetch_csv(part_url)
         if part is None or _csv_row_count(part) == 0:
             continue
-        save_raw_file(part, node_id, extension="csv", fragment=str(year))
+        _save_sdmx_csv(part, node_id, fragment=str(year))
         saved += 1
 
     if saved == 0:
