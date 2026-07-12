@@ -1,0 +1,43 @@
+key: []
+temporal: year
+sort: [year, market, name]
+columns:
+  - name: geography
+    type: VARCHAR
+    description: geography associated with the historical currency reference
+  - name: variety
+    type: VARCHAR
+    description: source variety or denomination label
+  - name: market
+    type: VARCHAR
+    description: market or region where the currency reference applies
+  - name: name
+    type: VARCHAR
+    description: historical currency name
+  - name: year
+    type: INTEGER
+    description: reference year for the conversion factor
+  - name: factor
+    type: DOUBLE
+    description: conversion factor to the standardized currency unit
+  - name: unit
+    type: VARCHAR
+    description: standardized unit for the conversion factor
+  - name: metal
+    type: VARCHAR
+    description: monetary metal basis where provided
+  - name: source_location
+    type: VARCHAR
+    description: source location marker supplied by the archive
+  - name: source
+    type: VARCHAR
+    description: bibliographic or file source reference
+  - name: notes
+    type: VARCHAR
+    description: source notes supplied by the archive
+  - name: interpolated
+    type: BOOLEAN
+    description: whether the archive marks the factor as interpolated
+  - name: constructed
+    type: BOOLEAN
+    description: whether the archive marks the factor as constructed

@@ -1,0 +1,40 @@
+key: []
+temporal: year
+sort: [year, commodity, market]
+columns:
+  - name: commodity
+    type: VARCHAR
+    description: commodity or good whose price was observed
+  - name: variety
+    type: VARCHAR
+    description: source variety or subtype of the commodity, where provided
+  - name: market
+    type: VARCHAR
+    description: market, town, or region where the price was observed
+  - name: original_measure
+    type: VARCHAR
+    description: historical unit of measure used in the source observation
+  - name: standard_measure
+    type: VARCHAR
+    description: standardized unit of measure used by the archive
+  - name: original_currency
+    type: VARCHAR
+    description: historical currency used in the source observation
+  - name: standard_currency
+    type: VARCHAR
+    description: standardized currency used by the archive
+  - name: year
+    type: INTEGER
+    description: observation year
+  - name: value_original
+    type: DOUBLE
+    description: observed price in original historical units
+  - name: value_standardized
+    type: DOUBLE
+    description: observed price standardized by the archive
+  - name: notes
+    type: VARCHAR
+    description: source notes supplied by the archive
+  - name: source
+    type: VARCHAR
+    description: raw bibliographic or file source reference

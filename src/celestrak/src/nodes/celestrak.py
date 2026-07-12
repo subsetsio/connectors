@@ -23,10 +23,8 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 
@@ -56,7 +54,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _fetch_satcat_text() -> str:
     resp = get(SATCAT_URL, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -121,158 +118,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="celestrak-satellite-catalog", fn=fetch_satcat, kind="download"),
     NodeSpec(id="celestrak-launches-by-country", fn=fetch_satcat, kind="download"),
     NodeSpec(id="celestrak-constellation-growth", fn=fetch_satcat, kind="download"),
-]
-
-
-# --- Transforms -----------------------------------------------------------
-
-# Object-name prefix -> (constellation, category) for constellation-growth.
-_CONSTELLATIONS = [
-    ("STARLINK", "Starlink", "communications"),
-    ("ONEWEB", "OneWeb", "communications"),
-    ("KUIPER", "Kuiper", "communications"),
-    ("IRIDIUM", "Iridium", "communications"),
-    ("GLOBALSTAR", "Globalstar", "communications"),
-    ("ORBCOMM", "Orbcomm", "communications"),
-    ("INTELSAT", "Intelsat", "communications"),
-    ("EUTELSAT", "Eutelsat", "communications"),
-    ("TELESAT", "Telesat", "communications"),
-    ("QIANFAN", "Qianfan (G60)", "communications"),
-    ("NAVSTAR", "GPS", "navigation"),
-    ("GPS", "GPS", "navigation"),
-    ("GLONASS", "GLONASS", "navigation"),
-    ("GSAT", "Galileo", "navigation"),
-    ("GALILEO", "Galileo", "navigation"),
-    ("BEIDOU", "BeiDou", "navigation"),
-    ("NOAA", "NOAA", "weather"),
-    ("GOES", "GOES", "weather"),
-    ("METEOSAT", "Meteosat", "weather"),
-    ("PLANET", "Planet Labs", "earth_observation"),
-    ("DOVE", "Planet Labs", "earth_observation"),
-    ("FLOCK", "Planet Labs", "earth_observation"),
-    ("SPIRE", "Spire", "earth_observation"),
-    ("LEMUR", "Spire", "earth_observation"),
-]
-
-
-def _case(value_idx: int) -> str:
-    """Build a DuckDB CASE mapping object_name prefixes to constellation
-    (value_idx=0) or category (value_idx=1)."""
-    whens = [
-        f"WHEN UPPER(object_name) LIKE '{row[0]}%' THEN '{row[value_idx + 1]}'"
-        for row in _CONSTELLATIONS
-    ]
-    return "CASE " + " ".join(whens) + " ELSE NULL END"
-
-
-_CONSTELLATION_CASE = _case(0)
-_CATEGORY_CASE = _case(1)
-
-
-_SATELLITE_CATALOG_SQL = """
-    SELECT
-        norad_cat_id AS norad_id,
-        object_id,
-        object_name AS name,
-        CASE object_type
-            WHEN 'PAY' THEN 'PAYLOAD'
-            WHEN 'R/B' THEN 'ROCKET_BODY'
-            WHEN 'DEB' THEN 'DEBRIS'
-            ELSE 'UNKNOWN'
-        END AS object_type,
-        CASE ops_status_code
-            WHEN '+' THEN 'ACTIVE'
-            WHEN '-' THEN 'INACTIVE'
-            WHEN 'P' THEN 'PARTIALLY_OPERATIONAL'
-            WHEN 'B' THEN 'BACKUP'
-            WHEN 'S' THEN 'STANDBY'
-            WHEN 'X' THEN 'EXTENDED'
-            WHEN 'D' THEN 'DECAYED'
-            ELSE 'UNKNOWN'
-        END AS status,
-        owner,
-        launch_date,
-        launch_site,
-        decay_date,
-        period AS period_minutes,
-        inclination AS inclination_degrees,
-        apogee AS apogee_km,
-        perigee AS perigee_km
-    FROM "celestrak-satellite-catalog"
-    WHERE norad_cat_id IS NOT NULL
-"""
-
-
-_LAUNCHES_BY_COUNTRY_SQL = """
-    SELECT
-        SUBSTRING(launch_date, 1, 4) AS year,
-        COALESCE(owner, 'UNKNOWN') AS country,
-        SUM(CASE WHEN object_type = 'PAY' THEN 1 ELSE 0 END)::BIGINT AS payloads,
-        SUM(CASE WHEN object_type = 'R/B' THEN 1 ELSE 0 END)::BIGINT AS rocket_bodies,
-        SUM(CASE WHEN object_type = 'DEB' THEN 1 ELSE 0 END)::BIGINT AS debris,
-        COUNT(*)::BIGINT AS total
-    FROM "celestrak-launches-by-country"
-    WHERE launch_date IS NOT NULL AND launch_date != ''
-    GROUP BY year, country
-    ORDER BY year, country
-"""
-
-
-_CONSTELLATION_GROWTH_SQL = f"""
-    WITH satellites AS (
-        SELECT
-            SUBSTRING(launch_date, 1, 4) AS year,
-            {_CONSTELLATION_CASE} AS constellation,
-            {_CATEGORY_CASE} AS category,
-            ops_status_code
-        FROM "celestrak-constellation-growth"
-        WHERE object_type = 'PAY'
-            AND launch_date IS NOT NULL
-            AND launch_date != ''
-    ),
-    yearly AS (
-        SELECT
-            constellation,
-            category,
-            year,
-            COUNT(*)::BIGINT AS launched_that_year,
-            SUM(CASE WHEN ops_status_code != 'D' THEN 1 ELSE 0 END)::BIGINT AS active_in_year
-        FROM satellites
-        WHERE constellation IS NOT NULL
-        GROUP BY constellation, category, year
-    )
-    SELECT
-        year,
-        constellation,
-        category,
-        launched_that_year,
-        SUM(launched_that_year) OVER (PARTITION BY constellation ORDER BY year)::BIGINT AS cumulative_total,
-        SUM(active_in_year) OVER (PARTITION BY constellation)::BIGINT AS active_count
-    FROM yearly
-    ORDER BY constellation, year
-"""
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="celestrak-satellite-catalog-transform",
-        deps=["celestrak-satellite-catalog"],
-        sql=_SATELLITE_CATALOG_SQL,
-        key=("norad_id",),
-        temporal="launch_date",
-    ),
-    SqlNodeSpec(
-        id="celestrak-launches-by-country-transform",
-        deps=["celestrak-launches-by-country"],
-        sql=_LAUNCHES_BY_COUNTRY_SQL,
-        key=("year", "country"),
-        temporal="year",
-    ),
-    SqlNodeSpec(
-        id="celestrak-constellation-growth-transform",
-        deps=["celestrak-constellation-growth"],
-        sql=_CONSTELLATION_GROWTH_SQL,
-        key=("constellation", "year"),
-        temporal="year",
-    ),
 ]

@@ -1,0 +1,33 @@
+key: []
+sort: [market, measure_name]
+columns:
+  - name: measure_name
+    type: VARCHAR
+    description: source-specific historical measure name
+  - name: measure
+    type: VARCHAR
+    description: normalized measure label
+  - name: measure_subtype
+    type: VARCHAR
+    description: source subtype of the measure, where provided
+  - name: market
+    type: VARCHAR
+    description: market or region where the measure applies
+  - name: factor
+    type: DOUBLE
+    description: conversion factor to the standardized unit
+  - name: units
+    type: VARCHAR
+    description: standardized target unit for the conversion factor
+  - name: type
+    type: VARCHAR
+    description: broad physical dimension of the measure
+  - name: subtype
+    type: VARCHAR
+    description: narrower measure subtype, where provided
+  - name: alternative_name
+    type: VARCHAR
+    description: alternate historical measure name, where provided
+  - name: source
+    type: VARCHAR
+    description: raw bibliographic or file source reference
