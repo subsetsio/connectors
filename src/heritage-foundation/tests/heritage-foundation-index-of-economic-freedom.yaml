@@ -24,6 +24,10 @@ tests:
     certainty: 70
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: the Index is an annual publication and the downloadable edition should reach the current calendar year
+    certainty: 80
+    points_outward: true
   - distinct_count: {col: year, min: 15}
     reason: ~18 editions (2009-2026); far fewer means a host went dark
     certainty: 85
