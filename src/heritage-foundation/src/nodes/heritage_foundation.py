@@ -33,7 +33,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 # Earliest Index edition reachable via the mirrors (verified — 2008 and older
 # 404 on both hosts). The upper bound is discovered dynamically per run; we
@@ -242,27 +242,5 @@ DOWNLOAD_SPECS = [
         id="heritage-foundation-index-of-economic-freedom",
         fn=fetch_index,
         kind="download",
-    ),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="heritage-foundation-index-of-economic-freedom-transform",
-        deps=["heritage-foundation-index-of-economic-freedom"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER) AS year,
-                country,
-                region,
-                component,
-                CAST(score AS DOUBLE) AS score
-            FROM "heritage-foundation-index-of-economic-freedom"
-            WHERE score IS NOT NULL
-              AND country IS NOT NULL
-              AND component IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY year, country, component ORDER BY score DESC
-            ) = 1
-        ''',
     ),
 ]
