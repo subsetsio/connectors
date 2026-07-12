@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wri-historical-emissions`. Regenerate after model-verify.
+# caution: Contains multiple upstream data sources and both country and aggregate geographies; filter `data_source`, `sector`, `gas`, and geography before summing or comparing values.
+key: [iso_code3, country, data_source, sector, gas, unit, year]
+temporal: year
+sort: [year, iso_code3, country, data_source, sector, gas, unit]
 columns:
   - name: iso_code3
     type: VARCHAR

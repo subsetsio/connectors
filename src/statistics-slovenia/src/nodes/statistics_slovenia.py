@@ -8,6 +8,7 @@ from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     configure_http,
+    delete_raw_file,
     get,
     post,
     raw_asset_exists,
@@ -19,6 +20,7 @@ SLUG = "statistics-slovenia"
 PREFIX = f"{SLUG}-"
 BASE_URL = "https://pxweb.stat.si/SiStatData/api/v1/en/Data"
 MAINTAIN_MAX_AGE_DAYS = 7
+MAX_CELLS_PER_REQUEST = 75_000
 MAINTAIN_DESCRIPTION = (
     f"Full re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. SURS PxWeb "
     "does not expose a table-level since/modifiedAfter query parameter, so due "
@@ -69,6 +71,46 @@ def _all_values_query(metadata: dict) -> dict:
         ],
         "response": {"format": "JSON-stat"},
     }
+
+
+def _variable_values(variable: dict) -> list[str]:
+    return [str(value) for value in variable.get("values", [])]
+
+
+def _selection_query(metadata: dict, chunk_code: str | None, chunk_values: list[str]) -> dict:
+    query = []
+    for variable in metadata["variables"]:
+        code = variable["code"]
+        if code == chunk_code:
+            selection = {"filter": "item", "values": chunk_values}
+        else:
+            selection = {"filter": "all", "values": ["*"]}
+        query.append({"code": code, "selection": selection})
+    return {"query": query, "response": {"format": "JSON-stat"}}
+
+
+def _chunked_queries(metadata: dict) -> list[tuple[str | None, dict]]:
+    variables = metadata["variables"]
+    sizes = [max(1, len(_variable_values(variable))) for variable in variables]
+    total_cells = 1
+    for size in sizes:
+        total_cells *= size
+    if total_cells <= MAX_CELLS_PER_REQUEST:
+        return [("full", _all_values_query(metadata))]
+
+    chunk_index = max(range(len(variables)), key=lambda index: sizes[index])
+    chunk_variable = variables[chunk_index]
+    chunk_code = chunk_variable["code"]
+    other_cells = max(1, total_cells // sizes[chunk_index])
+    chunk_size = max(1, MAX_CELLS_PER_REQUEST // other_cells)
+    values = _variable_values(chunk_variable)
+
+    chunks = []
+    for start in range(0, len(values), chunk_size):
+        stop = min(start + chunk_size, len(values))
+        label = f"{chunk_code}-{start:05d}-{stop - 1:05d}"
+        chunks.append((label, _selection_query(metadata, chunk_code, values[start:stop])))
+    return chunks
 
 
 def _ordered_category_ids(dimension: dict) -> list[str]:
@@ -123,6 +165,9 @@ def _flatten_jsonstat(table_id: str, dataset: dict) -> list[dict]:
                 period_label = label
 
         raw_value = _value_at(values, obs_index)
+        status = _status_at(statuses, obs_index)
+        if raw_value is None and status is None:
+            continue
         value = raw_value if isinstance(raw_value, (int, float)) else None
         value_text = None if raw_value is None or isinstance(raw_value, (int, float)) else str(raw_value)
         rows.append(
@@ -137,7 +182,7 @@ def _flatten_jsonstat(table_id: str, dataset: dict) -> list[dict]:
                 "dimension_labels": json.dumps(label_map, ensure_ascii=False, sort_keys=True),
                 "value": value,
                 "value_text": value_text,
-                "status": _status_at(statuses, obs_index),
+                "status": status,
                 "observation_index": obs_index,
             }
         )
@@ -154,14 +199,25 @@ def fetch_table(node_id: str) -> None:
     metadata_response.raise_for_status()
     metadata = metadata_response.json()
 
-    data_response = post(url, json=_all_values_query(metadata), timeout=180.0)
-    data_response.raise_for_status()
-    payload = data_response.json()
-    dataset = payload.get("dataset", payload)
-    rows = _flatten_jsonstat(table_id, dataset)
-    if not rows:
+    chunks = _chunked_queries(metadata)
+    wrote_rows = 0
+    if len(chunks) > 1:
+        delete_raw_file(node_id, "parquet")
+
+    for chunk_label, query in chunks:
+        data_response = post(url, json=query, timeout=180.0)
+        data_response.raise_for_status()
+        payload = data_response.json()
+        dataset = payload.get("dataset", payload)
+        rows = _flatten_jsonstat(table_id, dataset)
+        if not rows:
+            continue
+        fragment = None if chunk_label == "full" else chunk_label
+        save_raw_parquet(pa.Table.from_pylist(rows, schema=RAW_SCHEMA), node_id, fragment=fragment)
+        wrote_rows += len(rows)
+
+    if not wrote_rows:
         raise ValueError(f"{node_id}: JSON-stat response produced no rows")
-    save_raw_parquet(pa.Table.from_pylist(rows, schema=RAW_SCHEMA), node_id)
 
 
 DOWNLOAD_SPECS = [

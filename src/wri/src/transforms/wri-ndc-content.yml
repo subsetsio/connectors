@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wri-ndc-content`. Regenerate after model-verify.
+# caution: A country and indicator can have multiple categorical/text values from different NDC document contexts, and exact duplicate rows can appear in the upstream extract.
+key: []
 columns:
   - name: iso_code3
     type: VARCHAR
@@ -14,9 +17,9 @@ columns:
     type: VARCHAR
   - name: indicator_id
     type: VARCHAR
-  - name: indicator_name
+  - name: value
     type: VARCHAR
   - name: source
     type: VARCHAR
-  - name: value
+  - name: indicator_name
     type: VARCHAR
