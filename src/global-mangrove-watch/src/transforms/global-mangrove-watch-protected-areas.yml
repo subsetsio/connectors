@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-mangrove-watch-protected-areas`. Regenerate after model-verify.
+key: [location_id]
+temporal: year
+sort: [year, location_id]
 columns:
   - name: location_id
     type: BIGINT
@@ -8,8 +12,10 @@ columns:
     type: VARCHAR
   - name: location_name
     type: VARCHAR
+  - name: id
+    type: BIGINT
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: total_area
     type: DOUBLE
   - name: protected_area

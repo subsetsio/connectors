@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-mangrove-watch-fisheries`. Regenerate after model-verify.
+key: [location_id, iso, location_name, category]
+temporal: year
+sort: [year, location_id, iso, location_name, category]
 columns:
   - name: location_id
     type: BIGINT
@@ -10,9 +14,9 @@ columns:
     type: VARCHAR
   - name: indicator
     type: VARCHAR
-  - name: category
-    type: VARCHAR
-  - name: year
-    type: INTEGER
   - name: value
     type: DOUBLE
+  - name: year
+    type: BIGINT
+  - name: category
+    type: VARCHAR

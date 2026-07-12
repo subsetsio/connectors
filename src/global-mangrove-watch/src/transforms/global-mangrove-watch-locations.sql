@@ -1,10 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The location catalog includes countries, WDPA protected areas, and a worldwide aggregate, while the widget tables in this connector are scoped to countries plus worldwide.
 SELECT
-    CAST(id AS BIGINT)              AS location_id,
-    location_uuid,
-    iso,
-    location_type,
-    name                           AS location_name,
-    TRY_CAST(area_m2 AS DOUBLE)        AS area_m2,
-    TRY_CAST(coast_length_m AS DOUBLE) AS coast_length_m,
-    TRY_CAST(perimeter_m AS DOUBLE)    AS perimeter_m
+    "id",
+    "location_uuid",
+    "iso",
+    "location_type",
+    "name",
+    "area_m2",
+    "coast_length_m",
+    "perimeter_m"
 FROM "global-mangrove-watch-locations"

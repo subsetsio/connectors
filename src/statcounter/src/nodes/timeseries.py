@@ -21,11 +21,12 @@ in its own module.
 
 import csv as _csv
 import io as _io
+import os
 import time
 
 import pyarrow as pa
 
-from subsets_utils import raw_parquet_writer
+from subsets_utils import list_raw_fragments, raw_parquet_writer
 from utils import (
     BASE_URL,
     SOURCE_MIN_MONTH,
@@ -102,58 +103,69 @@ def fetch_statistic(node_id: str) -> None:
 
     regions = _discover_regions()
     to_month = _current_month()
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done_fragments = {
+        key
+        for key, meta in list_raw_fragments(asset, "parquet").items()
+        if meta.get("run_id") == run_id
+    }
 
     failed: list[str] = []
     regions_written = 0
     total_rows = 0
 
-    with raw_parquet_writer(asset, _TIMESERIES_SCHEMA) as writer:
-        for region_code, region_name, region_type in regions:
-            params = {
-                "statType_hidden": code,
-                "region_hidden": region_code,
-                "granularity": "monthly",
-                "csv": "1",
-                "device_hidden": device,
-                "multi-device": "true" if multi else "false",
-                "fromMonthYear": SOURCE_MIN_MONTH,
-                "toMonthYear": to_month,
-            }
-            try:
-                text = _get_text(BASE_URL, params)
-            except Exception as exc:  # noqa: BLE001 - logged + classified below
-                if _permanent_4xx(exc):
-                    print(f"  {asset}: region {region_code} permanent {exc}; skipping")
-                else:
-                    print(f"  {asset}: region {region_code} fetch failed: {type(exc).__name__}: {exc}")
-                failed.append(region_code)
-                continue
-
-            long_rows = _parse_timeseries_csv(text)
-            if not long_rows:
-                continue
-            batch = {
-                "date": [d for d, _, _ in long_rows],
-                "region_code": [region_code] * len(long_rows),
-                "region_name": [region_name] * len(long_rows),
-                "region_type": [region_type] * len(long_rows),
-                "category": [c for _, c, _ in long_rows],
-                "market_share": [v for _, _, v in long_rows],
-            }
-            writer.write_table(pa.table(batch, schema=_TIMESERIES_SCHEMA))
+    for region_code, region_name, region_type in regions:
+        if region_code in done_fragments:
             regions_written += 1
-            total_rows += len(long_rows)
-            time.sleep(0.2)  # politeness; no documented rate limit
+            continue
+        params = {
+            "statType_hidden": code,
+            "region_hidden": region_code,
+            "granularity": "monthly",
+            "csv": "1",
+            "device_hidden": device,
+            "multi-device": "true" if multi else "false",
+            "fromMonthYear": SOURCE_MIN_MONTH,
+            "toMonthYear": to_month,
+        }
+        try:
+            text = _get_text(BASE_URL, params)
+        except Exception as exc:  # noqa: BLE001 - logged + classified below
+            if _permanent_4xx(exc):
+                print(f"  {asset}: region {region_code} permanent {exc}; skipping")
+            else:
+                print(f"  {asset}: region {region_code} fetch failed: {type(exc).__name__}: {exc}")
+            failed.append(region_code)
+            continue
 
-        # Integrity guards: worldwide must succeed, and a systemic failure
-        # (many regions down) must not quietly publish a gutted table.
-        if "ww" in failed:
-            raise RuntimeError(f"{asset}: worldwide (ww) fetch failed; aborting node")
-        if len(failed) > len(regions) * 0.25:
-            raise RuntimeError(
-                f"{asset}: {len(failed)}/{len(regions)} regions failed (>25%); aborting node"
-            )
-        if regions_written == 0 or total_rows == 0:
-            raise RuntimeError(f"{asset}: produced 0 rows; source format likely changed")
+        long_rows = _parse_timeseries_csv(text)
+        if not long_rows:
+            continue
+        batch = {
+            "date": [d for d, _, _ in long_rows],
+            "region_code": [region_code] * len(long_rows),
+            "region_name": [region_name] * len(long_rows),
+            "region_type": [region_type] * len(long_rows),
+            "category": [c for _, c, _ in long_rows],
+            "market_share": [v for _, _, v in long_rows],
+        }
+        with raw_parquet_writer(asset, _TIMESERIES_SCHEMA, fragment=region_code) as writer:
+            writer.write_table(pa.table(batch, schema=_TIMESERIES_SCHEMA))
+        regions_written += 1
+        total_rows += len(long_rows)
+        time.sleep(0.2)  # politeness; no documented rate limit
+
+    # Integrity guards: worldwide must succeed, and a systemic failure
+    # (many regions down) must not quietly publish a gutted table.
+    if "ww" in failed:
+        raise RuntimeError(f"{asset}: worldwide (ww) fetch failed; aborting node")
+    if len(failed) > len(regions) * 0.25:
+        raise RuntimeError(
+            f"{asset}: {len(failed)}/{len(regions)} regions failed (>25%); aborting node"
+        )
+    if regions_written == 0:
+        raise RuntimeError(f"{asset}: produced 0 regions; source format likely changed")
+    if total_rows == 0 and not done_fragments:
+        raise RuntimeError(f"{asset}: produced 0 rows; source format likely changed")
 
     print(f"  {asset}: {total_rows} rows across {regions_written} regions ({len(failed)} skipped)")

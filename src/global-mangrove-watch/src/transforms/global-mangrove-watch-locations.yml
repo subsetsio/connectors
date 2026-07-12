@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-mangrove-watch-locations`. Regenerate after model-verify.
+# caution: The location catalog includes countries, WDPA protected areas, and a worldwide aggregate, while the widget tables in this connector are scoped to countries plus worldwide.
+key: [id]
+sort: [id]
 columns:
-  - name: location_id
+  - name: id
     type: BIGINT
   - name: location_uuid
     type: VARCHAR
@@ -8,7 +12,7 @@ columns:
     type: VARCHAR
   - name: location_type
     type: VARCHAR
-  - name: location_name
+  - name: name
     type: VARCHAR
   - name: area_m2
     type: DOUBLE

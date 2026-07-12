@@ -1,6 +1,14 @@
--- gain/loss are returned by the API but always null on this endpoint; dropped.
-SELECT CAST(location_id AS BIGINT) AS location_id, iso, location_type, location_name,
-    CAST(year AS INTEGER)      AS year,
-    CAST(net_change AS DOUBLE) AS net_change
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "location_id",
+    "iso",
+    "location_type",
+    "location_name",
+    "year",
+    "net_change",
+    "gain",
+    "loss"
 FROM "global-mangrove-watch-net-change"
-WHERE net_change IS NOT NULL
