@@ -11,8 +11,8 @@ tests:
     certainty: 95
   - between: {col: year, lo: 1990, hi: current_year()}
     certainty: 85
-  - distinct_count: {col: indicator_id, min: 45, max: 55}
-    reason: 45 underlying indicators plus context series (gdp, pop, hdi)
+  - distinct_count: {col: indicator_id, min: 55, max: 70}
+    reason: ND-GAIN currently publishes 61 indicator folders, including underlying indicators and context series.
     certainty: 80
   - matches: {col: indicator_id, pattern: "^(id_[a-z]+_[0-9]+|gdp|pop|hdi)$"}
     reason: indicator folders are id_<sector>_<NN> plus the gdp/pop/hdi context series
@@ -23,3 +23,7 @@ tests:
     severity: warn
   - row_count: {min: 150000}
     certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: ND-GAIN publishes annual indicator releases; the current bulk archive reaches 2024, so max(year) should not regress below 2024.
+    certainty: 85
+    points_outward: true

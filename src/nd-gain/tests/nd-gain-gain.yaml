@@ -18,9 +18,13 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
-  - distinct_count: {col: iso3, min: 170, max: 210}
-    reason: index covers ~192 UN countries
+  - distinct_count: {col: iso3, min: 220, max: 240}
+    reason: ND-GAIN's historical country coverage currently includes 226 country or territory ISO3 codes.
     certainty: 85
   - row_count: {min: 4000}
     reason: ~192 countries x ~30 years, minus missing values
     certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: ND-GAIN publishes annual country-index releases; the current bulk archive reaches 2024, so max(year) should not regress below 2024.
+    certainty: 85
+    points_outward: true

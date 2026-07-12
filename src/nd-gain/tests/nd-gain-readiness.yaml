@@ -24,3 +24,7 @@ tests:
     certainty: 80
   - row_count: {min: 18000}
     certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: ND-GAIN publishes annual readiness releases; the current bulk archive reaches 2024, so max(year) should not regress below 2024.
+    certainty: 85
+    points_outward: true
