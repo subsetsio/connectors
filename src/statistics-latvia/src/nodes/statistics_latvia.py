@@ -44,6 +44,10 @@ def _chunk_values(values: list[str], chunk_size: int) -> list[list[str]]:
     return [values[i : i + chunk_size] for i in range(0, len(values), chunk_size)]
 
 
+def _has_whitespace_sensitive_codes(values: list[str]) -> bool:
+    return any(value != value.strip() for value in values)
+
+
 def _selected_values(metadata: dict, selection: dict[str, str], dim: str) -> list[str]:
     selected = selection.get(dim)
     if selected and selected != "*":
@@ -100,19 +104,34 @@ def _build_selections(metadata: dict) -> list[dict[str, str]]:
                 next_selections.append(selection)
                 continue
 
-            dim = max(
-                splittable,
+            def split_plan(candidate: str) -> tuple[int, int]:
+                values = dim_values_by_dim[candidate]
+                other = max(1, current_cells // len(values))
+                size = max(1, min(MAX_CODES_PER_PARAM, MAX_CELLS // other))
+                chunks = (len(values) + size - 1) // size
+                return chunks, size
+
+            viable = [
+                dim
+                for dim in splittable
+                if split_plan(dim)[1] < len(dim_values_by_dim[dim])
+            ]
+            if not viable:
+                next_selections.append(selection)
+                continue
+
+            dim = min(
+                viable,
                 key=lambda candidate: (
-                    candidate not in time_dims,
-                    len(dim_values_by_dim[candidate]),
+                    _has_whitespace_sensitive_codes(dim_values_by_dim[candidate]),
+                    split_plan(candidate)[0],
+                    candidate in time_dims,
+                    -len(dim_values_by_dim[candidate]),
                 ),
             )
             dim_values = dim_values_by_dim[dim]
             other_cells = max(1, current_cells // len(dim_values))
             chunk_size = max(1, min(MAX_CODES_PER_PARAM, MAX_CELLS // other_cells))
-            if chunk_size >= len(dim_values):
-                next_selections.append(selection)
-                continue
 
             progressed = True
             for values in _chunk_values(dim_values, chunk_size):
