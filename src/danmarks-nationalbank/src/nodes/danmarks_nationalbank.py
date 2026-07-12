@@ -258,15 +258,17 @@ def fetch_one(node_id: str) -> None:
                     _emit_box(table_id, nt_specs + [{"code": time_code, "values": chunk}],
                               time_codes, emit, values_by_code=values_by_code)
             else:
-                # A single period already exceeds the target: pull one period at a
-                # time and pre-partition the non-time Cartesian box. This keeps
-                # wide sparse tables from spending an hour in one doomed stream.
-                boxes = _partition_specs(nt_specs_explicit)
+                # A single period already exceeds the target: pull one period at
+                # a time. Keep the sparse wildcard fast path; if a period still
+                # drops, _emit_box expands to explicit values and bisects.
                 for p in remaining:
-                    for box in boxes:
-                        specs = [dict(s) for s in box]
-                        specs.append({"code": time_code, "values": [p]})
-                        _emit_box(table_id, specs, time_codes, emit, values_by_code=values_by_code)
+                    _emit_box(
+                        table_id,
+                        nt_specs + [{"code": time_code, "values": [p]}],
+                        time_codes,
+                        emit,
+                        values_by_code=values_by_code,
+                    )
 
     if written == 0:
         # An active table that yields no rows means the BULK contract changed.
