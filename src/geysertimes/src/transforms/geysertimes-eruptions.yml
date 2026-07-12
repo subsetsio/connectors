@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geysertimes-eruptions`. Regenerate after model-verify.
+# caution: Rows are logged eruption or in-eruption observations from a community source; multiple rows can describe related observations around the same physical eruption, so aggregate with the observation flags and primary/associated identifiers in mind.
+key: [eruption_time, eruption_id, associated_primary_id, entrant, geyser_name]
+temporal: eruption_time
+sort: [eruption_time, eruption_id, associated_primary_id, entrant, geyser_name]
+columns:
+  - name: eruption_id
+    type: BIGINT
+  - name: geyser_id
+    type: BIGINT
+  - name: geyser_name
+    type: VARCHAR
+  - name: eruption_time_epoch
+    type: BIGINT
+  - name: eruption_time
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: has_seconds
+    type: BOOLEAN
+  - name: exact
+    type: BOOLEAN
+  - name: near_start
+    type: BOOLEAN
+  - name: in_eruption
+    type: BOOLEAN
+  - name: electronic
+    type: BOOLEAN
+  - name: approximate
+    type: BOOLEAN
+  - name: webcam
+    type: BOOLEAN
+  - name: initial
+    type: BOOLEAN
+  - name: major
+    type: BOOLEAN
+  - name: minor
+    type: BOOLEAN
+  - name: questionable
+    type: BOOLEAN
+  - name: duration_text
+    type: VARCHAR
+  - name: duration_seconds
+    type: BIGINT
+  - name: duration_resolution
+    type: VARCHAR
+  - name: duration_modifier
+    type: VARCHAR
+  - name: entrant
+    type: VARCHAR
+  - name: observer
+    type: VARCHAR
+  - name: eruption_comment
+    type: VARCHAR
+  - name: time_updated_epoch
+    type: BIGINT
+  - name: time_entered_epoch
+    type: BIGINT
+  - name: associated_primary_id
+    type: BIGINT
+  - name: other_comments
+    type: VARCHAR

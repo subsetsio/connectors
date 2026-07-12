@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geysertimes-eruptions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [eruption_time, eruption_id, associated_primary_id, entrant, geyser_name]
+temporal: eruption_time
+checks:
+  - kind: unique
+    columns: [eruption_time, eruption_id, associated_primary_id, entrant, geyser_name]
+  - kind: not_null
+    col: eruption_time
+  - kind: not_null
+    col: eruption_id
+  - kind: not_null
+    col: associated_primary_id
+  - kind: not_null
+    col: entrant
+  - kind: not_null
+    col: geyser_name
+  - kind: row_floor
+    min: 762438
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
