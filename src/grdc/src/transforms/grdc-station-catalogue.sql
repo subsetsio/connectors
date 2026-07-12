@@ -1,3 +1,5 @@
+-- caution: Hydrological summary fields describe long-term station-level characteristics
+-- from the catalogue, not time-series discharge observations.
 SELECT
     CAST(grdc_no AS BIGINT)                       AS grdc_no,
     TRY_CAST(wmo_reg AS INTEGER)                  AS wmo_region,

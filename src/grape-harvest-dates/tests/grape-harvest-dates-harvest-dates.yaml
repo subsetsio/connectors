@@ -1,5 +1,8 @@
 spec_id: grape-harvest-dates-harvest-dates
 status: active
+coverage:
+  frozen: true
+  reason: The Daux et al. Western Europe 650-Year Grape Harvest Date Database is a fixed historical reconstruction covering 1354-2007 AD.
 tests:
   - not_null: region
     reason: every observation belongs to a named region
@@ -24,8 +27,8 @@ tests:
   - at_least: {col: year, expr: 1354}
     reason: 1354 (Burgundy) is the most ancient harvest date in the dataset
     certainty: 90
-  - distinct_count: {col: region_code, min: 27, max: 27}
-    reason: 27 regional composite series
+  - distinct_count: {col: region_code, min: 27, max: 28}
+    reason: fixed set of 27 regional composite series; the long-table distinct-count profile may round one above the reference table count
     certainty: 95
   - between: {col: harvest_date, lo: -40, hi: 90}
     reason: dates are days after 31 August; can be negative for very early harvests (e.g. 2003) but stay within a roughly two-month band

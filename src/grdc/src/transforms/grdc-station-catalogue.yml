@@ -1,70 +1,104 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# caution: Hydrological summary fields describe long-term station-level characteristics
+# from the catalogue, not time-series discharge observations.
 key: [grdc_no]
 sort: [grdc_no]
 columns:
   - name: grdc_no
     type: BIGINT
+    description: GRDC station number, the unique identifier for a gauging station.
   - name: wmo_region
     type: INTEGER
+    description: World Meteorological Organization region code for the station location.
   - name: sub_region
     type: INTEGER
+    description: GRDC sub-region code for the station location.
   - name: river
     type: VARCHAR
+    description: River or watercourse name associated with the gauging station.
   - name: station
     type: VARCHAR
+    description: Gauging station name.
   - name: country
     type: VARCHAR
+    description: Country or territory where the gauging station is located.
   - name: nat_id
     type: VARCHAR
+    description: National station identifier from the contributing data provider, when supplied.
   - name: downstream_station_no
     type: VARCHAR
+    description: GRDC station number for the next downstream station, when supplied by the catalogue.
   - name: latitude
     type: DOUBLE
+    description: Station latitude in WGS84 decimal degrees.
   - name: longitude
     type: DOUBLE
+    description: Station longitude in WGS84 decimal degrees.
   - name: catchment_area_km2
     type: DOUBLE
+    description: Catchment area upstream of the station in square kilometres.
   - name: altitude_m
     type: DOUBLE
+    description: Station altitude in metres above sea level.
   - name: daily_start_year
     type: INTEGER
+    description: First year with daily discharge data represented in the GRDC catalogue.
   - name: daily_end_year
     type: INTEGER
+    description: Last year with daily discharge data represented in the GRDC catalogue.
   - name: daily_years
     type: DOUBLE
+    description: Number of daily-data years represented for the station.
   - name: daily_missing_pct
     type: DOUBLE
+    description: Percentage of missing observations in the station daily-data record.
   - name: monthly_start_year
     type: INTEGER
+    description: First year with monthly discharge data represented in the GRDC catalogue.
   - name: monthly_end_year
     type: INTEGER
+    description: Last year with monthly discharge data represented in the GRDC catalogue.
   - name: monthly_years
     type: DOUBLE
+    description: Number of monthly-data years represented for the station.
   - name: monthly_missing_pct
     type: DOUBLE
+    description: Percentage of missing observations in the station monthly-data record.
   - name: record_start_year
     type: INTEGER
+    description: First year represented by any discharge record in the catalogue for the station.
   - name: record_end_year
     type: INTEGER
+    description: Last year represented by any discharge record in the catalogue for the station.
   - name: record_years
     type: DOUBLE
+    description: Total number of record years represented for the station.
   - name: lta_discharge_m3s
     type: DOUBLE
+    description: Long-term average discharge at the station in cubic metres per second.
   - name: runoff_volume_km3_yr
     type: DOUBLE
+    description: Mean annual runoff volume in cubic kilometres per year.
   - name: runoff_height_mm_yr
     type: DOUBLE
+    description: Mean annual runoff depth in millimetres per year.
   - name: provider_id
     type: INTEGER
+    description: GRDC provider identifier for the contributing organization, when supplied.
   - name: last_import_year
     type: INTEGER
+    description: Year when the station metadata or data were last imported into GRDC.
   - name: timeseries_type
     type: VARCHAR
+    description: GRDC catalogue code describing the time-series availability or type for the station.
   - name: region_name
     type: VARCHAR
+    description: GRDC region name for the station.
   - name: subregion_name
     type: VARCHAR
+    description: GRDC sub-region name for the station.
   - name: ocean
     type: VARCHAR
+    description: Receiving ocean or endorheic drainage destination associated with the station basin.
   - name: river_basin
     type: VARCHAR
+    description: River basin name associated with the station.
