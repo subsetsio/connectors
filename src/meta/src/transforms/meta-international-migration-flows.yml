@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-international-migration-flows`. Regenerate after model-verify.
+# caution: Rows are directional monthly country-to-country flows; reversing country_from and country_to changes the measure.
 key: [country_from, country_to, migration_month]
 temporal: migration_month
 sort: [migration_month, country_from, country_to]
@@ -8,8 +10,8 @@ columns:
   - name: country_to
     type: VARCHAR
   - name: migration_month
-    type: VARCHAR
+    type: DATE
   - name: num_migrants
     type: BIGINT
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

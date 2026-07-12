@@ -1,0 +1,20 @@
+spec_id: npm-registry-stats
+status: active
+tests:
+  - not_null: observation_date
+  - not_null: doc_count
+  - not_null: update_seq
+  - column_type: {col: observation_date, type: date}
+  - column_type: {col: doc_count, type: integer}
+  - column_type: {col: update_seq, type: integer}
+  - unique: observation_date
+    reason: accumulated snapshot keeps at most one registry counter row per date
+    certainty: 95
+  - row_count: {min: 1}
+  - at_least: {col: doc_count, expr: 1000000}
+    reason: npm public registry has millions of package documents
+    certainty: 95
+  - freshness: {col: observation_date, reaches: today - 7d}
+    points_outward: true
+    reason: registry stats are fetched on each connector run
+    certainty: 90

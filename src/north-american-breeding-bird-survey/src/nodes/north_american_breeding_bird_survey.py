@@ -37,7 +37,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -206,6 +205,14 @@ def fetch_weather(node_id: str) -> None:
     _download_single_csv(url, node_id)
 
 
+def fetch_vehicle_data(node_id: str) -> None:
+    url = _file_url(
+        _raw_dataset_item(),
+        lambda n: n.lower().startswith("vehicledata") and _is_csv(n),
+    )
+    _download_single_csv(url, node_id)
+
+
 def fetch_species_list(node_id: str) -> None:
     url = _file_url(_raw_dataset_item(), lambda n: n.lower().startswith("specieslist") and _is_csv(n))
     _download_single_csv(url, node_id)
@@ -224,6 +231,14 @@ def fetch_fifty_stop_counts(node_id: str) -> None:
         _raw_dataset_item(),
         lambda n: ("50-stop" in n.lower() or "50stop" in n.lower() or "fifty" in n.lower())
         and n.lower().endswith(".zip"),
+    )
+    _stream_zip_csvs(url, node_id, FIFTY_COLUMNS)
+
+
+def fetch_migrant_nonbreeder(node_id: str) -> None:
+    url = _file_url(
+        _raw_dataset_item(),
+        lambda n: "migrantnonbreeder" in n.lower() and n.lower().endswith(".zip"),
     )
     _stream_zip_csvs(url, node_id, FIFTY_COLUMNS)
 
@@ -251,175 +266,13 @@ def fetch_analysis_expanded_trends(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-routes", fn=fetch_routes, kind="download"),
     NodeSpec(id=f"{SLUG}-weather", fn=fetch_weather, kind="download"),
+    NodeSpec(id=f"{SLUG}-vehicle-data", fn=fetch_vehicle_data, kind="download"),
     NodeSpec(id=f"{SLUG}-species-list", fn=fetch_species_list, kind="download"),
     NodeSpec(id=f"{SLUG}-state-counts", fn=fetch_state_counts, kind="download"),
     NodeSpec(id=f"{SLUG}-fifty-stop-counts", fn=fetch_fifty_stop_counts, kind="download"),
+    NodeSpec(id=f"{SLUG}-migrant-nonbreeder", fn=fetch_migrant_nonbreeder, kind="download"),
     NodeSpec(id=f"{SLUG}-analysis-core-indices", fn=fetch_analysis_core_indices, kind="download"),
     NodeSpec(id=f"{SLUG}-analysis-expanded-indices", fn=fetch_analysis_expanded_indices, kind="download"),
     NodeSpec(id=f"{SLUG}-analysis-core-trends", fn=fetch_analysis_core_trends, kind="download"),
     NodeSpec(id=f"{SLUG}-analysis-expanded-trends", fn=fetch_analysis_expanded_trends, kind="download"),
-]
-
-
-# --------------------------------------------------------------------------- #
-# Transforms — one published Delta table per subset
-# --------------------------------------------------------------------------- #
-def _counts_select(stop_cols: list[str]) -> str:
-    casts = ",\n            ".join(
-        f'TRY_CAST(TRIM("{c}") AS INTEGER) AS {c.lower()}' for c in stop_cols
-    )
-    return casts
-
-
-_ROUTES_SQL = f'''
-    SELECT
-        TRY_CAST(TRIM(CountryNum) AS INTEGER)        AS country_num,
-        TRIM(StateNum)                               AS state_num,
-        TRIM(Route)                                  AS route,
-        TRIM(RouteName)                              AS route_name,
-        TRY_CAST(TRIM(Active) AS INTEGER)            AS active,
-        TRY_CAST(TRIM(Latitude) AS DOUBLE)           AS latitude,
-        TRY_CAST(TRIM(Longitude) AS DOUBLE)          AS longitude,
-        TRY_CAST(TRIM(Stratum) AS INTEGER)           AS stratum,
-        TRY_CAST(TRIM(BCR) AS INTEGER)               AS bcr,
-        TRY_CAST(TRIM(RouteTypeID) AS INTEGER)       AS route_type_id,
-        TRY_CAST(TRIM(RouteTypeDetailID) AS INTEGER) AS route_type_detail_id
-    FROM "{SLUG}-routes"
-'''
-
-_WEATHER_SQL = f'''
-    SELECT
-        TRY_CAST(TRIM(RouteDataID) AS BIGINT)   AS route_data_id,
-        TRY_CAST(TRIM(CountryNum) AS INTEGER)   AS country_num,
-        TRIM(StateNum)                          AS state_num,
-        TRIM(Route)                             AS route,
-        TRIM(RPID)                              AS rpid,
-        TRY_CAST(TRIM(Year) AS INTEGER)         AS year,
-        TRY_CAST(TRIM(Month) AS INTEGER)        AS month,
-        TRY_CAST(TRIM(Day) AS INTEGER)          AS day,
-        TRIM(ObsN)                              AS observer_id,
-        TRY_CAST(TRIM(TotalSpp) AS INTEGER)     AS total_spp,
-        TRY_CAST(TRIM(StartTemp) AS DOUBLE)     AS start_temp,
-        TRY_CAST(TRIM(EndTemp) AS DOUBLE)       AS end_temp,
-        TRIM(TempScale)                         AS temp_scale,
-        TRY_CAST(TRIM(StartWind) AS INTEGER)    AS start_wind,
-        TRY_CAST(TRIM(EndWind) AS INTEGER)      AS end_wind,
-        TRY_CAST(TRIM(StartSky) AS INTEGER)     AS start_sky,
-        TRY_CAST(TRIM(EndSky) AS INTEGER)       AS end_sky,
-        TRIM(StartTime)                         AS start_time,
-        TRIM(EndTime)                           AS end_time,
-        TRY_CAST(TRIM(Assistant) AS INTEGER)    AS assistant,
-        TRY_CAST(TRIM(QualityCurrentID) AS INTEGER) AS quality_current_id,
-        TRY_CAST(TRIM(RunType) AS INTEGER)      AS run_type
-    FROM "{SLUG}-weather"
-'''
-
-_SPECIES_SQL = f'''
-    SELECT
-        TRY_CAST(TRIM(Seq) AS INTEGER) AS seq,
-        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
-        TRIM(English_Common_Name)      AS english_common_name,
-        TRIM(French_Common_Name)       AS french_common_name,
-        TRIM("Order")                  AS "order",
-        TRIM(Family)                   AS family,
-        TRIM(Genus)                    AS genus,
-        TRIM(Species)                  AS species
-    FROM "{SLUG}-species-list"
-'''
-
-_STATE_COUNTS_SQL = f'''
-    SELECT
-        TRY_CAST(TRIM(RouteDataID) AS BIGINT) AS route_data_id,
-        TRY_CAST(TRIM(CountryNum) AS INTEGER) AS country_num,
-        TRIM(StateNum)                        AS state_num,
-        TRIM(Route)                           AS route,
-        TRIM(RPID)                            AS rpid,
-        TRY_CAST(TRIM(Year) AS INTEGER)       AS year,
-        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
-        {_counts_select(["Count10", "Count20", "Count30", "Count40", "Count50", "StopTotal", "SpeciesTotal"])}
-    FROM "{SLUG}-state-counts"
-'''
-
-_FIFTY_SQL = f'''
-    SELECT
-        TRY_CAST(TRIM(RouteDataID) AS BIGINT) AS route_data_id,
-        TRY_CAST(TRIM(CountryNum) AS INTEGER) AS country_num,
-        TRIM(StateNum)                        AS state_num,
-        TRIM(Route)                           AS route,
-        TRIM(RPID)                            AS rpid,
-        TRY_CAST(TRIM(Year) AS INTEGER)       AS year,
-        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
-        {_counts_select([f"Stop{i}" for i in range(1, 51)])}
-    FROM "{SLUG}-fifty-stop-counts"
-'''
-
-
-def _indices_sql(asset_id: str) -> str:
-    return f'''
-    SELECT
-        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
-        TRIM(Region)                    AS region,
-        TRY_CAST(TRIM(Year) AS INTEGER) AS year,
-        TRY_CAST(TRIM("Index") AS DOUBLE)   AS annual_index,
-        TRY_CAST(TRIM("2.5%CI") AS DOUBLE)  AS ci_lower,
-        TRY_CAST(TRIM("97.5%CI") AS DOUBLE) AS ci_upper
-    FROM "{asset_id}"
-    WHERE TRIM(AOU) <> '' AND TRIM(Year) <> ''
-'''
-
-
-def _trends_sql(asset_id: str, has_years: bool) -> str:
-    cols = [
-        'TRY_CAST(TRIM(AOU) AS INTEGER) AS aou',
-        'TRIM(Region) AS region',
-        'TRIM("Region Name") AS region_name',
-        'TRIM(Species) AS species',
-        'TRIM(Model) AS model',
-        'TRIM("Credibility Code") AS credibility_code',
-        'TRIM("Sample Size Code") AS sample_size_code',
-        'TRIM("Precision Code") AS precision_code',
-        'TRIM("Abundance Code") AS abundance_code',
-        'TRIM(Significance) AS significance',
-        'TRY_CAST(TRIM("N Routes") AS INTEGER) AS n_routes',
-        'TRY_CAST(TRIM(Trend) AS DOUBLE) AS trend',
-        'TRY_CAST(TRIM("2.5%CI") AS DOUBLE) AS ci_lower',
-        'TRY_CAST(TRIM("97.5%CI") AS DOUBLE) AS ci_upper',
-        'TRY_CAST(TRIM("Relative Abundance") AS DOUBLE) AS relative_abundance',
-    ]
-    if has_years:
-        cols.append('TRIM(Years) AS years')
-    select = ",\n        ".join(cols)
-    return f'''
-    SELECT
-        {select}
-    FROM "{asset_id}"
-    WHERE TRIM(AOU) <> ''
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{SLUG}-routes-transform", deps=[f"{SLUG}-routes"], sql=_ROUTES_SQL),
-    SqlNodeSpec(id=f"{SLUG}-weather-transform", deps=[f"{SLUG}-weather"], sql=_WEATHER_SQL),
-    SqlNodeSpec(id=f"{SLUG}-species-list-transform", deps=[f"{SLUG}-species-list"], sql=_SPECIES_SQL),
-    SqlNodeSpec(id=f"{SLUG}-state-counts-transform", deps=[f"{SLUG}-state-counts"], sql=_STATE_COUNTS_SQL),
-    SqlNodeSpec(id=f"{SLUG}-fifty-stop-counts-transform", deps=[f"{SLUG}-fifty-stop-counts"], sql=_FIFTY_SQL),
-    SqlNodeSpec(
-        id=f"{SLUG}-analysis-core-indices-transform",
-        deps=[f"{SLUG}-analysis-core-indices"],
-        sql=_indices_sql(f"{SLUG}-analysis-core-indices"),
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-analysis-expanded-indices-transform",
-        deps=[f"{SLUG}-analysis-expanded-indices"],
-        sql=_indices_sql(f"{SLUG}-analysis-expanded-indices"),
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-analysis-core-trends-transform",
-        deps=[f"{SLUG}-analysis-core-trends"],
-        sql=_trends_sql(f"{SLUG}-analysis-core-trends", has_years=True),
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-analysis-expanded-trends-transform",
-        deps=[f"{SLUG}-analysis-expanded-trends"],
-        sql=_trends_sql(f"{SLUG}-analysis-expanded-trends", has_years=False),
-    ),
 ]

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-relative-wealth-index`. Regenerate after model-verify.
+# caution: Some source files do not provide quadkeys, so the row identity is the source file plus coordinate and measured values.
+# caution: Relative Wealth Index values are comparable as modeled estimates, not counts or totals.
+key: [source_file, latitude, longitude, rwi, error]
+sort: [source_file, latitude, longitude, rwi, error]
 columns:
   - name: quadkey
     type: VARCHAR
@@ -10,5 +15,5 @@ columns:
     type: DOUBLE
   - name: error
     type: DOUBLE
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-uk-social-capital-atlas`. Regenerate after model-verify.
+# caution: The source-provided row number column0 is part of the row identity because the table unions multiple UK geography and metric files.
+# caution: Filter to one _source_file before interpreting zip_prediction, lad_code, or measurement_category.
+key: [source_file, ds, column0]
 temporal: ds
-sort: [ds]
+sort: [ds, source_file, column0]
 columns:
   - name: column0
     type: BIGINT
@@ -12,7 +16,7 @@ columns:
     type: DOUBLE
   - name: ds
     type: DATE
-  - name: _source_file
+  - name: source_file
     type: VARCHAR
   - name: measurement_category
     type: VARCHAR

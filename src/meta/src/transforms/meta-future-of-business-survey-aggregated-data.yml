@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-future-of-business-survey-aggregated-data`. Regenerate after model-verify.
+# caution: This table unions multiple Future of Business survey extracts with different schemas and many file-specific identifier columns.
+# caution: Rows are pre-aggregated survey estimates; compare within a consistent source file, population, question, and answer coding.
+key: []
 columns:
   - name: variable
     type: VARCHAR
@@ -18,7 +22,7 @@ columns:
     type: BIGINT
   - name: question_text
     type: VARCHAR
-  - name: _source_file
+  - name: source_file
     type: VARCHAR
   - name: country_iso2
     type: VARCHAR
@@ -34,25 +38,25 @@ columns:
     type: VARCHAR
   - name: column11
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Wave (number)
+  - name: wave_number
     type: BIGINT
-  - name: Wave (month/year)
+  - name: wave_month_year
     type: VARCHAR
-  - name: Topic covered by question
+  - name: topic_covered_by_question
     type: VARCHAR
-  - name: Question
+  - name: question
     type: VARCHAR
-  - name: Question/Row number
+  - name: question_row_number
     type: VARCHAR
-  - name: Row item label
+  - name: row_item_label
     type: VARCHAR
-  - name: Answer option label
+  - name: answer_option_label
     type: VARCHAR
-  - name: Base description (Who saw the question?)
+  - name: base_description_who_saw_the_question
     type: VARCHAR
-  - name: Base size (How many saw this question?)
+  - name: base_size_how_many_saw_this_question
     type: BIGINT
-  - name: Data type represented by "value"
+  - name: data_type_represented_by_value
     type: VARCHAR

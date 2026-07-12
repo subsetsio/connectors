@@ -83,9 +83,7 @@ def fetch_security_advisories(node_id: str) -> None:
     print(f"  {node_id}: {table.num_rows:,} advisory rows")
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="npm-security-advisories", fn=fetch_security_advisories, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

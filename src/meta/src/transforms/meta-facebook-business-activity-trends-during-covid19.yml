@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: ds
-sort: [ds]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-facebook-business-activity-trends-during-covid19`. Regenerate after model-verify.
+# caution: Rows are daily quantile-style activity measures by GADM geography and business vertical; do not sum activity_quantile across geographies or verticals.
+key: [ds, gadm_id, gadm_name, gadm0_name, business_vertical]
+temporal: crisis_ds
+sort: [crisis_ds, ds, gadm_id, gadm_name, gadm0_name, business_vertical]
 columns:
   - name: gadm_id
     type: VARCHAR
@@ -26,5 +29,5 @@ columns:
     type: DATE
   - name: ds
     type: DATE
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

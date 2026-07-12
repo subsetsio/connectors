@@ -35,9 +35,7 @@ def fetch_popular_packages(node_id: str) -> None:
     print(f"  {node_id}: {table.num_rows:,} packages")
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="npm-popular-packages", fn=fetch_popular_packages, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

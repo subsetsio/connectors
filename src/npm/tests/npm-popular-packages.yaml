@@ -1,0 +1,17 @@
+spec_id: npm-popular-packages
+status: active
+tests:
+  - not_null: name
+  - column_type: {col: name, type: string}
+  - column_type: {col: monthly_downloads, type: integer}
+  - column_type: {col: weekly_downloads, type: integer}
+  - unique: name
+    reason: search results are deduplicated to one row per package name
+    certainty: 95
+  - row_count: {min: 1500}
+    reason: connector targets the top 2000 packages and should not silently under-enumerate
+    certainty: 90
+  - freshness: {col: date, reaches: today - 90d}
+    points_outward: true
+    reason: the popularity-ranked package head should include recently published packages
+    certainty: 75

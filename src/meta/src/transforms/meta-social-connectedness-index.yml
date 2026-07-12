@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-social-connectedness-index`. Regenerate after model-verify.
+# caution: Rows describe directed region-to-region social connectedness pairs; user and friend regions are not interchangeable.
+key: [user_region, friend_region, user_country, friend_country, source_file]
+sort: [user_region, friend_region, user_country, friend_country, source_file]
 columns:
   - name: user_country
     type: VARCHAR
@@ -10,7 +14,7 @@ columns:
     type: VARCHAR
   - name: scaled_sci
     type: BIGINT
-  - name: _source_file
+  - name: source_file
     type: VARCHAR
   - name: column0
     type: VARCHAR

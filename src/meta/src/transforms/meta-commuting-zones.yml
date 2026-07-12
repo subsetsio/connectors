@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [fbcz_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-commuting-zones`. Regenerate after model-verify.
+# caution: Commuting zones are generated geographies; use their ids rather than names for joins.
+key: [fbcz_id_num]
 temporal: cz_gen_ds
-sort: [cz_gen_ds, fbcz_id]
+sort: [cz_gen_ds, fbcz_id_num]
 columns:
   - name: region
     type: VARCHAR
@@ -23,5 +25,5 @@ columns:
     type: VARCHAR
   - name: geography
     type: VARCHAR
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-movement-distribution`. Regenerate after model-verify.
+# caution: Rows are daily movement distribution categories by geography; categories are parts of a distribution and should not be mixed without filtering.
+key: [ds, gadm_id, country, source_file, home_to_ping_distance_category]
+temporal: ds
+sort: [ds, gadm_id, country, source_file, home_to_ping_distance_category]
 columns:
   - name: gadm_id
     type: VARCHAR
@@ -14,5 +19,5 @@ columns:
     type: DOUBLE
   - name: ds
     type: DATE
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

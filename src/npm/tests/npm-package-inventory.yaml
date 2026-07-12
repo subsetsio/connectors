@@ -1,0 +1,13 @@
+spec_id: npm-package-inventory
+status: active
+tests:
+  - not_null: package
+  - not_null: rev
+  - column_type: {col: package, type: string}
+  - column_type: {col: rev, type: string}
+  - unique: package
+    reason: CouchDB _all_docs returns one current row per package document id
+    certainty: 95
+  - row_count: {min: 1000000}
+    reason: npm public registry has millions of live package documents
+    certainty: 95

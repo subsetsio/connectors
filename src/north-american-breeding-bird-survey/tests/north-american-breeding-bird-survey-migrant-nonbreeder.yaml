@@ -1,0 +1,16 @@
+spec_id: north-american-breeding-bird-survey-migrant-nonbreeder
+status: active
+tests:
+  - not_null: aou
+  - not_null: route_data_id
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1966, hi: current_year()}
+    reason: migrant/non-breeder observations are drawn from historical BBS route runs
+    certainty: 80
+  - row_count: {min: 1000}
+    reason: migrant/non-breeder observations are a smaller companion table, but should not be tiny
+    certainty: 75
+  - at_least: {col: stop1, expr: 0}
+    reason: per-stop bird counts are non-negative
+    certainty: 90
+    severity: warn

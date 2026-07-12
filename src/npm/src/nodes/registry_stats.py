@@ -43,9 +43,7 @@ def fetch_registry_stats(node_id: str) -> None:
     print(f"  {node_id}: {table.num_rows:,} daily snapshots (latest {today})")
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="npm-registry-stats", fn=fetch_registry_stats, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

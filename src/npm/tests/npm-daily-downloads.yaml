@@ -1,0 +1,19 @@
+spec_id: npm-daily-downloads
+status: active
+tests:
+  - not_null: package
+  - not_null: date
+  - not_null: downloads
+  - column_type: {col: package, type: string}
+  - column_type: {col: date, type: date}
+  - column_type: {col: downloads, type: integer}
+  - unique: [package, date]
+    reason: downloads/range returns one row per package-day
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: trailing year for the popular package head should produce hundreds of thousands of package-day rows
+    certainty: 80
+  - freshness: {col: date, reaches: today - 7d}
+    points_outward: true
+    reason: npm download counts are daily but can lag by a few days
+    certainty: 85

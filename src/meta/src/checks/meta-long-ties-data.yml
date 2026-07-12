@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `meta-long-ties-data`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [unit_id, source_file, country, unit]
+checks:
+  - kind: unique
+    columns: [unit_id, source_file, country, unit]
+  - kind: not_null
+    col: unit_id
+  - kind: not_null
+    col: source_file
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 26452
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

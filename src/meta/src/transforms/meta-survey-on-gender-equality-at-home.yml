@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-survey-on-gender-equality-at-home`. Regenerate after model-verify.
+# caution: This table unions country-level, region-level, and questionnaire metadata extracts; many identifier columns are only populated for one extract type.
+# caution: Filter to one _source_file before interpreting country, region, gender, variable, or response-category fields.
+key: []
+temporal: year
+sort: [year]
 columns:
-  - name: Year
+  - name: year
     type: BIGINT
-  - name: Region
+  - name: region
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Internet_Penetration
+  - name: internet_penetration
     type: VARCHAR
-  - name: Gender
+  - name: gender
     type: VARCHAR
   - name: a1_agree
     type: BIGINT
@@ -186,21 +190,21 @@ columns:
     type: BIGINT
   - name: d7_work
     type: BIGINT
-  - name: _source_file
+  - name: source_file
     type: VARCHAR
-  - name: Variable
+  - name: variable
     type: VARCHAR
-  - name: Variable Label
+  - name: variable_label
     type: VARCHAR
-  - name: Response Category
+  - name: response_category
     type: VARCHAR
-  - name: Notes
+  - name: notes
     type: VARCHAR
-  - name: Important information about this dataset
+  - name: important_information_about_this_dataset
     type: VARCHAR
   - name: column1
     type: VARCHAR
-  - name: "Important note: This datasets combines available country-level aggregate data from all waves of the Survey on Gender Equality at Home, specifically for the purpose of facilitating longitudinal comparisons. Individual datasets for each wave are also publicly available. Before using this dataset for any reason, review the individual wave datasets first for important information, context, limitations, and additional notes about each wave's survey, questionnaire, variables, and data. These files are available on the UN Humanitarian Data Exchange here: https://data.humdata.org/dataset/survey-on-gender-equality-at-home"
+  - name: important_note_this_datasets_combines_available_country_level_aggregate_data_from_all_waves_of_the_survey_on_gender_equality_at_home_specifically_for_the_purpose_of_facilitating_longitudinal_comparisons_individual_datasets_for_each_wave_are_also_publicly_available_before_using_this_dataset_for_any_reason_review_the_individual_wave_datasets_first_for_important_information_context_limitations_and_additional_notes_about_each_wave_s_survey_questionnaire_variables_and_data_these_files_are_available_on_the_un_humanitarian_data_exchange_here_https_data_humdata_org_dataset_survey_on_gender_equality_at_home
     type: VARCHAR
-  - name: "Important note: This datasets combines available region-level aggregate data from all waves of the Survey on Gender Equality at Home, specifically for the purpose of facilitating longitudinal comparisons. Individual datasets for each wave are also publicly available. Before using this dataset for any reason, review the individual wave datasets first for important information, context, limitations, and additional notes about each wave's survey, questionnaire, variables, and data. These files are available on the UN Humanitarian Data Exchange here: https://data.humdata.org/dataset/survey-on-gender-equality-at-home"
+  - name: important_note_this_datasets_combines_available_region_level_aggregate_data_from_all_waves_of_the_survey_on_gender_equality_at_home_specifically_for_the_purpose_of_facilitating_longitudinal_comparisons_individual_datasets_for_each_wave_are_also_publicly_available_before_using_this_dataset_for_any_reason_review_the_individual_wave_datasets_first_for_important_information_context_limitations_and_additional_notes_about_each_wave_s_survey_questionnaire_variables_and_data_these_files_are_available_on_the_un_humanitarian_data_exchange_here_https_data_humdata_org_dataset_survey_on_gender_equality_at_home
     type: VARCHAR

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-climate-change-opinion-survey`. Regenerate after model-verify.
+# caution: Responses are already aggregated by country, region, variable, and response category; filter to a single variable/response before comparing countries.
+key: [country_code, response, country, variable, region]
+sort: [country_code, response, country, variable, region]
 columns:
   - name: region
     type: VARCHAR
@@ -10,7 +14,7 @@ columns:
     type: VARCHAR
   - name: freq
     type: DOUBLE
-  - name: N
+  - name: n
     type: DOUBLE
   - name: prop
     type: DOUBLE
@@ -18,5 +22,5 @@ columns:
     type: DOUBLE
   - name: variable
     type: VARCHAR
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

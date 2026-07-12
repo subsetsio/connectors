@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `meta-social-connectedness-index`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [user_region, friend_region, user_country, friend_country, source_file]
+checks:
+  - kind: unique
+    columns: [user_region, friend_region, user_country, friend_country, source_file]
+  - kind: not_null
+    col: user_region
+  - kind: not_null
+    col: friend_region
+  - kind: not_null
+    col: user_country
+  - kind: not_null
+    col: friend_country
+  - kind: not_null
+    col: source_file
+  - kind: row_floor
+    min: 20348991
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -31,7 +31,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_parquet_writer
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 
 CKAN = "https://data.humdata.org/api/3/action"
 
@@ -318,36 +318,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"meta-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per entity. The download already normalized and
-# typed each package into a single parquet, so the transform is a thin
-# republish (the 0-row guard in the runtime is the correctness gate).
-#
-# Per-entity grain declarations. Only entities with a genuinely unique key
-# and/or a clear observation-period column are listed; the heterogeneous
-# multi-level union-by-name tables (social-capital-atlas, relative-wealth-index,
-# social-connectedness-index, movement-*, future-of-business, etc.) have no
-# single stable grain and are left undeclared.
-_GRAIN = {
-    "commuting-zones": {"key": ("fbcz_id",), "temporal": "cz_gen_ds"},
-    "cross-gender-ties": {"key": ("region_id",)},
-    "facebook-business-activity-trends-during-covid19": {"temporal": "ds"},
-    "facebook-business-activity-trends-during-crisis": {"temporal": "ds"},
-    "international-migration-flows": {
-        "key": ("country_from", "country_to", "migration_month"),
-        "temporal": "migration_month",
-    },
-    "survey-on-gender-equality-at-home": {"temporal": "Year"},
-    "uk-social-capital-atlas": {"temporal": "ds"},
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        **_GRAIN.get(s.id[len("meta-"):], {}),
-    )
-    for s in DOWNLOAD_SPECS
 ]

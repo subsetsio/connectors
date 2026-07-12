@@ -1,0 +1,19 @@
+spec_id: npm-package-versions
+status: active
+tests:
+  - not_null: package
+  - not_null: version
+  - not_null: published_at
+  - column_type: {col: package, type: string}
+  - column_type: {col: version, type: string}
+  - column_type: {col: published_at, type: timestamp}
+  - unique: [package, version]
+    reason: packuments contain one document per package version
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: the popular package head should include many versions per package
+    certainty: 85
+  - freshness: {col: published_at, reaches: today - 90d}
+    points_outward: true
+    reason: at least one package in the popular head should have a recent publish
+    certainty: 75

@@ -66,9 +66,7 @@ def fetch_daily_downloads(node_id: str) -> None:
     print(f"  {node_id}: {table.num_rows:,} download rows")
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="npm-daily-downloads", fn=fetch_daily_downloads, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

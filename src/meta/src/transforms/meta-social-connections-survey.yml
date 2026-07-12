@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-social-connections-survey`. Regenerate after model-verify.
+# caution: Rows are aggregated survey responses; filter by variable or question_text before comparing the value column across countries.
+key: [value, variable, question_text, notes, country]
+sort: [value, variable, question_text, notes, country]
 columns:
   - name: country
     type: VARCHAR
@@ -20,5 +24,5 @@ columns:
     type: VARCHAR
   - name: notes
     type: VARCHAR
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

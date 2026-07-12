@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `meta-long-ties-data`. Regenerate after model-verify.
+# caution: The table combines different geographic unit files; include _source_file and unit when comparing or joining unit_id values.
+key: [unit_id, source_file, country, unit]
+sort: [unit_id, source_file, country, unit]
 columns:
   - name: unit_id
     type: VARCHAR
@@ -16,5 +20,5 @@ columns:
     type: VARCHAR
   - name: unit
     type: VARCHAR
-  - name: _source_file
+  - name: source_file
     type: VARCHAR

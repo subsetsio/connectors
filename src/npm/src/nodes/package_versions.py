@@ -60,9 +60,7 @@ def fetch_package_versions(node_id: str) -> None:
     print(f"  {node_id}: {table.num_rows:,} version rows")
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="npm-package-versions", fn=fetch_package_versions, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(
