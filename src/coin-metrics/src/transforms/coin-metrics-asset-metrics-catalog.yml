@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `coin-metrics-asset-metrics-catalog`. Regenerate after model-verify.
+# caution: Metric codes in the catalog can repeat across category, subcategory, unit, and type, so use the full catalog grain when treating rows as definitions.
+key: [metric, subcategory, unit, category, type]
+sort: [metric, subcategory, unit, category, type]
 columns:
   - name: metric
     type: VARCHAR
@@ -22,5 +26,3 @@ columns:
     type: VARCHAR
   - name: docs_url
     type: VARCHAR
-key:
-  - metric

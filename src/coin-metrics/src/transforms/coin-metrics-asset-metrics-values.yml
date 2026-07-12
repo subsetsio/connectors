@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `coin-metrics-asset-metrics-values`. Regenerate after model-verify.
+# caution: Rows mix metrics with different definitions and units; filter or group by metric, and use the metric catalog before aggregating values.
+key: [date, asset, metric]
+temporal: date
+sort: [date, asset, metric]
 columns:
   - name: asset
     type: VARCHAR
@@ -8,8 +13,3 @@ columns:
     type: DATE
   - name: value
     type: DOUBLE
-key:
-  - asset
-  - metric
-  - date
-temporal: date
