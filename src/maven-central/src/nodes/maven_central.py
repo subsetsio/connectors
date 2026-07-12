@@ -126,7 +126,19 @@ def _iter_index_records():
                 yield record
 
 
-def _artifact_from_record(record: dict[str, str]) -> tuple[str, str, str, str | None, int | None] | None:
+def _is_derivative_file(extension: str | None) -> bool:
+    if not extension:
+        return False
+    return (
+        extension.endswith((".sha1", ".sha256", ".sha512", ".md5"))
+        or extension.endswith(".asc")
+        or ".asc." in extension
+    )
+
+
+def _artifact_from_record(
+    record: dict[str, str],
+) -> tuple[str, str, str, str | None, int | None, bool] | None:
     uinfo = record.get("u")
     if not uinfo or "del" in record:
         return None
@@ -136,11 +148,13 @@ def _artifact_from_record(record: dict[str, str]) -> tuple[str, str, str, str | 
         return None
 
     group_id, artifact_id, version = parts[:3]
+    classifier = parts[3] if len(parts) > 3 else "NA"
     if not group_id or not artifact_id or not version:
         return None
 
     packaging = None
     modified = None
+    extension = None
     info = record.get("i")
     if info:
         info_parts = info.split("|")
@@ -151,11 +165,19 @@ def _artifact_from_record(record: dict[str, str]) -> tuple[str, str, str, str | 
                 modified = int(info_parts[1])
             except ValueError:
                 modified = None
+        if len(info_parts) > 6 and info_parts[6] != "NA":
+            extension = info_parts[6] or None
 
-    if packaging is None and len(parts) > 4 and parts[4] != "NA":
-        packaging = parts[4] or None
+    if extension is None and len(parts) > 4 and parts[4] != "NA":
+        extension = parts[4] or None
 
-    return group_id, artifact_id, version, packaging, modified
+    if _is_derivative_file(extension or packaging):
+        return None
+
+    if packaging is None:
+        packaging = extension
+
+    return group_id, artifact_id, version, packaging, modified, classifier == "NA"
 
 
 def _to_batches(artifacts: dict[tuple[str, str], dict]) -> Iterator[pa.RecordBatch]:
@@ -201,7 +223,7 @@ def fetch_artifacts(node_id: str) -> None:
         if parsed is None:
             continue
 
-        group_id, artifact_id, version, packaging, modified = parsed
+        group_id, artifact_id, version, packaging, modified, is_primary = parsed
         key = (group_id, artifact_id)
         current = artifacts.get(key)
         if current is None:
@@ -209,15 +231,22 @@ def fetch_artifacts(node_id: str) -> None:
                 "latest_version": version,
                 "packaging": packaging,
                 "last_updated": modified,
+                "primary_seen": is_primary,
                 "versions": {version},
             }
         else:
             current["versions"].add(version)
             current_ts = current["last_updated"]
-            if modified is not None and (current_ts is None or modified >= current_ts):
+            should_update = modified is not None and (current_ts is None or modified >= current_ts)
+            if current["primary_seen"] and not is_primary:
+                should_update = False
+            elif is_primary and not current["primary_seen"]:
+                should_update = True
+            if should_update:
                 current["latest_version"] = version
                 current["packaging"] = packaging or current["packaging"]
                 current["last_updated"] = modified
+                current["primary_seen"] = is_primary
         records_seen += 1
 
     if len(artifacts) < 400_000:
