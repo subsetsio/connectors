@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `udise-r43`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [location_name, sch_mgmt_name, category_name, loc_name]
+checks:
+  - kind: unique
+    columns: [location_name, sch_mgmt_name, category_name, loc_name]
+  - kind: not_null
+    col: location_name
+  - kind: not_null
+    col: sch_mgmt_name
+  - kind: not_null
+    col: category_name
+  - kind: not_null
+    col: loc_name
+  - kind: row_floor
+    min: 1474
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

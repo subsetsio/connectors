@@ -1,0 +1,48 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This report is a wide UDISE+ cross-tab with no verified row key in the raw profile; treat rows as report records and filter the relevant dimensions before aggregating values.
+SELECT
+    "_udise_report_code" AS udise_report_code,
+    "_udise_report_id" AS udise_report_id,
+    CAST("_udise_year_id" AS BIGINT) AS udise_year_id,
+    "category_name",
+    "primaryonlym",
+    "preprimaryonlym",
+    "primaryftotal",
+    "primaryonlyf",
+    "secondaryonlym",
+    "highersecondaryftotal",
+    "secondaryandhighersecondarym",
+    "preprimarymtotal",
+    "preprimarytotal",
+    "upperprimarymtotal",
+    "highersecondarymtotal",
+    "upperprimaryonlyf",
+    "secondaryonlyf",
+    "secondaryandhighersecondaryf",
+    "upperprimaryonlym",
+    "preprimaryprimaryf",
+    "upperprimarytotal",
+    "upperprimaryandsecondarym",
+    "highersecondarytotal",
+    "highersecondaryonlyf",
+    "primarymtotal",
+    "preprimaryprimarym",
+    "preprimaryftotal",
+    "highersecondaryonlym",
+    "sch_category_id",
+    "upperprimaryftotal",
+    "secondaryftotal",
+    "preprimaryonlyf",
+    "location_name",
+    "sch_mgmt_id",
+    "secondarytotal",
+    "primaryandupperprimaryf",
+    "primaryandupperprimarym",
+    "upperprimaryandsecondaryf",
+    "primarytotal",
+    "secondarymtotal",
+    "sch_mgmt_name"
+FROM "udise-r107"
