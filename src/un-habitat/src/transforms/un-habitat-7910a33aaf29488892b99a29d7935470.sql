@@ -25,8 +25,8 @@ SELECT
     "descrip",
     "categoria",
     "Id" AS id,
-    CAST("osm_id" AS BIGINT) AS osm_id,
+    CAST(src."osm_id" AS BIGINT) AS osm_id,
     "highway",
     "longitud_m",
     "ancho_via"
-FROM "un-habitat-7910a33aaf29488892b99a29d7935470"
+FROM "un-habitat-7910a33aaf29488892b99a29d7935470" AS src
