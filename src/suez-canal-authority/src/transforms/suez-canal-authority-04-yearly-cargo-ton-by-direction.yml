@@ -1,8 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, direction]
+temporal: year
+sort: [year, direction]
 columns:
   - name: year
     type: INTEGER
+    description: calendar year
   - name: direction
     type: VARCHAR
+    description: transit direction label, northbound/southbound
   - name: cargo_ton
     type: DOUBLE
+    description: cargo tons for the year and transit direction

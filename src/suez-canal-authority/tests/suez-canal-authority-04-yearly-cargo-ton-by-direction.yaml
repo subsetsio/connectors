@@ -1,6 +1,7 @@
 spec_id: suez-canal-authority-04-yearly-cargo-ton-by-direction
 status: active
 tests:
+  - freshness: {col: "Year", reaches: 2025}
   - not_null: "Year"
   - not_null: "Direction"
   - unique: ["Year", "Direction"]

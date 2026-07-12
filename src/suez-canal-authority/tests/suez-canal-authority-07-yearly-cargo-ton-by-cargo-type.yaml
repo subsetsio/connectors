@@ -1,5 +1,8 @@
 spec_id: suez-canal-authority-07-yearly-cargo-ton-by-cargo-type
 status: active
+coverage:
+  frozen: true
+  reason: this Power BI tab is a historical cargo-type table ending in 2019; current cargo statistics are exposed in separate summary tabs.
 tests:
   - not_null: "Year"
   - not_null: "CargoType"

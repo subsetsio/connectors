@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `suez-canal-authority-01-monthly-number-net-ton-by-ship-type`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, ship_type, direction, cargo_state]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, ship_type, direction, cargo_state]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: ship_type
+  - kind: not_null
+    col: direction
+  - kind: not_null
+    col: cargo_state
+  - kind: row_floor
+    min: 2100
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

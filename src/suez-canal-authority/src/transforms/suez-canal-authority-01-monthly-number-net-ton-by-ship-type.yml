@@ -1,18 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, ship_type, direction, cargo_state]
+temporal: date
+sort: [date, ship_type, direction, cargo_state]
 columns:
   - name: date
     type: DATE
+    description: first day of the reported month
   - name: year
     type: INTEGER
+    description: calendar year of the reported month
   - name: month
     type: INTEGER
+    description: month number, 1 through 12
   - name: ship_type
     type: VARCHAR
+    description: vessel type category from the Suez Canal Authority report
   - name: direction
     type: VARCHAR
+    description: transit direction label, northbound/southbound
   - name: cargo_state
     type: VARCHAR
+    description: vessel loading state from the source report
   - name: num_vessels
     type: BIGINT
+    description: number of vessel transits for this month and vessel slice
   - name: net_tonnage
     type: DOUBLE
+    description: net tonnage for this month and vessel slice

@@ -1,5 +1,8 @@
 spec_id: suez-canal-authority-06-yealy-cargo-ton-by-region-cont
 status: active
+coverage:
+  frozen: true
+  reason: this Power BI tab is a historical regional continuation table ending in 2019; current regional statistics are not exposed in this tab.
 tests:
   - not_null: year
   - not_null: "Region"

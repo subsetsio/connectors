@@ -1,14 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [fiscal_year]
+sort: [fiscal_year]
 columns:
   - name: fiscal_year
     type: VARCHAR
+    description: fiscal year label as published by the Suez Canal Authority
   - name: num_vessels
     type: BIGINT
+    description: number of vessel transits in the fiscal year
   - name: net_ton
     type: DOUBLE
+    description: net tons in the fiscal year
   - name: cargo_ton
     type: DOUBLE
+    description: cargo tons in the fiscal year
   - name: tolls_million_usd
     type: DOUBLE
+    description: toll revenue in millions of US dollars
   - name: tolls_million_egp
     type: DOUBLE
+    description: toll revenue in millions of Egyptian pounds

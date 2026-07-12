@@ -1,14 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, quarter, ship_type, direction]
+temporal: year
+sort: [year, quarter, ship_type, direction]
 columns:
   - name: year
     type: INTEGER
+    description: calendar year
   - name: quarter
     type: INTEGER
+    description: calendar quarter number, 1 through 4
   - name: ship_type
     type: VARCHAR
+    description: vessel type or category name from the source report
   - name: direction
     type: VARCHAR
+    description: transit direction label, northbound/southbound
   - name: num_vessels
     type: BIGINT
+    description: number of vessel transits after aggregating source component rows
   - name: net_tonnage
     type: DOUBLE
+    description: net tonnage after aggregating source component rows

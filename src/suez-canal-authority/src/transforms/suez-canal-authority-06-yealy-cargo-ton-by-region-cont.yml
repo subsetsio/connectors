@@ -1,14 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, region_code, direction, terminal]
+temporal: year
+sort: [year, region_code, direction, terminal]
 columns:
   - name: year
     type: INTEGER
+    description: calendar year
   - name: region
     type: VARCHAR
+    description: world region label from the source report
   - name: region_code
     type: VARCHAR
+    description: source region code
   - name: direction
     type: VARCHAR
+    description: transit direction label, northbound/southbound
   - name: terminal
     type: VARCHAR
+    description: source terminal or route grouping
   - name: cargo_tonnage
     type: DOUBLE
+    description: cargo tonnage after aggregating source component rows

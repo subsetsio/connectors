@@ -1,5 +1,8 @@
 spec_id: suez-canal-authority-01-monthly-number-net-ton-by-ship-type
 status: active
+coverage:
+  frozen: true
+  reason: this Power BI tab is a historical monthly ship-type table ending in 2020; newer SCA statistics are covered by the separate current annual and quarterly tabs.
 tests:
   - not_null: year
   - column_type: {col: year, type: integer}
