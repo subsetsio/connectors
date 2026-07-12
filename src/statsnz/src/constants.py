@@ -104,7 +104,7 @@ ENTITY_IDS = [
     'subnational-period-life-tables-2022-2024',
     'subnational-population-estimates-at-30-june-2021',
     'tatauranga-umanga-maori-statistics-on-maori-businesses-2024-english',
-    'tatauranga-umanga-maori-statistics-on-maori-businesses-december-2025-quarter',
+    'tatauranga-umanga-maori-statistics-on-maori-businesses-march-2026-quarter',
     'te-kupenga-2018-final-english-csv',
     'te-kupenga-2018-whakamutunga-te-reo-maori',
     'te-pa-harakeke-data-from-2018-census-csv',
