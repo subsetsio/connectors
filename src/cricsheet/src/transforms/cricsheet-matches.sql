@@ -1,26 +1,29 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    match_id,
-    team_type,
-    gender,
-    season,
-    TRY_STRPTIME(start_date, '%Y/%m/%d')::DATE        AS start_date,
-    TRY_STRPTIME(end_date, '%Y/%m/%d')::DATE          AS end_date,
-    event,
-    match_type,
-    TRY_CAST(NULLIF(match_number, '')   AS INTEGER)   AS match_number,
-    TRY_CAST(NULLIF(overs, '')          AS INTEGER)   AS overs,
-    TRY_CAST(NULLIF(balls_per_over, '') AS INTEGER)   AS balls_per_over,
-    venue,
-    city,
-    team1,
-    team2,
-    toss_winner,
-    toss_decision,
-    player_of_match,
-    winner,
-    TRY_CAST(NULLIF(winner_runs, '')    AS INTEGER)   AS winner_runs,
-    TRY_CAST(NULLIF(winner_wickets, '') AS INTEGER)   AS winner_wickets,
-    method,
-    outcome
+    CAST("balls_per_over" AS BIGINT) AS balls_per_over,
+    "team_type",
+    "gender",
+    "season",
+    "event",
+    "match_type",
+    CAST("match_number" AS BIGINT) AS match_number,
+    CAST("overs" AS BIGINT) AS overs,
+    "venue",
+    "city",
+    "toss_winner",
+    "toss_decision",
+    "player_of_match",
+    "winner",
+    CAST("winner_runs" AS BIGINT) AS winner_runs,
+    CAST("winner_wickets" AS BIGINT) AS winner_wickets,
+    "method",
+    "outcome",
+    "match_id",
+    strptime("start_date", '%Y/%m/%d')::DATE AS start_date,
+    strptime("end_date", '%Y/%m/%d')::DATE AS end_date,
+    "team1",
+    "team2"
 FROM "cricsheet-matches"
-WHERE match_id IS NOT NULL

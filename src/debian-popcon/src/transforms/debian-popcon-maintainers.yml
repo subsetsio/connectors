@@ -1,8 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `debian-popcon-maintainers`. Regenerate after model-verify.
+# caution: Metrics are summed across all packages attributed to each maintainer, so they should not be compared directly to per-package rows without accounting for this aggregation level.
+key: [name]
+sort: [name]
 columns:
   - name: rank
     type: BIGINT
-  - name: maintainer
+  - name: name
     type: VARCHAR
   - name: inst
     type: BIGINT
@@ -14,3 +18,5 @@ columns:
     type: BIGINT
   - name: no_files
     type: BIGINT
+  - name: maintainer
+    type: VARCHAR

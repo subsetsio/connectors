@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cricsheet-deliveries`. Regenerate after model-verify.
+# caution: A cricket over/ball label is not a unique delivery identifier because wides and no-balls can repeat a nominal ball within the same innings.
+key: [match_id, innings, ball, actual_delivery]
 temporal: start_date
-sort: [start_date]
+sort: [start_date, match_id, innings, ball, actual_delivery]
 columns:
   - name: match_id
     type: VARCHAR
@@ -11,11 +14,11 @@ columns:
   - name: venue
     type: VARCHAR
   - name: innings
-    type: INTEGER
+    type: BIGINT
   - name: ball
-    type: VARCHAR
+    type: DOUBLE
   - name: actual_delivery
-    type: VARCHAR
+    type: DOUBLE
   - name: batting_team
     type: VARCHAR
   - name: bowling_team
@@ -27,19 +30,19 @@ columns:
   - name: bowler
     type: VARCHAR
   - name: runs_off_bat
-    type: INTEGER
+    type: BIGINT
   - name: extras
-    type: INTEGER
+    type: BIGINT
   - name: wides
-    type: INTEGER
+    type: VARCHAR
   - name: noballs
-    type: INTEGER
+    type: VARCHAR
   - name: byes
-    type: INTEGER
+    type: VARCHAR
   - name: legbyes
-    type: INTEGER
+    type: VARCHAR
   - name: penalty
-    type: INTEGER
+    type: VARCHAR
   - name: non_boundary
     type: VARCHAR
   - name: wicket_type
