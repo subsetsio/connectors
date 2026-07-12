@@ -1,17 +1,11 @@
-SELECT series_id, group_id, date, value
-FROM (
-    SELECT
-        series_id,
-        group_id,
-        CAST(date AS DATE)   AS date,
-        CAST(value AS DOUBLE) AS value,
-        row_number() OVER (
-            PARTITION BY series_id, CAST(date AS DATE)
-            ORDER BY value
-        ) AS rn
-    FROM "sveriges-riksbank-values"
-    WHERE series_id IS NOT NULL
-      AND date IS NOT NULL
-      AND value IS NOT NULL
-)
-WHERE rn = 1
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Observations span different economic measures and currencies; filter to comparable series before aggregating values.
+SELECT
+    "series_id",
+    "group_id",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "value"
+FROM "sveriges-riksbank-values"

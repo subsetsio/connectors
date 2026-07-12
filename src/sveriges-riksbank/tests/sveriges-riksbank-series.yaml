@@ -26,3 +26,7 @@ tests:
   - matches: {col: observation_max_date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
     reason: API date strings are ISO YYYY-MM-DD.
     certainty: 95
+  - freshness: {col: observation_max_date, reaches: today - 14d}
+    reason: active SWEA series update on business days, so the catalog's latest observation dates should remain recent.
+    certainty: 85
+    points_outward: true

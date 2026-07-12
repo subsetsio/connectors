@@ -1,3 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sveriges-riksbank-groups`. Regenerate after model-verify.
+# caution: Groups are a taxonomy for browsing series; parent and child groups can overlap, so do not aggregate observations by group without first choosing a non-overlapping category set.
+key: [group_id, name]
+sort: [group_id, name]
 columns:
   - name: group_id
     type: BIGINT
