@@ -1,16 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Rows are ranked inside overlapping rolling windows; filter to one window before aggregating counts.
+key: [window_start, formula, window]
+temporal: window_start
+sort: [window_start, window, rank, formula]
 columns:
   - name: window
     type: VARCHAR
+    description: Rolling analytics window label, such as 30d, 90d, or 365d.
   - name: window_start
     type: DATE
+    description: First date included in the rolling analytics window.
   - name: window_end
     type: DATE
+    description: Last date included in the rolling analytics window.
   - name: rank
     type: INTEGER
+    description: Rank of the formula by install-on-request count within the window.
   - name: formula
     type: VARCHAR
+    description: Homebrew formula name.
   - name: count
     type: BIGINT
+    description: Number of formula install-on-request events observed in the window.
   - name: percent
     type: DOUBLE
+    description: Share of formula install-on-request events represented by this formula within the window.
