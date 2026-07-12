@@ -1,0 +1,11 @@
+spec_id: meta-facebook-business-activity-trends-during-crisis
+status: active
+coverage:
+  frozen: true
+  reason: Crisis business activity files are event-scoped historical releases on HDX, not a scheduled feed.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: ds
+  - not_null: country
+

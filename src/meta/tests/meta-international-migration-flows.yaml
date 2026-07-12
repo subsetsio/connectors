@@ -1,0 +1,12 @@
+spec_id: meta-international-migration-flows
+status: active
+coverage:
+  frozen: true
+  reason: Meta publishes this as a static migration-flow aggregate release on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: country_from
+  - not_null: country_to
+  - not_null: migration_month
+

@@ -1,0 +1,11 @@
+spec_id: meta-movement-range-maps
+status: active
+coverage:
+  frozen: true
+  reason: Movement Range Maps are a closed historical COVID-era mobility release on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: ds
+  - not_null: country
+

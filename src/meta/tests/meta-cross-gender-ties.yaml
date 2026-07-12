@@ -1,0 +1,10 @@
+spec_id: meta-cross-gender-ties
+status: active
+coverage:
+  frozen: true
+  reason: Meta publishes this as a static aggregate release on HDX; no ongoing cadence is declared.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: region_id
+

@@ -1,0 +1,9 @@
+spec_id: meta-future-of-business-survey-aggregated-data
+status: active
+coverage:
+  frozen: true
+  reason: Future of Business / Small Business Survey aggregate files are historical survey releases on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+

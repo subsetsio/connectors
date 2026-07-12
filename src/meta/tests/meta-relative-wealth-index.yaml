@@ -1,0 +1,11 @@
+spec_id: meta-relative-wealth-index
+status: active
+coverage:
+  frozen: true
+  reason: Relative Wealth Index is a fixed April 2021 aggregate release on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: quadkey
+  - not_null: rwi
+

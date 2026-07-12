@@ -1,0 +1,10 @@
+spec_id: meta-social-connectedness-index
+status: active
+coverage:
+  frozen: true
+  reason: Social Connectedness Index is published as fixed aggregate files on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: scaled_sci
+

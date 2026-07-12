@@ -1,0 +1,11 @@
+spec_id: meta-commuting-zones
+status: active
+coverage:
+  frozen: true
+  reason: Meta publishes this as a fixed commuting-zone release on HDX; the source declares no update cadence.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: fbcz_id
+  - not_null: cz_gen_ds
+

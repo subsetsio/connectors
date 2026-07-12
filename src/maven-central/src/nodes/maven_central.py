@@ -1,188 +1,237 @@
-"""Maven Central (Sonatype) connector — the artifact catalog corpus.
+"""Maven Central artifact catalog download.
 
-One subset: `artifacts` — the full Maven Central artifact catalog, one row per
-unique groupId:artifactId (~662k as of 2026-06-27). Enumerated by paging the
-public Solr search API (search.maven.org/solrsearch/select, q=*:*, default
-core), which is the only verified machine-readable enumeration surface for the
-public Central catalog (the bulk .index is a JVM-only Lucene binary; see
-research).
-
-Fetch shape: stateless full re-pull. The corpus is bounded (~662k rows, ~50MB
-parquet) and fully enumerable in one run, so there is no watermark/cursor — we
-walk `start` from 0 to numFound every refresh and overwrite. Revisions and new
-artifacts are picked up for free.
-
-Pagination constraints (probed 2026-06-27):
-  * `rows` is server-capped: values above ~200 silently fall back to the default
-    20, so PAGE_SIZE is pinned at 200 (verified to return 200 docs/page).
-  * `cursorMark` is NOT supported (no nextCursorMark in the response) and a
-    custom `sort` is silently IGNORED (the endpoint always returns its default
-    score+timestamp order). So neither cursor nor id-range paging is possible —
-    plain `start` offset paging is the only option, verified to work across the
-    whole corpus (start=660000 returns rows). Because the default order is
-    timestamp-based and not stable against inserts, a long crawl can see a few
-    boundary duplicates as new artifacts shift the window; the transform
-    de-duplicates by (group_id, artifact_id).
-
-Rate limits: search.maven.org sits behind Cloudflare with no documented limit
-but aggressive bot/rate mitigation — a default Python User-Agent from a
-datacenter IP gets 403'd within tens of requests. We therefore send a browser
-User-Agent and page serially with a polite gap, and retry 403/429/5xx/network
-errors with exponential backoff (a Cloudflare 403 here is a rate-block, not a
-true permanent error).
+The public Solr search API is useful for spot checks but rate-blocks long
+GitHub-hosted crawls. For full-corpus extraction, use the official repository
+index published under repo1's .index directory. The packed index is a gzip
+stream of Maven Indexer records; each artifact record carries compact `u`
+(groupId|artifactId|version|classifier) and `i` metadata fields.
 """
-import time
+
+from __future__ import annotations
+
+import gzip
+import struct
+from collections.abc import Iterator
 
 import httpx
 import pyarrow as pa
-from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    configure_http,
-    is_transient,
-    raw_parquet_writer,
-)
+from subsets_utils import NodeSpec, raw_parquet_writer
 
-BASE_URL = "https://search.maven.org/solrsearch/select"
-PAGE_SIZE = 200                 # server cap; larger values silently fall back to 20
-INTER_PAGE_SLEEP = 1.0          # politeness gap between successful pages
-# Safety ceiling: ~662k/200 ~= 3310 pages today. 8000 pages = ~1.6M artifacts;
-# crossing it means the corpus grew far past expectation OR paging looped —
-# fail loudly rather than crawl forever.
-MAX_PAGES = 8000
-
-# A real browser UA — Cloudflare 403s obvious non-browser agents from
-# datacenter IPs. ASCII only (httpx requires it).
+INDEX_URL = "https://repo1.maven.org/maven2/.index/nexus-maven-repository-index.gz"
 USER_AGENT = (
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (compatible; subsets.io Maven Central connector; "
+    "+https://subsets.io)"
 )
 
-SCHEMA = pa.schema([
-    ("group_id",       pa.string()),
-    ("artifact_id",    pa.string()),
-    ("latest_version", pa.string()),
-    ("packaging",      pa.string()),
-    ("version_count",  pa.int64()),
-    ("repository_id",  pa.string()),
-    ("last_updated",   pa.timestamp("ms")),
-])
-
-
-def _is_retryable(exc: BaseException) -> bool:
-    """Standard transient classification PLUS Cloudflare 403 (a rate-block on
-    this host, not a genuine authorization failure)."""
-    if is_transient(exc):
-        return True
-    if isinstance(exc, httpx.HTTPStatusError):
-        return exc.response.status_code == 403
-    return False
-
-
-@retry(
-    retry=retry_if_exception(_is_retryable),
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(min=5, max=120),
-    reraise=True,
+SCHEMA = pa.schema(
+    [
+        ("group_id", pa.string()),
+        ("artifact_id", pa.string()),
+        ("latest_version", pa.string()),
+        ("packaging", pa.string()),
+        ("version_count", pa.int64()),
+        ("repository_id", pa.string()),
+        ("last_updated", pa.timestamp("ms")),
+    ]
 )
-def _fetch_page(start: int) -> dict:
-    """One page of the Solr catalog at offset `start`. raise_for_status inside
-    the retry so 403/429/5xx are retried with backoff."""
-    resp = get(
-        BASE_URL,
-        params={"q": "*:*", "wt": "json", "rows": PAGE_SIZE, "start": start},
-        timeout=(10.0, 120.0),
-    )
-    resp.raise_for_status()
-    return resp.json()
+
+BATCH_SIZE = 50_000
 
 
-def _rows_to_batch(docs: list[dict]) -> pa.RecordBatch:
-    group_id, artifact_id, latest_version, packaging = [], [], [], []
-    version_count, repository_id, last_updated = [], [], []
-    for d in docs:
-        group_id.append(d.get("g"))
-        artifact_id.append(d.get("a"))
-        latest_version.append(d.get("latestVersion"))
-        packaging.append(d.get("p"))
-        vc = d.get("versionCount")
-        version_count.append(int(vc) if vc is not None else None)
-        repository_id.append(d.get("repositoryId"))
-        # Solr `timestamp` is epoch milliseconds of the latest version.
-        last_updated.append(d.get("timestamp"))
-    return pa.RecordBatch.from_arrays(
-        [
-            pa.array(group_id, pa.string()),
-            pa.array(artifact_id, pa.string()),
-            pa.array(latest_version, pa.string()),
-            pa.array(packaging, pa.string()),
-            pa.array(version_count, pa.int64()),
-            pa.array(repository_id, pa.string()),
-            pa.array(last_updated, pa.int64()).cast(pa.timestamp("ms")),
-        ],
-        schema=SCHEMA,
-    )
+class _IteratorReader:
+    """Minimal read(size) adapter around httpx.iter_bytes for gzip.GzipFile."""
+
+    def __init__(self, chunks: Iterator[bytes]) -> None:
+        self._chunks = chunks
+        self._buffer = bytearray()
+        self._eof = False
+
+    def read(self, size: int = -1) -> bytes:
+        if size is None or size < 0:
+            parts = [bytes(self._buffer)]
+            self._buffer.clear()
+            parts.extend(self._chunks)
+            self._eof = True
+            return b"".join(parts)
+
+        while len(self._buffer) < size and not self._eof:
+            try:
+                self._buffer.extend(next(self._chunks))
+            except StopIteration:
+                self._eof = True
+
+        out = bytes(self._buffer[:size])
+        del self._buffer[:size]
+        return out
+
+
+def _read_exact(stream, size: int) -> bytes:
+    data = stream.read(size)
+    if len(data) != size:
+        raise EOFError(f"expected {size} bytes, got {len(data)}")
+    return data
+
+
+def _decode_modified_utf8(data: bytes) -> str:
+    # Maven coordinates and compact field names are ASCII in practice. Python's
+    # UTF-8 decoder handles that path directly; the replacement fallback avoids
+    # failing the whole corpus on a non-coordinate descriptive field we ignore.
+    try:
+        return data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data.decode("utf-8", errors="replace").replace("\x00", "")
+
+
+def _read_utf_short(stream) -> str:
+    length = struct.unpack(">H", _read_exact(stream, 2))[0]
+    return _decode_modified_utf8(_read_exact(stream, length))
+
+
+def _read_utf_int(stream) -> str:
+    length = struct.unpack(">i", _read_exact(stream, 4))[0]
+    if length < 0:
+        raise ValueError(f"negative string length in Maven index: {length}")
+    return _decode_modified_utf8(_read_exact(stream, length))
+
+
+def _iter_index_records():
+    timeout = httpx.Timeout(connect=30.0, read=600.0, write=30.0, pool=30.0)
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/gzip,*/*"}
+    with httpx.stream(
+        "GET",
+        INDEX_URL,
+        headers=headers,
+        timeout=timeout,
+        follow_redirects=True,
+    ) as response:
+        response.raise_for_status()
+        reader = _IteratorReader(response.iter_bytes(chunk_size=1024 * 1024))
+        with gzip.GzipFile(fileobj=reader, mode="rb") as gz:
+            _read_exact(gz, 1)  # transfer format version
+            _read_exact(gz, 8)  # index timestamp, milliseconds since epoch
+            while True:
+                raw_count = gz.read(4)
+                if not raw_count:
+                    break
+                if len(raw_count) != 4:
+                    raise EOFError("truncated Maven index record field count")
+                field_count = struct.unpack(">i", raw_count)[0]
+                record = {}
+                for _ in range(field_count):
+                    _read_exact(gz, 1)  # field flags, not needed for extraction
+                    name = _read_utf_short(gz)
+                    value = _read_utf_int(gz)
+                    record[name] = value
+                yield record
+
+
+def _artifact_from_record(record: dict[str, str]) -> tuple[str, str, str, str | None, int | None] | None:
+    uinfo = record.get("u")
+    if not uinfo or "del" in record:
+        return None
+
+    parts = uinfo.split("|")
+    if len(parts) < 3:
+        return None
+
+    group_id, artifact_id, version = parts[:3]
+    if not group_id or not artifact_id or not version:
+        return None
+
+    packaging = None
+    modified = None
+    info = record.get("i")
+    if info:
+        info_parts = info.split("|")
+        if info_parts and info_parts[0] != "NA":
+            packaging = info_parts[0] or None
+        if len(info_parts) > 1 and info_parts[1]:
+            try:
+                modified = int(info_parts[1])
+            except ValueError:
+                modified = None
+
+    if packaging is None and len(parts) > 4 and parts[4] != "NA":
+        packaging = parts[4] or None
+
+    return group_id, artifact_id, version, packaging, modified
+
+
+def _to_batches(artifacts: dict[tuple[str, str], dict]) -> Iterator[pa.RecordBatch]:
+    rows = sorted(artifacts.items())
+    for start in range(0, len(rows), BATCH_SIZE):
+        chunk = rows[start : start + BATCH_SIZE]
+        group_id = []
+        artifact_id = []
+        latest_version = []
+        packaging = []
+        version_count = []
+        repository_id = []
+        last_updated = []
+        for (group, artifact), rec in chunk:
+            group_id.append(group)
+            artifact_id.append(artifact)
+            latest_version.append(rec["latest_version"])
+            packaging.append(rec["packaging"])
+            version_count.append(len(rec["versions"]))
+            repository_id.append("central")
+            last_updated.append(rec["last_updated"])
+
+        yield pa.RecordBatch.from_arrays(
+            [
+                pa.array(group_id, pa.string()),
+                pa.array(artifact_id, pa.string()),
+                pa.array(latest_version, pa.string()),
+                pa.array(packaging, pa.string()),
+                pa.array(version_count, pa.int64()),
+                pa.array(repository_id, pa.string()),
+                pa.array(last_updated, pa.int64()).cast(pa.timestamp("ms")),
+            ],
+            schema=SCHEMA,
+        )
 
 
 def fetch_artifacts(node_id: str) -> None:
-    asset = node_id  # the runtime passes the spec id; it IS the asset name
-    configure_http(headers={"User-Agent": USER_AGENT})
+    artifacts: dict[tuple[str, str], dict] = {}
+    records_seen = 0
 
-    first = _fetch_page(0)
-    num_found = first["response"]["numFound"]
-    if num_found <= 0:
-        raise AssertionError(f"{asset}: solrsearch returned numFound={num_found}")
+    for record in _iter_index_records():
+        parsed = _artifact_from_record(record)
+        if parsed is None:
+            continue
 
-    with raw_parquet_writer(asset, SCHEMA) as writer:
-        start = 0
-        pages = 0
-        seen = 0
-        while True:
-            page = first if start == 0 else _fetch_page(start)
-            docs = page["response"]["docs"]
-            if not docs:
-                break
-            writer.write_batch(_rows_to_batch(docs))
-            seen += len(docs)
-            pages += 1
-            start += PAGE_SIZE
-            if start >= num_found:
-                break
-            if pages >= MAX_PAGES:
-                raise AssertionError(
-                    f"{asset}: hit MAX_PAGES={MAX_PAGES} at start={start} "
-                    f"(numFound={num_found}); corpus grew unexpectedly or paging looped"
-                )
-            time.sleep(INTER_PAGE_SLEEP)
+        group_id, artifact_id, version, packaging, modified = parsed
+        key = (group_id, artifact_id)
+        current = artifacts.get(key)
+        if current is None:
+            artifacts[key] = {
+                "latest_version": version,
+                "packaging": packaging,
+                "last_updated": modified,
+                "versions": {version},
+            }
+        else:
+            current["versions"].add(version)
+            current_ts = current["last_updated"]
+            if modified is not None and (current_ts is None or modified >= current_ts):
+                current["latest_version"] = version
+                current["packaging"] = packaging or current["packaging"]
+                current["last_updated"] = modified
+        records_seen += 1
 
-    print(f"  {asset}: wrote {seen} artifact rows ({pages} pages, numFound={num_found})")
+    if len(artifacts) < 400_000:
+        raise AssertionError(
+            f"{node_id}: parsed only {len(artifacts)} artifacts from {records_seen} index records"
+        )
+
+    with raw_parquet_writer(node_id, SCHEMA) as writer:
+        for batch in _to_batches(artifacts):
+            writer.write_batch(batch)
+
+    print(f"  {node_id}: wrote {len(artifacts)} artifacts from {records_seen} index records")
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="maven-central-artifacts", fn=fetch_artifacts, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="maven-central-artifacts-transform",
-        deps=["maven-central-artifacts"],
-        sql='''
-            SELECT
-                group_id,
-                artifact_id,
-                latest_version,
-                packaging,
-                version_count,
-                CAST(last_updated AS TIMESTAMP) AS last_updated
-            FROM "maven-central-artifacts"
-            WHERE group_id IS NOT NULL AND artifact_id IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY group_id, artifact_id
-                ORDER BY last_updated DESC NULLS LAST
-            ) = 1
-        ''',
-    ),
 ]

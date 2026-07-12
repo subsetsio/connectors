@@ -1,0 +1,11 @@
+spec_id: meta-social-connections-survey
+status: active
+coverage:
+  frozen: true
+  reason: Social Connections Survey is a static aggregate survey release on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: country
+  - not_null: variable
+

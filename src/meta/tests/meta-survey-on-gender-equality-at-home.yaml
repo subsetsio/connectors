@@ -1,0 +1,11 @@
+spec_id: meta-survey-on-gender-equality-at-home
+status: active
+coverage:
+  frozen: true
+  reason: Survey on Gender Equality at Home is a closed historical survey release.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: Year
+  - not_null: Country
+

@@ -1,0 +1,11 @@
+spec_id: meta-climate-change-opinion-survey
+status: active
+coverage:
+  frozen: true
+  reason: Meta publishes this survey as a static historical aggregate on HDX; no ongoing cadence is declared.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: country
+  - not_null: response
+

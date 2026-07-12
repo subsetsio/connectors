@@ -1,0 +1,10 @@
+spec_id: meta-uk-social-capital-atlas
+status: active
+coverage:
+  frozen: true
+  reason: UK Social Capital Atlas is a static aggregate research release on HDX.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: ds
+

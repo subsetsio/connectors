@@ -1,0 +1,11 @@
+spec_id: meta-facebook-business-activity-trends-during-covid19
+status: active
+coverage:
+  frozen: true
+  reason: COVID-19 business activity trends are a closed historical crisis release rather than an advancing feed.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: ds
+  - not_null: country
+

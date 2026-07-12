@@ -1,0 +1,10 @@
+spec_id: meta-long-ties-data
+status: active
+coverage:
+  frozen: true
+  reason: Long ties data is a fixed aggregate research release on HDX, not an advancing feed.
+tests:
+  - row_count: {min: 1}
+  - not_null: _source_file
+  - not_null: unit_id
+
