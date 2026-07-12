@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `seer-us-mortality-rural-urban-rates`. Regenerate after model-verify.
+# caution: Rows include overlapping demographic strata and rural/urban classifications; filter to one stratum before aggregating mortality rates or counts.
 key: [rucc, sex, race, age_range, site]
 sort: [rucc, sex, race, age_range, site]
 columns:

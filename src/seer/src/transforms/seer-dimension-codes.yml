@@ -1,10 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `seer-dimension-codes`. Regenerate after model-verify.
 key: [variable, code]
 sort: [variable, code]
 columns:
   - name: variable
     type: VARCHAR
   - name: code
-    type: VARCHAR
+    type: BIGINT
   - name: label
     type: VARCHAR
   - name: active

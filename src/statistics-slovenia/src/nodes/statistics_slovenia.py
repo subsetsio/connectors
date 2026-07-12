@@ -36,7 +36,10 @@ def _source_table_id(entity_id: str) -> str:
 def _entity_from_node_id(node_id: str) -> str:
     if not node_id.startswith(PREFIX):
         raise ValueError(f"unexpected node id {node_id!r}")
-    return node_id[len(PREFIX) :].lower()
+    spec_entity_id = node_id[len(PREFIX) :].lower()
+    if spec_entity_id == "aa-synonims":
+        return "aa_synonims"
+    return spec_entity_id
 
 
 def _all_values_query(metadata: dict) -> dict:
@@ -146,6 +149,6 @@ def fetch_table(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-{entity_id}", fn=fetch_table)
+    NodeSpec(id=f"{SLUG}-{entity_id.replace('_', '-')}", fn=fetch_table)
     for entity_id in ENTITY_IDS
 ]

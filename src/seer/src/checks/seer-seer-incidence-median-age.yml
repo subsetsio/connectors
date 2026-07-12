@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `seer-seer-incidence-median-age`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sex, race, site]
+checks:
+  - kind: unique
+    columns: [sex, race, site]
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: race
+  - kind: not_null
+    col: site
+  - kind: row_floor
+    min: 763
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

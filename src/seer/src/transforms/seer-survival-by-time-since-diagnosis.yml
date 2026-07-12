@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `seer-survival-by-time-since-diagnosis`. Regenerate after model-verify.
+# caution: Rows include survival intervals across overlapping demographic, stage, and subtype strata; filter to one stratum before comparing survival rates or counts.
 key: [sex, race, age_range, stage, subtype, site, survival_interval]
 sort: [sex, race, age_range, stage, subtype, site, survival_interval]
 columns:

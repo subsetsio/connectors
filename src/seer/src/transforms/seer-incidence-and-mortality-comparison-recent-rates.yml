@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `seer-incidence-and-mortality-comparison-recent-rates`. Regenerate after model-verify.
+# caution: Rows include overlapping aggregate and subgroup strata, including stage and age groups; filter to one stratum before aggregating rates or counts.
 key: [sex, race, age_range, stage, data_type, site]
 sort: [sex, race, age_range, stage, data_type, site]
 columns:

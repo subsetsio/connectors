@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `seer-seer-incidence-long-term-trends`. Regenerate after model-verify.
+# caution: Rows include overlapping aggregate and subgroup strata, including cancer subtypes; filter to one stratum before aggregating year-level incidence rates or counts.
 key: [rate_type, sex, race, age_range, subtype, site, year]
 temporal: year
 sort: [year, rate_type, sex, race, age_range, subtype, site]

@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `seer-risk-of-diagnosis-dying-risk-intervals`. Regenerate after model-verify.
+# caution: Rows mix diagnosis and death risk types across intervals and demographic strata; filter to one stat type and stratum before comparing risks.
 key: [stat_type, sex, race, age_range, site, risk_interval]
 sort: [stat_type, sex, race, age_range, site, risk_interval]
 columns:
