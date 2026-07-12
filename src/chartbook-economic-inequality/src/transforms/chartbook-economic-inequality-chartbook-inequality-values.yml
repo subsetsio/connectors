@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country, year, series_key, series]
+temporal: year
+sort: [year, country, series_key, series]
 columns:
   - name: country
     type: VARCHAR
@@ -7,6 +10,8 @@ columns:
   - name: dimension_of_inequality
     type: VARCHAR
   - name: measure_of_inequality
+    type: VARCHAR
+  - name: series_key
     type: VARCHAR
   - name: series
     type: INTEGER

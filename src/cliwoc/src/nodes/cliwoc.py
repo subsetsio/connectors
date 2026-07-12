@@ -24,7 +24,6 @@ import io
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -162,36 +161,4 @@ def fetch_observations(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="cliwoc-observations", fn=fetch_observations, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cliwoc-observations-transform",
-        deps=["cliwoc-observations"],
-        sql='''
-            SELECT
-                logbook_id,
-                record_date,
-                year,
-                month,
-                day,
-                latitude,
-                longitude,
-                ship_name,
-                nationality,
-                ship_type,
-                company,
-                voyage_from,
-                voyage_to,
-                logbook_language,
-                wind_direction,
-                wind_force,
-                weather,
-                precipitation,
-                archive_institution
-            FROM "cliwoc-observations"
-        ''',
-        key=(),
-        temporal="record_date",
-    ),
 ]
