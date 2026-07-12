@@ -1,0 +1,24 @@
+spec_id: gfed-species
+status: active
+coverage:
+  frozen: true
+  reason: species rows describe the current GFED4.1s and GFED5.1 summary-table releases rather than a continuously advancing time series.
+tests:
+  - not_null: release
+  - not_null: species
+  - not_null: unit
+  - column_type: {col: release, type: string}
+  - column_type: {col: species, type: string}
+  - column_type: {col: unit, type: string}
+  - unique: [release, species]
+    reason: one row per release x species summary table
+    certainty: 98
+  - enum: {col: release, values: ["GFED4.1s", "GFED5.1"]}
+    reason: connector intentionally publishes the legacy GFED4.1s and current GFED5.1 summary-table releases
+    certainty: 95
+  - distinct_count: {col: species, min: 35}
+    reason: GFED publishes roughly forty emissions species per release
+    certainty: 85
+  - row_count: {min: 70}
+    reason: GFED4.1s has ~41 species and GFED5.1 has ~40 species
+    certainty: 85

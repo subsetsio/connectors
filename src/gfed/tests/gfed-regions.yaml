@@ -1,0 +1,19 @@
+spec_id: gfed-regions
+status: active
+coverage:
+  frozen: true
+  reason: GFED basis-region codes are a fixed reference taxonomy used by the summary tables.
+tests:
+  - not_null: region
+  - not_null: name
+  - column_type: {col: region, type: string}
+  - column_type: {col: name, type: string}
+  - unique: region
+    reason: one row per GFED basis-region code
+    certainty: 98
+  - row_count: {min: 15, max: 15}
+    reason: GFED uses 14 basis regions plus the GLOB global aggregate
+    certainty: 95
+  - matches: {col: region, pattern: "^[A-Z]{4}$"}
+    reason: GFED basis-region codes are four uppercase letters
+    certainty: 90
