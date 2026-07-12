@@ -1,0 +1,18 @@
+spec_id: speedrun-leaderboard-records
+status: active
+tests:
+  - not_null: game
+    reason: every leaderboard record belongs to a game
+    certainty: 98
+  - not_null: category
+    reason: every leaderboard record belongs to a category
+    certainty: 95
+  - not_null: runs
+    reason: leaderboard records carry ranked run entries
+    certainty: 95
+  - row_count: {min: 50}
+    reason: the bounded leaderboard snapshot should find records across the first 500 public games
+    certainty: 75
+  - freshness: {col: _fetched_at, reaches: today - 7d}
+    reason: _fetched_at is stamped during download; a stale max means the raw asset was not refreshed
+    points_outward: false

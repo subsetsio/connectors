@@ -1,0 +1,21 @@
+spec_id: speedrun-variables
+status: active
+tests:
+  - not_null: id
+    reason: every variable record has a stable Speedrun.com variable id
+    certainty: 98
+  - not_null: name
+    reason: variables expose labels used to interpret run values
+    certainty: 95
+  - not_null: _game
+    reason: variables are fetched as game-embedded resources and must retain their parent game id
+    certainty: 98
+  - row_count: {min: 100}
+    reason: many games expose custom variables or subcategory variables
+    certainty: 80
+  - unique: id
+    reason: variable ids are source-wide stable identifiers
+    certainty: 90
+  - freshness: {col: _fetched_at, reaches: today - 7d}
+    reason: _fetched_at is stamped during download; a stale max means the raw asset was not refreshed
+    points_outward: false
