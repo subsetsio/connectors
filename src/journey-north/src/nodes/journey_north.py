@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 import pyarrow as pa
 
 from constants import MAP_SLUGS, START_YEAR
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 BASE = "https://maps.journeynorth.org/sightings_json.php"
 
@@ -161,56 +161,4 @@ def fetch_sightings(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="journey-north-maps", fn=fetch_maps, kind="download"),
     NodeSpec(id="journey-north-sightings", fn=fetch_sightings, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="journey-north-maps-transform",
-        deps=["journey-north-maps"],
-        key=("map_slug",),
-        sql="""
-            SELECT
-                map_slug,
-                display_name,
-                season,
-                topic,
-                event,
-                is_practice
-            FROM "journey-north-maps"
-        """,
-    ),
-    SqlNodeSpec(
-        id="journey-north-sightings-transform",
-        deps=["journey-north-sightings"],
-        key=("map_slug", "sighting_id"),
-        temporal="date",
-        sql="""
-            WITH ranked AS (
-                SELECT
-                    sighting_id,
-                    map_slug,
-                    CAST(year AS INTEGER) AS year,
-                    season,
-                    strptime(date, '%m/%d/%Y')::DATE AS date,
-                    make_timestamp(CAST(observed_unix AS BIGINT) * 1000000) AS observed_at,
-                    CAST(latitude AS DOUBLE) AS latitude,
-                    CAST(longitude AS DOUBLE) AS longitude,
-                    CAST(elevation AS DOUBLE) AS elevation,
-                    CAST(interval AS INTEGER) AS interval,
-                    CAST(pin_id AS INTEGER) AS pin_id,
-                    duration,
-                    image_url,
-                    row_number() OVER (
-                        PARTITION BY map_slug, sighting_id
-                        ORDER BY observed_unix DESC
-                    ) AS rn
-                FROM "journey-north-sightings"
-                WHERE sighting_id IS NOT NULL
-            )
-            SELECT * EXCLUDE (rn)
-            FROM ranked
-            WHERE rn = 1
-        """,
-    ),
 ]

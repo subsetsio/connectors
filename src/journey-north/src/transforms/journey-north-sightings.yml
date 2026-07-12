@@ -1,0 +1,43 @@
+key: [map_slug, sighting_id]
+temporal: date
+sort: [date, map_slug, sighting_id]
+columns:
+  - name: sighting_id
+    type: VARCHAR
+    description: Journey North sighting record identifier.
+  - name: map_slug
+    type: VARCHAR
+    description: Journey North map layer the sighting was fetched from.
+  - name: year
+    type: INTEGER
+    description: Calendar year used for the source query.
+  - name: season
+    type: VARCHAR
+    description: Season label supplied by the source feature collection.
+  - name: date
+    type: DATE
+    description: Observation or report date.
+  - name: observed_at
+    type: TIMESTAMP
+    description: Observation timestamp derived from the source Unix epoch field.
+  - name: latitude
+    type: DOUBLE
+    description: Observation latitude in decimal degrees.
+  - name: longitude
+    type: DOUBLE
+    description: Observation longitude in decimal degrees.
+  - name: elevation
+    type: DOUBLE
+    description: Elevation from the source coordinate tuple, when present.
+  - name: interval
+    type: INTEGER
+    description: Source interval bucket for map display.
+  - name: pin_id
+    type: INTEGER
+    description: Source map pin identifier.
+  - name: duration
+    type: VARCHAR
+    description: Source-reported duration value, when present.
+  - name: image_url
+    type: VARCHAR
+    description: URL of the submitted image associated with the sighting, when present.

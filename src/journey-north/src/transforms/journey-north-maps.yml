@@ -1,0 +1,21 @@
+key: [map_slug]
+sort: [map_slug]
+columns:
+  - name: map_slug
+    type: VARCHAR
+    description: Journey North map-layer slug used in sightings queries.
+  - name: display_name
+    type: VARCHAR
+    description: Human-readable label derived from the map slug.
+  - name: season
+    type: VARCHAR
+    description: Seasonal grouping implied by the map slug, when present.
+  - name: topic
+    type: VARCHAR
+    description: Species, life stage, or event family represented by the map layer.
+  - name: event
+    type: VARCHAR
+    description: Event or reporting mode implied by the map slug.
+  - name: is_practice
+    type: BOOLEAN
+    description: Whether the layer is a Journey North practice reporting map.
