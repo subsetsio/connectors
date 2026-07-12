@@ -23,6 +23,10 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: Ookla publishes quarterly and the open-data catalog is expected to include the current calendar year after Q1 is released
+    certainty: 80
+    points_outward: true
   - at_least: {col: avg_d_kbps, expr: 0}
     reason: speeds are non-negative averages in kbps
     certainty: 95

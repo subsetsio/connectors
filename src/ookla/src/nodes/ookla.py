@@ -8,12 +8,10 @@ performance, published quarterly from 2019 Q1 onward.
 
 Shape: the collect catalog is a single homogeneous corpus (`performance`); the
 type/year/quarter dimensions are column values, not separate tables. The corpus
-is large (~60 partitions, ~5M rows each, ~300M rows total), so this uses the
-batched firehose shape: ONE download spec whose fetch fn discovers every
-partition from S3 and writes each as its own batch raw asset
-(`ookla-performance-<type>-<year>-q<quarter>`), advancing a per-partition
-watermark in state after each successful write. The transform's dep view
-glob-unions every batch file automatically.
+is large (~60 partitions, ~5M rows each, ~300M rows total), so this uses one
+logical raw asset with one committed parquet fragment per (type, year, quarter),
+advancing a per-partition watermark in state after each successful write. The
+transform's dep view spans every committed fragment automatically.
 
 Each source parquet's bulky `tile` WKT polygon is dropped on read: the 16-char
 `quadkey` (a Bing-Maps quadkey at zoom 16) already uniquely and deterministically
@@ -32,7 +30,6 @@ import pyarrow.parquet as pq
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -161,8 +158,8 @@ def _normalize(batch: pa.Table, ctype: str, year: int, quarter: int) -> pa.Table
     return pa.table(cols, schema=RAW_SCHEMA)
 
 
-def _fetch_partition(asset: str, part: dict) -> None:
-    """Stream one partition parquet → canonical raw asset, bounded memory."""
+def _fetch_partition(asset: str, fragment: str, part: dict) -> None:
+    """Stream one source partition parquet into a canonical raw fragment."""
     content = _download_parquet(part["key"])
     with tempfile.NamedTemporaryFile(suffix=".parquet") as tmp:
         tmp.write(content)
@@ -170,7 +167,7 @@ def _fetch_partition(asset: str, part: dict) -> None:
         del content
         pf = pq.ParquetFile(tmp.name)
         read_cols = [c for c in _SOURCE_COLS if c in pf.schema_arrow.names]
-        with raw_parquet_writer(asset, RAW_SCHEMA) as writer:
+        with raw_parquet_writer(asset, RAW_SCHEMA, fragment=fragment) as writer:
             for rg in range(pf.num_row_groups):
                 table = pf.read_row_group(rg, columns=read_cols)
                 writer.write_table(
@@ -192,8 +189,7 @@ def fetch_performance(node_id: str) -> None:
         batch_key = f"{part['type']}-{part['year']}-q{part['quarter']}"
         if batch_key in done:
             continue
-        asset = f"{node_id}-{batch_key}"
-        _fetch_partition(asset, part)  # write raw FIRST
+        _fetch_partition(node_id, batch_key, part)  # write raw FIRST
         done.add(batch_key)
         save_state(node_id, {  # then advance state
             "schema_version": STATE_VERSION,
@@ -203,32 +199,4 @@ def fetch_performance(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="ookla-performance", fn=fetch_performance, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ookla-performance-transform",
-        deps=["ookla-performance"],
-        key=("quadkey", "connection_type", "year", "quarter"),
-        temporal="period_start",
-        sql='''
-            SELECT
-                quadkey,
-                connection_type,
-                CAST(year AS INTEGER)    AS year,
-                CAST(quarter AS INTEGER) AS quarter,
-                make_date(year, (quarter - 1) * 3 + 1, 1) AS period_start,
-                avg_d_kbps      AS avg_download_kbps,
-                avg_u_kbps      AS avg_upload_kbps,
-                avg_lat_ms      AS avg_latency_ms,
-                avg_lat_down_ms AS avg_latency_download_ms,
-                avg_lat_up_ms   AS avg_latency_upload_ms,
-                tests,
-                devices,
-                tile_x,
-                tile_y
-            FROM "ookla-performance"
-            WHERE quadkey IS NOT NULL
-        ''',
-    ),
 ]
