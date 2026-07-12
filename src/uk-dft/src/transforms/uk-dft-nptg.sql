@@ -1,10 +1,27 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    NptgLocalityCode                 AS nptg_locality_code,
-    LocalityName                     AS locality_name,
-    QualifierName                    AS qualifier_name,
-    ParentLocalityName               AS parent_locality_name,
-    AdministrativeAreaCode           AS administrative_area_code,
-    TRY_CAST(Easting AS INTEGER)     AS easting,
-    TRY_CAST(Northing AS INTEGER)    AS northing
+    "NptgLocalityCode" AS nptglocalitycode,
+    "LocalityName" AS localityname,
+    "LocalityNameLang" AS localitynamelang,
+    "ShortName" AS shortname,
+    "ShortNameLang" AS shortnamelang,
+    "QualifierName" AS qualifiername,
+    "QualifierNameLang" AS qualifiernamelang,
+    "QualifierLocalityRef" AS qualifierlocalityref,
+    "QualifierDistrictRef" AS qualifierdistrictref,
+    "ParentLocalityName" AS parentlocalityname,
+    "ParentLocalityNameLang" AS parentlocalitynamelang,
+    "AdministrativeAreaCode" AS administrativeareacode,
+    CAST("NptgDistrictCode" AS BIGINT) AS nptgdistrictcode,
+    "SourceLocalityType" AS sourcelocalitytype,
+    "GridType" AS gridtype,
+    CAST("Easting" AS BIGINT) AS easting,
+    CAST("Northing" AS BIGINT) AS northing,
+    CAST("CreationDateTime" AS TIMESTAMP) AS creationdatetime,
+    CAST("ModificationDateTime" AS TIMESTAMP) AS modificationdatetime,
+    CAST("RevisionNumber" AS BIGINT) AS revisionnumber,
+    "Modification" AS modification
 FROM "uk-dft-nptg"
-WHERE NptgLocalityCode IS NOT NULL

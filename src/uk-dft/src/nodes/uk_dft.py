@@ -33,7 +33,6 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_parquet_writer,
     transient_retry,
@@ -128,99 +127,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in SOURCES
-]
-
-
-# --------------------------------------------------------------------------- #
-# Transforms — one published Delta table per subset. Each is a thin parse-and-
-# type pass over the all-VARCHAR raw parquet: cast numerics, parse dates, keep
-# coded dimensions as-is. TRY_CAST is used where source sentinels (e.g. -1,
-# blanks) would otherwise break a hard cast.
-# --------------------------------------------------------------------------- #
-
-_ROAD_TRAFFIC_SQL = '''
-    SELECT
-        CAST(local_authority_id AS BIGINT)      AS local_authority_id,
-        local_authority_name,
-        local_authority_code,
-        CAST(year AS INTEGER)                    AS year,
-        TRY_CAST(link_length_km AS DOUBLE)       AS link_length_km,
-        TRY_CAST(link_length_miles AS DOUBLE)    AS link_length_miles,
-        TRY_CAST(cars_and_taxis AS DOUBLE)       AS cars_and_taxis,
-        TRY_CAST(all_motor_vehicles AS DOUBLE)   AS all_motor_vehicles
-    FROM "uk-dft-gb-road-traffic-counts"
-    WHERE year IS NOT NULL
-'''
-
-_STATS19_SQL = '''
-    SELECT
-        collision_index,
-        TRY_CAST(collision_year AS INTEGER)              AS collision_year,
-        TRY_CAST(location_easting_osgr AS INTEGER)       AS location_easting_osgr,
-        TRY_CAST(location_northing_osgr AS INTEGER)      AS location_northing_osgr,
-        TRY_CAST(longitude AS DOUBLE)                    AS longitude,
-        TRY_CAST(latitude AS DOUBLE)                     AS latitude,
-        TRY_CAST(police_force AS INTEGER)                AS police_force,
-        TRY_CAST(collision_severity AS INTEGER)          AS collision_severity,
-        TRY_CAST(number_of_vehicles AS INTEGER)          AS number_of_vehicles,
-        TRY_CAST(number_of_casualties AS INTEGER)        AS number_of_casualties,
-        TRY_STRPTIME(date, '%d/%m/%Y')::DATE             AS collision_date,
-        TRY_CAST(day_of_week AS INTEGER)                 AS day_of_week,
-        time,
-        local_authority_district,
-        TRY_CAST(speed_limit AS INTEGER)                 AS speed_limit,
-        TRY_CAST(light_conditions AS INTEGER)            AS light_conditions,
-        TRY_CAST(weather_conditions AS INTEGER)          AS weather_conditions,
-        TRY_CAST(road_surface_conditions AS INTEGER)     AS road_surface_conditions
-    FROM "uk-dft-road-accidents-safety-data"
-    WHERE collision_index IS NOT NULL
-'''
-
-_NAPTAN_SQL = '''
-    SELECT
-        ATCOCode                         AS atco_code,
-        NaptanCode                       AS naptan_code,
-        CommonName                       AS common_name,
-        Street                           AS street,
-        Landmark                         AS landmark,
-        Town                             AS town,
-        Suburb                           AS suburb,
-        LocalityName                     AS locality_name,
-        StopType                         AS stop_type,
-        Status                           AS status,
-        TRY_CAST(Easting AS INTEGER)     AS easting,
-        TRY_CAST(Northing AS INTEGER)    AS northing,
-        TRY_CAST(Longitude AS DOUBLE)    AS longitude,
-        TRY_CAST(Latitude AS DOUBLE)     AS latitude
-    FROM "uk-dft-naptan"
-    WHERE ATCOCode IS NOT NULL
-'''
-
-_NPTG_SQL = '''
-    SELECT
-        NptgLocalityCode                 AS nptg_locality_code,
-        LocalityName                     AS locality_name,
-        QualifierName                    AS qualifier_name,
-        ParentLocalityName               AS parent_locality_name,
-        AdministrativeAreaCode           AS administrative_area_code,
-        TRY_CAST(Easting AS INTEGER)     AS easting,
-        TRY_CAST(Northing AS INTEGER)    AS northing
-    FROM "uk-dft-nptg"
-    WHERE NptgLocalityCode IS NOT NULL
-'''
-
-_SQL_BY_ENTITY = {
-    "gb-road-traffic-counts": _ROAD_TRAFFIC_SQL,
-    "road-accidents-safety-data": _STATS19_SQL,
-    "naptan": _NAPTAN_SQL,
-    "nptg": _NPTG_SQL,
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=_SQL_BY_ENTITY[spec.id[len(SLUG) + 1:]],
-    )
-    for spec in DOWNLOAD_SPECS
 ]

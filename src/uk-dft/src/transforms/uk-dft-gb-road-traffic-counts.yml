@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dft-gb-road-traffic-counts`. Regenerate after model-verify.
+# caution: The table contains annual local-authority traffic estimates; do not sum across local authorities without accounting for the geographic level and boundary coding used by the source.
+key: [local_authority_id, year]
+temporal: year
+sort: [year, local_authority_id]
 columns:
   - name: local_authority_id
     type: BIGINT
@@ -7,11 +12,11 @@ columns:
   - name: local_authority_code
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: link_length_km
-    type: DOUBLE
+    type: BIGINT
   - name: link_length_miles
-    type: DOUBLE
+    type: BIGINT
   - name: cars_and_taxis
     type: DOUBLE
   - name: all_motor_vehicles

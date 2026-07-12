@@ -1,2 +1,14 @@
 spec_id: uk-datagov-empvacaa--2d038c56
-status: deferred
+status: active
+tests:
+  - row_count: {min: 180}
+    reason: PxStat extract should include annual rows for all Assembly Areas plus Northern Ireland.
+    certainty: 85
+  - not_null: Financial Year
+  - not_null: AA
+  - not_null: VALUE
+  - column_type: {col: Financial Year, type: string}
+  - freshness: {col: Financial Year, reaches: 2024/25}
+    reason: NISRA annual financial-year series should include the latest completed DfC vacancy release available during connector authoring.
+    certainty: 80
+    points_outward: true

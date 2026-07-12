@@ -7,7 +7,7 @@ tests:
   - row_count: {min: 5000}
     reason: annual local-authority traffic estimates span GB authorities from 1993 onward
     certainty: 90
-  - freshness: {col: year, reaches: current_year() - 2}
+  - freshness: {col: year, reaches: 2024}
     reason: DfT road traffic statistics are annual and should include a recent release
     certainty: 85
     points_outward: true

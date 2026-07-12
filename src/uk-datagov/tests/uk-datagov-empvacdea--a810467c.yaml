@@ -1,2 +1,14 @@
 spec_id: uk-datagov-empvacdea--a810467c
-status: deferred
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: PxStat extract should include annual rows for district electoral areas.
+    certainty: 85
+  - not_null: Financial Year
+  - not_null: DEA2014
+  - not_null: VALUE
+  - column_type: {col: Financial Year, type: string}
+  - freshness: {col: Financial Year, reaches: 2024/25}
+    reason: NISRA annual financial-year series should include the latest completed DfC vacancy release available during connector authoring.
+    certainty: 80
+    points_outward: true

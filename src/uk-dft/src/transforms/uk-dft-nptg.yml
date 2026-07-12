@@ -1,16 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-dft-nptg`. Regenerate after model-verify.
+key: [nptglocalitycode]
+temporal: creationdatetime
+sort: [creationdatetime, nptglocalitycode]
 columns:
-  - name: nptg_locality_code
+  - name: nptglocalitycode
     type: VARCHAR
-  - name: locality_name
+  - name: localityname
     type: VARCHAR
-  - name: qualifier_name
+  - name: localitynamelang
     type: VARCHAR
-  - name: parent_locality_name
+  - name: shortname
     type: VARCHAR
-  - name: administrative_area_code
+  - name: shortnamelang
+    type: VARCHAR
+  - name: qualifiername
+    type: VARCHAR
+  - name: qualifiernamelang
+    type: VARCHAR
+  - name: qualifierlocalityref
+    type: VARCHAR
+  - name: qualifierdistrictref
+    type: VARCHAR
+  - name: parentlocalityname
+    type: VARCHAR
+  - name: parentlocalitynamelang
+    type: VARCHAR
+  - name: administrativeareacode
+    type: VARCHAR
+  - name: nptgdistrictcode
+    type: BIGINT
+  - name: sourcelocalitytype
+    type: VARCHAR
+  - name: gridtype
     type: VARCHAR
   - name: easting
-    type: INTEGER
+    type: BIGINT
   - name: northing
-    type: INTEGER
+    type: BIGINT
+  - name: creationdatetime
+    type: TIMESTAMP
+  - name: modificationdatetime
+    type: TIMESTAMP
+  - name: revisionnumber
+    type: BIGINT
+  - name: modification
+    type: VARCHAR
