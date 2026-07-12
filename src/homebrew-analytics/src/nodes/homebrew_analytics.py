@@ -19,7 +19,7 @@ from datetime import date
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 BASE = "https://formulae.brew.sh/api/analytics"
 WINDOWS = ["30d", "90d", "365d"]
@@ -48,7 +48,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _fetch_window(category: str, window: str) -> dict:
     resp = get(f"{BASE}/{category}/{window}.json", timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -97,33 +96,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="homebrew-analytics-build-error", fn=fetch_report, kind="download"),
     NodeSpec(id="homebrew-analytics-cask-install", fn=fetch_report, kind="download"),
     NodeSpec(id="homebrew-analytics-os-version", fn=fetch_report, kind="download"),
-]
-
-
-def _transform_sql(download_id: str, item_name: str) -> str:
-    # Thin parse-and-type pass: rename the generic `item` column to its semantic
-    # name, keep one row per (window, rank). Drop the long tail of count==0 rows
-    # (formulae/casks observed 0 times in the window carry no signal).
-    # "window" is a reserved keyword in DuckDB (window functions) — quote it.
-    return f'''
-        SELECT
-            "window"                   AS window,
-            CAST(window_start AS DATE) AS window_start,
-            CAST(window_end   AS DATE) AS window_end,
-            CAST(rank AS INTEGER)      AS rank,
-            item                       AS {item_name},
-            CAST(count AS BIGINT)      AS count,
-            CAST(percent AS DOUBLE)    AS percent
-        FROM "{download_id}"
-        WHERE count > 0
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id, ITEM_KEY[s.id[len("homebrew-analytics-"):]]),
-    )
-    for s in DOWNLOAD_SPECS
 ]

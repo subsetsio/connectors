@@ -11,6 +11,12 @@ tests:
     certainty: 90
   - column_type: {col: percent, type: float}
     certainty: 90
+  - column_type: {col: window_end, type: date}
+    certainty: 90
+  - freshness: {col: window_end, reaches: today - 14d}
+    reason: Homebrew analytics are rolling 30/90/365 day windows refreshed frequently; stale window end means the source or fetch has stopped advancing
+    certainty: 85
+    points_outward: true
   - enum: {col: window, values: ["30d", "90d", "365d"]}
     certainty: 95
   - distinct_count: {col: window, min: 3, max: 3}
