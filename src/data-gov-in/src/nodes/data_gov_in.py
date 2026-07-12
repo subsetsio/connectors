@@ -16,13 +16,14 @@ watermark would buy nothing.
 
 Auth: `api-key` is a QUERY parameter (not a header). A registered key is read from
 DATA_GOV_IN_API_KEY when present; otherwise the public sample key published by
-data.gov.in is used. The API is sensitive to high concurrency (times out under
-heavy parallel load) but fine sequentially — the DAG runs downloads sequentially.
+data.gov.in is used. The API is rate-limited even for sequential corpus pulls, so
+requests are paced and 429s get a source-specific longer backoff.
 """
 
 import os
+import time
 
-from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_ndjson
 from constants import ENTITY_IDS
 
 SLUG = "data-gov-in"
@@ -34,26 +35,35 @@ _PAGE = 1000
 # firehoses; blowing past this means the source changed shape — raise, don't
 # silently truncate.
 _MAX_PAGES = 5000
+_RAW_EXT = "ndjson.zst"
+_MAINTAIN_MAX_AGE_DAYS = 7
+_PACE_S = float(os.environ.get("DATA_GOV_IN_REQUEST_PACE_S", "1.5"))
+_RATE_LIMIT_ATTEMPTS = 8
 
 
 def _api_key() -> str:
     return os.environ.get("DATA_GOV_IN_API_KEY") or _SAMPLE_KEY
 
 
-@transient_retry()
 def _fetch_page(resource_id: str, offset: int) -> dict:
-    resp = get(
-        _BASE + resource_id,
-        params={
-            "api-key": _api_key(),
-            "format": "json",
-            "offset": offset,
-            "limit": _PAGE,
-        },
-        timeout=(10.0, 120.0),
-    )
-    resp.raise_for_status()
-    return resp.json()
+    params = {
+        "api-key": _api_key(),
+        "format": "json",
+        "offset": offset,
+        "limit": _PAGE,
+    }
+    for attempt in range(1, _RATE_LIMIT_ATTEMPTS + 1):
+        time.sleep(_PACE_S)
+        resp = get(_BASE + resource_id, params=params, timeout=(10.0, 120.0))
+        if resp.status_code != 429:
+            resp.raise_for_status()
+            return resp.json()
+        if attempt == _RATE_LIMIT_ATTEMPTS:
+            resp.raise_for_status()
+        wait = min(600.0, 60.0 * attempt)
+        print(f"{resource_id}: HTTP 429 at offset {offset}; retrying in {wait:.0f}s")
+        time.sleep(wait)
+    raise AssertionError("unreachable")
 
 
 def fetch_one(node_id: str) -> None:
@@ -91,4 +101,16 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Weekly full refresh; data.gov.in resource endpoint has no reliable "
+            "per-record cursor, so raw committed within the 7-day cadence is fresh"
+        ),
+        check=lambda aid: raw_asset_exists(aid, _RAW_EXT, max_age_days=_MAINTAIN_MAX_AGE_DAYS),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
