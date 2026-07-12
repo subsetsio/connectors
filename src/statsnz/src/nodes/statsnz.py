@@ -15,6 +15,8 @@ import re
 import zipfile
 from urllib.parse import urljoin
 
+import pandas as pd
+
 from constants import ENTITY_IDS
 from subsets_utils import NodeSpec, get, save_raw_ndjson
 
@@ -105,15 +107,46 @@ def _rows_from_csv(content: bytes, source_file: str) -> list[dict]:
     return rows
 
 
+def _cell_to_string(value) -> str:
+    if pd.isna(value):
+        return ""
+    return str(value)
+
+
+def _rows_from_excel(content: bytes, source_file: str) -> list[dict]:
+    sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, header=None, dtype=object)
+    rows: list[dict] = []
+    for sheet_name, frame in sheets.items():
+        frame = frame.dropna(axis=0, how="all").dropna(axis=1, how="all")
+        for index, values in frame.iterrows():
+            record = {
+                "source_file": source_file,
+                "sheet_name": str(sheet_name),
+                "row_number": int(index) + 1,
+            }
+            for i, value in enumerate(values, start=1):
+                record[f"column_{i}"] = _cell_to_string(value)
+            rows.append(record)
+    return rows
+
+
 def _rows_from_payload(content: bytes, filename: str) -> list[dict]:
     if filename.lower().endswith(".zip"):
         rows: list[dict] = []
         with zipfile.ZipFile(io.BytesIO(content)) as zf:
             for name in sorted(zf.namelist()):
-                if name.endswith("/") or not name.lower().endswith(".csv"):
+                if name.endswith("/"):
                     continue
-                rows.extend(_rows_from_csv(zf.read(name), name))
+                member = zf.read(name)
+                if name.lower().endswith(".zip"):
+                    rows.extend(_rows_from_payload(member, name))
+                elif name.lower().endswith(".csv"):
+                    rows.extend(_rows_from_csv(member, name))
+                elif name.lower().endswith((".xls", ".xlsx")):
+                    rows.extend(_rows_from_excel(member, name))
         return rows
+    if filename.lower().endswith((".xls", ".xlsx")):
+        return _rows_from_excel(content, filename)
     return _rows_from_csv(content, filename)
 
 
