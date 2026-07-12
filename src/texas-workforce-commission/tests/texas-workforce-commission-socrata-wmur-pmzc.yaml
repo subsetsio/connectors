@@ -1,2 +1,6 @@
 spec_id: texas-workforce-commission-socrata-wmur-pmzc
-status: deferred
+status: active
+tests:
+  - freshness: {col: reporting_date, reaches: today - 30d}
+    points_outward: true
+    reason: child care provider ratings should include a recent reporting date.

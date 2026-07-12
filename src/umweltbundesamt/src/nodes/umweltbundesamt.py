@@ -140,10 +140,20 @@ def _date(value: Any) -> date | None:
 
 def _records_from_indexed_map(payload: dict[str, Any], columns: list[str]) -> list[dict[str, Any]]:
     data = payload.get("data")
-    if not isinstance(data, dict):
-        raise AssertionError("expected object-valued `data` map")
+    if data is None:
+        data = {
+            key: value
+            for key, value in payload.items()
+            if key.isdigit() and isinstance(value, list)
+        }
+    if isinstance(data, list):
+        values_iter = data
+    elif isinstance(data, dict):
+        values_iter = [data[key] for key in sorted(data, key=lambda value: int(value) if value.isdigit() else value)]
+    else:
+        raise AssertionError("expected list-valued or object-valued `data` rows")
     rows: list[dict[str, Any]] = []
-    for values in data.values():
+    for values in values_iter:
         rows.append(dict(zip(columns, values, strict=True)))
     return rows
 
@@ -326,7 +336,12 @@ def fetch_transgressions(node_id: str) -> None:
     rows: list[dict[str, Any]] = []
     for component_id in _component_ids():
         for year in range(START_YEAR, date.today().year + 1):
-            payload = _json("transgressions/json", {"component": component_id, "year": year, "lang": "en"})
+            try:
+                payload = _json("transgressions/json", {"component": component_id, "year": year, "lang": "en"})
+            except Exception as exc:
+                if "500 Server Error" in str(exc):
+                    continue
+                raise
             for values in payload.get("data") or []:
                 padded = list(values) + [None] * 16
                 record = {

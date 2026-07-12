@@ -1,2 +1,6 @@
 spec_id: texas-workforce-commission-socrata-8w53-c4f6
-status: deferred
+status: active
+tests:
+  - freshness: {col: notice_date, reaches: today - 60d}
+    points_outward: true
+    reason: WARN notices should include a recent notice date.

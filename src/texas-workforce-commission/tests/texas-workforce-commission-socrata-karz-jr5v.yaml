@@ -1,2 +1,6 @@
 spec_id: texas-workforce-commission-socrata-karz-jr5v
-status: deferred
+status: active
+tests:
+  - freshness: {col: year, reaches: current_year()}
+    points_outward: true
+    reason: monthly Texas economic indicators should include the current calendar year.
