@@ -1,0 +1,14 @@
+spec_id: uk-dwp-organogram-of-staff-roles-salaries30092019
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: semiannual DWP organograms contain role and salary rows across the department
+    certainty: 90
+  - not_null: resource_name
+  - not_null: source_url
+  - not_null: row_index
+  - column_type: {col: row_index, type: integer}
+  - freshness: {col: resource_last_modified, reaches: today - 400d}
+    reason: organogram data is released twice yearly by departments
+    points_outward: true
+

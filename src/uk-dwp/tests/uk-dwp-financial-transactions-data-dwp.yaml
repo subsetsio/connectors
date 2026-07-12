@@ -1,0 +1,14 @@
+spec_id: uk-dwp-financial-transactions-data-dwp
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: monthly spend-over-25000 transparency returns have been published since 2010
+    certainty: 95
+  - not_null: resource_name
+  - not_null: source_url
+  - not_null: row_index
+  - column_type: {col: row_index, type: integer}
+  - freshness: {col: resource_last_modified, reaches: today - 400d}
+    reason: active recurring spending-transparency series should include a recent resource
+    points_outward: true
+

@@ -1,0 +1,13 @@
+spec_id: uk-dwp-workforce-management-information-dwp
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: monthly workforce management information spans staff and paybill rows across many periods
+    certainty: 90
+  - not_null: resource_name
+  - not_null: source_url
+  - not_null: row_index
+  - column_type: {col: row_index, type: integer}
+  - freshness: {col: resource_last_modified, reaches: today - 400d}
+    reason: workforce management information is a monthly recurring publication
+    points_outward: true

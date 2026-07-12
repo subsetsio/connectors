@@ -1,0 +1,14 @@
+spec_id: uk-dwp-exceptions-to-government-moratoria-department-work-and-pensions
+status: active
+coverage:
+  frozen: true
+  reason: closed cross-government moratoria transparency archive; CKAN package last modified in 2022 and the corpus is not expected to advance
+tests:
+  - row_count: {min: 100}
+    reason: archive contains many historical spend-exception CSV resources
+    certainty: 80
+  - not_null: resource_name
+  - not_null: source_url
+  - not_null: row_index
+  - column_type: {col: row_index, type: integer}
+

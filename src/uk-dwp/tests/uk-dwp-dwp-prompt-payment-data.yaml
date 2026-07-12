@@ -1,0 +1,14 @@
+spec_id: uk-dwp-dwp-prompt-payment-data
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: prompt-payment transparency data spans multiple reporting periods
+    certainty: 85
+  - not_null: resource_name
+  - not_null: source_url
+  - not_null: row_index
+  - column_type: {col: row_index, type: integer}
+  - freshness: {col: resource_last_modified, reaches: today - 400d}
+    reason: prompt-payment returns are a recurring publication
+    points_outward: true
+
