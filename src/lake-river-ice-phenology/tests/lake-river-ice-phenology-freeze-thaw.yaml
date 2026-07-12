@@ -1,5 +1,8 @@
 spec_id: lake-river-ice-phenology-freeze-thaw
 status: active
+coverage:
+  frozen: true
+  reason: NSIDC G01377 publishes fixed Global Lake and River Ice Phenology CSV files for the historical database; new releases are expected as source version updates rather than an advancing daily or monthly feed.
 tests:
   - not_null: lakecode
     reason: every observation belongs to a waterbody; a null code means a parse/column shift
