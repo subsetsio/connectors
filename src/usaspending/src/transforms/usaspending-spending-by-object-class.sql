@@ -3,4 +3,3 @@ SELECT fiscal_year,
        name AS object_class_name,
        total_obligations
 FROM "usaspending-spending-by-object-class"
-WHERE total_obligations <> 0

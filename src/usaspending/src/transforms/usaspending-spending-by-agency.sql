@@ -3,4 +3,3 @@ SELECT fiscal_year,
        name AS agency_name,
        total_obligations
 FROM "usaspending-spending-by-agency"
-WHERE total_obligations <> 0

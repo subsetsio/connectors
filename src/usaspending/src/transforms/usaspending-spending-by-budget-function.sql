@@ -3,4 +3,3 @@ SELECT fiscal_year,
        name AS budget_function_name,
        total_obligations
 FROM "usaspending-spending-by-budget-function"
-WHERE total_obligations <> 0

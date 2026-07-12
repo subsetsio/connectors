@@ -7,4 +7,3 @@ SELECT CAST(date AS DATE) AS date,
        loan_obligations,
        other_obligations
 FROM "usaspending-monthly-spending-by-award-type"
-WHERE total_obligations <> 0

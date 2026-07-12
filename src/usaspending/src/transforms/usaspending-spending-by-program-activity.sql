@@ -4,4 +4,3 @@ SELECT fiscal_year,
        name AS program_activity_name,
        total_obligations
 FROM "usaspending-spending-by-program-activity"
-WHERE total_obligations <> 0

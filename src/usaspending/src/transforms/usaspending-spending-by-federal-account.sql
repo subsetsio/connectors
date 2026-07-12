@@ -4,4 +4,3 @@ SELECT fiscal_year,
        name AS federal_account_name,
        total_obligations
 FROM "usaspending-spending-by-federal-account"
-WHERE total_obligations <> 0
