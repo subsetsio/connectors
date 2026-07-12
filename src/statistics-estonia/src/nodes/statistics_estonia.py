@@ -23,7 +23,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     save_raw_ndjson,
@@ -176,16 +175,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{key}", fn=fetch_one, kind="download")
     for key in ENTITY_PATHS
-]
-
-# Each table already has its natural long-format schema after the melt, so the
-# transform is a thin passthrough that publishes it. (DuckDB infers column types
-# from the NDJSON; `value` becomes DOUBLE.)
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
