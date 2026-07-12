@@ -1,0 +1,18 @@
+spec_id: google-community-mobility-reports
+status: active
+coverage:
+  frozen: true
+  reason: Google ended Community Mobility Reports updates on 2022-10-15; historical data remains as a fixed archive.
+tests:
+  - row_count: {min: 1000000}
+    reason: global report covers daily mobility for countries and regional subdivisions from 2020-02-15 through 2022-10-15
+    certainty: 95
+  - not_null: country_region
+  - not_null: date
+  - column_type: {col: date, type: string}
+  - matches: {col: date, pattern: "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"}
+    reason: source publishes ISO calendar dates in the CSV
+    certainty: 95
+  - distinct_count: {col: country_region_code, min: 100}
+    reason: source covers over 100 countries and regions
+    certainty: 90
