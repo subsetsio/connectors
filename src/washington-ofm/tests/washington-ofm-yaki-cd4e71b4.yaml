@@ -1,0 +1,12 @@
+spec_id: washington-ofm-yaki-cd4e71b4
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: each accepted OFM file or Socrata dataset should yield at least one SQL-readable raw row.
+    certainty: 90
+  - not_null: _entity_id
+    reason: downloader stamps the accepted collect entity on every raw row.
+    certainty: 99
+  - not_null: _source_type
+    reason: source_type distinguishes OFM file-cell rows from Socrata record rows for modeling.
+    certainty: 99
