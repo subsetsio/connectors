@@ -18,3 +18,7 @@ tests:
     certainty: 85
   - distinct_count: {col: range, min: 1}
     certainty: 90
+  - freshness: {col: last_updated_date, reaches: today - 45d}
+    reason: ListenBrainz sitewide statistics are refreshed continuously enough that the payload update date should be recent.
+    certainty: 80
+    points_outward: true

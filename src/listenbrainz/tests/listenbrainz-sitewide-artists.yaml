@@ -22,3 +22,7 @@ tests:
   - distinct_count: {col: range, min: 1}
     reason: at least one window must be computed; usually all six
     certainty: 90
+  - freshness: {col: last_updated_date, reaches: today - 45d}
+    reason: ListenBrainz sitewide statistics are refreshed continuously enough that the payload update date should be recent.
+    certainty: 80
+    points_outward: true

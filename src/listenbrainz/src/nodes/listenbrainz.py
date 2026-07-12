@@ -18,8 +18,10 @@ Raw is written as NDJSON because several endpoints carry nested/list fields
 endpoints; the SQL transform flattens and types each subset.
 """
 
+from datetime import datetime, timezone
+
 import pyarrow as pa  # noqa: F401  (kept for parity; not required)
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
 BASE = "https://api.listenbrainz.org"
 
@@ -62,6 +64,12 @@ def _fetch_payload(path: str, rng: str, has_count: bool):
     return resp.json()["payload"]
 
 
+def _epoch_date(value):
+    if value is None:
+        return None
+    return datetime.fromtimestamp(value, tz=timezone.utc).date().isoformat()
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     entity = node_id[len("listenbrainz-"):]
@@ -78,6 +86,7 @@ def fetch_one(node_id: str) -> None:
             "window_from_ts": payload.get("from_ts"),
             "window_to_ts": payload.get("to_ts"),
             "last_updated": payload.get("last_updated"),
+            "last_updated_date": _epoch_date(payload.get("last_updated")),
         }
         for it in items:
             rows.append({**it, **window})
@@ -96,167 +105,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="listenbrainz-sitewide-artist-activity", fn=fetch_one, kind="download"),
     NodeSpec(id="listenbrainz-sitewide-era-activity", fn=fetch_one, kind="download"),
     NodeSpec(id="listenbrainz-sitewide-artist-map", fn=fetch_one, kind="download"),
-]
-
-
-# ---- Transforms: one published Delta table per subset -----------------------
-# Shared timestamp/window projection; each subset re-types and flattens its raw.
-
-_WINDOW_COLS = (
-    'CAST(to_timestamp(window_from_ts) AS TIMESTAMP) AS window_start, '
-    'CAST(to_timestamp(window_to_ts)   AS TIMESTAMP) AS window_end, '
-    'CAST(to_timestamp(last_updated)   AS TIMESTAMP) AS updated_at'
-)
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-artists-transform",
-        deps=["listenbrainz-sitewide-artists"],
-        key=("range", "rank"),
-        temporal="updated_at",
-        sql=f'''
-            SELECT
-                range,
-                ROW_NUMBER() OVER (PARTITION BY range ORDER BY listen_count DESC, artist_name) AS rank,
-                artist_mbid,
-                artist_name,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                {_WINDOW_COLS}
-            FROM "listenbrainz-sitewide-artists"
-            WHERE artist_name IS NOT NULL AND listen_count IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-releases-transform",
-        deps=["listenbrainz-sitewide-releases"],
-        key=("range", "rank"),
-        temporal="updated_at",
-        sql=f'''
-            SELECT
-                range,
-                ROW_NUMBER() OVER (PARTITION BY range ORDER BY listen_count DESC, release_name) AS rank,
-                release_mbid,
-                release_name,
-                artist_name,
-                array_to_string(artist_mbids, ',') AS artist_mbids,
-                CAST(caa_id AS BIGINT) AS caa_id,
-                caa_release_mbid,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                {_WINDOW_COLS}
-            FROM "listenbrainz-sitewide-releases"
-            WHERE release_name IS NOT NULL AND listen_count IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-release-groups-transform",
-        deps=["listenbrainz-sitewide-release-groups"],
-        key=("range", "rank"),
-        temporal="updated_at",
-        sql=f'''
-            SELECT
-                range,
-                ROW_NUMBER() OVER (PARTITION BY range ORDER BY listen_count DESC, release_group_name) AS rank,
-                release_group_mbid,
-                release_group_name,
-                artist_name,
-                array_to_string(artist_mbids, ',') AS artist_mbids,
-                CAST(caa_id AS BIGINT) AS caa_id,
-                caa_release_mbid,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                {_WINDOW_COLS}
-            FROM "listenbrainz-sitewide-release-groups"
-            WHERE release_group_name IS NOT NULL AND listen_count IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-recordings-transform",
-        deps=["listenbrainz-sitewide-recordings"],
-        key=("range", "rank"),
-        temporal="updated_at",
-        sql=f'''
-            SELECT
-                range,
-                ROW_NUMBER() OVER (PARTITION BY range ORDER BY listen_count DESC, track_name) AS rank,
-                recording_mbid,
-                track_name,
-                artist_name,
-                array_to_string(artist_mbids, ',') AS artist_mbids,
-                release_mbid,
-                release_name,
-                CAST(caa_id AS BIGINT) AS caa_id,
-                caa_release_mbid,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                {_WINDOW_COLS}
-            FROM "listenbrainz-sitewide-recordings"
-            WHERE track_name IS NOT NULL AND listen_count IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-listening-activity-transform",
-        deps=["listenbrainz-sitewide-listening-activity"],
-        key=("range", "time_range"),
-        temporal="updated_at",
-        sql='''
-            SELECT
-                range,
-                time_range,
-                CAST(to_timestamp(from_ts) AS TIMESTAMP) AS bucket_start,
-                CAST(to_timestamp(to_ts)   AS TIMESTAMP) AS bucket_end,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                CAST(to_timestamp(last_updated) AS TIMESTAMP) AS updated_at
-            FROM "listenbrainz-sitewide-listening-activity"
-            WHERE time_range IS NOT NULL AND listen_count IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-artist-activity-transform",
-        deps=["listenbrainz-sitewide-artist-activity"],
-        key=("range", "artist_name"),
-        temporal="updated_at",
-        # artist_mbid is intentionally dropped: the sitewide artist-activity
-        # endpoint never populates it (always null), unlike sitewide/artists.
-        sql=f'''
-            SELECT
-                range,
-                name AS artist_name,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                {_WINDOW_COLS}
-            FROM "listenbrainz-sitewide-artist-activity"
-            WHERE name IS NOT NULL AND listen_count IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-era-activity-transform",
-        deps=["listenbrainz-sitewide-era-activity"],
-        key=("range", "year"),
-        temporal="updated_at",
-        sql='''
-            SELECT
-                range,
-                CAST(year AS INTEGER) AS year,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                CAST(to_timestamp(last_updated) AS TIMESTAMP) AS updated_at
-            FROM "listenbrainz-sitewide-era-activity"
-            WHERE year IS NOT NULL AND listen_count IS NOT NULL
-              -- drop garbage MusicBrainz release-year tags (e.g. 2913); recorded
-              -- music spans ~1860 to the near future.
-              AND year BETWEEN 1860 AND CAST(EXTRACT(YEAR FROM current_date) AS INTEGER) + 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="listenbrainz-sitewide-artist-map-transform",
-        deps=["listenbrainz-sitewide-artist-map"],
-        key=("range", "country"),
-        temporal="updated_at",
-        sql='''
-            SELECT
-                range,
-                country,
-                CAST(artist_count AS BIGINT) AS artist_count,
-                CAST(listen_count AS BIGINT) AS listen_count,
-                CAST(to_timestamp(last_updated) AS TIMESTAMP) AS updated_at
-            FROM "listenbrainz-sitewide-artist-map"
-            WHERE country IS NOT NULL
-        ''',
-    ),
 ]
