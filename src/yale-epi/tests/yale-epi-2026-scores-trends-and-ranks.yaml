@@ -1,0 +1,18 @@
+spec_id: yale-epi-2026-scores-trends-and-ranks
+status: active
+coverage:
+  frozen: true
+  reason: 2026 EPI release workbook is a fixed release-year snapshot.
+tests:
+  - row_count: {min: 200}
+    reason: workbook should include README rows plus country-level data for about 180 countries
+    certainty: 90
+  - not_null: sheet_name
+  - not_null: source_row_number
+  - distinct_count: {col: sheet_name, min: 2}
+    reason: scores workbook should include README and data sheets
+    certainty: 95
+  - distinct_count: {col: iso, min: 170}
+    reason: data sheet ranks roughly 180 countries
+    certainty: 90
+

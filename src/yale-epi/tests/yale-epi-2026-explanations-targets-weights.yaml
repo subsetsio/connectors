@@ -1,0 +1,18 @@
+spec_id: yale-epi-2026-explanations-targets-weights
+status: active
+coverage:
+  frozen: true
+  reason: 2026 EPI methods workbook is a fixed release-year snapshot.
+tests:
+  - row_count: {min: 650}
+    reason: methods workbook should include README plus country, variable, weight, coverage, and constituent sheets
+    certainty: 90
+  - not_null: sheet_name
+  - not_null: source_row_number
+  - distinct_count: {col: sheet_name, min: 7}
+    reason: methods workbook has seven documented sheets
+    certainty: 95
+  - distinct_count: {col: iso, min: 170}
+    reason: country-related sheets cover roughly 180 countries
+    certainty: 85
+

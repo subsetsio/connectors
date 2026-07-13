@@ -1,0 +1,26 @@
+spec_id: yale-epi-2026-indicator-scores-with-missing-value-codes
+status: active
+coverage:
+  frozen: true
+  reason: 2026 EPI indicator score ZIP with missing-value codes is a fixed release-year snapshot.
+tests:
+  - row_count: {min: 250000}
+    reason: about 52 indicators by roughly 180 countries by 30 annual columns
+    certainty: 90
+  - not_null: variable_code
+  - not_null: iso
+  - not_null: observation_year
+  - column_type: {col: observation_year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: observation_year, lo: 1996, hi: 2026}
+    certainty: 95
+  - distinct_count: {col: variable_code, min: 50}
+    reason: current indicator bundle contains about 52 indicator CSV members
+    certainty: 95
+  - distinct_count: {col: iso, min: 170}
+    reason: current EPI scores cover roughly 180 countries
+    certainty: 90
+  - enum: {col: has_missing_value_codes, values: [true]}
+    reason: this accepted entity is the missing-value-code variant
+    certainty: 100
+

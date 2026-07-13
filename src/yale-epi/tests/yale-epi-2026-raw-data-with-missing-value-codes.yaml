@@ -1,0 +1,25 @@
+spec_id: yale-epi-2026-raw-data-with-missing-value-codes
+status: active
+coverage:
+  frozen: true
+  reason: 2026 EPI raw data ZIP with missing-value codes is a fixed release-year snapshot.
+tests:
+  - row_count: {min: 350000}
+    reason: about 104 raw variables by roughly 180 countries across variable-specific year ranges
+    certainty: 85
+  - not_null: variable_code
+  - not_null: iso
+  - not_null: observation_year
+  - column_type: {col: observation_year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: observation_year, lo: 1750, hi: 2026}
+    certainty: 90
+  - distinct_count: {col: variable_code, min: 100}
+    reason: current raw bundle contains about 104 raw CSV members
+    certainty: 95
+  - distinct_count: {col: iso, min: 170}
+    reason: current EPI raw data covers roughly 180 countries
+    certainty: 90
+  - enum: {col: has_missing_value_codes, values: [true]}
+    reason: this accepted entity is the missing-value-code variant
+    certainty: 100
