@@ -1,0 +1,13 @@
+spec_id: wgms-fog-mass-balance-band
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: mass_balance_band contains elevation-band rows for many mass-balance observations.
+    certainty: 85
+  - not_null: glacier_id
+  - not_null: year
+  - freshness: {col: year, reaches: 2024}
+    reason: the current FoG release covers annual mass-balance observations through 2024.
+    certainty: 85
+    points_outward: true
+

@@ -1,0 +1,13 @@
+spec_id: wgms-fog-state
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: FoG state.csv contains repeated glacier state measurements across the catalog.
+    certainty: 85
+  - not_null: glacier_id
+  - not_null: id
+  - freshness: {col: date, reaches: "2024-01-01"}
+    reason: the current FoG release includes glacier state observations through 2024.
+    certainty: 85
+    points_outward: true
+

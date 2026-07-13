@@ -1,0 +1,9 @@
+spec_id: wgms-fog-change-band
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: change_band.csv contains elevation-band rows for many FoG change records.
+    certainty: 85
+  - not_null: glacier_id
+  - not_null: change_id
+

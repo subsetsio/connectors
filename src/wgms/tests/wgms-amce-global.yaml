@@ -1,0 +1,15 @@
+spec_id: wgms-amce-global
+status: active
+tests:
+  - row_count: {min: 40}
+    reason: global AMCE is an annual series beginning in 1976.
+    certainty: 95
+  - not_null: year
+  - unique: year
+    reason: one global aggregate row per hydrological year.
+    certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: the current AMCE release covers annual mass change through hydrological year 2024.
+    certainty: 95
+    points_outward: true
+

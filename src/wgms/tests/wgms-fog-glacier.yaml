@@ -1,0 +1,11 @@
+spec_id: wgms-fog-glacier
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: the FoG glacier master register covers the global glacier inventory.
+    certainty: 90
+  - not_null: id
+  - unique: id
+    reason: datapackage declares glacier id as the primary key.
+    certainty: 95
+

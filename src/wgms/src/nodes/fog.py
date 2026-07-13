@@ -86,12 +86,12 @@ def _latest_fog_url() -> str:
 
 
 _FOG_TABLES = [
-    "change", "change_band", "event", "front_variation", "glacier",
+    "agency", "change", "change_band", "event", "front_variation", "glacier",
     "mass_balance", "mass_balance_band", "mass_balance_point", "state",
-    "state_band",
+    "state_band", "person",
 ]
 
-DOWNLOAD_SPECS: list[NodeSpec] = [
+_DOWNLOAD_SPECS: list[NodeSpec] = [
     NodeSpec(id=f"wgms-fog-{t.replace('_', '-')}", fn=fetch_fog_table, kind="download")
     for t in _FOG_TABLES
 ]

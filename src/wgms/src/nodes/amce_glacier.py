@@ -67,7 +67,7 @@ def fetch_amce_glacier(node_id: str) -> None:
                     }) + "\n")
 
 
-DOWNLOAD_SPECS: list[NodeSpec] = [
+_DOWNLOAD_SPECS: list[NodeSpec] = [
     NodeSpec(id="wgms-amce-glacier", fn=fetch_amce_glacier, kind="download"),
 ]
 

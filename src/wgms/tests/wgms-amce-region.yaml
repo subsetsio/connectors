@@ -1,0 +1,15 @@
+spec_id: wgms-amce-region
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: AMCE region files cover roughly twenty GTN-G regions across annual histories.
+    certainty: 90
+  - distinct_count: {col: region, min: 20}
+    reason: the AMCE release should include all first-order GTN-G regions.
+    certainty: 90
+  - not_null: year
+  - freshness: {col: year, reaches: 2024}
+    reason: the current AMCE release covers annual mass change through hydrological year 2024.
+    certainty: 95
+    points_outward: true
+

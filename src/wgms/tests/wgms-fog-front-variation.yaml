@@ -1,0 +1,12 @@
+spec_id: wgms-fog-front-variation
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: FoG front variation is a long-running glacier length-change table.
+    certainty: 90
+  - not_null: glacier_id
+  - freshness: {col: end_date, reaches: "2024-01-01"}
+    reason: the current FoG release includes observations through 2024.
+    certainty: 85
+    points_outward: true
+

@@ -22,7 +22,7 @@ def fetch_amce_global(node_id: str) -> None:
         save_raw_file(fh.read().decode("utf-8"), node_id, extension="csv")
 
 
-DOWNLOAD_SPECS: list[NodeSpec] = [
+_DOWNLOAD_SPECS: list[NodeSpec] = [
     NodeSpec(id="wgms-amce-global", fn=fetch_amce_global, kind="download"),
 ]
 

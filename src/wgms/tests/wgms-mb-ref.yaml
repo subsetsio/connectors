@@ -1,0 +1,14 @@
+spec_id: wgms-mb-ref
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: mb_ref is an annual reference-glacier summary from about 1950 onward.
+    certainty: 90
+  - not_null: Year
+  - unique: Year
+    reason: one reference-glacier summary row per year.
+    certainty: 95
+  - freshness: {col: Year, reaches: 2024}
+    reason: mb_ref follows the current WGMS release and should reach the latest published year.
+    certainty: 85
+    points_outward: true

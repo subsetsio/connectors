@@ -16,7 +16,7 @@ def fetch_mb_ref(node_id: str) -> None:
     save_raw_file(get_text(MB_REF_URL), node_id, extension="csv")
 
 
-DOWNLOAD_SPECS: list[NodeSpec] = [
+_DOWNLOAD_SPECS: list[NodeSpec] = [
     NodeSpec(id="wgms-mb-ref", fn=fetch_mb_ref, kind="download"),
 ]
 

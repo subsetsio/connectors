@@ -1,0 +1,9 @@
+spec_id: wgms-fog-state-band
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: state_band.csv contains elevation-band rows for many glacier state records.
+    certainty: 85
+  - not_null: glacier_id
+  - not_null: state_id
+

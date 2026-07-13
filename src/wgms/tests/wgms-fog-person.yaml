@@ -1,0 +1,12 @@
+spec_id: wgms-fog-person
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: FoG credits a large international investigator network.
+    certainty: 85
+  - not_null: id
+  - not_null: name
+  - unique: id
+    reason: datapackage declares person id as the primary key.
+    certainty: 95
+

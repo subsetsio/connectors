@@ -35,7 +35,7 @@ def fetch_amce_region(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
-DOWNLOAD_SPECS: list[NodeSpec] = [
+_DOWNLOAD_SPECS: list[NodeSpec] = [
     NodeSpec(id="wgms-amce-region", fn=fetch_amce_region, kind="download"),
 ]
 

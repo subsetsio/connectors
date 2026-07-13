@@ -1,0 +1,13 @@
+spec_id: wgms-amce-glacier
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: AMCE contains annual estimates for the global glacier inventory; a much smaller pull likely missed region files.
+    certainty: 90
+  - not_null: outline_id
+  - not_null: year
+  - freshness: {col: year, reaches: 2024}
+    reason: the current AMCE release covers annual mass change through hydrological year 2024.
+    certainty: 95
+    points_outward: true
+
