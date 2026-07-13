@@ -34,6 +34,9 @@ from subsets_utils import (
 from constants import ENTITY_IDS, ENTITY_HANDLES
 
 API = "https://datarepository.movebank.org/server/api"
+SPEC_ENTITY_IDS = {
+    f"movebank-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS
+}
 
 # Movebank standard export column -> our normalized field name. Every field is
 # pulled by header name, so a study missing one of these simply gets nulls.
@@ -232,9 +235,7 @@ def _stream_normalize(sources, asset):
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
-    entity_id = node_id[len("movebank-"):]
-    if entity_id not in ENTITY_HANDLES:
-        entity_id = entity_id.replace("-", "_")
+    entity_id = SPEC_ENTITY_IDS[node_id]
     handle = ENTITY_HANDLES[entity_id]
     item_uuid = _resolve_item_uuid(handle)
     sources = _main_csv_sources(item_uuid)
