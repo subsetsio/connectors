@@ -22,9 +22,11 @@ import json
 from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get,
     post,
+    raw_asset_exists,
     transient_retry,
     raw_writer,
 )
@@ -252,5 +254,18 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{stem}", fn=fetch_one, kind="download")
+    for stem in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=f"{SLUG}-{stem}",
+        description=(
+            "Full PxWeb table refresh; skip when raw exists in the committed "
+            "manifest and is under 30 days old (inferred — no per-table "
+            "Last-Modified/ETag surfaced by the PxWeb API)."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson.gz", max_age_days=30),
+    )
     for stem in ENTITY_IDS
 ]
