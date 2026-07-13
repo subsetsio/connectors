@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reddit-subreddit-subscribers`. Regenerate after model-verify.
+# caution: The subreddit panel is limited to communities above the connector's current subscriber threshold, so it is not an all-subreddit census.
+key: [subreddit, period_start]
+temporal: period_start
+sort: [period_start, subreddit]
+columns:
+  - name: subreddit
+    type: VARCHAR
+    description: Reddit community display name.
+  - name: period_start
+    type: TIMESTAMP
+    description: Start timestamp of the subscriber-count observation period.
+  - name: subscribers
+    type: DOUBLE
+    description: Subscriber count reported by the Arctic Shift subreddit time series.

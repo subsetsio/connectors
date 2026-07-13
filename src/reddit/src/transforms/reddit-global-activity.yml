@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reddit-global-activity`. Regenerate after model-verify.
+# caution: Rows are long-form metric observations; pivot or filter `metric` before comparing posts, comments, and score totals.
+key: [metric, period_start]
+temporal: period_start
+sort: [period_start, metric]
+columns:
+  - name: metric
+    type: VARCHAR
+    description: Activity metric from the Arctic Shift global time-series key.
+  - name: period_start
+    type: TIMESTAMP
+    description: Start timestamp of the aggregation period.
+  - name: value
+    type: DOUBLE
+    description: Observed metric value for the period.

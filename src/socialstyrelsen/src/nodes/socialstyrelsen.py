@@ -3,6 +3,8 @@ import os
 import time
 from datetime import datetime, timezone
 
+import psutil
+
 from subsets_utils import NodeSpec, get, list_raw_fragments, raw_writer
 
 from constants import ENTITY_IDS, SUBJECT_NAMES
@@ -13,8 +15,9 @@ PAGE_SIZE = 5000
 SLUG = "socialstyrelsen"
 EXT = "ndjson.gz"
 DEFAULT_TIME_BUDGET_S = 20_700.0
-MAX_LEG_SECONDS = 3_600.0
-DAG_SHUTDOWN_MARGIN_S = 900.0
+MAX_LEG_SECONDS = 1_800.0
+DAG_SHUTDOWN_MARGIN_S = 1_800.0
+MAX_PAGES_PER_LEG = 25
 
 
 def _fetched_at() -> str:
@@ -32,7 +35,13 @@ def _leg_seconds() -> float:
         budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
-    return min(MAX_LEG_SECONDS, max(300.0, budget - DAG_SHUTDOWN_MARGIN_S))
+    nominal = min(MAX_LEG_SECONDS, max(300.0, budget * 0.20))
+    try:
+        parent_started = psutil.Process(os.getppid()).create_time()
+    except Exception:
+        return nominal
+    remaining = budget - max(0.0, time.time() - parent_started) - DAG_SHUTDOWN_MARGIN_S
+    return max(0.0, min(nominal, remaining))
 
 
 def _entity_from_node_id(node_id: str) -> str:
@@ -171,6 +180,7 @@ def fetch_subject(node_id: str) -> None:
     }
     deadline = time.monotonic() + _leg_seconds()
     rows_this_leg = 0
+    pages_this_leg = 0
 
     for metric_id in _metric_ids(entity_id, label_maps):
         url = _result_url(entity_id, metric_id)
@@ -188,7 +198,9 @@ def fetch_subject(node_id: str) -> None:
             if fragment in committed:
                 continue
 
-            if rows_this_leg and time.monotonic() >= deadline:
+            if rows_this_leg and (
+                time.monotonic() >= deadline or pages_this_leg >= MAX_PAGES_PER_LEG
+            ):
                 print(
                     f"  -> {node_id}: leg budget spent after {rows_this_leg:,} rows; "
                     "committing fragments and requesting continuation"
@@ -213,6 +225,7 @@ def fetch_subject(node_id: str) -> None:
                     label_specs=label_specs,
                     fetched_at=fetched_at,
                 )
+                pages_this_leg += 1
 
     if rows_this_leg == 0 and not committed:
         raise AssertionError(f"{node_id}: fetched zero result rows")

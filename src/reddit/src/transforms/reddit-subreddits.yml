@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reddit-subreddits`. Regenerate after model-verify.
+# caution: This is a current metadata snapshot for the connector's subreddit panel, not a historical dimension table.
+key: [subreddit, lang, subreddit_type]
+sort: [subreddit, lang, subreddit_type]
+columns:
+  - name: subreddit
+    type: VARCHAR
+    description: Reddit community display name.
+  - name: subscribers
+    type: BIGINT
+    description: Current subscriber count reported in the subreddit metadata snapshot.
+  - name: created_at
+    type: TIMESTAMP
+    description: Subreddit creation timestamp.
+  - name: over18
+    type: BOOLEAN
+    description: Whether the subreddit is marked over-18.
+  - name: subreddit_type
+    type: VARCHAR
+    description: Reddit subreddit type code.
+  - name: lang
+    type: VARCHAR
+    description: Language code reported by Reddit for the subreddit.
+  - name: num_posts
+    type: BIGINT
+    description: Number of posts reported in the Arctic Shift metadata record.
+  - name: num_comments
+    type: BIGINT
+    description: Number of comments reported in the Arctic Shift metadata record.
