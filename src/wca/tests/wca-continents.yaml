@@ -1,0 +1,13 @@
+spec_id: wca-continents
+status: active
+tests:
+  - row_count: {min: 6}
+    reason: WCA recognizes the inhabited continental groupings plus world records.
+    certainty: 90
+  - not_null: id
+  - unique: id
+  - not_null: name
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

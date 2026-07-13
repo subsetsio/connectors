@@ -1,0 +1,16 @@
+spec_id: wca-competitions
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: The public WCA export covers all official competitions since 1982.
+    certainty: 95
+  - not_null: id
+  - unique: id
+  - not_null: name
+  - not_null: year
+  - at_least: {col: year, expr: 1982}
+    certainty: 90
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

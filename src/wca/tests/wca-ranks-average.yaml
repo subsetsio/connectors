@@ -1,0 +1,15 @@
+spec_id: wca-ranks-average
+status: active
+tests:
+  - row_count: {min: 500000}
+    reason: Average rankings cover many competitors across WCA events.
+    certainty: 95
+  - not_null: person_id
+  - not_null: event_id
+  - unique: [person_id, event_id]
+  - not_null: best
+  - not_null: world_rank
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

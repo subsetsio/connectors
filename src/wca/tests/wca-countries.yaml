@@ -1,0 +1,14 @@
+spec_id: wca-countries
+status: active
+tests:
+  - row_count: {min: 180}
+    reason: The export includes current and historical country records.
+    certainty: 95
+  - not_null: id
+  - unique: id
+  - not_null: name
+  - not_null: continent_id
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

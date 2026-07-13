@@ -1,0 +1,14 @@
+spec_id: wca-scrambles
+status: active
+tests:
+  - row_count: {min: 2000000}
+    reason: The public export contains millions of scramble records.
+    certainty: 95
+  - not_null: id
+  - unique: id
+  - not_null: competition_id
+  - not_null: event_id
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

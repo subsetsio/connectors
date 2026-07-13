@@ -1,0 +1,13 @@
+spec_id: wca-formats
+status: active
+tests:
+  - row_count: {min: 5}
+    reason: WCA round formats are a small reference table.
+    certainty: 95
+  - not_null: id
+  - unique: id
+  - not_null: name
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

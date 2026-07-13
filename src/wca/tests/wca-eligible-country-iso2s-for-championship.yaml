@@ -1,0 +1,13 @@
+spec_id: wca-eligible-country-iso2s-for-championship
+status: active
+tests:
+  - row_count: {min: 4}
+    reason: The export currently contains the greater_china championship eligibility mapping.
+    certainty: 80
+  - not_null: championship_type
+  - not_null: eligible_country_iso2
+  - unique: [championship_type, eligible_country_iso2]
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

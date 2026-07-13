@@ -1,0 +1,15 @@
+spec_id: wca-results
+status: active
+tests:
+  - row_count: {min: 5000000}
+    reason: The export contains millions of official competition result rows.
+    certainty: 95
+  - not_null: id
+  - unique: id
+  - not_null: competition_id
+  - not_null: event_id
+  - not_null: person_id
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

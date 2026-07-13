@@ -1,0 +1,14 @@
+spec_id: wca-result-attempts
+status: active
+tests:
+  - row_count: {min: 20000000}
+    reason: Attempt-level rows are the largest WCA results table.
+    certainty: 95
+  - not_null: result_id
+  - not_null: attempt_number
+  - unique: [result_id, attempt_number]
+  - not_null: value
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90

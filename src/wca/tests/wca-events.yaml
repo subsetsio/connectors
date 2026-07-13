@@ -1,0 +1,13 @@
+spec_id: wca-events
+status: active
+tests:
+  - row_count: {min: 17}
+    reason: WCA currently has 17 official events and retains historical event rows.
+    certainty: 95
+  - not_null: id
+  - unique: id
+  - not_null: name
+  - not_null: _export_date
+  - freshness: {col: _export_date, reaches: today - 7d}
+    points_outward: true
+    certainty: 90
