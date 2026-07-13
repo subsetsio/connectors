@@ -1,15 +1,18 @@
-key: [map_slug, sighting_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `journey-north-sightings`. Regenerate after model-verify.
+# caution: The table combines many Journey North map layers and event types; filter or group by `map_slug` before interpreting counts as a specific species, life stage, or seasonal event.
+key: [sighting_id, image_url, date, duration, map_slug]
 temporal: date
-sort: [date, map_slug, sighting_id]
+sort: [date, sighting_id, image_url, duration, map_slug]
 columns:
   - name: sighting_id
-    type: VARCHAR
+    type: BIGINT
     description: Journey North sighting record identifier.
   - name: map_slug
     type: VARCHAR
     description: Journey North map layer the sighting was fetched from.
   - name: year
-    type: INTEGER
+    type: BIGINT
     description: Calendar year used for the source query.
   - name: season
     type: VARCHAR
@@ -17,23 +20,23 @@ columns:
   - name: date
     type: DATE
     description: Observation or report date.
-  - name: observed_at
-    type: TIMESTAMP
-    description: Observation timestamp derived from the source Unix epoch field.
-  - name: latitude
-    type: DOUBLE
-    description: Observation latitude in decimal degrees.
+  - name: observed_unix
+    type: BIGINT
+    description: Source Unix epoch timestamp for the observation.
   - name: longitude
     type: DOUBLE
     description: Observation longitude in decimal degrees.
+  - name: latitude
+    type: DOUBLE
+    description: Observation latitude in decimal degrees.
   - name: elevation
     type: DOUBLE
     description: Elevation from the source coordinate tuple, when present.
   - name: interval
-    type: INTEGER
+    type: BIGINT
     description: Source interval bucket for map display.
   - name: pin_id
-    type: INTEGER
+    type: BIGINT
     description: Source map pin identifier.
   - name: duration
     type: VARCHAR

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `journey-north-sightings`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sighting_id, image_url, date, duration, map_slug]
+temporal: date
+checks:
+  - kind: unique
+    columns: [sighting_id, image_url, date, duration, map_slug]
+  - kind: not_null
+    col: sighting_id
+  - kind: not_null
+    col: image_url
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: duration
+  - kind: not_null
+    col: map_slug
+  - kind: row_floor
+    min: 337877
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

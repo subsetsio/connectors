@@ -1,3 +1,5 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `journey-north-maps`. Regenerate after model-verify.
 key: [map_slug]
 sort: [map_slug]
 columns:
@@ -6,16 +8,16 @@ columns:
     description: Journey North map-layer slug used in sightings queries.
   - name: display_name
     type: VARCHAR
-    description: Human-readable label derived from the map slug.
+    description: Human-readable map layer label derived from the slug.
   - name: season
     type: VARCHAR
-    description: Seasonal grouping implied by the map slug, when present.
+    description: Seasonal grouping implied by the map layer, when present.
   - name: topic
     type: VARCHAR
     description: Species, life stage, or event family represented by the map layer.
   - name: event
     type: VARCHAR
-    description: Event or reporting mode implied by the map slug.
+    description: Event or reporting mode implied by the map layer.
   - name: is_practice
     type: BOOLEAN
-    description: Whether the layer is a Journey North practice reporting map.
+    description: Whether this is a Journey North practice reporting map.
