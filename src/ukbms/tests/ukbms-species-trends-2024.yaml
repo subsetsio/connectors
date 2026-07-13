@@ -1,3 +1,16 @@
 spec_id: ukbms-species-trends-2024
-status: deferred
-# Schema is authored after the first EIDC CSV package is materialized and profiled.
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: species trends package covers the monitored butterfly species in the annual release
+    certainty: 90
+  - unique: COMMON_NAME
+    reason: one trend summary row per common-name species entry
+    certainty: 95
+  - not_null: COMMON_NAME
+  - not_null: SCI_NAME
+  - column_type: {col: NYEARS, type: integer}
+  - between: {col: NYEARS, lo: 10, hi: 60}
+    certainty: 90
+  - enum: {col: F_TRENDDETAIL, values: ["Rapid decline", "Rapid increase", "Stable"]}
+    certainty: 75

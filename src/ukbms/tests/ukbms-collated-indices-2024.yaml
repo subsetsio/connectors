@@ -1,3 +1,20 @@
 spec_id: ukbms-collated-indices-2024
-status: deferred
-# Schema is authored after the first EIDC CSV package is materialized and profiled.
+status: active
+tests:
+  - row_count: {min: 7000}
+    reason: annual collated indices cover national/country species-year rows from the long UKBMS series
+    certainty: 90
+  - unique: [SPECIES_CODE, SPECIES, COMMON_NAME, YEAR, COUNTRY]
+    reason: one collated index row per species, year, and UK/country geography
+    certainty: 95
+  - not_null: SPECIES_CODE
+  - not_null: COMMON_NAME
+  - not_null: YEAR
+  - enum: {col: COUNTRY, values: ["England", "Northern Ireland", "Scotland", "United Kingdom", "Wales"]}
+    certainty: 90
+  - between: {col: YEAR, lo: 1976, hi: 2024}
+    certainty: 95
+  - freshness: {col: YEAR, reaches: 2024}
+    reason: current accepted package is the 1976-2024 annual release
+    certainty: 95
+    points_outward: true

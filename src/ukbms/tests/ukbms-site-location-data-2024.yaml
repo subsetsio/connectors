@@ -1,3 +1,26 @@
 spec_id: ukbms-site-location-data-2024
-status: deferred
-# Schema is authored after the first EIDC CSV package is materialized and profiled.
+status: active
+tests:
+  - row_count: {min: 2500}
+    reason: site location package covers thousands of UKBMS monitoring sites
+    certainty: 90
+  - unique: Site_Number
+    reason: site number identifies a monitoring site in the location table
+    certainty: 95
+  - not_null: Site_Number
+  - not_null: Site_Name
+  - not_null: Country
+  - column_type: {col: Easting, type: integer}
+  - column_type: {col: Northing, type: integer}
+  - enum: {col: Country, values: ["England", "Isle of Man", "Jersey", "Northern Ireland", "Scotland", "Wales"]}
+    certainty: 90
+  - between: {col: First_year_surveyed, lo: 1973, hi: 2024}
+    certainty: 90
+  - between: {col: Last_year_surveyed, lo: 1973, hi: 2024}
+    certainty: 90
+  - relationship: {left: First_year_surveyed, op: <=, right: Last_year_surveyed}
+    certainty: 95
+  - freshness: {col: Last_year_surveyed, reaches: 2024}
+    reason: current accepted package is the 1976-2024 annual release and active sites include 2024 observations
+    certainty: 90
+    points_outward: true

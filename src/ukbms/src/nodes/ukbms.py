@@ -25,6 +25,13 @@ def _package_url(node_id: str) -> str:
     return f"https://data-package.ceh.ac.uk/data/{DATASET_UUIDS[node_id]}.zip"
 
 
+def _utf8_csv(content: bytes) -> bytes:
+    try:
+        return content.decode("utf-8").encode("utf-8")
+    except UnicodeDecodeError:
+        return content.decode("cp1252").encode("utf-8")
+
+
 def fetch_dataset(node_id: str) -> None:
     url = _package_url(node_id)
     response = get(url, timeout=(10.0, 120.0))
@@ -38,7 +45,7 @@ def fetch_dataset(node_id: str) -> None:
         ]
         if len(csv_names) != 1:
             raise RuntimeError(f"{node_id}: expected one data CSV in package, found {csv_names}")
-        save_raw_file(package.read(csv_names[0]), node_id, extension="csv")
+        save_raw_file(_utf8_csv(package.read(csv_names[0])), node_id, extension="csv")
 
     record_source_signature(node_id, url, response=response)
 
