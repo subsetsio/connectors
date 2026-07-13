@@ -21,7 +21,7 @@ from datetime import date
 import lxml.html as LH
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet
 
 URL = "https://www.tiobe.com/tiobe-index/"
 
@@ -222,77 +222,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="tiobe-next-50-languages", fn=fetch_next_50_languages, kind="download"),
     NodeSpec(id="tiobe-hall-of-fame", fn=fetch_hall_of_fame, kind="download"),
     NodeSpec(id="tiobe-very-long-term-history", fn=fetch_very_long_term_history, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="tiobe-historical-ratings-transform",
-        deps=["tiobe-historical-ratings"],
-        key=("language", "date"),
-        temporal="date",
-        sql='''
-            SELECT
-                language,
-                CAST(date AS DATE)         AS date,
-                CAST(rating_pct AS DOUBLE) AS rating_pct
-            FROM "tiobe-historical-ratings"
-            WHERE rating_pct IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="tiobe-current-rankings-transform",
-        deps=["tiobe-current-rankings"],
-        key=("language",),
-        sql='''
-            SELECT
-                CAST(position AS INTEGER)            AS position,
-                CAST(prior_year_position AS INTEGER) AS prior_year_position,
-                language,
-                CAST(rating_pct AS DOUBLE)           AS rating_pct,
-                CAST(change_pct AS DOUBLE)           AS change_pct
-            FROM "tiobe-current-rankings"
-            WHERE position IS NOT NULL AND language IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="tiobe-next-50-languages-transform",
-        deps=["tiobe-next-50-languages"],
-        key=("language",),
-        sql='''
-            SELECT
-                CAST(position AS INTEGER)  AS position,
-                language,
-                CAST(rating_pct AS DOUBLE) AS rating_pct
-            FROM "tiobe-next-50-languages"
-            WHERE position IS NOT NULL AND language IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="tiobe-hall-of-fame-transform",
-        deps=["tiobe-hall-of-fame"],
-        key=("year",),
-        temporal="year",
-        sql='''
-            SELECT
-                CAST(year AS INTEGER) AS year,
-                language
-            FROM "tiobe-hall-of-fame"
-            WHERE year IS NOT NULL AND language IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="tiobe-very-long-term-history-transform",
-        deps=["tiobe-very-long-term-history"],
-        key=("language", "snapshot_year"),
-        temporal="snapshot_year",
-        sql='''
-            SELECT
-                language,
-                CAST(snapshot_year AS INTEGER) AS snapshot_year,
-                CAST(position AS INTEGER)      AS position
-            FROM "tiobe-very-long-term-history"
-            WHERE position IS NOT NULL AND language IS NOT NULL
-        ''',
-    ),
 ]
