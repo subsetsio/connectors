@@ -151,6 +151,10 @@ def fetch_surveys(node_id: str) -> None:
         themes = meta.get("themes") or []
         reference = meta.get("reference")
         title = dataset_title(rec)
+        fieldwork_start = _date(meta.get("fieldworkStartDate"))
+        fieldwork_end = _date(meta.get("fieldworkEndDate"))
+        if fieldwork_start and fieldwork_end and fieldwork_start > fieldwork_end:
+            fieldwork_start, fieldwork_end = fieldwork_end, fieldwork_start
 
         rows.append({
             "survey_id": dataset_id,
@@ -165,8 +169,8 @@ def fetch_surveys(node_id: str) -> None:
             "instrument": _dictish(meta.get("instrument")),
             "method": _dictish(meta.get("method")),
             "directorate_general": _dictish(meta.get("dg")),
-            "fieldwork_start_date": _date(meta.get("fieldworkStartDate")),
-            "fieldwork_end_date": _date(meta.get("fieldworkEndDate")),
+            "fieldwork_start_date": fieldwork_start,
+            "fieldwork_end_date": fieldwork_end,
             "publication_date": _date(meta.get("publicationFirstDate")),
             "catalog_created": _date(rec.get("metadata_created")),
             "catalog_modified": _date(rec.get("metadata_modified")),
