@@ -11,6 +11,7 @@ tests:
   - column_type: {col: rank, type: integer}
   - column_type: {col: appid, type: integer}
   - column_type: {col: peak_in_game, type: integer}
+  - column_type: {col: rollup_date, type: timestamp}
   - unique: rank
     reason: each leaderboard position should appear once in the weekly rollup
     certainty: 95

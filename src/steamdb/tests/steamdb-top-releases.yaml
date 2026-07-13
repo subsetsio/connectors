@@ -9,11 +9,11 @@ tests:
   - not_null: rank
   - not_null: appid
   - column_type: {col: month_name, type: string}
-  - column_type: {col: start_of_month, type: integer}
+  - column_type: {col: start_of_month, type: timestamp}
   - column_type: {col: rank, type: integer}
   - column_type: {col: appid, type: integer}
-  - unique: [start_of_month, rank]
-    reason: each month page should have one app at each rank
+  - unique: [month_name, rank]
+    reason: each named month page should have one app at each rank
     certainty: 90
   - between: {col: rank, lo: 1, hi: 200}
   - freshness: {col: start_of_month, reaches: today - 730d}

@@ -1,6 +1,6 @@
 SELECT
     month_name,
-    to_timestamp(start_of_month) AS start_of_month,
+    CAST(start_of_month AS TIMESTAMPTZ) AS start_of_month,
     CAST(rank AS INTEGER)        AS rank,
     CAST(appid AS BIGINT)        AS appid
 FROM "steamdb-top-releases"

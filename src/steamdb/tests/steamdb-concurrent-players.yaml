@@ -25,6 +25,7 @@ tests:
   - relationship: {left: peak_in_game, op: ">=", right: concurrent_in_game}
     reason: 24-hour peak should not be below the current concurrent count
     certainty: 90
+  - column_type: {col: last_update, type: timestamp}
   - freshness: {col: last_update, reaches: today - 30d}
     reason: current-player leaderboard is a live Steam chart and should refresh frequently
     certainty: 90

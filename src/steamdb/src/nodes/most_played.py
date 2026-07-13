@@ -3,6 +3,8 @@
 ISteamChartsService/GetMostPlayedGames. Stateless full re-pull of a one-shot
 ~100-row payload; current-state snapshot overwritten each run.
 """
+from datetime import datetime, timezone
+
 import pyarrow as pa
 
 from subsets_utils import save_raw_parquet
@@ -13,13 +15,13 @@ _MOST_PLAYED_SCHEMA = pa.schema([
     ("appid", pa.int64()),
     ("last_week_rank", pa.int32()),
     ("peak_in_game", pa.int64()),
-    ("rollup_date", pa.int64()),  # epoch seconds; transform -> timestamp
+    ("rollup_date", pa.timestamp("us", tz="UTC")),
 ])
 
 
 def fetch_most_played(node_id: str) -> None:
     resp = _web_json(MOST_PLAYED_URL)["response"]
-    rollup = int(resp.get("rollup_date") or 0)
+    rollup = datetime.fromtimestamp(int(resp.get("rollup_date") or 0), tz=timezone.utc)
     rows = [
         {
             "rank": int(r["rank"]),
@@ -31,4 +33,3 @@ def fetch_most_played(node_id: str) -> None:
         for r in resp.get("ranks", [])
     ]
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_MOST_PLAYED_SCHEMA), node_id)
-

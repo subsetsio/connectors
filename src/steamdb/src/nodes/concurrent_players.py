@@ -3,6 +3,8 @@
 ISteamChartsService/GetGamesByConcurrentPlayers. Stateless full re-pull of a
 one-shot ~100-row payload; current-state snapshot overwritten each run.
 """
+from datetime import datetime, timezone
+
 import pyarrow as pa
 
 from subsets_utils import save_raw_parquet
@@ -13,13 +15,13 @@ _CONCURRENT_SCHEMA = pa.schema([
     ("appid", pa.int64()),
     ("concurrent_in_game", pa.int64()),
     ("peak_in_game", pa.int64()),
-    ("last_update", pa.int64()),  # epoch seconds; transform -> timestamp
+    ("last_update", pa.timestamp("us", tz="UTC")),
 ])
 
 
 def fetch_concurrent_players(node_id: str) -> None:
     resp = _web_json(CONCURRENT_URL)["response"]
-    ts = int(resp.get("last_update") or 0)
+    ts = datetime.fromtimestamp(int(resp.get("last_update") or 0), tz=timezone.utc)
     rows = [
         {
             "rank": int(r["rank"]),
@@ -31,4 +33,3 @@ def fetch_concurrent_players(node_id: str) -> None:
         for r in resp.get("ranks", [])
     ]
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_CONCURRENT_SCHEMA), node_id)
-
