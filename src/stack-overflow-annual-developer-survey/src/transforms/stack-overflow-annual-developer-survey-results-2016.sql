@@ -5,7 +5,7 @@
 -- caution: The row identity for 2016 is the source row number plus collector field, not a reusable respondent id.
 -- caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2016 questionnaire and are not harmonized to other years.
 SELECT
-    CAST("Unnamed_0" AS BIGINT) AS unnamed_0,
+    CAST("Unnamed_0" AS BIGINT) AS source_row_number,
     "collector",
     "country",
     "un_subregion",

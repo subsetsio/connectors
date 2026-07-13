@@ -23,7 +23,7 @@ SELECT
     "Including_bonus_what_is_your_annual_compensation_in_USD" AS including_bonus_what_is_your_annual_compensation_in_usd,
     "Have_you_visited_Are_you_aware_of_Stack_Overflow_Careers" AS have_you_visited_are_you_aware_of_stack_overflow_careers,
     "Do_you_have_a_Stack_Overflow_Careers_Profile" AS do_you_have_a_stack_overflow_careers_profile,
-    "You_answered_you_don_t_have_a_Careers_profile_can_you_elaborate_why" AS you_answered_you_don_t_have_a_careers_profile_can_you_elaborate_why,
+    "You_answered_you_don_t_have_a_Careers_profile_can_you_elaborate_why" AS career_profile_absence_reason,
     "Unnamed_43" AS source_column_43,
     "Which_technology_products_do_you_own_You_can_choose_more_than_one" AS technology_products_owned,
     "Unnamed_63" AS source_column_63,
