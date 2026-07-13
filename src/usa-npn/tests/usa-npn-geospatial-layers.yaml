@@ -1,0 +1,12 @@
+spec_id: usa-npn-geospatial-layers
+status: active
+tests:
+  - not_null: name
+  - not_null: title
+  - unique: name
+    reason: GeoServer layer names are the machine identifiers for raster/model layers
+    certainty: 90
+  - column_type: {col: name, type: string}
+  - row_count: {min: 10}
+    reason: the WMS capabilities document lists dozens of model layers; fewer than ten means the parse or service changed
+    certainty: 85

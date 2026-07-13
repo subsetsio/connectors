@@ -1,0 +1,20 @@
+spec_id: understat-leagues
+status: active
+tests:
+  - not_null: league
+    certainty: 99
+  - not_null: season
+    certainty: 99
+  - column_type: {col: season, type: integer}
+    certainty: 95
+  - unique: [league, season]
+    reason: league-season is the natural grain of the coverage reference
+    certainty: 99
+  - enum: {col: league, values: [EPL, La liga, Bundesliga, Serie A, Ligue 1, RFPL]}
+    reason: Understat's site navigation exposes these six leagues
+    certainty: 95
+  - between: {col: season, lo: 2014, hi: current_year()}
+    certainty: 95
+coverage:
+  frozen: true
+  reason: this is a static coverage reference over known Understat league-season paths; freshness is asserted on match-bearing assets

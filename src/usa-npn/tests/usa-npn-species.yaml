@@ -1,0 +1,19 @@
+spec_id: usa-npn-species
+status: active
+tests:
+  - not_null: species_id
+  - not_null: genus
+  - not_null: species
+  - not_null: kingdom
+  - unique: species_id
+    reason: species_id is the USA-NPN species catalog identifier used by observation endpoints
+    certainty: 95
+  - column_type: {col: species_id, type: integer}
+  - enum: {col: kingdom, values: [Animalia, Plantae]}
+    reason: the Nature's Notebook species catalog is scoped to plant and animal phenology taxa
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000}
+    reason: the live catalog had roughly two thousand species during collect; a much smaller pull means truncation
+    certainty: 85

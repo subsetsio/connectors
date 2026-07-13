@@ -1,0 +1,23 @@
+spec_id: understat-matches
+status: active
+tests:
+  - not_null: id
+    reason: each match row carries the Understat match id
+    certainty: 99
+  - not_null: datetime
+    reason: match schedule/result rows carry a kickoff datetime
+    certainty: 95
+  - not_null: league
+    certainty: 99
+  - not_null: season
+    certainty: 99
+  - unique: id
+    reason: match id is globally unique on Understat
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: six leagues since 2014 should yield thousands of matches
+    certainty: 90
+  - freshness: {col: datetime, reaches: today - 120d}
+    reason: active football seasons should have recent or near-future match rows during normal operation
+    certainty: 80
+    points_outward: true

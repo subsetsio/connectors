@@ -1,0 +1,24 @@
+spec_id: understat-shots
+status: active
+tests:
+  - not_null: id
+    reason: shot rows carry a source shot id
+    certainty: 95
+  - not_null: match_id
+    certainty: 99
+  - not_null: player
+    certainty: 90
+  - not_null: xG
+    certainty: 95
+  - enum: {col: side, values: [h, a]}
+    reason: match shots are grouped under home and away sides
+    certainty: 95
+  - unique: id
+    reason: Understat shot ids are expected to be globally unique
+    certainty: 85
+  - row_count: {min: 10000}
+    reason: full multi-season shot corpus should be well above a single-season pull
+    certainty: 90
+coverage:
+  frozen: true
+  reason: shot rows are historical event data discovered through match ids; recency is asserted on matches and team-match stats

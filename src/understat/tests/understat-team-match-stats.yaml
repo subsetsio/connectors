@@ -1,0 +1,23 @@
+spec_id: understat-team-match-stats
+status: active
+tests:
+  - not_null: team_id
+    certainty: 99
+  - not_null: date
+    certainty: 95
+  - not_null: league
+    certainty: 99
+  - not_null: season
+    certainty: 99
+  - enum: {col: h_a, values: [h, a]}
+    reason: team history marks home or away side
+    certainty: 95
+  - unique: [league, season, team_id, match_index]
+    reason: match_index is stamped from the team's chronological history within a season
+    certainty: 90
+  - row_count: {min: 2000}
+    reason: one row per team per match across many seasons should be large
+    certainty: 90
+  - freshness: {col: date, reaches: today - 120d}
+    certainty: 80
+    points_outward: true

@@ -1,0 +1,13 @@
+spec_id: usa-npn-phenophases
+status: active
+tests:
+  - not_null: phenophase_id
+  - not_null: phenophase_name
+  - not_null: phenophase_category
+  - unique: phenophase_id
+    reason: phenophase_id is the USA-NPN phenophase dictionary key used by observations
+    certainty: 95
+  - column_type: {col: phenophase_id, type: integer}
+  - row_count: {min: 50}
+    reason: the live phenophase dictionary has more than two hundred rows; fewer than fifty means the endpoint changed or truncated
+    certainty: 90

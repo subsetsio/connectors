@@ -1,0 +1,23 @@
+spec_id: understat-players
+status: active
+tests:
+  - not_null: id
+    reason: Understat player rows carry a stable player id
+    certainty: 95
+  - not_null: player_name
+    reason: league player tables identify each player by name
+    certainty: 90
+  - not_null: league
+    certainty: 99
+  - not_null: season
+    certainty: 99
+  - column_type: {col: season, type: integer}
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: six leagues across many seasons should produce far more than one season of players
+    certainty: 85
+  - between: {col: season, lo: 2014, hi: current_year()}
+    certainty: 95
+coverage:
+  frozen: true
+  reason: player catalog rows are season-scoped references; match-bearing assets carry recency checks

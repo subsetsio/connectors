@@ -1,0 +1,12 @@
+spec_id: usa-npn-partner-groups
+status: active
+tests:
+  - not_null: network_id
+  - not_null: network_name
+  - unique: network_id
+    reason: network_id is the partner group identifier used as an observation filter
+    certainty: 95
+  - column_type: {col: network_id, type: integer}
+  - row_count: {min: 100}
+    reason: USA-NPN publishes many partner networks; a tiny pull means the endpoint changed or returned a filtered view
+    certainty: 85
