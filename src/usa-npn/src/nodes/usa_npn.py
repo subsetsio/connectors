@@ -25,6 +25,11 @@ BASE = "https://services.usanpn.org/npn_portal/"
 GEOSERVER_WMS = "https://geoserver.usanpn.org/geoserver/wms?request=GetCapabilities"
 REQUEST_SOURCE = "subsets.io connector"
 START_YEAR = 1955
+MONTHLY_FROM_YEAR = {
+    "magnitude-phenometrics": 2018,
+    "site-phenometrics": 2018,
+    "status-intensity-observations": 2021,
+}
 
 OBSERVATION_ENDPOINTS = {
     "status-intensity-observations": "observations/getObservations.json",
@@ -107,30 +112,56 @@ def _write_json_array_as_ndjson(response: httpx.Response, out) -> int:
     return rows
 
 
-def _stream_observation_year(asset_id: str, endpoint: str, year: int) -> int:
+def _stream_observation_window(
+    asset_id: str,
+    endpoint: str,
+    start_date: dt.date,
+    end_date: dt.date,
+    fragment: str,
+) -> int:
     data = {
         "request_src": REQUEST_SOURCE,
-        "start_date": f"{year}-01-01",
-        "end_date": f"{year}-12-31",
+        "start_date": start_date.isoformat(),
+        "end_date": end_date.isoformat(),
     }
     if endpoint.endswith("getSiteLevelData.json"):
         data["num_days_quality_filter"] = "30"
     if endpoint.endswith("getMagnitudeData.json"):
         data["frequency"] = "30"
 
-    timeout = httpx.Timeout(1800.0, connect=30.0, read=1800.0, write=30.0)
+    timeout = httpx.Timeout(600.0, connect=30.0, read=600.0, write=30.0)
     with get_client().stream("POST", BASE + endpoint, data=data, timeout=timeout) as resp:
         resp.raise_for_status()
-        with raw_writer(asset_id, "ndjson.gz", mode="wt", compression="gzip", fragment=str(year)) as out:
+        with raw_writer(asset_id, "ndjson.gz", mode="wt", compression="gzip", fragment=fragment) as out:
             return _write_json_array_as_ndjson(resp, out)
+
+
+def _observation_windows(entity_id: str, current_year: int) -> list[tuple[dt.date, dt.date, str]]:
+    windows: list[tuple[dt.date, dt.date, str]] = []
+    monthly_from = MONTHLY_FROM_YEAR.get(entity_id, current_year + 1)
+    today = dt.date.today()
+    for year in range(START_YEAR, current_year + 1):
+        if year < monthly_from:
+            windows.append((dt.date(year, 1, 1), dt.date(year, 12, 31), str(year)))
+            continue
+        for month in range(1, 13):
+            start_date = dt.date(year, month, 1)
+            if start_date > today:
+                break
+            if month == 12:
+                end_date = dt.date(year, 12, 31)
+            else:
+                end_date = dt.date(year, month + 1, 1) - dt.timedelta(days=1)
+            windows.append((start_date, min(end_date, today), f"{year}-{month:02d}"))
+    return windows
 
 
 def _fetch_observation_product(node_id: str, entity_id: str) -> None:
     endpoint = OBSERVATION_ENDPOINTS[entity_id]
     current_year = dt.date.today().year
     total_rows = 0
-    for year in range(START_YEAR, current_year + 1):
-        total_rows += _stream_observation_year(node_id, endpoint, year)
+    for start_date, end_date, fragment in _observation_windows(entity_id, current_year):
+        total_rows += _stream_observation_window(node_id, endpoint, start_date, end_date, fragment)
     if total_rows == 0:
         raise RuntimeError(f"{entity_id} returned zero rows across {START_YEAR}-{current_year}")
 
