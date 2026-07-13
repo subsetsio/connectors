@@ -18,6 +18,9 @@ tests:
   - between: {col: year, lo: 1960, hi: 2026}
     reason: Research and Dataverse metadata describe coverage from 1960 to the current release period.
     certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: SWIID is an annual academic release with normal source-data lag; current releases should include observations within two years of the current calendar year.
+    certainty: 90
   - at_most: {col: year, expr: current_year()}
     reason: SWIID is historical/current-year inequality estimates, not future projections.
     certainty: 85

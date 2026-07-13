@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `swiid-swiid`. Regenerate after model-verify.
+key: [country, year]
+temporal: year
+sort: [year, country]
+columns:
+  - name: country
+    type: VARCHAR
+    description: Country or territory name used by SWIID.
+  - name: year
+    type: BIGINT
+    description: Observation year.
+  - name: gini_disp
+    type: DOUBLE
+    description: Estimated disposable-income Gini index.
+  - name: gini_disp_se
+    type: DOUBLE
+    description: Standard error for the disposable-income Gini estimate.
+  - name: gini_mkt
+    type: DOUBLE
+    description: Estimated market-income Gini index.
+  - name: gini_mkt_se
+    type: DOUBLE
+    description: Standard error for the market-income Gini estimate.
+  - name: abs_red
+    type: DOUBLE
+    description: Absolute redistribution estimate, derived from market and disposable inequality.
+  - name: abs_red_se
+    type: DOUBLE
+    description: Standard error for the absolute redistribution estimate.
+  - name: rel_red
+    type: DOUBLE
+    description: Relative redistribution estimate, derived from market and disposable inequality.
+  - name: rel_red_se
+    type: DOUBLE
+    description: Standard error for the relative redistribution estimate.
+  - name: release_label
+    type: VARCHAR
+    description: Dataverse release file label used for this extract.
+  - name: release_description
+    type: VARCHAR
+    description: Dataverse release file description used for this extract.
+  - name: release_time
+    type: TIMESTAMP
+    description: Dataverse release timestamp for the source version.
+  - name: file_md5
+    type: VARCHAR
+    description: MD5 checksum reported by Dataverse for the source ZIP file.
