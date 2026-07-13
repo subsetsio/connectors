@@ -94,5 +94,12 @@ SPECIAL_PATHS = {
 }
 
 LIMIT_BY_ENTITY = {
+    "arboviroses/chikungunya": 20,
+    "arboviroses/dengue": 20,
+    "arboviroses/zikavirus": 20,
     "atencao-primaria/enani-2019": 10,
+    "cnes/estabelecimentos": 20,
+    "macrorregiao-e-regiao-de-saude/municipio": 860,
+    "plataformabr/projetos": 20,
+    "sisvan/estado-nutricional": 20,
 }

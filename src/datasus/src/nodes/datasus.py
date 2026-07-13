@@ -2,13 +2,23 @@ import json
 from typing import Any
 
 from constants import ENTITY_IDS, LIMIT_BY_ENTITY, PERIOD_PATHS, SPECIAL_PATHS
-from subsets_utils import NodeSpec, get, raw_writer
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    load_state,
+    raw_asset_exists,
+    raw_writer,
+    save_state,
+)
 
 
 BASE_URL = "https://apidadosabertos.saude.gov.br"
 PREFIX = "datasus-"
-DEFAULT_LIMIT = 100
+DEFAULT_LIMIT = 1000
 TIMEOUT = (10.0, 180.0)
+RAW_EXT = "ndjson.gz"
+PAGINATION_VERSION = 2
 
 ENTITY_BY_SPEC_ID = {
     f"{PREFIX}{entity_id.lower().replace('_', '-')}": entity_id
@@ -46,7 +56,7 @@ def fetch_one(spec_id: str) -> None:
     limit = LIMIT_BY_ENTITY.get(entity_id, DEFAULT_LIMIT)
     total = 0
 
-    with raw_writer(spec_id, "ndjson.gz", mode="wt", compression="gzip") as out:
+    with raw_writer(spec_id, RAW_EXT, mode="wt", compression="gzip") as out:
         for path in _paths_for(entity_id):
             offset = 0
             while True:
@@ -70,10 +80,32 @@ def fetch_one(spec_id: str) -> None:
                     break
                 offset += len(records)
 
+    save_state(spec_id, {"pagination_version": PAGINATION_VERSION})
     print(f"  -> Fetched {total:,} rows for {spec_id}")
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=spec_id, fn=fetch_one)
+    for spec_id in sorted(ENTITY_BY_SPEC_ID)
+]
+
+
+def _fresh_enough(spec_id: str) -> bool:
+    state = load_state(spec_id)
+    return (
+        state.get("pagination_version") == PAGINATION_VERSION
+        and raw_asset_exists(spec_id, RAW_EXT, max_age_days=30)
+    )
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec_id,
+        description=(
+            "DEMAS API has no incremental cursor or validators; refresh full "
+            "endpoint at least every 30 days (inferred from open-data API behavior)."
+        ),
+        check=_fresh_enough,
+    )
     for spec_id in sorted(ENTITY_BY_SPEC_ID)
 ]
