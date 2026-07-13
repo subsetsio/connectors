@@ -19,7 +19,6 @@ Shared HTTP/retry/OData plumbing lives in `src/utils.py`; this module owns the
 fetch logic and the DOWNLOAD_SPECS.
 """
 from datetime import date, datetime, timezone
-import os
 import re
 
 import httpx
@@ -98,25 +97,19 @@ def fetch_ifdata(node_id: str) -> None:
     TipoInstituicao × Relatorio (reports enumerated from ListaDeRelatorio).
     One raw batch per AnoMes, sweeping every quarter from the floor to now.
 
-    The set of already-done quarters is derived from the raw manifest's
-    fragments committed under THIS run's RUN_ID — never a globally-persisted
-    watermark. A watermark would survive into a fresh run and make it skip
-    every quarter yet commit no raw, leaving the transform with nothing to
-    read — exactly the failure that poisoned ifdatacadastro. Deriving the
-    done-set from committed fragments means a fresh run re-pulls the corpus
-    while a continuation (same RUN_ID; each completed leg commits) resumes
-    from the quarter it left off. State is still written, but only as an
-    observable record — never load-bearing.
+    The set of already-done quarters is derived from committed raw-manifest
+    fragments. The manifest is the durable commit log for the logical asset:
+    reusing prior fragments lets a fresh run fill only missing quarters instead
+    of re-fetching the full multi-hour history, while a failed leg's uncommitted
+    writes are still ignored.
     """
     entity = _entity(node_id)
 
-    # Authoritative done-set: AnoMes fragments COMMITTED in this run (the raw
-    # manifest, never a directory listing — a failed leg's uncommitted buckets
-    # must re-fetch or the manifest-first transform silently misses them).
-    run_id = os.environ.get("RUN_ID", "unknown")
+    # Authoritative done-set: AnoMes fragments COMMITTED in the raw manifest,
+    # never a directory listing.
     done: set[int] = {
         int(frag) for frag, meta in list_raw_fragments(node_id, "ndjson.zst").items()
-        if meta.get("run_id") == run_id and frag.isdigit()
+        if meta.get("path") and frag.isdigit()
     }
 
     relatorios: list[str] = []
@@ -319,21 +312,17 @@ def fetch_sgs_values(node_id: str) -> None:
     order, writing SGS_BATCH codes per raw batch file named with the
     [start, end) code-index span it covers.
 
-    Raw is run-scoped while state is durable across runs, so the resume index is
-    derived from the raw already written in THIS run's scope — never a
-    globally-persisted watermark, which would survive into a fresh run and make
-    it skip every code yet land no raw, leaving the transform empty. A fresh run
-    re-pulls; a continuation (same RUN_ID) resumes after the highest code index
-    already written. State is written only as an observable record.
+    The resume index is derived from committed raw-manifest fragments. This
+    keeps the historical firehose incremental across fresh runs and
+    continuations, while state remains only an observable record.
     """
-    # Resume index = highest code-index covered by fragments COMMITTED in this
-    # run (fragment key: "<start>-<end>" span). The commit log, never a
-    # directory listing — see the ifdata done-set note.
-    run_id = os.environ.get("RUN_ID", "unknown")
+    # Resume index = highest code-index covered by fragments COMMITTED in the
+    # raw manifest (fragment key: "<start>-<end>" span). The commit log, never
+    # a directory listing — see the ifdata done-set note.
     done_count = 0
     for frag, meta in list_raw_fragments(node_id, "ndjson.zst").items():
         m = re.fullmatch(r"(\d{6})-(\d{6})", frag)
-        if m and meta.get("run_id") == run_id:
+        if m and meta.get("path"):
             done_count = max(done_count, int(m.group(2)))
 
     codes = [s["code"] for s in _discover_sgs_series()]
