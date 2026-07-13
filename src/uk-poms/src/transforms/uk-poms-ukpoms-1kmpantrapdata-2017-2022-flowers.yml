@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-poms-ukpoms-1kmpantrapdata-2017-2022-flowers`. Regenerate after model-verify.
+# caution: Rows are flower occurrences associated with pan trap sampling rather than complete site inventories.
+key: [occurrence_id]
+temporal: year
+sort: [year, occurrence_id]
+columns:
+  - name: sample_id
+    type: BIGINT
+  - name: occurrence_id
+    type: BIGINT
+  - name: taxon_group
+    type: VARCHAR
+  - name: taxon_source
+    type: VARCHAR
+  - name: english_name
+    type: VARCHAR
+  - name: source_taxon_version_key
+    type: VARCHAR
+  - name: order
+    type: VARCHAR
+  - name: family
+    type: VARCHAR
+  - name: floral_unit
+    type: VARCHAR
+  - name: total_floral_units
+    type: VARCHAR
+  - name: year
+    type: BIGINT

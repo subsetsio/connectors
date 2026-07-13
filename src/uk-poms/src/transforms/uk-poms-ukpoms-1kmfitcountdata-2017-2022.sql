@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are timed count samples with several pollinator group count columns; avoid summing across group columns as if each column were an independent record.
+SELECT
+    CAST("sample_id" AS BIGINT) AS sample_id,
+    "country",
+    "location_code",
+    "location_name",
+    "x1km_square",
+    "sample_projection",
+    "land_cover",
+    strptime("date", '%d/%m/%Y')::DATE AS date,
+    CAST("year" AS BIGINT) AS year,
+    CAST("digitised_by" AS BIGINT) AS digitised_by,
+    "recorder_type",
+    "habitat",
+    "habitat_other_detail",
+    "habitat_type",
+    "target_flower",
+    "target_flower_corrected",
+    "target_other_name",
+    "target_other_name_corrected",
+    "target_flower_family",
+    "flower_structure",
+    "flower_cover",
+    "floral_unit_count",
+    "floral_unit",
+    "flower_context",
+    "count_start_time",
+    "cloud_cover",
+    "sunshine",
+    "wind_speed",
+    CAST("bumblebees" AS BIGINT) AS bumblebees,
+    CAST("honeybees" AS BIGINT) AS honeybees,
+    CAST("solitary_bees" AS BIGINT) AS solitary_bees,
+    CAST("wasps" AS BIGINT) AS wasps,
+    CAST("hoverflies" AS BIGINT) AS hoverflies,
+    CAST("other_flies" AS BIGINT) AS other_flies,
+    CAST("butterflies_moths" AS BIGINT) AS butterflies_moths,
+    CAST("beetles" AS BIGINT) AS beetles,
+    CAST("insects_small" AS BIGINT) AS insects_small,
+    CAST("insects_other" AS BIGINT) AS insects_other,
+    CAST("all_insects_total" AS BIGINT) AS all_insects_total
+FROM "uk-poms-ukpoms-1kmfitcountdata-2017-2022"

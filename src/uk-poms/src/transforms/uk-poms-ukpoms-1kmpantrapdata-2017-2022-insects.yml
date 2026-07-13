@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-poms-ukpoms-1kmpantrapdata-2017-2022-insects`. Regenerate after model-verify.
+# caution: Rows are insect occurrence records from pan trap sampling; taxonomic detail varies by record.
+key: [occurrence_id]
+temporal: year
+sort: [year, occurrence_id]
+columns:
+  - name: sample_id
+    type: BIGINT
+  - name: occurrence_id
+    type: VARCHAR
+  - name: specimen_code
+    type: BIGINT
+  - name: taxon_group
+    type: VARCHAR
+  - name: taxon_source
+    type: VARCHAR
+  - name: english_name
+    type: VARCHAR
+  - name: source_taxon_version_key
+    type: VARCHAR
+  - name: taxon_standardised
+    type: VARCHAR
+  - name: taxon_aggregated
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: stage
+    type: VARCHAR
+  - name: comment
+    type: VARCHAR
+  - name: order
+    type: VARCHAR
+  - name: family
+    type: VARCHAR
+  - name: year
+    type: BIGINT

@@ -1,0 +1,93 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-poms-ukpoms-1kmpantrapdata-2017-2022-samples`. Regenerate after model-verify.
+# caution: Rows describe pan trap samples and include aggregate invertebrate count fields; flower and insect occurrence detail is in companion tables.
+key: [sample_id, sample_code_bycatch, date, all_invertebrates_including_bees_hoverflies, all_invertebrates_excluding_bees_hoverflies]
+temporal: date
+sort: [date, sample_id, sample_code_bycatch, all_invertebrates_including_bees_hoverflies, all_invertebrates_excluding_bees_hoverflies]
+columns:
+  - name: sample_id
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: location_code
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: x1km_square
+    type: VARCHAR
+  - name: sample_projection
+    type: VARCHAR
+  - name: land_cover
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: digitised_by
+    type: BIGINT
+  - name: pan_trap_station
+    type: BIGINT
+  - name: trap_active_from
+    type: VARCHAR
+  - name: trap_active_to
+    type: VARCHAR
+  - name: trap_disturbed
+    type: VARCHAR
+  - name: temperature_start
+    type: BIGINT
+  - name: temperature_end
+    type: VARCHAR
+  - name: cloud_cover_start
+    type: BIGINT
+  - name: cloud_cover_end
+    type: BIGINT
+  - name: wind_speed_start
+    type: BIGINT
+  - name: wind_speed_end
+    type: BIGINT
+  - name: exposure_sun
+    type: BIGINT
+  - name: cast_shadow
+    type: VARCHAR
+  - name: vegetation_height_average
+    type: BIGINT
+  - name: habitat_main
+    type: VARCHAR
+  - name: habitat_other
+    type: VARCHAR
+  - name: moved
+    type: VARCHAR
+  - name: sample_code_bycatch
+    type: VARCHAR
+  - name: wasps_solitary
+    type: BIGINT
+  - name: wasps_social
+    type: BIGINT
+  - name: wasps_parasitic
+    type: BIGINT
+  - name: sawflies
+    type: BIGINT
+  - name: flies
+    type: BIGINT
+  - name: moths
+    type: BIGINT
+  - name: butterflies
+    type: BIGINT
+  - name: beetles_pollen
+    type: BIGINT
+  - name: beetles_other
+    type: BIGINT
+  - name: insects_small
+    type: BIGINT
+  - name: insects_other
+    type: BIGINT
+  - name: spiders
+    type: BIGINT
+  - name: all_invertebrates_excluding_bees_hoverflies
+    type: BIGINT
+  - name: bees
+    type: BIGINT
+  - name: hoverflies
+    type: BIGINT
+  - name: all_invertebrates_including_bees_hoverflies
+    type: BIGINT

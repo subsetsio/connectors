@@ -1,0 +1,79 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-poms-ukpoms-publicfitcountdata-2017-2022`. Regenerate after model-verify.
+# caution: Rows are public FIT Count samples with several pollinator group count columns; avoid summing across group columns as if each column were an independent record.
+key: [sample_id]
+temporal: date
+sort: [date, sample_id]
+columns:
+  - name: sample_id
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: x1km_square
+    type: VARCHAR
+  - name: sample_projection
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: digitised_by
+    type: VARCHAR
+  - name: recorder_type
+    type: VARCHAR
+  - name: habitat
+    type: VARCHAR
+  - name: habitat_other_detail
+    type: VARCHAR
+  - name: habitat_type
+    type: VARCHAR
+  - name: target_flower
+    type: VARCHAR
+  - name: target_flower_corrected
+    type: VARCHAR
+  - name: target_other_name
+    type: VARCHAR
+  - name: target_other_name_corrected
+    type: VARCHAR
+  - name: target_flower_family
+    type: VARCHAR
+  - name: flower_structure
+    type: VARCHAR
+  - name: flower_cover
+    type: VARCHAR
+  - name: floral_unit_count
+    type: VARCHAR
+  - name: floral_unit
+    type: VARCHAR
+  - name: flower_context
+    type: VARCHAR
+  - name: count_start_time
+    type: VARCHAR
+  - name: cloud_cover
+    type: VARCHAR
+  - name: sunshine
+    type: VARCHAR
+  - name: wind_speed
+    type: VARCHAR
+  - name: bumblebees
+    type: BIGINT
+  - name: honeybees
+    type: BIGINT
+  - name: solitary_bees
+    type: BIGINT
+  - name: wasps
+    type: BIGINT
+  - name: hoverflies
+    type: BIGINT
+  - name: other_flies
+    type: BIGINT
+  - name: butterflies_moths
+    type: BIGINT
+  - name: beetles
+    type: BIGINT
+  - name: insects_small
+    type: BIGINT
+  - name: insects_other
+    type: BIGINT
+  - name: all_insects_total
+    type: BIGINT
