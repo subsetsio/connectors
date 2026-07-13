@@ -12,6 +12,8 @@ from datetime import date
 from time import sleep
 from urllib.parse import quote
 
+import httpx
+
 from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 BASE_URL = "https://understat.com"
@@ -166,8 +168,22 @@ def fetch_team_match_stats(node_id: str) -> None:
 
 def _iter_match_payloads():
     for match in _iter_match_ids():
-        payload = _match_data(match["match_id"])
+        try:
+            payload = _match_data(match["match_id"])
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code == 404:
+                continue
+            raise
         yield match, payload
+
+
+def _iter_roster_players(roster):
+    if isinstance(roster, dict):
+        yield from roster.items()
+        return
+    if isinstance(roster, list):
+        for idx, player in enumerate(roster):
+            yield str(idx), player
 
 
 def fetch_shots(node_id: str) -> None:
@@ -188,7 +204,7 @@ def fetch_rosters(node_id: str) -> None:
     rows: list[dict] = []
     for match, payload in _iter_match_payloads():
         for side, roster in (payload.get("rosters") or {}).items():
-            for roster_id, player in roster.items():
+            for roster_id, player in _iter_roster_players(roster):
                 row = dict(player)
                 row.update(match)
                 row["side"] = side
@@ -223,7 +239,7 @@ def fetch_player_match_stats(node_id: str) -> None:
     }
     for match, payload in _iter_match_payloads():
         for side, roster in (payload.get("rosters") or {}).items():
-            for roster_id, player in roster.items():
+            for roster_id, player in _iter_roster_players(roster):
                 row = {col: player.get(col) for col in stat_cols}
                 row.update(match)
                 row["side"] = side
