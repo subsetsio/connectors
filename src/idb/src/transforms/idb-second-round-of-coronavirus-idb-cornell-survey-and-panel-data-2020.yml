@@ -1,5 +1,896 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-second-round-of-coronavirus-idb-cornell-survey-and-panel-data-2020`. Regenerate after model-verify.
+key: []
 columns:
+  - name: id
+    type: BIGINT
+  - name: country_name
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: weight_r1
+    type: DOUBLE
+  - name: weight_pop_r1
+    type: DOUBLE
+  - name: weight_panel
+    type: DOUBLE
+  - name: weight_pop_panel
+    type: DOUBLE
+  - name: pop
+    type: DOUBLE
+  - name: country_factor
+    type: DOUBLE
+  - name: survey_rounds_participated
+    type: VARCHAR
+  - name: recordeddate
+    type: VARCHAR
+  - name: genero_r1
+    type: VARCHAR
+  - name: edad_r1
+    type: BIGINT
+  - name: educ
+    type: VARCHAR
+  - name: estcivil
+    type: VARCHAR
+  - name: nrhogar
+    type: BIGINT
+  - name: nrhogar_antes
+    type: BIGINT
+  - name: hayninhos
+    type: VARCHAR
+  - name: ninos_5
+    type: VARCHAR
+  - name: nrninhos
+    type: BIGINT
+  - name: matriculados
+    type: BIGINT
+  - name: esc_publica
+    type: VARCHAR
+  - name: grado
+    type: BIGINT
+  - name: haymayores
+    type: VARCHAR
+  - name: diasmercado
+    type: VARCHAR
+  - name: lugarmercado
+    type: VARCHAR
+  - name: comprotodo
+    type: VARCHAR
+  - name: nocompra_pan
+    type: VARCHAR
+  - name: nocompra_vegetal
+    type: VARCHAR
+  - name: nocompra_carne
+    type: VARCHAR
+  - name: nocompra_envasados
+    type: VARCHAR
+  - name: nocompra_bebidas
+    type: VARCHAR
+  - name: nocompra_limpieza
+    type: VARCHAR
+  - name: nocompra_medicinas
+    type: VARCHAR
+  - name: nocompra_otro
+    type: VARCHAR
+  - name: nrnegocios
+    type: VARCHAR
+  - name: esperarfila
+    type: VARCHAR
+  - name: subaprecios
+    type: VARCHAR
+  - name: hambre
+    type: VARCHAR
+  - name: menos_saludable
+    type: VARCHAR
+  - name: vivienda
+    type: VARCHAR
+  - name: probvivienda
+    type: VARCHAR
+  - name: probvivienda_prox
+    type: VARCHAR
+  - name: ayuda_alquiler
+    type: VARCHAR
+  - name: sufialimento
+    type: VARCHAR
+  - name: sufirecursos
+    type: VARCHAR
+  - name: gasto_emergencia
+    type: VARCHAR
+  - name: monto_gasto
+    type: DOUBLE
+  - name: pre_cash
+    type: BOOLEAN
+  - name: new_cash
+    type: BOOLEAN
+  - name: coima
+    type: VARCHAR
+  - name: tiene_banco
+    type: VARCHAR
+  - name: tiene_tarjdebito
+    type: VARCHAR
+  - name: tiene_segsaludpub
+    type: VARCHAR
+  - name: tiene_segsaludpriv
+    type: VARCHAR
+  - name: recibeprestamos
+    type: VARCHAR
+  - name: darprestamos
+    type: VARCHAR
+  - name: remesas_enero
+    type: VARCHAR
+  - name: remesas_origen
+    type: BIGINT
+  - name: remesas_persona
+    type: VARCHAR
+  - name: recibio_remesas
+    type: VARCHAR
+  - name: lm_perdioempleo
+    type: VARCHAR
+  - name: lm_cerronegocio_gob
+    type: VARCHAR
+  - name: lm_cerronegocio_dem
+    type: VARCHAR
+  - name: lm_asistmedica
+    type: VARCHAR
+  - name: lm_perdioingrarriendo
+    type: VARCHAR
+  - name: lm_dejoasistencia
+    type: VARCHAR
+  - name: lm_freq
+    type: BIGINT
+  - name: recibio_ayudaemp
+    type: VARCHAR
+  - name: compromiso_futurotrabajo
+    type: VARCHAR
+  - name: empleo_formal
+    type: VARCHAR
+  - name: actividad_empleado
+    type: VARCHAR
+  - name: actividad_negocio
+    type: VARCHAR
+  - name: actividad_estudio
+    type: VARCHAR
+  - name: trabajocasa
+    type: VARCHAR
+  - name: diastrabajo
+    type: BIGINT
+  - name: horastrabajo
+    type: BIGINT
+  - name: sector
+    type: VARCHAR
+  - name: redujo_ingreso_r1
+    type: VARCHAR
+  - name: ingreso_jan2020_r1
+    type: VARCHAR
+  - name: ingreso_apr2020_r1
+    type: VARCHAR
+  - name: retorno_ingreso_r1
+    type: VARCHAR
+  - name: sintoma_ninguno
+    type: VARCHAR
+  - name: sintoma_garganta
+    type: VARCHAR
+  - name: sintoma_gripe
+    type: VARCHAR
+  - name: sintoma_sarpullido
+    type: VARCHAR
+  - name: sintoma_fiebre
+    type: VARCHAR
+  - name: sintoma_tos
+    type: VARCHAR
+  - name: conoce_sintomas
+    type: DOUBLE
+  - name: infectados_sinsintomas
+    type: VARCHAR
+  - name: sinsintomas_contagiar
+    type: VARCHAR
+  - name: visito_trabajo
+    type: VARCHAR
+  - name: visito_hospital
+    type: VARCHAR
+  - name: visito_mercado
+    type: VARCHAR
+  - name: visito_banco
+    type: VARCHAR
+  - name: visito_amigos
+    type: VARCHAR
+  - name: visito_familiares
+    type: VARCHAR
+  - name: visito_ejercitar
+    type: VARCHAR
+  - name: visito_iglesia
+    type: VARCHAR
+  - name: comotransmite
+    type: BIGINT
+  - name: sabe_comotransmite
+    type: VARCHAR
+  - name: distsoc
+    type: VARCHAR
+  - name: recom_trabajo
+    type: VARCHAR
+  - name: recom_hospital
+    type: VARCHAR
+  - name: recom_mercado
+    type: VARCHAR
+  - name: recom_banco
+    type: VARCHAR
+  - name: recom_amigos
+    type: VARCHAR
+  - name: recom_familiares
+    type: VARCHAR
+  - name: recom_ejercicio
+    type: VARCHAR
+  - name: recom_iglesia
+    type: VARCHAR
+  - name: haceds_hogar
+    type: VARCHAR
+  - name: haceds_vecinos
+    type: VARCHAR
+  - name: haceds_jovenes
+    type: VARCHAR
+  - name: haceds_mayores
+    type: VARCHAR
+  - name: haceds_otropais
+    type: VARCHAR
+  - name: haceds_emplmercados
+    type: VARCHAR
+  - name: medios_noti_redessociales
+    type: VARCHAR
+  - name: medios_noti_chat
+    type: VARCHAR
+  - name: medios_noti_periodicos
+    type: VARCHAR
+  - name: medios_noti_tv
+    type: VARCHAR
+  - name: medios_noti_radio
+    type: VARCHAR
+  - name: medios_covid_redessociales
+    type: VARCHAR
+  - name: medios_covid_chat
+    type: VARCHAR
+  - name: medios_covid_periodicos
+    type: VARCHAR
+  - name: medios_covid_tv
+    type: VARCHAR
+  - name: medios_covid_radio
+    type: VARCHAR
+  - name: nps_medio_redessoc
+    type: VARCHAR
+  - name: nps_medio_sms
+    type: VARCHAR
+  - name: nps_medio_periodico
+    type: VARCHAR
+  - name: nps_medio_tv
+    type: VARCHAR
+  - name: nps_medio_radio
+    type: VARCHAR
+  - name: nps_medio_website
+    type: VARCHAR
+  - name: nps_medio_otro
+    type: VARCHAR
+  - name: s_ps_1
+    type: VARCHAR
+  - name: s_ps_2
+    type: VARCHAR
+  - name: s_ps_3
+    type: VARCHAR
+  - name: s_ps_4
+    type: VARCHAR
+  - name: s_ps_5
+    type: VARCHAR
+  - name: s_ps_na
+    type: VARCHAR
+  - name: s_ps_dk
+    type: VARCHAR
+  - name: s_ps_6
+    type: VARCHAR
+  - name: s_estado_ps1_ene_abr
+    type: VARCHAR
+  - name: s_estado_ps1_may_jul
+    type: VARCHAR
+  - name: s_estado_ps1_ago_nov
+    type: VARCHAR
+  - name: s_estado_ps2_ene_abr
+    type: VARCHAR
+  - name: s_estado_ps2_may_jul
+    type: VARCHAR
+  - name: s_estado_ps2_ago_nov
+    type: VARCHAR
+  - name: s_estado_ps3_ene_abr
+    type: VARCHAR
+  - name: s_estado_ps3_may_jul
+    type: VARCHAR
+  - name: s_estado_ps3_ago_nov
+    type: VARCHAR
+  - name: s_estado_ps4_ene_abr
+    type: VARCHAR
+  - name: s_estado_ps4_may_jul
+    type: VARCHAR
+  - name: s_estado_ps4_ago_nov
+    type: VARCHAR
+  - name: s_estado_ps5_ene_abr
+    type: VARCHAR
+  - name: s_estado_ps5_may_jul
+    type: VARCHAR
+  - name: s_estado_ps5_ago_nov
+    type: VARCHAR
+  - name: s_estado_ps6_ene_abr
+    type: VARCHAR
+  - name: s_estado_ps6_may_jul
+    type: VARCHAR
+  - name: s_estado_ps6_ago_nov
+    type: VARCHAR
+  - name: s_nopago_ps
+    type: VARCHAR
+  - name: s_eleg_no_regis_ps1
+    type: VARCHAR
+  - name: s_eleg_no_regis_ps2
+    type: VARCHAR
+  - name: s_eleg_no_regis_ps3
+    type: VARCHAR
+  - name: s_eleg_no_regis_ps4
+    type: VARCHAR
+  - name: s_eleg_no_regis_ps5
+    type: VARCHAR
+  - name: s_eleg_no_regis_na
+    type: VARCHAR
+  - name: s_eleg_no_regis_dk
+    type: VARCHAR
+  - name: s_eleg_no_regis_ps6
+    type: VARCHAR
+  - name: s_m1_m4_eleg_no_regis_ps1
+    type: VARCHAR
+  - name: s_m5_m7_eleg_no_regis_ps1
+    type: VARCHAR
+  - name: s_m8_m11_eleg_no_regis_ps1
+    type: VARCHAR
+  - name: s_mdk_eleg_no_regis_ps1
+    type: VARCHAR
+  - name: s_m1_m4_eleg_no_regis_ps2
+    type: VARCHAR
+  - name: s_m5_m7_eleg_no_regis_ps2
+    type: VARCHAR
+  - name: s_m8_m11_eleg_no_regis_ps2
+    type: VARCHAR
+  - name: s_mdk_eleg_no_regis_ps2
+    type: VARCHAR
+  - name: s_m1_m4_eleg_no_regis_ps3
+    type: VARCHAR
+  - name: s_m5_m7_eleg_no_regis_ps3
+    type: VARCHAR
+  - name: s_m8_m11_eleg_no_regis_ps3
+    type: VARCHAR
+  - name: s_mdk_eleg_no_regis_ps3
+    type: VARCHAR
+  - name: s_m1_m4_eleg_no_regis_ps4
+    type: VARCHAR
+  - name: s_m5_m7_eleg_no_regis_ps4
+    type: VARCHAR
+  - name: s_m8_m11_eleg_no_regis_ps4
+    type: VARCHAR
+  - name: s_mdk_eleg_no_regis_ps4
+    type: VARCHAR
+  - name: s_m1_m4_eleg_no_regis_ps5
+    type: VARCHAR
+  - name: s_m5_m7_eleg_no_regis_ps5
+    type: VARCHAR
+  - name: s_m8_m11_eleg_no_regis_ps5
+    type: VARCHAR
+  - name: s_mdk_eleg_no_regis_ps5
+    type: VARCHAR
+  - name: s_m1_m4_eleg_no_regis_ps6
+    type: VARCHAR
+  - name: s_m5_m7_eleg_no_regis_ps6
+    type: VARCHAR
+  - name: s_m8_m11_eleg_no_regis_ps6
+    type: VARCHAR
+  - name: s_mdk_eleg_no_regis_ps6
+    type: VARCHAR
+  - name: s_finan_accs_cb_ene
+    type: VARCHAR
+  - name: s_finan_mtransfer
+    type: VARCHAR
+  - name: s_finan_accs_cb_oct
+    type: BIGINT
+  - name: s_finan_cb_ene
+    type: VARCHAR
+  - name: s_finan_bill_ene
+    type: VARCHAR
+  - name: s_finan_no_cb_bill_ene
+    type: VARCHAR
+  - name: s_finan_dk_cb_bill_ene
+    type: VARCHAR
+  - name: s_finan_cb_oct
+    type: VARCHAR
+  - name: s_finan_bill_oct
+    type: VARCHAR
+  - name: s_finan_no_cb_bill_oct
+    type: VARCHAR
+  - name: s_finan_dk_cb_bill_oct
+    type: VARCHAR
+  - name: s_hambre
+    type: VARCHAR
+  - name: habits1
+    type: VARCHAR
+  - name: habits2
+    type: VARCHAR
+  - name: habits3
+    type: VARCHAR
+  - name: habits4
+    type: VARCHAR
+  - name: asset_casa1
+    type: VARCHAR
+  - name: asset_casa1_piso
+    type: VARCHAR
+  - name: asset_casa1_pared
+    type: VARCHAR
+  - name: asset_casa1_techo
+    type: VARCHAR
+  - name: asset_casa1_ambientes
+    type: VARCHAR
+  - name: asset_casa1_banos
+    type: VARCHAR
+  - name: asset_mudanza
+    type: VARCHAR
+  - name: asset_mudanza_m2_m4
+    type: VARCHAR
+  - name: asset_mudanza_m5_m7
+    type: VARCHAR
+  - name: asset_mudanza_m8_m10
+    type: VARCHAR
+  - name: asset_mudanza_dk
+    type: VARCHAR
+  - name: asset_casa2
+    type: VARCHAR
+  - name: asset_casa2_piso
+    type: VARCHAR
+  - name: asset_casa2_pared
+    type: VARCHAR
+  - name: asset_casa2_techo
+    type: VARCHAR
+  - name: asset_casa2_ambientes
+    type: VARCHAR
+  - name: asset_casa2_banos
+    type: BIGINT
+  - name: asset_casa3
+    type: BIGINT
+  - name: asset_casa3_piso
+    type: VARCHAR
+  - name: asset_casa3_pared
+    type: VARCHAR
+  - name: asset_casa3_techo
+    type: VARCHAR
+  - name: asset_casa3_ambientes
+    type: VARCHAR
+  - name: asset_casa3_banos
+    type: VARCHAR
+  - name: asset_casa4
+    type: VARCHAR
+  - name: asset_casa4_piso
+    type: VARCHAR
+  - name: asset_casa4_pared
+    type: VARCHAR
+  - name: asset_casa4_techo
+    type: VARCHAR
+  - name: asset_casa4_ambientes
+    type: VARCHAR
+  - name: asset_casa4_banos
+    type: VARCHAR
+  - name: asset_casa1_elect
+    type: VARCHAR
+  - name: asset_casa1_basura
+    type: VARCHAR
+  - name: asset_casa1_agua
+    type: VARCHAR
+  - name: asset_casa1_tv
+    type: VARCHAR
+  - name: asset_casa1_internet
+    type: VARCHAR
+  - name: asset_casa1_dk_svcios
+    type: VARCHAR
+  - name: asset_casa1_cocinar
+    type: VARCHAR
+  - name: asset_casa2_elect
+    type: VARCHAR
+  - name: asset_casa2_basura
+    type: VARCHAR
+  - name: asset_casa2_agua
+    type: VARCHAR
+  - name: asset_casa2_tv
+    type: VARCHAR
+  - name: asset_casa2_internet
+    type: VARCHAR
+  - name: asset_casa2_cocinar_made
+    type: VARCHAR
+  - name: asset_casa2_cocinar_carb
+    type: VARCHAR
+  - name: asset_casa2_cocinar_quero
+    type: VARCHAR
+  - name: asset_casa2_cocinar_gas
+    type: VARCHAR
+  - name: asset_casa2_cocinar_elect
+    type: VARCHAR
+  - name: asset_casa2_cocinar_dk
+    type: VARCHAR
+  - name: asset_casa3_elect
+    type: VARCHAR
+  - name: asset_casa3_basura
+    type: VARCHAR
+  - name: asset_casa3_agua
+    type: VARCHAR
+  - name: asset_casa3_tv
+    type: VARCHAR
+  - name: asset_casa3_internet
+    type: VARCHAR
+  - name: asset_casa3_cocinar_made
+    type: VARCHAR
+  - name: asset_casa3_cocinar_carb
+    type: VARCHAR
+  - name: asset_casa3_cocinar_quero
+    type: VARCHAR
+  - name: asset_casa3_cocinar_gas
+    type: VARCHAR
+  - name: asset_casa3_cocinar_elect
+    type: VARCHAR
+  - name: asset_casa3_cocinar_dk
+    type: VARCHAR
+  - name: asset_casa4_elect
+    type: VARCHAR
+  - name: asset_casa4_basura
+    type: VARCHAR
+  - name: asset_casa4_agua
+    type: VARCHAR
+  - name: asset_casa4_tv
+    type: VARCHAR
+  - name: asset_casa4_internet
+    type: VARCHAR
+  - name: asset_casa4_cocinar_made
+    type: VARCHAR
+  - name: asset_casa4_cocinar_carb
+    type: VARCHAR
+  - name: asset_casa4_cocinar_quero
+    type: VARCHAR
+  - name: asset_casa4_cocinar_gas
+    type: VARCHAR
+  - name: asset_casa4_cocinar_elect
+    type: VARCHAR
+  - name: asset_casa4_cocinar_dk
+    type: VARCHAR
+  - name: asset_nhogar_m1_seg
+    type: VARCHAR
+  - name: asset_nhogar_m4_seg
+    type: VARCHAR
+  - name: asset_nhogar_m7_seg
+    type: VARCHAR
+  - name: asset_nhogar_m10_seg
+    type: VARCHAR
+  - name: asset_o_carro_ene
+    type: VARCHAR
+  - name: asset_o_compu_ene
+    type: VARCHAR
+  - name: asset_o_celintel_ene
+    type: VARCHAR
+  - name: asset_o_celbasic_ene
+    type: VARCHAR
+  - name: asset_o_telfijo_ene
+    type: VARCHAR
+  - name: asset_o_nevera_ene
+    type: VARCHAR
+  - name: asset_o_lavadora_ene
+    type: VARCHAR
+  - name: asset_o_estufa_ene
+    type: VARCHAR
+  - name: asset_o_tv_ene
+    type: VARCHAR
+  - name: asset_o_dk_ene
+    type: VARCHAR
+  - name: asset_b_carro_m2_m11
+    type: VARCHAR
+  - name: asset_s_carro_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_carro_m2_m11
+    type: VARCHAR
+  - name: asset_b_compu_m2_m11
+    type: VARCHAR
+  - name: asset_s_compu_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_compu_m2_m11
+    type: VARCHAR
+  - name: asset_b_celintel_m2_m11
+    type: VARCHAR
+  - name: asset_s_celintel_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_celintel_m2_m11
+    type: VARCHAR
+  - name: asset_b_celbasic_m2_m11
+    type: VARCHAR
+  - name: asset_s_celbasic_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_celbasic_m2_m11
+    type: VARCHAR
+  - name: asset_b_telfijo_m2_m11
+    type: VARCHAR
+  - name: asset_s_telfijo_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_telfijo_m2_m11
+    type: VARCHAR
+  - name: asset_b_nevera_m2_m11
+    type: VARCHAR
+  - name: asset_s_nevera_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_nevera_m2_m11
+    type: VARCHAR
+  - name: asset_b_lavadora_m2_m11
+    type: VARCHAR
+  - name: asset_s_lavadora_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_lavadora_m2_m11
+    type: VARCHAR
+  - name: asset_b_estufa_m2_m11
+    type: VARCHAR
+  - name: asset_s_estufa_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_estufa_m2_m11
+    type: VARCHAR
+  - name: asset_b_tv_m2_m11
+    type: VARCHAR
+  - name: asset_s_tv_m2_m11
+    type: VARCHAR
+  - name: asset_no_bs_tv_m2_m11
+    type: VARCHAR
+  - name: asset_b_carro_num
+    type: BIGINT
+  - name: asset_b_compu_num
+    type: BIGINT
+  - name: asset_b_celintel_num
+    type: BIGINT
+  - name: asset_b_celbasic_num
+    type: BIGINT
+  - name: asset_b_telfijo_num
+    type: BIGINT
+  - name: asset_b_nevera_num
+    type: BIGINT
+  - name: asset_b_lavadora_num
+    type: BIGINT
+  - name: asset_b_estufa_num
+    type: BIGINT
+  - name: asset_b_tv_num
+    type: BIGINT
+  - name: asset_b_carro_mes
+    type: BIGINT
+  - name: asset_b_compu_mes
+    type: BIGINT
+  - name: asset_b_celintel_mes
+    type: BIGINT
+  - name: asset_b_celbasic_mes
+    type: BIGINT
+  - name: asset_b_telfijo_mes
+    type: BIGINT
+  - name: asset_b_nevera_mes
+    type: BIGINT
+  - name: asset_b_lavadora_mes
+    type: BIGINT
+  - name: asset_b_estufa_mes
+    type: BIGINT
+  - name: asset_b_tv_mes
+    type: BIGINT
+  - name: asset_s_carro_num
+    type: BIGINT
+  - name: asset_s_compu_num
+    type: BIGINT
+  - name: asset_s_celintel_num
+    type: BIGINT
+  - name: asset_s_celbasic_num
+    type: BIGINT
+  - name: asset_s_telfijo_num
+    type: BIGINT
+  - name: asset_s_nevera_num
+    type: BIGINT
+  - name: asset_s_lavadora_num
+    type: BIGINT
+  - name: asset_s_estufa_num
+    type: BIGINT
+  - name: asset_s_tv_num
+    type: BIGINT
+  - name: asset_s_carro_mes
+    type: BIGINT
+  - name: asset_s_compu_mes
+    type: BIGINT
+  - name: asset_s_celintel_mes
+    type: BIGINT
+  - name: asset_s_celbasic_mes
+    type: BIGINT
+  - name: asset_s_telfijo_mes
+    type: BIGINT
+  - name: asset_s_nevera_mes
+    type: BIGINT
+  - name: asset_s_lavadora_mes
+    type: BIGINT
+  - name: asset_s_estufa_mes
+    type: BIGINT
+  - name: asset_s_tv_mes
+    type: BIGINT
+  - name: redist1_1
+    type: VARCHAR
+  - name: redist1_2
+    type: VARCHAR
+  - name: redist1_3
+    type: VARCHAR
+  - name: redist2_1
+    type: VARCHAR
+  - name: redist2_2
+    type: VARCHAR
+  - name: redist2_3
+    type: VARCHAR
+  - name: covidpolicy_1
+    type: VARCHAR
+  - name: covidpolicy_2
+    type: VARCHAR
+  - name: covidpolicy_3
+    type: VARCHAR
+  - name: covidpolicy_4
+    type: VARCHAR
+  - name: labor1_nhogar
+    type: VARCHAR
+  - name: labor1_nhogar_mayores
+    type: VARCHAR
+  - name: labor3_tbjo_emp_ene
+    type: VARCHAR
+  - name: labor3_tbjo_pneg_ene
+    type: VARCHAR
+  - name: labor3_tbjo_fam_ene
+    type: VARCHAR
+  - name: labor3_educ_ene
+    type: VARCHAR
+  - name: labor4_ss_ene
+    type: VARCHAR
+  - name: labor5_contrato_ene
+    type: VARCHAR
+  - name: labor6_tbjo_emp_abr
+    type: VARCHAR
+  - name: labor6_tbjo_emp_jul
+    type: VARCHAR
+  - name: labor6_tbjo_emp_oct
+    type: VARCHAR
+  - name: labor6_tbjo_pneg_abr
+    type: VARCHAR
+  - name: labor6_tbjo_pneg_jul
+    type: VARCHAR
+  - name: labor6_tbjo_pneg_oct
+    type: VARCHAR
+  - name: labor6_tbjo_fam_abr
+    type: VARCHAR
+  - name: labor6_tbjo_fam_jul
+    type: VARCHAR
+  - name: labor6_tbjo_fam_oct
+    type: VARCHAR
+  - name: labor6_educ_abr
+    type: VARCHAR
+  - name: labor6_educ_jul
+    type: VARCHAR
+  - name: labor6_educ_oct
+    type: VARCHAR
+  - name: labor12_tbjo_emp_sp
+    type: VARCHAR
+  - name: labor12_tbjo_pneg_sp
+    type: VARCHAR
+  - name: labor12_tbjo_fam_sp
+    type: VARCHAR
+  - name: labor12_educ_sp
+    type: VARCHAR
+  - name: labor13_b_tbjo
+    type: VARCHAR
+  - name: labor13_b_tbjo_mh
+    type: VARCHAR
+  - name: labor13a_r2
+    type: VARCHAR
+  - name: labor13a_r3
+    type: VARCHAR
+  - name: labor13a_r4
+    type: VARCHAR
+  - name: labor13a_r5
+    type: VARCHAR
+  - name: labor13a_r6
+    type: VARCHAR
+  - name: labor13a_r7
+    type: VARCHAR
+  - name: labor13a_r1
+    type: VARCHAR
+  - name: labor14_nh_tbjo_ene
+    type: BIGINT
+  - name: labor15_nh_cto_ene
+    type: BIGINT
+  - name: labor16a_nh_tbjo_abr
+    type: BIGINT
+  - name: labor16b_nh_tbjo_jul
+    type: BIGINT
+  - name: labor16c_nh_tbjo_oct
+    type: BIGINT
+  - name: labor16d_nh_tbjo_sp
+    type: BIGINT
+  - name: labor17_accidente
+    type: VARCHAR
+  - name: labor17_clinica
+    type: VARCHAR
+  - name: labor17_muerte
+    type: VARCHAR
+  - name: labor17_f_svcios
+    type: VARCHAR
+  - name: labor17_dk
+    type: VARCHAR
+  - name: labor17_na
+    type: VARCHAR
+  - name: labor18_pn_num
+    type: VARCHAR
+  - name: labor19_pn_num_abr
+    type: VARCHAR
+  - name: labor19_pn_num_jul
+    type: VARCHAR
+  - name: labor19_pn_num_oct
+    type: VARCHAR
+  - name: labor19_pn_num_sp
+    type: VARCHAR
+  - name: labor20_nnegocio
+    type: VARCHAR
+  - name: labor21_nn_mes
+    type: VARCHAR
+  - name: labor22_tnegocio
+    type: VARCHAR
+  - name: labor23_anegocio
+    type: VARCHAR
+  - name: labor24_s1
+    type: VARCHAR
+  - name: labor24_s2
+    type: VARCHAR
+  - name: labor24_s3
+    type: VARCHAR
+  - name: labor24_s4
+    type: VARCHAR
+  - name: labor24_s5
+    type: VARCHAR
+  - name: labor24_s6
+    type: VARCHAR
+  - name: labor24_s7
+    type: VARCHAR
+  - name: labor25_feq_c1
+    type: VARCHAR
+  - name: labor25_feq_c2
+    type: VARCHAR
+  - name: labor25_feq_c3
+    type: VARCHAR
+  - name: labor25_feq_c4
+    type: VARCHAR
+  - name: labor25_feq_c5
+    type: VARCHAR
+  - name: diaedu1
+    type: VARCHAR
+  - name: diaedu3
+    type: VARCHAR
+  - name: diaedu4
+    type: VARCHAR
+  - name: diaedu5
+    type: VARCHAR
+  - name: diapan1
+    type: VARCHAR
+  - name: diapan2
+    type: VARCHAR
+  - name: diapan3
+    type: VARCHAR
+  - name: diaedu2_1
+    type: VARCHAR
+  - name: diaedu2_2
+    type: VARCHAR
+  - name: genero_r2
+    type: VARCHAR
+  - name: edad_r2
+    type: VARCHAR
+  - name: ingreso_jan2020_r2
+    type: VARCHAR
+  - name: ingreso_apr2020_r2
+    type: VARCHAR
+  - name: ingreso_jul2020_r2
+    type: VARCHAR
+  - name: ingreso_oct2020_r2
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

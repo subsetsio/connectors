@@ -1,94 +1,98 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-agricultural-productivity-indices-database-for-latin-america-and-the-caribbean-dataset`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
-  - name: Region
+  - name: region
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: ISO3
+  - name: iso3
     type: VARCHAR
-  - name: Year
-    type: VARCHAR
-  - name: TFP_Index_4
-    type: VARCHAR
-  - name: TFP_Index_6
-    type: VARCHAR
-  - name: TFP_FP
-    type: VARCHAR
-  - name: TFP_HM
-    type: VARCHAR
-  - name: TFP_Lowe
-    type: VARCHAR
-  - name: TFP_Young
-    type: VARCHAR
-  - name: SPI_Young
-    type: VARCHAR
-  - name: Input_Index_4
-    type: VARCHAR
-  - name: Input_Index_6
-    type: VARCHAR
-  - name: Output_Index
-    type: VARCHAR
-  - name: Land_Index
-    type: VARCHAR
-  - name: Labor_Index
-    type: VARCHAR
-  - name: Capital_Index
-    type: VARCHAR
-  - name: Machinery_Index
-    type: VARCHAR
-  - name: Livestock_Index
-    type: VARCHAR
-  - name: Materials_Index
-    type: VARCHAR
-  - name: Fertilizer_Index
-    type: VARCHAR
-  - name: Feed_Index
-    type: VARCHAR
-  - name: CS_labor
-    type: VARCHAR
-  - name: CS_land
-    type: VARCHAR
-  - name: CS_capital
-    type: VARCHAR
-  - name: CS_materials
-    type: VARCHAR
-  - name: CS_machinery
-    type: VARCHAR
-  - name: CS_livestock
-    type: VARCHAR
-  - name: CS_feed
-    type: VARCHAR
-  - name: CS_fertilizer
-    type: VARCHAR
-  - name: Outall_Q
-    type: VARCHAR
-  - name: Outcrop_Q
-    type: VARCHAR
-  - name: Outanim_Q
-    type: VARCHAR
-  - name: Outfish_Q
-    type: VARCHAR
-  - name: Land_Q
-    type: VARCHAR
-  - name: Labor_Q
-    type: VARCHAR
-  - name: Capital_Q
-    type: VARCHAR
-  - name: Machinery_Q
-    type: VARCHAR
-  - name: Livestock_Q
-    type: VARCHAR
-  - name: Fertilizer_Q
-    type: VARCHAR
-  - name: Feed_Q
-    type: VARCHAR
-  - name: Cropland_Q
-    type: VARCHAR
-  - name: Pasture_Q
-    type: VARCHAR
-  - name: IrrigArea_Q
-    type: VARCHAR
-  - name: ID
+  - name: year
+    type: BIGINT
+  - name: tfp_index_4
+    type: DOUBLE
+  - name: tfp_index_6
+    type: DOUBLE
+  - name: tfp_fp
+    type: DOUBLE
+  - name: tfp_hm
+    type: DOUBLE
+  - name: tfp_lowe
+    type: DOUBLE
+  - name: tfp_young
+    type: DOUBLE
+  - name: spi_young
+    type: DOUBLE
+  - name: input_index_4
+    type: DOUBLE
+  - name: input_index_6
+    type: DOUBLE
+  - name: output_index
+    type: DOUBLE
+  - name: land_index
+    type: DOUBLE
+  - name: labor_index
+    type: DOUBLE
+  - name: capital_index
+    type: DOUBLE
+  - name: machinery_index
+    type: DOUBLE
+  - name: livestock_index
+    type: DOUBLE
+  - name: materials_index
+    type: DOUBLE
+  - name: fertilizer_index
+    type: DOUBLE
+  - name: feed_index
+    type: DOUBLE
+  - name: cs_labor
+    type: DOUBLE
+  - name: cs_land
+    type: DOUBLE
+  - name: cs_capital
+    type: DOUBLE
+  - name: cs_materials
+    type: DOUBLE
+  - name: cs_machinery
+    type: DOUBLE
+  - name: cs_livestock
+    type: DOUBLE
+  - name: cs_feed
+    type: DOUBLE
+  - name: cs_fertilizer
+    type: DOUBLE
+  - name: outall_q
+    type: DOUBLE
+  - name: outcrop_q
+    type: BIGINT
+  - name: outanim_q
+    type: BIGINT
+  - name: outfish_q
+    type: DOUBLE
+  - name: land_q
+    type: DOUBLE
+  - name: labor_q
+    type: DOUBLE
+  - name: capital_q
+    type: DOUBLE
+  - name: machinery_q
+    type: DOUBLE
+  - name: livestock_q
+    type: DOUBLE
+  - name: fertilizer_q
+    type: DOUBLE
+  - name: feed_q
+    type: DOUBLE
+  - name: cropland_q
+    type: BIGINT
+  - name: pasture_q
+    type: DOUBLE
+  - name: irrigarea_q
+    type: BIGINT
+  - name: id
     type: VARCHAR
   - name: updated_at
     type: VARCHAR

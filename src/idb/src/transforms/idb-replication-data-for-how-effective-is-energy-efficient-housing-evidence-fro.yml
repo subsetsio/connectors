@@ -1,5 +1,17 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-replication-data-for-how-effective-is-energy-efficient-housing-evidence-fro`. Regenerate after model-verify.
+key: [lecturashr, fecha, folio_simo, hour]
+sort: [lecturashr, fecha, folio_simo, hour]
 columns:
+  - name: fecha
+    type: VARCHAR
+  - name: hour
+    type: BIGINT
+  - name: folio_simo
+    type: BIGINT
+  - name: lecturashr
+    type: DOUBLE
+  - name: lecturasc
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

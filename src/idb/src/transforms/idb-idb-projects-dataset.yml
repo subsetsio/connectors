@@ -1,13 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-idb-projects-dataset`. Regenerate after model-verify.
+key: []
+temporal: apprvl_dt
+sort: [apprvl_dt]
 columns:
   - name: oper_num
     type: VARCHAR
   - name: oper_nm
     type: VARCHAR
   - name: apprvl_dt
-    type: VARCHAR
+    type: TIMESTAMP
   - name: sign_dt
-    type: VARCHAR
+    type: TIMESTAMP
   - name: cntry_cd
     type: VARCHAR
   - name: cntry_nm
@@ -29,11 +33,11 @@ columns:
   - name: objtv
     type: VARCHAR
   - name: orig_apprvd_useq_amnt
-    type: VARCHAR
+    type: DOUBLE
   - name: totl_cost_orig
-    type: VARCHAR
+    type: BIGINT
   - name: loc_cntrprt
-    type: VARCHAR
+    type: BIGINT
   - name: lending_typ_nm
     type: VARCHAR
   - name: modality_cd

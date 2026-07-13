@@ -1,5 +1,28 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-tables-and-figures-for-revenue-collection-is-not-enough-taxes-as-an-instrum`. Regenerate after model-verify.
+key: []
 columns:
+  - name: indicadornombre_en
+    type: VARCHAR
+  - name: indicadornombre_es
+    type: VARCHAR
+  - name: indicador_nombre_pt
+    type: VARCHAR
+  - name: pais_nombre_en
+    type: VARCHAR
+  - name: paisnombre_es
+    type: VARCHAR
+  - name: ano
+    type: BIGINT
+  - name: valor
+    type: DOUBLE
+  - name: fuentedescripcion_en
+    type: VARCHAR
+  - name: fuente_descripcion_es
+    type: VARCHAR
+  - name: nota_descripcion_en
+    type: VARCHAR
+  - name: nota_descripcion_es
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

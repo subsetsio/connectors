@@ -1,5 +1,56 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-growing-resources-for-growing-cities-density-and-the-c`. Regenerate after model-verify.
+key: []
 columns:
+  - name: id
+    type: BIGINT
+  - name: country_name
+    type: VARCHAR
+  - name: country_id
+    type: BIGINT
+  - name: region_code
+    type: BIGINT
+  - name: region_name
+    type: VARCHAR
+  - name: state_code
+    type: BIGINT
+  - name: state_name
+    type: VARCHAR
+  - name: municipal_code
+    type: VARCHAR
+  - name: municipality_name
+    type: VARCHAR
+  - name: metro_area_code
+    type: BIGINT
+  - name: metro_area_name
+    type: VARCHAR
+  - name: microregion_name
+    type: VARCHAR
+  - name: microregion_code
+    type: BIGINT
+  - name: year_text
+    type: BIGINT
+  - name: year_date
+    type: BIGINT
+  - name: year_of_creation_of_municipality_post_2000
+    type: BIGINT
+  - name: municipality_belongs_to_a_metro_area
+    type: BIGINT
+  - name: municipality_is_seat_of_the_state_government
+    type: BIGINT
+  - name: municipality_is_primate
+    type: BIGINT
+  - name: territorial_extension_km2
+    type: DOUBLE
+  - name: indicator_name
+    type: VARCHAR
+  - name: indicator_id
+    type: VARCHAR
+  - name: indicator_code
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: location_1
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

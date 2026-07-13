@@ -1,5 +1,28 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-setting-targets-for-results-target-setting-tool`. Regenerate after model-verify.
+key: []
 columns:
+  - name: indicators
+    type: VARCHAR
+  - name: unit_value_vi
+    type: VARCHAR
+  - name: value_20_yrs_horizon_12_discount_rate
+    type: DOUBLE
+  - name: target_population
+    type: DOUBLE
+  - name: length_of_program_in_years
+    type: BIGINT
+  - name: total_cost
+    type: BIGINT
+  - name: "2008_level"
+    type: DOUBLE
+  - name: "2011_level"
+    type: DOUBLE
+  - name: "2011_level_95_ci"
+    type: VARCHAR
+  - name: trend
+    type: DOUBLE
+  - name: estimated_targets
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

@@ -1,1 +1,44 @@
-SELECT * FROM "idb-household-mobility-survey-for-the-integrated-mass-transit-system-in-the-met"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "LUGAR" AS lugar,
+    "MAQ" AS maq,
+    CAST("ENCUESTADOR" AS BIGINT) AS encuestador,
+    CAST("MES" AS BIGINT) AS mes,
+    "DIA" AS dia,
+    CAST("ENC2" AS BIGINT) AS enc2,
+    CAST("NUMDAT" AS BIGINT) AS numdat,
+    CAST("HORA" AS BIGINT) AS hora,
+    CAST("CHOGAR" AS BIGINT) AS chogar,
+    CAST("CODIGO_HOGAR_SIMPLE" AS BIGINT) AS codigo_hogar_simple,
+    CAST("ZONA" AS BIGINT) AS zona,
+    CAST("MANZANA" AS BIGINT) AS manzana,
+    CAST("NFAM" AS BIGINT) AS nfam,
+    CAST("NPERS" AS BIGINT) AS npers,
+    CAST("NKIDS" AS BIGINT) AS nkids,
+    CAST("PPOSIB" AS BIGINT) AS pposib,
+    CAST("NTRABAJAN" AS BIGINT) AS ntrabajan,
+    CAST("NESTUDIAN" AS BIGINT) AS nestudian,
+    CAST("NPMR" AS BIGINT) AS npmr,
+    "TIPOVIV" AS tipoviv,
+    "PROPVIV" AS propviv,
+    CAST("ANTIGENVIV" AS BIGINT) AS antigenviv,
+    "IDIOMA" AS idioma,
+    "PLANES_MUDAR" AS planes_mudar,
+    "NSE_DECL" AS nse_decl,
+    "NSE_OBS" AS nse_obs,
+    CAST("NUM_AUTO" AS BIGINT) AS num_auto,
+    CAST("NUM_AUT_GARAGE" AS BIGINT) AS num_aut_garage,
+    CAST("NUMBIC" AS BIGINT) AS numbic,
+    "USOBICI" AS usobici,
+    "100TPUB" AS 100tpub,
+    "10TPUB2_NOCTURNO" AS 10tpub2_nocturno,
+    "SE_REFIERE" AS se_refiere,
+    "ORIGEN_HAB" AS origen_hab,
+    "A_DONDE_SE_MUDA" AS a_donde_se_muda,
+    "NUM_HOGAR" AS num_hogar,
+    "DIST_HOGAR" AS dist_hogar,
+    "source_resource"
+FROM "idb-household-mobility-survey-for-the-integrated-mass-transit-system-in-the-met"

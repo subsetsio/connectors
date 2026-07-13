@@ -1,5 +1,28 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-the-early-years-child-well-being-and-the-role-of-publi`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: figure_table
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: sub_indicator
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: quintile
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: source
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

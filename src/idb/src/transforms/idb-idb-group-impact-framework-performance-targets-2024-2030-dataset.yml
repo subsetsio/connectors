@@ -1,22 +1,24 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-idb-group-impact-framework-performance-targets-2024-2030-dataset`. Regenerate after model-verify.
+key: []
 columns:
-  - name: Numéro_du_Projet
+  - name: num_ro_du_projet
     type: VARCHAR
-  - name: Numéro_de_la_Relation
+  - name: num_ro_de_la_relation
     type: VARCHAR
-  - name: Nom_du_Projet
+  - name: nom_du_projet
     type: VARCHAR
-  - name: Pays
+  - name: pays
     type: VARCHAR
-  - name: Année
+  - name: ann_e
+    type: BIGINT
+  - name: entit
     type: VARCHAR
-  - name: Entité
+  - name: type_d_op_ration
     type: VARCHAR
-  - name: Type_d’Opération
-    type: VARCHAR
-  - name: Montant
-    type: VARCHAR
-  - name: Petit_pays_vulnérable
+  - name: montant
+    type: DOUBLE
+  - name: petit_pays_vuln_rable
     type: VARCHAR
   - name: source_resource
     type: VARCHAR

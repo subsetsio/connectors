@@ -1,5 +1,20 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-tables-and-figures-for-public-administration-at-a-glance-in-latin-america-a`. Regenerate after model-verify.
+key: []
 columns:
+  - name: pais
+    type: VARCHAR
+  - name: codigo_pais
+    type: VARCHAR
+  - name: ano
+    type: BIGINT
+  - name: indicador
+    type: VARCHAR
+  - name: valor
+    type: DOUBLE
+  - name: medida
+    type: VARCHAR
+  - name: ano_fecha
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

@@ -1,42 +1,46 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-productivity-and-factor-accumulation-in-latin-america-and-the-caribbean-a-d`. Regenerate after model-verify.
+key: [lpop]
+temporal: year
+sort: [year, lpop]
 columns:
   - name: isocode
     type: VARCHAR
   - name: country
     type: VARCHAR
   - name: year
-    type: VARCHAR
-  - name: Y
-    type: VARCHAR
-  - name: K
-    type: VARCHAR
-  - name: Lpop
-    type: VARCHAR
-  - name: Lemp
-    type: VARCHAR
-  - name: S
-    type: VARCHAR
+    type: BIGINT
+  - name: y
+    type: BIGINT
+  - name: k
+    type: BIGINT
+  - name: lpop
+    type: DOUBLE
+  - name: lemp
+    type: DOUBLE
+  - name: s
+    type: DOUBLE
   - name: h
-    type: VARCHAR
+    type: DOUBLE
   - name: alpha_it
     type: VARCHAR
   - name: a
     type: VARCHAR
-  - name: LP
-    type: VARCHAR
-  - name: KLP
-    type: VARCHAR
-  - name: TFP
-    type: VARCHAR
-  - name: LAC
-    type: VARCHAR
-  - name: ROW
-    type: VARCHAR
-  - name: DEV
-    type: VARCHAR
-  - name: EA
-    type: VARCHAR
-  - name: Twin
-    type: VARCHAR
+  - name: lp
+    type: DOUBLE
+  - name: klp
+    type: DOUBLE
+  - name: tfp
+    type: DOUBLE
+  - name: lac
+    type: BIGINT
+  - name: row
+    type: BIGINT
+  - name: dev
+    type: BIGINT
+  - name: ea
+    type: BIGINT
+  - name: twin
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

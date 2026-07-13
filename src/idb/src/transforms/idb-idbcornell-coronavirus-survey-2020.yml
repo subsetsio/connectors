@@ -1,5 +1,266 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-idbcornell-coronavirus-survey-2020`. Regenerate after model-verify.
+key: []
+temporal: recordeddate
+sort: [recordeddate]
 columns:
+  - name: id
+    type: BIGINT
+  - name: country_code
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: weight
+    type: DOUBLE
+  - name: weight_pop
+    type: DOUBLE
+  - name: pop
+    type: DOUBLE
+  - name: recordeddate
+    type: DATE
+  - name: genero
+    type: VARCHAR
+  - name: edad
+    type: BIGINT
+  - name: educ
+    type: VARCHAR
+  - name: estcivil
+    type: VARCHAR
+  - name: nrhogar
+    type: BIGINT
+  - name: nrhogar_antes
+    type: BIGINT
+  - name: hayninhos
+    type: VARCHAR
+  - name: ninos_5
+    type: VARCHAR
+  - name: nrninhos
+    type: BIGINT
+  - name: matriculados
+    type: BIGINT
+  - name: esc_publica
+    type: VARCHAR
+  - name: grado
+    type: BIGINT
+  - name: haymayores
+    type: VARCHAR
+  - name: diasmercado
+    type: VARCHAR
+  - name: lugarmercado
+    type: VARCHAR
+  - name: comprotodo
+    type: VARCHAR
+  - name: nocompra_pan
+    type: VARCHAR
+  - name: nocompra_vegetal
+    type: VARCHAR
+  - name: nocompra_carne
+    type: VARCHAR
+  - name: nocompra_envasados
+    type: VARCHAR
+  - name: nocompra_bebidas
+    type: VARCHAR
+  - name: nocompra_limpieza
+    type: VARCHAR
+  - name: nocompra_medicinas
+    type: VARCHAR
+  - name: nocompra_otro
+    type: VARCHAR
+  - name: nrnegocios
+    type: VARCHAR
+  - name: esperarfila
+    type: VARCHAR
+  - name: subaprecios
+    type: VARCHAR
+  - name: hambre
+    type: VARCHAR
+  - name: menos_saludable
+    type: VARCHAR
+  - name: vivienda
+    type: VARCHAR
+  - name: probvivienda
+    type: VARCHAR
+  - name: probvivienda_prox
+    type: VARCHAR
+  - name: ayuda_alquiler
+    type: VARCHAR
+  - name: sufialimento
+    type: VARCHAR
+  - name: sufirecursos
+    type: VARCHAR
+  - name: gasto_emergencia
+    type: VARCHAR
+  - name: monto_gasto
+    type: VARCHAR
+  - name: pre_cash
+    type: VARCHAR
+  - name: new_cash
+    type: VARCHAR
+  - name: coima
+    type: VARCHAR
+  - name: tiene_banco
+    type: VARCHAR
+  - name: tiene_tarjdebito
+    type: VARCHAR
+  - name: tiene_segsaludpub
+    type: VARCHAR
+  - name: tiene_segsaludpriv
+    type: VARCHAR
+  - name: recibeprestamos
+    type: VARCHAR
+  - name: darprestamos
+    type: VARCHAR
+  - name: remesas_enero
+    type: VARCHAR
+  - name: remesas_origen
+    type: BIGINT
+  - name: remesas_persona
+    type: VARCHAR
+  - name: recibio_remesas
+    type: VARCHAR
+  - name: lm_perdioempleo
+    type: VARCHAR
+  - name: lm_cerronegocio_gob
+    type: VARCHAR
+  - name: lm_cerronegocio_dem
+    type: VARCHAR
+  - name: lm_asistmedica
+    type: VARCHAR
+  - name: lm_perdioingrarriendo
+    type: VARCHAR
+  - name: lm_dejoasistencia
+    type: VARCHAR
+  - name: lm_freq
+    type: BIGINT
+  - name: recibio_ayudaemp
+    type: VARCHAR
+  - name: compromiso_futurotrabajo
+    type: VARCHAR
+  - name: empleo_formal
+    type: VARCHAR
+  - name: actividad_empleado
+    type: VARCHAR
+  - name: actividad_negocio
+    type: VARCHAR
+  - name: actividad_estudio
+    type: VARCHAR
+  - name: trabajocasa
+    type: VARCHAR
+  - name: diastrabajo
+    type: BIGINT
+  - name: horastrabajo
+    type: BIGINT
+  - name: sector
+    type: VARCHAR
+  - name: redujo_ingreso
+    type: VARCHAR
+  - name: ingreso_jan2020
+    type: VARCHAR
+  - name: ingreso_apr2020
+    type: VARCHAR
+  - name: retorno_ingreso
+    type: VARCHAR
+  - name: sintoma_ninguno
+    type: VARCHAR
+  - name: sintoma_garganta
+    type: VARCHAR
+  - name: sintoma_gripe
+    type: VARCHAR
+  - name: sintoma_sarpullido
+    type: VARCHAR
+  - name: sintoma_fiebre
+    type: VARCHAR
+  - name: sintoma_tos
+    type: VARCHAR
+  - name: conoce_sintomas
+    type: VARCHAR
+  - name: infectados_sinsintomas
+    type: VARCHAR
+  - name: sinsintomas_contagiar
+    type: VARCHAR
+  - name: visito_trabajo
+    type: VARCHAR
+  - name: visito_hospital
+    type: VARCHAR
+  - name: visito_mercado
+    type: VARCHAR
+  - name: visito_banco
+    type: VARCHAR
+  - name: visito_amigos
+    type: VARCHAR
+  - name: visito_familiares
+    type: VARCHAR
+  - name: visito_ejercitar
+    type: VARCHAR
+  - name: visito_iglesia
+    type: VARCHAR
+  - name: comotransmite
+    type: VARCHAR
+  - name: sabe_comotransmite
+    type: VARCHAR
+  - name: distsoc
+    type: VARCHAR
+  - name: recom_trabajo
+    type: VARCHAR
+  - name: recom_hospital
+    type: VARCHAR
+  - name: recom_mercado
+    type: VARCHAR
+  - name: recom_banco
+    type: VARCHAR
+  - name: recom_amigos
+    type: VARCHAR
+  - name: recom_familiares
+    type: VARCHAR
+  - name: recom_ejercicio
+    type: VARCHAR
+  - name: recom_iglesia
+    type: VARCHAR
+  - name: haceds_hogar
+    type: VARCHAR
+  - name: haceds_vecinos
+    type: VARCHAR
+  - name: haceds_jovenes
+    type: VARCHAR
+  - name: haceds_mayores
+    type: VARCHAR
+  - name: haceds_otropais
+    type: VARCHAR
+  - name: haceds_emplmercados
+    type: VARCHAR
+  - name: medios_noti_redessociales
+    type: VARCHAR
+  - name: medios_noti_chat
+    type: VARCHAR
+  - name: medios_noti_periodicos
+    type: VARCHAR
+  - name: medios_noti_tv
+    type: VARCHAR
+  - name: medios_noti_radio
+    type: VARCHAR
+  - name: medios_covid_redessociales
+    type: VARCHAR
+  - name: medios_covid_chat
+    type: VARCHAR
+  - name: medios_covid_periodicos
+    type: VARCHAR
+  - name: medios_covid_tv
+    type: VARCHAR
+  - name: medios_covid_radio
+    type: VARCHAR
+  - name: nps_medio_redessoc
+    type: VARCHAR
+  - name: nps_medio_sms
+    type: VARCHAR
+  - name: nps_medio_periodico
+    type: VARCHAR
+  - name: nps_medio_tv
+    type: VARCHAR
+  - name: nps_medio_radio
+    type: VARCHAR
+  - name: nps_medio_website
+    type: VARCHAR
+  - name: nps_medio_otro
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

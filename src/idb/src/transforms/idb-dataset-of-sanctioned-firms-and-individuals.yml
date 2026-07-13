@@ -1,26 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-dataset-of-sanctioned-firms-and-individuals`. Regenerate after model-verify.
+key: []
+temporal: from
+sort: [from]
 columns:
-  - name: Title
+  - name: title
     type: VARCHAR
-  - name: Entity
+  - name: entity
     type: VARCHAR
-  - name: Nationality
+  - name: nationality
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: From
+  - name: from
+    type: TIMESTAMP
+  - name: to
     type: VARCHAR
-  - name: To
+  - name: prohibited_practice
     type: VARCHAR
-  - name: Prohibited_Practice
+  - name: source
     type: VARCHAR
-  - name: Source
+  - name: tipo_de_sancion_del_bid
     type: VARCHAR
-  - name: Tipo_de_sancion_del_BID
+  - name: idb_sanction_source
     type: VARCHAR
-  - name: IDB_Sanction_Source
-    type: VARCHAR
-  - name: Other_Name
+  - name: other_name
     type: VARCHAR
   - name: source_resource
     type: VARCHAR

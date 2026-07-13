@@ -1,5 +1,22 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-regional-system-of-standardized-indicators-in-peaceful-coexistence-and-citi`. Regenerate after model-verify.
+key: []
 columns:
+  - name: pais
+    type: VARCHAR
+  - name: delito
+    type: VARCHAR
+  - name: var
+    type: VARCHAR
+  - name: poblacion
+    type: BIGINT
+  - name: ano
+    type: BIGINT
+  - name: ano_date
+    type: BIGINT
+  - name: num
+    type: DOUBLE
+  - name: location
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

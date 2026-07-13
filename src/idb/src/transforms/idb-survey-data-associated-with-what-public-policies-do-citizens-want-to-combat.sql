@@ -1,1 +1,43 @@
-SELECT * FROM "idb-survey-data-associated-with-what-public-policies-do-citizens-want-to-combat"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("idnum" AS BIGINT) AS idnum,
+    "uniq_id",
+    "estratopri",
+    CAST("upm" AS BIGINT) AS upm,
+    CAST("cluster" AS BIGINT) AS cluster,
+    CAST("wt" AS BIGINT) AS wt,
+    CAST("income" AS BIGINT) AS income,
+    CAST("risk" AS BIGINT) AS risk,
+    CAST("patience" AS BIGINT) AS patience,
+    "prob_murder",
+    "gender",
+    CAST("age" AS BIGINT) AS age,
+    "pol_finance",
+    "pol_qe",
+    "pol_quc",
+    "pol_concent",
+    "pol_wage_best",
+    "trust_general",
+    "trust_family",
+    "family_law",
+    "politicians_law",
+    CAST("pol_corrupt" AS BOOLEAN) AS pol_corrupt,
+    CAST("victim" AS BOOLEAN) AS victim,
+    CAST("education" AS BIGINT) AS education,
+    CAST("employment" AS BOOLEAN) AS employment,
+    "pol_importance",
+    "safety_city",
+    "safety_neigh",
+    "crime_prob",
+    "corrupt_prob",
+    "badgov_prob",
+    "pov_ineq_prob",
+    "trust_govt",
+    "Country" AS country,
+    "currency",
+    "income_det",
+    "source_resource"
+FROM "idb-survey-data-associated-with-what-public-policies-do-citizens-want-to-combat"

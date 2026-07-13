@@ -1,5 +1,15 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-who-cares-how-to-support-and-ensure-recognition-for-caregivers-for-older-people`. Regenerate after model-verify.
+key: [pais]
+sort: [pais]
 columns:
+  - name: pais
+    type: VARCHAR
+  - name: dentro_del_hogar_miles
+    type: VARCHAR
+  - name: fuera_del_hogar_imles
+    type: VARCHAR
+  - name: total_miles
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

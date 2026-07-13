@@ -1,213 +1,217 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-database-of-political-institutions-2017`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: countryname
     type: VARCHAR
   - name: ifs
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: system
     type: VARCHAR
   - name: yrsoffc
-    type: VARCHAR
+    type: BIGINT
   - name: finittrm
-    type: VARCHAR
+    type: BIGINT
   - name: yrcurnt
-    type: VARCHAR
+    type: BIGINT
   - name: multpl
-    type: VARCHAR
+    type: BIGINT
   - name: military
-    type: VARCHAR
+    type: BIGINT
   - name: defmin
-    type: VARCHAR
+    type: BIGINT
   - name: percent1
-    type: VARCHAR
+    type: DOUBLE
   - name: percentl
-    type: VARCHAR
+    type: DOUBLE
   - name: prtyin
-    type: VARCHAR
+    type: BIGINT
   - name: execme
     type: VARCHAR
   - name: execrlc
     type: VARCHAR
   - name: execnat
-    type: VARCHAR
+    type: BIGINT
   - name: execrurl
-    type: VARCHAR
+    type: BIGINT
   - name: execreg
-    type: VARCHAR
+    type: BIGINT
   - name: execrel
     type: VARCHAR
   - name: execage
-    type: VARCHAR
+    type: BIGINT
   - name: allhouse
-    type: VARCHAR
+    type: BIGINT
   - name: nonchief
     type: VARCHAR
   - name: totalseats
-    type: VARCHAR
+    type: BIGINT
   - name: gov1me
     type: VARCHAR
   - name: gov1seat
-    type: VARCHAR
+    type: BIGINT
   - name: gov1vote
-    type: VARCHAR
+    type: DOUBLE
   - name: gov1rlc
     type: VARCHAR
   - name: gov1nat
-    type: VARCHAR
+    type: BIGINT
   - name: gov1rurl
-    type: VARCHAR
+    type: BIGINT
   - name: gov1reg
-    type: VARCHAR
+    type: BIGINT
   - name: gov1rel
     type: VARCHAR
   - name: gov1age
-    type: VARCHAR
+    type: BIGINT
   - name: gov2me
     type: VARCHAR
   - name: gov2seat
-    type: VARCHAR
+    type: BIGINT
   - name: gov2vote
     type: VARCHAR
   - name: gov2rlc
     type: VARCHAR
   - name: gov2nat
-    type: VARCHAR
+    type: BIGINT
   - name: gov2rurl
-    type: VARCHAR
+    type: BIGINT
   - name: gov2reg
-    type: VARCHAR
+    type: BIGINT
   - name: gov2rel
     type: VARCHAR
   - name: gov2age
-    type: VARCHAR
+    type: BIGINT
   - name: gov3me
     type: VARCHAR
   - name: gov3seat
-    type: VARCHAR
+    type: BIGINT
   - name: gov3vote
-    type: VARCHAR
+    type: DOUBLE
   - name: gov3rlc
     type: VARCHAR
   - name: gov3nat
-    type: VARCHAR
+    type: BIGINT
   - name: gov3rurl
-    type: VARCHAR
+    type: BIGINT
   - name: gov3reg
-    type: VARCHAR
+    type: BIGINT
   - name: gov3rel
     type: VARCHAR
   - name: gov3age
-    type: VARCHAR
+    type: BIGINT
   - name: govoth
-    type: VARCHAR
+    type: BIGINT
   - name: govothst
-    type: VARCHAR
+    type: BIGINT
   - name: govothvt
-    type: VARCHAR
+    type: DOUBLE
   - name: opp1me
     type: VARCHAR
   - name: opp1seat
-    type: VARCHAR
+    type: BIGINT
   - name: opp1vote
-    type: VARCHAR
+    type: DOUBLE
   - name: opp1rlc
     type: VARCHAR
   - name: opp1nat
-    type: VARCHAR
+    type: BIGINT
   - name: opp1rurl
-    type: VARCHAR
+    type: BIGINT
   - name: opp1reg
-    type: VARCHAR
+    type: BIGINT
   - name: opp1rel
     type: VARCHAR
   - name: opp1age
-    type: VARCHAR
+    type: BIGINT
   - name: opp2me
     type: VARCHAR
   - name: opp2seat
-    type: VARCHAR
+    type: BIGINT
   - name: opp2vote
-    type: VARCHAR
+    type: DOUBLE
   - name: opp3me
     type: VARCHAR
   - name: opp3seat
-    type: VARCHAR
+    type: BIGINT
   - name: opp3vote
     type: VARCHAR
   - name: oppoth
-    type: VARCHAR
+    type: BIGINT
   - name: oppothst
-    type: VARCHAR
+    type: BIGINT
   - name: oppothvt
     type: VARCHAR
   - name: ulprty
-    type: VARCHAR
+    type: BIGINT
   - name: numul
-    type: VARCHAR
+    type: BIGINT
   - name: ulvote
-    type: VARCHAR
+    type: DOUBLE
   - name: oppmajh
-    type: VARCHAR
+    type: BIGINT
   - name: oppmajs
-    type: VARCHAR
+    type: BIGINT
   - name: dateleg
-    type: VARCHAR
+    type: BIGINT
   - name: dateexec
-    type: VARCHAR
+    type: BIGINT
   - name: legelec
-    type: VARCHAR
+    type: BIGINT
   - name: exelec
-    type: VARCHAR
+    type: BIGINT
   - name: liec
-    type: VARCHAR
+    type: DOUBLE
   - name: eiec
-    type: VARCHAR
+    type: DOUBLE
   - name: mdmh
     type: VARCHAR
   - name: mdms
-    type: VARCHAR
+    type: BIGINT
   - name: ssh
     type: VARCHAR
   - name: pluralty
-    type: VARCHAR
+    type: BIGINT
   - name: pr
-    type: VARCHAR
+    type: BIGINT
   - name: housesys
     type: VARCHAR
   - name: sensys
     type: VARCHAR
   - name: thresh
-    type: VARCHAR
+    type: BIGINT
   - name: dhondt
-    type: VARCHAR
+    type: BIGINT
   - name: cl
-    type: VARCHAR
+    type: BIGINT
   - name: select
     type: VARCHAR
   - name: fraud
-    type: VARCHAR
+    type: BIGINT
   - name: auton
-    type: VARCHAR
+    type: BIGINT
   - name: muni
     type: VARCHAR
   - name: state
     type: VARCHAR
   - name: author
-    type: VARCHAR
+    type: BIGINT
   - name: stconst
-    type: VARCHAR
+    type: BIGINT
   - name: gwno
-    type: VARCHAR
+    type: BIGINT
   - name: numgov
-    type: VARCHAR
+    type: BIGINT
   - name: numvote
-    type: VARCHAR
+    type: DOUBLE
   - name: numopp
-    type: VARCHAR
+    type: BIGINT
   - name: oppvote
-    type: VARCHAR
+    type: DOUBLE
   - name: maj
     type: VARCHAR
   - name: partyage
@@ -229,7 +233,7 @@ columns:
   - name: tensys
     type: VARCHAR
   - name: checks_lax
-    type: VARCHAR
+    type: BIGINT
   - name: checks
     type: VARCHAR
   - name: stabs_strict

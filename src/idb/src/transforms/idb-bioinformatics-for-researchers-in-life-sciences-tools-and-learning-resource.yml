@@ -1,5 +1,39 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-bioinformatics-for-researchers-in-life-sciences-tools-and-learning-resource`. Regenerate after model-verify.
+key: [description, tool_name, id, biotech_fields, usage]
+sort: [description, tool_name, id, biotech_fields, usage]
 columns:
+  - name: tool_name
+    type: VARCHAR
+  - name: id
+    type: BIGINT
+  - name: main_url
+    type: VARCHAR
+  - name: usage
+    type: VARCHAR
+  - name: biotech_fields
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: technology_type
+    type: VARCHAR
+  - name: level_of_complexity
+    type: VARCHAR
+  - name: pricing_model
+    type: VARCHAR
+  - name: pricing_detail
+    type: VARCHAR
+  - name: documentation_and_tutorials
+    type: VARCHAR
+  - name: alternative_urls
+    type: VARCHAR
+  - name: learning_resources
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: year_published
+    type: BIGINT
+  - name: country_or_region
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

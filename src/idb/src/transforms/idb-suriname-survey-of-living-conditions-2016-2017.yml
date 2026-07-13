@@ -1,5 +1,57 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-suriname-survey-of-living-conditions-2016-2017`. Regenerate after model-verify.
+key: [hhid, quantity, weight, psu, foodcode]
+sort: [hhid, quantity, weight, psu, foodcode]
 columns:
+  - name: hhid
+    type: BIGINT
+  - name: weight
+    type: DOUBLE
+  - name: psu
+    type: BIGINT
+  - name: stratum
+    type: BIGINT
+  - name: psus_n
+    type: BIGINT
+  - name: ca
+    type: VARCHAR
+  - name: domain
+    type: VARCHAR
+  - name: gp_subdom
+    type: VARCHAR
+  - name: extra
+    type: BIGINT
+  - name: fort
+    type: BIGINT
+  - name: foodcode
+    type: VARCHAR
+  - name: q14_01n
+    type: VARCHAR
+  - name: quantity
+    type: VARCHAR
+  - name: anncoeff
+    type: DOUBLE
+  - name: q14_02
+    type: BIGINT
+  - name: q14_03b
+    type: VARCHAR
+  - name: q14_03c
+    type: DOUBLE
+  - name: q14_04a
+    type: BIGINT
+  - name: q14_04b
+    type: BIGINT
+  - name: q14_04c
+    type: BIGINT
+  - name: q14_04d
+    type: BIGINT
+  - name: q14_04e
+    type: BIGINT
+  - name: q14_04f
+    type: BIGINT
+  - name: q14_04g
+    type: BIGINT
+  - name: q14_05b
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

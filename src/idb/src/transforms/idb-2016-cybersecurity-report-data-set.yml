@@ -1,5 +1,22 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-2016-cybersecurity-report-data-set`. Regenerate after model-verify.
+key: [indicator_name, indicator, country, factor, nivel_de_madurez_texto_en]
+temporal: year
+sort: [year, indicator_name, indicator, country, factor, nivel_de_madurez_texto_en]
 columns:
+  - name: country
+    type: VARCHAR
+  - name: dimension
+    type: VARCHAR
+  - name: factor
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: nivel_de_madurez_texto_en
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

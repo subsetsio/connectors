@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-bioinformatics-for-researchers-in-life-sciences-tools-and-learning-resource`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [description, tool_name, id, biotech_fields, usage]
+checks:
+  - kind: unique
+    columns: [description, tool_name, id, biotech_fields, usage]
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: tool_name
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: biotech_fields
+  - kind: not_null
+    col: usage
+  - kind: row_floor
+    min: 160
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

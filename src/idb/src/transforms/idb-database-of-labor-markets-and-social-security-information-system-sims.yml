@@ -1,8 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-database-of-labor-markets-and-social-security-information-system-sims`. Regenerate after model-verify.
+key: []
 columns:
   - name: region
     type: VARCHAR
-  - name: region_acro_BID
+  - name: region_acro_bid
     type: VARCHAR
   - name: region_2
     type: VARCHAR
@@ -13,9 +15,9 @@ columns:
   - name: pais_acronimo
     type: VARCHAR
   - name: anio
-    type: VARCHAR
+    type: BIGINT
   - name: anio2
-    type: VARCHAR
+    type: BIGINT
   - name: ronda
     type: VARCHAR
   - name: var_descripcion
@@ -71,8 +73,8 @@ columns:
   - name: institucion_ejecutora_acronimo
     type: VARCHAR
   - name: non_average
-    type: VARCHAR
+    type: BIGINT
   - name: valor
-    type: VARCHAR
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

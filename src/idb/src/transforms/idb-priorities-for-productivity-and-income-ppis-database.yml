@@ -1,5 +1,20 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-priorities-for-productivity-and-income-ppis-database`. Regenerate after model-verify.
+key: [country, year, indicator, sector, normalization]
+temporal: year
+sort: [year, country, indicator, sector, normalization]
 columns:
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: normalization
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

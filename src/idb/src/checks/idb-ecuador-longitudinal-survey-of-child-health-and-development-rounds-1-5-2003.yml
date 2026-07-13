@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-ecuador-longitudinal-survey-of-child-health-and-development-rounds-1-5-2003`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [idhabitus, persona, bl, w1, w2]
+checks:
+  - kind: unique
+    columns: [idhabitus, persona, bl, w1, w2]
+  - kind: not_null
+    col: idhabitus
+  - kind: not_null
+    col: persona
+  - kind: not_null
+    col: bl
+  - kind: not_null
+    col: w1
+  - kind: not_null
+    col: w2
+  - kind: row_floor
+    min: 3004
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-accountabilitydata-social-and-environmental-claims-managed-by-mici`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reg_notification, complaintid, receptiondate, case_number, country]
+temporal: receptiondate
+checks:
+  - kind: unique
+    columns: [reg_notification, complaintid, receptiondate, case_number, country]
+  - kind: not_null
+    col: reg_notification
+  - kind: not_null
+    col: complaintid
+  - kind: not_null
+    col: receptiondate
+  - kind: not_null
+    col: case_number
+  - kind: not_null
+    col: country
+  - kind: row_floor
+    min: 135
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

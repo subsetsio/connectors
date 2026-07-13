@@ -1,5 +1,1106 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-survey-data-associated-with-what-do-those-who-observe-crime-observe-past-pr`. Regenerate after model-verify.
+key: []
 columns:
+  - name: zona
+    type: VARCHAR
+  - name: obsenombobse_111
+    type: VARCHAR
+  - name: ciudad
+    type: VARCHAR
+  - name: pais
+    type: VARCHAR
+  - name: obse_pagiweb_119
+    type: VARCHAR
+  - name: cob_intitucional
+    type: BIGINT
+  - name: obse_cobemuni_110
+    type: BIGINT
+  - name: cob_nacional
+    type: BIGINT
+  - name: cob_regional
+    type: BIGINT
+  - name: cob_departamental
+    type: BIGINT
+  - name: cob_otro
+    type: BIGINT
+  - name: obse_cobecual_110
+    type: VARCHAR
+  - name: objetivo
+    type: VARCHAR
+  - name: obje
+    type: BIGINT
+  - name: ao_fundacion
+    type: BIGINT
+  - name: factores1
+    type: VARCHAR
+  - name: factores2
+    type: VARCHAR
+  - name: factores3
+    type: VARCHAR
+  - name: fuente_financ
+    type: VARCHAR
+  - name: obse_antegara_135
+    type: VARCHAR
+  - name: fecha_hitos
+    type: VARCHAR
+  - name: obse_antemom1_136
+    type: VARCHAR
+  - name: fecha_hitos2
+    type: VARCHAR
+  - name: obse_antemom2_136
+    type: VARCHAR
+  - name: fecha_hitos3
+    type: VARCHAR
+  - name: obse_antemom3_136
+    type: VARCHAR
+  - name: fecha_hitos4
+    type: VARCHAR
+  - name: obse_antemom4_136
+    type: VARCHAR
+  - name: fecha_hitos5
+    type: VARCHAR
+  - name: obse_antemom5_136
+    type: VARCHAR
+  - name: areasdetrabajo
+    type: BIGINT
+  - name: seg_crimen
+    type: BIGINT
+  - name: est_sociales
+    type: BIGINT
+  - name: est_economicos
+    type: BIGINT
+  - name: est_epi
+    type: BIGINT
+  - name: est_crimino
+    type: BIGINT
+  - name: est_convi
+    type: BIGINT
+  - name: est_vigilepi
+    type: BIGINT
+  - name: prog_activ
+    type: BIGINT
+  - name: atenabog_149
+    type: BIGINT
+  - name: otra_1410
+    type: BIGINT
+  - name: obse_areacual_1410
+    type: VARCHAR
+  - name: obse_areacome_1411
+    type: VARCHAR
+  - name: gubernamental_211
+    type: BIGINT
+  - name: organolesgil_211
+    type: BIGINT
+  - name: secpriv_211
+    type: BIGINT
+  - name: nogubernamental_211
+    type: BIGINT
+  - name: organojudicial_211
+    type: BIGINT
+  - name: mixto_211
+    type: BIGINT
+  - name: academico_211
+    type: BIGINT
+  - name: partidopol_211
+    type: BIGINT
+  - name: otro_211
+    type: BIGINT
+  - name: obse_insecual_211
+    type: VARCHAR
+  - name: inseespe_212
+    type: VARCHAR
+  - name: inseorga_213
+    type: VARCHAR
+  - name: planestrat_4
+    type: BIGINT
+  - name: cuanplan_4
+    type: VARCHAR
+  - name: recuplan_4
+    type: VARCHAR
+  - name: resuplan_4
+    type: BIGINT
+  - name: evaluacion_inst_4
+    type: BIGINT
+  - name: obse_cuaneval_4
+    type: VARCHAR
+  - name: obse_recueval_4
+    type: VARCHAR
+  - name: id_sino_resueval_4
+    type: BIGINT
+  - name: obse_planestr_4
+    type: VARCHAR
+  - name: tecnico_tc1_3111
+    type: BIGINT
+  - name: tecnico_ttp1_3111
+    type: BIGINT
+  - name: tecnico_ttc1_3111
+    type: BIGINT
+  - name: profesionaltc1_3111
+    type: BIGINT
+  - name: profesionaltp1_3111
+    type: BIGINT
+  - name: profesionalc1_3111
+    type: BIGINT
+  - name: posgradotc1_3111
+    type: BIGINT
+  - name: posgradotp1_3111
+    type: BIGINT
+  - name: posgradoc1_3111
+    type: BIGINT
+  - name: obse_areahor1_3111
+    type: BIGINT
+  - name: tecnico_tc2_3111
+    type: BIGINT
+  - name: tecnico_ttp2_3111
+    type: BIGINT
+  - name: tecnico_ttc2_3111
+    type: BIGINT
+  - name: profesionaltc2_3111
+    type: BIGINT
+  - name: profesionaltp2_3111
+    type: BIGINT
+  - name: profesionalc2_3111
+    type: BIGINT
+  - name: posgradotc2_3111
+    type: BIGINT
+  - name: posgradotp2_3111
+    type: BIGINT
+  - name: posgradoc2_3111
+    type: BIGINT
+  - name: obse_areahor2_3111
+    type: BIGINT
+  - name: tecnico_tc3_3111
+    type: BIGINT
+  - name: tecnico_ttp3_3111
+    type: BIGINT
+  - name: tecnico_ttc3_3111
+    type: BIGINT
+  - name: profesionaltc3_3111
+    type: BIGINT
+  - name: profesionaltp3_3111
+    type: BIGINT
+  - name: profesionalc3_3111
+    type: BIGINT
+  - name: posgradotc3_3111
+    type: BIGINT
+  - name: posgradotp3_3111
+    type: BIGINT
+  - name: posgradoc3_3111
+    type: BIGINT
+  - name: obse_areahor3_3111
+    type: BIGINT
+  - name: tecnico_tc4_3111
+    type: BIGINT
+  - name: tecnico_ttp4_3111
+    type: BIGINT
+  - name: tecnico_ttc4_3111
+    type: BIGINT
+  - name: profesionaltc4_3111
+    type: BIGINT
+  - name: profesionaltp4_3111
+    type: BIGINT
+  - name: profesionalc4_3111
+    type: BIGINT
+  - name: posgradotc4_3111
+    type: BIGINT
+  - name: posgradotp4_3111
+    type: BIGINT
+  - name: posgradoc4_3111
+    type: BIGINT
+  - name: obse_areahor4_3111
+    type: BIGINT
+  - name: tecnico_tc5_3111
+    type: BIGINT
+  - name: tecnico_ttp5_3111
+    type: BIGINT
+  - name: tecnico_ttc5_3111
+    type: BIGINT
+  - name: profesionaltc5_3111
+    type: BIGINT
+  - name: profesionaltp5_3111
+    type: BIGINT
+  - name: profesionalc5_3111
+    type: BIGINT
+  - name: posgradotc5_3111
+    type: BIGINT
+  - name: posgradotp5_3111
+    type: BIGINT
+  - name: posgradoc5_3111
+    type: BIGINT
+  - name: obse_areahor5_3111
+    type: BIGINT
+  - name: tecnico_tc6_3111
+    type: BIGINT
+  - name: tecnico_ttp6_3111
+    type: BIGINT
+  - name: tecnico_ttc6_3111
+    type: BIGINT
+  - name: profesionaltc6_3111
+    type: BIGINT
+  - name: profesionaltp6_3111
+    type: BIGINT
+  - name: profesionalc6_3111
+    type: BIGINT
+  - name: posgradotc6_3111
+    type: BIGINT
+  - name: posgradotp6_3111
+    type: BIGINT
+  - name: posgradoc6_3111
+    type: BIGINT
+  - name: obse_areahor6_3111
+    type: BIGINT
+  - name: tecnico_tc7_3111
+    type: BIGINT
+  - name: tecnico_ttp7_3111
+    type: BIGINT
+  - name: tecnico_ttc7_3111
+    type: BIGINT
+  - name: profesionaltc7_3111
+    type: BIGINT
+  - name: profesionaltp7_3111
+    type: BIGINT
+  - name: profesionalc7_3111
+    type: BIGINT
+  - name: posgradotc7_3111
+    type: BIGINT
+  - name: posgradotp7_3111
+    type: BIGINT
+  - name: posgradoc7_3111
+    type: BIGINT
+  - name: obse_areahor7_3111
+    type: BIGINT
+  - name: tecnico_tc8_3111
+    type: BIGINT
+  - name: tecnico_ttp8_3111
+    type: BIGINT
+  - name: tecnico_ttc8_3111
+    type: BIGINT
+  - name: profesionaltc8_3111
+    type: BIGINT
+  - name: profesionaltp8_3111
+    type: BIGINT
+  - name: profesionalc8_3111
+    type: BIGINT
+  - name: posgradotc8_3111
+    type: BIGINT
+  - name: posgradotp8_3111
+    type: BIGINT
+  - name: posgradoc8_3111
+    type: BIGINT
+  - name: obse_areahor8_3111
+    type: BIGINT
+  - name: tecnico_tc9_3111
+    type: BIGINT
+  - name: tecnico_ttp9_3111
+    type: BIGINT
+  - name: tecnico_ttc9_3111
+    type: BIGINT
+  - name: profesionaltc9_3111
+    type: BIGINT
+  - name: profesionaltp9_3111
+    type: BIGINT
+  - name: profesionalc9_3111
+    type: BIGINT
+  - name: posgradotc9_3111
+    type: BIGINT
+  - name: posgradotp9_3111
+    type: BIGINT
+  - name: posgradoc9_3111
+    type: BIGINT
+  - name: obse_areahor9_3111
+    type: BIGINT
+  - name: tecnico_tc10_3111
+    type: BIGINT
+  - name: tecnico_ttp10_3111
+    type: BIGINT
+  - name: tecnico_ttc10_3111
+    type: BIGINT
+  - name: profesionaltc10_3111
+    type: BIGINT
+  - name: profesionaltp10_3111
+    type: BIGINT
+  - name: profesionalc10_3111
+    type: BIGINT
+  - name: posgradotc10_3111
+    type: BIGINT
+  - name: posgradotp10_3111
+    type: BIGINT
+  - name: posgradoc10_3111
+    type: BIGINT
+  - name: obse_areahor10_3111
+    type: BIGINT
+  - name: tecnico_tc11_3111
+    type: BIGINT
+  - name: tecnico_ttp11_3111
+    type: BIGINT
+  - name: tecnico_ttc11_3111
+    type: BIGINT
+  - name: profesionaltc11_3111
+    type: BIGINT
+  - name: profesionaltp11_3111
+    type: BIGINT
+  - name: profesionalc11_3111
+    type: BIGINT
+  - name: posgradotc11_3111
+    type: BIGINT
+  - name: posgradotp11_3111
+    type: BIGINT
+  - name: posgradoc11_3111
+    type: BIGINT
+  - name: obse_areahor11_3111
+    type: BIGINT
+  - name: obse_cuales11_3111
+    type: VARCHAR
+  - name: obse_areattct_3111
+    type: BIGINT
+  - name: obse_areattpt_3111
+    type: BIGINT
+  - name: obse_areatct_3111
+    type: BIGINT
+  - name: obse_areaptct_3111
+    type: BIGINT
+  - name: obse_areaptpt_3111
+    type: BIGINT
+  - name: obse_areapct_3111
+    type: BIGINT
+  - name: obse_areagtct_3111
+    type: BIGINT
+  - name: obse_areagtpt_3111
+    type: BIGINT
+  - name: obse_areagct_3111
+    type: BIGINT
+  - name: obse_areahort_3111
+    type: BIGINT
+  - name: honorarios
+    type: BIGINT
+  - name: tiem_indef
+    type: BIGINT
+  - name: volun
+    type: BIGINT
+  - name: otro_3124
+    type: BIGINT
+  - name: obse_tconexot_3124
+    type: VARCHAR
+  - name: obse_reteequi_3131
+    type: VARCHAR
+  - name: obse_retesoft_3132
+    type: VARCHAR
+  - name: obse_retemaps_3133
+    type: VARCHAR
+  - name: obse_refifufi_3141
+    type: VARCHAR
+  - name: presupuesto
+    type: BIGINT
+  - name: obse_refirano_3142
+    type: BIGINT
+  - name: reg_presupuestal
+    type: BIGINT
+  - name: obse_catedeho_4111
+    type: VARCHAR
+  - name: obse_catefuho_4111
+    type: VARCHAR
+  - name: obse_cateanho_4111
+    type: BIGINT
+  - name: obse_catebiho_4111
+    type: BIGINT
+  - name: obse_catemeho_4111
+    type: BIGINT
+  - name: obse_cateseho_4111
+    type: BIGINT
+  - name: obse_catediho_4111
+    type: BIGINT
+  - name: obse_niveacho_4111
+    type: VARCHAR
+  - name: obse_catedetr_4111
+    type: VARCHAR
+  - name: obse_catefutr_4111
+    type: VARCHAR
+  - name: obse_cateantr_4111
+    type: BIGINT
+  - name: obse_catebitr_4111
+    type: BIGINT
+  - name: obse_catemetr_4111
+    type: BIGINT
+  - name: obse_catesetr_4111
+    type: BIGINT
+  - name: obse_cateditr_4111
+    type: BIGINT
+  - name: obse_niveactr_4111
+    type: VARCHAR
+  - name: obse_catedesu_4111
+    type: VARCHAR
+  - name: obse_catefusu_4111
+    type: VARCHAR
+  - name: obse_cateansu_4111
+    type: BIGINT
+  - name: obse_catebisu_4111
+    type: BIGINT
+  - name: obse_catemesu_4111
+    type: BIGINT
+  - name: obse_catesesu_4111
+    type: BIGINT
+  - name: obse_catedisu_4111
+    type: BIGINT
+  - name: obse_niveacsu_4111
+    type: VARCHAR
+  - name: obse_catedeni_4111
+    type: VARCHAR
+  - name: obse_catefuni_4111
+    type: VARCHAR
+  - name: obse_cateanni_4111
+    type: BIGINT
+  - name: obse_catebini_4111
+    type: BIGINT
+  - name: obse_catemeni_4111
+    type: BIGINT
+  - name: obse_cateseni_4111
+    type: BIGINT
+  - name: obse_catedini_4111
+    type: BIGINT
+  - name: obse_niveacni_4111
+    type: VARCHAR
+  - name: obse_catedeot_4111
+    type: VARCHAR
+  - name: obse_catefuot_4111
+    type: VARCHAR
+  - name: obse_cateanot_4111
+    type: BIGINT
+  - name: obse_catebiot_4111
+    type: BIGINT
+  - name: obse_catemeot_4111
+    type: BIGINT
+  - name: obse_cateseot_4111
+    type: BIGINT
+  - name: obse_catediot_4111
+    type: BIGINT
+  - name: obse_niveacot_4111
+    type: VARCHAR
+  - name: obse_catedepr_4112
+    type: VARCHAR
+  - name: obse_catefupr_4112
+    type: VARCHAR
+  - name: obse_cateanpr_4112
+    type: BIGINT
+  - name: obse_catebipr_4112
+    type: BIGINT
+  - name: obse_catemepr_4112
+    type: BIGINT
+  - name: obse_catesepr_4112
+    type: BIGINT
+  - name: obse_catedipr_4112
+    type: BIGINT
+  - name: obse_niveacpr_4112
+    type: VARCHAR
+  - name: obse_catedeas_4112
+    type: VARCHAR
+  - name: obse_catefuas_4112
+    type: VARCHAR
+  - name: obse_cateanas_4112
+    type: BIGINT
+  - name: obse_catebias_4112
+    type: BIGINT
+  - name: obse_catemeas_4112
+    type: BIGINT
+  - name: obse_cateseas_4112
+    type: BIGINT
+  - name: obse_catedias_4112
+    type: BIGINT
+  - name: obse_niveacas_4112
+    type: VARCHAR
+  - name: obse_catedeot_4112
+    type: VARCHAR
+  - name: obse_catefuot_4112
+    type: VARCHAR
+  - name: obse_cateanot_4112
+    type: BIGINT
+  - name: obse_catebiot_4112
+    type: BIGINT
+  - name: obse_catemeot_4112
+    type: BIGINT
+  - name: obse_cateseot_4112
+    type: BIGINT
+  - name: obse_catediot_4112
+    type: BIGINT
+  - name: obse_niveacot_4112
+    type: VARCHAR
+  - name: obse_catedees_4113
+    type: VARCHAR
+  - name: obse_catefues_4113
+    type: VARCHAR
+  - name: obse_cateanes_4113
+    type: BIGINT
+  - name: obse_catebies_4113
+    type: BIGINT
+  - name: obse_catemees_4113
+    type: BIGINT
+  - name: obse_catesees_4113
+    type: BIGINT
+  - name: obse_catedies_4113
+    type: BIGINT
+  - name: obse_niveaces_4113
+    type: VARCHAR
+  - name: obse_catederb_4113
+    type: VARCHAR
+  - name: obse_catefurb_4113
+    type: VARCHAR
+  - name: obse_cateanrb_4113
+    type: BIGINT
+  - name: obse_catebirb_4113
+    type: BIGINT
+  - name: obse_catemerb_4113
+    type: BIGINT
+  - name: obse_cateserb_4113
+    type: BIGINT
+  - name: obse_catedirb_4113
+    type: BIGINT
+  - name: obse_niveacrb_4113
+    type: VARCHAR
+  - name: obse_catedeht_4113
+    type: VARCHAR
+  - name: obse_catefuht_4113
+    type: VARCHAR
+  - name: obse_cateanht_4113
+    type: BIGINT
+  - name: obse_catebiht_4113
+    type: BIGINT
+  - name: obse_catemeht_4113
+    type: BIGINT
+  - name: obse_cateseht_4113
+    type: BIGINT
+  - name: obse_catediht_4113
+    type: BIGINT
+  - name: obse_niveacht_4113
+    type: VARCHAR
+  - name: obse_catedeex_4113
+    type: VARCHAR
+  - name: obse_catefuex_4113
+    type: VARCHAR
+  - name: obse_cateanex_4113
+    type: BIGINT
+  - name: obse_catebiex_4113
+    type: BIGINT
+  - name: obse_catemeex_4113
+    type: BIGINT
+  - name: obse_cateseex_4113
+    type: BIGINT
+  - name: obse_catediex_4113
+    type: BIGINT
+  - name: obse_niveacex_4113
+    type: VARCHAR
+  - name: obse_catedeot_4113
+    type: VARCHAR
+  - name: obse_catefuot_4113
+    type: VARCHAR
+  - name: obse_cateanot_4113
+    type: BIGINT
+  - name: obse_catebiot_4113
+    type: BIGINT
+  - name: obse_catemeot_4113
+    type: BIGINT
+  - name: obse_cateseot_4113
+    type: BIGINT
+  - name: obse_catediot_4113
+    type: BIGINT
+  - name: obse_niveacot_4113
+    type: VARCHAR
+  - name: obse_catedese_4114
+    type: VARCHAR
+  - name: obse_catefuse_4114
+    type: VARCHAR
+  - name: obse_cateanse_4114
+    type: BIGINT
+  - name: obse_catebise_4114
+    type: BIGINT
+  - name: obse_catemese_4114
+    type: BIGINT
+  - name: obse_catesese_4114
+    type: BIGINT
+  - name: obse_catedise_4114
+    type: BIGINT
+  - name: obse_niveacse_4114
+    type: VARCHAR
+  - name: obse_catedeot_4114
+    type: VARCHAR
+  - name: obse_catefuot_4114
+    type: VARCHAR
+  - name: obse_cateanot_4114
+    type: BIGINT
+  - name: obse_catebiot_4114
+    type: BIGINT
+  - name: obse_catemeot_4114
+    type: BIGINT
+  - name: obse_cateseot_4114
+    type: BIGINT
+  - name: obse_catediot_4114
+    type: BIGINT
+  - name: obse_niveacot_4114
+    type: VARCHAR
+  - name: obse_catededs_4115
+    type: VARCHAR
+  - name: obse_catefuds_4115
+    type: VARCHAR
+  - name: obse_cateands_4115
+    type: BIGINT
+  - name: obse_catebids_4115
+    type: BIGINT
+  - name: obse_catemeds_4115
+    type: BIGINT
+  - name: obse_cateseds_4115
+    type: BIGINT
+  - name: obse_catedids_4115
+    type: BIGINT
+  - name: obse_niveacds_4115
+    type: VARCHAR
+  - name: obse_catedevf_4115
+    type: VARCHAR
+  - name: obse_catefuvf_4115
+    type: VARCHAR
+  - name: obse_cateanvf_4115
+    type: BIGINT
+  - name: obse_catebivf_4115
+    type: BIGINT
+  - name: obse_catemevf_4115
+    type: BIGINT
+  - name: obse_catesevf_4115
+    type: BIGINT
+  - name: obse_catedivf_4115
+    type: BIGINT
+  - name: obse_niveacvf_4115
+    type: VARCHAR
+  - name: obse_catedeot_4115
+    type: VARCHAR
+  - name: obse_catefuot_4115
+    type: VARCHAR
+  - name: obse_cateanot_4115
+    type: BIGINT
+  - name: obse_catebiot_4115
+    type: BIGINT
+  - name: obse_catemeot_4115
+    type: BIGINT
+  - name: obse_cateseot_4115
+    type: BIGINT
+  - name: obse_catediot_4115
+    type: BIGINT
+  - name: obse_niveacot_4115
+    type: VARCHAR
+  - name: obse_catededs_4116
+    type: VARCHAR
+  - name: obse_catefuds_4116
+    type: VARCHAR
+  - name: obse_cateands_4116
+    type: BIGINT
+  - name: obse_catebids_4116
+    type: BIGINT
+  - name: obse_catemeds_4116
+    type: BIGINT
+  - name: obse_cateseds_4116
+    type: BIGINT
+  - name: obse_catedids_4116
+    type: BIGINT
+  - name: obse_niveacds_4116
+    type: VARCHAR
+  - name: obse_catedemi_4116
+    type: VARCHAR
+  - name: obse_catefumi_4116
+    type: VARCHAR
+  - name: obse_cateanmi_4116
+    type: BIGINT
+  - name: obse_catebimi_4116
+    type: BIGINT
+  - name: obse_catememi_4116
+    type: BIGINT
+  - name: obse_catesemi_4116
+    type: BIGINT
+  - name: obse_catedimi_4116
+    type: BIGINT
+  - name: obse_niveacmi_4116
+    type: VARCHAR
+  - name: obse_catedeot_4116
+    type: VARCHAR
+  - name: obse_catefuot_4116
+    type: VARCHAR
+  - name: obse_cateanot_4116
+    type: BIGINT
+  - name: obse_catebiot_4116
+    type: BIGINT
+  - name: obse_catemeot_4116
+    type: BIGINT
+  - name: obse_cateseot_4116
+    type: BIGINT
+  - name: obse_catediot_4116
+    type: BIGINT
+  - name: obse_niveacot_4116
+    type: VARCHAR
+  - name: obse_catedevj_4117
+    type: VARCHAR
+  - name: obse_catefuvj_4117
+    type: VARCHAR
+  - name: obse_cateanvj_4117
+    type: BIGINT
+  - name: obse_catebivj_4117
+    type: BIGINT
+  - name: obse_catemevj_4117
+    type: BIGINT
+  - name: obse_catesevj_4117
+    type: BIGINT
+  - name: obse_catedivj_4117
+    type: BIGINT
+  - name: obse_niveacvj_4117
+    type: VARCHAR
+  - name: obse_catedepi_4118
+    type: VARCHAR
+  - name: obse_catefupi_4118
+    type: VARCHAR
+  - name: obse_cateanpi_4118
+    type: BIGINT
+  - name: obse_catebipi_4118
+    type: BIGINT
+  - name: obse_catemepi_4118
+    type: BIGINT
+  - name: obse_catesepi_4118
+    type: BIGINT
+  - name: obse_catedipi_4118
+    type: BIGINT
+  - name: obse_niveacpi_4118
+    type: VARCHAR
+  - name: obse_catedepr_4118
+    type: VARCHAR
+  - name: obse_catefupr_4118
+    type: VARCHAR
+  - name: obse_cateanpr_4118
+    type: BIGINT
+  - name: obse_catebipr_4118
+    type: BIGINT
+  - name: obse_catemepr_4118
+    type: BIGINT
+  - name: obse_catesepr_4118
+    type: BIGINT
+  - name: obse_catedipr_4118
+    type: BIGINT
+  - name: obse_niveacpr_4118
+    type: VARCHAR
+  - name: obse_catedepm_4118
+    type: VARCHAR
+  - name: obse_catefupm_4118
+    type: VARCHAR
+  - name: obse_cateanpm_4118
+    type: BIGINT
+  - name: obse_catebipm_4118
+    type: BIGINT
+  - name: obse_catemepm_4118
+    type: BIGINT
+  - name: obse_catesepm_4118
+    type: BIGINT
+  - name: obse_catedipm_4118
+    type: BIGINT
+  - name: obse_niveacpm_4118
+    type: VARCHAR
+  - name: obse_catedeot_4118
+    type: VARCHAR
+  - name: obse_catefuot_4118
+    type: VARCHAR
+  - name: obse_cateanot_4118
+    type: BIGINT
+  - name: obse_catebiot_4118
+    type: BIGINT
+  - name: obse_catemeot_4118
+    type: BIGINT
+  - name: obse_cateseot_4118
+    type: BIGINT
+  - name: obse_catediot_4118
+    type: BIGINT
+  - name: obse_niveacot_4118
+    type: VARCHAR
+  - name: obse_catedeot_4119
+    type: VARCHAR
+  - name: obse_catefuot_4119
+    type: VARCHAR
+  - name: obse_cateanot_4119
+    type: BIGINT
+  - name: obse_catebiot_4119
+    type: BIGINT
+  - name: obse_catemeot_4119
+    type: BIGINT
+  - name: obse_cateseot_4119
+    type: BIGINT
+  - name: obse_catediot_4119
+    type: BIGINT
+  - name: obse_niveacot_4119
+    type: VARCHAR
+  - name: obse_actitras_41110
+    type: BIGINT
+  - name: obse_actiorga_41110
+    type: BIGINT
+  - name: obse_actirevi_41110
+    type: BIGINT
+  - name: obse_actianal_41110
+    type: BIGINT
+  - name: edad
+    type: BIGINT
+  - name: sexo
+    type: BIGINT
+  - name: estado_civil
+    type: BIGINT
+  - name: escolaridad
+    type: BIGINT
+  - name: raza
+    type: BIGINT
+  - name: ocupacion
+    type: BIGINT
+  - name: otra
+    type: BIGINT
+  - name: obse_mepecual_4121
+    type: VARCHAR
+  - name: fecha_m
+    type: BIGINT
+  - name: fecha_h
+    type: BIGINT
+  - name: obse_metihora_4122
+    type: BIGINT
+  - name: hora
+    type: BIGINT
+  - name: obse_meticual_4122
+    type: VARCHAR
+  - name: sitio_del_hecho
+    type: BIGINT
+  - name: sitio_de_muerte
+    type: BIGINT
+  - name: hospitalizacion
+    type: BIGINT
+  - name: otra_1
+    type: BIGINT
+  - name: obse_melucual_4123
+    type: VARCHAR
+  - name: tipo_arma
+    type: BIGINT
+  - name: movil
+    type: BIGINT
+  - name: gr_involucrados
+    type: BIGINT
+  - name: relac_vic
+    type: BIGINT
+  - name: obse_mecootra_4124
+    type: BIGINT
+  - name: obse_mecocual_4124
+    type: VARCHAR
+  - name: obse_meototra_4125
+    type: VARCHAR
+  - name: obse_meotopco_4125
+    type: BIGINT
+  - name: obse_meototra_4126
+    type: VARCHAR
+  - name: obse_meotopco_4126
+    type: BIGINT
+  - name: obse_merereco_4131
+    type: VARCHAR
+  - name: obse_mereproc_4132
+    type: VARCHAR
+  - name: obse_mereanda_4133
+    type: VARCHAR
+  - name: obse_mereusod_4134
+    type: VARCHAR
+  - name: obse_meredifu_4135
+    type: VARCHAR
+  - name: obse_usoatip1_421
+    type: VARCHAR
+  - name: obse_usoaanu1_421
+    type: BIGINT
+  - name: obse_usoabia1_421
+    type: BIGINT
+  - name: obse_usoatri1_421
+    type: BIGINT
+  - name: obse_usoamen1_421
+    type: BIGINT
+  - name: obse_usoasem1_421
+    type: BIGINT
+  - name: obse_usoadia1_421
+    type: BIGINT
+  - name: obse_usoatip2_421
+    type: VARCHAR
+  - name: obse_usoaanu2_421
+    type: BIGINT
+  - name: obse_usoabia2_421
+    type: BIGINT
+  - name: obse_usoatri2_421
+    type: BIGINT
+  - name: obse_usoamen2_421
+    type: BIGINT
+  - name: obse_usoasem2_421
+    type: BIGINT
+  - name: obse_usoadia2_421
+    type: BIGINT
+  - name: obse_usoatip3_421
+    type: VARCHAR
+  - name: obse_usoaanu3_421
+    type: BIGINT
+  - name: obse_usoabia3_421
+    type: BIGINT
+  - name: obse_usoatri3_421
+    type: BIGINT
+  - name: obse_usoamen3_421
+    type: BIGINT
+  - name: obse_usoasem3_421
+    type: BIGINT
+  - name: obse_usoadia3_421
+    type: BIGINT
+  - name: obse_usoapers_422
+    type: VARCHAR
+  - name: obse_usoainfo_423
+    type: VARCHAR
+  - name: id_sino_red_431
+    type: BIGINT
+  - name: obse_red1nomr_432
+    type: VARCHAR
+  - name: obse_red1area_433
+    type: VARCHAR
+  - name: obse_red1rein_434
+    type: BIGINT
+  - name: obse_red1repc_434
+    type: BIGINT
+  - name: obse_red1reiv_434
+    type: BIGINT
+  - name: obse_red1repa_434
+    type: BIGINT
+  - name: obse_red1reot_434
+    type: BIGINT
+  - name: obse_red1redo_434
+    type: VARCHAR
+  - name: obse_red1ano_435
+    type: BIGINT
+  - name: obse_red1insp_436
+    type: VARCHAR
+  - name: obse_red2nomr_432
+    type: VARCHAR
+  - name: obse_red2area_433
+    type: VARCHAR
+  - name: obse_red2rein_434
+    type: BIGINT
+  - name: obse_red2repc_434
+    type: BIGINT
+  - name: obse_red2reiv_434
+    type: BIGINT
+  - name: obse_red2repa_434
+    type: BIGINT
+  - name: obse_red2reot_434
+    type: BIGINT
+  - name: obse_red2redo_434
+    type: VARCHAR
+  - name: obse_red2ano_435
+    type: BIGINT
+  - name: obse_red2insp_436
+    type: VARCHAR
+  - name: obse_red3nomr_432
+    type: VARCHAR
+  - name: obse_red3area_433
+    type: VARCHAR
+  - name: obse_red3rein_434
+    type: BIGINT
+  - name: obse_red3repc_434
+    type: BIGINT
+  - name: obse_red3reiv_434
+    type: BIGINT
+  - name: obse_red3repa_434
+    type: BIGINT
+  - name: obse_red3reot_434
+    type: BIGINT
+  - name: obse_red3redo_434
+    type: VARCHAR
+  - name: obse_red3ano_435
+    type: BIGINT
+  - name: obse_red3insp_436
+    type: VARCHAR
+  - name: id_sino_logrlibr_511a
+    type: BIGINT
+  - name: obse_logrlibr_511a
+    type: VARCHAR
+  - name: id_sino_logrrevi_511b
+    type: BIGINT
+  - name: obse_logrrevi_511b
+    type: VARCHAR
+  - name: obse_logranua_511b
+    type: BIGINT
+  - name: obse_logrbian_511b
+    type: BIGINT
+  - name: obse_logrtrim_511b
+    type: BIGINT
+  - name: obse_logrmens_511b
+    type: BIGINT
+  - name: id_sino_logrbole_511c
+    type: BIGINT
+  - name: obse_logrbole_511c
+    type: VARCHAR
+  - name: obse_logrotro_511d
+    type: VARCHAR
+  - name: logros
+    type: BIGINT
+  - name: logros_difusion
+    type: VARCHAR
+  - name: logros_transp
+    type: VARCHAR
+  - name: obse_logrcatp_515
+    type: VARCHAR
+  - name: obse_difiorin_61
+    type: VARCHAR
+  - name: obse_dificoin_62
+    type: VARCHAR
+  - name: obse_difipoli_63
+    type: VARCHAR
+  - name: obse_difitecn_64
+    type: VARCHAR
+  - name: obse_difiotro_65
+    type: VARCHAR
+  - name: apoyo_polnal
+    type: BIGINT
+  - name: apoyo_finnal
+    type: BIGINT
+  - name: apoyo_sednal
+    type: BIGINT
+  - name: apoyo_matnal
+    type: BIGINT
+  - name: apoyo_rhnal
+    type: BIGINT
+  - name: apoyo_otrnal
+    type: BIGINT
+  - name: obse_sostgncl_71
+    type: VARCHAR
+  - name: apoyo_poldep
+    type: BIGINT
+  - name: apoyo_findep
+    type: BIGINT
+  - name: apoyo_seddep
+    type: BIGINT
+  - name: apoyo_matdep
+    type: BIGINT
+  - name: apoyo_rhdep
+    type: BIGINT
+  - name: apoyo_otrdep
+    type: BIGINT
+  - name: obse_sostgdcl_71
+    type: VARCHAR
+  - name: apoyo_polmun
+    type: BIGINT
+  - name: apoyo_finmun
+    type: BIGINT
+  - name: apoyo_sedmun
+    type: BIGINT
+  - name: apoyo_matmun
+    type: BIGINT
+  - name: apoyo_rhmun
+    type: BIGINT
+  - name: apoyo_otrmun
+    type: BIGINT
+  - name: obse_sostgmcl_71
+    type: VARCHAR
+  - name: tomadec
+    type: BIGINT
+  - name: obse_sostcamb_73
+    type: VARCHAR
+  - name: obse_sostlimi_74
+    type: VARCHAR
+  - name: capac_perso
+    type: VARCHAR
+  - name: obse_sostproy_76
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

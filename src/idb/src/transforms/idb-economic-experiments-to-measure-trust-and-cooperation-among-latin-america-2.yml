@@ -1,5 +1,874 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-economic-experiments-to-measure-trust-and-cooperation-among-latin-america-2`. Regenerate after model-verify.
+key: []
 columns:
+  - name: l0
+    type: BIGINT
+  - name: l1
+    type: BIGINT
+  - name: a1
+    type: BIGINT
+  - name: a0
+    type: BIGINT
+  - name: a2
+    type: BIGINT
+  - name: l2
+    type: VARCHAR
+  - name: l3
+    type: VARCHAR
+  - name: l4
+    type: VARCHAR
+  - name: g21
+    type: BIGINT
+  - name: l5
+    type: BIGINT
+  - name: l6
+    type: BIGINT
+  - name: l7
+    type: BIGINT
+  - name: l8
+    type: BIGINT
+  - name: l11
+    type: BIGINT
+  - name: l12
+    type: BIGINT
+  - name: l13
+    type: BIGINT
+  - name: l15
+    type: BIGINT
+  - name: p42
+    type: BIGINT
+  - name: l16
+    type: BIGINT
+  - name: l17
+    type: BIGINT
+  - name: l18
+    type: BIGINT
+  - name: l19
+    type: BIGINT
+  - name: l20
+    type: BIGINT
+  - name: l21
+    type: BIGINT
+  - name: player_sid
+    type: VARCHAR
+  - name: player_id
+    type: VARCHAR
+  - name: session_id
+    type: VARCHAR
+  - name: session_n
+    type: BIGINT
+  - name: l9
+    type: VARCHAR
+  - name: l10
+    type: BIGINT
+  - name: l14
+    type: VARCHAR
+  - name: matching_id
+    type: VARCHAR
+  - name: tgp1match
+    type: BIGINT
+  - name: tgp2match
+    type: BIGINT
+  - name: tgoffered1
+    type: VARCHAR
+  - name: tgoffered2
+    type: VARCHAR
+  - name: vcm
+    type: BIGINT
+  - name: perexpectvcm
+    type: VARCHAR
+  - name: riskpooling
+    type: BIGINT
+  - name: a3a
+    type: BIGINT
+  - name: a3b
+    type: BIGINT
+  - name: a4a
+    type: BIGINT
+  - name: a4b
+    type: BIGINT
+  - name: a5
+    type: VARCHAR
+  - name: a6
+    type: VARCHAR
+  - name: a7
+    type: BIGINT
+  - name: a8
+    type: VARCHAR
+  - name: a9
+    type: BIGINT
+  - name: a10
+    type: BIGINT
+  - name: a11
+    type: VARCHAR
+  - name: a12
+    type: BIGINT
+  - name: a13a
+    type: BIGINT
+  - name: a13b
+    type: BIGINT
+  - name: a13c
+    type: BIGINT
+  - name: a13d
+    type: BIGINT
+  - name: a13e
+    type: BIGINT
+  - name: a13f
+    type: BIGINT
+  - name: a13g
+    type: BIGINT
+  - name: a13h
+    type: BIGINT
+  - name: a13i
+    type: BIGINT
+  - name: a13j
+    type: BIGINT
+  - name: a14
+    type: BIGINT
+  - name: a15
+    type: BIGINT
+  - name: r2
+    type: VARCHAR
+  - name: r1
+    type: VARCHAR
+  - name: yearedu
+    type: BIGINT
+  - name: ma10
+    type: BIGINT
+  - name: ma11
+    type: VARCHAR
+  - name: ma12
+    type: BIGINT
+  - name: ma15
+    type: BIGINT
+  - name: myearedu
+    type: BIGINT
+  - name: mpresurvey
+    type: BIGINT
+  - name: r0
+    type: BIGINT
+  - name: g111
+    type: BIGINT
+  - name: g112
+    type: BIGINT
+  - name: g120
+    type: BIGINT
+  - name: g130
+    type: BIGINT
+  - name: g140
+    type: BIGINT
+  - name: g131
+    type: VARCHAR
+  - name: g132
+    type: VARCHAR
+  - name: g133
+    type: VARCHAR
+  - name: g141
+    type: BIGINT
+  - name: p0
+    type: BIGINT
+  - name: p30
+    type: BIGINT
+  - name: g2
+    type: BIGINT
+  - name: b0
+    type: BIGINT
+  - name: b101
+    type: BIGINT
+  - name: b102
+    type: BIGINT
+  - name: b103
+    type: BIGINT
+  - name: b104
+    type: BIGINT
+  - name: b105
+    type: BIGINT
+  - name: b106
+    type: BIGINT
+  - name: b2
+    type: BIGINT
+  - name: b3
+    type: BIGINT
+  - name: b4
+    type: BIGINT
+  - name: b5
+    type: BIGINT
+  - name: b6
+    type: BIGINT
+  - name: c0
+    type: BIGINT
+  - name: c1
+    type: BIGINT
+  - name: c2
+    type: BIGINT
+  - name: c2a
+    type: VARCHAR
+  - name: c3a
+    type: BIGINT
+  - name: c3b
+    type: BIGINT
+  - name: c4
+    type: BIGINT
+  - name: c5a
+    type: VARCHAR
+  - name: c5b
+    type: VARCHAR
+  - name: c5c
+    type: VARCHAR
+  - name: c6
+    type: BIGINT
+  - name: c7
+    type: BIGINT
+  - name: c8
+    type: BIGINT
+  - name: c9
+    type: BIGINT
+  - name: c10
+    type: BIGINT
+  - name: c10a
+    type: VARCHAR
+  - name: c11
+    type: BIGINT
+  - name: c12
+    type: BIGINT
+  - name: c13
+    type: BIGINT
+  - name: c14
+    type: BIGINT
+  - name: c15
+    type: BIGINT
+  - name: c16a
+    type: BIGINT
+  - name: c16b
+    type: BIGINT
+  - name: d0a
+    type: BIGINT
+  - name: d0b
+    type: BIGINT
+  - name: d1
+    type: BIGINT
+  - name: d201
+    type: BIGINT
+  - name: d202
+    type: BIGINT
+  - name: d203
+    type: BIGINT
+  - name: d204
+    type: BIGINT
+  - name: d205
+    type: BIGINT
+  - name: d205a
+    type: VARCHAR
+  - name: d208
+    type: BIGINT
+  - name: d209
+    type: BIGINT
+  - name: d2011
+    type: BIGINT
+  - name: d2012
+    type: BIGINT
+  - name: d2013
+    type: BIGINT
+  - name: d2014
+    type: BIGINT
+  - name: d2019
+    type: VARCHAR
+  - name: d2021
+    type: BIGINT
+  - name: d2029
+    type: VARCHAR
+  - name: d2031
+    type: BIGINT
+  - name: d2032
+    type: BIGINT
+  - name: d2033
+    type: BIGINT
+  - name: d2034
+    type: BIGINT
+  - name: d2035
+    type: BIGINT
+  - name: d2036
+    type: BIGINT
+  - name: d2039
+    type: VARCHAR
+  - name: d2041
+    type: BIGINT
+  - name: d2049
+    type: VARCHAR
+  - name: e0
+    type: BIGINT
+  - name: e1
+    type: BIGINT
+  - name: e301
+    type: BIGINT
+  - name: e302
+    type: BIGINT
+  - name: e303
+    type: BIGINT
+  - name: e304
+    type: BIGINT
+  - name: e305
+    type: BIGINT
+  - name: e306
+    type: BIGINT
+  - name: e307
+    type: BIGINT
+  - name: e308
+    type: BIGINT
+  - name: e309
+    type: BIGINT
+  - name: e310
+    type: BIGINT
+  - name: e311
+    type: BIGINT
+  - name: e312
+    type: BIGINT
+  - name: e313
+    type: BIGINT
+  - name: e313a
+    type: VARCHAR
+  - name: e314
+    type: BIGINT
+  - name: e401
+    type: BIGINT
+  - name: e402
+    type: BIGINT
+  - name: e403
+    type: BIGINT
+  - name: e404
+    type: BIGINT
+  - name: e405
+    type: BIGINT
+  - name: e406
+    type: BIGINT
+  - name: e407
+    type: BIGINT
+  - name: e408
+    type: BIGINT
+  - name: e409
+    type: BIGINT
+  - name: e410
+    type: BIGINT
+  - name: e411
+    type: BIGINT
+  - name: e412
+    type: BIGINT
+  - name: e413
+    type: BIGINT
+  - name: e501
+    type: BIGINT
+  - name: e502
+    type: BIGINT
+  - name: e503
+    type: BIGINT
+  - name: e504
+    type: BIGINT
+  - name: e505
+    type: BIGINT
+  - name: e506
+    type: BIGINT
+  - name: e507
+    type: BIGINT
+  - name: e508
+    type: BIGINT
+  - name: e509
+    type: BIGINT
+  - name: e510
+    type: BIGINT
+  - name: e511
+    type: BIGINT
+  - name: e512
+    type: BIGINT
+  - name: e513
+    type: BIGINT
+  - name: e601
+    type: BIGINT
+  - name: e602
+    type: BIGINT
+  - name: e603
+    type: BIGINT
+  - name: e604
+    type: BIGINT
+  - name: e605
+    type: BIGINT
+  - name: e606
+    type: BIGINT
+  - name: e607
+    type: BIGINT
+  - name: e608
+    type: BIGINT
+  - name: e609
+    type: BIGINT
+  - name: e610
+    type: BIGINT
+  - name: e611
+    type: BIGINT
+  - name: e612
+    type: BIGINT
+  - name: e613
+    type: BIGINT
+  - name: e701
+    type: BIGINT
+  - name: e702
+    type: BIGINT
+  - name: e703
+    type: BIGINT
+  - name: e704
+    type: BIGINT
+  - name: e705
+    type: BIGINT
+  - name: e706
+    type: BIGINT
+  - name: e707
+    type: BIGINT
+  - name: e708
+    type: BIGINT
+  - name: e709
+    type: BIGINT
+  - name: e710
+    type: BIGINT
+  - name: e711
+    type: BIGINT
+  - name: e712
+    type: BIGINT
+  - name: e713
+    type: BIGINT
+  - name: f001
+    type: BIGINT
+  - name: f002
+    type: BIGINT
+  - name: f003
+    type: BIGINT
+  - name: f004
+    type: BIGINT
+  - name: f005
+    type: BIGINT
+  - name: f006
+    type: BIGINT
+  - name: f007
+    type: BIGINT
+  - name: f008
+    type: BIGINT
+  - name: f009
+    type: BIGINT
+  - name: f010
+    type: BIGINT
+  - name: f011
+    type: BIGINT
+  - name: f012
+    type: BIGINT
+  - name: f013
+    type: BIGINT
+  - name: f014
+    type: BIGINT
+  - name: f015
+    type: BIGINT
+  - name: f016
+    type: BIGINT
+  - name: f017
+    type: BIGINT
+  - name: f018
+    type: BIGINT
+  - name: f019
+    type: BIGINT
+  - name: f020
+    type: BIGINT
+  - name: f021
+    type: BIGINT
+  - name: f022
+    type: BIGINT
+  - name: f023
+    type: BIGINT
+  - name: f024
+    type: BIGINT
+  - name: f025
+    type: BIGINT
+  - name: f1
+    type: BIGINT
+  - name: f201
+    type: BIGINT
+  - name: f202
+    type: BIGINT
+  - name: f203
+    type: BIGINT
+  - name: f204
+    type: BIGINT
+  - name: f301
+    type: BIGINT
+  - name: f302
+    type: BIGINT
+  - name: f303
+    type: BIGINT
+  - name: f304
+    type: BIGINT
+  - name: f305
+    type: BIGINT
+  - name: f306
+    type: BIGINT
+  - name: f307
+    type: BIGINT
+  - name: f308
+    type: BIGINT
+  - name: f309
+    type: BIGINT
+  - name: f310
+    type: BIGINT
+  - name: f311
+    type: BIGINT
+  - name: f312
+    type: BIGINT
+  - name: f4
+    type: BIGINT
+  - name: f501
+    type: BIGINT
+  - name: f502
+    type: BIGINT
+  - name: f503
+    type: BIGINT
+  - name: f504
+    type: BIGINT
+  - name: f505
+    type: BIGINT
+  - name: f506
+    type: BIGINT
+  - name: f507
+    type: BIGINT
+  - name: f508
+    type: BIGINT
+  - name: f509
+    type: BIGINT
+  - name: f510
+    type: BIGINT
+  - name: f511
+    type: BIGINT
+  - name: f512
+    type: BIGINT
+  - name: f513
+    type: BIGINT
+  - name: f514
+    type: BIGINT
+  - name: f515
+    type: BIGINT
+  - name: f516
+    type: BIGINT
+  - name: f517
+    type: BIGINT
+  - name: f518
+    type: BIGINT
+  - name: f519
+    type: BIGINT
+  - name: f520
+    type: BIGINT
+  - name: f6a
+    type: BIGINT
+  - name: f6b
+    type: BIGINT
+  - name: f6c
+    type: BIGINT
+  - name: f7a
+    type: BIGINT
+  - name: f7b
+    type: BIGINT
+  - name: f7c
+    type: BIGINT
+  - name: f801
+    type: BIGINT
+  - name: f802
+    type: BIGINT
+  - name: f803
+    type: BIGINT
+  - name: f804
+    type: BIGINT
+  - name: f805
+    type: BIGINT
+  - name: f11a
+    type: BIGINT
+  - name: f11b
+    type: BIGINT
+  - name: f11c
+    type: BIGINT
+  - name: h0
+    type: BIGINT
+  - name: g0
+    type: DOUBLE
+  - name: g3
+    type: BIGINT
+  - name: h1
+    type: BIGINT
+  - name: h2
+    type: BIGINT
+  - name: h3
+    type: BIGINT
+  - name: h4
+    type: BIGINT
+  - name: h5
+    type: BIGINT
+  - name: h6
+    type: BIGINT
+  - name: h7
+    type: BIGINT
+  - name: f901
+    type: BIGINT
+  - name: f10101
+    type: BIGINT
+  - name: f10201
+    type: BIGINT
+  - name: f10301
+    type: BIGINT
+  - name: f10401
+    type: BIGINT
+  - name: f10501
+    type: BIGINT
+  - name: f10601
+    type: BIGINT
+  - name: f902
+    type: BIGINT
+  - name: f10102
+    type: BIGINT
+  - name: f10202
+    type: BIGINT
+  - name: f10302
+    type: BIGINT
+  - name: f10402
+    type: BIGINT
+  - name: f10502
+    type: BIGINT
+  - name: f10602
+    type: BIGINT
+  - name: f903
+    type: BIGINT
+  - name: f10103
+    type: BIGINT
+  - name: f10203
+    type: BIGINT
+  - name: f10303
+    type: BIGINT
+  - name: f10403
+    type: BIGINT
+  - name: f10503
+    type: BIGINT
+  - name: f10603
+    type: BIGINT
+  - name: f904
+    type: BIGINT
+  - name: f10104
+    type: BIGINT
+  - name: f10204
+    type: BIGINT
+  - name: f10304
+    type: BIGINT
+  - name: f10404
+    type: BIGINT
+  - name: f10504
+    type: BIGINT
+  - name: f10604
+    type: BIGINT
+  - name: f905
+    type: BIGINT
+  - name: f10105
+    type: BIGINT
+  - name: f10205
+    type: BIGINT
+  - name: f10305
+    type: BIGINT
+  - name: f10405
+    type: BIGINT
+  - name: f10505
+    type: BIGINT
+  - name: f10605
+    type: BIGINT
+  - name: f906
+    type: BIGINT
+  - name: f10106
+    type: BIGINT
+  - name: f10206
+    type: BIGINT
+  - name: f10306
+    type: BIGINT
+  - name: f10406
+    type: BIGINT
+  - name: f10506
+    type: BIGINT
+  - name: f10606
+    type: BIGINT
+  - name: f907
+    type: BIGINT
+  - name: f10107
+    type: BIGINT
+  - name: f10207
+    type: BIGINT
+  - name: f10307
+    type: BIGINT
+  - name: f10407
+    type: BIGINT
+  - name: f10507
+    type: BIGINT
+  - name: f10607
+    type: BIGINT
+  - name: f908
+    type: BIGINT
+  - name: f10108
+    type: BIGINT
+  - name: f10208
+    type: BIGINT
+  - name: f10308
+    type: BIGINT
+  - name: f10408
+    type: BIGINT
+  - name: f10508
+    type: BIGINT
+  - name: f10608
+    type: BIGINT
+  - name: f909
+    type: BIGINT
+  - name: f10109
+    type: BIGINT
+  - name: f10209
+    type: BIGINT
+  - name: f10309
+    type: BIGINT
+  - name: f10409
+    type: BIGINT
+  - name: f10509
+    type: BIGINT
+  - name: f10609
+    type: BIGINT
+  - name: f910
+    type: BIGINT
+  - name: f10110
+    type: BIGINT
+  - name: f10210
+    type: BIGINT
+  - name: f10310
+    type: BIGINT
+  - name: f10410
+    type: BIGINT
+  - name: f10510
+    type: BIGINT
+  - name: f10610
+    type: BIGINT
+  - name: f911
+    type: BIGINT
+  - name: f10111
+    type: BIGINT
+  - name: f10211
+    type: BIGINT
+  - name: f10311
+    type: BIGINT
+  - name: f10411
+    type: BIGINT
+  - name: f10511
+    type: BIGINT
+  - name: f10611
+    type: BIGINT
+  - name: f912
+    type: BIGINT
+  - name: f10112
+    type: BIGINT
+  - name: f10212
+    type: BIGINT
+  - name: f10312
+    type: BIGINT
+  - name: f10412
+    type: BIGINT
+  - name: f10512
+    type: BIGINT
+  - name: f10612
+    type: BIGINT
+  - name: f913
+    type: BIGINT
+  - name: f10113
+    type: BIGINT
+  - name: f10213
+    type: BIGINT
+  - name: f10313
+    type: BIGINT
+  - name: f10413
+    type: BIGINT
+  - name: f10513
+    type: BIGINT
+  - name: f10613
+    type: BIGINT
+  - name: f914
+    type: BIGINT
+  - name: f10114
+    type: BIGINT
+  - name: f10214
+    type: BIGINT
+  - name: f10314
+    type: BIGINT
+  - name: f10414
+    type: BIGINT
+  - name: f10514
+    type: BIGINT
+  - name: f10614
+    type: BIGINT
+  - name: f915
+    type: BIGINT
+  - name: f10115
+    type: BIGINT
+  - name: f10215
+    type: BIGINT
+  - name: f10315
+    type: BIGINT
+  - name: f10415
+    type: BIGINT
+  - name: f10515
+    type: BIGINT
+  - name: f10615
+    type: BIGINT
+  - name: f916
+    type: BIGINT
+  - name: f10116
+    type: BIGINT
+  - name: f10216
+    type: BIGINT
+  - name: f10316
+    type: BIGINT
+  - name: f10416
+    type: BIGINT
+  - name: f10516
+    type: BIGINT
+  - name: f10616
+    type: BIGINT
+  - name: d2015
+    type: BIGINT
+  - name: d2016
+    type: BIGINT
+  - name: d2022
+    type: BIGINT
+  - name: d2042
+    type: BIGINT
+  - name: d2023
+    type: BIGINT
+  - name: d2024
+    type: BIGINT
+  - name: d2043
+    type: BIGINT
+  - name: d2045
+    type: BIGINT
+  - name: d2046
+    type: BIGINT
+  - name: f205
+    type: BIGINT
+  - name: i0
+    type: BIGINT
+  - name: i1
+    type: BIGINT
+  - name: c5b1
+    type: VARCHAR
+  - name: d2037
+    type: BIGINT
+  - name: d2038
+    type: BIGINT
+  - name: f12
+    type: BIGINT
+  - name: f12a
+    type: VARCHAR
+  - name: c10b
+    type: VARCHAR
+  - name: postsurvey
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

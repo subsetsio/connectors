@@ -1,5 +1,78 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-survey-data-associated-with-what-public-policies-do-citizens-want-to-combat`. Regenerate after model-verify.
+key: []
 columns:
+  - name: idnum
+    type: BIGINT
+  - name: uniq_id
+    type: VARCHAR
+  - name: estratopri
+    type: VARCHAR
+  - name: upm
+    type: BIGINT
+  - name: cluster
+    type: BIGINT
+  - name: wt
+    type: BIGINT
+  - name: income
+    type: BIGINT
+  - name: risk
+    type: BIGINT
+  - name: patience
+    type: BIGINT
+  - name: prob_murder
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: age
+    type: BIGINT
+  - name: pol_finance
+    type: VARCHAR
+  - name: pol_qe
+    type: VARCHAR
+  - name: pol_quc
+    type: VARCHAR
+  - name: pol_concent
+    type: VARCHAR
+  - name: pol_wage_best
+    type: VARCHAR
+  - name: trust_general
+    type: VARCHAR
+  - name: trust_family
+    type: VARCHAR
+  - name: family_law
+    type: VARCHAR
+  - name: politicians_law
+    type: VARCHAR
+  - name: pol_corrupt
+    type: BOOLEAN
+  - name: victim
+    type: BOOLEAN
+  - name: education
+    type: BIGINT
+  - name: employment
+    type: BOOLEAN
+  - name: pol_importance
+    type: VARCHAR
+  - name: safety_city
+    type: VARCHAR
+  - name: safety_neigh
+    type: VARCHAR
+  - name: crime_prob
+    type: VARCHAR
+  - name: corrupt_prob
+    type: VARCHAR
+  - name: badgov_prob
+    type: VARCHAR
+  - name: pov_ineq_prob
+    type: VARCHAR
+  - name: trust_govt
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: income_det
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

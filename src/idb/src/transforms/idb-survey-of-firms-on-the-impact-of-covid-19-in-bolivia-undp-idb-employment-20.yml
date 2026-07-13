@@ -1,5 +1,780 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-survey-of-firms-on-the-impact-of-covid-19-in-bolivia-undp-idb-employment-20`. Regenerate after model-verify.
+key: []
 columns:
+  - name: folio
+    type: BIGINT
+  - name: fecha_s
+    type: BIGINT
+  - name: municipio
+    type: VARCHAR
+  - name: factor
+    type: BIGINT
+  - name: size
+    type: VARCHAR
+  - name: sa_01_mip
+    type: VARCHAR
+  - name: sb_01a_t2
+    type: VARCHAR
+  - name: sb_03
+    type: VARCHAR
+  - name: sb_04
+    type: VARCHAR
+  - name: sb_05_mip
+    type: BIGINT
+  - name: sb_06_mip
+    type: BIGINT
+  - name: sb_07_mip
+    type: BIGINT
+  - name: sb_08_mip
+    type: VARCHAR
+  - name: sb_09_t2
+    type: VARCHAR
+  - name: sb_09_esp_t2
+    type: VARCHAR
+  - name: sc_08
+    type: VARCHAR
+  - name: sc_09_a
+    type: VARCHAR
+  - name: sc_09_b
+    type: VARCHAR
+  - name: sc_09_c
+    type: VARCHAR
+  - name: sc_09_d
+    type: VARCHAR
+  - name: sc_09_e
+    type: VARCHAR
+  - name: sc_09_f_t2
+    type: VARCHAR
+  - name: sc_09_g_t2
+    type: VARCHAR
+  - name: sc_09_h_t2
+    type: VARCHAR
+  - name: sc_09_esp
+    type: VARCHAR
+  - name: sc_10
+    type: VARCHAR
+  - name: sd_01
+    type: VARCHAR
+  - name: sd_02
+    type: VARCHAR
+  - name: sd_03
+    type: VARCHAR
+  - name: sd_03_esp
+    type: VARCHAR
+  - name: sd_04
+    type: VARCHAR
+  - name: sd_05_a_t2
+    type: VARCHAR
+  - name: sd_05_b_t2
+    type: VARCHAR
+  - name: sd_05_c_t2
+    type: VARCHAR
+  - name: sd_05_d_t2
+    type: VARCHAR
+  - name: sd_05_e_t2
+    type: VARCHAR
+  - name: sd_05_esp_t2
+    type: VARCHAR
+  - name: sd_06
+    type: VARCHAR
+  - name: sd_07
+    type: BIGINT
+  - name: sd_08
+    type: VARCHAR
+  - name: sd_09_mip_t2
+    type: VARCHAR
+  - name: sd_10_a1
+    type: VARCHAR
+  - name: sd_10_a2_t2
+    type: VARCHAR
+  - name: sd_10_b1
+    type: VARCHAR
+  - name: sd_10_b2_t2
+    type: VARCHAR
+  - name: sd_10_c1
+    type: VARCHAR
+  - name: sd_10_c2_t2
+    type: VARCHAR
+  - name: sd_10_d1
+    type: VARCHAR
+  - name: sd_10_d2_t2
+    type: VARCHAR
+  - name: sd_10_e1_mip_t2
+    type: VARCHAR
+  - name: sd_10_e2_mip_t2
+    type: BIGINT
+  - name: sd_11_mip_t2
+    type: VARCHAR
+  - name: sd_12_t2
+    type: VARCHAR
+  - name: sd_13
+    type: VARCHAR
+  - name: sd_14
+    type: VARCHAR
+  - name: sd_15
+    type: BIGINT
+  - name: sd_16
+    type: BIGINT
+  - name: sd_17_a
+    type: VARCHAR
+  - name: sd_17_b
+    type: VARCHAR
+  - name: sd_17_c
+    type: VARCHAR
+  - name: sd_17_d
+    type: VARCHAR
+  - name: sd_17_esp
+    type: VARCHAR
+  - name: sd_18
+    type: BIGINT
+  - name: sd_19_t2
+    type: VARCHAR
+  - name: se_01_a
+    type: VARCHAR
+  - name: se_01_b
+    type: VARCHAR
+  - name: se_01_c
+    type: VARCHAR
+  - name: se_01_d
+    type: VARCHAR
+  - name: se_01_d2
+    type: VARCHAR
+  - name: se_01_e
+    type: VARCHAR
+  - name: se_01_e2
+    type: VARCHAR
+  - name: se_01_f
+    type: VARCHAR
+  - name: se_01_g
+    type: VARCHAR
+  - name: se_01_h
+    type: VARCHAR
+  - name: se_01_i
+    type: VARCHAR
+  - name: se_01_j
+    type: VARCHAR
+  - name: se_01_k
+    type: VARCHAR
+  - name: se_01_l
+    type: VARCHAR
+  - name: se_01_m
+    type: VARCHAR
+  - name: se_01_n
+    type: VARCHAR
+  - name: se_01_o
+    type: VARCHAR
+  - name: se_01_p_mip_t2
+    type: VARCHAR
+  - name: se_01_esp
+    type: VARCHAR
+  - name: se_01_1
+    type: VARCHAR
+  - name: se_01_1esp
+    type: VARCHAR
+  - name: se_01_2
+    type: VARCHAR
+  - name: se_01_2esp
+    type: VARCHAR
+  - name: se_02_a
+    type: VARCHAR
+  - name: se_02_b
+    type: VARCHAR
+  - name: se_02_c
+    type: VARCHAR
+  - name: se_02_d
+    type: VARCHAR
+  - name: se_02_d2
+    type: VARCHAR
+  - name: se_02_e
+    type: VARCHAR
+  - name: se_02_e2
+    type: VARCHAR
+  - name: se_02_f
+    type: VARCHAR
+  - name: se_02_g
+    type: VARCHAR
+  - name: se_02_h
+    type: VARCHAR
+  - name: se_02_i
+    type: VARCHAR
+  - name: se_02_j
+    type: VARCHAR
+  - name: se_02_k
+    type: VARCHAR
+  - name: se_02_l
+    type: VARCHAR
+  - name: se_02_m
+    type: VARCHAR
+  - name: se_02_n
+    type: VARCHAR
+  - name: se_02_o
+    type: VARCHAR
+  - name: se_02_p_mip_t2
+    type: VARCHAR
+  - name: se_02_esp
+    type: VARCHAR
+  - name: se_02_1
+    type: VARCHAR
+  - name: se_02_1esp
+    type: VARCHAR
+  - name: se_02_2
+    type: VARCHAR
+  - name: se_02_2esp
+    type: VARCHAR
+  - name: se_03_1_mip_t2
+    type: VARCHAR
+  - name: se_03_1esp_mip_t2
+    type: VARCHAR
+  - name: se_03_2_mip_t2
+    type: VARCHAR
+  - name: se_03_2esp_mip_t2
+    type: VARCHAR
+  - name: se_04
+    type: VARCHAR
+  - name: se_04_1
+    type: VARCHAR
+  - name: se_04_1esp
+    type: VARCHAR
+  - name: se_04_2
+    type: VARCHAR
+  - name: se_04_2esp
+    type: VARCHAR
+  - name: se_05_t2
+    type: VARCHAR
+  - name: se_05_1a_t2
+    type: VARCHAR
+  - name: se_05_1b_t2
+    type: VARCHAR
+  - name: se_05_1c_t2
+    type: VARCHAR
+  - name: se_05_1d_t2
+    type: VARCHAR
+  - name: se_05_1e_t2
+    type: VARCHAR
+  - name: se_05_1f_t2
+    type: VARCHAR
+  - name: se_05_1g_t2
+    type: VARCHAR
+  - name: se_05_1especifique_t2
+    type: VARCHAR
+  - name: se_05_2a_t2
+    type: VARCHAR
+  - name: se_05_2b_t2
+    type: VARCHAR
+  - name: se_05_2c_t2
+    type: VARCHAR
+  - name: se_05_2d_t2
+    type: VARCHAR
+  - name: se_05_2e_t2
+    type: VARCHAR
+  - name: se_05_2f_t2
+    type: VARCHAR
+  - name: se_05_2g_t2
+    type: VARCHAR
+  - name: se_05_2especifique_t2
+    type: VARCHAR
+  - name: se_05_3a_t2
+    type: VARCHAR
+  - name: se_05_3b_t2
+    type: VARCHAR
+  - name: se_05_3c_t2
+    type: VARCHAR
+  - name: se_05_3d_t2
+    type: VARCHAR
+  - name: se_05_3e_t2
+    type: VARCHAR
+  - name: se_05_3f_t2
+    type: VARCHAR
+  - name: se_05_3g_t2
+    type: VARCHAR
+  - name: se_05_3especifique_t2
+    type: VARCHAR
+  - name: se_06_a
+    type: VARCHAR
+  - name: se_06_b
+    type: VARCHAR
+  - name: se_06_c
+    type: VARCHAR
+  - name: se_06_d
+    type: VARCHAR
+  - name: se_06_e
+    type: VARCHAR
+  - name: se_06_f
+    type: VARCHAR
+  - name: se_06_esp
+    type: VARCHAR
+  - name: se_07_t2
+    type: VARCHAR
+  - name: se_07_1_t2
+    type: VARCHAR
+  - name: se_08
+    type: VARCHAR
+  - name: se_08_1
+    type: VARCHAR
+  - name: se_09
+    type: VARCHAR
+  - name: se_09_1
+    type: VARCHAR
+  - name: se_10
+    type: VARCHAR
+  - name: se_10_1
+    type: VARCHAR
+  - name: se_11
+    type: VARCHAR
+  - name: se_11_1
+    type: VARCHAR
+  - name: se_12
+    type: VARCHAR
+  - name: se_12_esp
+    type: VARCHAR
+  - name: se_13_a
+    type: VARCHAR
+  - name: se_13_b
+    type: VARCHAR
+  - name: se_13_c
+    type: VARCHAR
+  - name: se_13_d
+    type: VARCHAR
+  - name: se_13_e
+    type: VARCHAR
+  - name: se_13_f
+    type: VARCHAR
+  - name: se_14
+    type: VARCHAR
+  - name: se_14_1
+    type: VARCHAR
+  - name: se_15_1
+    type: VARCHAR
+  - name: se_15_1esp
+    type: VARCHAR
+  - name: se_15_2
+    type: VARCHAR
+  - name: se_15_2esp
+    type: VARCHAR
+  - name: se_15_3
+    type: VARCHAR
+  - name: se_15_3esp
+    type: VARCHAR
+  - name: se_16_a_t2
+    type: VARCHAR
+  - name: se_16_b_t2
+    type: VARCHAR
+  - name: se_16_c_t2
+    type: VARCHAR
+  - name: se_16_d_t2
+    type: VARCHAR
+  - name: se_16_e_t2
+    type: VARCHAR
+  - name: se_16_esp_t2
+    type: VARCHAR
+  - name: se_17_a_t2
+    type: VARCHAR
+  - name: se_17_b_t2
+    type: VARCHAR
+  - name: se_17_c_t2
+    type: VARCHAR
+  - name: se_17_d_t2
+    type: VARCHAR
+  - name: se_17_e_t2
+    type: VARCHAR
+  - name: se_17_f_t2
+    type: VARCHAR
+  - name: se_17_esp_t2
+    type: VARCHAR
+  - name: se_18_a
+    type: VARCHAR
+  - name: se_18_b
+    type: VARCHAR
+  - name: se_18_c
+    type: VARCHAR
+  - name: se_18_d
+    type: VARCHAR
+  - name: se_18_e
+    type: VARCHAR
+  - name: se_18_f
+    type: VARCHAR
+  - name: se_18_g
+    type: VARCHAR
+  - name: se_18_h
+    type: VARCHAR
+  - name: se_18_i
+    type: VARCHAR
+  - name: se_19_a
+    type: VARCHAR
+  - name: se_19_b
+    type: VARCHAR
+  - name: se_19_c
+    type: VARCHAR
+  - name: se_19_d
+    type: VARCHAR
+  - name: se_19_e
+    type: VARCHAR
+  - name: se_19_esp
+    type: VARCHAR
+  - name: se_20_a_mip
+    type: VARCHAR
+  - name: se_20_b_mip
+    type: VARCHAR
+  - name: se_20_c_mip
+    type: VARCHAR
+  - name: se_20_c2_mip
+    type: VARCHAR
+  - name: se_20_d_mip
+    type: VARCHAR
+  - name: se_20_e_mip
+    type: VARCHAR
+  - name: se_20_f_mip
+    type: VARCHAR
+  - name: se_20_g_mip
+    type: VARCHAR
+  - name: se_20_h_mip
+    type: VARCHAR
+  - name: se_20_i_mip
+    type: VARCHAR
+  - name: se_20_j_mip
+    type: VARCHAR
+  - name: se_20_esp_mip
+    type: VARCHAR
+  - name: se_21
+    type: VARCHAR
+  - name: se_22
+    type: VARCHAR
+  - name: sf_01_a
+    type: VARCHAR
+  - name: sf_01_b
+    type: VARCHAR
+  - name: sf_01_c
+    type: VARCHAR
+  - name: sf_01_d
+    type: VARCHAR
+  - name: sf_01_e
+    type: VARCHAR
+  - name: sf_01_f
+    type: VARCHAR
+  - name: sf_01_g
+    type: VARCHAR
+  - name: sf_01_h
+    type: VARCHAR
+  - name: sf_01_i
+    type: VARCHAR
+  - name: sf_01_j
+    type: VARCHAR
+  - name: sf_01_k
+    type: VARCHAR
+  - name: sf_01_l
+    type: VARCHAR
+  - name: sf_01_m
+    type: VARCHAR
+  - name: sf_01_n
+    type: VARCHAR
+  - name: sf_01_o
+    type: VARCHAR
+  - name: sf_01_p
+    type: VARCHAR
+  - name: sf_01_esp
+    type: VARCHAR
+  - name: sf_02
+    type: VARCHAR
+  - name: sf_02_1a_t2
+    type: VARCHAR
+  - name: sf_02_1b_t2
+    type: VARCHAR
+  - name: sf_02_1c_t2
+    type: VARCHAR
+  - name: sf_02_1d_t2
+    type: VARCHAR
+  - name: sf_02_1e_t2
+    type: VARCHAR
+  - name: sf_02_esp_t2
+    type: VARCHAR
+  - name: sf_03_a
+    type: VARCHAR
+  - name: sf_03_b
+    type: VARCHAR
+  - name: sf_03_c
+    type: VARCHAR
+  - name: sf_03_d
+    type: VARCHAR
+  - name: sf_03_e
+    type: VARCHAR
+  - name: sf_03_f
+    type: VARCHAR
+  - name: sf_03_esp
+    type: VARCHAR
+  - name: sf_04
+    type: VARCHAR
+  - name: sf_05_a
+    type: VARCHAR
+  - name: sf_05_b
+    type: VARCHAR
+  - name: sf_05_c
+    type: VARCHAR
+  - name: sf_05_d
+    type: VARCHAR
+  - name: sf_05_e
+    type: VARCHAR
+  - name: sf_05_f
+    type: VARCHAR
+  - name: sf_05_g
+    type: VARCHAR
+  - name: sf_05_h
+    type: VARCHAR
+  - name: sf_05_esp
+    type: VARCHAR
+  - name: sg_01
+    type: VARCHAR
+  - name: sg_02
+    type: VARCHAR
+  - name: sg_03
+    type: VARCHAR
+  - name: sg_04
+    type: VARCHAR
+  - name: sg_05
+    type: VARCHAR
+  - name: sg_06
+    type: VARCHAR
+  - name: sg_07
+    type: VARCHAR
+  - name: sg_08
+    type: VARCHAR
+  - name: sg_09
+    type: VARCHAR
+  - name: sg_10
+    type: VARCHAR
+  - name: sg_11
+    type: VARCHAR
+  - name: sh_01_mip
+    type: VARCHAR
+  - name: sh_02_a_mip
+    type: VARCHAR
+  - name: sh_02_b_mip
+    type: VARCHAR
+  - name: sh_02_c_mip
+    type: VARCHAR
+  - name: sh_02_d_mip
+    type: VARCHAR
+  - name: sh_02_e_mip
+    type: VARCHAR
+  - name: sh_03_a_mip_t2
+    type: VARCHAR
+  - name: sh_03_b_mip_t2
+    type: VARCHAR
+  - name: sh_03_c_mip_t2
+    type: VARCHAR
+  - name: sh_03_d_mip_t2
+    type: VARCHAR
+  - name: sh_03_e_mip_t2
+    type: VARCHAR
+  - name: tipo_emp
+    type: VARCHAR
+  - name: t
+    type: BIGINT
+  - name: sc_13
+    type: VARCHAR
+  - name: sd_09_med_t2
+    type: VARCHAR
+  - name: se_03_1_med_t2
+    type: VARCHAR
+  - name: se_03_1esp_med_t2
+    type: VARCHAR
+  - name: se_03_2_med_t2
+    type: VARCHAR
+  - name: se_03_2esp_med_t2
+    type: VARCHAR
+  - name: se_20_med
+    type: VARCHAR
+  - name: se_21_a_med
+    type: VARCHAR
+  - name: se_21_b_med
+    type: VARCHAR
+  - name: se_21_c_med
+    type: VARCHAR
+  - name: se_21_d_med
+    type: VARCHAR
+  - name: se_21_e_med
+    type: VARCHAR
+  - name: se_21_f_med
+    type: VARCHAR
+  - name: se_21_g_med
+    type: VARCHAR
+  - name: se_21_h_med
+    type: VARCHAR
+  - name: se_21_i_med
+    type: VARCHAR
+  - name: se_21_j_med
+    type: VARCHAR
+  - name: se_21_k_med
+    type: VARCHAR
+  - name: se_21_l_med
+    type: VARCHAR
+  - name: se_21_m_med
+    type: VARCHAR
+  - name: se_21_n_med
+    type: VARCHAR
+  - name: se_21_o_med
+    type: VARCHAR
+  - name: se_21_p_med
+    type: VARCHAR
+  - name: se_21_q_med
+    type: VARCHAR
+  - name: se_21_r_med
+    type: VARCHAR
+  - name: se_21_s_med
+    type: VARCHAR
+  - name: se_21_t_med
+    type: VARCHAR
+  - name: se_21_u_med
+    type: VARCHAR
+  - name: se_21_esp_med
+    type: VARCHAR
+  - name: nit_med
+    type: BIGINT
+  - name: funde_med
+    type: BIGINT
+  - name: sc_09_f_t1
+    type: VARCHAR
+  - name: sd_02_t1
+    type: VARCHAR
+  - name: sd_02_esp_t1
+    type: VARCHAR
+  - name: sd_09_a_t1
+    type: VARCHAR
+  - name: sd_09_b_t1
+    type: VARCHAR
+  - name: sd_09_c_t1
+    type: VARCHAR
+  - name: sd_09_d_t1
+    type: VARCHAR
+  - name: sd_09_e_t1
+    type: VARCHAR
+  - name: sd_09_f_t1
+    type: VARCHAR
+  - name: sd_09_g_t1
+    type: VARCHAR
+  - name: sd_09_h_t1
+    type: VARCHAR
+  - name: sd_09_i_t1
+    type: VARCHAR
+  - name: sd_09_j_t1
+    type: VARCHAR
+  - name: sd_09_k_t1
+    type: VARCHAR
+  - name: sd_09_l_t1
+    type: VARCHAR
+  - name: sd_10_a_t1
+    type: VARCHAR
+  - name: sd_10_b_t1
+    type: VARCHAR
+  - name: sd_10_c_t1
+    type: VARCHAR
+  - name: sd_10_d_t1
+    type: VARCHAR
+  - name: sd_10_e_t1
+    type: VARCHAR
+  - name: sd_10_f_t1
+    type: VARCHAR
+  - name: sd_10_g_t1
+    type: VARCHAR
+  - name: sd_10_h_t1
+    type: VARCHAR
+  - name: sd_10_i_t1
+    type: VARCHAR
+  - name: sd_10_j_t1
+    type: VARCHAR
+  - name: sd_10_k_t1
+    type: VARCHAR
+  - name: sd_10_l_t1
+    type: VARCHAR
+  - name: sd_11_mip_t1
+    type: VARCHAR
+  - name: sd_12_mip_t1
+    type: VARCHAR
+  - name: sd_13_e_t1
+    type: VARCHAR
+  - name: sd_14_t1
+    type: VARCHAR
+  - name: sd_21_t1
+    type: VARCHAR
+  - name: sd_22_t1
+    type: VARCHAR
+  - name: se_03_1_t1
+    type: VARCHAR
+  - name: se_03_1esp_t1
+    type: VARCHAR
+  - name: se_03_2_t1
+    type: VARCHAR
+  - name: se_03_2esp_t1
+    type: VARCHAR
+  - name: se_05_t1
+    type: VARCHAR
+  - name: se_06_a_t1
+    type: VARCHAR
+  - name: se_06_b_t1
+    type: VARCHAR
+  - name: se_06_c_t1
+    type: VARCHAR
+  - name: se_06_d_t1
+    type: VARCHAR
+  - name: se_06_e_t1
+    type: VARCHAR
+  - name: se_06_f_t1
+    type: VARCHAR
+  - name: se_06_esp_t1
+    type: VARCHAR
+  - name: se_16_a_t1
+    type: VARCHAR
+  - name: se_16_b_t1
+    type: VARCHAR
+  - name: se_16_c_t1
+    type: VARCHAR
+  - name: se_16_d_t1
+    type: VARCHAR
+  - name: se_16_e_t1
+    type: VARCHAR
+  - name: se_16_esp_t1
+    type: VARCHAR
+  - name: se_17_a_t1
+    type: VARCHAR
+  - name: se_17_b_t1
+    type: VARCHAR
+  - name: se_17_c_t1
+    type: VARCHAR
+  - name: se_17_d_t1
+    type: VARCHAR
+  - name: se_17_e_t1
+    type: VARCHAR
+  - name: se_17_esp_t1
+    type: VARCHAR
+  - name: se_17_f_t1
+    type: VARCHAR
+  - name: sd_11_med_t1
+    type: VARCHAR
+  - name: sd_12_med_t1
+    type: VARCHAR
+  - name: nitrg_mip
+    type: VARCHAR
+  - name: nitrs_mip
+    type: VARCHAR
+  - name: funde_mip
+    type: VARCHAR
+  - name: nit_mip
+    type: BIGINT
+  - name: nit
+    type: VARCHAR
+  - name: funde
+    type: VARCHAR
+  - name: cohort1
+    type: VARCHAR
+  - name: cohort2
+    type: VARCHAR
+  - name: cohort3
+    type: VARCHAR
+  - name: cohort1_nro
+    type: BIGINT
+  - name: cohort2_nro
+    type: BIGINT
+  - name: cohort3_nro
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

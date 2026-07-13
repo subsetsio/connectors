@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-data-of-violence-against-women-trinidad-and-tobago-survey-answers-2015`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [questionnaire_no, year_of_birth, day_of_birth, no_of_persons_live_with, month_of_birth]
+checks:
+  - kind: unique
+    columns: [questionnaire_no, year_of_birth, day_of_birth, no_of_persons_live_with, month_of_birth]
+  - kind: not_null
+    col: questionnaire_no
+  - kind: not_null
+    col: year_of_birth
+  - kind: not_null
+    col: day_of_birth
+  - kind: not_null
+    col: no_of_persons_live_with
+  - kind: not_null
+    col: month_of_birth
+  - kind: row_floor
+    min: 105
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-idb-project-procurement-contract-awards-data`. Regenerate after model-verify.
+key: []
+temporal: signature_date
+sort: [signature_date]
 columns:
   - name: contract_id
     type: VARCHAR
@@ -31,9 +35,9 @@ columns:
   - name: procurement_type
     type: VARCHAR
   - name: idb_amount
-    type: VARCHAR
+    type: BIGINT
   - name: total_amount
-    type: VARCHAR
+    type: DOUBLE
   - name: borrower_cd
     type: VARCHAR
   - name: borrower_name
@@ -53,17 +57,17 @@ columns:
   - name: awarded_firm_name
     type: VARCHAR
   - name: contract_year
-    type: VARCHAR
+    type: BIGINT
   - name: signature_date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: entry_date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: last_modification_date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: start_date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: stop_date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: source
     type: VARCHAR
   - name: source_resource

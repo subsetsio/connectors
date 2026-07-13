@@ -1,34 +1,38 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-latin-macro-watch-dataset`. Regenerate after model-verify.
+key: []
+temporal: date
+sort: [date]
 columns:
   - name: lmwuuid
+    type: BIGINT
+  - name: country
     type: VARCHAR
-  - name: Country
+  - name: frequency
     type: VARCHAR
-  - name: Frequency
+  - name: year
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: indicator
     type: VARCHAR
-  - name: Year
+  - name: unit
     type: VARCHAR
-  - name: Date
+  - name: transformation
     type: VARCHAR
-  - name: Value
+  - name: area
     type: VARCHAR
-  - name: Indicator
+  - name: topic
     type: VARCHAR
-  - name: Unit
+  - name: definition
     type: VARCHAR
-  - name: Transformation
+  - name: source
     type: VARCHAR
-  - name: Area
+  - name: notes
     type: VARCHAR
-  - name: Topic
-    type: VARCHAR
-  - name: Definition
-    type: VARCHAR
-  - name: Source
-    type: VARCHAR
-  - name: Notes
-    type: VARCHAR
-  - name: Updated
-    type: VARCHAR
+  - name: updated
+    type: DATE
   - name: source_resource
     type: VARCHAR

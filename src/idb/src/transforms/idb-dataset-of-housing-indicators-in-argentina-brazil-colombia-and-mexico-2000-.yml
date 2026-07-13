@@ -1,5 +1,42 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-dataset-of-housing-indicators-in-argentina-brazil-colombia-and-mexico-2000-`. Regenerate after model-verify.
+key: []
 columns:
+  - name: country
+    type: VARCHAR
+  - name: pais
+    type: VARCHAR
+  - name: grupo
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: indicador
+    type: VARCHAR
+  - name: indicator_id
+    type: BIGINT
+  - name: sub_indicator_if_applicable
+    type: VARCHAR
+  - name: sub_indicator_id_if_applicable
+    type: DOUBLE
+  - name: level
+    type: VARCHAR
+  - name: level_name
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: unit
+    type: VARCHAR
+  - name: complementary_data
+    type: VARCHAR
+  - name: year_date
+    type: BIGINT
+  - name: year_text
+    type: BIGINT
+  - name: notes
+    type: VARCHAR
+  - name: notas
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

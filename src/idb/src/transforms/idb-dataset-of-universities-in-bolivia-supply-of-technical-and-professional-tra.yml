@@ -1,5 +1,28 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-dataset-of-universities-in-bolivia-supply-of-technical-and-professional-tra`. Regenerate after model-verify.
+key: []
 columns:
+  - name: area
+    type: VARCHAR
+  - name: carrera
+    type: VARCHAR
+  - name: ciudad
+    type: VARCHAR
+  - name: ano
+    type: BIGINT
+  - name: tipo_de_educacion
+    type: VARCHAR
+  - name: matriculados_hombres
+    type: BIGINT
+  - name: matriculados_mujeres
+    type: BIGINT
+  - name: nuevos_hombres
+    type: BIGINT
+  - name: nuevos_mujeres
+    type: BIGINT
+  - name: titulados_hombres
+    type: BIGINT
+  - name: titulados_mujeres
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

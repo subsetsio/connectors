@@ -1,20 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-wealth-financial-intermediation-and-saving-in-latin-am`. Regenerate after model-verify.
+key: [country_name, variable_id, variable_description, year_text, year_date_time]
+sort: [country_name, variable_id, variable_description, year_text, year_date_time]
 columns:
-  - name: Country_Name
+  - name: country_name
     type: VARCHAR
-  - name: Year_Text
+  - name: year_text
+    type: BIGINT
+  - name: year_date_time
+    type: BIGINT
+  - name: income
     type: VARCHAR
-  - name: Year_Date&Time
+  - name: region
     type: VARCHAR
-  - name: Income
+  - name: variable_description
     type: VARCHAR
-  - name: Region
+  - name: variable_id
     type: VARCHAR
-  - name: Variable_Description
-    type: VARCHAR
-  - name: Variable_ID
-    type: VARCHAR
-  - name: Value
-    type: VARCHAR
+  - name: value
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

@@ -1,5 +1,116 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-covid-19-household-telephone-survey-in-barbados-round-2-2020`. Regenerate after model-verify.
+key: []
 columns:
+  - name: hhid
+    type: BIGINT
+  - name: member_id
+    type: BIGINT
+  - name: w_ind_r2
+    type: DOUBLE
+  - name: psu
+    type: BIGINT
+  - name: stratum
+    type: BIGINT
+  - name: pl_memid
+    type: VARCHAR
+  - name: curmem
+    type: VARCHAR
+  - name: rsnlft
+    type: VARCHAR
+  - name: dobcmb
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: memage
+    type: VARCHAR
+  - name: agemar
+    type: VARCHAR
+  - name: agejan
+    type: VARCHAR
+  - name: attbfr
+    type: VARCHAR
+  - name: attnow
+    type: VARCHAR
+  - name: edulvl
+    type: VARCHAR
+  - name: educhn
+    type: VARCHAR
+  - name: edumar
+    type: VARCHAR
+  - name: wrkexp
+    type: VARCHAR
+  - name: pl_wrkmar
+    type: VARCHAR
+  - name: pr_wrkmar
+    type: VARCHAR
+  - name: wrkmar
+    type: VARCHAR
+  - name: mar_isco04
+    type: VARCHAR
+  - name: mar_isco04_oth
+    type: VARCHAR
+  - name: mar_isco01
+    type: VARCHAR
+  - name: maryrs
+    type: VARCHAR
+  - name: marnis
+    type: VARCHAR
+  - name: marcnt
+    type: VARCHAR
+  - name: martel
+    type: VARCHAR
+  - name: pl_maywrk
+    type: VARCHAR
+  - name: pr_maywrk
+    type: VARCHAR
+  - name: maywrk
+    type: VARCHAR
+  - name: maysme
+    type: VARCHAR
+  - name: maynis
+    type: VARCHAR
+  - name: maytel
+    type: VARCHAR
+  - name: incact
+    type: VARCHAR
+  - name: wrkrtn
+    type: VARCHAR
+  - name: avlbl
+    type: VARCHAR
+  - name: search
+    type: VARCHAR
+  - name: smemar
+    type: VARCHAR
+  - name: smemay
+    type: VARCHAR
+  - name: stprsn
+    type: VARCHAR
+  - name: stprsn_oth
+    type: VARCHAR
+  - name: now_isco04
+    type: VARCHAR
+  - name: now_isco04_oth
+    type: VARCHAR
+  - name: now_isco01
+    type: VARCHAR
+  - name: emptyp
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: sector_oth
+    type: VARCHAR
+  - name: nownis
+    type: VARCHAR
+  - name: unembf
+    type: VARCHAR
+  - name: nowtel
+    type: VARCHAR
+  - name: hrsmar
+    type: VARCHAR
+  - name: hrsmay
+    type: VARCHAR
+  - name: fulpay
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

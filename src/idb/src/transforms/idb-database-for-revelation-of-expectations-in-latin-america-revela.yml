@@ -1,14 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-database-for-revelation-of-expectations-in-latin-america-revela`. Regenerate after model-verify.
+key: [date, date_predicted, country]
+temporal: date
+sort: [date, date_predicted, country]
 columns:
   - name: country
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: date_predicted
-    type: VARCHAR
+    type: DATE
   - name: inflation_mean
-    type: VARCHAR
+    type: DOUBLE
   - name: growth_mean
-    type: VARCHAR
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

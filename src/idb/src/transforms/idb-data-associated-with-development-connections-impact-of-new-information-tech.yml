@@ -1,5 +1,32 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-development-connections-impact-of-new-information-tech`. Regenerate after model-verify.
+key: [pais_nombre_es, pais_nombre_en, ano, indicador_nombre_en, indicador_nombre_es]
+temporal: date
+sort: [date, pais_nombre_es, pais_nombre_en, ano, indicador_nombre_en, indicador_nombre_es]
 columns:
+  - name: indicador_nombre_en
+    type: VARCHAR
+  - name: indicador_nombre_es
+    type: VARCHAR
+  - name: indicador_nombre_pt
+    type: VARCHAR
+  - name: pais_nombre_en
+    type: VARCHAR
+  - name: pais_nombre_es
+    type: VARCHAR
+  - name: ano
+    type: BIGINT
+  - name: date
+    type: VARCHAR
+  - name: valor
+    type: DOUBLE
+  - name: fuente_descripcion_en
+    type: VARCHAR
+  - name: fuente_descripcion_es
+    type: VARCHAR
+  - name: nota_descripcion_en
+    type: VARCHAR
+  - name: nota_descripcion_es
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

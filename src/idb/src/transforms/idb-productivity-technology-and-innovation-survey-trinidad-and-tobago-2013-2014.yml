@@ -1,5 +1,590 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-productivity-technology-and-innovation-survey-trinidad-and-tobago-2013-2014`. Regenerate after model-verify.
+key: []
 columns:
+  - name: unique_id
+    type: BIGINT
+  - name: a1
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: idstd
+    type: BIGINT
+  - name: id
+    type: BIGINT
+  - name: a0
+    type: VARCHAR
+  - name: a1a
+    type: VARCHAR
+  - name: a2
+    type: VARCHAR
+  - name: a3a
+    type: VARCHAR
+  - name: a3
+    type: VARCHAR
+  - name: a4a
+    type: VARCHAR
+  - name: a4b
+    type: VARCHAR
+  - name: a5
+    type: VARCHAR
+  - name: a6a
+    type: VARCHAR
+  - name: a6b
+    type: VARCHAR
+  - name: a7
+    type: VARCHAR
+  - name: a7a
+    type: BIGINT
+  - name: a8
+    type: VARCHAR
+  - name: a9
+    type: VARCHAR
+  - name: a10
+    type: VARCHAR
+  - name: a11
+    type: VARCHAR
+  - name: a11a
+    type: BIGINT
+  - name: a14d
+    type: BIGINT
+  - name: a14m
+    type: BIGINT
+  - name: a14y
+    type: BIGINT
+  - name: a14h
+    type: BIGINT
+  - name: a14min
+    type: BIGINT
+  - name: b1
+    type: VARCHAR
+  - name: b1x
+    type: VARCHAR
+  - name: b3
+    type: BIGINT
+  - name: b2a
+    type: BIGINT
+  - name: b2b
+    type: BIGINT
+  - name: b2c
+    type: BIGINT
+  - name: b2d
+    type: BIGINT
+  - name: b4
+    type: VARCHAR
+  - name: jrb1
+    type: VARCHAR
+  - name: jrb2
+    type: VARCHAR
+  - name: jrb3
+    type: BIGINT
+  - name: jrb4
+    type: VARCHAR
+  - name: jrb5
+    type: VARCHAR
+  - name: jrb6
+    type: VARCHAR
+  - name: b5
+    type: BIGINT
+  - name: b6
+    type: BIGINT
+  - name: jrb7
+    type: BIGINT
+  - name: b6a
+    type: VARCHAR
+  - name: b6b
+    type: BIGINT
+  - name: jrb8
+    type: VARCHAR
+  - name: b7
+    type: BIGINT
+  - name: b7a
+    type: VARCHAR
+  - name: b8
+    type: VARCHAR
+  - name: cfyday
+    type: BIGINT
+  - name: cfymth
+    type: BIGINT
+  - name: c3
+    type: VARCHAR
+  - name: c4
+    type: BIGINT
+  - name: c5
+    type: VARCHAR
+  - name: c6
+    type: VARCHAR
+  - name: c7
+    type: BIGINT
+  - name: c8
+    type: BIGINT
+  - name: c9a
+    type: BIGINT
+  - name: c9b
+    type: DOUBLE
+  - name: c10
+    type: VARCHAR
+  - name: c11
+    type: BIGINT
+  - name: c12
+    type: VARCHAR
+  - name: c13
+    type: BIGINT
+  - name: c14
+    type: VARCHAR
+  - name: c15
+    type: VARCHAR
+  - name: c16
+    type: BIGINT
+  - name: c17
+    type: BIGINT
+  - name: c18
+    type: BIGINT
+  - name: c19
+    type: VARCHAR
+  - name: c20
+    type: BIGINT
+  - name: c21
+    type: VARCHAR
+  - name: c22a
+    type: VARCHAR
+  - name: c22b
+    type: VARCHAR
+  - name: c23
+    type: VARCHAR
+  - name: c24b
+    type: VARCHAR
+  - name: c24c
+    type: VARCHAR
+  - name: c24d
+    type: VARCHAR
+  - name: c28
+    type: VARCHAR
+  - name: c29
+    type: VARCHAR
+  - name: c30a
+    type: VARCHAR
+  - name: c30b
+    type: VARCHAR
+  - name: d1a1x
+    type: VARCHAR
+  - name: d1a2
+    type: BIGINT
+  - name: d1a3
+    type: BIGINT
+  - name: d2
+    type: DOUBLE
+  - name: d2x
+    type: VARCHAR
+  - name: jrd2
+    type: BIGINT
+  - name: d3a
+    type: BIGINT
+  - name: d3b
+    type: BIGINT
+  - name: d3c
+    type: BIGINT
+  - name: d4
+    type: BIGINT
+  - name: d6
+    type: BIGINT
+  - name: d7
+    type: BIGINT
+  - name: d8
+    type: BIGINT
+  - name: d10
+    type: BIGINT
+  - name: d11
+    type: BIGINT
+  - name: d12a
+    type: BIGINT
+  - name: d12b
+    type: BIGINT
+  - name: d13
+    type: VARCHAR
+  - name: d14
+    type: BIGINT
+  - name: d16
+    type: BIGINT
+  - name: d17
+    type: BIGINT
+  - name: d30a
+    type: VARCHAR
+  - name: d30b
+    type: VARCHAR
+  - name: lace1
+    type: VARCHAR
+  - name: lace2
+    type: BIGINT
+  - name: lace3
+    type: VARCHAR
+  - name: lace4
+    type: VARCHAR
+  - name: lace5
+    type: VARCHAR
+  - name: lace6
+    type: VARCHAR
+  - name: lace7
+    type: DOUBLE
+  - name: lace9
+    type: VARCHAR
+  - name: lace10
+    type: VARCHAR
+  - name: e1
+    type: VARCHAR
+  - name: e2
+    type: VARCHAR
+  - name: e6
+    type: VARCHAR
+  - name: e7a
+    type: VARCHAR
+  - name: e7b
+    type: VARCHAR
+  - name: lace8a
+    type: VARCHAR
+  - name: lace8b
+    type: DOUBLE
+  - name: lace8c
+    type: VARCHAR
+  - name: e11
+    type: VARCHAR
+  - name: jre12
+    type: VARCHAR
+  - name: jre13
+    type: VARCHAR
+  - name: e30
+    type: VARCHAR
+  - name: f1
+    type: BIGINT
+  - name: f2
+    type: BIGINT
+  - name: g1a
+    type: BIGINT
+  - name: g1b
+    type: BIGINT
+  - name: g1c
+    type: BIGINT
+  - name: g2
+    type: VARCHAR
+  - name: g3
+    type: BIGINT
+  - name: g4
+    type: VARCHAR
+  - name: g5a
+    type: BIGINT
+  - name: g5b
+    type: VARCHAR
+  - name: g5bx
+    type: BIGINT
+  - name: g6a
+    type: BIGINT
+  - name: g6b
+    type: BIGINT
+  - name: g6c
+    type: BIGINT
+  - name: g7
+    type: VARCHAR
+  - name: g8a
+    type: VARCHAR
+  - name: g30a
+    type: VARCHAR
+  - name: i1
+    type: VARCHAR
+  - name: i2a
+    type: BIGINT
+  - name: i2b
+    type: DOUBLE
+  - name: i3
+    type: VARCHAR
+  - name: i4a
+    type: BIGINT
+  - name: i4b
+    type: DOUBLE
+  - name: i30
+    type: VARCHAR
+  - name: k1a
+    type: BIGINT
+  - name: k1b
+    type: BIGINT
+  - name: k1c
+    type: BIGINT
+  - name: k2a
+    type: BIGINT
+  - name: k2b
+    type: BIGINT
+  - name: k2c
+    type: BIGINT
+  - name: k3a
+    type: BIGINT
+  - name: k3bc
+    type: BIGINT
+  - name: k3e
+    type: BIGINT
+  - name: k3f
+    type: BIGINT
+  - name: k3hd
+    type: BIGINT
+  - name: k4
+    type: VARCHAR
+  - name: n5a
+    type: DOUBLE
+  - name: n5b
+    type: DOUBLE
+  - name: lack4a
+    type: BIGINT
+  - name: k5a
+    type: BIGINT
+  - name: k5i
+    type: BIGINT
+  - name: k5bc
+    type: BIGINT
+  - name: k5e
+    type: BIGINT
+  - name: k5f
+    type: BIGINT
+  - name: k5hdj
+    type: BIGINT
+  - name: k6
+    type: VARCHAR
+  - name: k7
+    type: VARCHAR
+  - name: k8
+    type: VARCHAR
+  - name: k9
+    type: VARCHAR
+  - name: k10
+    type: BIGINT
+  - name: k11
+    type: DOUBLE
+  - name: k13
+    type: VARCHAR
+  - name: k14a
+    type: VARCHAR
+  - name: k14b
+    type: VARCHAR
+  - name: k14c
+    type: VARCHAR
+  - name: k14d
+    type: VARCHAR
+  - name: k14e
+    type: VARCHAR
+  - name: k15a
+    type: DOUBLE
+  - name: k16
+    type: VARCHAR
+  - name: k17
+    type: VARCHAR
+  - name: k21
+    type: VARCHAR
+  - name: k30
+    type: VARCHAR
+  - name: lacp1
+    type: VARCHAR
+  - name: lacp2
+    type: VARCHAR
+  - name: lacp3
+    type: VARCHAR
+  - name: lacp4
+    type: VARCHAR
+  - name: lacp5
+    type: VARCHAR
+  - name: lacp6
+    type: VARCHAR
+  - name: lacp7
+    type: VARCHAR
+  - name: lacp8
+    type: VARCHAR
+  - name: lacp9
+    type: VARCHAR
+  - name: lacp10
+    type: VARCHAR
+  - name: lacp11
+    type: VARCHAR
+  - name: lacp12
+    type: VARCHAR
+  - name: lacp13
+    type: VARCHAR
+  - name: lacp14
+    type: VARCHAR
+  - name: lacp15
+    type: VARCHAR
+  - name: lacp16a
+    type: VARCHAR
+  - name: lacp16b
+    type: VARCHAR
+  - name: lacp16c
+    type: VARCHAR
+  - name: lacp16d
+    type: VARCHAR
+  - name: lacp16e
+    type: VARCHAR
+  - name: lacp16f
+    type: VARCHAR
+  - name: lacp16g
+    type: VARCHAR
+  - name: h7a
+    type: VARCHAR
+  - name: j2
+    type: BIGINT
+  - name: j3
+    type: VARCHAR
+  - name: j4
+    type: BIGINT
+  - name: j5
+    type: VARCHAR
+  - name: j6a
+    type: VARCHAR
+  - name: j6
+    type: BIGINT
+  - name: j7a
+    type: BIGINT
+  - name: j7b
+    type: BIGINT
+  - name: j10
+    type: VARCHAR
+  - name: j11
+    type: BIGINT
+  - name: j12
+    type: VARCHAR
+  - name: j13
+    type: VARCHAR
+  - name: j14
+    type: BIGINT
+  - name: j15
+    type: VARCHAR
+  - name: j30a
+    type: VARCHAR
+  - name: j30b
+    type: VARCHAR
+  - name: j30c
+    type: VARCHAR
+  - name: j30e
+    type: VARCHAR
+  - name: j30f
+    type: VARCHAR
+  - name: h30
+    type: VARCHAR
+  - name: l1
+    type: BIGINT
+  - name: l2
+    type: BIGINT
+  - name: l3a
+    type: BIGINT
+  - name: l3b
+    type: BIGINT
+  - name: l4a
+    type: BIGINT
+  - name: l4b
+    type: BIGINT
+  - name: l5
+    type: BIGINT
+  - name: l5a
+    type: BIGINT
+  - name: l5b
+    type: BIGINT
+  - name: l6
+    type: BIGINT
+  - name: l8
+    type: BIGINT
+  - name: l9a
+    type: BIGINT
+  - name: l9b
+    type: BIGINT
+  - name: lacl9c
+    type: BIGINT
+  - name: lacl10a
+    type: VARCHAR
+  - name: lacl10b
+    type: BIGINT
+  - name: lacl10c
+    type: VARCHAR
+  - name: lacl10d
+    type: VARCHAR
+  - name: lacl10e
+    type: BIGINT
+  - name: l10
+    type: VARCHAR
+  - name: l11a
+    type: BIGINT
+  - name: l11b
+    type: BIGINT
+  - name: lacl12
+    type: VARCHAR
+  - name: lacl13
+    type: BIGINT
+  - name: lacl14
+    type: VARCHAR
+  - name: lacl15
+    type: BIGINT
+  - name: lacl16
+    type: VARCHAR
+  - name: lacl17
+    type: BIGINT
+  - name: lacl18
+    type: VARCHAR
+  - name: lacl19
+    type: VARCHAR
+  - name: lacl20
+    type: VARCHAR
+  - name: l30a
+    type: VARCHAR
+  - name: l30b
+    type: VARCHAR
+  - name: m1a
+    type: VARCHAR
+  - name: m1d
+    type: VARCHAR
+  - name: n2a
+    type: DOUBLE
+  - name: n2e
+    type: DOUBLE
+  - name: n2f
+    type: DOUBLE
+  - name: n2i
+    type: DOUBLE
+  - name: n2b
+    type: DOUBLE
+  - name: n2j
+    type: DOUBLE
+  - name: n3
+    type: DOUBLE
+  - name: n6a
+    type: DOUBLE
+  - name: n6b
+    type: DOUBLE
+  - name: n7a
+    type: DOUBLE
+  - name: n7b
+    type: DOUBLE
+  - name: a15a2c
+    type: BIGINT
+  - name: a15c3
+    type: VARCHAR
+  - name: a14dend
+    type: BIGINT
+  - name: a14mend
+    type: BIGINT
+  - name: a14yend
+    type: BIGINT
+  - name: a14hend
+    type: BIGINT
+  - name: a14minend
+    type: BIGINT
+  - name: a17
+    type: VARCHAR
+  - name: a18
+    type: VARCHAR
+  - name: a19h
+    type: BIGINT
+  - name: a19m
+    type: BIGINT
+  - name: w_weak_fresh
+    type: DOUBLE
+  - name: w_strict_fresh
+    type: DOUBLE
+  - name: w_median_fresh
+    type: DOUBLE
+  - name: strata
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

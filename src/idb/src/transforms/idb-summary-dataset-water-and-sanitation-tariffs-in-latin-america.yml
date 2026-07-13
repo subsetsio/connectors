@@ -1,5 +1,64 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-summary-dataset-water-and-sanitation-tariffs-in-latin-america`. Regenerate after model-verify.
+key: []
 columns:
+  - name: country
+    type: VARCHAR
+  - name: service
+    type: VARCHAR
+  - name: general_tariff_type
+    type: VARCHAR
+  - name: mean_nblocks
+    type: DOUBLE
+  - name: sd_nblocks
+    type: DOUBLE
+  - name: mean_size_1block
+    type: DOUBLE
+  - name: sd_size_1block
+    type: DOUBLE
+  - name: mean_kinkpoint
+    type: DOUBLE
+  - name: sd_kinkpoint
+    type: DOUBLE
+  - name: mean_price1
+    type: DOUBLE
+  - name: sd_price1
+    type: DOUBLE
+  - name: mean_fixedfee1
+    type: DOUBLE
+  - name: sd_fixedfee1
+    type: DOUBLE
+  - name: mean_pricefinalblock
+    type: DOUBLE
+  - name: sd_pricefinalblock
+    type: DOUBLE
+  - name: mean_mincharged
+    type: DOUBLE
+  - name: sd_mincharge
+    type: DOUBLE
+  - name: mean_1m3
+    type: DOUBLE
+  - name: sd_1m3
+    type: DOUBLE
+  - name: mean_6m3
+    type: DOUBLE
+  - name: sd_6m3
+    type: DOUBLE
+  - name: mean_12m3
+    type: DOUBLE
+  - name: sd_12m3
+    type: DOUBLE
+  - name: mean_15m3
+    type: DOUBLE
+  - name: sd_15m3
+    type: DOUBLE
+  - name: mean_20m3
+    type: DOUBLE
+  - name: sd_20m3
+    type: DOUBLE
+  - name: n
+    type: BIGINT
+  - name: subsidy_type
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

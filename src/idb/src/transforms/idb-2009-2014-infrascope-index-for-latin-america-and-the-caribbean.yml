@@ -1,5 +1,30 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-2009-2014-infrascope-index-for-latin-america-and-the-caribbean`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: dimension
+    type: VARCHAR
+  - name: dimension_es
+    type: VARCHAR
+  - name: indicador
+    type: VARCHAR
+  - name: indicador_es
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: country_es
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: uom
+    type: VARCHAR
+  - name: score
+    type: BIGINT
+  - name: normalized_score_100
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

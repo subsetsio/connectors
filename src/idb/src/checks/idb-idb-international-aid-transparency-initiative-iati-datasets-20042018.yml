@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-idb-international-aid-transparency-initiative-iati-datasets-20042018`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [document_link, document_title, operation_number, document_type, iati_document_code]
+checks:
+  - kind: unique
+    columns: [document_link, document_title, operation_number, document_type, iati_document_code]
+  - kind: not_null
+    col: document_link
+  - kind: not_null
+    col: document_title
+  - kind: not_null
+    col: operation_number
+  - kind: not_null
+    col: document_type
+  - kind: not_null
+    col: iati_document_code
+  - kind: row_floor
+    min: 28100
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

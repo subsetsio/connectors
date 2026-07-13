@@ -1,5 +1,437 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-baseline-health-mesoamerica-belize-lqas-survey-2015`. Regenerate after model-verify.
+key: [id_woman, municip, id_interviewer_hh, total_children, id_kid]
+sort: [id_woman, municip, id_interviewer_hh, total_children, id_kid]
 columns:
+  - name: interview_loc
+    type: VARCHAR
+  - name: municip
+    type: VARCHAR
+  - name: id_interviewer_hh
+    type: BIGINT
+  - name: id_supervisor_hh
+    type: BIGINT
+  - name: num_woman
+    type: VARCHAR
+  - name: age_womanspec
+    type: BIGINT
+  - name: mar_status
+    type: VARCHAR
+  - name: edu_wom
+    type: VARCHAR
+  - name: income_house
+    type: VARCHAR
+  - name: num_children
+    type: VARCHAR
+  - name: num_childrenspec
+    type: BIGINT
+  - name: num_othchild
+    type: VARCHAR
+  - name: num_othchildspec
+    type: BIGINT
+  - name: any_kids_last_2_years
+    type: VARCHAR
+  - name: num_kids_last_2_years
+    type: BIGINT
+  - name: kid1_agespec
+    type: BIGINT
+  - name: kid1_dob
+    type: VARCHAR
+  - name: anc1
+    type: VARCHAR
+  - name: anc_times
+    type: VARCHAR
+  - name: anc_timesspec
+    type: BIGINT
+  - name: anc_skilled
+    type: VARCHAR
+  - name: del_doc_w1
+    type: VARCHAR
+  - name: del_pronur_w1
+    type: VARCHAR
+  - name: del_auxnur_w1
+    type: VARCHAR
+  - name: del_labtech_w1
+    type: VARCHAR
+  - name: del_mw_w1
+    type: VARCHAR
+  - name: del_chw_w1
+    type: VARCHAR
+  - name: del_pharm_w1
+    type: VARCHAR
+  - name: del_trad_w1
+    type: VARCHAR
+  - name: del_rel_w1
+    type: VARCHAR
+  - name: del_oth_w1
+    type: VARCHAR
+  - name: del_where
+    type: VARCHAR
+  - name: bf_ever1
+    type: VARCHAR
+  - name: bf_start1
+    type: VARCHAR
+  - name: bf_start1hr
+    type: BIGINT
+  - name: bf_start1day
+    type: BIGINT
+  - name: kid2_age
+    type: VARCHAR
+  - name: kid2_agespec
+    type: BIGINT
+  - name: kid2_dob
+    type: VARCHAR
+  - name: anc2
+    type: VARCHAR
+  - name: anc2_times
+    type: VARCHAR
+  - name: anc2_timesspec
+    type: BIGINT
+  - name: anc2_skilled
+    type: VARCHAR
+  - name: del_doc_w2
+    type: VARCHAR
+  - name: del_pronur_w2
+    type: VARCHAR
+  - name: del_auxnur_w2
+    type: VARCHAR
+  - name: del_labtech_w2
+    type: VARCHAR
+  - name: del_mw_w2
+    type: VARCHAR
+  - name: del_chw_w2
+    type: VARCHAR
+  - name: del_pharm_w2
+    type: VARCHAR
+  - name: del_trad_w2
+    type: VARCHAR
+  - name: del_rel_w2
+    type: VARCHAR
+  - name: del_oth_w2
+    type: VARCHAR
+  - name: del2_where
+    type: VARCHAR
+  - name: bf_ever2
+    type: VARCHAR
+  - name: any_okids_last_2_years
+    type: VARCHAR
+  - name: num_okids_last_2_years
+    type: BIGINT
+  - name: othdel_doc_w1
+    type: VARCHAR
+  - name: othdel_pronur_w1
+    type: VARCHAR
+  - name: othdel_auxnur_w1
+    type: VARCHAR
+  - name: othdel_labtech_w1
+    type: VARCHAR
+  - name: othdel_mw_w1
+    type: VARCHAR
+  - name: othdel_chw_w1
+    type: VARCHAR
+  - name: othdel_pharm_w1
+    type: VARCHAR
+  - name: othdel_trad_w1
+    type: VARCHAR
+  - name: othdel_rel_w1
+    type: VARCHAR
+  - name: othdel_oth_w1
+    type: VARCHAR
+  - name: del_whereoth
+    type: VARCHAR
+  - name: bf_ever1oth
+    type: VARCHAR
+  - name: int_danger
+    type: VARCHAR
+  - name: int_dangernoeat
+    type: VARCHAR
+  - name: int_dangerleth
+    type: VARCHAR
+  - name: int_dangerbreath
+    type: VARCHAR
+  - name: int_dangerfever
+    type: VARCHAR
+  - name: int_dangercold
+    type: VARCHAR
+  - name: int_dangerdk
+    type: VARCHAR
+  - name: int_dangerdtr
+    type: VARCHAR
+  - name: preg1_w1
+    type: VARCHAR
+  - name: m1_fst_heard_w1
+    type: VARCHAR
+  - name: m2_mst_heard_w1
+    type: VARCHAR
+  - name: m3_iud_heard_w1
+    type: VARCHAR
+  - name: m4_inj_heard_w1
+    type: VARCHAR
+  - name: m5_imp_heard_w1
+    type: VARCHAR
+  - name: m6_ocp_heard_w1
+    type: VARCHAR
+  - name: m7_con_heard_w1
+    type: VARCHAR
+  - name: m8_fco_heard_w1
+    type: VARCHAR
+  - name: m9_dia_heard_w1
+    type: VARCHAR
+  - name: m10_spo_heard_w1
+    type: VARCHAR
+  - name: m11_lam_heard_w1
+    type: VARCHAR
+  - name: m12_rhy_heard_w1
+    type: VARCHAR
+  - name: m13_wdr_heard_w1
+    type: VARCHAR
+  - name: m14_emc_heard_w1
+    type: VARCHAR
+  - name: m15_omo_heard_w1
+    type: VARCHAR
+  - name: m16_otr_heard_w1
+    type: VARCHAR
+  - name: m1_fst_usenow_w1
+    type: VARCHAR
+  - name: m2_mst_usenow_w1
+    type: VARCHAR
+  - name: m3_iud_usenow_w1
+    type: VARCHAR
+  - name: m4_inj_usenow_w1
+    type: VARCHAR
+  - name: m5_imp_usenow_w1
+    type: VARCHAR
+  - name: m6_ocp_usenow_w1
+    type: VARCHAR
+  - name: m7_con_usenow_w1
+    type: VARCHAR
+  - name: m8_fco_usenow_w1
+    type: VARCHAR
+  - name: m9_dia_usenow_w1
+    type: VARCHAR
+  - name: m10_spo_usenow_w1
+    type: VARCHAR
+  - name: m11_lam_usenow_w1
+    type: VARCHAR
+  - name: m12_rhy_usenow_w1
+    type: VARCHAR
+  - name: m13_wdr_usenow_w1
+    type: VARCHAR
+  - name: m14_emc_usenow_w1
+    type: VARCHAR
+  - name: m15_omo_usenow_w1
+    type: VARCHAR
+  - name: m16_otr_usenow_w1
+    type: VARCHAR
+  - name: fp_nouse_w1
+    type: VARCHAR
+  - name: fp_nouse_w1unmar
+    type: VARCHAR
+  - name: fp_nouse_w1mar
+    type: VARCHAR
+  - name: fp_nouse_w1nosex
+    type: VARCHAR
+  - name: fp_nouse_w1vir
+    type: VARCHAR
+  - name: fp_nouse_w1infreq
+    type: VARCHAR
+  - name: fp_nouse_w1meno
+    type: VARCHAR
+  - name: fp_nouse_w1hyst
+    type: VARCHAR
+  - name: fp_nouse_w1infert
+    type: VARCHAR
+  - name: fp_nouse_w1cycle
+    type: VARCHAR
+  - name: fp_nouse_w1bf
+    type: VARCHAR
+  - name: fp_nouse_w1relig
+    type: VARCHAR
+  - name: fp_nouse_w1opp
+    type: VARCHAR
+  - name: fp_nouse_w1spopp
+    type: VARCHAR
+  - name: fp_nouse_w1othopp
+    type: VARCHAR
+  - name: fp_nouse_w1known
+    type: VARCHAR
+  - name: fp_nouse_w1source
+    type: VARCHAR
+  - name: fp_nouse_w1side
+    type: VARCHAR
+  - name: fp_nouse_w1far
+    type: VARCHAR
+  - name: fp_nouse_w1transp
+    type: VARCHAR
+  - name: fp_nouse_w1transpcost
+    type: VARCHAR
+  - name: fp_nouse_w1cost
+    type: VARCHAR
+  - name: fp_nouse_w1napref
+    type: VARCHAR
+  - name: fp_nouse_w1na
+    type: VARCHAR
+  - name: fp_nouse_w1pers
+    type: VARCHAR
+  - name: fp_nouse_w1trust
+    type: VARCHAR
+  - name: fp_nouse_w1uncomf
+    type: VARCHAR
+  - name: fp_nouse_w1unnat
+    type: VARCHAR
+  - name: fp_nouse_w1nolike
+    type: VARCHAR
+  - name: fp_nouse_w1preg
+    type: VARCHAR
+  - name: fp_nouse_w1wantpr
+    type: VARCHAR
+  - name: fp_nouse_w1oth
+    type: VARCHAR
+  - name: fp_nouse_w1othspec
+    type: VARCHAR
+  - name: fp_nouse_w1dk
+    type: VARCHAR
+  - name: fp_nouse_w1dtr
+    type: VARCHAR
+  - name: total_children
+    type: BIGINT
+  - name: id_woman
+    type: VARCHAR
+  - name: id_kid
+    type: VARCHAR
+  - name: kids_dob
+    type: VARCHAR
+  - name: kids_bio
+    type: VARCHAR
+  - name: food_bf
+    type: VARCHAR
+  - name: food_oth
+    type: VARCHAR
+  - name: food_oth_drinks
+    type: VARCHAR
+  - name: diarrhea
+    type: VARCHAR
+  - name: diarrhea_drink1
+    type: VARCHAR
+  - name: diarrhea_drink2
+    type: VARCHAR
+  - name: diarrhea_drink3
+    type: VARCHAR
+  - name: diarrhea4
+    type: VARCHAR
+  - name: diarrhea_rx1
+    type: VARCHAR
+  - name: diarrhea_rx2
+    type: VARCHAR
+  - name: diarrhea_rx3
+    type: VARCHAR
+  - name: diarrhea_rx4
+    type: VARCHAR
+  - name: diarrhea_rx5
+    type: VARCHAR
+  - name: diarrhea_rx11
+    type: VARCHAR
+  - name: diarrhea_rx12
+    type: VARCHAR
+  - name: diarrhea_rx13
+    type: VARCHAR
+  - name: diarrhea_rx14
+    type: VARCHAR
+  - name: diarrhea_rx15
+    type: VARCHAR
+  - name: diarrhea_rx6
+    type: VARCHAR
+  - name: diarrhea_rx7
+    type: VARCHAR
+  - name: diarrhea_rx8
+    type: VARCHAR
+  - name: diarrhea_rx9
+    type: VARCHAR
+  - name: diarrhea_rx10
+    type: VARCHAR
+  - name: diarrhea_rxoth
+    type: VARCHAR
+  - name: diarrhea_rxdk
+    type: VARCHAR
+  - name: micro_cons
+    type: VARCHAR
+  - name: micro_cons_num
+    type: VARCHAR
+  - name: micro_cons_numspec
+    type: BIGINT
+  - name: worms
+    type: VARCHAR
+  - name: worms_times
+    type: VARCHAR
+  - name: worms_timesspec
+    type: BIGINT
+  - name: vacany
+    type: VARCHAR
+  - name: vacany_bcg
+    type: VARCHAR
+  - name: vacany_bcgspec
+    type: BIGINT
+  - name: vacany_penta
+    type: VARCHAR
+  - name: vacany_pentaspec
+    type: BIGINT
+  - name: vacany_polio
+    type: VARCHAR
+  - name: vacany_poliospec
+    type: BIGINT
+  - name: vacany_dpt
+    type: VARCHAR
+  - name: vacany_dptspec
+    type: BIGINT
+  - name: vacany_mmr
+    type: VARCHAR
+  - name: vacany_mmrspec
+    type: BIGINT
+  - name: vacany_hepb
+    type: VARCHAR
+  - name: vacany_hepbspec
+    type: BIGINT
+  - name: vacany_rota
+    type: VARCHAR
+  - name: vacany_rotaspec
+    type: BIGINT
+  - name: vacany_pneum
+    type: VARCHAR
+  - name: vacany_pneumspec
+    type: BIGINT
+  - name: vaccard
+    type: VARCHAR
+  - name: vaccard_bcg
+    type: VARCHAR
+  - name: vaccard_bcgspec
+    type: BIGINT
+  - name: vaccard_penta
+    type: VARCHAR
+  - name: vaccard_pentaspec
+    type: BIGINT
+  - name: vaccard_polio
+    type: VARCHAR
+  - name: vaccard_poliospec
+    type: BIGINT
+  - name: vaccard_dpt
+    type: VARCHAR
+  - name: vaccard_dptspec
+    type: BIGINT
+  - name: vaccard_mmr
+    type: VARCHAR
+  - name: vaccard_mmrspec
+    type: BIGINT
+  - name: vaccard_hepb
+    type: VARCHAR
+  - name: vaccard_hepbspec
+    type: BIGINT
+  - name: vaccard_rota
+    type: VARCHAR
+  - name: vaccard_rotaspec
+    type: BIGINT
+  - name: vaccard_pneum
+    type: VARCHAR
+  - name: vaccard_pneumspec
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

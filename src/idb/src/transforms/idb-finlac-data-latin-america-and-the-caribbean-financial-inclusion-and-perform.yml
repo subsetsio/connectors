@@ -1,242 +1,244 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-finlac-data-latin-america-and-the-caribbean-financial-inclusion-and-perform`. Regenerate after model-verify.
+key: []
 columns:
-  - name: Ano
+  - name: ano
+    type: BIGINT
+  - name: pais
+    type: VARCHAR
+  - name: iso
+    type: VARCHAR
+  - name: institucion
     type: VARCHAR
-  - name: Pais
+  - name: acronimo
     type: VARCHAR
-  - name: ISO
+  - name: numero_de_instituciones
+    type: BIGINT
+  - name: ciudad
     type: VARCHAR
-  - name: Institucion
+  - name: tipo_de_institucion_en_el_pais
     type: VARCHAR
-  - name: Acronimo
+  - name: tipo_de_institucion_bid
     type: VARCHAR
-  - name: Numero_de_instituciones
+  - name: tipo_de_regulacion
     type: VARCHAR
-  - name: Ciudad
+  - name: propiedad
     type: VARCHAR
-  - name: Tipo_de_institucion_en_el_pais
+  - name: fuente
     type: VARCHAR
-  - name: Tipo_de_institucion_BID
+  - name: tasa_de_cambio
+    type: DOUBLE
+  - name: patrimonio
+    type: BIGINT
+  - name: activos
+    type: BIGINT
+  - name: obligaciones_con_instituciones_financieras
+    type: BIGINT
+  - name: instrumentos_de_deuda_emitidos
+    type: BIGINT
+  - name: depositos_totales
+    type: BIGINT
+  - name: otras_fuentes_de_financiacion
+    type: BIGINT
+  - name: utilidad_neta
+    type: BIGINT
+  - name: gastos_operativos
+    type: BIGINT
+  - name: costos_derivados_de_fuentes_de_financiacion
+    type: BIGINT
+  - name: saldo_de_cartera_bruta
+    type: BIGINT
+  - name: provisiones
+    type: BIGINT
+  - name: saldo_de_cartera_comercial
+    type: BIGINT
+  - name: saldo_de_cartera_a_mediana_empresa
     type: VARCHAR
-  - name: Tipo_de_regulacion
+  - name: saldo_de_cartera_a_pequena_empresa
     type: VARCHAR
-  - name: Propiedad
+  - name: saldo_de_cartera_de_microcredito
+    type: BIGINT
+  - name: saldo_de_cartera_de_consumo
+    type: BIGINT
+  - name: saldo_de_cartera_de_vivienda
+    type: BIGINT
+  - name: saldo_otro_tipo_de_cartera
     type: VARCHAR
-  - name: Fuente
+  - name: saldo_de_cartera_agropecuaria
+    type: BIGINT
+  - name: saldo_de_cartera_a_mujeres
     type: VARCHAR
-  - name: Tasa_de_cambio
+  - name: saldo_de_cartera_a_personas_juridicas
     type: VARCHAR
-  - name: Patrimonio
+  - name: numero_total_de_prestamos
+    type: BIGINT
+  - name: numero_de_prestamos_de_cartera_comercial
+    type: BIGINT
+  - name: numero_de_prestamos_de_cartera_a_mediana_empresa
     type: VARCHAR
-  - name: Activos
+  - name: numero_de_prestamos_de_cartera_a_pequena_empresa
     type: VARCHAR
-  - name: Obligaciones_con_instituciones_financieras
+  - name: numero_de_prestamos_de_cartera_de_microcredito
+    type: BIGINT
+  - name: numero_de_prestamos_de_cartera_de_consumo
+    type: BIGINT
+  - name: numero_de_prestamos_de_cartera_de_vivienda
+    type: BIGINT
+  - name: numero_de_prestamos_otra_cartera
     type: VARCHAR
-  - name: Instrumentos_de_deuda_emitidos
+  - name: numero_de_prestamos_cartera_agropecuaria
     type: VARCHAR
-  - name: Depositos_totales
+  - name: numero_de_prestamos_cartera_mujeres
     type: VARCHAR
-  - name: Otras_fuentes_de_financiacion
+  - name: numero_de_prestamos_cartera_a_personas_juridicas
+    type: BIGINT
+  - name: numero_total_de_prestatarios
+    type: BIGINT
+  - name: numero_total_de_prestatarios_cartera_comercial
     type: VARCHAR
-  - name: Utilidad_neta
+  - name: numero_de_prestatarios_cartera_a_mediana_empresa
     type: VARCHAR
-  - name: Gastos_operativos
+  - name: numero_de_prestatarios_cartera_a_pequena_empresa
     type: VARCHAR
-  - name: Costos_derivados_de_fuentes_de_financiacion
+  - name: numero_de_prestatarios_cartera_de_microcreditos
     type: VARCHAR
-  - name: Saldo_de_cartera_bruta
+  - name: numero_de_prestatarios_cartera_de_consumo
     type: VARCHAR
-  - name: Provisiones
+  - name: numero_de_prestatarios_cartera_de_vivienda
     type: VARCHAR
-  - name: Saldo_de_cartera_comercial
+  - name: numero_de_prestatarios_otra_cartera
     type: VARCHAR
-  - name: Saldo_de_cartera_a_mediana_empresa
+  - name: numero_de_prestatarios_cartera_agropecuaria
     type: VARCHAR
-  - name: Saldo_de_cartera_a_pequena_empresa
+  - name: numero_de_prestatarios_cartera_mujeres
     type: VARCHAR
-  - name: Saldo_de_cartera_de_microcredito
+  - name: numero_de_prestatarios_cartera_a_personas_juridicas
     type: VARCHAR
-  - name: Saldo_de_cartera_de_consumo
+  - name: total_ingresos_por_intereses
+    type: BIGINT
+  - name: ingresos_por_intereses_cartera_comercial
     type: VARCHAR
-  - name: Saldo_de_cartera_de_vivienda
+  - name: ingresos_por_intereses_cartera_a_mediana_empresa
     type: VARCHAR
-  - name: Saldo_otro_tipo_de_cartera
+  - name: ingresos_por_intereses_cartera_a_pequena_empresa
     type: VARCHAR
-  - name: Saldo_de_cartera_agropecuaria
+  - name: ingresos_por_intereses_cartera_de_microcredito
     type: VARCHAR
-  - name: Saldo_de_cartera_a_mujeres
+  - name: ingresos_por_intereses_cartera_de_consumo
     type: VARCHAR
-  - name: Saldo_de_cartera_a_personas_juridicas
+  - name: ingresos_por_intereses_cartera_de_vivienda
     type: VARCHAR
-  - name: Numero_total_de_prestamos
+  - name: ingresos_por_intereses_otra_cartera
     type: VARCHAR
-  - name: Numero_de_prestamos_de_cartera_comercial
+  - name: ingresos_por_intereses_cartera_agropecuaria
     type: VARCHAR
-  - name: Numero_de_prestamos_de_cartera_a_mediana_empresa
+  - name: ingresos_por_intereses_cartera_mujeres
     type: VARCHAR
-  - name: Numero_de_prestamos_de_cartera_a_pequena_empresa
+  - name: ingresos_por_intereses_cartera_a_personas_juridicas
     type: VARCHAR
-  - name: Numero_de_prestamos_de_cartera_de_microcredito
+  - name: tasa_de_interes
+    type: BIGINT
+  - name: tasa_de_interes_cartera_comercial
     type: VARCHAR
-  - name: Numero_de_prestamos_de_cartera_de_consumo
+  - name: tasa_de_interes_cartera_a_mediana_empresa
     type: VARCHAR
-  - name: Numero_de_prestamos_de_cartera_de_vivienda
+  - name: tasa_de_interes_cartera_a_pequena_empresa
     type: VARCHAR
-  - name: Numero_de_prestamos_otra_cartera
+  - name: tasa_de_interes_cartera_de_microcredito
     type: VARCHAR
-  - name: Numero_de_prestamos_cartera_agropecuaria
+  - name: tasa_de_interes_cartera_de_consumo
     type: VARCHAR
-  - name: Numero_de_prestamos_cartera_mujeres
+  - name: tasa_de_interes_cartera_de_vivienda
     type: VARCHAR
-  - name: Numero_de_prestamos_cartera_a_personas_juridicas
+  - name: tasa_de_interes_otra_cartera
     type: VARCHAR
-  - name: Numero_total_de_prestatarios
+  - name: tasa_de_interes_cartera_agropecuaria
     type: VARCHAR
-  - name: Numero_total_de_prestatarios_cartera_comercial
+  - name: tasa_de_interes_cartera_mujeres
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_a_mediana_empresa
+  - name: tasa_de_interes_cartera_a_personas_juridicas
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_a_pequena_empresa
+  - name: cartera_en_riesgo
+    type: BIGINT
+  - name: cartera_en_riesgo_comercial
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_de_microcreditos
+  - name: cartera_en_riesgo_a_mediana_empresa
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_de_consumo
+  - name: cartera_en_riesgo_a_pequena_empresa
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_de_vivienda
+  - name: cartera_en_riesgo_de_microcreditos
     type: VARCHAR
-  - name: Numero_de_prestatarios_otra_cartera
+  - name: cartera_en_riesgo_de_consumo
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_agropecuaria
+  - name: cartera_en_riesgo_de_vivienda
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_mujeres
+  - name: cartera_en_riesgo_otra_cartera
     type: VARCHAR
-  - name: Numero_de_prestatarios_cartera_a_personas_juridicas
+  - name: cartera_en_riesgo_agropecuaria
     type: VARCHAR
-  - name: Total_ingresos_por_intereses
+  - name: cartera_en_riesgo_mujeres
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_comercial
+  - name: cartera_en_riesgo_a_personas_juridicas
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_a_mediana_empresa
+  - name: depositos_del_publico
+    type: BIGINT
+  - name: depositos_en_cuentas_simples
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_a_pequena_empresa
+  - name: depositos_en_cuentas_de_ahorro
+    type: BIGINT
+  - name: depositos_en_cuentas_corrientes
+    type: BIGINT
+  - name: depositos_en_cuentas_a_plazo
+    type: BIGINT
+  - name: otros_depositos
+    type: BIGINT
+  - name: depositos_en_cuentas_con_saldo_entre_0_500_usd
+    type: BIGINT
+  - name: numero_total_de_cuentas
+    type: BIGINT
+  - name: numero_de_cuentas_simples
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_de_microcredito
+  - name: numero_de_cuentas_de_ahorro
+    type: BIGINT
+  - name: numero_de_cuentas_corrientes
+    type: BIGINT
+  - name: numero_de_cuentas_a_plazo
+    type: BIGINT
+  - name: numero_de_otras_cuentas
+    type: BIGINT
+  - name: numero_de_cuentas_con_saldo_entre_0_500_usd
+    type: BIGINT
+  - name: numero_total_de_depositantes
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_de_consumo
+  - name: numero_de_depositantes_cuentas_simples
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_de_vivienda
+  - name: numero_de_depositantes_cuentas_de_ahorro
     type: VARCHAR
-  - name: Ingresos_por_intereses_otra_cartera
+  - name: numero_de_depositantes_cuentas_corrientes
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_agropecuaria
+  - name: numero_de_depositantes_cuentas_a_plazo
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_mujeres
+  - name: numero_de_depositantes_otras_cuentas
     type: VARCHAR
-  - name: Ingresos_por_intereses_cartera_a_personas_juridicas
+  - name: numero_de_depositantes_cuentas_con_saldo_entre_0_500_usd
     type: VARCHAR
-  - name: Tasa_de_interes_%
+  - name: numero_total_de_puntos_de_atencion
+    type: BIGINT
+  - name: numero_de_oficinas
+    type: BIGINT
+  - name: numero_de_cajeros_automaticos
+    type: BIGINT
+  - name: numero_de_agentes
     type: VARCHAR
-  - name: Tasa_de_interes_cartera_comercial_%
+  - name: numero_de_otros_puntos_de_atencion
+    type: BIGINT
+  - name: numero_de_tarjetas_debito
+    type: BIGINT
+  - name: monto_de_las_transacciones_con_tarjeta_de_debito_flujo
     type: VARCHAR
-  - name: Tasa_de_interes_cartera_a_mediana_empresa_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_a_pequena_empresa_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_de_microcredito_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_de_consumo_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_de_vivienda_%
-    type: VARCHAR
-  - name: Tasa_de_interes_otra_cartera_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_agropecuaria_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_mujeres_%
-    type: VARCHAR
-  - name: Tasa_de_interes_cartera_a_personas_juridicas_%
-    type: VARCHAR
-  - name: Cartera_en_riesgo
-    type: VARCHAR
-  - name: Cartera_en_riesgo_comercial
-    type: VARCHAR
-  - name: Cartera_en_riesgo_a_mediana_empresa
-    type: VARCHAR
-  - name: Cartera_en_riesgo_a_pequena_empresa
-    type: VARCHAR
-  - name: Cartera_en_riesgo_de_microcreditos
-    type: VARCHAR
-  - name: Cartera_en_riesgo_de_consumo
-    type: VARCHAR
-  - name: Cartera_en_riesgo_de_vivienda
-    type: VARCHAR
-  - name: Cartera_en_riesgo_otra_cartera
-    type: VARCHAR
-  - name: Cartera_en_riesgo_agropecuaria
-    type: VARCHAR
-  - name: Cartera_en_riesgo_mujeres
-    type: VARCHAR
-  - name: Cartera_en_riesgo_a_personas_juridicas
-    type: VARCHAR
-  - name: Depositos_del_publico
-    type: VARCHAR
-  - name: Depositos_en_cuentas_simples
-    type: VARCHAR
-  - name: Depositos_en_cuentas_de_ahorro
-    type: VARCHAR
-  - name: Depositos_en_cuentas_corrientes
-    type: VARCHAR
-  - name: Depositos_en_cuentas_a_plazo
-    type: VARCHAR
-  - name: Otros_depositos
-    type: VARCHAR
-  - name: Depositos_en_cuentas_con_saldo_entre_0-500_USD
-    type: VARCHAR
-  - name: Numero_total_de_cuentas
-    type: VARCHAR
-  - name: Numero_de_cuentas_simples
-    type: VARCHAR
-  - name: Numero_de_cuentas_de_ahorro
-    type: VARCHAR
-  - name: Numero_de_cuentas_corrientes
-    type: VARCHAR
-  - name: Numero_de_cuentas_a_plazo
-    type: VARCHAR
-  - name: Numero_de_otras_cuentas
-    type: VARCHAR
-  - name: Numero_de_cuentas_con_saldo_entre_0-500_USD
-    type: VARCHAR
-  - name: Numero_total_de_depositantes
-    type: VARCHAR
-  - name: Numero_de_depositantes_cuentas_simples
-    type: VARCHAR
-  - name: Numero_de_depositantes_cuentas_de_ahorro
-    type: VARCHAR
-  - name: Numero_de_depositantes_cuentas_corrientes
-    type: VARCHAR
-  - name: Numero_de_depositantes_cuentas_a_plazo
-    type: VARCHAR
-  - name: Numero_de_depositantes_otras_cuentas
-    type: VARCHAR
-  - name: Numero_de_depositantes_cuentas_con_saldo_entre_0-500_USD
-    type: VARCHAR
-  - name: Numero_total_de_puntos_de_atencion
-    type: VARCHAR
-  - name: Numero_de_oficinas
-    type: VARCHAR
-  - name: Numero_de_cajeros_automaticos
-    type: VARCHAR
-  - name: Numero_de_agentes
-    type: VARCHAR
-  - name: Numero_de_otros_puntos_de_atencion
-    type: VARCHAR
-  - name: Numero_de_tarjetas_debito
-    type: VARCHAR
-  - name: Monto_de_las_transacciones_con_tarjeta_de_debito_flujo
-    type: VARCHAR
-  - name: Numero_de_tarjetas_de_credito
-    type: VARCHAR
-  - name: Monto_de_las_transacciones_con_tarjeta_de_credito_flujo
+  - name: numero_de_tarjetas_de_credito
+    type: BIGINT
+  - name: monto_de_las_transacciones_con_tarjeta_de_credito_flujo
     type: VARCHAR
   - name: source_resource
     type: VARCHAR

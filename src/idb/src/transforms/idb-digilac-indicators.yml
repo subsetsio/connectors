@@ -1,14 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-digilac-indicators`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
-  - name: Indicator
+  - name: indicator
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Year
-    type: VARCHAR
-  - name: Value_Real
-    type: VARCHAR
-  - name: Value_Normalized
-    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value_real
+    type: DOUBLE
+  - name: value_normalized
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

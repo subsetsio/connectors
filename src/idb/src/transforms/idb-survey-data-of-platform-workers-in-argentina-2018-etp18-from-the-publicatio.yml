@@ -1,5 +1,306 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-survey-data-of-platform-workers-in-argentina-2018-etp18-from-the-publicatio`. Regenerate after model-verify.
+key: []
+temporal: fecha
+sort: [fecha]
 columns:
+  - name: id
+    type: BIGINT
+  - name: fecha
+    type: TIMESTAMP
+  - name: encuestador
+    type: VARCHAR
+  - name: plataforma
+    type: BIGINT
+  - name: plataformar
+    type: BIGINT
+  - name: sexo
+    type: BIGINT
+  - name: edad
+    type: BIGINT
+  - name: edadr
+    type: BIGINT
+  - name: p3
+    type: BIGINT
+  - name: p4
+    type: BIGINT
+  - name: nivel_ed
+    type: BIGINT
+  - name: nivel_edr
+    type: BIGINT
+  - name: p5
+    type: BIGINT
+  - name: p6
+    type: BIGINT
+  - name: p6r
+    type: BIGINT
+  - name: p7
+    type: BIGINT
+  - name: migrantereciente
+    type: BIGINT
+  - name: p8_1
+    type: BIGINT
+  - name: p8_2
+    type: BIGINT
+  - name: p8_3
+    type: BIGINT
+  - name: p8_4
+    type: BIGINT
+  - name: p8_5
+    type: BIGINT
+  - name: p8_6
+    type: BIGINT
+  - name: p8_7
+    type: BIGINT
+  - name: p8_8
+    type: BIGINT
+  - name: p8_9
+    type: BIGINT
+  - name: p8_10
+    type: BIGINT
+  - name: p8_97
+    type: BIGINT
+  - name: p8_97_cadena
+    type: VARCHAR
+  - name: p8_ninguna
+    type: BIGINT
+  - name: p8_12
+    type: BIGINT
+  - name: p8_13
+    type: BIGINT
+  - name: p8_14
+    type: BIGINT
+  - name: p8_15
+    type: BIGINT
+  - name: p8_16
+    type: BIGINT
+  - name: p8_17
+    type: BIGINT
+  - name: p8_18
+    type: BIGINT
+  - name: p8_19
+    type: BIGINT
+  - name: p8_20
+    type: BIGINT
+  - name: p8_21
+    type: BIGINT
+  - name: p8_22
+    type: BIGINT
+  - name: p8_23
+    type: BIGINT
+  - name: p8_24
+    type: BIGINT
+  - name: p8_25
+    type: BIGINT
+  - name: p8_26
+    type: BIGINT
+  - name: p9_1
+    type: BIGINT
+  - name: p9_2
+    type: BIGINT
+  - name: p9_3
+    type: BIGINT
+  - name: p9_4
+    type: BIGINT
+  - name: p9_5
+    type: BIGINT
+  - name: p9_6
+    type: BIGINT
+  - name: p9_7
+    type: BIGINT
+  - name: p9_8
+    type: BIGINT
+  - name: p9_9
+    type: BIGINT
+  - name: p9_10
+    type: BIGINT
+  - name: p9_11
+    type: BIGINT
+  - name: p9_99
+    type: BIGINT
+  - name: p9_12
+    type: BIGINT
+  - name: p9_13
+    type: BIGINT
+  - name: p9_14
+    type: BIGINT
+  - name: p9_15
+    type: BIGINT
+  - name: p9_16
+    type: BIGINT
+  - name: p9_17
+    type: BIGINT
+  - name: p9_97
+    type: BIGINT
+  - name: p9_97_cadena
+    type: VARCHAR
+  - name: p10
+    type: BIGINT
+  - name: p11_cadena
+    type: VARCHAR
+  - name: p11r
+    type: BIGINT
+  - name: p12
+    type: BIGINT
+  - name: p12_cadena
+    type: VARCHAR
+  - name: p12_asignacion
+    type: BIGINT
+  - name: p12_becas
+    type: BIGINT
+  - name: p12_jubilacion
+    type: BIGINT
+  - name: p12_rentas
+    type: BIGINT
+  - name: p12_familiares
+    type: BIGINT
+  - name: p12_90
+    type: BIGINT
+  - name: p13
+    type: BIGINT
+  - name: p14_cadena
+    type: VARCHAR
+  - name: p14r
+    type: BIGINT
+  - name: p15
+    type: BIGINT
+  - name: p16
+    type: BIGINT
+  - name: p16_cadena
+    type: VARCHAR
+  - name: p16_asignacion
+    type: BIGINT
+  - name: p16_becas
+    type: BIGINT
+  - name: p16_jubilacion
+    type: BIGINT
+  - name: p16_rentas
+    type: BIGINT
+  - name: p16_familiares
+    type: BIGINT
+  - name: p42
+    type: BIGINT
+  - name: p42_cadena
+    type: VARCHAR
+  - name: p42_asignacion
+    type: BIGINT
+  - name: p42_becas
+    type: BIGINT
+  - name: p42_jubilacion
+    type: BIGINT
+  - name: p42_rentas
+    type: BIGINT
+  - name: p42_familiares
+    type: BIGINT
+  - name: p42_90
+    type: BIGINT
+  - name: subsidio
+    type: BIGINT
+  - name: p17
+    type: BIGINT
+  - name: p18
+    type: BIGINT
+  - name: p19
+    type: BIGINT
+  - name: p20
+    type: BIGINT
+  - name: p20r
+    type: BIGINT
+  - name: p21
+    type: BIGINT
+  - name: p22
+    type: BIGINT
+  - name: p23
+    type: BIGINT
+  - name: p23r
+    type: BIGINT
+  - name: p24
+    type: BIGINT
+  - name: p25
+    type: BIGINT
+  - name: p25_otros_cadena
+    type: VARCHAR
+  - name: p26
+    type: BIGINT
+  - name: p27
+    type: BIGINT
+  - name: p27_cadena
+    type: VARCHAR
+  - name: p27_1
+    type: BIGINT
+  - name: p27_2
+    type: BIGINT
+  - name: p27_3
+    type: BIGINT
+  - name: p27_4
+    type: VARCHAR
+  - name: p27_97
+    type: BIGINT
+  - name: p27_90
+    type: BIGINT
+  - name: p28
+    type: BIGINT
+  - name: p29
+    type: BIGINT
+  - name: p30
+    type: BIGINT
+  - name: p30_97_cadena
+    type: VARCHAR
+  - name: p31
+    type: BIGINT
+  - name: p31_97_cadena
+    type: VARCHAR
+  - name: p32
+    type: BIGINT
+  - name: p33_cadena
+    type: VARCHAR
+  - name: p33r
+    type: BIGINT
+  - name: p34
+    type: BIGINT
+  - name: p35
+    type: BIGINT
+  - name: p36
+    type: BIGINT
+  - name: p37
+    type: BIGINT
+  - name: p38
+    type: BIGINT
+  - name: p39
+    type: BIGINT
+  - name: p40
+    type: BIGINT
+  - name: p40r
+    type: BIGINT
+  - name: p41
+    type: BIGINT
+  - name: observaciones
+    type: VARCHAR
+  - name: cargador
+    type: VARCHAR
+  - name: v43_1
+    type: BIGINT
+  - name: v43_2
+    type: BIGINT
+  - name: v43_3
+    type: BIGINT
+  - name: v43_99
+    type: BIGINT
+  - name: pondera
+    type: DOUBLE
+  - name: intensivo_1
+    type: BIGINT
+  - name: intensivo_2
+    type: BIGINT
+  - name: intensivo_99
+    type: BIGINT
+  - name: v44_1
+    type: BIGINT
+  - name: v44_2
+    type: BIGINT
+  - name: v44_3
+    type: BIGINT
+  - name: v44_99
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

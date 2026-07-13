@@ -1,5 +1,693 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-bogota-measurements-predictive-validity-bayley-short-tests-survey-data-2011`. Regenerate after model-verify.
+key: [nim]
+sort: [nim]
 columns:
+  - name: nim
+    type: BIGINT
+  - name: numero_mo_0
+    type: BIGINT
+  - name: numero_mo_1
+    type: BIGINT
+  - name: numero_fa_0
+    type: BIGINT
+  - name: numero_fa_1
+    type: BIGINT
+  - name: id_hh
+    type: BIGINT
+  - name: id_sp
+    type: BIGINT
+  - name: secc
+    type: VARCHAR
+  - name: estrato_0
+    type: BIGINT
+  - name: estrato_1
+    type: VARCHAR
+  - name: battery
+    type: VARCHAR
+  - name: interviewer_0
+    type: BIGINT
+  - name: interviewer_1
+    type: BIGINT
+  - name: b_tester
+    type: BIGINT
+  - name: w_tester
+    type: BIGINT
+  - name: date_interview_0
+    type: VARCHAR
+  - name: date_interview_1
+    type: VARCHAR
+  - name: day_wk_interview_0
+    type: VARCHAR
+  - name: day_wk_interview_1
+    type: VARCHAR
+  - name: date_bayley
+    type: VARCHAR
+  - name: date_asq
+    type: VARCHAR
+  - name: date_den
+    type: VARCHAR
+  - name: date_mac
+    type: VARCHAR
+  - name: date_bat
+    type: VARCHAR
+  - name: date_mil
+    type: VARCHAR
+  - name: date_tests_1
+    type: VARCHAR
+  - name: duration_interview_1
+    type: BIGINT
+  - name: time_tests_1
+    type: BIGINT
+  - name: time_tests_break_1
+    type: BIGINT
+  - name: respondent_1
+    type: VARCHAR
+  - name: date_dob
+    type: VARCHAR
+  - name: dob_day
+    type: BIGINT
+  - name: dob_mth
+    type: BIGINT
+  - name: dob_yr
+    type: BIGINT
+  - name: age_mth_0
+    type: BIGINT
+  - name: age_reported_0
+    type: BIGINT
+  - name: age_mth_reported_0
+    type: BIGINT
+  - name: b_age
+    type: BIGINT
+  - name: b_age_mth
+    type: BIGINT
+  - name: asq_age_mth
+    type: BIGINT
+  - name: mac_age_mth
+    type: BIGINT
+  - name: den_age_mth
+    type: BIGINT
+  - name: bat_age_mth
+    type: BIGINT
+  - name: mil_age_mth
+    type: BIGINT
+  - name: b_age_day
+    type: BIGINT
+  - name: asq_age_day
+    type: BIGINT
+  - name: den_age_day
+    type: BIGINT
+  - name: mac_age_day
+    type: BIGINT
+  - name: bat_age_day
+    type: BIGINT
+  - name: mil_age_day
+    type: BIGINT
+  - name: age_yr_1
+    type: BIGINT
+  - name: age_mth_1
+    type: BIGINT
+  - name: age_reported_1
+    type: BIGINT
+  - name: w_age_yr_1
+    type: BIGINT
+  - name: w_age_mth_1
+    type: BIGINT
+  - name: w_age_day_1
+    type: BIGINT
+  - name: w_age_reported_yr_1
+    type: BIGINT
+  - name: w_age_reported_mth_1
+    type: BIGINT
+  - name: w_age_reported_day_1
+    type: BIGINT
+  - name: female
+    type: BIGINT
+  - name: premature
+    type: BIGINT
+  - name: gest_age
+    type: BIGINT
+  - name: first_child
+    type: BOOLEAN
+  - name: birthweight
+    type: BIGINT
+  - name: edu
+    type: DOUBLE
+  - name: school
+    type: BIGINT
+  - name: grade
+    type: VARCHAR
+  - name: age_mo
+    type: BIGINT
+  - name: civil_mo
+    type: VARCHAR
+  - name: edu_mo
+    type: BIGINT
+  - name: edu_cat_mo
+    type: VARCHAR
+  - name: edu_mo_0
+    type: BIGINT
+  - name: edu_cat_mo_0
+    type: VARCHAR
+  - name: employed_mo
+    type: BIGINT
+  - name: dom_wk_mo
+    type: BIGINT
+  - name: retired_mo
+    type: BIGINT
+  - name: work_mo
+    type: BIGINT
+  - name: status_mo
+    type: VARCHAR
+  - name: dead_mo
+    type: BIGINT
+  - name: absent_mo
+    type: BIGINT
+  - name: age_fa
+    type: BIGINT
+  - name: civil_fa
+    type: VARCHAR
+  - name: edu_fa
+    type: BIGINT
+  - name: edu_cat_fa
+    type: VARCHAR
+  - name: edu_fa_0
+    type: BIGINT
+  - name: edu_cat_fa_0
+    type: VARCHAR
+  - name: employed_fa
+    type: BIGINT
+  - name: dom_wk_fa
+    type: BIGINT
+  - name: retired_fa
+    type: BIGINT
+  - name: work_fa
+    type: BIGINT
+  - name: status_fa
+    type: VARCHAR
+  - name: dead_fa
+    type: BIGINT
+  - name: absent_fa
+    type: BIGINT
+  - name: absent_fa_0
+    type: BIGINT
+  - name: age_hh
+    type: BIGINT
+  - name: female_hh
+    type: BIGINT
+  - name: civil_hh
+    type: VARCHAR
+  - name: edu_hh
+    type: BIGINT
+  - name: employed_hh
+    type: BIGINT
+  - name: dom_wk_hh
+    type: BIGINT
+  - name: retired_hh
+    type: BIGINT
+  - name: work_hh
+    type: BIGINT
+  - name: age_sp
+    type: BIGINT
+  - name: female_sp
+    type: BIGINT
+  - name: civil_sp
+    type: VARCHAR
+  - name: edu_sp
+    type: BIGINT
+  - name: employed_sp
+    type: BIGINT
+  - name: dom_wk_sp
+    type: BIGINT
+  - name: retired_sp
+    type: BIGINT
+  - name: work_sp
+    type: BIGINT
+  - name: house_type_1
+    type: VARCHAR
+  - name: homeownership
+    type: VARCHAR
+  - name: home_own
+    type: BIGINT
+  - name: home_move
+    type: BOOLEAN
+  - name: hhsize_0
+    type: BIGINT
+  - name: hhsize_1
+    type: BIGINT
+  - name: crowding_0
+    type: DOUBLE
+  - name: crowding_1
+    type: DOUBLE
+  - name: floors
+    type: VARCHAR
+  - name: walls_ext
+    type: VARCHAR
+  - name: walls_int
+    type: VARCHAR
+  - name: roof
+    type: VARCHAR
+  - name: gas
+    type: BOOLEAN
+  - name: phone
+    type: BOOLEAN
+  - name: internet
+    type: BOOLEAN
+  - name: cable_tv
+    type: BOOLEAN
+  - name: portero
+    type: BOOLEAN
+  - name: kitchen
+    type: VARCHAR
+  - name: kitchen_shared
+    type: BOOLEAN
+  - name: rooms_sleep_nb
+    type: BIGINT
+  - name: living
+    type: BOOLEAN
+  - name: dining
+    type: BOOLEAN
+  - name: rooms
+    type: BOOLEAN
+  - name: rooms_nb
+    type: BIGINT
+  - name: studio
+    type: BOOLEAN
+  - name: windows
+    type: BOOLEAN
+  - name: windows_nb
+    type: VARCHAR
+  - name: garage
+    type: BOOLEAN
+  - name: balcony
+    type: BOOLEAN
+  - name: balcony_nb
+    type: BIGINT
+  - name: bathroom_nb
+    type: BIGINT
+  - name: shower
+    type: BOOLEAN
+  - name: sisben_yr
+    type: BIGINT
+  - name: sisben
+    type: VARCHAR
+  - name: car
+    type: BOOLEAN
+  - name: car_nb
+    type: BIGINT
+  - name: motorbike
+    type: BOOLEAN
+  - name: motorbike_nb
+    type: BIGINT
+  - name: fridge
+    type: BOOLEAN
+  - name: fridge_nb
+    type: BIGINT
+  - name: microwave
+    type: BOOLEAN
+  - name: washer
+    type: BOOLEAN
+  - name: drier
+    type: BOOLEAN
+  - name: boiler
+    type: BOOLEAN
+  - name: computer
+    type: BOOLEAN
+  - name: computer_nb
+    type: BIGINT
+  - name: dvd
+    type: BOOLEAN
+  - name: dvd_nb
+    type: BIGINT
+  - name: consola
+    type: BOOLEAN
+  - name: consola_nb
+    type: BIGINT
+  - name: smartphone
+    type: BOOLEAN
+  - name: smartphone_nb
+    type: BIGINT
+  - name: flat_tv
+    type: BOOLEAN
+  - name: flat_tv_nb
+    type: BIGINT
+  - name: home_theatre
+    type: BOOLEAN
+  - name: home_theatre_nb
+    type: BIGINT
+  - name: stereo
+    type: BOOLEAN
+  - name: stereo_nb
+    type: BIGINT
+  - name: empleada
+    type: BOOLEAN
+  - name: empleada_days
+    type: VARCHAR
+  - name: floors_quality
+    type: BIGINT
+  - name: bathroom_shared
+    type: BIGINT
+  - name: bathroom_dnb
+    type: BIGINT
+  - name: internet_0
+    type: BOOLEAN
+  - name: kitchen_shared_0
+    type: BOOLEAN
+  - name: windows_0
+    type: BOOLEAN
+  - name: garage_0
+    type: BOOLEAN
+  - name: car_0
+    type: BOOLEAN
+  - name: fridge_0
+    type: BOOLEAN
+  - name: microwave_0
+    type: BOOLEAN
+  - name: washer_0
+    type: BOOLEAN
+  - name: boiler_0
+    type: BOOLEAN
+  - name: computer_0
+    type: BOOLEAN
+  - name: dvd_0
+    type: BOOLEAN
+  - name: consola_0
+    type: BOOLEAN
+  - name: smartphone_0
+    type: BOOLEAN
+  - name: flat_tv_0
+    type: BOOLEAN
+  - name: stereo_0
+    type: BOOLEAN
+  - name: floors_quality_0
+    type: BIGINT
+  - name: bathroom_shared_0
+    type: BIGINT
+  - name: bathroom_dnb_0
+    type: BIGINT
+  - name: home_theatre_0
+    type: BOOLEAN
+  - name: wealth_5p_0
+    type: DOUBLE
+  - name: wealth_5p_qr_0
+    type: BIGINT
+  - name: wealth_5p_1
+    type: DOUBLE
+  - name: wealth_5p_qr_1
+    type: BIGINT
+  - name: b_infor
+    type: VARCHAR
+  - name: b_tot_cog
+    type: BIGINT
+  - name: b_tot_lr
+    type: BIGINT
+  - name: b_tot_le
+    type: BIGINT
+  - name: b_tot_mf
+    type: BIGINT
+  - name: b_tot_mg
+    type: BIGINT
+  - name: b_tot_se
+    type: BIGINT
+  - name: b_pc_cog
+    type: BIGINT
+  - name: b_pc_lang
+    type: BIGINT
+  - name: b_pc_mot
+    type: BIGINT
+  - name: b_pc_se
+    type: BIGINT
+  - name: asq_infor
+    type: VARCHAR
+  - name: asq_test
+    type: BIGINT
+  - name: asq_lang
+    type: BIGINT
+  - name: asq_mf
+    type: BIGINT
+  - name: asq_mg
+    type: BIGINT
+  - name: asq_cog
+    type: BIGINT
+  - name: asq_soc
+    type: BIGINT
+  - name: asq_lang_tot1
+    type: BIGINT
+  - name: asq_mf_tot1
+    type: BIGINT
+  - name: asq_mg_tot1
+    type: BIGINT
+  - name: asq_cog_tot1
+    type: BIGINT
+  - name: asq_soc_tot1
+    type: BIGINT
+  - name: asq_tot
+    type: BIGINT
+  - name: asq_tot_tot1
+    type: BIGINT
+  - name: mac_infor
+    type: VARCHAR
+  - name: mac_underst1
+    type: BIGINT
+  - name: mac_says1
+    type: BIGINT
+  - name: mac_says2
+    type: BIGINT
+  - name: mac_le
+    type: BIGINT
+  - name: mac_lr
+    type: BIGINT
+  - name: den_infor
+    type: VARCHAR
+  - name: den_mg
+    type: BIGINT
+  - name: den_lang
+    type: BIGINT
+  - name: den_mf
+    type: BIGINT
+  - name: den_soc
+    type: BIGINT
+  - name: den_tot
+    type: BIGINT
+  - name: bat_infor
+    type: VARCHAR
+  - name: bat_adp
+    type: BIGINT
+  - name: bat_soc
+    type: BIGINT
+  - name: bat_lang
+    type: BIGINT
+  - name: bat_mot
+    type: BIGINT
+  - name: bat_cog
+    type: BIGINT
+  - name: bat_tot
+    type: BIGINT
+  - name: mil_infor
+    type: VARCHAR
+  - name: mil_tot
+    type: BIGINT
+  - name: flag_all_b_asq
+    type: BIGINT
+  - name: flag_all_b_mac
+    type: BIGINT
+  - name: flag_all_b_den
+    type: BIGINT
+  - name: flag_all_b_bat
+    type: BIGINT
+  - name: flag_all_b_mil
+    type: BIGINT
+  - name: r_b_st_cog_kd
+    type: DOUBLE
+  - name: r_b_st_lr_kd
+    type: DOUBLE
+  - name: r_b_st_le_kd
+    type: DOUBLE
+  - name: r_b_st_mf_kd
+    type: DOUBLE
+  - name: r_b_st_mg_kd
+    type: DOUBLE
+  - name: r_b_st_se_kd
+    type: DOUBLE
+  - name: r_asq_st_cog_kd
+    type: DOUBLE
+  - name: r_asq_st_lang_kd
+    type: DOUBLE
+  - name: r_asq_st_mf_kd
+    type: DOUBLE
+  - name: r_asq_st_mg_kd
+    type: DOUBLE
+  - name: r_asq_st_soc_kd
+    type: DOUBLE
+  - name: r_asq_st_tot_kd
+    type: DOUBLE
+  - name: r_asq_st_cog_tot1_kd
+    type: DOUBLE
+  - name: r_asq_st_lang_tot1_kd
+    type: DOUBLE
+  - name: r_asq_st_mf_tot1_kd
+    type: DOUBLE
+  - name: r_asq_st_mg_tot1_kd
+    type: DOUBLE
+  - name: r_asq_st_soc_tot1_kd
+    type: DOUBLE
+  - name: r_asq_st_tot_tot1_kd
+    type: DOUBLE
+  - name: r_den_st_lang_kd
+    type: DOUBLE
+  - name: r_den_st_mf_kd
+    type: DOUBLE
+  - name: r_den_st_mg_kd
+    type: DOUBLE
+  - name: r_den_st_soc_kd
+    type: DOUBLE
+  - name: r_den_st_tot_kd
+    type: DOUBLE
+  - name: r_mac_st_lr_kd
+    type: DOUBLE
+  - name: r_mac_st_le_kd
+    type: DOUBLE
+  - name: r_bat_st_soc_kd
+    type: DOUBLE
+  - name: r_bat_st_lang_kd
+    type: DOUBLE
+  - name: r_bat_st_cog_kd
+    type: DOUBLE
+  - name: r_bat_st_tot_kd
+    type: DOUBLE
+  - name: r_bat_st_adp_kd
+    type: DOUBLE
+  - name: r_bat_st_mot_kd
+    type: DOUBLE
+  - name: r_mil_st_tot_kd
+    type: DOUBLE
+  - name: weight_0
+    type: DOUBLE
+  - name: height_0
+    type: DOUBLE
+  - name: zwei_0
+    type: DOUBLE
+  - name: zlen_0
+    type: DOUBLE
+  - name: zbmi_0
+    type: DOUBLE
+  - name: zwfl_0
+    type: DOUBLE
+  - name: underweight_0
+    type: BIGINT
+  - name: stunted_0
+    type: BIGINT
+  - name: wasted_0
+    type: BIGINT
+  - name: fci_play_a
+    type: BOOLEAN
+  - name: fci_play_b
+    type: VARCHAR
+  - name: fci_play_c
+    type: BOOLEAN
+  - name: fci_play_d
+    type: BOOLEAN
+  - name: fci_play_e
+    type: BOOLEAN
+  - name: fci_play_f
+    type: BOOLEAN
+  - name: fci_play_g
+    type: BOOLEAN
+  - name: fci_play_h
+    type: BOOLEAN
+  - name: fci_play_i
+    type: VARCHAR
+  - name: fci_play_j
+    type: BOOLEAN
+  - name: fci_play_k
+    type: BOOLEAN
+  - name: fci_books_adults
+    type: VARCHAR
+  - name: fci_newspapers
+    type: VARCHAR
+  - name: fci_act_a_1
+    type: VARCHAR
+  - name: fci_act_b_1
+    type: VARCHAR
+  - name: fci_act_c_1
+    type: VARCHAR
+  - name: fci_act_d_1
+    type: VARCHAR
+  - name: fci_act_e_1
+    type: VARCHAR
+  - name: fci_act_f_1
+    type: VARCHAR
+  - name: fci_act_g_1
+    type: VARCHAR
+  - name: r_fci_mat_0_kd
+    type: DOUBLE
+  - name: r_fci_act_0_kd
+    type: DOUBLE
+  - name: r_fci_0_kd
+    type: DOUBLE
+  - name: home_score
+    type: BIGINT
+  - name: r_home_score_kd_1
+    type: DOUBLE
+  - name: p1_raw_score
+    type: BIGINT
+  - name: p2_raw_score
+    type: BIGINT
+  - name: p3_raw_score
+    type: BIGINT
+  - name: p4_d_raw_score
+    type: BIGINT
+  - name: p4_i_raw_score
+    type: BIGINT
+  - name: p4_s_raw_score
+    type: BIGINT
+  - name: p4_raw_score
+    type: BIGINT
+  - name: p5_test
+    type: BIGINT
+  - name: p5_raw_score
+    type: BIGINT
+  - name: p6_raw_score
+    type: BIGINT
+  - name: p7_raw_score
+    type: BIGINT
+  - name: p11_raw_score
+    type: BIGINT
+  - name: p12_raw_score
+    type: BIGINT
+  - name: p13_raw_score
+    type: BIGINT
+  - name: wisc_iq
+    type: BIGINT
+  - name: r_p1_kd_1
+    type: DOUBLE
+  - name: r_p2_kd_1
+    type: DOUBLE
+  - name: r_p3_kd_1
+    type: DOUBLE
+  - name: r_p4_d_kd_1
+    type: DOUBLE
+  - name: r_p4_i_kd_1
+    type: DOUBLE
+  - name: r_p4_s_kd_1
+    type: DOUBLE
+  - name: r_p4_kd_1
+    type: DOUBLE
+  - name: r_p5_kd_1
+    type: DOUBLE
+  - name: r_p6_kd_1
+    type: DOUBLE
+  - name: r_p7_kd_1
+    type: DOUBLE
+  - name: r_p11_kd_1
+    type: DOUBLE
+  - name: r_p12_kd_1
+    type: DOUBLE
+  - name: r_p13_kd_1
+    type: DOUBLE
+  - name: r_wisc_iq_kd_1
+    type: DOUBLE
+  - name: r_a_111213_kd_1
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

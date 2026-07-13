@@ -1,5 +1,20 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-summary-indicators-of-employment-protection-legislation-epl-in-latin-americ`. Regenerate after model-verify.
+key: [value, indicator, country, year]
+temporal: year
+sort: [year, value, indicator, country]
 columns:
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: note
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-idb-international-aid-transparency-initiative-iati-datasets-20042018`. Regenerate after model-verify.
+key: [document_link, document_title, operation_number, document_type, iati_document_code]
+sort: [document_link, document_title, operation_number, document_type, iati_document_code]
 columns:
-  - name: Operation_number
+  - name: operation_number
     type: VARCHAR
-  - name: Document_title
+  - name: document_title
     type: VARCHAR
-  - name: IATI_Document_code
+  - name: iati_document_code
     type: VARCHAR
-  - name: IATI_Document_code_name
+  - name: iati_document_code_name
     type: VARCHAR
-  - name: Language
+  - name: language
     type: VARCHAR
-  - name: Document_link
+  - name: document_link
     type: VARCHAR
-  - name: Document_Type
+  - name: document_type
     type: VARCHAR
   - name: source_resource
     type: VARCHAR

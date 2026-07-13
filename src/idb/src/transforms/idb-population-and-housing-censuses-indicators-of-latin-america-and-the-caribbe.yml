@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-population-and-housing-censuses-indicators-of-latin-america-and-the-caribbe`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: iddate
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: idgeo
     type: VARCHAR
   - name: isoalpha3
@@ -25,12 +29,12 @@ columns:
   - name: ethnicity
     type: VARCHAR
   - name: value
-    type: VARCHAR
+    type: DOUBLE
   - name: se
-    type: VARCHAR
+    type: DOUBLE
   - name: cv
-    type: VARCHAR
+    type: DOUBLE
   - name: sample
-    type: VARCHAR
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

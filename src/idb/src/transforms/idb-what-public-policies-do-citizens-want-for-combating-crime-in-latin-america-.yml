@@ -1,5 +1,56 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-what-public-policies-do-citizens-want-for-combating-crime-in-latin-america-`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: year
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: numentre
+    type: BIGINT
+  - name: reg
+    type: BIGINT
+  - name: city
+    type: BIGINT
+  - name: income
+    type: VARCHAR
+  - name: education
+    type: VARCHAR
+  - name: d_patience1
+    type: VARCHAR
+  - name: employment
+    type: VARCHAR
+  - name: victim
+    type: VARCHAR
+  - name: d_trust_police
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: age
+    type: BIGINT
+  - name: ethnicity
+    type: VARCHAR
+  - name: fear_crime
+    type: VARCHAR
+  - name: trust_govt
+    type: VARCHAR
+  - name: trust_general
+    type: VARCHAR
+  - name: crime_prob
+    type: VARCHAR
+  - name: corrupt_prob
+    type: VARCHAR
+  - name: pov_ineq_prob
+    type: VARCHAR
+  - name: pol_corrupt
+    type: BIGINT
+  - name: pol_finance
+    type: VARCHAR
+  - name: pol_qe
+    type: VARCHAR
+  - name: pol_concent
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

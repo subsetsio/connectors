@@ -1,5 +1,16 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-trade-integration-and-business-cycle-synchronization-data-1960-1990`. Regenerate after model-verify.
+key: []
 columns:
+  - name: correlation_using
+    type: VARCHAR
+  - name: pairs
+    type: VARCHAR
+  - name: ind_ind
+    type: VARCHAR
+  - name: ind_dev
+    type: VARCHAR
+  - name: dev_dev
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

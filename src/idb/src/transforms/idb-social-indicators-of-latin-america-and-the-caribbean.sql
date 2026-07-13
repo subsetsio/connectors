@@ -1,1 +1,42 @@
-SELECT * FROM "idb-social-indicators-of-latin-america-and-the-caribbean"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "iddate",
+    CAST("year" AS BIGINT) AS year,
+    "idgeo",
+    "isoalpha3",
+    "source",
+    "indicator",
+    "area",
+    "quintile",
+    "sex",
+    "education_level",
+    "age",
+    "ethnicity",
+    CAST("value" AS DOUBLE) AS value,
+    CAST("se" AS DOUBLE) AS se,
+    CAST("cv" AS DOUBLE) AS cv,
+    CAST("sample" AS DOUBLE) AS sample,
+    "language",
+    "collection_es",
+    "collection_en",
+    "theme_es",
+    "theme_en",
+    "disability",
+    "migration",
+    "management",
+    "funding",
+    "month",
+    CAST("totals_dummy" AS BIGINT) AS totals_dummy,
+    CAST("admin1_ipums" AS BIGINT) AS admin1_ipums,
+    CAST("level" AS DOUBLE) AS level,
+    CAST("dummy_GDI" AS BIGINT) AS dummy_gdi,
+    CAST("scldata3_highlight_profile" AS BIGINT) AS scldata3_highlight_profile,
+    CAST("scldata3_highlight_census" AS BIGINT) AS scldata3_highlight_census,
+    CAST("quality_check" AS BIGINT) AS quality_check,
+    strptime("dt", '%Y-%m-%d')::DATE AS dt,
+    CAST("indicadoresAbleToBeMoreThanOne" AS BIGINT) AS indicadoresabletobemorethanone,
+    "source_resource"
+FROM "idb-social-indicators-of-latin-america-and-the-caribbean"

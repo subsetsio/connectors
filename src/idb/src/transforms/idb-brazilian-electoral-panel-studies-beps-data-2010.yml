@@ -1,5 +1,766 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-brazilian-electoral-panel-studies-beps-data-2010`. Regenerate after model-verify.
+key: []
 columns:
+  - name: wave
+    type: BIGINT
+  - name: id_num
+    type: BIGINT
+  - name: estratopri
+    type: VARCHAR
+  - name: upm
+    type: BIGINT
+  - name: prov
+    type: VARCHAR
+  - name: municipio
+    type: VARCHAR
+  - name: bradistrito
+    type: VARCHAR
+  - name: brasegmento
+    type: BIGINT
+  - name: brasec
+    type: BIGINT
+  - name: ur
+    type: VARCHAR
+  - name: tamanho
+    type: VARCHAR
+  - name: hora_inicio
+    type: VARCHAR
+  - name: data
+    type: VARCHAR
+  - name: bairro
+    type: VARCHAR
+  - name: bairro_cod
+    type: VARCHAR
+  - name: cidade
+    type: VARCHAR
+  - name: cidade_cod
+    type: VARCHAR
+  - name: q1
+    type: VARCHAR
+  - name: q2
+    type: BIGINT
+  - name: a4
+    type: VARCHAR
+  - name: a4_2
+    type: VARCHAR
+  - name: a4_cod
+    type: VARCHAR
+  - name: soct1
+    type: VARCHAR
+  - name: soct3
+    type: VARCHAR
+  - name: l1
+    type: VARCHAR
+  - name: l1a
+    type: VARCHAR
+  - name: l1b
+    type: VARCHAR
+  - name: l1c
+    type: VARCHAR
+  - name: resp0
+    type: VARCHAR
+  - name: resp1
+    type: VARCHAR
+  - name: resp2
+    type: VARCHAR
+  - name: n1
+    type: VARCHAR
+  - name: n3
+    type: VARCHAR
+  - name: n9
+    type: VARCHAR
+  - name: n11
+    type: VARCHAR
+  - name: n12
+    type: VARCHAR
+  - name: n15
+    type: VARCHAR
+  - name: m1
+    type: VARCHAR
+  - name: m2
+    type: VARCHAR
+  - name: etid
+    type: VARCHAR
+  - name: ros1
+    type: VARCHAR
+  - name: god1
+    type: VARCHAR
+  - name: rac2
+    type: VARCHAR
+  - name: aanew
+    type: VARCHAR
+  - name: abort
+    type: VARCHAR
+  - name: listexp
+    type: VARCHAR
+  - name: pp1
+    type: VARCHAR
+  - name: kp
+    type: VARCHAR
+  - name: exc7
+    type: VARCHAR
+  - name: crisis1
+    type: VARCHAR
+  - name: crisis2
+    type: VARCHAR
+  - name: vb10
+    type: VARCHAR
+  - name: vb11
+    type: VARCHAR
+  - name: pol1
+    type: VARCHAR
+  - name: partyexp
+    type: VARCHAR
+  - name: q3c
+    type: VARCHAR
+  - name: q3c_2
+    type: VARCHAR
+  - name: q3c_cod
+    type: VARCHAR
+  - name: q5a
+    type: VARCHAR
+  - name: q5c
+    type: VARCHAR
+  - name: q5e
+    type: VARCHAR
+  - name: q5e_2
+    type: VARCHAR
+  - name: q5e_cod
+    type: VARCHAR
+  - name: socmob1
+    type: VARCHAR
+  - name: socmob3
+    type: VARCHAR
+  - name: hor
+    type: VARCHAR
+  - name: gim1
+    type: VARCHAR
+  - name: gim2
+    type: VARCHAR
+  - name: gl1
+    type: VARCHAR
+  - name: gl1new
+    type: VARCHAR
+  - name: gl3
+    type: VARCHAR
+  - name: glnew
+    type: VARCHAR
+  - name: glnew2
+    type: VARCHAR
+  - name: vb20bra
+    type: VARCHAR
+  - name: vb20bra_2
+    type: VARCHAR
+  - name: vb20bra_cod
+    type: VARCHAR
+  - name: vb20bra2
+    type: VARCHAR
+  - name: vbk
+    type: VARCHAR
+  - name: vbk_2
+    type: VARCHAR
+  - name: vb3
+    type: VARCHAR
+  - name: cctexp
+    type: VARCHAR
+  - name: cct3bra
+    type: VARCHAR
+  - name: cct1bra
+    type: VARCHAR
+  - name: vb6a
+    type: VARCHAR
+  - name: vb6b
+    type: VARCHAR
+  - name: vb6d
+    type: VARCHAR
+  - name: vb6a2
+    type: VARCHAR
+  - name: vb6b2
+    type: VARCHAR
+  - name: vb6d2
+    type: VARCHAR
+  - name: vb6e1
+    type: VARCHAR
+  - name: vb6e2
+    type: VARCHAR
+  - name: vb6e3
+    type: VARCHAR
+  - name: vb6e
+    type: VARCHAR
+  - name: vb6f
+    type: VARCHAR
+  - name: vb6h
+    type: VARCHAR
+  - name: vb6i
+    type: VARCHAR
+  - name: vb6j
+    type: VARCHAR
+  - name: vb6k
+    type: VARCHAR
+  - name: vb6l
+    type: VARCHAR
+  - name: vb6m
+    type: VARCHAR
+  - name: vb6n
+    type: VARCHAR
+  - name: vb6o
+    type: VARCHAR
+  - name: vb6p
+    type: VARCHAR
+  - name: vb6q
+    type: VARCHAR
+  - name: vb6r
+    type: VARCHAR
+  - name: vb6s
+    type: VARCHAR
+  - name: vb6t
+    type: VARCHAR
+  - name: vb6u
+    type: VARCHAR
+  - name: vb6v
+    type: VARCHAR
+  - name: vb6x
+    type: VARCHAR
+  - name: vb7a
+    type: VARCHAR
+  - name: vb7b
+    type: VARCHAR
+  - name: vb7c
+    type: VARCHAR
+  - name: vb7d
+    type: VARCHAR
+  - name: vb7h
+    type: VARCHAR
+  - name: vb7k
+    type: VARCHAR
+  - name: vb7l
+    type: VARCHAR
+  - name: vb7m
+    type: VARCHAR
+  - name: vb7n
+    type: VARCHAR
+  - name: vb7o
+    type: VARCHAR
+  - name: vb7p
+    type: VARCHAR
+  - name: vb7q
+    type: VARCHAR
+  - name: ed_ano
+    type: VARCHAR
+  - name: ed
+    type: VARCHAR
+  - name: ed_2
+    type: VARCHAR
+  - name: pennew
+    type: VARCHAR
+  - name: sal1new
+    type: VARCHAR
+  - name: q10
+    type: VARCHAR
+  - name: q13bra
+    type: VARCHAR
+  - name: q12
+    type: VARCHAR
+  - name: q12a
+    type: VARCHAR
+  - name: q12abra2
+    type: VARCHAR
+  - name: ft1
+    type: VARCHAR
+  - name: ft2
+    type: VARCHAR
+  - name: ft3
+    type: VARCHAR
+  - name: ft4
+    type: VARCHAR
+  - name: ft5
+    type: VARCHAR
+  - name: hora_termino
+    type: VARCHAR
+  - name: ti
+    type: BIGINT
+  - name: intid
+    type: VARCHAR
+  - name: sexi
+    type: VARCHAR
+  - name: entrevistador
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: q12abra
+    type: VARCHAR
+  - name: corscan
+    type: VARCHAR
+  - name: idiomaq
+    type: VARCHAR
+  - name: cp7
+    type: VARCHAR
+  - name: cp8
+    type: VARCHAR
+  - name: cp13
+    type: VARCHAR
+  - name: prot3
+    type: VARCHAR
+  - name: aoj8
+    type: VARCHAR
+  - name: eff1
+    type: VARCHAR
+  - name: eff2
+    type: VARCHAR
+  - name: ros2
+    type: VARCHAR
+  - name: ros3
+    type: VARCHAR
+  - name: ros4
+    type: VARCHAR
+  - name: ros5
+    type: VARCHAR
+  - name: ros6
+    type: VARCHAR
+  - name: rac3a
+    type: VARCHAR
+  - name: rac3b
+    type: VARCHAR
+  - name: d6
+    type: VARCHAR
+  - name: pp2a
+    type: VARCHAR
+  - name: exc2
+    type: VARCHAR
+  - name: exc6
+    type: VARCHAR
+  - name: exc18
+    type: VARCHAR
+  - name: clien1
+    type: VARCHAR
+  - name: clexp1
+    type: VARCHAR
+  - name: clexp2
+    type: VARCHAR
+  - name: clexp3
+    type: VARCHAR
+  - name: clexp4
+    type: VARCHAR
+  - name: clexp5
+    type: VARCHAR
+  - name: clexp6
+    type: VARCHAR
+  - name: clexp7
+    type: VARCHAR
+  - name: q5j
+    type: VARCHAR
+  - name: q5k
+    type: VARCHAR
+  - name: q5k_2
+    type: VARCHAR
+  - name: q5k_cod
+    type: VARCHAR
+  - name: socmob2
+    type: VARCHAR
+  - name: www1
+    type: VARCHAR
+  - name: gl0
+    type: VARCHAR
+  - name: gl4
+    type: VARCHAR
+  - name: vbk_cod
+    type: VARCHAR
+  - name: cct2bra
+    type: VARCHAR
+  - name: cctnew
+    type: VARCHAR
+  - name: cct4bra
+    type: VARCHAR
+  - name: ocup4a
+    type: VARCHAR
+  - name: ocup1a
+    type: VARCHAR
+  - name: sal3new
+    type: VARCHAR
+  - name: bradisc1
+    type: VARCHAR
+  - name: bradisc1a
+    type: VARCHAR
+  - name: bradisc1b
+    type: VARCHAR
+  - name: bradisc2
+    type: VARCHAR
+  - name: bradisc4
+    type: VARCHAR
+  - name: bradisc6
+    type: VARCHAR
+  - name: colorr
+    type: BIGINT
+  - name: colori
+    type: BIGINT
+  - name: ls3
+    type: VARCHAR
+  - name: soct2
+    type: VARCHAR
+  - name: resp6
+    type: VARCHAR
+  - name: idio1
+    type: VARCHAR
+  - name: idio2
+    type: VARCHAR
+  - name: idio3
+    type: VARCHAR
+  - name: cp2
+    type: VARCHAR
+  - name: cp4a
+    type: VARCHAR
+  - name: cp4
+    type: VARCHAR
+  - name: cp5bra
+    type: VARCHAR
+  - name: np1
+    type: VARCHAR
+  - name: np2
+    type: VARCHAR
+  - name: muni10
+    type: VARCHAR
+  - name: sgl1
+    type: VARCHAR
+  - name: cp5
+    type: VARCHAR
+  - name: cp6
+    type: VARCHAR
+  - name: cp9
+    type: VARCHAR
+  - name: cp20
+    type: VARCHAR
+  - name: bracp21
+    type: VARCHAR
+  - name: ls6
+    type: VARCHAR
+  - name: ls6a
+    type: VARCHAR
+  - name: it1
+    type: VARCHAR
+  - name: prot4
+    type: VARCHAR
+  - name: y4
+    type: VARCHAR
+  - name: jc1
+    type: VARCHAR
+  - name: jc10
+    type: VARCHAR
+  - name: jc13
+    type: VARCHAR
+  - name: jc15a
+    type: VARCHAR
+  - name: jc16a
+    type: VARCHAR
+  - name: vic1ext
+    type: VARCHAR
+  - name: vic1exta
+    type: VARCHAR
+  - name: vic2
+    type: VARCHAR
+  - name: vic2aa
+    type: VARCHAR
+  - name: vic1hogar
+    type: VARCHAR
+  - name: aoj11
+    type: VARCHAR
+  - name: aoj11a
+    type: VARCHAR
+  - name: aoj12
+    type: VARCHAR
+  - name: aoj17
+    type: VARCHAR
+  - name: b1
+    type: VARCHAR
+  - name: b2
+    type: VARCHAR
+  - name: b3
+    type: VARCHAR
+  - name: b4
+    type: VARCHAR
+  - name: b6
+    type: VARCHAR
+  - name: b10a
+    type: VARCHAR
+  - name: b11
+    type: VARCHAR
+  - name: b12
+    type: VARCHAR
+  - name: b13
+    type: VARCHAR
+  - name: b14
+    type: VARCHAR
+  - name: b18
+    type: VARCHAR
+  - name: b20
+    type: VARCHAR
+  - name: b20a
+    type: VARCHAR
+  - name: b21
+    type: VARCHAR
+  - name: b21a
+    type: VARCHAR
+  - name: b31
+    type: VARCHAR
+  - name: b32
+    type: VARCHAR
+  - name: b43
+    type: VARCHAR
+  - name: b37
+    type: VARCHAR
+  - name: b47
+    type: VARCHAR
+  - name: b48
+    type: VARCHAR
+  - name: brab49
+    type: VARCHAR
+  - name: brab50
+    type: VARCHAR
+  - name: resp3
+    type: VARCHAR
+  - name: resp4
+    type: VARCHAR
+  - name: resp5
+    type: VARCHAR
+  - name: braec3
+    type: VARCHAR
+  - name: braec4
+    type: VARCHAR
+  - name: wt1
+    type: VARCHAR
+  - name: wt2
+    type: VARCHAR
+  - name: m10
+    type: VARCHAR
+  - name: m11
+    type: VARCHAR
+  - name: pop101
+    type: VARCHAR
+  - name: pop102
+    type: VARCHAR
+  - name: pop103
+    type: VARCHAR
+  - name: pop107
+    type: VARCHAR
+  - name: pop113
+    type: VARCHAR
+  - name: ing4
+    type: VARCHAR
+  - name: dem23
+    type: VARCHAR
+  - name: rac3c
+    type: VARCHAR
+  - name: pn4
+    type: VARCHAR
+  - name: pn5
+    type: VARCHAR
+  - name: e5
+    type: VARCHAR
+  - name: e8
+    type: VARCHAR
+  - name: e11
+    type: VARCHAR
+  - name: e15
+    type: VARCHAR
+  - name: e14
+    type: VARCHAR
+  - name: e3
+    type: VARCHAR
+  - name: e16
+    type: VARCHAR
+  - name: d1
+    type: VARCHAR
+  - name: d2
+    type: VARCHAR
+  - name: d3
+    type: VARCHAR
+  - name: d4
+    type: VARCHAR
+  - name: d5
+    type: VARCHAR
+  - name: dem2
+    type: VARCHAR
+  - name: dem11
+    type: VARCHAR
+  - name: aut1
+    type: VARCHAR
+  - name: pp2
+    type: VARCHAR
+  - name: exc11
+    type: VARCHAR
+  - name: exc13
+    type: VARCHAR
+  - name: exc14
+    type: VARCHAR
+  - name: exc15
+    type: VARCHAR
+  - name: exc16
+    type: VARCHAR
+  - name: per1
+    type: VARCHAR
+  - name: per2
+    type: VARCHAR
+  - name: per3
+    type: VARCHAR
+  - name: per4
+    type: VARCHAR
+  - name: per5
+    type: VARCHAR
+  - name: per6
+    type: VARCHAR
+  - name: per7
+    type: VARCHAR
+  - name: per8
+    type: VARCHAR
+  - name: per9
+    type: VARCHAR
+  - name: per10
+    type: VARCHAR
+  - name: vb1
+    type: VARCHAR
+  - name: vb2
+    type: VARCHAR
+  - name: vb60
+    type: VARCHAR
+  - name: vb20
+    type: VARCHAR
+  - name: vb61
+    type: VARCHAR
+  - name: clien2
+    type: VARCHAR
+  - name: rac1c
+    type: VARCHAR
+  - name: econ1a
+    type: VARCHAR
+  - name: econ1b
+    type: VARCHAR
+  - name: econ1c
+    type: VARCHAR
+  - name: econ1d
+    type: VARCHAR
+  - name: econ2
+    type: VARCHAR
+  - name: rac4
+    type: VARCHAR
+  - name: dis11
+    type: VARCHAR
+  - name: dis13
+    type: VARCHAR
+  - name: dis12
+    type: VARCHAR
+  - name: rac1a
+    type: VARCHAR
+  - name: rac1d
+    type: VARCHAR
+  - name: rac1e
+    type: VARCHAR
+  - name: cct1
+    type: VARCHAR
+  - name: y1
+    type: VARCHAR
+  - name: y2
+    type: VARCHAR
+  - name: y3
+    type: VARCHAR
+  - name: haicr1
+    type: VARCHAR
+  - name: q5b
+    type: VARCHAR
+  - name: q10a
+    type: VARCHAR
+  - name: q10b
+    type: VARCHAR
+  - name: q10a3
+    type: VARCHAR
+  - name: q10c
+    type: VARCHAR
+  - name: q16
+    type: VARCHAR
+  - name: q14
+    type: VARCHAR
+  - name: q10d
+    type: VARCHAR
+  - name: q10e
+    type: VARCHAR
+  - name: q10f
+    type: VARCHAR
+  - name: q11
+    type: VARCHAR
+  - name: leng1
+    type: VARCHAR
+  - name: gl6
+    type: VARCHAR
+  - name: brait1
+    type: VARCHAR
+  - name: bradisc3a
+    type: VARCHAR
+  - name: bradisc3b
+    type: VARCHAR
+  - name: bradisc3b_2
+    type: VARCHAR
+  - name: vb6c
+    type: VARCHAR
+  - name: vb6g
+    type: VARCHAR
+  - name: r1
+    type: VARCHAR
+  - name: r3
+    type: VARCHAR
+  - name: r4
+    type: VARCHAR
+  - name: r4a
+    type: VARCHAR
+  - name: r5
+    type: VARCHAR
+  - name: r6
+    type: VARCHAR
+  - name: r7
+    type: VARCHAR
+  - name: r8
+    type: VARCHAR
+  - name: r12
+    type: VARCHAR
+  - name: r14
+    type: VARCHAR
+  - name: r15
+    type: VARCHAR
+  - name: r16
+    type: VARCHAR
+  - name: r18
+    type: VARCHAR
+  - name: r20
+    type: VARCHAR
+  - name: r21
+    type: VARCHAR
+  - name: r22
+    type: VARCHAR
+  - name: r23
+    type: VARCHAR
+  - name: r24
+    type: VARCHAR
+  - name: r25
+    type: VARCHAR
+  - name: ocup1
+    type: VARCHAR
+  - name: ocup1b1
+    type: VARCHAR
+  - name: ocup1b2
+    type: VARCHAR
+  - name: ocup1anc
+    type: VARCHAR
+  - name: pen1
+    type: VARCHAR
+  - name: pen3
+    type: VARCHAR
+  - name: pen4
+    type: VARCHAR
+  - name: sal1
+    type: VARCHAR
+  - name: sal2
+    type: VARCHAR
+  - name: sal4
+    type: VARCHAR
+  - name: ti_w1
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

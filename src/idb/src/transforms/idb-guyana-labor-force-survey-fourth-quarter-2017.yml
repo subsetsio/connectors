@@ -1,5 +1,358 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-guyana-labor-force-survey-fourth-quarter-2017`. Regenerate after model-verify.
+key: []
+temporal: quarter
+sort: [quarter]
 columns:
+  - name: hhid
+    type: VARCHAR
+  - name: member
+    type: BIGINT
+  - name: panelid
+    type: BIGINT
+  - name: weight
+    type: DOUBLE
+  - name: stratum
+    type: VARCHAR
+  - name: psu
+    type: VARCHAR
+  - name: block
+    type: BIGINT
+  - name: domain
+    type: VARCHAR
+  - name: quarter
+    type: BIGINT
+  - name: week
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: zone
+    type: VARCHAR
+  - name: psu_centroid_lat
+    type: DOUBLE
+  - name: psu_centroid_long
+    type: DOUBLE
+  - name: q1_02
+    type: VARCHAR
+  - name: q1_03
+    type: VARCHAR
+  - name: q1_04
+    type: BIGINT
+  - name: q1_05
+    type: VARCHAR
+  - name: q1_06
+    type: VARCHAR
+  - name: q1_07
+    type: VARCHAR
+  - name: q1_08
+    type: BIGINT
+  - name: q1_09
+    type: VARCHAR
+  - name: q1_10
+    type: VARCHAR
+  - name: q1_11
+    type: VARCHAR
+  - name: q1_12
+    type: VARCHAR
+  - name: q1_13
+    type: VARCHAR
+  - name: q1_14
+    type: VARCHAR
+  - name: q1_15
+    type: VARCHAR
+  - name: q1_16
+    type: VARCHAR
+  - name: q2_01
+    type: VARCHAR
+  - name: q2_02
+    type: VARCHAR
+  - name: q2_03
+    type: VARCHAR
+  - name: q2_04
+    type: VARCHAR
+  - name: q2_05
+    type: VARCHAR
+  - name: q2_06
+    type: BIGINT
+  - name: q2_07
+    type: VARCHAR
+  - name: q2_08
+    type: VARCHAR
+  - name: q2_09
+    type: VARCHAR
+  - name: q2_10
+    type: VARCHAR
+  - name: q2_11
+    type: VARCHAR
+  - name: q2_12
+    type: VARCHAR
+  - name: q2_13
+    type: VARCHAR
+  - name: q2_14
+    type: VARCHAR
+  - name: q2_15
+    type: VARCHAR
+  - name: q2_16
+    type: VARCHAR
+  - name: q2_17
+    type: VARCHAR
+  - name: q2_18
+    type: VARCHAR
+  - name: q2_19
+    type: VARCHAR
+  - name: q2_20
+    type: VARCHAR
+  - name: q3_01
+    type: VARCHAR
+  - name: q3_02
+    type: VARCHAR
+  - name: q3_03
+    type: BIGINT
+  - name: q3_04
+    type: BIGINT
+  - name: q3_05
+    type: BIGINT
+  - name: q3_06
+    type: VARCHAR
+  - name: q3_07_1
+    type: BIGINT
+  - name: q3_07_2
+    type: BIGINT
+  - name: q3_07_3
+    type: BIGINT
+  - name: q3_07_4
+    type: BIGINT
+  - name: q3_07_5
+    type: BIGINT
+  - name: q3_07_6
+    type: BIGINT
+  - name: q3_07_7
+    type: BIGINT
+  - name: q3_08
+    type: BIGINT
+  - name: q3_09
+    type: BIGINT
+  - name: q3_10
+    type: BIGINT
+  - name: q3_11
+    type: VARCHAR
+  - name: q3_12
+    type: VARCHAR
+  - name: q3_13
+    type: VARCHAR
+  - name: q3_14
+    type: VARCHAR
+  - name: q3_15
+    type: VARCHAR
+  - name: q3_15b
+    type: VARCHAR
+  - name: q3_16
+    type: VARCHAR
+  - name: q3_17
+    type: VARCHAR
+  - name: q3_18
+    type: VARCHAR
+  - name: q3_19
+    type: VARCHAR
+  - name: q3_20
+    type: VARCHAR
+  - name: q3_21
+    type: VARCHAR
+  - name: q3_22
+    type: VARCHAR
+  - name: q3_23
+    type: VARCHAR
+  - name: q3_24
+    type: VARCHAR
+  - name: q3_25
+    type: VARCHAR
+  - name: q3_26
+    type: VARCHAR
+  - name: q3_27
+    type: VARCHAR
+  - name: q3_28
+    type: VARCHAR
+  - name: q3_29
+    type: VARCHAR
+  - name: q3_30
+    type: VARCHAR
+  - name: q3_31
+    type: VARCHAR
+  - name: isic_code
+    type: VARCHAR
+  - name: q3_32
+    type: VARCHAR
+  - name: q3_33
+    type: VARCHAR
+  - name: isco_code
+    type: VARCHAR
+  - name: q3_34
+    type: VARCHAR
+  - name: q3_35
+    type: VARCHAR
+  - name: q3_36
+    type: VARCHAR
+  - name: q3_37
+    type: VARCHAR
+  - name: q3_38
+    type: VARCHAR
+  - name: q3_39
+    type: VARCHAR
+  - name: q3_40
+    type: VARCHAR
+  - name: q3_41
+    type: VARCHAR
+  - name: q4_01
+    type: VARCHAR
+  - name: q4_02
+    type: VARCHAR
+  - name: q4_03
+    type: VARCHAR
+  - name: q4_04
+    type: BIGINT
+  - name: q4_05
+    type: VARCHAR
+  - name: q4_06
+    type: VARCHAR
+  - name: q4_07
+    type: VARCHAR
+  - name: q4_08
+    type: VARCHAR
+  - name: q4_09
+    type: VARCHAR
+  - name: q5_01
+    type: VARCHAR
+  - name: q5_02
+    type: VARCHAR
+  - name: q5_03a
+    type: BIGINT
+  - name: q5_03b
+    type: BIGINT
+  - name: q5_04
+    type: VARCHAR
+  - name: q5_05
+    type: VARCHAR
+  - name: q5_06
+    type: VARCHAR
+  - name: q5_07
+    type: VARCHAR
+  - name: q6_01
+    type: BIGINT
+  - name: q6_01b
+    type: VARCHAR
+  - name: q6_02a
+    type: VARCHAR
+  - name: q6_02b
+    type: VARCHAR
+  - name: q6_02c
+    type: VARCHAR
+  - name: q6_02d
+    type: VARCHAR
+  - name: q6_02e
+    type: VARCHAR
+  - name: q6_02f
+    type: VARCHAR
+  - name: q6_03a
+    type: VARCHAR
+  - name: q6_03b
+    type: VARCHAR
+  - name: q6_03c
+    type: VARCHAR
+  - name: q6_03d
+    type: VARCHAR
+  - name: q6_03e
+    type: VARCHAR
+  - name: q6_03f
+    type: VARCHAR
+  - name: q6_03g
+    type: VARCHAR
+  - name: q6_03h
+    type: VARCHAR
+  - name: q6_03i
+    type: VARCHAR
+  - name: q6_04a
+    type: BIGINT
+  - name: q6_04b
+    type: BIGINT
+  - name: q6_04c
+    type: BIGINT
+  - name: q6_04d
+    type: BIGINT
+  - name: q6_04e
+    type: BIGINT
+  - name: q6_04f
+    type: BIGINT
+  - name: q6_05a
+    type: BIGINT
+  - name: q6_05b
+    type: BIGINT
+  - name: q6_05c
+    type: BIGINT
+  - name: q6_05d
+    type: BIGINT
+  - name: q6_05e
+    type: BIGINT
+  - name: q6_05f
+    type: VARCHAR
+  - name: q6_05g
+    type: BIGINT
+  - name: q6_05h
+    type: BIGINT
+  - name: q6_05i
+    type: BIGINT
+  - name: q6_06
+    type: BIGINT
+  - name: q6_06b
+    type: VARCHAR
+  - name: q6_07
+    type: BIGINT
+  - name: q6_08
+    type: VARCHAR
+  - name: q6_09
+    type: BIGINT
+  - name: q6_10
+    type: BIGINT
+  - name: q6_11
+    type: BIGINT
+  - name: q6_12
+    type: BIGINT
+  - name: q6_13
+    type: BIGINT
+  - name: q6_11b
+    type: VARCHAR
+  - name: q6_12b
+    type: VARCHAR
+  - name: q6_13b
+    type: VARCHAR
+  - name: q6_14
+    type: BIGINT
+  - name: q6_15
+    type: BIGINT
+  - name: q6_16
+    type: BIGINT
+  - name: q6_17
+    type: BIGINT
+  - name: q6_18
+    type: BIGINT
+  - name: q6_19
+    type: BIGINT
+  - name: q6_20a
+    type: BIGINT
+  - name: q6_20b
+    type: BIGINT
+  - name: q6_21
+    type: BIGINT
+  - name: q6_22
+    type: BIGINT
+  - name: q6_23
+    type: VARCHAR
+  - name: q6_24a
+    type: BIGINT
+  - name: q6_24b
+    type: BIGINT
+  - name: q6_25
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

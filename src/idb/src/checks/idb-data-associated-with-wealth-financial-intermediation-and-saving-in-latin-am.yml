@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-data-associated-with-wealth-financial-intermediation-and-saving-in-latin-am`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [country_name, variable_id, variable_description, year_text, year_date_time]
+checks:
+  - kind: unique
+    columns: [country_name, variable_id, variable_description, year_text, year_date_time]
+  - kind: not_null
+    col: country_name
+  - kind: not_null
+    col: variable_id
+  - kind: not_null
+    col: variable_description
+  - kind: not_null
+    col: year_text
+  - kind: not_null
+    col: year_date_time
+  - kind: row_floor
+    min: 9053
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

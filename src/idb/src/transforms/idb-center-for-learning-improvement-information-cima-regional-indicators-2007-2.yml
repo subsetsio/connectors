@@ -1,28 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-center-for-learning-improvement-information-cima-regional-indicators-2007-2`. Regenerate after model-verify.
+key: []
 columns:
-  - name: Pais
+  - name: pais
     type: VARCHAR
-  - name: Ano
+  - name: ano
+    type: BIGINT
+  - name: nombre_indicador
     type: VARCHAR
-  - name: Nombre_Indicador
+  - name: fuente_general
     type: VARCHAR
-  - name: Fuente_General
+  - name: fuente_especifica
     type: VARCHAR
-  - name: Fuente_Especifica
+  - name: categoria
     type: VARCHAR
-  - name: Categoria
+  - name: subcategoria1
     type: VARCHAR
-  - name: Subcategoria1
+  - name: nivel_educativo
     type: VARCHAR
-  - name: Nivel_Educativo
+  - name: tipo_desagregacion
     type: VARCHAR
-  - name: Tipo_Desagregacion
+  - name: desagregacion
     type: VARCHAR
-  - name: Desagregacion
+  - name: edades
     type: VARCHAR
-  - name: Edades
-    type: VARCHAR
-  - name: Valor
-    type: VARCHAR
+  - name: valor
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

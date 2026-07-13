@@ -1,1 +1,44 @@
-SELECT * FROM "idb-database-of-labor-markets-and-social-security-information-system-sims"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "region",
+    "region_acro_BID" AS region_acro_bid,
+    "region_2",
+    "pais_extendido",
+    "extended_country",
+    "pais_acronimo",
+    CAST("anio" AS BIGINT) AS anio,
+    CAST("anio2" AS BIGINT) AS anio2,
+    "ronda",
+    "var_descripcion",
+    "var_description",
+    "tipo_variable",
+    "var_type",
+    "var_categoria",
+    "var_category",
+    "var_subcategoria",
+    "var_subcategory",
+    "cobertura_geografica",
+    "rango_edad",
+    "age_range",
+    "genero",
+    "gender",
+    "zona_geografica",
+    "geographical_zone",
+    "nivel_educativo",
+    "educational_level",
+    "tam_de_firma",
+    "firm_size",
+    "quintil_ingreso_laboral",
+    "labor_income_quintile",
+    "quintil_ingreso_total",
+    "total_income_quintile",
+    "fuente_datos_original",
+    "institucion_ejecutora",
+    "institucion_ejecutora_acronimo",
+    CAST("non_average" AS BIGINT) AS non_average,
+    CAST("valor" AS DOUBLE) AS valor,
+    "source_resource"
+FROM "idb-database-of-labor-markets-and-social-security-information-system-sims"

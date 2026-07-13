@@ -1,5 +1,2577 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-ecuador-longitudinal-survey-of-child-health-and-development-rounds-1-5-2003`. Regenerate after model-verify.
+key: [idhabitus, persona, bl, w1, w2]
+sort: [idhabitus, persona, bl, w1, w2]
 columns:
+  - name: idhabitus
+    type: BIGINT
+  - name: persona
+    type: BIGINT
+  - name: prov
+    type: BIGINT
+  - name: cant
+    type: BIGINT
+  - name: parr
+    type: BIGINT
+  - name: ciudad
+    type: BIGINT
+  - name: area
+    type: VARCHAR
+  - name: bl
+    type: BIGINT
+  - name: w1
+    type: BIGINT
+  - name: w2
+    type: BIGINT
+  - name: w3
+    type: BIGINT
+  - name: w4
+    type: BIGINT
+  - name: panel
+    type: BIGINT
+  - name: treatment
+    type: VARCHAR
+  - name: quint_selben
+    type: VARCHAR
+  - name: draircon0
+    type: VARCHAR
+  - name: drbike0
+    type: VARCHAR
+  - name: drblender0
+    type: VARCHAR
+  - name: drbwtv0
+    type: VARCHAR
+  - name: drcar0
+    type: VARCHAR
+  - name: drcolortv0
+    type: VARCHAR
+  - name: drcomputer0
+    type: VARCHAR
+  - name: drfan0
+    type: VARCHAR
+  - name: drfridge0
+    type: VARCHAR
+  - name: driron0
+    type: VARCHAR
+  - name: drmixer0
+    type: VARCHAR
+  - name: drmotorc0
+    type: VARCHAR
+  - name: droven0
+    type: VARCHAR
+  - name: drradio0
+    type: VARCHAR
+  - name: drsewing0
+    type: VARCHAR
+  - name: drstereo0
+    type: VARCHAR
+  - name: drstove0
+    type: VARCHAR
+  - name: drstovepl0
+    type: VARCHAR
+  - name: drtypewr0
+    type: VARCHAR
+  - name: drvhsdvd0
+    type: VARCHAR
+  - name: drwaffle0
+    type: VARCHAR
+  - name: drwasher0
+    type: VARCHAR
+  - name: ndraircon0
+    type: BIGINT
+  - name: ndrbike0
+    type: BIGINT
+  - name: ndrblender0
+    type: BIGINT
+  - name: ndrbwtv0
+    type: BIGINT
+  - name: ndrcar0
+    type: BIGINT
+  - name: ndrcolortv0
+    type: BIGINT
+  - name: ndrcomputer0
+    type: BIGINT
+  - name: ndrfan0
+    type: BIGINT
+  - name: ndrfridge0
+    type: BIGINT
+  - name: ndriron0
+    type: BIGINT
+  - name: ndrmixer0
+    type: BIGINT
+  - name: ndrmotorc0
+    type: BIGINT
+  - name: ndroven0
+    type: BIGINT
+  - name: ndrradio0
+    type: BIGINT
+  - name: ndrsewing0
+    type: BIGINT
+  - name: ndrstereo0
+    type: BIGINT
+  - name: ndrstove0
+    type: BIGINT
+  - name: ndrstovepl0
+    type: BIGINT
+  - name: ndrtypewr0
+    type: BIGINT
+  - name: ndrvhsdvd0
+    type: BIGINT
+  - name: ndrwaffle0
+    type: BIGINT
+  - name: ndrwasher0
+    type: BIGINT
+  - name: drblender2
+    type: VARCHAR
+  - name: drcar2
+    type: VARCHAR
+  - name: drcell2
+    type: VARCHAR
+  - name: drcolortv2
+    type: VARCHAR
+  - name: drcomputer2
+    type: VARCHAR
+  - name: drfridge2
+    type: VARCHAR
+  - name: driron2
+    type: VARCHAR
+  - name: drmicrowave2
+    type: VARCHAR
+  - name: drmixer2
+    type: VARCHAR
+  - name: drphone2
+    type: VARCHAR
+  - name: drstereo2
+    type: VARCHAR
+  - name: drstove2
+    type: VARCHAR
+  - name: drvhsdvd2
+    type: VARCHAR
+  - name: drwasher2
+    type: VARCHAR
+  - name: ndrblender2
+    type: BIGINT
+  - name: ndrcar2
+    type: BIGINT
+  - name: ndrcell2
+    type: BIGINT
+  - name: ndrcolortv2
+    type: BIGINT
+  - name: ndrcomputer2
+    type: BIGINT
+  - name: ndrfridge2
+    type: BIGINT
+  - name: ndriron2
+    type: BIGINT
+  - name: ndrmicrowave2
+    type: BIGINT
+  - name: ndrmixer2
+    type: BIGINT
+  - name: ndrphone2
+    type: BIGINT
+  - name: ndrstereo2
+    type: BIGINT
+  - name: ndrstove2
+    type: BIGINT
+  - name: ndrvhsdvd2
+    type: BIGINT
+  - name: ndrwasher2
+    type: BIGINT
+  - name: hgarbage0
+    type: VARCHAR
+  - name: hlights0
+    type: VARCHAR
+  - name: hwater0
+    type: VARCHAR
+  - name: hshower0
+    type: VARCHAR
+  - name: htoilet0
+    type: VARCHAR
+  - name: hfuel0
+    type: VARCHAR
+  - name: hgarbage2
+    type: VARCHAR
+  - name: hlights2
+    type: VARCHAR
+  - name: hwater2
+    type: VARCHAR
+  - name: hshower2
+    type: VARCHAR
+  - name: htoilet2
+    type: VARCHAR
+  - name: hfuel2
+    type: VARCHAR
+  - name: hheat2
+    type: VARCHAR
+  - name: hgas2
+    type: VARCHAR
+  - name: hroof0
+    type: VARCHAR
+  - name: hwalls0
+    type: VARCHAR
+  - name: hfloor0
+    type: VARCHAR
+  - name: hroof1
+    type: VARCHAR
+  - name: hwalls1
+    type: VARCHAR
+  - name: hfloor1
+    type: VARCHAR
+  - name: hroof2
+    type: VARCHAR
+  - name: hwalls2
+    type: VARCHAR
+  - name: hfloor2
+    type: VARCHAR
+  - name: hbedrooms0
+    type: BIGINT
+  - name: hbedrooms2
+    type: BIGINT
+  - name: hrooms0
+    type: BIGINT
+  - name: hrooms2
+    type: BIGINT
+  - name: htenure0
+    type: VARCHAR
+  - name: htenure2
+    type: VARCHAR
+  - name: htype0
+    type: VARCHAR
+  - name: htype2
+    type: VARCHAR
+  - name: hfarm0
+    type: VARCHAR
+  - name: hfarm2
+    type: BIGINT
+  - name: hfarmten0
+    type: VARCHAR
+  - name: hfarmten2
+    type: VARCHAR
+  - name: haltitude0
+    type: BIGINT
+  - name: efood2
+    type: DOUBLE
+  - name: enfood2
+    type: DOUBLE
+  - name: epcexp2
+    type: DOUBLE
+  - name: erent2
+    type: DOUBLE
+  - name: eschool2
+    type: DOUBLE
+  - name: etotexp2
+    type: DOUBLE
+  - name: eutil2
+    type: DOUBLE
+  - name: ln_pcexp0_hat1
+    type: DOUBLE
+  - name: ln_pcexp0_hat2
+    type: DOUBLE
+  - name: ln_totexp0_hat1
+    type: DOUBLE
+  - name: ln_totexp0_hat2
+    type: DOUBLE
+  - name: csex
+    type: VARCHAR
+  - name: crelate0
+    type: VARCHAR
+  - name: crelate1
+    type: VARCHAR
+  - name: crelate2
+    type: VARCHAR
+  - name: cagemo0
+    type: BIGINT
+  - name: cagemo1
+    type: BIGINT
+  - name: cagemo2
+    type: BIGINT
+  - name: cagemo3
+    type: BIGINT
+  - name: cagemo4
+    type: BIGINT
+  - name: cbio0
+    type: VARCHAR
+  - name: cbio1
+    type: VARCHAR
+  - name: cbio2
+    type: VARCHAR
+  - name: cdisable0
+    type: VARCHAR
+  - name: clanguage0
+    type: VARCHAR
+  - name: clanguage1
+    type: VARCHAR
+  - name: clanguage2
+    type: VARCHAR
+  - name: clit0
+    type: VARCHAR
+  - name: clit1
+    type: VARCHAR
+  - name: chighgrade1
+    type: VARCHAR
+  - name: chighgrade2
+    type: BIGINT
+  - name: cesc3
+    type: BIGINT
+  - name: cesc4
+    type: BIGINT
+  - name: cinschool2
+    type: VARCHAR
+  - name: cinschool3
+    type: BIGINT
+  - name: cinschool4
+    type: BIGINT
+  - name: mrelate0
+    type: VARCHAR
+  - name: mrelate1
+    type: VARCHAR
+  - name: mrelate2
+    type: VARCHAR
+  - name: cmomhome0
+    type: VARCHAR
+  - name: cmomhome1
+    type: VARCHAR
+  - name: cmomhome2
+    type: VARCHAR
+  - name: cmomhome3
+    type: BIGINT
+  - name: cmomhome4
+    type: BIGINT
+  - name: cmomwhynot0
+    type: VARCHAR
+  - name: cmomwhynot1
+    type: VARCHAR
+  - name: cmomwhynot2
+    type: VARCHAR
+  - name: cmomwhynot3
+    type: VARCHAR
+  - name: cmomwhynot4
+    type: VARCHAR
+  - name: cmomdead0
+    type: BIGINT
+  - name: cmomdead1
+    type: BIGINT
+  - name: cmomdead2
+    type: BIGINT
+  - name: cmomdead3
+    type: BIGINT
+  - name: cmomdead4
+    type: BIGINT
+  - name: cmommig0
+    type: BIGINT
+  - name: cmommig1
+    type: BIGINT
+  - name: cmommig2
+    type: BIGINT
+  - name: cmommig3
+    type: BIGINT
+  - name: cmommig4
+    type: BIGINT
+  - name: cmomyrleft0
+    type: BIGINT
+  - name: cmomyrleft1
+    type: VARCHAR
+  - name: cmomyrleft2
+    type: VARCHAR
+  - name: cmomyrleft3
+    type: VARCHAR
+  - name: cmomyrleft4
+    type: BIGINT
+  - name: medyrs0
+    type: BIGINT
+  - name: medyrs1
+    type: BIGINT
+  - name: medyrs2
+    type: BIGINT
+  - name: medyrs3
+    type: BIGINT
+  - name: medyrs4
+    type: BIGINT
+  - name: medcat0
+    type: VARCHAR
+  - name: medcat1
+    type: VARCHAR
+  - name: medcat2
+    type: VARCHAR
+  - name: mage0
+    type: BIGINT
+  - name: mage1
+    type: BIGINT
+  - name: mage2
+    type: BIGINT
+  - name: mage3
+    type: BIGINT
+  - name: mage4
+    type: BIGINT
+  - name: mmrd0
+    type: VARCHAR
+  - name: mmrd1
+    type: VARCHAR
+  - name: mmrd2
+    type: VARCHAR
+  - name: mmrd3
+    type: VARCHAR
+  - name: mmrd4
+    type: VARCHAR
+  - name: mdisable0
+    type: VARCHAR
+  - name: mlanguage0
+    type: VARCHAR
+  - name: mlanguage3
+    type: VARCHAR
+  - name: mlanguage4
+    type: VARCHAR
+  - name: mlit0
+    type: VARCHAR
+  - name: mrace1
+    type: VARCHAR
+  - name: mrace2
+    type: VARCHAR
+  - name: mrace3
+    type: VARCHAR
+  - name: mrace4
+    type: VARCHAR
+  - name: mworkpay1
+    type: VARCHAR
+  - name: mworkpay2
+    type: VARCHAR
+  - name: mworkpay3
+    type: BIGINT
+  - name: mworkpay4
+    type: BIGINT
+  - name: mpayhrs1
+    type: BIGINT
+  - name: mpayhrs2
+    type: BIGINT
+  - name: mpayhrs3
+    type: BIGINT
+  - name: mpayhrs4
+    type: BIGINT
+  - name: mworknopay1
+    type: VARCHAR
+  - name: mworknopay2
+    type: VARCHAR
+  - name: mnopayhrs1
+    type: BIGINT
+  - name: mnopayhrs2
+    type: BIGINT
+  - name: cdadhome0
+    type: VARCHAR
+  - name: cdadhome1
+    type: VARCHAR
+  - name: cdadhome2
+    type: VARCHAR
+  - name: cdadhome3
+    type: BIGINT
+  - name: cdadwhynot0
+    type: VARCHAR
+  - name: cdadwhynot1
+    type: VARCHAR
+  - name: cdadwhynot2
+    type: VARCHAR
+  - name: cdaddead0
+    type: BIGINT
+  - name: cdaddead1
+    type: BIGINT
+  - name: cdaddead2
+    type: BIGINT
+  - name: cdadmig0
+    type: BIGINT
+  - name: cdadmig1
+    type: BIGINT
+  - name: cdadmig2
+    type: BIGINT
+  - name: cdadyrleft0
+    type: VARCHAR
+  - name: cdadyrleft1
+    type: VARCHAR
+  - name: cdadyrleft2
+    type: VARCHAR
+  - name: cdadedyrs0
+    type: BIGINT
+  - name: cdadedyrs1
+    type: BIGINT
+  - name: cdadedyrs2
+    type: BIGINT
+  - name: cdadedcat0
+    type: VARCHAR
+  - name: cdadedcat1
+    type: VARCHAR
+  - name: cdadedcat2
+    type: VARCHAR
+  - name: f0t50
+    type: BIGINT
+  - name: f6t140
+    type: BIGINT
+  - name: f15t440
+    type: BIGINT
+  - name: f45t640
+    type: BIGINT
+  - name: f65p0
+    type: BIGINT
+  - name: m0t50
+    type: BIGINT
+  - name: m6t140
+    type: BIGINT
+  - name: m15t440
+    type: BIGINT
+  - name: m45t640
+    type: BIGINT
+  - name: m65p0
+    type: BIGINT
+  - name: f0t51
+    type: BIGINT
+  - name: f6t141
+    type: BIGINT
+  - name: f15t441
+    type: BIGINT
+  - name: f45t641
+    type: BIGINT
+  - name: f65p1
+    type: BIGINT
+  - name: m0t51
+    type: BIGINT
+  - name: m6t141
+    type: BIGINT
+  - name: m15t441
+    type: BIGINT
+  - name: m45t641
+    type: BIGINT
+  - name: m65p1
+    type: BIGINT
+  - name: f0t52
+    type: BIGINT
+  - name: f6t142
+    type: BIGINT
+  - name: f15t442
+    type: BIGINT
+  - name: f45t642
+    type: BIGINT
+  - name: f65p2
+    type: BIGINT
+  - name: m0t52
+    type: BIGINT
+  - name: m6t142
+    type: BIGINT
+  - name: m15t442
+    type: BIGINT
+  - name: m45t642
+    type: BIGINT
+  - name: m65p2
+    type: BIGINT
+  - name: hmaxed0
+    type: BIGINT
+  - name: hmaxed1
+    type: BIGINT
+  - name: hmaxed2
+    type: BIGINT
+  - name: hmaxed3
+    type: BIGINT
+  - name: hmaxed4
+    type: BIGINT
+  - name: chstat0
+    type: VARCHAR
+  - name: chstat1
+    type: VARCHAR
+  - name: chstat2
+    type: VARCHAR
+  - name: cbedday0
+    type: VARCHAR
+  - name: cbedday1
+    type: VARCHAR
+  - name: cbedday2
+    type: VARCHAR
+  - name: cnbeddays0
+    type: BIGINT
+  - name: cnbeddays1
+    type: BIGINT
+  - name: cnbeddays2
+    type: BIGINT
+  - name: chlthcard0
+    type: VARCHAR
+  - name: chlthcard1
+    type: VARCHAR
+  - name: canyvac0
+    type: VARCHAR
+  - name: canyvac1
+    type: VARCHAR
+  - name: cnumvac0
+    type: BIGINT
+  - name: cnumvac1
+    type: BIGINT
+  - name: cothvac0
+    type: VARCHAR
+  - name: cothvac1
+    type: VARCHAR
+  - name: cwherevac0
+    type: BIGINT
+  - name: cwherevac1
+    type: BIGINT
+  - name: chlthins0
+    type: VARCHAR
+  - name: chlthins1
+    type: VARCHAR
+  - name: chlthins2
+    type: VARCHAR
+  - name: chmintravel0
+    type: BIGINT
+  - name: chmintravel1
+    type: BIGINT
+  - name: chmintravel2
+    type: BIGINT
+  - name: chlthvisits0
+    type: BIGINT
+  - name: chlthwhy0
+    type: VARCHAR
+  - name: cadjhemo0
+    type: DOUBLE
+  - name: cadjhemo1
+    type: DOUBLE
+  - name: cadjhemo2
+    type: DOUBLE
+  - name: cvac010
+    type: VARCHAR
+  - name: cvac020
+    type: VARCHAR
+  - name: cvac030
+    type: VARCHAR
+  - name: cvac040
+    type: VARCHAR
+  - name: cvac050
+    type: VARCHAR
+  - name: cvac060
+    type: VARCHAR
+  - name: cvac070
+    type: VARCHAR
+  - name: cvac080
+    type: VARCHAR
+  - name: cvac090
+    type: VARCHAR
+  - name: cvac100
+    type: VARCHAR
+  - name: cvac110
+    type: VARCHAR
+  - name: cvac120
+    type: VARCHAR
+  - name: cvac130
+    type: VARCHAR
+  - name: cvac140
+    type: VARCHAR
+  - name: cvac150
+    type: VARCHAR
+  - name: cvac160
+    type: VARCHAR
+  - name: cvac170
+    type: VARCHAR
+  - name: cvac180
+    type: VARCHAR
+  - name: cvac190
+    type: VARCHAR
+  - name: cvac200
+    type: VARCHAR
+  - name: cvacbcg0
+    type: VARCHAR
+  - name: cvacbcg1
+    type: VARCHAR
+  - name: cvacdpt0
+    type: VARCHAR
+  - name: cvacdpt1
+    type: VARCHAR
+  - name: cvachepb0
+    type: VARCHAR
+  - name: cvachepb1
+    type: VARCHAR
+  - name: cvacmal0
+    type: VARCHAR
+  - name: cvacmal1
+    type: VARCHAR
+  - name: cvacsar0
+    type: VARCHAR
+  - name: cvacsar1
+    type: VARCHAR
+  - name: cvacpolio0
+    type: VARCHAR
+  - name: cvacpolio1
+    type: VARCHAR
+  - name: cage01gc0
+    type: BIGINT
+  - name: cage02gc0
+    type: BIGINT
+  - name: cage03gc0
+    type: BIGINT
+  - name: cage04gc0
+    type: BIGINT
+  - name: cage05gc0
+    type: BIGINT
+  - name: cage06gc0
+    type: BIGINT
+  - name: cage07gc0
+    type: BIGINT
+  - name: cage08gc0
+    type: BIGINT
+  - name: cage09gc0
+    type: BIGINT
+  - name: cage10gc0
+    type: BIGINT
+  - name: cage11gc0
+    type: BIGINT
+  - name: cage12gc0
+    type: BIGINT
+  - name: cage13gc0
+    type: BIGINT
+  - name: cage14gc0
+    type: BIGINT
+  - name: cage15gc0
+    type: BIGINT
+  - name: cage16gc0
+    type: BIGINT
+  - name: cage17gc0
+    type: BIGINT
+  - name: cage18gc0
+    type: BIGINT
+  - name: cage19gc0
+    type: BIGINT
+  - name: cage20gc0
+    type: BIGINT
+  - name: cage21gc0
+    type: BIGINT
+  - name: cage22gc0
+    type: BIGINT
+  - name: cage23gc0
+    type: BIGINT
+  - name: cage24gc0
+    type: BIGINT
+  - name: cage25gc0
+    type: BIGINT
+  - name: cage26gc0
+    type: VARCHAR
+  - name: cage27gc0
+    type: VARCHAR
+  - name: cage28gc0
+    type: VARCHAR
+  - name: cage29gc0
+    type: VARCHAR
+  - name: cage30gc0
+    type: VARCHAR
+  - name: ckg01gc0
+    type: DOUBLE
+  - name: ckg02gc0
+    type: DOUBLE
+  - name: ckg03gc0
+    type: DOUBLE
+  - name: ckg04gc0
+    type: DOUBLE
+  - name: ckg05gc0
+    type: DOUBLE
+  - name: ckg06gc0
+    type: DOUBLE
+  - name: ckg07gc0
+    type: DOUBLE
+  - name: ckg08gc0
+    type: DOUBLE
+  - name: ckg09gc0
+    type: DOUBLE
+  - name: ckg10gc0
+    type: DOUBLE
+  - name: ckg11gc0
+    type: DOUBLE
+  - name: ckg12gc0
+    type: DOUBLE
+  - name: ckg13gc0
+    type: DOUBLE
+  - name: ckg14gc0
+    type: DOUBLE
+  - name: ckg15gc0
+    type: DOUBLE
+  - name: ckg16gc0
+    type: VARCHAR
+  - name: ckg17gc0
+    type: DOUBLE
+  - name: ckg18gc0
+    type: VARCHAR
+  - name: ckg19gc0
+    type: DOUBLE
+  - name: ckg20gc0
+    type: VARCHAR
+  - name: ckg21gc0
+    type: DOUBLE
+  - name: ckg22gc0
+    type: DOUBLE
+  - name: ckg23gc0
+    type: DOUBLE
+  - name: ckg24gc0
+    type: BIGINT
+  - name: ckg25gc0
+    type: BIGINT
+  - name: ckg26gc0
+    type: VARCHAR
+  - name: ckg27gc0
+    type: VARCHAR
+  - name: ckg28gc0
+    type: VARCHAR
+  - name: ckg29gc0
+    type: VARCHAR
+  - name: ckg30gc0
+    type: VARCHAR
+  - name: cgrthcont0
+    type: VARCHAR
+  - name: cgrthcont1
+    type: VARCHAR
+  - name: cgrthcont2
+    type: VARCHAR
+  - name: cngrthcont0
+    type: BIGINT
+  - name: cngrthcont1
+    type: BIGINT
+  - name: cngrthcont2
+    type: BIGINT
+  - name: cwheregcont0
+    type: VARCHAR
+  - name: cwheregcont1
+    type: VARCHAR
+  - name: cwheregcont2
+    type: VARCHAR
+  - name: cwhogcont0
+    type: VARCHAR
+  - name: cgotiron0
+    type: VARCHAR
+  - name: cgotiron1
+    type: VARCHAR
+  - name: cgotiron2
+    type: BIGINT
+  - name: cnumiron0
+    type: BIGINT
+  - name: cnumiron1
+    type: BIGINT
+  - name: cnumiron2
+    type: BIGINT
+  - name: cgotvita0
+    type: VARCHAR
+  - name: cgotvita1
+    type: VARCHAR
+  - name: cgotvita2
+    type: BIGINT
+  - name: cnumvita0
+    type: BIGINT
+  - name: cnumvita1
+    type: BIGINT
+  - name: cnumvita2
+    type: BIGINT
+  - name: cfood_bread0
+    type: VARCHAR
+  - name: cfood_bread1
+    type: VARCHAR
+  - name: cfood_carrot0
+    type: VARCHAR
+  - name: cfood_carrot1
+    type: VARCHAR
+  - name: cfood_chard0
+    type: VARCHAR
+  - name: cfood_chard1
+    type: VARCHAR
+  - name: cfood_citrus0
+    type: VARCHAR
+  - name: cfood_citrus1
+    type: VARCHAR
+  - name: cfood_cowv0
+    type: VARCHAR
+  - name: cfood_cowv1
+    type: VARCHAR
+  - name: cfood_fruit0
+    type: VARCHAR
+  - name: cfood_fruit1
+    type: VARCHAR
+  - name: cfood_liver0
+    type: VARCHAR
+  - name: cfood_liver1
+    type: VARCHAR
+  - name: cnfood_fruit0
+    type: BIGINT
+  - name: cnfood_fruit1
+    type: BIGINT
+  - name: cnfood_liver0
+    type: BIGINT
+  - name: cnfood_liver1
+    type: BIGINT
+  - name: cnfood_bread0
+    type: BIGINT
+  - name: cnfood_bread1
+    type: BIGINT
+  - name: cnfood_carrot0
+    type: BIGINT
+  - name: cnfood_carrot1
+    type: BIGINT
+  - name: cnfood_chard0
+    type: BIGINT
+  - name: cnfood_chard1
+    type: BIGINT
+  - name: cnfood_citrus0
+    type: BIGINT
+  - name: cnfood_citrus1
+    type: BIGINT
+  - name: cnfood_cowv0
+    type: BIGINT
+  - name: cnfood_cowv1
+    type: BIGINT
+  - name: cfood_candy1
+    type: VARCHAR
+  - name: cfood_cookie1
+    type: VARCHAR
+  - name: cfood_fried1
+    type: VARCHAR
+  - name: cfood_soda1
+    type: VARCHAR
+  - name: cnfood_candy1
+    type: BIGINT
+  - name: cnfood_cookie1
+    type: BIGINT
+  - name: cnfood_fried1
+    type: BIGINT
+  - name: cnfood_soda1
+    type: BIGINT
+  - name: cbfed0
+    type: VARCHAR
+  - name: cbfed1
+    type: VARCHAR
+  - name: cbfedwn0
+    type: VARCHAR
+  - name: cbfedmonths0
+    type: BIGINT
+  - name: cbfedmonths1
+    type: BIGINT
+  - name: cbfedcurr0
+    type: VARCHAR
+  - name: cbfedcurr1
+    type: VARCHAR
+  - name: cbfedlstnite0
+    type: BIGINT
+  - name: cbfedsugar0
+    type: VARCHAR
+  - name: cbfedsolids0
+    type: VARCHAR
+  - name: cresp0
+    type: VARCHAR
+  - name: cresp1
+    type: VARCHAR
+  - name: cresp2
+    type: VARCHAR
+  - name: cnresp0
+    type: BIGINT
+  - name: cnresp1
+    type: BIGINT
+  - name: cnresp2
+    type: BIGINT
+  - name: cresptreat0
+    type: VARCHAR
+  - name: cresptreat1
+    type: VARCHAR
+  - name: crespwn0
+    type: BIGINT
+  - name: crespwhere0
+    type: VARCHAR
+  - name: crespwhere1
+    type: VARCHAR
+  - name: cdiar0
+    type: VARCHAR
+  - name: cdiar1
+    type: VARCHAR
+  - name: cdiar2
+    type: VARCHAR
+  - name: cndiar0
+    type: BIGINT
+  - name: cndiar1
+    type: BIGINT
+  - name: cndiar2
+    type: BIGINT
+  - name: cdiartreat0
+    type: VARCHAR
+  - name: cdiartreat1
+    type: VARCHAR
+  - name: cdiarwhere0
+    type: VARCHAR
+  - name: cdiarwhere1
+    type: VARCHAR
+  - name: cdiarwn0
+    type: BIGINT
+  - name: cdiar_ivfluids0
+    type: VARCHAR
+  - name: cdiar_ort0
+    type: VARCHAR
+  - name: cdiar_antib0
+    type: VARCHAR
+  - name: cdiar_dryskin0
+    type: VARCHAR
+  - name: cdiar_homemade0
+    type: VARCHAR
+  - name: cdiar_liquids0
+    type: VARCHAR
+  - name: cdiar_pedialyte0
+    type: VARCHAR
+  - name: cdiar_solids0
+    type: VARCHAR
+  - name: cdiar_syrup0
+    type: VARCHAR
+  - name: cdiar_teajuice0
+    type: VARCHAR
+  - name: chosp0
+    type: VARCHAR
+  - name: chosp1
+    type: VARCHAR
+  - name: cnhosp0
+    type: BIGINT
+  - name: cnhosp1
+    type: BIGINT
+  - name: ccond_asthma0
+    type: VARCHAR
+  - name: ccond_asthma1
+    type: VARCHAR
+  - name: ccond_bronc0
+    type: VARCHAR
+  - name: ccond_bronc1
+    type: VARCHAR
+  - name: ccond_bronc2
+    type: VARCHAR
+  - name: ccond_diab0
+    type: VARCHAR
+  - name: ccond_diab1
+    type: VARCHAR
+  - name: ccond_epilep0
+    type: VARCHAR
+  - name: ccond_epilep1
+    type: VARCHAR
+  - name: ccond_headach0
+    type: VARCHAR
+  - name: ccond_headach1
+    type: VARCHAR
+  - name: ccond_headach2
+    type: VARCHAR
+  - name: ccond_hearing0
+    type: VARCHAR
+  - name: ccond_hearing1
+    type: VARCHAR
+  - name: ccond_hearing2
+    type: VARCHAR
+  - name: ccond_heart0
+    type: VARCHAR
+  - name: ccond_heart1
+    type: VARCHAR
+  - name: ccond_retard0
+    type: VARCHAR
+  - name: ccond_retard1
+    type: VARCHAR
+  - name: ccond_sight0
+    type: VARCHAR
+  - name: ccond_sight1
+    type: VARCHAR
+  - name: ccond_sight2
+    type: VARCHAR
+  - name: ccond_sight3
+    type: BIGINT
+  - name: ccond_sinus0
+    type: VARCHAR
+  - name: cmp0
+    type: VARCHAR
+  - name: cmp1
+    type: VARCHAR
+  - name: cmpwn0
+    type: VARCHAR
+  - name: cmp_free0
+    type: VARCHAR
+  - name: cmp_ate0
+    type: VARCHAR
+  - name: cmp_ate1
+    type: VARCHAR
+  - name: cmp_atewn0
+    type: BIGINT
+  - name: cmp_adults0
+    type: VARCHAR
+  - name: cmp_animals0
+    type: VARCHAR
+  - name: cmp_okids0
+    type: VARCHAR
+  - name: cmp_sibs0
+    type: VARCHAR
+  - name: cprogram0
+    type: VARCHAR
+  - name: cprogram1
+    type: VARCHAR
+  - name: cprogram_days0
+    type: BIGINT
+  - name: cprogram_days1
+    type: BIGINT
+  - name: cprogram_hrs0
+    type: BIGINT
+  - name: cprogram_hrs1
+    type: BIGINT
+  - name: cprogram_fd0
+    type: VARCHAR
+  - name: cchildcare0
+    type: VARCHAR
+  - name: cchildcare1
+    type: VARCHAR
+  - name: cchildcare2
+    type: VARCHAR
+  - name: cwhodaycare02
+    type: VARCHAR
+  - name: cwhodaycare12
+    type: VARCHAR
+  - name: cwhodaycare22
+    type: VARCHAR
+  - name: cwhodaycare32
+    type: VARCHAR
+  - name: cwhodaycare42
+    type: VARCHAR
+  - name: cwhodaycare52
+    type: VARCHAR
+  - name: cwhichdaycare02
+    type: VARCHAR
+  - name: cwhichdaycare12
+    type: VARCHAR
+  - name: cwhichdaycare22
+    type: VARCHAR
+  - name: cwhichdaycare32
+    type: VARCHAR
+  - name: cwhichdaycare42
+    type: VARCHAR
+  - name: cwhichdaycare52
+    type: VARCHAR
+  - name: cmnthsdaycare02
+    type: BIGINT
+  - name: cmnthsdaycare12
+    type: BIGINT
+  - name: cmnthsdaycare22
+    type: BIGINT
+  - name: cmnthsdaycare32
+    type: BIGINT
+  - name: cmnthsdaycare42
+    type: BIGINT
+  - name: cmnthsdaycare52
+    type: BIGINT
+  - name: cattendnow02
+    type: BIGINT
+  - name: cattendnow12
+    type: BIGINT
+  - name: cattendnow22
+    type: BIGINT
+  - name: cattendnow32
+    type: BIGINT
+  - name: cattendnow42
+    type: BIGINT
+  - name: cattendnow52
+    type: BIGINT
+  - name: cformaldaycare02
+    type: VARCHAR
+  - name: cformaldaycare12
+    type: VARCHAR
+  - name: cformaldaycare22
+    type: VARCHAR
+  - name: cformaldaycare32
+    type: VARCHAR
+  - name: cformaldaycare42
+    type: VARCHAR
+  - name: cformaldaycare52
+    type: VARCHAR
+  - name: cbooks0
+    type: BIGINT
+  - name: cbooks1
+    type: BIGINT
+  - name: cbooks2
+    type: BIGINT
+  - name: cread1
+    type: BIGINT
+  - name: cread2
+    type: VARCHAR
+  - name: creadwho0
+    type: VARCHAR
+  - name: creadtime0
+    type: BIGINT
+  - name: creadtime1
+    type: BIGINT
+  - name: creadtime2
+    type: BIGINT
+  - name: mharshtot0
+    type: BIGINT
+  - name: mharshtot1
+    type: BIGINT
+  - name: mharshtot4
+    type: BIGINT
+  - name: mcoldtot0
+    type: BIGINT
+  - name: mcoldtot1
+    type: BIGINT
+  - name: mcoldtot4
+    type: BIGINT
+  - name: mhometot0
+    type: BIGINT
+  - name: mhometot1
+    type: BIGINT
+  - name: mhometot4
+    type: BIGINT
+  - name: cstory1
+    type: VARCHAR
+  - name: cstory2
+    type: VARCHAR
+  - name: mpunbelt1
+    type: VARCHAR
+  - name: mpunslap1
+    type: VARCHAR
+  - name: mpunyell1
+    type: VARCHAR
+  - name: mpunother1
+    type: VARCHAR
+  - name: cmhit2
+    type: VARCHAR
+  - name: cmnhit2
+    type: BIGINT
+  - name: cmshout2
+    type: VARCHAR
+  - name: cmnshout2
+    type: BIGINT
+  - name: cmspank2
+    type: VARCHAR
+  - name: cmnspank2
+    type: BIGINT
+  - name: cmnotv2
+    type: BIGINT
+  - name: cmpnsho2
+    type: BIGINT
+  - name: cmtalk2
+    type: BIGINT
+  - name: cohit2
+    type: VARCHAR
+  - name: conhit2
+    type: BIGINT
+  - name: coshout2
+    type: VARCHAR
+  - name: conshout2
+    type: BIGINT
+  - name: cospank2
+    type: VARCHAR
+  - name: conspank2
+    type: BIGINT
+  - name: conotv2
+    type: BIGINT
+  - name: copnsho2
+    type: BIGINT
+  - name: cotalk2
+    type: BIGINT
+  - name: famanswer2
+    type: VARCHAR
+  - name: famcpresent2
+    type: VARCHAR
+  - name: famforbid2
+    type: VARCHAR
+  - name: famhit2
+    type: VARCHAR
+  - name: famhostile2
+    type: VARCHAR
+  - name: famkiss2
+    type: VARCHAR
+  - name: fampositive2
+    type: VARCHAR
+  - name: fampraise2
+    type: VARCHAR
+  - name: famscold2
+    type: VARCHAR
+  - name: famshout2
+    type: VARCHAR
+  - name: famteach2
+    type: VARCHAR
+  - name: famwords2
+    type: VARCHAR
+  - name: crepeat_ever2
+    type: VARCHAR
+  - name: crepeat_initial2
+    type: BIGINT
+  - name: crepeat_scnd2
+    type: BIGINT
+  - name: cnrepeat_gr12
+    type: BIGINT
+  - name: cnrepeat_gr22
+    type: BIGINT
+  - name: cnrepeat_gr32
+    type: BIGINT
+  - name: cnrepeat_gr42
+    type: BIGINT
+  - name: cnrepeat_gr52
+    type: BIGINT
+  - name: cnrepeat_gr62
+    type: VARCHAR
+  - name: cnrepeat_gr72
+    type: VARCHAR
+  - name: cnrepeat_gr82
+    type: VARCHAR
+  - name: cnrepeat_gr92
+    type: VARCHAR
+  - name: cabsent2
+    type: VARCHAR
+  - name: cwhyabsent2
+    type: VARCHAR
+  - name: cnabsent2
+    type: BIGINT
+  - name: ctimeschool2
+    type: BIGINT
+  - name: chwhelp2
+    type: VARCHAR
+  - name: chelphwline2
+    type: BIGINT
+  - name: ctimehw2
+    type: BIGINT
+  - name: cexp_books2
+    type: VARCHAR
+  - name: cexp_books_amt2
+    type: BIGINT
+  - name: cexp_books_mnth2
+    type: VARCHAR
+  - name: cexp_books_mnth_amt2
+    type: VARCHAR
+  - name: cexp_bus2
+    type: VARCHAR
+  - name: cexp_bus_amt2
+    type: DOUBLE
+  - name: cexp_other2
+    type: VARCHAR
+  - name: cexp_other_amt2
+    type: DOUBLE
+  - name: cexp_pcommit2
+    type: VARCHAR
+  - name: cexp_pcommit_amt2
+    type: DOUBLE
+  - name: cexp_regis2
+    type: VARCHAR
+  - name: cexp_regis_amt2
+    type: BIGINT
+  - name: cexp_regis_mnth2
+    type: VARCHAR
+  - name: cexp_regis_mnth_amt2
+    type: BIGINT
+  - name: cexp_uniform2
+    type: VARCHAR
+  - name: cexp_uniform_amt2
+    type: BIGINT
+  - name: cwrk_h2
+    type: VARCHAR
+  - name: cwrk_h_hrs2
+    type: BIGINT
+  - name: cwrk_n2
+    type: VARCHAR
+  - name: cwrk_n_hrs2
+    type: BIGINT
+  - name: cwrk_p2
+    type: VARCHAR
+  - name: cwrk_p_hrs2
+    type: BIGINT
+  - name: cwrk_p_wage2
+    type: VARCHAR
+  - name: ctvipcomplete0
+    type: VARCHAR
+  - name: ctvipcomplete1
+    type: VARCHAR
+  - name: ctvipcomplete2
+    type: VARCHAR
+  - name: ctvipcomplete3
+    type: VARCHAR
+  - name: ctvipcomplete4
+    type: VARCHAR
+  - name: ctvipwhynot1
+    type: VARCHAR
+  - name: ctvipwhynot2
+    type: VARCHAR
+  - name: ctvipwhynot3
+    type: VARCHAR
+  - name: ctvipwhynot4
+    type: VARCHAR
+  - name: ctviptot0
+    type: BIGINT
+  - name: ctviptot1
+    type: BIGINT
+  - name: ctviptot2
+    type: BIGINT
+  - name: ctviptot3
+    type: BIGINT
+  - name: ctviptot4
+    type: BIGINT
+  - name: cstdtvip0
+    type: BIGINT
+  - name: cstdtvip1
+    type: BIGINT
+  - name: cstdtvip2
+    type: BIGINT
+  - name: ctviptot0_k
+    type: VARCHAR
+  - name: ctviptot1_k
+    type: VARCHAR
+  - name: ctviptot2_k
+    type: VARCHAR
+  - name: ctviptot3_k
+    type: VARCHAR
+  - name: ctviptot4_k
+    type: VARCHAR
+  - name: sanbarn0
+    type: BIGINT
+  - name: sanbarn1
+    type: BIGINT
+  - name: sanbarn2
+    type: BIGINT
+  - name: sanexcr0
+    type: BIGINT
+  - name: sanexcr1
+    type: BIGINT
+  - name: sanexcr2
+    type: BIGINT
+  - name: sangarb0
+    type: BIGINT
+  - name: sangarb1
+    type: BIGINT
+  - name: sangarb2
+    type: BIGINT
+  - name: sanvent0
+    type: BIGINT
+  - name: sanvent1
+    type: BIGINT
+  - name: sanvent2
+    type: BIGINT
+  - name: sanwatr0
+    type: BIGINT
+  - name: sanwatr1
+    type: BIGINT
+  - name: sanwatr2
+    type: BIGINT
+  - name: sanyard0
+    type: BIGINT
+  - name: sanyard1
+    type: BIGINT
+  - name: sanyard2
+    type: BIGINT
+  - name: chaz0
+    type: VARCHAR
+  - name: chaz1
+    type: VARCHAR
+  - name: chaz2
+    type: VARCHAR
+  - name: cwaz0
+    type: VARCHAR
+  - name: cwaz1
+    type: VARCHAR
+  - name: cwaz2
+    type: VARCHAR
+  - name: cwhz0
+    type: VARCHAR
+  - name: cwhz1
+    type: VARCHAR
+  - name: cwhz2
+    type: VARCHAR
+  - name: cstunted0
+    type: BIGINT
+  - name: cstunted1
+    type: BIGINT
+  - name: cstunted2
+    type: BIGINT
+  - name: cwasted0
+    type: BIGINT
+  - name: cwasted1
+    type: BIGINT
+  - name: cwasted2
+    type: BIGINT
+  - name: cbmi1
+    type: DOUBLE
+  - name: cbmi2
+    type: DOUBLE
+  - name: cpbcomplete1
+    type: VARCHAR
+  - name: cpbcomplete2
+    type: VARCHAR
+  - name: cpbwhynot1
+    type: VARCHAR
+  - name: cpbwhynot2
+    type: VARCHAR
+  - name: cpbint1
+    type: VARCHAR
+  - name: cpbint2
+    type: VARCHAR
+  - name: cpbavg_dom1
+    type: DOUBLE
+  - name: cpbavg_dom2
+    type: BIGINT
+  - name: cpbavg_nd1
+    type: DOUBLE
+  - name: cpbavg_nd2
+    type: BIGINT
+  - name: cbmcomplete1
+    type: VARCHAR
+  - name: cbmwhynot1
+    type: VARCHAR
+  - name: cbmscore1
+    type: BIGINT
+  - name: cbmpct1
+    type: VARCHAR
+  - name: cbmallyes1
+    type: BIGINT
+  - name: cbmint1
+    type: VARCHAR
+  - name: cmaccomplete1
+    type: VARCHAR
+  - name: cmacwhynot1
+    type: VARCHAR
+  - name: cmacscore1
+    type: BIGINT
+  - name: cmacpct1
+    type: VARCHAR
+  - name: cbpicomplete1
+    type: VARCHAR
+  - name: cbpiwhynot1
+    type: VARCHAR
+  - name: cbpiint1
+    type: VARCHAR
+  - name: cbpitotal_a1
+    type: BIGINT
+  - name: cbpiaggr_a1
+    type: BIGINT
+  - name: cbpianx_a1
+    type: BIGINT
+  - name: cbpioth_a1
+    type: BIGINT
+  - name: csdqtotal3
+    type: BIGINT
+  - name: csdqtotal4
+    type: BIGINT
+  - name: sdcsdqtotal3
+    type: VARCHAR
+  - name: sdcsdqtotal4
+    type: VARCHAR
+  - name: csdqemot3
+    type: BIGINT
+  - name: csdqemot4
+    type: BIGINT
+  - name: sdcsdqemot3
+    type: VARCHAR
+  - name: sdcsdqemot4
+    type: VARCHAR
+  - name: csdqcond3
+    type: BIGINT
+  - name: csdqcond4
+    type: BIGINT
+  - name: sdcsdqcond3
+    type: VARCHAR
+  - name: sdcsdqcond4
+    type: VARCHAR
+  - name: csdqhyp3
+    type: BIGINT
+  - name: csdqhyp4
+    type: BIGINT
+  - name: sdcsdqhyp3
+    type: VARCHAR
+  - name: sdcsdqhyp4
+    type: VARCHAR
+  - name: csdqpprob3
+    type: BIGINT
+  - name: csdqpprob4
+    type: BIGINT
+  - name: sdcsdqpprob3
+    type: VARCHAR
+  - name: sdcsdqpprob4
+    type: VARCHAR
+  - name: csdqpros3
+    type: BIGINT
+  - name: csdqpros4
+    type: BIGINT
+  - name: sdcsdqpros3
+    type: VARCHAR
+  - name: sdcsdqpros4
+    type: VARCHAR
+  - name: ccolypalraw13
+    type: BIGINT
+  - name: ccolypalraw23
+    type: BIGINT
+  - name: ccolypalraw33
+    type: BIGINT
+  - name: ccolypalraw33_k
+    type: VARCHAR
+  - name: ceatqtot3
+    type: DOUBLE
+  - name: sdceatqtot3
+    type: VARCHAR
+  - name: ceatqfrust3
+    type: DOUBLE
+  - name: sdceatqfrust3
+    type: VARCHAR
+  - name: ceatqsurg3
+    type: DOUBLE
+  - name: sdceatqsurg3
+    type: VARCHAR
+  - name: cwj1complete1
+    type: VARCHAR
+  - name: cwj1complete2
+    type: VARCHAR
+  - name: cwj1complete3
+    type: VARCHAR
+  - name: cwj1whynot1
+    type: VARCHAR
+  - name: cwj1whynot2
+    type: VARCHAR
+  - name: cwj1whynot3
+    type: VARCHAR
+  - name: cwj1int1
+    type: VARCHAR
+  - name: cwj1int2
+    type: VARCHAR
+  - name: cwj1int3
+    type: VARCHAR
+  - name: cwj1pct1
+    type: BIGINT
+  - name: cwj1pct2
+    type: BIGINT
+  - name: cwj1pct3
+    type: DOUBLE
+  - name: cwj1tot1
+    type: BIGINT
+  - name: cwj1tot2
+    type: BIGINT
+  - name: cwj1tot3
+    type: BIGINT
+  - name: cwj1tot1_k
+    type: VARCHAR
+  - name: cwj1tot2_k
+    type: VARCHAR
+  - name: cwj1tot3_k
+    type: VARCHAR
+  - name: cwj2complete1
+    type: VARCHAR
+  - name: cwj2whynot1
+    type: VARCHAR
+  - name: cwj2int1
+    type: VARCHAR
+  - name: cwj2pct1
+    type: BIGINT
+  - name: cwj2tot1
+    type: BIGINT
+  - name: cwj5complete1
+    type: VARCHAR
+  - name: cwj5complete2
+    type: VARCHAR
+  - name: cwj5complete3
+    type: VARCHAR
+  - name: cwj5whynot1
+    type: VARCHAR
+  - name: cwj5whynot2
+    type: VARCHAR
+  - name: cwj5whynot3
+    type: VARCHAR
+  - name: cwj5int1
+    type: VARCHAR
+  - name: cwj5int2
+    type: VARCHAR
+  - name: cwj5int3
+    type: VARCHAR
+  - name: cwj5pct1
+    type: BIGINT
+  - name: cwj5pct2
+    type: BIGINT
+  - name: cwj5pctile3
+    type: DOUBLE
+  - name: cwj5tot1
+    type: BIGINT
+  - name: cwj5tot2
+    type: BIGINT
+  - name: cwj5tot3
+    type: BIGINT
+  - name: cwj5tot1_k
+    type: VARCHAR
+  - name: cwj5tot2_k
+    type: VARCHAR
+  - name: cwj5tot3_k
+    type: VARCHAR
+  - name: cdmcomplete2
+    type: VARCHAR
+  - name: cdmcomplete3
+    type: VARCHAR
+  - name: cdmcomplete4
+    type: VARCHAR
+  - name: cdmwhynot2
+    type: VARCHAR
+  - name: cdmwhynot3
+    type: VARCHAR
+  - name: cdmwhynot4
+    type: VARCHAR
+  - name: cdmint3
+    type: VARCHAR
+  - name: cdmint4
+    type: VARCHAR
+  - name: cdm1_tot2
+    type: BIGINT
+  - name: cdm1_tot3
+    type: BIGINT
+  - name: cdm1_tot4
+    type: BIGINT
+  - name: cdm2_tot2
+    type: BIGINT
+  - name: cdm2_tot3
+    type: BIGINT
+  - name: cdm2_tot4
+    type: BIGINT
+  - name: cdmtot2_k
+    type: VARCHAR
+  - name: cdmtot3_k
+    type: VARCHAR
+  - name: cdmtot4_k
+    type: VARCHAR
+  - name: cwm6complete2
+    type: VARCHAR
+  - name: cwm6complete3
+    type: VARCHAR
+  - name: cwm6complete4
+    type: VARCHAR
+  - name: cwm6whynot2
+    type: VARCHAR
+  - name: cwm6whynot3
+    type: VARCHAR
+  - name: cwm6whynot4
+    type: VARCHAR
+  - name: cwm6tot2
+    type: BIGINT
+  - name: cwm6tot3
+    type: BIGINT
+  - name: cwm6tot4
+    type: BIGINT
+  - name: cwm6tot2_k
+    type: VARCHAR
+  - name: cwm6tot3_k
+    type: VARCHAR
+  - name: cwm6tot4_k
+    type: VARCHAR
+  - name: cwm18bcomplete2
+    type: VARCHAR
+  - name: cwm18bcomplete3
+    type: VARCHAR
+  - name: cwm18bcomplete4
+    type: VARCHAR
+  - name: cwm18bwhynot2
+    type: VARCHAR
+  - name: cwm18bwhynot3
+    type: VARCHAR
+  - name: cwm18bwhynot4
+    type: VARCHAR
+  - name: cwm18btot2
+    type: BIGINT
+  - name: cwm18btot3
+    type: BIGINT
+  - name: cwm18btot4
+    type: BIGINT
+  - name: cwm18btot2_k
+    type: VARCHAR
+  - name: cwm18btot3_k
+    type: VARCHAR
+  - name: cwm18btot4_k
+    type: VARCHAR
+  - name: cwm1complete2
+    type: VARCHAR
+  - name: cwm1complete3
+    type: VARCHAR
+  - name: cwm1complete4
+    type: BIGINT
+  - name: cwm1whynot2
+    type: VARCHAR
+  - name: cwm1whynot3
+    type: VARCHAR
+  - name: cwm1whynot4
+    type: BIGINT
+  - name: cwm1tot2
+    type: BIGINT
+  - name: cwm1tot3
+    type: BIGINT
+  - name: cwm1tot4
+    type: BIGINT
+  - name: cwm1tot2_k
+    type: VARCHAR
+  - name: cwm1tot3_k
+    type: VARCHAR
+  - name: cwm1tot4_k
+    type: VARCHAR
+  - name: cwm20complete3
+    type: VARCHAR
+  - name: cwm20complete4
+    type: VARCHAR
+  - name: cwm20whynot3
+    type: VARCHAR
+  - name: cwm20whynot4
+    type: VARCHAR
+  - name: cwm20tot3
+    type: BIGINT
+  - name: cwm20tot4
+    type: BIGINT
+  - name: cwm20tot3_k
+    type: VARCHAR
+  - name: cwm20tot4_k
+    type: VARCHAR
+  - name: cwm2complete3
+    type: VARCHAR
+  - name: cwm2complete4
+    type: VARCHAR
+  - name: cwm2whynot3
+    type: VARCHAR
+  - name: cwm2whynot4
+    type: VARCHAR
+  - name: cwm2atot3
+    type: BIGINT
+  - name: cwm2atot4
+    type: BIGINT
+  - name: cwm2btot3
+    type: BIGINT
+  - name: cwm2btot4
+    type: BIGINT
+  - name: cwm2ctot3
+    type: BIGINT
+  - name: cwm2ctot4
+    type: BIGINT
+  - name: cwm2tot3
+    type: BIGINT
+  - name: cwm2tot4
+    type: BIGINT
+  - name: cwm2tot3_k
+    type: VARCHAR
+  - name: cwm2tot4_k
+    type: VARCHAR
+  - name: cwm3complete3
+    type: VARCHAR
+  - name: cwm3whynot3
+    type: VARCHAR
+  - name: cwm3tot3
+    type: BIGINT
+  - name: cwm3tot3_k
+    type: VARCHAR
+  - name: cwm10complete3
+    type: VARCHAR
+  - name: cwm10complete4
+    type: VARCHAR
+  - name: cwm10whynot3
+    type: VARCHAR
+  - name: cwm10whynot4
+    type: VARCHAR
+  - name: cwm10tot3
+    type: BIGINT
+  - name: cwm10tot4
+    type: BIGINT
+  - name: cwm10tot3_k
+    type: VARCHAR
+  - name: cwm10tot4_k
+    type: VARCHAR
+  - name: cwm5complete3
+    type: VARCHAR
+  - name: cwm5complete4
+    type: VARCHAR
+  - name: cwm5whynot3
+    type: VARCHAR
+  - name: cwm5whynot4
+    type: VARCHAR
+  - name: cwm5tot3
+    type: BIGINT
+  - name: cwm5tot4
+    type: BIGINT
+  - name: cwm5tot3_k
+    type: VARCHAR
+  - name: cwm5tot4_k
+    type: VARCHAR
+  - name: cwm12complete3
+    type: VARCHAR
+  - name: cwm12complete4
+    type: VARCHAR
+  - name: cwm12whynot3
+    type: VARCHAR
+  - name: cwm12whynot4
+    type: VARCHAR
+  - name: cwm12tot3
+    type: BIGINT
+  - name: cwm12tot4
+    type: BIGINT
+  - name: cwm12tot3_k
+    type: VARCHAR
+  - name: cwm12tot4_k
+    type: VARCHAR
+  - name: crccomplete3
+    type: VARCHAR
+  - name: crccomplete4
+    type: VARCHAR
+  - name: crcwhynot3
+    type: VARCHAR
+  - name: crcwhynot4
+    type: VARCHAR
+  - name: crcint3
+    type: VARCHAR
+  - name: crcint4
+    type: VARCHAR
+  - name: crctot3
+    type: BIGINT
+  - name: crctot4
+    type: BIGINT
+  - name: crctot3_k
+    type: VARCHAR
+  - name: crctot4_k
+    type: VARCHAR
+  - name: mtvipraw1
+    type: BIGINT
+  - name: mtvip1
+    type: BIGINT
+  - name: mladderc1
+    type: BIGINT
+  - name: mladderc2
+    type: BIGINT
+  - name: mladdere1
+    type: BIGINT
+  - name: mladdere2
+    type: BIGINT
+  - name: mdeptot0
+    type: BIGINT
+  - name: mcesd1
+    type: BIGINT
+  - name: mcesd2
+    type: BIGINT
+  - name: mcesd3
+    type: BIGINT
+  - name: mcesd4
+    type: BIGINT
+  - name: mlivebirths0
+    type: BIGINT
+  - name: mlivekids0
+    type: BIGINT
+  - name: mdeadkid0
+    type: VARCHAR
+  - name: mdkyrdied0
+    type: BIGINT
+  - name: mdkmndied0
+    type: BIGINT
+  - name: mdkcough0
+    type: VARCHAR
+  - name: mdkbreath0
+    type: VARCHAR
+  - name: mdk12months0
+    type: BIGINT
+  - name: msb_abort0
+    type: VARCHAR
+  - name: msb_abortmn0
+    type: BIGINT
+  - name: msb_abortyr0
+    type: BIGINT
+  - name: mpregnow0
+    type: VARCHAR
+  - name: mpregnow1
+    type: VARCHAR
+  - name: mpregcont0
+    type: VARCHAR
+  - name: mpregcont1
+    type: VARCHAR
+  - name: mpregmonths0
+    type: BIGINT
+  - name: mpregmonths1
+    type: VARCHAR
+  - name: mhaspcard0
+    type: VARCHAR
+  - name: mpregcontnum0
+    type: BIGINT
+  - name: mpregcontnum1
+    type: BIGINT
+  - name: mpregcontwherer0
+    type: VARCHAR
+  - name: mpregcontwhere1
+    type: VARCHAR
+  - name: mpregcontwho0
+    type: VARCHAR
+  - name: mpregcontwho1
+    type: VARCHAR
+  - name: mpregcontpay0
+    type: VARCHAR
+  - name: mpregcontpay1
+    type: VARCHAR
+  - name: mpregcontcost0
+    type: BIGINT
+  - name: mpregcontcost1
+    type: VARCHAR
+  - name: mpregcontmins0
+    type: BIGINT
+  - name: mpregcontmins1
+    type: BIGINT
+  - name: mpregtet0
+    type: VARCHAR
+  - name: mpregtet1
+    type: VARCHAR
+  - name: mpregtetnum0
+    type: BIGINT
+  - name: mpregtetnum1
+    type: BIGINT
+  - name: mpregiron0
+    type: VARCHAR
+  - name: mpregiron1
+    type: VARCHAR
+  - name: mpregironnum0
+    type: BIGINT
+  - name: mpregironnum1
+    type: BIGINT
+  - name: mpregfolic0
+    type: VARCHAR
+  - name: mpregfolic1
+    type: VARCHAR
+  - name: mpregfolicnum0
+    type: BIGINT
+  - name: mpregfolicnum1
+    type: BIGINT
+  - name: mpregvita0
+    type: VARCHAR
+  - name: mpregvita1
+    type: VARCHAR
+  - name: mpregvitanum0
+    type: BIGINT
+  - name: mpregvitanum1
+    type: BIGINT
+  - name: mpregcomp0
+    type: VARCHAR
+  - name: mpregcomp1
+    type: VARCHAR
+  - name: mcompwhere0
+    type: VARCHAR
+  - name: mcompwhere1
+    type: VARCHAR
+  - name: mmatprog0
+    type: VARCHAR
+  - name: mcon01dd0
+    type: BIGINT
+  - name: mcon01mm0
+    type: BIGINT
+  - name: mcon01yy0
+    type: BIGINT
+  - name: mcon01kg0
+    type: DOUBLE
+  - name: mcon01wp0
+    type: BIGINT
+  - name: mcon02dd0
+    type: BIGINT
+  - name: mcon02mm0
+    type: BIGINT
+  - name: mcon02yy0
+    type: BIGINT
+  - name: mcon02kg0
+    type: DOUBLE
+  - name: mcon02wp0
+    type: BIGINT
+  - name: mcon03dd0
+    type: BIGINT
+  - name: mcon03mm0
+    type: BIGINT
+  - name: mcon03yy0
+    type: BIGINT
+  - name: mcon03kg0
+    type: DOUBLE
+  - name: mcon03wp0
+    type: BIGINT
+  - name: mcon04dd0
+    type: BIGINT
+  - name: mcon04mm0
+    type: BIGINT
+  - name: mcon04yy0
+    type: BIGINT
+  - name: mcon04kg0
+    type: DOUBLE
+  - name: mcon04wp0
+    type: BIGINT
+  - name: mcon05dd0
+    type: BIGINT
+  - name: mcon05mm0
+    type: BIGINT
+  - name: mcon05yy0
+    type: BIGINT
+  - name: mcon05kg0
+    type: DOUBLE
+  - name: mcon05wp0
+    type: BIGINT
+  - name: mcon06dd0
+    type: BIGINT
+  - name: mcon06mm0
+    type: BIGINT
+  - name: mcon06yy0
+    type: BIGINT
+  - name: mcon06kg0
+    type: DOUBLE
+  - name: mcon06wp0
+    type: BIGINT
+  - name: mcon07dd0
+    type: BIGINT
+  - name: mcon07mm0
+    type: BIGINT
+  - name: mcon07yy0
+    type: BIGINT
+  - name: mcon07kg0
+    type: DOUBLE
+  - name: mcon07wp0
+    type: BIGINT
+  - name: mcon08dd0
+    type: VARCHAR
+  - name: mcon08mm0
+    type: VARCHAR
+  - name: mcon08yy0
+    type: VARCHAR
+  - name: mcon08kg0
+    type: VARCHAR
+  - name: mcon08wp0
+    type: VARCHAR
+  - name: mcon09dd0
+    type: VARCHAR
+  - name: mcon09mm0
+    type: VARCHAR
+  - name: mcon09yy0
+    type: VARCHAR
+  - name: mcon09kg0
+    type: VARCHAR
+  - name: mcon09wp0
+    type: VARCHAR
+  - name: mcon10dd0
+    type: VARCHAR
+  - name: mcon10mm0
+    type: VARCHAR
+  - name: mcon10yy0
+    type: VARCHAR
+  - name: mcon10kg0
+    type: VARCHAR
+  - name: mcon10wp0
+    type: VARCHAR
+  - name: mcon11dd0
+    type: VARCHAR
+  - name: mcon11mm0
+    type: VARCHAR
+  - name: mcon11yy0
+    type: VARCHAR
+  - name: mcon11kg0
+    type: VARCHAR
+  - name: mcon11wp0
+    type: VARCHAR
+  - name: mcon12dd0
+    type: VARCHAR
+  - name: mcon12mm0
+    type: VARCHAR
+  - name: mcon12yy0
+    type: VARCHAR
+  - name: mcon12kg0
+    type: VARCHAR
+  - name: mcon12wp0
+    type: VARCHAR
+  - name: mprenatal0
+    type: VARCHAR
+  - name: mprenatal1
+    type: VARCHAR
+  - name: mtetanus0
+    type: VARCHAR
+  - name: mtetanus1
+    type: VARCHAR
+  - name: mbrthplacer0
+    type: VARCHAR
+  - name: mbrthplace1
+    type: VARCHAR
+  - name: mwhyhome0
+    type: VARCHAR
+  - name: mwhyhome1
+    type: VARCHAR
+  - name: mbrthasst0
+    type: VARCHAR
+  - name: mbrthasst1
+    type: VARCHAR
+  - name: mpostnatal0
+    type: VARCHAR
+  - name: mpostnatal1
+    type: VARCHAR
+  - name: mpostiron0
+    type: VARCHAR
+  - name: mpostiron1
+    type: VARCHAR
+  - name: mnumiron0
+    type: BIGINT
+  - name: mnumiron1
+    type: BIGINT
+  - name: mpostvita0
+    type: VARCHAR
+  - name: mpostvita1
+    type: VARCHAR
+  - name: mnumvita0
+    type: BIGINT
+  - name: mnumvita1
+    type: BIGINT
+  - name: mbfinfo0
+    type: VARCHAR
+  - name: mbfinfo1
+    type: VARCHAR
+  - name: mbfinfowherer0
+    type: VARCHAR
+  - name: mbfinfowhere1
+    type: VARCHAR
+  - name: mbcuse0
+    type: VARCHAR
+  - name: mbctype0
+    type: VARCHAR
+  - name: mmibebida0
+    type: VARCHAR
+  - name: mmibebida1
+    type: VARCHAR
+  - name: mmibebidanum0
+    type: BIGINT
+  - name: mmibebidanum1
+    type: BIGINT
+  - name: mhstat0
+    type: VARCHAR
+  - name: mhstat1
+    type: VARCHAR
+  - name: mhstat2
+    type: VARCHAR
+  - name: mnsickdays0
+    type: BIGINT
+  - name: mnsickdays1
+    type: BIGINT
+  - name: mnbeddays0
+    type: BIGINT
+  - name: mnbeddays1
+    type: BIGINT
+  - name: mvigact0
+    type: VARCHAR
+  - name: mvigact1
+    type: VARCHAR
+  - name: mpain0
+    type: VARCHAR
+  - name: mpain1
+    type: VARCHAR
+  - name: mmammogram0
+    type: VARCHAR
+  - name: mmammwhynot0
+    type: VARCHAR
+  - name: mpaptest0
+    type: VARCHAR
+  - name: mpapday0
+    type: BIGINT
+  - name: mpapmonth0
+    type: BIGINT
+  - name: mpapyear0
+    type: BIGINT
+  - name: mpapresults0
+    type: VARCHAR
+  - name: mpapwhere0
+    type: VARCHAR
+  - name: manycough0
+    type: VARCHAR
+  - name: manycough1
+    type: VARCHAR
+  - name: mbldcough0
+    type: VARCHAR
+  - name: mdrycough0
+    type: VARCHAR
+  - name: mwetcough0
+    type: VARCHAR
+  - name: manydiarr0
+    type: VARCHAR
+  - name: manydiarr1
+    type: VARCHAR
+  - name: mblddiarr0
+    type: VARCHAR
+  - name: mliqdiarr0
+    type: VARCHAR
+  - name: mmucdiarr0
+    type: VARCHAR
+  - name: mheadache0
+    type: VARCHAR
+  - name: mheadache1
+    type: VARCHAR
+  - name: mjointpain0
+    type: VARCHAR
+  - name: mjointpain1
+    type: VARCHAR
+  - name: mskininf0
+    type: VARCHAR
+  - name: mskininf1
+    type: VARCHAR
+  - name: mstomache0
+    type: VARCHAR
+  - name: mstomache1
+    type: VARCHAR
+  - name: mtoothache0
+    type: VARCHAR
+  - name: mtoothache1
+    type: VARCHAR
+  - name: mvomit0
+    type: VARCHAR
+  - name: mvomit1
+    type: VARCHAR
+  - name: meyeinf0
+    type: VARCHAR
+  - name: meyeinf1
+    type: VARCHAR
+  - name: mfastresp0
+    type: VARCHAR
+  - name: mfastresp1
+    type: VARCHAR
+  - name: mfever0
+    type: VARCHAR
+  - name: mfever1
+    type: VARCHAR
+  - name: mrunnynose0
+    type: VARCHAR
+  - name: mrunnynose1
+    type: VARCHAR
+  - name: mhospeps0
+    type: VARCHAR
+  - name: mhospeps1
+    type: VARCHAR
+  - name: mhospdays0
+    type: BIGINT
+  - name: mhospdays1
+    type: BIGINT
+  - name: madjhemo0
+    type: DOUBLE
+  - name: madjhemo1
+    type: DOUBLE
+  - name: madjhemo2
+    type: DOUBLE
+  - name: manemic0
+    type: BIGINT
+  - name: manemic1
+    type: BIGINT
+  - name: manemic2
+    type: BIGINT
+  - name: mhlthins0
+    type: VARCHAR
+  - name: mhlthins1
+    type: VARCHAR
+  - name: mhlthins2
+    type: VARCHAR
+  - name: mhlthvisits0
+    type: BIGINT
+  - name: mhlthvisits1
+    type: VARCHAR
+  - name: mhlthwhy0
+    type: VARCHAR
+  - name: mhlthwhy1
+    type: VARCHAR
+  - name: millmed0
+    type: VARCHAR
+  - name: millmed1
+    type: VARCHAR
+  - name: mheight1
+    type: DOUBLE
+  - name: mheight2
+    type: DOUBLE
+  - name: mbmi1
+    type: DOUBLE
+  - name: mbmi2
+    type: DOUBLE
+  - name: mdv_answerwhyn0
+    type: VARCHAR
+  - name: mdv_answerwhyn1
+    type: VARCHAR
+  - name: mlivehusb0
+    type: VARCHAR
+  - name: mlivehusb1
+    type: VARCHAR
+  - name: mdv_answer0
+    type: VARCHAR
+  - name: mdv_answer1
+    type: VARCHAR
+  - name: mdv_freetime0
+    type: VARCHAR
+  - name: mdv_freetime1
+    type: VARCHAR
+  - name: mdv_affection0
+    type: VARCHAR
+  - name: mdv_affection1
+    type: VARCHAR
+  - name: mdv_ignore0
+    type: VARCHAR
+  - name: mdv_ignore1
+    type: VARCHAR
+  - name: mdv_nostudy0
+    type: VARCHAR
+  - name: mdv_nostudy1
+    type: VARCHAR
+  - name: mdv_yell0
+    type: VARCHAR
+  - name: mdv_yell1
+    type: VARCHAR
+  - name: mdv_worthless0
+    type: VARCHAR
+  - name: mdv_worthless1
+    type: VARCHAR
+  - name: mdv_nofriends0
+    type: VARCHAR
+  - name: mdv_nofriends1
+    type: VARCHAR
+  - name: mdv_leave0
+    type: VARCHAR
+  - name: mdv_leave1
+    type: VARCHAR
+  - name: mdv_takekids0
+    type: VARCHAR
+  - name: mdv_takekids1
+    type: VARCHAR
+  - name: mdv_beat0
+    type: VARCHAR
+  - name: mdv_beat1
+    type: VARCHAR
+  - name: mdv_beatoften0
+    type: VARCHAR
+  - name: mdv_beatoften1
+    type: VARCHAR
+  - name: mdv_hdrinks0
+    type: VARCHAR
+  - name: mdv_hdrinks1
+    type: VARCHAR
+  - name: mdv_help0
+    type: VARCHAR
+  - name: mdv_help1
+    type: VARCHAR
+  - name: mdv_helpwho0
+    type: VARCHAR
+  - name: mdv_helpwho1
+    type: VARCHAR
+  - name: mdv_hcounsel0
+    type: VARCHAR
+  - name: mdv_hcounsel1
+    type: VARCHAR
+  - name: mdv_hcourt0
+    type: VARCHAR
+  - name: mdv_hcourt1
+    type: VARCHAR
+  - name: mdv_hhunity0
+    type: VARCHAR
+  - name: mdv_hhunity1
+    type: VARCHAR
+  - name: mdv_hjudpol0
+    type: VARCHAR
+  - name: mdv_hjudpol1
+    type: VARCHAR
+  - name: mdv_hother0
+    type: VARCHAR
+  - name: mdv_hother1
+    type: VARCHAR
+  - name: mdv_hpolice0
+    type: VARCHAR
+  - name: mdv_hpolice1
+    type: VARCHAR
+  - name: mdv_hprivorg0
+    type: VARCHAR
+  - name: mdv_hprivorg1
+    type: VARCHAR
+  - name: mdv_hwomoff0
+    type: VARCHAR
+  - name: mdv_hwomoff1
+    type: VARCHAR
+  - name: mdv_hnoinst0
+    type: VARCHAR
+  - name: mdv_hnoinst1
+    type: VARCHAR
+  - name: mdv_nhbadexp0
+    type: VARCHAR
+  - name: mdv_nhbadexp1
+    type: VARCHAR
+  - name: mdv_nhdeserve0
+    type: VARCHAR
+  - name: mdv_nhdeserve1
+    type: VARCHAR
+  - name: mdv_nhdidntknow0
+    type: VARCHAR
+  - name: mdv_nhdidntknow1
+    type: VARCHAR
+  - name: mdv_nhdivorce0
+    type: VARCHAR
+  - name: mdv_nhdivorce1
+    type: VARCHAR
+  - name: mdv_nhembarrassed0
+    type: VARCHAR
+  - name: mdv_nhembarrassed1
+    type: VARCHAR
+  - name: mdv_nhhandle0
+    type: VARCHAR
+  - name: mdv_nhhandle1
+    type: VARCHAR
+  - name: mdv_nhharmless0
+    type: VARCHAR
+  - name: mdv_nhharmless1
+    type: VARCHAR
+  - name: mdv_nhhit0
+    type: VARCHAR
+  - name: mdv_nhhit1
+    type: VARCHAR
+  - name: mdv_nhjustice0
+    type: VARCHAR
+  - name: mdv_nhjustice1
+    type: VARCHAR
+  - name: mdv_nhnevagain0
+    type: VARCHAR
+  - name: mdv_nhnevagain1
+    type: VARCHAR
+  - name: mdv_nhnohurt0
+    type: VARCHAR
+  - name: mdv_nhnohurt1
+    type: VARCHAR
+  - name: mdv_nhnormal0
+    type: VARCHAR
+  - name: mdv_nhnormal1
+    type: VARCHAR
+  - name: mbdh_hrd1
+    type: VARCHAR
+  - name: mbdh_hrd2
+    type: VARCHAR
+  - name: mbdh_cond1
+    type: VARCHAR
+  - name: mbdh_conda1
+    type: VARCHAR
+  - name: mbdh_condb1
+    type: VARCHAR
+  - name: mbdh_rec1
+    type: VARCHAR
+  - name: mbdh_rec2
+    type: VARCHAR
+  - name: mbdh_rec3
+    type: VARCHAR
+  - name: mbdh_rec4
+    type: BIGINT
+  - name: mbdh_firstmn1
+    type: BIGINT
+  - name: mbdh_firstyr1
+    type: BIGINT
+  - name: mbdh_lastmn1
+    type: BIGINT
+  - name: mbdh_lastyr1
+    type: BIGINT
+  - name: mbdh_wait1
+    type: BIGINT
+  - name: mspentclothes1
+    type: VARCHAR
+  - name: mspented1
+    type: VARCHAR
+  - name: mspentfood1
+    type: VARCHAR
+  - name: mspenthealth1
+    type: VARCHAR
+  - name: mspenthouse1
+    type: VARCHAR
+  - name: mspenthusb1
+    type: VARCHAR
+  - name: mspenttrans1
+    type: VARCHAR
+  - name: mwhoclothes1
+    type: VARCHAR
+  - name: mwhoed1
+    type: VARCHAR
+  - name: mwhofood1
+    type: VARCHAR
+  - name: mwhohealth1
+    type: VARCHAR
+  - name: mwhohouse1
+    type: VARCHAR
+  - name: mwhohusb1
+    type: VARCHAR
+  - name: mwhotrans1
+    type: VARCHAR
+  - name: mbdh_stop1
+    type: BIGINT
+  - name: mbdh_stopyr1
+    type: VARCHAR
+  - name: mbdh_stopwhy1
+    type: VARCHAR
+  - name: mbdh_recoth1
+    type: VARCHAR
+  - name: mbdh_act2
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

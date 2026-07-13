@@ -1,5 +1,524 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-survey-on-living-conditions-and-social-development-in-northern-haiti-lcsds-`. Regenerate after model-verify.
+key: []
 columns:
+  - name: id_questionnaire
+    type: BIGINT
+  - name: ar4_date_enquete
+    type: VARCHAR
+  - name: ar5_heure_debut_enquete
+    type: VARCHAR
+  - name: as_1_nom_collecteur_de_donnees
+    type: VARCHAR
+  - name: as_1_1_prenom_collecteur_de_donnees
+    type: VARCHAR
+  - name: ai1_departement
+    type: VARCHAR
+  - name: ai2_commune
+    type: VARCHAR
+  - name: ai3_section_communale
+    type: VARCHAR
+  - name: ai3_section_com_mlieu
+    type: VARCHAR
+  - name: ai4_localite
+    type: VARCHAR
+  - name: ai5_1_quartier
+    type: VARCHAR
+  - name: ai5_2_rue_et_numero
+    type: VARCHAR
+  - name: strate
+    type: VARCHAR
+  - name: probabilite_inclusion
+    type: VARCHAR
+  - name: ponderation
+    type: VARCHAR
+  - name: ai_7_type_de_commune
+    type: BIGINT
+  - name: hr1_code_individu_repondant
+    type: VARCHAR
+  - name: ir_1_pr_nom
+    type: VARCHAR
+  - name: ir_2_nom
+    type: VARCHAR
+  - name: ir_3_age
+    type: VARCHAR
+  - name: ir_4_sexe
+    type: BIGINT
+  - name: ir_5_relation_avec_chef_menagg
+    type: BIGINT
+  - name: ir_6_numero_de_telephone1
+    type: VARCHAR
+  - name: ir_7_numero_de_telephone2
+    type: VARCHAR
+  - name: ir_8_numero_telephone_chef_foyer
+    type: VARCHAR
+  - name: ir_9_numero_phone_voisin_menage
+    type: VARCHAR
+  - name: ir10_type_echantillon
+    type: VARCHAR
+  - name: if1_nombre_de_familles_vivant_dans_l
+    type: BIGINT
+  - name: if2_nombre_de_personnes_vivant_dans
+    type: VARCHAR
+  - name: if3_1_nombre_personnes_par_menage_1
+    type: VARCHAR
+  - name: if3_2_nombre_personnes_par_menage_2
+    type: VARCHAR
+  - name: if3_3_nombre_personnes_par_menage_3
+    type: VARCHAR
+  - name: if3_4_nombre_personnes_par_menage_4
+    type: VARCHAR
+  - name: if3_5_nombre_personnes_par_menage_5
+    type: VARCHAR
+  - name: if3_6_nombre_personnes_par_menage_6
+    type: VARCHAR
+  - name: if4_nombre_personnes_famil
+    type: VARCHAR
+  - name: if5_nombre_d_enfants_du_chef_de_foye
+    type: BIGINT
+  - name: if6_situation_enfants_du_chef_de_foy
+    type: VARCHAR
+  - name: if7_nbre_enfts_chef_foy_viv_aut_mere
+    type: VARCHAR
+  - name: if8_nombre_d_enfants_morts_du_chef_d
+    type: VARCHAR
+  - name: if10_nombre_d_enfants_du_femme_du_che
+    type: BIGINT
+  - name: if9_nombre_d_homme_du_femme_de_chef
+    type: BIGINT
+  - name: if11_nbre_enf_femme_chef_foy_femm_act
+    type: BIGINT
+  - name: if12_nombre_d_enfants_morts_du_femme
+    type: BIGINT
+  - name: if13_nombre_enfants_envie_ne_vivant_d
+    type: BIGINT
+  - name: if14_nombre_d_enfant_vivant_du_menage
+    type: VARCHAR
+  - name: if15_enfants_adoptes
+    type: BIGINT
+  - name: hudss1_code_gps_maison
+    type: VARCHAR
+  - name: hudss_1_1_longitude
+    type: VARCHAR
+  - name: hudss_1_2_latitude
+    type: VARCHAR
+  - name: hudss_1_3_nombre_de_satelite1
+    type: VARCHAR
+  - name: hudss_1_4_precision_mesure_gps1
+    type: VARCHAR
+  - name: hudss_1_5_temps_de_mesure1
+    type: VARCHAR
+  - name: hudss_1_6_distance_points1
+    type: VARCHAR
+  - name: hu1_type_de_maison
+    type: VARCHAR
+  - name: hu1_1_autre_types_de_maison
+    type: VARCHAR
+  - name: hu1_2_etat_maison
+    type: BIGINT
+  - name: hu2_toiture_maison
+    type: BIGINT
+  - name: hu2_1_autr_typ_materx_toit_mais
+    type: VARCHAR
+  - name: hu2_materiauxconstruction_mv
+    type: VARCHAR
+  - name: hu2_1_autr_typ_materx_mur_maiu
+    type: VARCHAR
+  - name: hu2_materconstruct_plancher
+    type: BIGINT
+  - name: hu2_1_autrtyp_materx_planch_mais
+    type: VARCHAR
+  - name: hu3_route_jusqua_maison
+    type: VARCHAR
+  - name: ha1_nombre_chambre_menage
+    type: BIGINT
+  - name: ha2_nombre_chambre_a_coucher
+    type: BIGINT
+  - name: ha3_maison_cuisine_independante
+    type: VARCHAR
+  - name: ha4_maison_avec_electricite
+    type: VARCHAR
+  - name: ha5_nbre_hre_electr_j_6_dern_moi
+    type: VARCHAR
+  - name: ha6_sources_lumieres_utiliseet
+    type: VARCHAR
+  - name: ha6_1_generatrice
+    type: BIGINT
+  - name: ha6_2_inverter
+    type: BIGINT
+  - name: ha6_3_energie_solaire
+    type: BIGINT
+  - name: ha6_4_bougie
+    type: BIGINT
+  - name: ha6_5_lampe_propane
+    type: BIGINT
+  - name: ha6_6_lampe_rechargeable
+    type: BIGINT
+  - name: ha6_7_electricite_pic
+    type: BIGINT
+  - name: ha6_8_edh
+    type: BIGINT
+  - name: ha6_9_autre
+    type: BIGINT
+  - name: ha6_9_1_autr_source_lumiere
+    type: VARCHAR
+  - name: ha7_energies_utilisees_pr_cuisso
+    type: VARCHAR
+  - name: ha7_1_propane
+    type: BIGINT
+  - name: ha7_2_kerosene
+    type: BIGINT
+  - name: ha7_3_charbon
+    type: BIGINT
+  - name: ha7_4_bois
+    type: BIGINT
+  - name: ha7_5_electricite
+    type: BIGINT
+  - name: ha7_6_electricite_pic
+    type: BIGINT
+  - name: ha7_7_electricite_edh
+    type: BIGINT
+  - name: ha7_8_autres
+    type: BIGINT
+  - name: ha7_8_1_autr_sources_energie_cui
+    type: VARCHAR
+  - name: ha8_type_energ_principal_cuissoo
+    type: VARCHAR
+  - name: ha8_1_autr_typ_energie_princip
+    type: VARCHAR
+  - name: ha9_menage_possede_equipmnt_venu
+    type: VARCHAR
+  - name: ha9_1_type_equipement_de_ventilation
+    type: VARCHAR
+  - name: ha9_1_1_ventilateur_fixe
+    type: BIGINT
+  - name: ha9_1_2_ventilateur_mobile
+    type: BIGINT
+  - name: ha9_1_3_climatiseur
+    type: BIGINT
+  - name: ha10_maison_menage_a_salle_bain
+    type: VARCHAR
+  - name: ha10_1_sall_bain_partage_av_vois
+    type: VARCHAR
+  - name: ha11_menage_possede_latrine_u
+    type: VARCHAR
+  - name: ha_12_type_latrines_menage
+    type: VARCHAR
+  - name: ha12_1autres_types_de_latrines
+    type: VARCHAR
+  - name: ha14_habitude_destruct_dechets
+    type: VARCHAR
+  - name: ha_14_1_ramases_voirie
+    type: BIGINT
+  - name: ha_14_2_ramases_compagnie_privee
+    type: BIGINT
+  - name: ha_14_3_brules
+    type: BIGINT
+  - name: ha_14_4_decharges
+    type: BIGINT
+  - name: ha_14_5_jetes_pleine_rue
+    type: BIGINT
+  - name: ha_14_6_compostes
+    type: BIGINT
+  - name: ha_14_7_detruits_autres_moyens
+    type: BIGINT
+  - name: ha15_2_eau_d_usage
+    type: VARCHAR
+  - name: ha15_2_1_eau_interieure_maison_usage
+    type: BIGINT
+  - name: ha15_2_2_eau_distribuee_enceinte_quartier_usage
+    type: BIGINT
+  - name: ha15_2_3_puits_terrain_maison_usage
+    type: BIGINT
+  - name: ha15_2_4_puits_environ_usage
+    type: BIGINT
+  - name: ha15_2_5_fontaine_publique_usage
+    type: BIGINT
+  - name: ha15_2_6_camion_eau_usage
+    type: BIGINT
+  - name: ha15_2_7_eau_achetee_sceau_usage
+    type: BIGINT
+  - name: ha15_2_8_eau_embouteillee_usage
+    type: BIGINT
+  - name: ha15_2_9_eau_pluie_usage
+    type: BIGINT
+  - name: ha15_2_10_eau_riviere_usage
+    type: BIGINT
+  - name: ha15_2_11_autres_sources_approv_eau_usage
+    type: BIGINT
+  - name: ha15_2_11_1_autres_source_approvisionnmt_eau_usage
+    type: VARCHAR
+  - name: ha15_2_eau_potable
+    type: VARCHAR
+  - name: ha15_2_1_eau_interieure_maison_potable
+    type: BIGINT
+  - name: ha15_2_2_eau_distribuee_enceinte_quartier_potable
+    type: BIGINT
+  - name: ha15_2_3_puits_terrain_maison_potable
+    type: BIGINT
+  - name: ha15_2_4_puits_environ_potable
+    type: BIGINT
+  - name: ha15_2_5_fontaine_publique_potable
+    type: BIGINT
+  - name: ha15_2_6_camion_eau_potable
+    type: BIGINT
+  - name: ha15_2_7_eau_achetee_sceau_potable
+    type: BIGINT
+  - name: ha15_2_8_eau_embouteillee_potable
+    type: BIGINT
+  - name: ha15_2_9_eau_pluie_potable
+    type: BIGINT
+  - name: ha15_2_10_eau_riviere_potable
+    type: BIGINT
+  - name: ha15_2_11_autres_sources_approv_eau_potable
+    type: BIGINT
+  - name: ha15_2_11_1_autres_source_approvisionnmt_eau_potable
+    type: VARCHAR
+  - name: h16_prestataire_service_en_eau
+    type: BIGINT
+  - name: ha16_1_publique
+    type: BIGINT
+  - name: ha16_2_prive
+    type: BIGINT
+  - name: ha16_3_autres_institutions
+    type: BIGINT
+  - name: ha16_4_notre_moyen
+    type: BIGINT
+  - name: ha17_stabilite_approvisionnement
+    type: VARCHAR
+  - name: ha18_source_princip_eau_usage
+    type: VARCHAR
+  - name: ha18_1_autr_sour_principl_eau_us
+    type: VARCHAR
+  - name: ha_19_source_princip_eau_boisson
+    type: VARCHAR
+  - name: ha_19_1_autre_source_princip_eau_boisson
+    type: VARCHAR
+  - name: ha20_1_nombre_recipient_stockage
+    type: BIGINT
+  - name: ha20_2_type_recipient_stock_eau
+    type: VARCHAR
+  - name: ha20_2_1_gallon
+    type: BIGINT
+  - name: ha20_2_2_recipient_5_g
+    type: BIGINT
+  - name: ha20_2_3_drum
+    type: BIGINT
+  - name: ha20_2_4_tank
+    type: BIGINT
+  - name: ha20_2_5_reservoir
+    type: BIGINT
+  - name: ha20_2_6_autres_recipient
+    type: BIGINT
+  - name: ha20_2_6_1_autres_types_de_recipient
+    type: VARCHAR
+  - name: ha21_1_humidite
+    type: VARCHAR
+  - name: ha21_1_tres_froid
+    type: VARCHAR
+  - name: ha21_1_tres_chaud
+    type: VARCHAR
+  - name: ha21_1_peu_ventile
+    type: VARCHAR
+  - name: ha21_1_tres_sombre
+    type: VARCHAR
+  - name: ha21_1_beaucoup_d_insectes
+    type: VARCHAR
+  - name: ha21_1_beaucoups_de_rats_et_souris
+    type: BIGINT
+  - name: ha21_1_fuite_dans_le_toit
+    type: VARCHAR
+  - name: ha24_2_terre
+    type: VARCHAR
+  - name: ha24_2_maison
+    type: VARCHAR
+  - name: ha24_2_boeuf
+    type: VARCHAR
+  - name: ha24_2_cabri
+    type: VARCHAR
+  - name: ha24_2_mouton
+    type: BIGINT
+  - name: ha24_2_porc
+    type: VARCHAR
+  - name: ha24_2_poule
+    type: VARCHAR
+  - name: ha24_2_cannard
+    type: VARCHAR
+  - name: ha24_2_dinde
+    type: VARCHAR
+  - name: ha24_2_depot_de_marchandise
+    type: VARCHAR
+  - name: ha24_2_stock_agricole
+    type: VARCHAR
+  - name: ha24_1_refrigerateur
+    type: VARCHAR
+  - name: ha24_1_fou_electrique_propane_kerosen
+    type: VARCHAR
+  - name: ha24_1_microwave
+    type: VARCHAR
+  - name: ha24_1_ventilateur
+    type: VARCHAR
+  - name: ha24_1_machine_a_laver
+    type: VARCHAR
+  - name: ha24_1_aspirateur
+    type: VARCHAR
+  - name: ha24_1_blendeur
+    type: VARCHAR
+  - name: ha24_1_radio_lecteur_cd
+    type: VARCHAR
+  - name: ha24_1_televiseur
+    type: VARCHAR
+  - name: ha24_1_antenne_parabolique
+    type: VARCHAR
+  - name: ha24_1_lecteur_video_dvd
+    type: VARCHAR
+  - name: ha24_1_camera_photo_video
+    type: VARCHAR
+  - name: ha24_1_climatiseur
+    type: VARCHAR
+  - name: ha24_1_telephone_ordinaire
+    type: VARCHAR
+  - name: ha24_1_cellulaire
+    type: VARCHAR
+  - name: ha24_1_ordinateur
+    type: VARCHAR
+  - name: ha24_1_acces_internet
+    type: VARCHAR
+  - name: ha24_1_voiture_camion
+    type: VARCHAR
+  - name: ha24_1_motocyclette
+    type: VARCHAR
+  - name: ha24_1_bicyclette
+    type: VARCHAR
+  - name: ha24_1_horloge
+    type: VARCHAR
+  - name: ha24_1_lampe_kerosene
+    type: BIGINT
+  - name: ha24_1_lampe_propane
+    type: VARCHAR
+  - name: ha24_1_lit_matelas_box
+    type: BIGINT
+  - name: ha24_1_panneau_solaire
+    type: VARCHAR
+  - name: ha24_1_generatrice
+    type: VARCHAR
+  - name: ha24_1_inverter_et_batteries
+    type: VARCHAR
+  - name: ha24_1_lave_vaisselle
+    type: VARCHAR
+  - name: hao_1_courant_electrique
+    type: VARCHAR
+  - name: hao_1_collecte_ordures_menageres
+    type: VARCHAR
+  - name: hao_1_approvisionnement_eau
+    type: VARCHAR
+  - name: hao_1_conditions_de_logement
+    type: VARCHAR
+  - name: ht1_mode_de_tenure_logement
+    type: VARCHAR
+  - name: ht1_1_autres_modes_de_tenure
+    type: VARCHAR
+  - name: ht2_pieces_detenues_la_maison
+    type: VARCHAR
+  - name: ht2_2_autres_pieces_detenues
+    type: VARCHAR
+  - name: ht3_mode_d_acces_maison
+    type: VARCHAR
+  - name: ht3_1_autres_mode_d_acces
+    type: VARCHAR
+  - name: ht4_relation_type_de_locataire
+    type: VARCHAR
+  - name: ht4_1_autres_types_de_location
+    type: VARCHAR
+  - name: ht5_1_frequence_de_paiement
+    type: VARCHAR
+  - name: ht5_2_cout_logement_en_gourdes
+    type: VARCHAR
+  - name: ht5_3_cout_logement_en_dolars
+    type: VARCHAR
+  - name: ht5_4_cout_annuel_us
+    type: VARCHAR
+  - name: ht6_cout_opportunite_logement
+    type: VARCHAR
+  - name: ht6_1_unite_monetaire
+    type: VARCHAR
+  - name: ht7_agrandissemnt_logemnt_pro_fr
+    type: VARCHAR
+  - name: ht8_location_fermage_a_autrui
+    type: VARCHAR
+  - name: ht9_nombre_chambre_loue_afferm
+    type: VARCHAR
+  - name: ht10_1_cout_loyer_en_dollars
+    type: VARCHAR
+  - name: he1_1_revenu_vente_produit_priq
+    type: VARCHAR
+  - name: he1_2_revenu_vente_serv_artisanc
+    type: VARCHAR
+  - name: he1_3_revenu_vente_autr_servicet
+    type: VARCHAR
+  - name: he3_1_engage_autr_pers_act_persp
+    type: VARCHAR
+  - name: he3_2_quantite_personne_embauche
+    type: VARCHAR
+  - name: he4_nbre_jrs_autr_trav_dern_mois
+    type: VARCHAR
+  - name: he4_1_nbre_hre_moyen_travail_jr
+    type: VARCHAR
+  - name: he4_2_salaire_journalier_par_per
+    type: VARCHAR
+  - name: he4_3_unite_monetaire
+    type: VARCHAR
+  - name: he10_possede_compte_banc_ifc
+    type: VARCHAR
+  - name: he12_1_investissement_en_capital_dans_un_projet
+    type: VARCHAR
+  - name: he12_1_recourir_a_un_traitement_medical_necessaire
+    type: VARCHAR
+  - name: he12_1_envoyer_les_enfants_a_l_ecole
+    type: VARCHAR
+  - name: he12_1_acheter_des_meubles_pour_la_maison
+    type: VARCHAR
+  - name: he12_1_acheter_ou_recharger_le_telephone_mobile
+    type: VARCHAR
+  - name: he12_1_acheter_des_vetements_neufs_plutot_que_de_seconde_main
+    type: VARCHAR
+  - name: he12_1_manger_viande_poulet_poisson_aumoins_3_fois_semaine
+    type: VARCHAR
+  - name: he18_1_appuyer_des_aliments_moins_apprecies_et_moins_couteux
+    type: VARCHAR
+  - name: he18_1_empr_nourriture_empr_argent_pr_acheter_nourriture
+    type: VARCHAR
+  - name: he18_1_achat_nourriture_a_credit
+    type: VARCHAR
+  - name: he18_1_compter_sur_aide_parents_ou_ami_dehors_de_maison
+    type: VARCHAR
+  - name: he18_1_limiter_portions_a_l_heure_des_repas
+    type: VARCHAR
+  - name: he18_1_distribuer_argent_mmbres_menage_pr_acheter_aliments_rue
+    type: VARCHAR
+  - name: he18_1_lim_consom_adult_afin_assurer_enfants_recoivent_plus
+    type: VARCHAR
+  - name: he18_1_reduire_le_nombre_de_repas_pris_par_jour
+    type: VARCHAR
+  - name: he18_1_passer_des_journees_entieres_sans_manger
+    type: VARCHAR
+  - name: he19_evol_situat_rapp_2011
+    type: VARCHAR
+  - name: he21_non_scolarite_prob_economiq
+    type: VARCHAR
+  - name: he22_non_scolar_prob_econo_dec11
+    type: VARCHAR
+  - name: he23_actment_pb_payer_transp_sco
+    type: VARCHAR
+  - name: he24_dec11_pb_pay_transp_sco_tra
+    type: VARCHAR
+  - name: he25_actment_prob_payer_cellphon
+    type: VARCHAR
+  - name: he26_dec11_prob_payer_cellphon
+    type: VARCHAR
+  - name: he27_actuellement_possede_inter
+    type: BIGINT
+  - name: he28_dec11_possede_internet
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

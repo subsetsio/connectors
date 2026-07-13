@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-2018-idb-climate-finance-database`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [project_name, project_number, us_total_climate_finance, us_mitigation, approval_date]
+checks:
+  - kind: unique
+    columns: [project_name, project_number, us_total_climate_finance, us_mitigation, approval_date]
+  - kind: not_null
+    col: project_name
+  - kind: not_null
+    col: project_number
+  - kind: not_null
+    col: us_total_climate_finance
+  - kind: not_null
+    col: us_mitigation
+  - kind: not_null
+    col: approval_date
+  - kind: row_floor
+    min: 90
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-data-associated-with-quality-of-parenting-programs-and-child-development-ou`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [asq_tot_av5scales_kd]
+checks:
+  - kind: unique
+    columns: [asq_tot_av5scales_kd]
+  - kind: not_null
+    col: asq_tot_av5scales_kd
+  - kind: row_floor
+    min: 211
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

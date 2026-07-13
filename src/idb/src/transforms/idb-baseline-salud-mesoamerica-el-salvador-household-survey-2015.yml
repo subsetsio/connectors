@@ -1,5 +1,583 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-baseline-salud-mesoamerica-el-salvador-household-survey-2015`. Regenerate after model-verify.
+key: [id_hh, nhogar, weight_hh, codigo, seg2]
+sort: [id_hh, nhogar, weight_hh, codigo, seg2]
 columns:
+  - name: pais_tip
+    type: VARCHAR
+  - name: dep
+    type: VARCHAR
+  - name: mun
+    type: VARCHAR
+  - name: nhogar
+    type: BIGINT
+  - name: id_hh
+    type: BIGINT
+  - name: membernum_hh
+    type: BIGINT
+  - name: date_1st_hh
+    type: BIGINT
+  - name: date_1st_str_hh
+    type: VARCHAR
+  - name: date_2nd_hh
+    type: BIGINT
+  - name: date_2nd_str_hh
+    type: VARCHAR
+  - name: date_3rd_hh
+    type: BIGINT
+  - name: date_3rd_str_hh
+    type: VARCHAR
+  - name: date_final_hh
+    type: BIGINT
+  - name: date_final_str_hh
+    type: VARCHAR
+  - name: visitnum_hh
+    type: BIGINT
+  - name: int_dur_hh
+    type: BIGINT
+  - name: result_v1_hh
+    type: VARCHAR
+  - name: result_v2_hh
+    type: VARCHAR
+  - name: result_v3_hh
+    type: VARCHAR
+  - name: result_hh
+    type: VARCHAR
+  - name: replacement_hh
+    type: VARCHAR
+  - name: id_replaced_hh
+    type: BIGINT
+  - name: id_interviewer_hh
+    type: BIGINT
+  - name: id_supervisor_hh
+    type: BIGINT
+  - name: date_sup_hh
+    type: BIGINT
+  - name: date_sup_str_hh
+    type: VARCHAR
+  - name: id_dataentry_hh
+    type: BIGINT
+  - name: date_entry_hh
+    type: BIGINT
+  - name: date_entry_str_hh
+    type: VARCHAR
+  - name: c_ini_ho
+    type: BIGINT
+  - name: c_ini_mi
+    type: BIGINT
+  - name: c_fin_ho
+    type: BIGINT
+  - name: c_fin_mi
+    type: BIGINT
+  - name: hh_age_mon_01
+    type: BIGINT
+  - name: hh_sex_01
+    type: VARCHAR
+  - name: hh_relation_01
+    type: VARCHAR
+  - name: hh_marital_01
+    type: VARCHAR
+  - name: id_roster_mom_01
+    type: VARCHAR
+  - name: id_roster_dad_01
+    type: VARCHAR
+  - name: c_comment1_mod1_01
+    type: VARCHAR
+  - name: c_comment2_mod1_01
+    type: VARCHAR
+  - name: c_comment3_mod1_01
+    type: VARCHAR
+  - name: hh_age_mon_02
+    type: BIGINT
+  - name: hh_sex_02
+    type: VARCHAR
+  - name: hh_relation_02
+    type: VARCHAR
+  - name: hh_marital_02
+    type: VARCHAR
+  - name: id_roster_mom_02
+    type: VARCHAR
+  - name: id_roster_dad_02
+    type: VARCHAR
+  - name: c_comment1_mod1_02
+    type: VARCHAR
+  - name: c_comment2_mod1_02
+    type: VARCHAR
+  - name: c_comment3_mod1_02
+    type: VARCHAR
+  - name: hh_age_mon_03
+    type: BIGINT
+  - name: hh_sex_03
+    type: VARCHAR
+  - name: hh_relation_03
+    type: VARCHAR
+  - name: hh_marital_03
+    type: VARCHAR
+  - name: id_roster_mom_03
+    type: VARCHAR
+  - name: id_roster_dad_03
+    type: VARCHAR
+  - name: c_comment1_mod1_03
+    type: VARCHAR
+  - name: c_comment2_mod1_03
+    type: VARCHAR
+  - name: c_comment3_mod1_03
+    type: VARCHAR
+  - name: hh_age_mon_04
+    type: BIGINT
+  - name: hh_sex_04
+    type: VARCHAR
+  - name: hh_relation_04
+    type: VARCHAR
+  - name: hh_marital_04
+    type: VARCHAR
+  - name: id_roster_mom_04
+    type: VARCHAR
+  - name: id_roster_dad_04
+    type: VARCHAR
+  - name: c_comment1_mod1_04
+    type: VARCHAR
+  - name: c_comment2_mod1_04
+    type: VARCHAR
+  - name: c_comment3_mod1_04
+    type: VARCHAR
+  - name: hh_age_mon_05
+    type: BIGINT
+  - name: hh_sex_05
+    type: VARCHAR
+  - name: hh_relation_05
+    type: VARCHAR
+  - name: hh_marital_05
+    type: VARCHAR
+  - name: id_roster_mom_05
+    type: VARCHAR
+  - name: id_roster_dad_05
+    type: VARCHAR
+  - name: c_comment1_mod1_05
+    type: VARCHAR
+  - name: c_comment2_mod1_05
+    type: VARCHAR
+  - name: c_comment3_mod1_05
+    type: VARCHAR
+  - name: hh_age_mon_06
+    type: BIGINT
+  - name: hh_sex_06
+    type: VARCHAR
+  - name: hh_relation_06
+    type: VARCHAR
+  - name: hh_marital_06
+    type: VARCHAR
+  - name: id_roster_mom_06
+    type: VARCHAR
+  - name: id_roster_dad_06
+    type: VARCHAR
+  - name: c_comment1_mod1_06
+    type: VARCHAR
+  - name: c_comment2_mod1_06
+    type: VARCHAR
+  - name: c_comment3_mod1_06
+    type: VARCHAR
+  - name: hh_age_mon_07
+    type: BIGINT
+  - name: hh_sex_07
+    type: VARCHAR
+  - name: hh_relation_07
+    type: VARCHAR
+  - name: hh_marital_07
+    type: VARCHAR
+  - name: id_roster_mom_07
+    type: VARCHAR
+  - name: id_roster_dad_07
+    type: VARCHAR
+  - name: c_comment1_mod1_07
+    type: VARCHAR
+  - name: c_comment2_mod1_07
+    type: VARCHAR
+  - name: c_comment3_mod1_07
+    type: VARCHAR
+  - name: hh_age_mon_08
+    type: BIGINT
+  - name: hh_sex_08
+    type: VARCHAR
+  - name: hh_relation_08
+    type: VARCHAR
+  - name: hh_marital_08
+    type: VARCHAR
+  - name: id_roster_mom_08
+    type: VARCHAR
+  - name: id_roster_dad_08
+    type: VARCHAR
+  - name: c_comment1_mod1_08
+    type: VARCHAR
+  - name: c_comment2_mod1_08
+    type: VARCHAR
+  - name: c_comment3_mod1_08
+    type: VARCHAR
+  - name: hh_age_mon_09
+    type: BIGINT
+  - name: hh_sex_09
+    type: VARCHAR
+  - name: hh_relation_09
+    type: VARCHAR
+  - name: hh_marital_09
+    type: VARCHAR
+  - name: id_roster_mom_09
+    type: VARCHAR
+  - name: id_roster_dad_09
+    type: VARCHAR
+  - name: c_comment1_mod1_09
+    type: VARCHAR
+  - name: c_comment2_mod1_09
+    type: VARCHAR
+  - name: c_comment3_mod1_09
+    type: VARCHAR
+  - name: hh_age_mon_10
+    type: BIGINT
+  - name: hh_sex_10
+    type: VARCHAR
+  - name: hh_relation_10
+    type: VARCHAR
+  - name: hh_marital_10
+    type: VARCHAR
+  - name: id_roster_mom_10
+    type: VARCHAR
+  - name: id_roster_dad_10
+    type: VARCHAR
+  - name: c_comment1_mod1_10
+    type: VARCHAR
+  - name: c_comment2_mod1_10
+    type: VARCHAR
+  - name: c_comment3_mod1_10
+    type: VARCHAR
+  - name: hh_age_mon_11
+    type: BIGINT
+  - name: hh_sex_11
+    type: VARCHAR
+  - name: hh_relation_11
+    type: VARCHAR
+  - name: hh_marital_11
+    type: VARCHAR
+  - name: id_roster_mom_11
+    type: VARCHAR
+  - name: id_roster_dad_11
+    type: VARCHAR
+  - name: c_comment1_mod1_11
+    type: VARCHAR
+  - name: c_comment2_mod1_11
+    type: VARCHAR
+  - name: c_comment3_mod1_11
+    type: VARCHAR
+  - name: hh_age_mon_12
+    type: BIGINT
+  - name: hh_sex_12
+    type: VARCHAR
+  - name: hh_relation_12
+    type: VARCHAR
+  - name: hh_marital_12
+    type: VARCHAR
+  - name: id_roster_mom_12
+    type: VARCHAR
+  - name: id_roster_dad_12
+    type: VARCHAR
+  - name: c_comment1_mod1_12
+    type: VARCHAR
+  - name: c_comment2_mod1_12
+    type: VARCHAR
+  - name: c_comment3_mod1_12
+    type: VARCHAR
+  - name: hh_age_mon_13
+    type: BIGINT
+  - name: hh_sex_13
+    type: VARCHAR
+  - name: hh_relation_13
+    type: VARCHAR
+  - name: hh_marital_13
+    type: VARCHAR
+  - name: id_roster_mom_13
+    type: VARCHAR
+  - name: id_roster_dad_13
+    type: VARCHAR
+  - name: c_comment1_mod1_13
+    type: VARCHAR
+  - name: c_comment2_mod1_13
+    type: VARCHAR
+  - name: c_comment3_mod1_13
+    type: VARCHAR
+  - name: hh_age_mon_14
+    type: BIGINT
+  - name: hh_sex_14
+    type: VARCHAR
+  - name: hh_relation_14
+    type: VARCHAR
+  - name: hh_marital_14
+    type: VARCHAR
+  - name: id_roster_mom_14
+    type: VARCHAR
+  - name: id_roster_dad_14
+    type: VARCHAR
+  - name: c_comment1_mod1_14
+    type: VARCHAR
+  - name: c_comment2_mod1_14
+    type: VARCHAR
+  - name: c_comment3_mod1_14
+    type: VARCHAR
+  - name: hh_age_mon_15
+    type: BIGINT
+  - name: hh_sex_15
+    type: VARCHAR
+  - name: hh_relation_15
+    type: VARCHAR
+  - name: hh_marital_15
+    type: VARCHAR
+  - name: id_roster_mom_15
+    type: VARCHAR
+  - name: id_roster_dad_15
+    type: VARCHAR
+  - name: c_comment1_mod1_15
+    type: VARCHAR
+  - name: c_comment2_mod1_15
+    type: VARCHAR
+  - name: c_comment3_mod1_15
+    type: VARCHAR
+  - name: hh_age_mon_16
+    type: BIGINT
+  - name: hh_sex_16
+    type: VARCHAR
+  - name: hh_relation_16
+    type: VARCHAR
+  - name: hh_marital_16
+    type: VARCHAR
+  - name: id_roster_mom_16
+    type: VARCHAR
+  - name: id_roster_dad_16
+    type: VARCHAR
+  - name: c_comment1_mod1_16
+    type: VARCHAR
+  - name: c_comment2_mod1_16
+    type: VARCHAR
+  - name: c_comment3_mod1_16
+    type: VARCHAR
+  - name: hh_age_mon_17
+    type: BIGINT
+  - name: hh_sex_17
+    type: VARCHAR
+  - name: hh_relation_17
+    type: VARCHAR
+  - name: hh_marital_17
+    type: VARCHAR
+  - name: id_roster_mom_17
+    type: VARCHAR
+  - name: id_roster_dad_17
+    type: VARCHAR
+  - name: c_comment1_mod1_17
+    type: VARCHAR
+  - name: c_comment2_mod1_17
+    type: VARCHAR
+  - name: c_comment3_mod1_17
+    type: VARCHAR
+  - name: hh_age_mon_18
+    type: BIGINT
+  - name: hh_sex_18
+    type: VARCHAR
+  - name: hh_relation_18
+    type: VARCHAR
+  - name: hh_marital_18
+    type: VARCHAR
+  - name: id_roster_mom_18
+    type: VARCHAR
+  - name: id_roster_dad_18
+    type: VARCHAR
+  - name: c_comment1_mod1_18
+    type: VARCHAR
+  - name: c_comment2_mod1_18
+    type: VARCHAR
+  - name: c_comment3_mod1_18
+    type: VARCHAR
+  - name: membernum_hh_ihme
+    type: BIGINT
+  - name: hh_smoke
+    type: VARCHAR
+  - name: hh_water
+    type: VARCHAR
+  - name: hh_water_loc
+    type: VARCHAR
+  - name: hh_water_time
+    type: BIGINT
+  - name: hh_water_mod
+    type: VARCHAR
+  - name: hh_water_safe
+    type: VARCHAR
+  - name: hh_toilet_type
+    type: VARCHAR
+  - name: hh_toilet_share
+    type: VARCHAR
+  - name: hh_toilet_sharenum
+    type: BIGINT
+  - name: hh_fuel
+    type: VARCHAR
+  - name: hh_cook_loc
+    type: VARCHAR
+  - name: hh_kitchen
+    type: VARCHAR
+  - name: hh_bedrooms
+    type: BIGINT
+  - name: hh_elec
+    type: VARCHAR
+  - name: hh_radio
+    type: VARCHAR
+  - name: hh_tv
+    type: VARCHAR
+  - name: hh_tel_mobile
+    type: VARCHAR
+  - name: hh_tel_fixed
+    type: VARCHAR
+  - name: hh_refrig
+    type: VARCHAR
+  - name: hh_watch
+    type: VARCHAR
+  - name: hh_bike
+    type: VARCHAR
+  - name: hh_scooter
+    type: VARCHAR
+  - name: hh_animalcart
+    type: VARCHAR
+  - name: hh_car
+    type: VARCHAR
+  - name: hh_truck
+    type: VARCHAR
+  - name: hh_agland
+    type: VARCHAR
+  - name: hh_agland_area
+    type: DOUBLE
+  - name: hh_aganimals
+    type: VARCHAR
+  - name: hh_bankacct
+    type: VARCHAR
+  - name: hh_exp_tot
+    type: BIGINT
+  - name: hh_exp_food_any
+    type: VARCHAR
+  - name: hh_exp_food_amt
+    type: BIGINT
+  - name: hh_exp_iu_any
+    type: VARCHAR
+  - name: hh_exp_iu_amt
+    type: BIGINT
+  - name: hh_exp_edu_any
+    type: VARCHAR
+  - name: hh_exp_edu_amt
+    type: BIGINT
+  - name: hh_exp_hc_oop_any
+    type: VARCHAR
+  - name: hh_exp_hc_oop_amt
+    type: BIGINT
+  - name: hh_exp_hc_soc_any
+    type: VARCHAR
+  - name: hh_exp_hc_soc_amt
+    type: BIGINT
+  - name: hh_exp_hc_priv_any
+    type: VARCHAR
+  - name: hh_exp_hc_priv_amt
+    type: BIGINT
+  - name: hh_exp_hc_access_any
+    type: VARCHAR
+  - name: hh_exp_hc_access_amt
+    type: BIGINT
+  - name: hh_exp_oth_any
+    type: VARCHAR
+  - name: hh_exp_oth_amt
+    type: BIGINT
+  - name: hh_exp_hc_ipc_any
+    type: VARCHAR
+  - name: hh_exp_hc_ipc_amt
+    type: BIGINT
+  - name: hh_exp_hc_ipc_oth_any
+    type: VARCHAR
+  - name: hh_exp_hc_ipc_oth_amt
+    type: BIGINT
+  - name: hh_exp_hc_opc_any
+    type: VARCHAR
+  - name: hh_exp_hc_opc_amt
+    type: BIGINT
+  - name: hh_exp_hc_trad_any
+    type: VARCHAR
+  - name: hh_exp_hc_trad_amt
+    type: BIGINT
+  - name: hh_exp_hc_dent_any
+    type: VARCHAR
+  - name: hh_exp_hc_dent_amt
+    type: BIGINT
+  - name: hh_exp_hc_pharm_any
+    type: VARCHAR
+  - name: hh_exp_hc_pharm_amt
+    type: BIGINT
+  - name: hh_exp_hc_aids_any
+    type: VARCHAR
+  - name: hh_exp_hc_aids_amt
+    type: BIGINT
+  - name: hh_exp_hc_tests_any
+    type: VARCHAR
+  - name: hh_exp_hc_tests_amt
+    type: BIGINT
+  - name: hh_exp_hc_oth_any
+    type: VARCHAR
+  - name: hh_exp_hc_oth_amt
+    type: BIGINT
+  - name: hh_hc_staynum
+    type: BIGINT
+  - name: hh_exp_hc_ipcyr
+    type: BIGINT
+  - name: hh_fin_hc_income_any
+    type: VARCHAR
+  - name: hh_fin_hc_income_amt
+    type: BIGINT
+  - name: hh_fin_hc_savings_any
+    type: VARCHAR
+  - name: hh_fin_hc_savings_amt
+    type: BIGINT
+  - name: hh_fin_hc_insur_any
+    type: VARCHAR
+  - name: hh_fin_hc_insur_amt
+    type: BIGINT
+  - name: hh_fin_hc_items_any
+    type: VARCHAR
+  - name: hh_fin_hc_items_amt
+    type: BIGINT
+  - name: hh_fin_hc_prop_any
+    type: VARCHAR
+  - name: hh_fin_hc_prop_amt
+    type: BIGINT
+  - name: hh_fin_hc_relative_any
+    type: VARCHAR
+  - name: hh_fin_hc_relative_amt
+    type: BIGINT
+  - name: hh_fin_hc_loan_any
+    type: VARCHAR
+  - name: hh_fin_hc_loan_amt
+    type: BIGINT
+  - name: hh_fin_hc_oth_any
+    type: VARCHAR
+  - name: hh_fin_hc_oth_amt
+    type: BIGINT
+  - name: hh_ecos_address
+    type: VARCHAR
+  - name: hh_ecos_time_min
+    type: BIGINT
+  - name: ecos_timecat
+    type: VARCHAR
+  - name: wtseg
+    type: VARCHAR
+  - name: codigo
+    type: BIGINT
+  - name: p_selection_hh
+    type: DOUBLE
+  - name: weight_hh
+    type: DOUBLE
+  - name: p_selection_hhx
+    type: DOUBLE
+  - name: weight_hhx
+    type: DOUBLE
+  - name: seg2
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

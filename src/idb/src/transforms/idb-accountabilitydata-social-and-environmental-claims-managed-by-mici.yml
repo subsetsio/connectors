@@ -1,5 +1,202 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-accountabilitydata-social-and-environmental-claims-managed-by-mici`. Regenerate after model-verify.
+key: [reg_notification, complaintid, receptiondate, case_number, country]
+temporal: receptiondate
+sort: [receptiondate, reg_notification, complaintid, case_number, country]
 columns:
+  - name: case_number
+    type: VARCHAR
+  - name: complaintid
+    type: VARCHAR
+  - name: casetitleen
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: currentphase
+    type: VARCHAR
+  - name: cp_status
+    type: VARCHAR
+  - name: crp_status
+    type: VARCHAR
+  - name: receptiondate
+    type: TIMESTAMP
+  - name: closuredate
+    type: TIMESTAMP
+  - name: closurereason
+    type: VARCHAR
+  - name: institution
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: legacy_request
+    type: BOOLEAN
+  - name: registration_outcome
+    type: VARCHAR
+  - name: reg_notification
+    type: TIMESTAMP
+  - name: eligduedate
+    type: TIMESTAMP
+  - name: eligmgmtresponse
+    type: TIMESTAMP
+  - name: eligsuspension
+    type: BOOLEAN
+  - name: eligextension
+    type: BOOLEAN
+  - name: eligmemodate
+    type: TIMESTAMP
+  - name: eligibility_outcome
+    type: VARCHAR
+  - name: phase_activated
+    type: VARCHAR
+  - name: cp_exists
+    type: BOOLEAN
+  - name: cp_feasible
+    type: BOOLEAN
+  - name: cp_assess_extension
+    type: BOOLEAN
+  - name: cp_assessmentdate
+    type: TIMESTAMP
+  - name: cp_extension
+    type: BOOLEAN
+  - name: cp_agreement
+    type: BOOLEAN
+  - name: cp_agreementdate
+    type: TIMESTAMP
+  - name: cp_reportdate
+    type: TIMESTAMP
+  - name: cp_monitoring
+    type: BOOLEAN
+  - name: cp_monitor_start
+    type: TIMESTAMP
+  - name: cp_closed
+    type: BOOLEAN
+  - name: crp_exists
+    type: BOOLEAN
+  - name: crp_originating_step
+    type: VARCHAR
+  - name: crp_tors_extension
+    type: BOOLEAN
+  - name: crp_tors_approved
+    type: BOOLEAN
+  - name: crp_tors_reject_investigate
+    type: BOOLEAN
+  - name: crp_extension
+    type: BOOLEAN
+  - name: crp_reportduedate
+    type: TIMESTAMP
+  - name: crp_report_consideration
+    type: TIMESTAMP
+  - name: crp_findings_apprvd
+    type: BIGINT
+  - name: crp_recomm_apprvd
+    type: BIGINT
+  - name: crp_actionplan
+    type: BOOLEAN
+  - name: crp_closed
+    type: BOOLEAN
+  - name: casetitlees
+    type: VARCHAR
+  - name: casetitlept
+    type: VARCHAR
+  - name: casetitlefr
+    type: VARCHAR
+  - name: type_of_requester
+    type: VARCHAR
+  - name: repres_non_cso
+    type: BOOLEAN
+  - name: repres_cso
+    type: BOOLEAN
+  - name: operationnumber
+    type: VARCHAR
+  - name: idbg_financing
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: micipolicy
+    type: BIGINT
+  - name: cp2010_noteligible_date
+    type: TIMESTAMP
+  - name: crp2010_noteligible_date
+    type: TIMESTAMP
+  - name: haswebpage
+    type: BOOLEAN
+  - name: reprisalsalleged
+    type: BOOLEAN
+  - name: requestedconfidentiality
+    type: BOOLEAN
+  - name: impact_life
+    type: BOOLEAN
+  - name: impact_environ
+    type: BOOLEAN
+  - name: impact_health
+    type: BOOLEAN
+  - name: impact_safety
+    type: BOOLEAN
+  - name: impact_patrim
+    type: BOOLEAN
+  - name: impact_cultural
+    type: BOOLEAN
+  - name: impact_social_fabric
+    type: BOOLEAN
+  - name: alleg_risk_analysis
+    type: BOOLEAN
+  - name: alleg_no_consultation
+    type: BOOLEAN
+  - name: alleg_no_information
+    type: BOOLEAN
+  - name: iic_inform_policy
+    type: BOOLEAN
+  - name: iic_es_policy
+    type: BOOLEAN
+  - name: iic_perf_std1
+    type: BOOLEAN
+  - name: iic_perf_std2
+    type: BOOLEAN
+  - name: iic_perf_std3
+    type: BOOLEAN
+  - name: iic_perf_std4
+    type: BOOLEAN
+  - name: iic_perf_std5
+    type: BOOLEAN
+  - name: iic_perf_std6
+    type: BOOLEAN
+  - name: iic_perf_std7
+    type: BOOLEAN
+  - name: iic_perf_std8
+    type: BOOLEAN
+  - name: op102
+    type: BOOLEAN
+  - name: op703
+    type: BOOLEAN
+  - name: op704
+    type: BOOLEAN
+  - name: op708
+    type: BOOLEAN
+  - name: op710
+    type: BOOLEAN
+  - name: op761
+    type: BOOLEAN
+  - name: op765
+    type: BOOLEAN
+  - name: idb_espf
+    type: BOOLEAN
+  - name: crp_tors_sent
+    type: TIMESTAMP
+  - name: crp_torcomments_received
+    type: TIMESTAMP
+  - name: project_indicator_recep
+    type: BOOLEAN
+  - name: project_indicator_elig
+    type: BOOLEAN
+  - name: relatedoperations
+    type: VARCHAR
+  - name: webpage
+    type: VARCHAR
+  - name: crp_reportdate
+    type: TIMESTAMP
   - name: source_resource
     type: VARCHAR

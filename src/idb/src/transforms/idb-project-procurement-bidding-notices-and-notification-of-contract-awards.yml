@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-project-procurement-bidding-notices-and-notification-of-contract-awards`. Regenerate after model-verify.
+key: []
+temporal: publicationdate
+sort: [publicationdate]
 columns:
   - name: noticeid
-    type: VARCHAR
+    type: BIGINT
   - name: type
     type: VARCHAR
   - name: countryname
@@ -21,11 +25,11 @@ columns:
   - name: projectname
     type: VARCHAR
   - name: publicationyear
-    type: VARCHAR
+    type: BIGINT
   - name: publicationdate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: deadline
-    type: VARCHAR
+    type: DATE
   - name: sector
     type: VARCHAR
   - name: sectorenglnm

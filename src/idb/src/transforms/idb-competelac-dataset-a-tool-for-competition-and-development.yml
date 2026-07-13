@@ -1,11 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-competelac-dataset-a-tool-for-competition-and-development`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: area
     type: VARCHAR
   - name: iso_code
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: sector_agg
     type: VARCHAR
   - name: sector
@@ -19,33 +23,33 @@ columns:
   - name: sample_threshold
     type: VARCHAR
   - name: value
-    type: VARCHAR
+    type: DOUBLE
   - name: mean
-    type: VARCHAR
+    type: DOUBLE
   - name: sd
-    type: VARCHAR
+    type: DOUBLE
   - name: p1
-    type: VARCHAR
+    type: DOUBLE
   - name: p5
-    type: VARCHAR
+    type: DOUBLE
   - name: p10
-    type: VARCHAR
+    type: DOUBLE
   - name: p25
-    type: VARCHAR
+    type: DOUBLE
   - name: p50
-    type: VARCHAR
+    type: DOUBLE
   - name: p75
-    type: VARCHAR
+    type: DOUBLE
   - name: p90
-    type: VARCHAR
+    type: DOUBLE
   - name: p95
-    type: VARCHAR
+    type: DOUBLE
   - name: p99
-    type: VARCHAR
+    type: DOUBLE
   - name: number_obs
-    type: VARCHAR
+    type: BIGINT
   - name: total
-    type: VARCHAR
+    type: DOUBLE
   - name: method_estimation
     type: VARCHAR
   - name: weight_scheme

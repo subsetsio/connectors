@@ -1,14 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-civil-service-development-index-2004-2013`. Regenerate after model-verify.
+key: [pais, nombre_indicador, ano, categoria_indicador]
+sort: [pais, nombre_indicador, ano, categoria_indicador]
 columns:
-  - name: Pais
+  - name: pais
     type: VARCHAR
-  - name: Ano
+  - name: ano
+    type: BIGINT
+  - name: categoria_indicador
     type: VARCHAR
-  - name: Categoria_Indicador
+  - name: nombre_indicador
     type: VARCHAR
-  - name: Nombre_Indicador
-    type: VARCHAR
-  - name: Puntaje
-    type: VARCHAR
+  - name: puntaje
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

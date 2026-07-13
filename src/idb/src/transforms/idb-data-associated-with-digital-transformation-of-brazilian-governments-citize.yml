@@ -1,5 +1,65 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-digital-transformation-of-brazilian-governments-citize`. Regenerate after model-verify.
+key: [question_response, total, question_text, question_number]
+sort: [question_response, total, question_text, question_number]
 columns:
+  - name: question_number
+    type: VARCHAR
+  - name: question_text
+    type: VARCHAR
+  - name: question_response
+    type: VARCHAR
+  - name: total
+    type: DOUBLE
+  - name: regiao_norte
+    type: DOUBLE
+  - name: regiao_nordeste
+    type: DOUBLE
+  - name: regiao_sudeste
+    type: DOUBLE
+  - name: regiao_sul
+    type: DOUBLE
+  - name: regiao_centro
+    type: DOUBLE
+  - name: tipo_capital
+    type: DOUBLE
+  - name: tipo_rm
+    type: DOUBLE
+  - name: tipo_interior
+    type: DOUBLE
+  - name: genero_masculino
+    type: DOUBLE
+  - name: genero_feminino
+    type: DOUBLE
+  - name: idade_16_24
+    type: DOUBLE
+  - name: idade_25_34
+    type: DOUBLE
+  - name: idade_35_44
+    type: DOUBLE
+  - name: idade_45_59
+    type: DOUBLE
+  - name: idade_60_mais
+    type: DOUBLE
+  - name: escolaridade_ate_fund_completo
+    type: DOUBLE
+  - name: escolaridade_medio_completo
+    type: DOUBLE
+  - name: escolaridade_sup_completo
+    type: DOUBLE
+  - name: renda_familiar_ate_2_sm
+    type: DOUBLE
+  - name: renda_familiar_mais_de_2_sm_a_3_sm
+    type: DOUBLE
+  - name: renda_familiar_mais_de_3_sm_a_5_sm
+    type: DOUBLE
+  - name: renda_familiar_mais_de_5_sm
+    type: DOUBLE
+  - name: renda_familiar_nao_tem_renda_nao_sabe
+    type: DOUBLE
+  - name: ocupacao_pea
+    type: DOUBLE
+  - name: ocupacao_nao_pea
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

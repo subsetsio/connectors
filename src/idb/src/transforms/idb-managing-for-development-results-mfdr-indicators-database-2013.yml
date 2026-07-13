@@ -1,5 +1,40 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-managing-for-development-results-mfdr-indicators-database-2013`. Regenerate after model-verify.
+key: []
 columns:
+  - name: pais
+    type: VARCHAR
+  - name: idpilar
+    type: BIGINT
+  - name: titulopilar
+    type: VARCHAR
+  - name: idcomponente
+    type: BIGINT
+  - name: titulocomponente
+    type: VARCHAR
+  - name: idindicador
+    type: BIGINT
+  - name: tituloindicador
+    type: VARCHAR
+  - name: idrequisito
+    type: BIGINT
+  - name: titulorequisito
+    type: VARCHAR
+  - name: respuestarequisito
+    type: VARCHAR
+  - name: porcentaje
+    type: DOUBLE
+  - name: dias
+    type: BIGINT
+  - name: promedio
+    type: DOUBLE
+  - name: titulosector
+    type: VARCHAR
+  - name: ano_texto
+    type: BIGINT
+  - name: ano_fechayhora
+    type: BIGINT
+  - name: id_paisrequisito
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

@@ -1,5 +1,586 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-baseline-salud-mesoamerica-honduras-household-survey-2015`. Regenerate after model-verify.
+key: []
 columns:
+  - name: nhogar
+    type: BIGINT
+  - name: replacement_hh
+    type: VARCHAR
+  - name: id_interviewer_hh
+    type: VARCHAR
+  - name: id_supervisor_hh
+    type: VARCHAR
+  - name: interview_lang_1
+    type: VARCHAR
+  - name: interview_lang_1span
+    type: VARCHAR
+  - name: interview_lang_1cho
+    type: VARCHAR
+  - name: interview_lang_1gar
+    type: VARCHAR
+  - name: interview_lang_1len
+    type: VARCHAR
+  - name: interview_lang_1pay
+    type: VARCHAR
+  - name: interview_lang_1tol
+    type: VARCHAR
+  - name: interview_lang_1jic
+    type: VARCHAR
+  - name: interview_lang_1oth
+    type: VARCHAR
+  - name: interview_lang_1othtext
+    type: VARCHAR
+  - name: hh_avail
+    type: VARCHAR
+  - name: hh_consent
+    type: VARCHAR
+  - name: hh_newmembers
+    type: VARCHAR
+  - name: hh_members
+    type: BIGINT
+  - name: hh_sex_1
+    type: VARCHAR
+  - name: hh_age_yr_1
+    type: BIGINT
+  - name: hh_age_mon_1
+    type: BIGINT
+  - name: hh_relation_1
+    type: VARCHAR
+  - name: hh_relation_1spec
+    type: VARCHAR
+  - name: hh_marital_1
+    type: VARCHAR
+  - name: id_roster_mom_1
+    type: BIGINT
+  - name: hh_lang_1
+    type: VARCHAR
+  - name: hh_lang_1span
+    type: VARCHAR
+  - name: hh_lang_1cho
+    type: VARCHAR
+  - name: hh_lang_1gar
+    type: VARCHAR
+  - name: hh_lang_1len
+    type: VARCHAR
+  - name: hh_lang_1pay
+    type: VARCHAR
+  - name: hh_lang_1tol
+    type: VARCHAR
+  - name: hh_lang_1jic
+    type: VARCHAR
+  - name: hh_lang_1oth
+    type: VARCHAR
+  - name: hh_lang_1othtext
+    type: VARCHAR
+  - name: hh_lang_1dk
+    type: VARCHAR
+  - name: hh_lang_1dtr
+    type: VARCHAR
+  - name: hh_sex_2
+    type: VARCHAR
+  - name: hh_age_yr_2
+    type: BIGINT
+  - name: hh_age_mon_2
+    type: BIGINT
+  - name: hh_relation_2
+    type: VARCHAR
+  - name: hh_relation_2spec
+    type: VARCHAR
+  - name: hh_marital_2
+    type: VARCHAR
+  - name: id_roster_mom_2
+    type: BIGINT
+  - name: hh_lang_2
+    type: VARCHAR
+  - name: hh_lang_2span
+    type: VARCHAR
+  - name: hh_lang_2cho
+    type: VARCHAR
+  - name: hh_lang_2gar
+    type: VARCHAR
+  - name: hh_lang_2len
+    type: VARCHAR
+  - name: hh_lang_2pay
+    type: VARCHAR
+  - name: hh_lang_2tol
+    type: VARCHAR
+  - name: hh_lang_2jic
+    type: VARCHAR
+  - name: hh_lang_2oth
+    type: VARCHAR
+  - name: hh_lang_2othtext
+    type: VARCHAR
+  - name: hh_lang_2dk
+    type: VARCHAR
+  - name: hh_lang_2dtr
+    type: VARCHAR
+  - name: hh_sex_3
+    type: VARCHAR
+  - name: hh_age_yr_3
+    type: VARCHAR
+  - name: hh_age_mon_3
+    type: VARCHAR
+  - name: hh_relation_3
+    type: VARCHAR
+  - name: hh_relation_3spec
+    type: VARCHAR
+  - name: hh_marital_3
+    type: VARCHAR
+  - name: id_roster_mom_3
+    type: VARCHAR
+  - name: hh_lang_3
+    type: VARCHAR
+  - name: hh_lang_3span
+    type: VARCHAR
+  - name: hh_lang_3cho
+    type: VARCHAR
+  - name: hh_lang_3gar
+    type: VARCHAR
+  - name: hh_lang_3len
+    type: VARCHAR
+  - name: hh_lang_3pay
+    type: VARCHAR
+  - name: hh_lang_3tol
+    type: VARCHAR
+  - name: hh_lang_3jic
+    type: VARCHAR
+  - name: hh_lang_3oth
+    type: VARCHAR
+  - name: hh_lang_3othtext
+    type: VARCHAR
+  - name: hh_lang_3dk
+    type: VARCHAR
+  - name: hh_lang_3dtr
+    type: VARCHAR
+  - name: hh_sex_4
+    type: VARCHAR
+  - name: hh_age_yr_4
+    type: VARCHAR
+  - name: hh_age_mon_4
+    type: VARCHAR
+  - name: hh_relation_4
+    type: VARCHAR
+  - name: hh_relation_4spec
+    type: VARCHAR
+  - name: hh_marital_4
+    type: VARCHAR
+  - name: id_roster_mom_4
+    type: VARCHAR
+  - name: hh_lang_4
+    type: VARCHAR
+  - name: hh_lang_4span
+    type: VARCHAR
+  - name: hh_lang_4cho
+    type: VARCHAR
+  - name: hh_lang_4gar
+    type: VARCHAR
+  - name: hh_lang_4len
+    type: VARCHAR
+  - name: hh_lang_4pay
+    type: VARCHAR
+  - name: hh_lang_4tol
+    type: VARCHAR
+  - name: hh_lang_4jic
+    type: VARCHAR
+  - name: hh_lang_4oth
+    type: VARCHAR
+  - name: hh_lang_4othtext
+    type: VARCHAR
+  - name: hh_lang_4dk
+    type: VARCHAR
+  - name: hh_lang_4dtr
+    type: VARCHAR
+  - name: hh_sex_5
+    type: VARCHAR
+  - name: hh_age_yr_5
+    type: VARCHAR
+  - name: hh_age_mon_5
+    type: VARCHAR
+  - name: hh_relation_5
+    type: VARCHAR
+  - name: hh_relation_5spec
+    type: VARCHAR
+  - name: hh_marital_5
+    type: VARCHAR
+  - name: id_roster_mom_5
+    type: VARCHAR
+  - name: hh_lang_5
+    type: VARCHAR
+  - name: hh_lang_5span
+    type: VARCHAR
+  - name: hh_lang_5cho
+    type: VARCHAR
+  - name: hh_lang_5gar
+    type: VARCHAR
+  - name: hh_lang_5len
+    type: VARCHAR
+  - name: hh_lang_5pay
+    type: VARCHAR
+  - name: hh_lang_5tol
+    type: VARCHAR
+  - name: hh_lang_5jic
+    type: VARCHAR
+  - name: hh_lang_5oth
+    type: VARCHAR
+  - name: hh_lang_5othtext
+    type: VARCHAR
+  - name: hh_lang_5dk
+    type: VARCHAR
+  - name: hh_lang_5dtr
+    type: VARCHAR
+  - name: hh_water
+    type: VARCHAR
+  - name: hh_waterspec
+    type: VARCHAR
+  - name: hh_water_loc
+    type: VARCHAR
+  - name: hh_water_time
+    type: BIGINT
+  - name: hh_water_mod
+    type: VARCHAR
+  - name: hh_water_safe_do
+    type: VARCHAR
+  - name: hh_water_safe_do1
+    type: VARCHAR
+  - name: hh_water_safe_do2
+    type: VARCHAR
+  - name: hh_water_safe_do3
+    type: VARCHAR
+  - name: hh_water_safe_do4
+    type: VARCHAR
+  - name: hh_water_safe_do5
+    type: VARCHAR
+  - name: hh_water_safe_do6
+    type: VARCHAR
+  - name: hh_water_safe_do7
+    type: VARCHAR
+  - name: hh_water_safe_do7spec
+    type: VARCHAR
+  - name: hh_water_safe_dodk
+    type: VARCHAR
+  - name: hh_water_safe_dodtr
+    type: VARCHAR
+  - name: hh_toilet_type
+    type: VARCHAR
+  - name: hh_toilet_share
+    type: VARCHAR
+  - name: hh_toilet_sharenum
+    type: VARCHAR
+  - name: hh_fuel
+    type: VARCHAR
+  - name: hh_fuel1
+    type: VARCHAR
+  - name: hh_fuel2
+    type: VARCHAR
+  - name: hh_fuel3
+    type: VARCHAR
+  - name: hh_fuel4
+    type: VARCHAR
+  - name: hh_fuel5
+    type: VARCHAR
+  - name: hh_fuel6
+    type: VARCHAR
+  - name: hh_fuel7
+    type: VARCHAR
+  - name: hh_fuel8
+    type: VARCHAR
+  - name: hh_fueldk
+    type: VARCHAR
+  - name: hh_fueldtr
+    type: VARCHAR
+  - name: hh_cook_loc
+    type: VARCHAR
+  - name: hh_kitchen
+    type: VARCHAR
+  - name: hh_rooms
+    type: BIGINT
+  - name: hh_bedrooms
+    type: BIGINT
+  - name: hh_migrate_seas
+    type: VARCHAR
+  - name: hh_migr_week
+    type: VARCHAR
+  - name: hh_elec
+    type: VARCHAR
+  - name: hh_radio
+    type: VARCHAR
+  - name: hh_sound
+    type: VARCHAR
+  - name: hh_tv
+    type: VARCHAR
+  - name: hh_tel_mobile
+    type: VARCHAR
+  - name: hh_tel_fixed
+    type: VARCHAR
+  - name: hh_refrig
+    type: VARCHAR
+  - name: hh_washing
+    type: VARCHAR
+  - name: hh_comp
+    type: VARCHAR
+  - name: hh_radio_amt
+    type: BIGINT
+  - name: hh_sound_amt
+    type: BIGINT
+  - name: hh_tv_amt
+    type: BIGINT
+  - name: hh_tel_mobile_amt
+    type: BIGINT
+  - name: hh_tel_fixed_amt
+    type: BIGINT
+  - name: hh_refrig_amt
+    type: BIGINT
+  - name: hh_washing_amt
+    type: BIGINT
+  - name: hh_comp_amt
+    type: BIGINT
+  - name: hh_watch
+    type: VARCHAR
+  - name: hh_bike
+    type: VARCHAR
+  - name: hh_guitar
+    type: VARCHAR
+  - name: hh_scooter
+    type: VARCHAR
+  - name: hh_animalcart
+    type: VARCHAR
+  - name: hh_car
+    type: VARCHAR
+  - name: hh_truck
+    type: VARCHAR
+  - name: hh_bull
+    type: VARCHAR
+  - name: hh_mule
+    type: VARCHAR
+  - name: hh_goat
+    type: VARCHAR
+  - name: hh_chicken
+    type: VARCHAR
+  - name: hh_pig
+    type: VARCHAR
+  - name: hh_watch_amt
+    type: BIGINT
+  - name: hh_bike_amt
+    type: BIGINT
+  - name: hh_guitar_amt
+    type: BIGINT
+  - name: hh_scooter_amt
+    type: BIGINT
+  - name: hh_animalcart_amt
+    type: BIGINT
+  - name: hh_car_amt
+    type: BIGINT
+  - name: hh_truck_amt
+    type: BIGINT
+  - name: hh_bull_amt
+    type: BIGINT
+  - name: hh_mule_amt
+    type: BIGINT
+  - name: hh_goat_amt
+    type: BIGINT
+  - name: hh_chicken_amt
+    type: BIGINT
+  - name: hh_pig_amt
+    type: BIGINT
+  - name: hh_agland
+    type: VARCHAR
+  - name: hh_agland_area_num2
+    type: VARCHAR
+  - name: hh_agland_area_num
+    type: BIGINT
+  - name: hh_agland_area_numtext
+    type: BIGINT
+  - name: hh_agland_area_numtext2
+    type: DOUBLE
+  - name: hh_bankacct
+    type: VARCHAR
+  - name: hh_smoke
+    type: VARCHAR
+  - name: hh_exp_tot
+    type: VARCHAR
+  - name: hh_exp_totwk
+    type: BIGINT
+  - name: hh_exp_totmon
+    type: BIGINT
+  - name: hh_exp_totyr
+    type: BIGINT
+  - name: hh_remit_any
+    type: VARCHAR
+  - name: hh_remit_amt
+    type: VARCHAR
+  - name: hh_remit_amtwk
+    type: BIGINT
+  - name: hh_remit_amtmon
+    type: BIGINT
+  - name: hh_remit_amtyr
+    type: BIGINT
+  - name: hh_remit_any2
+    type: VARCHAR
+  - name: hh_remit_amt2
+    type: VARCHAR
+  - name: hh_remit_amt2wk
+    type: BIGINT
+  - name: hh_remit_amt2mon
+    type: BIGINT
+  - name: hh_remit_amt2yr
+    type: BIGINT
+  - name: hh_exp_food_amt
+    type: BIGINT
+  - name: hh_exp_alcoh_amt
+    type: BIGINT
+  - name: hh_exp_food_grown_amt
+    type: BIGINT
+  - name: hh_exp_edu_amt
+    type: BIGINT
+  - name: hh_exp_furnish_amt
+    type: BIGINT
+  - name: hh_exp_rec_amt
+    type: BIGINT
+  - name: hh_exp_iu_amt
+    type: BIGINT
+  - name: hh_exp_clothes_amt
+    type: BIGINT
+  - name: hh_exp_transp_amt
+    type: BIGINT
+  - name: hh_exp_comm_amt
+    type: BIGINT
+  - name: hh_exp_hc_oop_amt
+    type: BIGINT
+  - name: hh_exp_hc_soc_amt
+    type: BIGINT
+  - name: hh_exp_hc_priv_amt
+    type: BIGINT
+  - name: hh_exp_hc_access_amt
+    type: BIGINT
+  - name: hh_exp_hc_ipc_amt
+    type: BIGINT
+  - name: hh_exp_hc_ipc_oth_amt
+    type: BIGINT
+  - name: hh_exp_hc_opc_amt
+    type: BIGINT
+  - name: hh_exp_hc_trad_amt
+    type: BIGINT
+  - name: hh_exp_hc_dent_amt
+    type: BIGINT
+  - name: hh_exp_hc_pharm_amt
+    type: BIGINT
+  - name: hh_exp_hc_pharm2_amt
+    type: BIGINT
+  - name: hh_exp_hc_aids_amt
+    type: BIGINT
+  - name: hh_exp_hc_tests_amt
+    type: BIGINT
+  - name: hh_exp_hc_oth_amt
+    type: BIGINT
+  - name: hh_exp_hc_gift_any
+    type: VARCHAR
+  - name: hh_exp_hc_gift_amt
+    type: BIGINT
+  - name: hh_exp_hc_work_lost
+    type: VARCHAR
+  - name: hh_exp_hc_work_lostamt
+    type: BIGINT
+  - name: hh_exp_hc_income_lost
+    type: BIGINT
+  - name: hh_hc_staynum
+    type: BIGINT
+  - name: hh_exp_hc_ipcyr
+    type: BIGINT
+  - name: hh_fin_hc_income_amt
+    type: BIGINT
+  - name: hh_fin_hc_savings_amt
+    type: BIGINT
+  - name: hh_fin_hc_cutback_amt
+    type: BIGINT
+  - name: hh_fin_hc_insur_amt
+    type: BIGINT
+  - name: hh_fin_hc_socsec_amt
+    type: BIGINT
+  - name: hh_fin_hc_cctransf_amt
+    type: BIGINT
+  - name: hh_fin_hc_items_amt
+    type: BIGINT
+  - name: hh_fin_hc_prop_amt
+    type: BIGINT
+  - name: hh_fin_hc_relative_amt
+    type: BIGINT
+  - name: hh_fin_hc_remit_amt
+    type: BIGINT
+  - name: hh_fin_hc_loan_amt
+    type: BIGINT
+  - name: hh_fin_hc_politic_amt
+    type: BIGINT
+  - name: hh_fin_hc_waived_amt
+    type: BIGINT
+  - name: hh_fin_hc_oth_amt
+    type: BIGINT
+  - name: hh_fin_hc_loans_repaid
+    type: VARCHAR
+  - name: hh_fin_hc_debts_amt
+    type: BIGINT
+  - name: hh_fin_hc_forgone
+    type: VARCHAR
+  - name: hh_fin_hc_selfcata
+    type: VARCHAR
+  - name: hh_soc_benef_bon
+    type: VARCHAR
+  - name: hh_soc_benef_bte
+    type: VARCHAR
+  - name: hh_soc_benef_btp
+    type: VARCHAR
+  - name: hh_soc_benef_btr
+    type: VARCHAR
+  - name: hh_soc_benef_ama
+    type: VARCHAR
+  - name: hh_soc_benef_aeg
+    type: VARCHAR
+  - name: hh_soc_benef_aje
+    type: VARCHAR
+  - name: hh_soc_benef_oth
+    type: VARCHAR
+  - name: hh_soc_benef_oth_spec
+    type: VARCHAR
+  - name: insur_ihss
+    type: VARCHAR
+  - name: insur_fa
+    type: VARCHAR
+  - name: insur_private
+    type: VARCHAR
+  - name: insur_other
+    type: VARCHAR
+  - name: insur_other_spec
+    type: VARCHAR
+  - name: municipmex
+    type: VARCHAR
+  - name: municip
+    type: VARCHAR
+  - name: municip2
+    type: VARCHAR
+  - name: municip2text
+    type: VARCHAR
+  - name: seg2
+    type: VARCHAR
+  - name: nhogar2
+    type: VARCHAR
+  - name: wtseg
+    type: BIGINT
+  - name: mun
+    type: BIGINT
+  - name: aldea
+    type: VARCHAR
+  - name: p_selection_hh
+    type: DOUBLE
+  - name: weight_hh
+    type: DOUBLE
+  - name: tx_area
+    type: BIGINT
+  - name: llim_wt
+    type: DOUBLE
+  - name: ulim_wt
+    type: DOUBLE
+  - name: id_hh
+    type: BIGINT
+  - name: seg2_1
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

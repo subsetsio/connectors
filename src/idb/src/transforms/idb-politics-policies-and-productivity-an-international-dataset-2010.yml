@@ -1,5 +1,199 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-politics-policies-and-productivity-an-international-dataset-2010`. Regenerate after model-verify.
+key: [wbcode]
+sort: [wbcode]
 columns:
+  - name: wbcode
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: regdev
+    type: BIGINT
+  - name: regeap
+    type: BIGINT
+  - name: regeca
+    type: BIGINT
+  - name: reglac
+    type: BIGINT
+  - name: regmna
+    type: BIGINT
+  - name: regsas
+    type: BIGINT
+  - name: regssa
+    type: BIGINT
+  - name: growthtfp
+    type: VARCHAR
+  - name: tfplevel
+    type: DOUBLE
+  - name: efficlegalfwkprom
+    type: DOUBLE
+  - name: efflegalfmwkcount
+    type: BIGINT
+  - name: extentbureaucratprom
+    type: DOUBLE
+  - name: extburtapcount
+    type: BIGINT
+  - name: extentmarketdominprom
+    type: DOUBLE
+  - name: extmktdomcount
+    type: BIGINT
+  - name: fditecnotransfprom
+    type: DOUBLE
+  - name: fditechnotrancount
+    type: BIGINT
+  - name: informalsectprom
+    type: DOUBLE
+  - name: informsectcount
+    type: BIGINT
+  - name: localcompetprom
+    type: DOUBLE
+  - name: intenslocalcompcount
+    type: BIGINT
+  - name: prevalencforeignownprom
+    type: DOUBLE
+  - name: prevforeignowncount
+    type: BIGINT
+  - name: effortcompetitivprom
+    type: DOUBLE
+  - name: effcompetcount
+    type: BIGINT
+  - name: creditindexprom
+    type: DOUBLE
+  - name: creditindexcount
+    type: BIGINT
+  - name: indexirregpaym
+    type: DOUBLE
+  - name: irregpaymindexcount
+    type: BIGINT
+  - name: dcpspgdprom
+    type: DOUBLE
+  - name: dcpspgdpcount
+    type: BIGINT
+  - name: gdpcuusprom
+    type: BIGINT
+  - name: gdpcuuscount
+    type: BIGINT
+  - name: sespgprom
+    type: DOUBLE
+  - name: sespgcount
+    type: BIGINT
+  - name: tpgdpprom
+    type: DOUBLE
+  - name: tpgdpcount
+    type: BIGINT
+  - name: bribespoliciesprom
+    type: DOUBLE
+  - name: bribpolcount
+    type: BIGINT
+  - name: centralizpmpprom
+    type: DOUBLE
+  - name: centrpmpcount
+    type: BIGINT
+  - name: companyspendrdprom
+    type: DOUBLE
+  - name: companyspendingonrdcount
+    type: BIGINT
+  - name: extenttaxprom
+    type: DOUBLE
+  - name: extenttaxcount
+    type: BIGINT
+  - name: extentdisortgovsubsprom
+    type: DOUBLE
+  - name: extdisortsubcount
+    type: BIGINT
+  - name: favoritismprom
+    type: DOUBLE
+  - name: favgovdecount
+    type: BIGINT
+  - name: firmabsortprom
+    type: DOUBLE
+  - name: firmabsorptioncount
+    type: BIGINT
+  - name: illegaldonatpartyprom
+    type: DOUBLE
+  - name: illegaldonatpartycount
+    type: BIGINT
+  - name: impactrulesfdiprom
+    type: DOUBLE
+  - name: impactrulesfdicount
+    type: BIGINT
+  - name: infraestrucqualprom
+    type: DOUBLE
+  - name: infraestrqualcount
+    type: BIGINT
+  - name: legaldonatpartyprom
+    type: DOUBLE
+  - name: legaldonatpartycount
+    type: BIGINT
+  - name: publicspendeducprom
+    type: DOUBLE
+  - name: publicspendededuccount
+    type: BIGINT
+  - name: burden_local_regulation
+    type: DOUBLE
+  - name: burdenlocalregcount
+    type: BIGINT
+  - name: burdenstartprom
+    type: DOUBLE
+  - name: burdenstartcount
+    type: BIGINT
+  - name: publicdiversprom
+    type: DOUBLE
+  - name: publicdiverscount
+    type: BIGINT
+  - name: innovation_subindex
+    type: DOUBLE
+  - name: innovationcount
+    type: BIGINT
+  - name: capitavailabprom
+    type: DOUBLE
+  - name: capavailcount
+    type: BIGINT
+  - name: accesloanprom
+    type: DOUBLE
+  - name: accesloancount
+    type: BIGINT
+  - name: unioncontribproductprom
+    type: DOUBLE
+  - name: unionproductcount
+    type: BIGINT
+  - name: gdppc1980
+    type: DOUBLE
+  - name: gdppc1990
+    type: DOUBLE
+  - name: lngdppc90
+    type: DOUBLE
+  - name: lngdppc80
+    type: DOUBLE
+  - name: cgdtpgdpprom
+    type: DOUBLE
+  - name: cgdtpgdpcount
+    type: BIGINT
+  - name: cgdtculcuprom
+    type: BIGINT
+  - name: cgdtculcucount
+    type: BIGINT
+  - name: lnsurfaceprom
+    type: DOUBLE
+  - name: surfacecount
+    type: BIGINT
+  - name: legal_o_socialist
+    type: BIGINT
+  - name: legal_o_british
+    type: BIGINT
+  - name: legal_o_french
+    type: BIGINT
+  - name: legal_o_germany
+    type: BIGINT
+  - name: legal_o_scand
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: gcr_policyindex
+    type: DOUBLE
+  - name: gcr_policyindexb
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

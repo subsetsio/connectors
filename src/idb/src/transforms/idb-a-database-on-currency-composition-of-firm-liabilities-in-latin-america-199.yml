@@ -1,5 +1,26 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-a-database-on-currency-composition-of-firm-liabilities-in-latin-america-199`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: country
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: asset_category
+    type: VARCHAR
+  - name: asset_composition
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: year_date
+    type: BIGINT
+  - name: methodology
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: notes
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

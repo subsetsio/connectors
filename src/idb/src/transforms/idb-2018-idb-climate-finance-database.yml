@@ -1,42 +1,45 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-2018-idb-climate-finance-database`. Regenerate after model-verify.
+key: [project_name, project_number, us_total_climate_finance, us_mitigation, approval_date]
+sort: [project_name, project_number, us_total_climate_finance, us_mitigation, approval_date]
 columns:
-  - name: Project_Number
+  - name: project_number
     type: VARCHAR
-  - name: Project_Name
+  - name: project_name
     type: VARCHAR
-  - name: Type
+  - name: type
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Department
+  - name: department
     type: VARCHAR
-  - name: Approval_Year
+  - name: approval_year
+    type: BIGINT
+  - name: approval_date
     type: VARCHAR
-  - name: Approval_Date
+  - name: fund_currency
     type: VARCHAR
-  - name: Fund_Currency
+  - name: approved_amount
+    type: BIGINT
+  - name: use
     type: VARCHAR
-  - name: Approved_Amount
+  - name: mitigation_sector
     type: VARCHAR
-  - name: Use
+  - name: adaptation_sector
     type: VARCHAR
-  - name: Mitigation_sector
-    type: VARCHAR
-  - name: Adaptation_sector
-    type: VARCHAR
-  - name: "%_Only_mitigation"
-    type: VARCHAR
-  - name: "%_Only_adaptation"
-    type: VARCHAR
-  - name: "%_Only_Dual-use"
-    type: VARCHAR
-  - name: US$_Mitigation
-    type: VARCHAR
-  - name: US$_Adaptation
-    type: VARCHAR
-  - name: US$_Dual-use
-    type: VARCHAR
-  - name: US$_Total_climate_finance
-    type: VARCHAR
+  - name: only_mitigation
+    type: DOUBLE
+  - name: only_adaptation
+    type: DOUBLE
+  - name: only_dual_use
+    type: DOUBLE
+  - name: us_mitigation
+    type: BIGINT
+  - name: us_adaptation
+    type: BIGINT
+  - name: us_dual_use
+    type: BIGINT
+  - name: us_total_climate_finance
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

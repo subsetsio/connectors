@@ -1,5 +1,46 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-political-particularism-around-the-world-1978-2001`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: idcode
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: bicameral
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: oneparty
+    type: BIGINT
+  - name: ballot
+    type: VARCHAR
+  - name: pool
+    type: VARCHAR
+  - name: vote
+    type: DOUBLE
+  - name: cindex
+    type: VARCHAR
+  - name: dm
+    type: DOUBLE
+  - name: smd
+    type: VARCHAR
+  - name: propn
+    type: VARCHAR
+  - name: ballot2
+    type: BIGINT
+  - name: pool2
+    type: DOUBLE
+  - name: vote2
+    type: DOUBLE
+  - name: cindex2
+    type: VARCHAR
+  - name: dm2
+    type: DOUBLE
+  - name: smd2
+    type: VARCHAR
+  - name: propn2
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

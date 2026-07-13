@@ -1,22 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-public-debt-around-the-world-a-new-dataset-of-central-government-debt-1970-`. Regenerate after model-verify.
+key: [debt_gdp, wbcode, country, year, wbregion]
+temporal: year
+sort: [year, debt_gdp, wbcode, country, wbregion]
 columns:
   - name: wbcode
     type: VARCHAR
   - name: country
     type: VARCHAR
   - name: year
-    type: VARCHAR
-  - name: DEBT_GDP
-    type: VARCHAR
-  - name: GDP
-    type: VARCHAR
+    type: BIGINT
+  - name: debt_gdp
+    type: DOUBLE
+  - name: gdp
+    type: DOUBLE
   - name: wbregion
     type: VARCHAR
   - name: incgroup
-    type: VARCHAR
+    type: BIGINT
   - name: balanced
-    type: VARCHAR
+    type: BIGINT
   - name: group
-    type: VARCHAR
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

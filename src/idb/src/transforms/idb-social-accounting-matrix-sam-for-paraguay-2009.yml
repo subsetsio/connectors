@@ -1,5 +1,245 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-social-accounting-matrix-sam-for-paraguay-2009`. Regenerate after model-verify.
+key: [cuenta_sam]
+sort: [cuenta_sam]
 columns:
+  - name: cuenta_sam
+    type: VARCHAR
+  - name: a_agric
+    type: DOUBLE
+  - name: a_ganad
+    type: DOUBLE
+  - name: a_forestal
+    type: DOUBLE
+  - name: a_pesca
+    type: DOUBLE
+  - name: a_mineria
+    type: DOUBLE
+  - name: a_carne
+    type: DOUBLE
+  - name: a_aceites
+    type: DOUBLE
+  - name: a_lacteos
+    type: DOUBLE
+  - name: a_molineria
+    type: DOUBLE
+  - name: a_azucar
+    type: DOUBLE
+  - name: a_otralim
+    type: DOUBLE
+  - name: a_bebidastabaco
+    type: DOUBLE
+  - name: a_textil
+    type: DOUBLE
+  - name: a_cuero
+    type: DOUBLE
+  - name: a_madera
+    type: DOUBLE
+  - name: a_papel
+    type: DOUBLE
+  - name: a_quimic
+    type: DOUBLE
+  - name: a_minernometal
+    type: DOUBLE
+  - name: a_metal
+    type: DOUBLE
+  - name: a_maquin
+    type: DOUBLE
+  - name: a_otrmanuf
+    type: DOUBLE
+  - name: a_electagua
+    type: DOUBLE
+  - name: a_const
+    type: DOUBLE
+  - name: a_comer
+    type: DOUBLE
+  - name: a_transp
+    type: DOUBLE
+  - name: a_comunic
+    type: DOUBLE
+  - name: a_financ
+    type: DOUBLE
+  - name: a_svcempresa
+    type: DOUBLE
+  - name: a_hotrest
+    type: DOUBLE
+  - name: a_svchog
+    type: DOUBLE
+  - name: a_edupgov
+    type: DOUBLE
+  - name: a_edusgov
+    type: DOUBLE
+  - name: a_edutgov
+    type: DOUBLE
+  - name: a_saludgov
+    type: DOUBLE
+  - name: a_wtsn
+    type: DOUBLE
+  - name: a_otrinfra
+    type: DOUBLE
+  - name: a_admpub
+    type: DOUBLE
+  - name: c_algodon
+    type: DOUBLE
+  - name: c_caniadeazucar
+    type: DOUBLE
+  - name: c_otrcultindust
+    type: DOUBLE
+  - name: c_soja
+    type: DOUBLE
+  - name: c_otrcereales
+    type: DOUBLE
+  - name: c_tuberculos
+    type: DOUBLE
+  - name: c_frutasotragric
+    type: DOUBLE
+  - name: c_ganadovacuno
+    type: DOUBLE
+  - name: c_otrganado
+    type: DOUBLE
+  - name: c_otrpecuarios
+    type: DOUBLE
+  - name: c_forestal
+    type: DOUBLE
+  - name: c_pesca
+    type: DOUBLE
+  - name: c_mineria
+    type: DOUBLE
+  - name: c_carnevacuno
+    type: DOUBLE
+  - name: c_otrcarnes
+    type: DOUBLE
+  - name: c_aceites
+    type: DOUBLE
+  - name: c_lacteos
+    type: DOUBLE
+  - name: c_molineria
+    type: DOUBLE
+  - name: c_azucar
+    type: DOUBLE
+  - name: c_otralim
+    type: DOUBLE
+  - name: c_bebidastabaco
+    type: DOUBLE
+  - name: c_textil
+    type: DOUBLE
+  - name: c_cuero
+    type: DOUBLE
+  - name: c_madera
+    type: DOUBLE
+  - name: c_papel
+    type: DOUBLE
+  - name: c_refpet
+    type: DOUBLE
+  - name: c_quimic
+    type: DOUBLE
+  - name: c_caucho
+    type: DOUBLE
+  - name: c_minernometal
+    type: DOUBLE
+  - name: c_metal
+    type: DOUBLE
+  - name: c_metalestruct
+    type: DOUBLE
+  - name: c_maquin
+    type: DOUBLE
+  - name: c_vehic
+    type: DOUBLE
+  - name: c_otrmanuf
+    type: DOUBLE
+  - name: c_electagua
+    type: DOUBLE
+  - name: c_const
+    type: DOUBLE
+  - name: c_comer
+    type: DOUBLE
+  - name: c_transp
+    type: DOUBLE
+  - name: c_comunic
+    type: DOUBLE
+  - name: c_financ
+    type: DOUBLE
+  - name: c_alquiler
+    type: DOUBLE
+  - name: c_svcempresa
+    type: DOUBLE
+  - name: c_hotrest
+    type: DOUBLE
+  - name: c_svchog
+    type: DOUBLE
+  - name: c_edupgov
+    type: DOUBLE
+  - name: c_edusgov
+    type: DOUBLE
+  - name: c_edutgov
+    type: DOUBLE
+  - name: c_saludgov
+    type: DOUBLE
+  - name: c_wtsn
+    type: DOUBLE
+  - name: c_otrinfra
+    type: DOUBLE
+  - name: c_admpub
+    type: DOUBLE
+  - name: marg_d
+    type: DOUBLE
+  - name: marg_m
+    type: DOUBLE
+  - name: marg_e
+    type: DOUBLE
+  - name: f_lab
+    type: DOUBLE
+  - name: f_capprv
+    type: DOUBLE
+  - name: f_land
+    type: DOUBLE
+  - name: f_natres
+    type: DOUBLE
+  - name: hhd
+    type: DOUBLE
+  - name: gov
+    type: DOUBLE
+  - name: row
+    type: DOUBLE
+  - name: tax_act
+    type: DOUBLE
+  - name: tax_vat
+    type: DOUBLE
+  - name: tax_com
+    type: DOUBLE
+  - name: tax_imp
+    type: DOUBLE
+  - name: tax_dir
+    type: DOUBLE
+  - name: int_dom
+    type: DOUBLE
+  - name: int_row
+    type: DOUBLE
+  - name: cap_hhd
+    type: DOUBLE
+  - name: cap_gov
+    type: DOUBLE
+  - name: cap_row
+    type: DOUBLE
+  - name: inv_prv
+    type: DOUBLE
+  - name: inv_edupgov
+    type: DOUBLE
+  - name: inv_edusgov
+    type: DOUBLE
+  - name: inv_edutgov
+    type: DOUBLE
+  - name: inv_saludgov
+    type: DOUBLE
+  - name: inv_wtsn
+    type: DOUBLE
+  - name: inv_otrinfra
+    type: DOUBLE
+  - name: inv_admpub
+    type: DOUBLE
+  - name: dstk
+    type: DOUBLE
+  - name: total
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

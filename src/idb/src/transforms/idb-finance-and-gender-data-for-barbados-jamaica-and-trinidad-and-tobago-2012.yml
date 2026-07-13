@@ -1,5 +1,682 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-finance-and-gender-data-for-barbados-jamaica-and-trinidad-and-tobago-2012`. Regenerate after model-verify.
+key: []
 columns:
+  - name: performance
+    type: DOUBLE
+  - name: idquest
+    type: BIGINT
+  - name: country
+    type: BIGINT
+  - name: callback
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: gender
+    type: BIGINT
+  - name: titl
+    type: VARCHAR
+  - name: intcode
+    type: BIGINT
+  - name: supercode
+    type: BIGINT
+  - name: startmonth
+    type: BIGINT
+  - name: startday
+    type: BIGINT
+  - name: a1a1
+    type: BIGINT
+  - name: a1b1a
+    type: BIGINT
+  - name: a1b1b
+    type: BIGINT
+  - name: a1b1c
+    type: BIGINT
+  - name: a1b1d
+    type: BIGINT
+  - name: a1b1e
+    type: BIGINT
+  - name: a1b1g
+    type: BIGINT
+  - name: a1b1h
+    type: BIGINT
+  - name: a1b1i
+    type: BIGINT
+  - name: a1b1j
+    type: BIGINT
+  - name: a1c1
+    type: BIGINT
+  - name: a1d1
+    type: BIGINT
+  - name: a1d1x
+    type: VARCHAR
+  - name: a1e1
+    type: BIGINT
+  - name: a1e1x
+    type: BIGINT
+  - name: a1g1
+    type: BIGINT
+  - name: a1h1
+    type: BIGINT
+  - name: a1h1x
+    type: BIGINT
+  - name: a1i1
+    type: BIGINT
+  - name: a1a2
+    type: BIGINT
+  - name: a1b2a
+    type: BIGINT
+  - name: a1b2b
+    type: BIGINT
+  - name: a1b2c
+    type: BIGINT
+  - name: a1b2d
+    type: BIGINT
+  - name: a1b2e
+    type: VARCHAR
+  - name: a1b2g
+    type: BIGINT
+  - name: a1b2h
+    type: VARCHAR
+  - name: a1b2i
+    type: VARCHAR
+  - name: a1b2j
+    type: BIGINT
+  - name: a1c2
+    type: VARCHAR
+  - name: a1d2
+    type: VARCHAR
+  - name: a1d2x
+    type: BIGINT
+  - name: a1e2
+    type: BIGINT
+  - name: a1e2x
+    type: VARCHAR
+  - name: a1g2
+    type: BIGINT
+  - name: a1h2
+    type: BIGINT
+  - name: a1h2x
+    type: VARCHAR
+  - name: a1i2
+    type: BIGINT
+  - name: a1a3
+    type: BIGINT
+  - name: a1b3a
+    type: VARCHAR
+  - name: a1b3c
+    type: VARCHAR
+  - name: a1b3f
+    type: VARCHAR
+  - name: a1b3h
+    type: VARCHAR
+  - name: a1b3i
+    type: VARCHAR
+  - name: a1b3j
+    type: VARCHAR
+  - name: a1c3
+    type: BIGINT
+  - name: a1d3
+    type: BIGINT
+  - name: a1d3x
+    type: VARCHAR
+  - name: a1e3
+    type: BIGINT
+  - name: a1e3x
+    type: BIGINT
+  - name: a1f3
+    type: BIGINT
+  - name: a1f3x
+    type: BIGINT
+  - name: a1g3
+    type: BIGINT
+  - name: a1h3
+    type: BIGINT
+  - name: a1h3x
+    type: VARCHAR
+  - name: a1i3
+    type: BIGINT
+  - name: a1a4
+    type: BIGINT
+  - name: a1b4a
+    type: BIGINT
+  - name: a1b4b
+    type: BIGINT
+  - name: a1b4c
+    type: BIGINT
+  - name: a1b4f
+    type: BIGINT
+  - name: a1b4g
+    type: BIGINT
+  - name: a1b4h
+    type: BIGINT
+  - name: a1b4i
+    type: BIGINT
+  - name: a1b4j
+    type: BIGINT
+  - name: a1c4
+    type: BIGINT
+  - name: a1d4
+    type: BIGINT
+  - name: a1d4x
+    type: VARCHAR
+  - name: a1e4
+    type: BIGINT
+  - name: a1e4x
+    type: BIGINT
+  - name: a1f4
+    type: BIGINT
+  - name: a1f4x
+    type: BIGINT
+  - name: a1g4
+    type: BIGINT
+  - name: a1h4
+    type: BIGINT
+  - name: a1h4x
+    type: BIGINT
+  - name: a1i4
+    type: BIGINT
+  - name: a1a5
+    type: BIGINT
+  - name: a1b5a
+    type: BIGINT
+  - name: a1b5b
+    type: BIGINT
+  - name: a1b5c
+    type: BIGINT
+  - name: a1b5f
+    type: BIGINT
+  - name: a1b5j
+    type: BIGINT
+  - name: a1c5
+    type: BIGINT
+  - name: a1d5
+    type: BIGINT
+  - name: a1d5x
+    type: BIGINT
+  - name: a1g5
+    type: BIGINT
+  - name: a1h5
+    type: BIGINT
+  - name: a1h5x
+    type: BIGINT
+  - name: a1i5
+    type: BIGINT
+  - name: a1a6
+    type: BIGINT
+  - name: a1b6a
+    type: BIGINT
+  - name: a1b6c
+    type: VARCHAR
+  - name: a1b6d
+    type: BIGINT
+  - name: a1b6e
+    type: BIGINT
+  - name: a1b6g
+    type: BIGINT
+  - name: a1b6j
+    type: BIGINT
+  - name: a1c6
+    type: BIGINT
+  - name: a1d6
+    type: BIGINT
+  - name: a1d6x
+    type: VARCHAR
+  - name: a1e6
+    type: BIGINT
+  - name: a1e6x
+    type: VARCHAR
+  - name: a1g6
+    type: BIGINT
+  - name: a1h6
+    type: BIGINT
+  - name: a1h6x
+    type: VARCHAR
+  - name: a1i6
+    type: BIGINT
+  - name: a1a7
+    type: BIGINT
+  - name: a1b7a
+    type: BIGINT
+  - name: a1b7b
+    type: VARCHAR
+  - name: a1b7c
+    type: VARCHAR
+  - name: a1b7d
+    type: VARCHAR
+  - name: a1b7e
+    type: VARCHAR
+  - name: a1b7g
+    type: VARCHAR
+  - name: a1b7j
+    type: BIGINT
+  - name: a1c7
+    type: BIGINT
+  - name: a1d7
+    type: BIGINT
+  - name: a1d7x
+    type: BIGINT
+  - name: a1e7
+    type: BIGINT
+  - name: a1e7x
+    type: BIGINT
+  - name: a1g7
+    type: BIGINT
+  - name: a1h7
+    type: BIGINT
+  - name: a1h7x
+    type: BIGINT
+  - name: a1i7
+    type: BIGINT
+  - name: b1a
+    type: BIGINT
+  - name: b1b
+    type: BIGINT
+  - name: b1c
+    type: BIGINT
+  - name: b1d
+    type: BIGINT
+  - name: b1e
+    type: BIGINT
+  - name: b1f
+    type: BIGINT
+  - name: b1g
+    type: BIGINT
+  - name: b2
+    type: BIGINT
+  - name: c1a1
+    type: BIGINT
+  - name: c1b1
+    type: BIGINT
+  - name: c1b1x
+    type: VARCHAR
+  - name: c1c1
+    type: VARCHAR
+  - name: c1a2
+    type: BIGINT
+  - name: c1b2
+    type: BIGINT
+  - name: c1b2x
+    type: VARCHAR
+  - name: c1c2
+    type: BIGINT
+  - name: c1a3
+    type: BIGINT
+  - name: c1b3
+    type: BIGINT
+  - name: c1b3x
+    type: VARCHAR
+  - name: c1c3
+    type: VARCHAR
+  - name: c1a4
+    type: BIGINT
+  - name: c1b4
+    type: BIGINT
+  - name: c1b4x
+    type: VARCHAR
+  - name: c1c4
+    type: VARCHAR
+  - name: c1a5
+    type: BIGINT
+  - name: c1b5
+    type: BIGINT
+  - name: c1b5x
+    type: VARCHAR
+  - name: c1c5
+    type: BIGINT
+  - name: c1a6
+    type: BIGINT
+  - name: c1b6
+    type: BIGINT
+  - name: c1b6x
+    type: VARCHAR
+  - name: c1c6
+    type: VARCHAR
+  - name: c1a7
+    type: BIGINT
+  - name: c1b7
+    type: BIGINT
+  - name: c1b7x
+    type: VARCHAR
+  - name: c1c7
+    type: BIGINT
+  - name: c1a8
+    type: BIGINT
+  - name: c1b8
+    type: BIGINT
+  - name: c1b8x
+    type: VARCHAR
+  - name: c1c8
+    type: BIGINT
+  - name: c1a9
+    type: BIGINT
+  - name: c1b9
+    type: BIGINT
+  - name: c1b9x
+    type: VARCHAR
+  - name: c1c9
+    type: BIGINT
+  - name: c1a10
+    type: BIGINT
+  - name: c1a10x
+    type: VARCHAR
+  - name: c1b10
+    type: BIGINT
+  - name: c1b10x
+    type: BIGINT
+  - name: c1c10
+    type: BIGINT
+  - name: c2a
+    type: BIGINT
+  - name: c2ax
+    type: BIGINT
+  - name: c2b
+    type: BIGINT
+  - name: c2c
+    type: VARCHAR
+  - name: c2cx
+    type: VARCHAR
+  - name: c3
+    type: BIGINT
+  - name: c3a
+    type: BIGINT
+  - name: c3ax
+    type: VARCHAR
+  - name: c3b
+    type: BIGINT
+  - name: c3c
+    type: BIGINT
+  - name: d1a
+    type: BIGINT
+  - name: d1b
+    type: BIGINT
+  - name: d1c
+    type: BIGINT
+  - name: d1d
+    type: BIGINT
+  - name: d1e
+    type: BIGINT
+  - name: d1f
+    type: BIGINT
+  - name: d1g
+    type: BIGINT
+  - name: d2a
+    type: BIGINT
+  - name: d2b
+    type: BIGINT
+  - name: d2c
+    type: BIGINT
+  - name: d3a1
+    type: BIGINT
+  - name: d3a1x
+    type: VARCHAR
+  - name: d3a2
+    type: BIGINT
+  - name: d3a2x
+    type: VARCHAR
+  - name: d3b
+    type: BIGINT
+  - name: d3c
+    type: BIGINT
+  - name: d3cx
+    type: VARCHAR
+  - name: d4a
+    type: BIGINT
+  - name: d4b
+    type: BIGINT
+  - name: d4c
+    type: BIGINT
+  - name: d4d
+    type: BIGINT
+  - name: d4e
+    type: BIGINT
+  - name: d4f
+    type: BIGINT
+  - name: d4g
+    type: BIGINT
+  - name: d4h
+    type: BIGINT
+  - name: d5
+    type: BIGINT
+  - name: d6a
+    type: BIGINT
+  - name: d6b
+    type: BIGINT
+  - name: d6c
+    type: BIGINT
+  - name: d6d
+    type: BIGINT
+  - name: d6e
+    type: BIGINT
+  - name: d6f
+    type: BIGINT
+  - name: d6g
+    type: BIGINT
+  - name: d7
+    type: BIGINT
+  - name: d8a
+    type: BIGINT
+  - name: d8b
+    type: BIGINT
+  - name: d8c
+    type: BIGINT
+  - name: e1a
+    type: BIGINT
+  - name: e1b
+    type: BIGINT
+  - name: e2
+    type: BIGINT
+  - name: e2a
+    type: BIGINT
+  - name: e2b
+    type: VARCHAR
+  - name: e3a1
+    type: BIGINT
+  - name: e3b1a1
+    type: BIGINT
+  - name: e3b1b1
+    type: BIGINT
+  - name: e3b2a1
+    type: BIGINT
+  - name: e3b2b1
+    type: BIGINT
+  - name: e3b3a1
+    type: BIGINT
+  - name: e3b3b1
+    type: BIGINT
+  - name: e3b4a1
+    type: BIGINT
+  - name: e3b4b1
+    type: BIGINT
+  - name: e3b5a1
+    type: BIGINT
+  - name: e3b5b1
+    type: BIGINT
+  - name: e3b6a1
+    type: BIGINT
+  - name: e3b6b1
+    type: BIGINT
+  - name: e3b7a1
+    type: BIGINT
+  - name: e3b7b1
+    type: BIGINT
+  - name: e3b8a1
+    type: VARCHAR
+  - name: e3b8b1
+    type: BIGINT
+  - name: e3a2
+    type: BIGINT
+  - name: e3b1a2
+    type: BIGINT
+  - name: e3b1b2
+    type: BIGINT
+  - name: e3b2a2
+    type: BIGINT
+  - name: e3b2b2
+    type: BIGINT
+  - name: e3b3a2
+    type: BIGINT
+  - name: e3b3b2
+    type: BIGINT
+  - name: e3b4a2
+    type: BIGINT
+  - name: e3b4b2
+    type: BIGINT
+  - name: e3b5a2
+    type: BIGINT
+  - name: e3b5b2
+    type: BIGINT
+  - name: e3b6a2
+    type: BIGINT
+  - name: e3b6b2
+    type: BIGINT
+  - name: e3b7a2
+    type: BIGINT
+  - name: e3b7b2
+    type: BIGINT
+  - name: e3b8a2
+    type: BIGINT
+  - name: e3b8b2
+    type: BIGINT
+  - name: e3a3
+    type: BIGINT
+  - name: e3b1a3
+    type: BIGINT
+  - name: e3b1b3
+    type: BIGINT
+  - name: e3b2a3
+    type: BIGINT
+  - name: e3b2b3
+    type: BIGINT
+  - name: e3b3a3
+    type: BIGINT
+  - name: e3b3b3
+    type: BIGINT
+  - name: e3b4a3
+    type: BIGINT
+  - name: e3b4b3
+    type: BIGINT
+  - name: e3b5a3
+    type: BIGINT
+  - name: e3b5b3
+    type: BIGINT
+  - name: e3b6a3
+    type: BIGINT
+  - name: e3b6b3
+    type: BIGINT
+  - name: e3b7a3
+    type: BIGINT
+  - name: e3b7b3
+    type: BIGINT
+  - name: e3b8a3
+    type: BIGINT
+  - name: e3b8b3
+    type: BIGINT
+  - name: e3a4
+    type: BIGINT
+  - name: e3b1a4
+    type: BIGINT
+  - name: e3b1b4
+    type: BIGINT
+  - name: e3b2a4
+    type: BIGINT
+  - name: e3b2b4
+    type: BIGINT
+  - name: e3b3a4
+    type: BIGINT
+  - name: e3b3b4
+    type: BIGINT
+  - name: e3b4a4
+    type: BIGINT
+  - name: e3b4b4
+    type: BIGINT
+  - name: e3b5a4
+    type: BIGINT
+  - name: e3b5b4
+    type: VARCHAR
+  - name: e3b6a4
+    type: BIGINT
+  - name: e3b6b4
+    type: BIGINT
+  - name: e3b7a4
+    type: BIGINT
+  - name: e3b7b4
+    type: BIGINT
+  - name: e3b8a4
+    type: BIGINT
+  - name: e3b8b4
+    type: BIGINT
+  - name: e3a5
+    type: BIGINT
+  - name: e3b1a5
+    type: BIGINT
+  - name: e3b1b5
+    type: BIGINT
+  - name: e3b2a5
+    type: BIGINT
+  - name: e3b2b5
+    type: BIGINT
+  - name: e3b3a5
+    type: BIGINT
+  - name: e3b3b5
+    type: BIGINT
+  - name: e3b4a5
+    type: BIGINT
+  - name: e3b4b5
+    type: BIGINT
+  - name: e3b5a5
+    type: BIGINT
+  - name: e3b5b5
+    type: BIGINT
+  - name: e3b6a5
+    type: BIGINT
+  - name: e3b6b5
+    type: BIGINT
+  - name: e3b7a5
+    type: BIGINT
+  - name: e3b7b5
+    type: BIGINT
+  - name: e3b8a5
+    type: BIGINT
+  - name: e3b8b5
+    type: BIGINT
+  - name: e4
+    type: BIGINT
+  - name: e4a
+    type: BIGINT
+  - name: e4ax
+    type: BIGINT
+  - name: e4b1
+    type: BIGINT
+  - name: e4b2
+    type: BIGINT
+  - name: e4b2x
+    type: VARCHAR
+  - name: e4b3
+    type: BIGINT
+  - name: e4b3x
+    type: VARCHAR
+  - name: endmonth
+    type: BIGINT
+  - name: endday
+    type: BIGINT
+  - name: f1
+    type: BIGINT
+  - name: f2
+    type: BIGINT
+  - name: f3
+    type: BIGINT
+  - name: f4
+    type: BIGINT
+  - name: f4x
+    type: BIGINT
+  - name: comments
+    type: VARCHAR
+  - name: w_weak_fresh
+    type: DOUBLE
+  - name: w_strict_fresh
+    type: DOUBLE
+  - name: w_median_fresh
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

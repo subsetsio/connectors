@@ -1,5 +1,406 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-citizen-survey-on-government-procedures-and-equity`. Regenerate after model-verify.
+key: []
 columns:
+  - name: section_1
+    type: VARCHAR
+  - name: pais
+    type: VARCHAR
+  - name: pais_enc
+    type: VARCHAR
+  - name: d_name
+    type: VARCHAR
+  - name: d_code
+    type: BIGINT
+  - name: m_code
+    type: VARCHAR
+  - name: m_name
+    type: VARCHAR
+  - name: r_code
+    type: VARCHAR
+  - name: r_name
+    type: VARCHAR
+  - name: ronda
+    type: VARCHAR
+  - name: c_weight
+    type: DOUBLE
+  - name: lac_weight
+    type: DOUBLE
+  - name: uy_weight
+    type: DOUBLE
+  - name: section_2
+    type: VARCHAR
+  - name: int_user_freq
+    type: VARCHAR
+  - name: int_user
+    type: VARCHAR
+  - name: int_wifi
+    type: VARCHAR
+  - name: int_movil
+    type: VARCHAR
+  - name: int_datos_insuf
+    type: VARCHAR
+  - name: int_ninguno
+    type: VARCHAR
+  - name: int_lento_freq
+    type: VARCHAR
+  - name: int_lento
+    type: VARCHAR
+  - name: int_satisf_nivel
+    type: VARCHAR
+  - name: int_satisf
+    type: VARCHAR
+  - name: dis_phone
+    type: VARCHAR
+  - name: dis_tablet
+    type: VARCHAR
+  - name: dis_pc
+    type: VARCHAR
+  - name: dis_none
+    type: VARCHAR
+  - name: dis_phone_freq
+    type: VARCHAR
+  - name: dis_phone_u
+    type: VARCHAR
+  - name: dis_tablet_freq
+    type: VARCHAR
+  - name: dis_tablet_u
+    type: VARCHAR
+  - name: dis_pc_freq
+    type: VARCHAR
+  - name: dis_pc_u
+    type: VARCHAR
+  - name: dis_smarttv
+    type: VARCHAR
+  - name: dis_smarttv_freq
+    type: VARCHAR
+  - name: dis_smarttv_u
+    type: VARCHAR
+  - name: hab_total
+    type: BIGINT
+  - name: hab_email
+    type: VARCHAR
+  - name: hab_scan
+    type: VARCHAR
+  - name: hab_apps
+    type: VARCHAR
+  - name: hab_priv
+    type: VARCHAR
+  - name: hab_search
+    type: VARCHAR
+  - name: hab_trinfo
+    type: VARCHAR
+  - name: hab_infrk
+    type: VARCHAR
+  - name: section_3
+    type: VARCHAR
+  - name: tram_12m
+    type: VARCHAR
+  - name: tram12m_1
+    type: VARCHAR
+  - name: tram12m_2
+    type: VARCHAR
+  - name: tram12m_3
+    type: VARCHAR
+  - name: tram12m_4
+    type: VARCHAR
+  - name: tram12m_5
+    type: VARCHAR
+  - name: tram12m_6
+    type: VARCHAR
+  - name: tram12m_7
+    type: VARCHAR
+  - name: tram12m_8
+    type: VARCHAR
+  - name: tram12m_9
+    type: VARCHAR
+  - name: tram12m_10
+    type: VARCHAR
+  - name: tram12m_11
+    type: VARCHAR
+  - name: tram12m_12
+    type: VARCHAR
+  - name: tram12m_otro
+    type: VARCHAR
+  - name: tram12m_otro_des
+    type: VARCHAR
+  - name: tram_12m_int
+    type: VARCHAR
+  - name: tram_12m_pre
+    type: VARCHAR
+  - name: tram_12m_tel
+    type: VARCHAR
+  - name: tram12m_acceso
+    type: VARCHAR
+  - name: tram_acceso_motivo
+    type: VARCHAR
+  - name: tram_acceso_motivo_otro_des
+    type: VARCHAR
+  - name: tram_prefonline_1
+    type: VARCHAR
+  - name: tram_prefonline_2
+    type: VARCHAR
+  - name: tram_prefonline_3
+    type: VARCHAR
+  - name: tram_prefonline_4
+    type: VARCHAR
+  - name: tram_prefonline_5
+    type: VARCHAR
+  - name: tram_prefonline_6
+    type: VARCHAR
+  - name: tram_prefonline_7
+    type: VARCHAR
+  - name: tram_prefonline_8
+    type: VARCHAR
+  - name: tram_prefonline_9
+    type: VARCHAR
+  - name: tram_prefonline_10
+    type: VARCHAR
+  - name: tram_prefonline_11
+    type: VARCHAR
+  - name: tram_prefonline_12
+    type: VARCHAR
+  - name: tram_prefonline_otro
+    type: VARCHAR
+  - name: tram_prefonline_otro_des
+    type: VARCHAR
+  - name: tram_prefonline_none
+    type: VARCHAR
+  - name: portal_unico
+    type: VARCHAR
+  - name: portal_unico_uso12m
+    type: VARCHAR
+  - name: portal_tramites
+    type: VARCHAR
+  - name: portal_tram_uso12m
+    type: VARCHAR
+  - name: tram_tipo
+    type: VARCHAR
+  - name: tipo_ssgov_12m
+    type: VARCHAR
+  - name: section_4
+    type: VARCHAR
+  - name: tram_last
+    type: VARCHAR
+  - name: tram_last_otro_des
+    type: VARCHAR
+  - name: tram_l_benef
+    type: VARCHAR
+  - name: tram_l_benef_else1
+    type: VARCHAR
+  - name: tram_l_benef_else2
+    type: VARCHAR
+  - name: tram_l_benef_else3
+    type: VARCHAR
+  - name: tram_l_benef_else4
+    type: VARCHAR
+  - name: tram_l_benef_else5
+    type: VARCHAR
+  - name: tram_l_benef_else6
+    type: VARCHAR
+  - name: tram_l_benef_elsenone
+    type: VARCHAR
+  - name: tram_l_benef_elseotro
+    type: VARCHAR
+  - name: tram_l_benef_elseotro_des
+    type: VARCHAR
+  - name: tram_l_canal
+    type: VARCHAR
+  - name: tram_l_presencial
+    type: VARCHAR
+  - name: tram_l_digital
+    type: VARCHAR
+  - name: tram_l_telef
+    type: VARCHAR
+  - name: tram_l_tramitador
+    type: VARCHAR
+  - name: tram_l_canal_otro_des
+    type: VARCHAR
+  - name: tram_l_1sttime
+    type: VARCHAR
+  - name: tram_l_knwldig
+    type: VARCHAR
+  - name: tram_l_dg_ease
+    type: VARCHAR
+  - name: tram_l_dg_reqtime
+    type: VARCHAR
+  - name: tram_l_pr_visits
+    type: VARCHAR
+  - name: tram_l_pr_trvltime
+    type: VARCHAR
+  - name: tram_l_pr_transpm
+    type: VARCHAR
+  - name: tram_l_pr_transpm_otro_des
+    type: VARCHAR
+  - name: tram_l_pr_queuetime
+    type: VARCHAR
+  - name: tram_l_pre_total
+    type: DOUBLE
+  - name: tram_l_futcanal
+    type: VARCHAR
+  - name: tram_l_futcanal_otro_des
+    type: VARCHAR
+  - name: tram_l_futdg
+    type: VARCHAR
+  - name: tram_l_futdg_otro_des
+    type: VARCHAR
+  - name: section_5a
+    type: VARCHAR
+  - name: sld_citasvirtuales
+    type: VARCHAR
+  - name: sld_servdig_1
+    type: VARCHAR
+  - name: sld_servdig_2
+    type: VARCHAR
+  - name: sld_servdig_3
+    type: VARCHAR
+  - name: sld_servdig_4
+    type: VARCHAR
+  - name: sld_servdig_5
+    type: VARCHAR
+  - name: sld_servdig_6
+    type: VARCHAR
+  - name: sld_servdig_none
+    type: VARCHAR
+  - name: sld_experiencia
+    type: VARCHAR
+  - name: section_5b
+    type: VARCHAR
+  - name: empl_uso
+    type: VARCHAR
+  - name: empl_vacantes
+    type: VARCHAR
+  - name: empl_followup
+    type: VARCHAR
+  - name: empl_followup_ch_1
+    type: VARCHAR
+  - name: empl_followup_ch_2
+    type: VARCHAR
+  - name: empl_followup_ch_3
+    type: VARCHAR
+  - name: empl_followup_ch_4
+    type: VARCHAR
+  - name: empl_followup_ch_otro
+    type: VARCHAR
+  - name: empl_followup_ch_otro_des
+    type: VARCHAR
+  - name: section_5c
+    type: VARCHAR
+  - name: edu_hijos
+    type: VARCHAR
+  - name: edu_colegio
+    type: VARCHAR
+  - name: edu_colegio_otro_des
+    type: VARCHAR
+  - name: edu_canal
+    type: VARCHAR
+  - name: edu_canal_otro_des
+    type: VARCHAR
+  - name: edu_experiencia
+    type: VARCHAR
+  - name: edu_barrera_1
+    type: VARCHAR
+  - name: edu_barrera_2
+    type: VARCHAR
+  - name: edu_barrera_3
+    type: VARCHAR
+  - name: edu_barrera_4
+    type: VARCHAR
+  - name: edu_barrera_5
+    type: VARCHAR
+  - name: edu_barrera_6
+    type: VARCHAR
+  - name: edu_barrera_7
+    type: VARCHAR
+  - name: edu_barrera_8
+    type: VARCHAR
+  - name: edu_barrera_otro
+    type: VARCHAR
+  - name: edu_barrera_otro_des
+    type: VARCHAR
+  - name: edu_barrera_none
+    type: VARCHAR
+  - name: edu_preferencia
+    type: VARCHAR
+  - name: section_5d
+    type: VARCHAR
+  - name: seg_kwlg_ch_pers
+    type: VARCHAR
+  - name: seg_kwlg_ch_tel
+    type: VARCHAR
+  - name: seg_kwlg_ch_web
+    type: VARCHAR
+  - name: seg_kwlg_ch_app
+    type: VARCHAR
+  - name: seg_kwlg_ch_none
+    type: VARCHAR
+  - name: seg_delito
+    type: VARCHAR
+  - name: seg_denuncia
+    type: VARCHAR
+  - name: seg_dncia_ch_pers
+    type: VARCHAR
+  - name: seg_dncia_ch_tel
+    type: VARCHAR
+  - name: seg_dncia_ch_dig
+    type: VARCHAR
+  - name: seg_experiencia
+    type: VARCHAR
+  - name: section_6
+    type: VARCHAR
+  - name: cor_contactos
+    type: VARCHAR
+  - name: cor_soborno
+    type: VARCHAR
+  - name: cor_denuncia
+    type: VARCHAR
+  - name: cor_favsexual
+    type: VARCHAR
+  - name: section_7
+    type: VARCHAR
+  - name: sexo
+    type: VARCHAR
+  - name: edad_cat
+    type: VARCHAR
+  - name: edad
+    type: BIGINT
+  - name: etnia_simpl
+    type: VARCHAR
+  - name: etnia_simpl_v2
+    type: VARCHAR
+  - name: etnia
+    type: VARCHAR
+  - name: etnia_otro_des
+    type: VARCHAR
+  - name: indigena
+    type: BIGINT
+  - name: afrodescendiente
+    type: VARCHAR
+  - name: ninguna_etnia
+    type: VARCHAR
+  - name: educacion
+    type: VARCHAR
+  - name: educacion_raw
+    type: VARCHAR
+  - name: rural
+    type: VARCHAR
+  - name: ocupacion_simpl
+    type: VARCHAR
+  - name: ocupacion
+    type: VARCHAR
+  - name: ocupacion_otro_des
+    type: VARCHAR
+  - name: discapacidad
+    type: VARCHAR
+  - name: discapacidad_1
+    type: VARCHAR
+  - name: discapacidad_2
+    type: VARCHAR
+  - name: discapacidad_3
+    type: VARCHAR
+  - name: discapacidad_4
+    type: VARCHAR
+  - name: discapacidad_5
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

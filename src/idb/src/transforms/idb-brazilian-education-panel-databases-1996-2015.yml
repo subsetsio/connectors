@@ -1,5 +1,165 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-brazilian-education-panel-databases-1996-2015`. Regenerate after model-verify.
+key: [co_entidade, co_municipio, uf, sigla, nu_ano_censo]
+sort: [co_entidade, co_municipio, uf, sigla, nu_ano_censo]
 columns:
+  - name: nu_ano_censo
+    type: DOUBLE
+  - name: co_entidade
+    type: BIGINT
+  - name: co_municipio
+    type: BIGINT
+  - name: co_uf
+    type: BIGINT
+  - name: uf
+    type: VARCHAR
+  - name: sigla
+    type: VARCHAR
+  - name: no_entidade
+    type: VARCHAR
+  - name: munic
+    type: VARCHAR
+  - name: tp_situacao_funcionamento
+    type: VARCHAR
+  - name: tp_dependencia
+    type: VARCHAR
+  - name: federal
+    type: DOUBLE
+  - name: estadual
+    type: DOUBLE
+  - name: municipal
+    type: DOUBLE
+  - name: privada
+    type: DOUBLE
+  - name: tp_categoria_escola_privada
+    type: VARCHAR
+  - name: tp_localizacao
+    type: VARCHAR
+  - name: urbana
+    type: DOUBLE
+  - name: nivfund_1
+    type: DOUBLE
+  - name: nivfund_2
+    type: DOUBLE
+  - name: eightyears
+    type: DOUBLE
+  - name: nineyears
+    type: DOUBLE
+  - name: turmafund
+    type: DOUBLE
+  - name: turmafund_i
+    type: DOUBLE
+  - name: turmafund_t
+    type: DOUBLE
+  - name: matfund
+    type: DOUBLE
+  - name: matfund_i
+    type: DOUBLE
+  - name: matfund_t
+    type: DOUBLE
+  - name: nu_salas_existentes
+    type: DOUBLE
+  - name: nu_salas_utilizadas
+    type: DOUBLE
+  - name: in_biblioteca
+    type: DOUBLE
+  - name: in_laboratorio_informatica
+    type: DOUBLE
+  - name: in_laboratorio_ciencias
+    type: DOUBLE
+  - name: in_quadra_esportes
+    type: DOUBLE
+  - name: in_equip_tv
+    type: DOUBLE
+  - name: in_equip_parabolica
+    type: DOUBLE
+  - name: in_computador
+    type: DOUBLE
+  - name: in_internet
+    type: DOUBLE
+  - name: nu_computador
+    type: DOUBLE
+  - name: nu_equip_tv
+    type: DOUBLE
+  - name: school_water_public
+    type: DOUBLE
+  - name: school_water
+    type: DOUBLE
+  - name: school_electr_pub
+    type: DOUBLE
+  - name: school_electr
+    type: DOUBLE
+  - name: school_sewage_pub
+    type: DOUBLE
+  - name: school_sewage
+    type: DOUBLE
+  - name: nu_funcionarios
+    type: DOUBLE
+  - name: proffundtot
+    type: DOUBLE
+  - name: profess
+    type: DOUBLE
+  - name: pcproffundinc
+    type: DOUBLE
+  - name: pcproffundcomp
+    type: DOUBLE
+  - name: pcprofmed
+    type: DOUBLE
+  - name: pcprofsup
+    type: DOUBLE
+  - name: educteach
+    type: DOUBLE
+  - name: classsize
+    type: DOUBLE
+  - name: classsize_i
+    type: DOUBLE
+  - name: classsize_t
+    type: DOUBLE
+  - name: studteach
+    type: DOUBLE
+  - name: rate_aprov
+    type: DOUBLE
+  - name: rate_aprov_i
+    type: DOUBLE
+  - name: rate_aprov_t
+    type: DOUBLE
+  - name: rate_failure
+    type: DOUBLE
+  - name: rate_failure_i
+    type: DOUBLE
+  - name: rate_failure_t
+    type: DOUBLE
+  - name: rate_abandon
+    type: DOUBLE
+  - name: rate_abandon_i
+    type: DOUBLE
+  - name: rate_abandon_t
+    type: DOUBLE
+  - name: rate_transfer
+    type: DOUBLE
+  - name: rate_transfer_i
+    type: DOUBLE
+  - name: rate_transfer_t
+    type: DOUBLE
+  - name: rate_overage
+    type: DOUBLE
+  - name: rate_overage_i
+    type: DOUBLE
+  - name: rate_overage_t
+    type: DOUBLE
+  - name: prova_mean_port_i
+    type: DOUBLE
+  - name: prova_mean_port_t
+    type: DOUBLE
+  - name: prova_mean_mat_i
+    type: DOUBLE
+  - name: prova_mean_mat_t
+    type: DOUBLE
+  - name: rooms_avail
+    type: DOUBLE
+  - name: rooms_used
+    type: DOUBLE
+  - name: status
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

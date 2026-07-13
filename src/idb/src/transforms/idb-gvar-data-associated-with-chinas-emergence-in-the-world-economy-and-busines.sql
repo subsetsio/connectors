@@ -1,1 +1,41 @@
-SELECT * FROM "idb-gvar-data-associated-with-chinas-emergence-in-the-world-economy-and-busines"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    CAST("arg" AS DOUBLE) AS arg,
+    CAST("austlia" AS DOUBLE) AS austlia,
+    CAST("austria" AS DOUBLE) AS austria,
+    CAST("bel" AS DOUBLE) AS bel,
+    CAST("bra" AS DOUBLE) AS bra,
+    CAST("can" AS DOUBLE) AS can,
+    CAST("china" AS DOUBLE) AS china,
+    CAST("chl" AS DOUBLE) AS chl,
+    CAST("fin" AS DOUBLE) AS fin,
+    CAST("france" AS DOUBLE) AS france,
+    CAST("germ" AS DOUBLE) AS germ,
+    CAST("india" AS DOUBLE) AS india,
+    CAST("indns" AS DOUBLE) AS indns,
+    CAST("italy" AS DOUBLE) AS italy,
+    CAST("japan" AS DOUBLE) AS japan,
+    CAST("kor" AS DOUBLE) AS kor,
+    CAST("mal" AS DOUBLE) AS mal,
+    CAST("mex" AS DOUBLE) AS mex,
+    CAST("neth" AS DOUBLE) AS neth,
+    CAST("nor" AS DOUBLE) AS nor,
+    CAST("nzld" AS DOUBLE) AS nzld,
+    CAST("per" AS DOUBLE) AS per,
+    CAST("phlp" AS DOUBLE) AS phlp,
+    CAST("safrc" AS DOUBLE) AS safrc,
+    CAST("sarbia" AS DOUBLE) AS sarbia,
+    CAST("sing" AS DOUBLE) AS sing,
+    CAST("spain" AS DOUBLE) AS spain,
+    CAST("swe" AS DOUBLE) AS swe,
+    CAST("switz" AS DOUBLE) AS switz,
+    CAST("thai" AS DOUBLE) AS thai,
+    CAST("turk" AS DOUBLE) AS turk,
+    CAST("uk" AS DOUBLE) AS uk,
+    CAST("usa" AS DOUBLE) AS usa,
+    "source_resource"
+FROM "idb-gvar-data-associated-with-chinas-emergence-in-the-world-economy-and-busines"

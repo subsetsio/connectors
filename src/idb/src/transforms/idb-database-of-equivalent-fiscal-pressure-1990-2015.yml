@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-database-of-equivalent-fiscal-pressure-1990-2015`. Regenerate after model-verify.
+key: [country_es, year_text, indicator_es]
+sort: [country_es, year_text, indicator_es]
 columns:
-  - name: Country_ES
+  - name: country_es
     type: VARCHAR
-  - name: Country_EN
+  - name: country_en
     type: VARCHAR
-  - name: Indicator_Level1_ES
+  - name: indicator_level1_es
     type: VARCHAR
-  - name: Indicator_Level1_EN
+  - name: indicator_level1_en
     type: VARCHAR
-  - name: Indicator_Level2_ES
+  - name: indicator_level2_es
     type: VARCHAR
-  - name: Indicator_Level2_EN
+  - name: indicator_level2_en
     type: VARCHAR
-  - name: Indicator_Level3_ES
+  - name: indicator_level3_es
     type: VARCHAR
-  - name: Indicator_Level3_EN
+  - name: indicator_level3_en
     type: VARCHAR
-  - name: Indicator_Level4_ES
+  - name: indicator_level4_es
     type: VARCHAR
-  - name: Indicator_Level4_EN
+  - name: indicator_level4_en
     type: VARCHAR
-  - name: Indicator_ES
+  - name: indicator_es
     type: VARCHAR
-  - name: Indicator_EN
+  - name: indicator_en
     type: VARCHAR
-  - name: Year_Date
+  - name: year_date
     type: VARCHAR
-  - name: Year_Text
+  - name: year_text
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit_es
     type: VARCHAR
-  - name: Value
-    type: VARCHAR
-  - name: Unit_ES
-    type: VARCHAR
-  - name: Unit_EN
+  - name: unit_en
     type: VARCHAR
   - name: source_resource
     type: VARCHAR

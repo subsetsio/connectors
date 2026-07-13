@@ -1,5 +1,34 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-associated-with-informe-mercosur-n-20-2014-2015`. Regenerate after model-verify.
+key: []
 columns:
+  - name: figura_tabla
+    type: VARCHAR
+  - name: capitulo
+    type: VARCHAR
+  - name: titulo
+    type: VARCHAR
+  - name: indicador
+    type: VARCHAR
+  - name: sub_indicador
+    type: VARCHAR
+  - name: pais
+    type: VARCHAR
+  - name: ano
+    type: BIGINT
+  - name: mes
+    type: BIGINT
+  - name: periodo
+    type: VARCHAR
+  - name: rubro
+    type: VARCHAR
+  - name: valor
+    type: DOUBLE
+  - name: valor_u_d
+    type: DOUBLE
+  - name: fuente
+    type: VARCHAR
+  - name: notas
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

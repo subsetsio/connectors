@@ -1,1 +1,40 @@
-SELECT * FROM "idb-idb-project-procurement-contract-awards-data"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "contract_id",
+    "contract_type",
+    "project_number",
+    "project_name",
+    "status",
+    "operation_number",
+    "operation_type_cd",
+    "operation_type_name",
+    "operation_country_code",
+    "operation_country_name",
+    "oper_unit_cd",
+    "division_cd",
+    "department_cd",
+    "economic_sector_name",
+    "procurement_type",
+    CAST("idb_amount" AS BIGINT) AS idb_amount,
+    CAST("total_amount" AS DOUBLE) AS total_amount,
+    "borrower_cd",
+    "borrower_name",
+    "executor_cd",
+    "executing_agency",
+    "awarded_firm_country_code",
+    "awarded_firm_country_name",
+    "awarded_firm_city",
+    "awarded_firm_address",
+    "awarded_firm_name",
+    CAST("contract_year" AS BIGINT) AS contract_year,
+    CAST("signature_date" AS TIMESTAMP) AS signature_date,
+    CAST("entry_date" AS TIMESTAMP) AS entry_date,
+    CAST("last_modification_date" AS TIMESTAMP) AS last_modification_date,
+    CAST("start_date" AS TIMESTAMP) AS start_date,
+    CAST("stop_date" AS TIMESTAMP) AS stop_date,
+    "source",
+    "source_resource"
+FROM "idb-idb-project-procurement-contract-awards-data"

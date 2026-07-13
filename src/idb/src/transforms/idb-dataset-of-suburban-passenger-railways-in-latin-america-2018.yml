@@ -1,5 +1,44 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-dataset-of-suburban-passenger-railways-in-latin-america-2018`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: source_database_id
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: indicator_code
+    type: VARCHAR
+  - name: subindicator
+    type: VARCHAR
+  - name: inicial_year
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: aggregated_value
+    type: DOUBLE
+  - name: aggregation_levenl
+    type: VARCHAR
+  - name: uom
+    type: VARCHAR
+  - name: number
+    type: BIGINT
+  - name: question
+    type: VARCHAR
+  - name: explicacion
+    type: VARCHAR
+  - name: verificables
+    type: VARCHAR
+  - name: idioma
+    type: VARCHAR
+  - name: linka
+    type: VARCHAR
+  - name: linkb
+    type: VARCHAR
+  - name: linkc
+    type: VARCHAR
+  - name: linkd
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

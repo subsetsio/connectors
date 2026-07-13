@@ -1,5 +1,39 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-medium-term-frameworks-and-the-budgetary-process-in-latin-america-a-databas`. Regenerate after model-verify.
+key: [pais]
+sort: [pais]
 columns:
+  - name: pais
+    type: VARCHAR
+  - name: gdpproj
+    type: BIGINT
+  - name: infproj
+    type: BIGINT
+  - name: spendproj
+    type: BIGINT
+  - name: revproj
+    type: BIGINT
+  - name: expadmuproj
+    type: BIGINT
+  - name: expfunproj
+    type: BIGINT
+  - name: disincproj
+    type: BIGINT
+  - name: expprogproj
+    type: BIGINT
+  - name: resproj
+    type: BIGINT
+  - name: mtff
+    type: BIGINT
+  - name: mtbf
+    type: BIGINT
+  - name: mtef
+    type: BIGINT
+  - name: mtbf_weak
+    type: BIGINT
+  - name: mtef_weak
+    type: BIGINT
+  - name: urudum
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

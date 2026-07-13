@@ -1,5 +1,525 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-guyana-latin-american-public-opinion-project-victimization-and-crime-survey`. Regenerate after model-verify.
+key: [uniq_id, gpslocation, cluster, q2y, q2]
+sort: [uniq_id, gpslocation, cluster, q2y, q2]
 columns:
+  - name: pais
+    type: VARCHAR
+  - name: uniq_id
+    type: VARCHAR
+  - name: estratopri
+    type: VARCHAR
+  - name: estratosec
+    type: VARCHAR
+  - name: upm
+    type: BIGINT
+  - name: prov
+    type: VARCHAR
+  - name: municipio
+    type: VARCHAR
+  - name: cluster
+    type: BIGINT
+  - name: ur
+    type: VARCHAR
+  - name: tamano
+    type: VARCHAR
+  - name: idiomaq
+    type: VARCHAR
+  - name: fecha
+    type: VARCHAR
+  - name: wt
+    type: VARCHAR
+  - name: q1
+    type: VARCHAR
+  - name: q2y
+    type: VARCHAR
+  - name: q2
+    type: VARCHAR
+  - name: gpslocation
+    type: VARCHAR
+  - name: ls3
+    type: VARCHAR
+  - name: a4
+    type: VARCHAR
+  - name: soct2
+    type: VARCHAR
+  - name: idio2
+    type: VARCHAR
+  - name: np1
+    type: VARCHAR
+  - name: np2
+    type: VARCHAR
+  - name: cp5
+    type: VARCHAR
+  - name: cp6
+    type: VARCHAR
+  - name: cp7
+    type: VARCHAR
+  - name: cp8
+    type: VARCHAR
+  - name: it1
+    type: VARCHAR
+  - name: ivol16
+    type: VARCHAR
+  - name: ivol17
+    type: VARCHAR
+  - name: ivol18
+    type: VARCHAR
+  - name: ivol19
+    type: VARCHAR
+  - name: ivol20
+    type: VARCHAR
+  - name: ivol21
+    type: VARCHAR
+  - name: ivol22
+    type: VARCHAR
+  - name: ivol23
+    type: VARCHAR
+  - name: prot3
+    type: VARCHAR
+  - name: vic1ext
+    type: VARCHAR
+  - name: vic1exta
+    type: VARCHAR
+  - name: vic2
+    type: VARCHAR
+  - name: vic2aa
+    type: VARCHAR
+  - name: vic1hogar
+    type: VARCHAR
+  - name: ivol1
+    type: VARCHAR
+  - name: ivol2
+    type: VARCHAR
+  - name: ivol3
+    type: VARCHAR
+  - name: ivol4
+    type: VARCHAR
+  - name: ivol5
+    type: VARCHAR
+  - name: ivol6
+    type: VARCHAR
+  - name: ivol1a
+    type: VARCHAR
+  - name: ivol1b
+    type: VARCHAR
+  - name: ivol1c
+    type: VARCHAR
+  - name: ivol2a
+    type: VARCHAR
+  - name: ivol2b
+    type: VARCHAR
+  - name: ivol2c
+    type: VARCHAR
+  - name: ivol2d
+    type: VARCHAR
+  - name: ivol2e
+    type: VARCHAR
+  - name: ivol2f
+    type: VARCHAR
+  - name: ivol2g
+    type: VARCHAR
+  - name: ivol3a
+    type: VARCHAR
+  - name: ivol3b
+    type: VARCHAR
+  - name: ivol3c
+    type: VARCHAR
+  - name: ivol3d
+    type: VARCHAR
+  - name: ivol3e
+    type: VARCHAR
+  - name: ivol3f
+    type: VARCHAR
+  - name: ivol3g
+    type: VARCHAR
+  - name: ivol3g1_1
+    type: VARCHAR
+  - name: ivol3g1_2
+    type: VARCHAR
+  - name: ivol3g1_3
+    type: VARCHAR
+  - name: ivol3g1_4
+    type: VARCHAR
+  - name: ivol3g1_5
+    type: VARCHAR
+  - name: ivol3h
+    type: VARCHAR
+  - name: ivol3i
+    type: VARCHAR
+  - name: ivol3j
+    type: VARCHAR
+  - name: ivol4a
+    type: VARCHAR
+  - name: ivol4b
+    type: VARCHAR
+  - name: ivol4c
+    type: VARCHAR
+  - name: ivol5a
+    type: VARCHAR
+  - name: ivol5b
+    type: VARCHAR
+  - name: ivol5c
+    type: VARCHAR
+  - name: ivol5d
+    type: VARCHAR
+  - name: ivol5e
+    type: VARCHAR
+  - name: ivol5f
+    type: VARCHAR
+  - name: ivol5f1_1
+    type: VARCHAR
+  - name: ivol5f1_2
+    type: VARCHAR
+  - name: ivol5f1_3
+    type: VARCHAR
+  - name: ivol5f1_4
+    type: VARCHAR
+  - name: ivol5f1_5
+    type: VARCHAR
+  - name: ivol5g
+    type: VARCHAR
+  - name: ivol5h
+    type: VARCHAR
+  - name: ivol5i
+    type: VARCHAR
+  - name: ivol6a
+    type: VARCHAR
+  - name: ivol6b
+    type: VARCHAR
+  - name: ivol6c
+    type: VARCHAR
+  - name: ivol6d
+    type: VARCHAR
+  - name: ivol6e
+    type: VARCHAR
+  - name: ivol6f
+    type: VARCHAR
+  - name: ivol6f1_1
+    type: VARCHAR
+  - name: ivol6f1_2
+    type: VARCHAR
+  - name: ivol6f1_3
+    type: VARCHAR
+  - name: ivol6f1_4
+    type: VARCHAR
+  - name: ivol6f1_5
+    type: VARCHAR
+  - name: ivol6g
+    type: VARCHAR
+  - name: pole2n
+    type: VARCHAR
+  - name: ivol14
+    type: VARCHAR
+  - name: ivol15
+    type: VARCHAR
+  - name: aoj11
+    type: VARCHAR
+  - name: ivol10
+    type: VARCHAR
+  - name: ivol11
+    type: VARCHAR
+  - name: ivol12
+    type: VARCHAR
+  - name: ivol13
+    type: VARCHAR
+  - name: pese1
+    type: VARCHAR
+  - name: pese2
+    type: VARCHAR
+  - name: aoj17
+    type: VARCHAR
+  - name: ivol24
+    type: VARCHAR
+  - name: ivol25
+    type: VARCHAR
+  - name: ivol26
+    type: VARCHAR
+  - name: aoj12
+    type: VARCHAR
+  - name: aoj22
+    type: VARCHAR
+  - name: b1
+    type: VARCHAR
+  - name: b2
+    type: VARCHAR
+  - name: b3
+    type: VARCHAR
+  - name: b4
+    type: VARCHAR
+  - name: b6
+    type: VARCHAR
+  - name: b10a
+    type: VARCHAR
+  - name: b12
+    type: VARCHAR
+  - name: b13
+    type: VARCHAR
+  - name: b18
+    type: VARCHAR
+  - name: n11
+    type: VARCHAR
+  - name: n15
+    type: VARCHAR
+  - name: pr3a
+    type: VARCHAR
+  - name: pr3e
+    type: VARCHAR
+  - name: m1
+    type: VARCHAR
+  - name: sd2new2
+    type: VARCHAR
+  - name: sd3new2
+    type: VARCHAR
+  - name: sd6new2
+    type: VARCHAR
+  - name: infrax
+    type: VARCHAR
+  - name: ing4
+    type: VARCHAR
+  - name: eff1
+    type: VARCHAR
+  - name: eff2
+    type: VARCHAR
+  - name: mil7
+    type: VARCHAR
+  - name: pn4
+    type: VARCHAR
+  - name: e16
+    type: VARCHAR
+  - name: d1
+    type: VARCHAR
+  - name: d2
+    type: VARCHAR
+  - name: d3
+    type: VARCHAR
+  - name: d4
+    type: VARCHAR
+  - name: d5
+    type: VARCHAR
+  - name: d6
+    type: VARCHAR
+  - name: dem2
+    type: VARCHAR
+  - name: exc2
+    type: VARCHAR
+  - name: exc6
+    type: VARCHAR
+  - name: exc20
+    type: VARCHAR
+  - name: exc11
+    type: VARCHAR
+  - name: exc13
+    type: VARCHAR
+  - name: exc14
+    type: VARCHAR
+  - name: exc15
+    type: VARCHAR
+  - name: exc16
+    type: VARCHAR
+  - name: diso8
+    type: VARCHAR
+  - name: diso10
+    type: VARCHAR
+  - name: diso14
+    type: VARCHAR
+  - name: diso16
+    type: VARCHAR
+  - name: diso17
+    type: VARCHAR
+  - name: vicbar1
+    type: VARCHAR
+  - name: vicbar1f
+    type: VARCHAR
+  - name: vicbar3
+    type: VARCHAR
+  - name: vicbar4
+    type: VARCHAR
+  - name: vicbar7
+    type: VARCHAR
+  - name: fear10
+    type: VARCHAR
+  - name: vic44
+    type: VARCHAR
+  - name: fear6e
+    type: VARCHAR
+  - name: fear6f
+    type: VARCHAR
+  - name: vb1
+    type: VARCHAR
+  - name: inf1
+    type: VARCHAR
+  - name: vb2
+    type: VARCHAR
+  - name: vb3n
+    type: VARCHAR
+  - name: vb10
+    type: VARCHAR
+  - name: vb11
+    type: VARCHAR
+  - name: pol1
+    type: VARCHAR
+  - name: vb20
+    type: VARCHAR
+  - name: cosmun1
+    type: VARCHAR
+  - name: guyvb5
+    type: VARCHAR
+  - name: guyvb5a
+    type: VARCHAR
+  - name: env1
+    type: VARCHAR
+  - name: env1b
+    type: VARCHAR
+  - name: env1newc
+    type: VARCHAR
+  - name: env1newd
+    type: VARCHAR
+  - name: env2
+    type: VARCHAR
+  - name: env2b
+    type: VARCHAR
+  - name: env5
+    type: VARCHAR
+  - name: vol207n
+    type: VARCHAR
+  - name: vol208n
+    type: VARCHAR
+  - name: dvw1
+    type: VARCHAR
+  - name: dvw2
+    type: VARCHAR
+  - name: ivol7
+    type: VARCHAR
+  - name: ivol8
+    type: VARCHAR
+  - name: ivol27
+    type: VARCHAR
+  - name: ivol28
+    type: VARCHAR
+  - name: ivol29_1
+    type: VARCHAR
+  - name: ivol29_2
+    type: VARCHAR
+  - name: ivol29_3
+    type: VARCHAR
+  - name: ivol29_4
+    type: VARCHAR
+  - name: ivol29_5
+    type: VARCHAR
+  - name: ivol29_6
+    type: VARCHAR
+  - name: ivol30_1
+    type: VARCHAR
+  - name: ivol30_2
+    type: VARCHAR
+  - name: ivol30_3
+    type: VARCHAR
+  - name: ivol30_4
+    type: VARCHAR
+  - name: ivol30_5
+    type: VARCHAR
+  - name: ivol30_6
+    type: VARCHAR
+  - name: ivol31
+    type: VARCHAR
+  - name: ivol9
+    type: VARCHAR
+  - name: wf1
+    type: VARCHAR
+  - name: dv1
+    type: VARCHAR
+  - name: ed
+    type: VARCHAR
+  - name: ed2
+    type: VARCHAR
+  - name: q3c
+    type: VARCHAR
+  - name: q5b
+    type: VARCHAR
+  - name: ocup4a
+    type: VARCHAR
+  - name: ocup1a
+    type: VARCHAR
+  - name: q10a
+    type: VARCHAR
+  - name: rn1
+    type: VARCHAR
+  - name: sample
+    type: VARCHAR
+  - name: guyb4
+    type: VARCHAR
+  - name: guyinfo
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: q5bnr
+    type: DOUBLE
+  - name: q10new
+    type: VARCHAR
+  - name: q10g
+    type: VARCHAR
+  - name: q14
+    type: VARCHAR
+  - name: q10d
+    type: VARCHAR
+  - name: q10e
+    type: VARCHAR
+  - name: q11n
+    type: VARCHAR
+  - name: q12c
+    type: VARCHAR
+  - name: q12bn
+    type: VARCHAR
+  - name: q12
+    type: VARCHAR
+  - name: etid
+    type: VARCHAR
+  - name: leng1n
+    type: VARCHAR
+  - name: www1
+    type: VARCHAR
+  - name: gi0
+    type: VARCHAR
+  - name: r3
+    type: VARCHAR
+  - name: r4
+    type: VARCHAR
+  - name: r4a
+    type: VARCHAR
+  - name: r5
+    type: VARCHAR
+  - name: r6
+    type: VARCHAR
+  - name: r7
+    type: VARCHAR
+  - name: r8
+    type: VARCHAR
+  - name: r12
+    type: VARCHAR
+  - name: r14
+    type: VARCHAR
+  - name: r15
+    type: VARCHAR
+  - name: r18
+    type: VARCHAR
+  - name: r1
+    type: VARCHAR
+  - name: r16
+    type: VARCHAR
+  - name: r26
+    type: VARCHAR
+  - name: colorr
+    type: VARCHAR
+  - name: sexi
+    type: VARCHAR
+  - name: colori
+    type: VARCHAR
+  - name: nationality
+    type: BIGINT
+  - name: formatq
+    type: VARCHAR
+  - name: idnum
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

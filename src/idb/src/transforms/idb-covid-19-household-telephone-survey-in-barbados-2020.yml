@@ -1,5 +1,28 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-covid-19-household-telephone-survey-in-barbados-2020`. Regenerate after model-verify.
+key: []
 columns:
+  - name: hhid
+    type: BIGINT
+  - name: w_hh
+    type: DOUBLE
+  - name: psu
+    type: BIGINT
+  - name: stratum
+    type: BIGINT
+  - name: interview_key
+    type: VARCHAR
+  - name: interview_id
+    type: VARCHAR
+  - name: spreading_id
+    type: BIGINT
+  - name: optseq
+    type: BIGINT
+  - name: spropt
+    type: VARCHAR
+  - name: sprdyn
+    type: VARCHAR
+  - name: sprdyn_oth
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

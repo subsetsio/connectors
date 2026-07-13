@@ -1,5 +1,585 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-business-surveys-on-the-impact-of-covid-19-on-jamaican-firms-2020`. Regenerate after model-verify.
+key: [enddate]
+sort: [enddate]
 columns:
+  - name: respondentid
+    type: BIGINT
+  - name: startdate
+    type: VARCHAR
+  - name: enddate
+    type: VARCHAR
+  - name: q0001
+    type: VARCHAR
+  - name: q0002
+    type: VARCHAR
+  - name: orgtype
+    type: VARCHAR
+  - name: q0002_other
+    type: VARCHAR
+  - name: q0003
+    type: VARCHAR
+  - name: q0004
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: q0004_other
+    type: VARCHAR
+  - name: q0005
+    type: VARCHAR
+  - name: q0006
+    type: VARCHAR
+  - name: q0007
+    type: VARCHAR
+  - name: q0008
+    type: VARCHAR
+  - name: q0009_0001_0001
+    type: VARCHAR
+  - name: q0009_0002_0001
+    type: VARCHAR
+  - name: q0009_0003_0001
+    type: VARCHAR
+  - name: q0009_0004_0001
+    type: VARCHAR
+  - name: q0009_0005_0001
+    type: VARCHAR
+  - name: q0009_0006_0001
+    type: VARCHAR
+  - name: q0010_0001_0001
+    type: VARCHAR
+  - name: q0010_0002_0001
+    type: VARCHAR
+  - name: q0010_0003_0001
+    type: VARCHAR
+  - name: q0010_0004_0001
+    type: VARCHAR
+  - name: q0010_0005_0001
+    type: VARCHAR
+  - name: q0011_0001_0001
+    type: VARCHAR
+  - name: q0011_0002_0001
+    type: VARCHAR
+  - name: q0011_0003_0001
+    type: VARCHAR
+  - name: q0011_0004_0001
+    type: VARCHAR
+  - name: q0011_0005_0001
+    type: VARCHAR
+  - name: q0011_0006_0001
+    type: VARCHAR
+  - name: q0012_0001_0001
+    type: VARCHAR
+  - name: q0012_0002_0001
+    type: VARCHAR
+  - name: q0012_0003_0001
+    type: VARCHAR
+  - name: q0012_0004_0001
+    type: VARCHAR
+  - name: q0012_0005_0001
+    type: VARCHAR
+  - name: q0013_0001_0001
+    type: VARCHAR
+  - name: q0013_0002_0001
+    type: VARCHAR
+  - name: q0013_0003_0001
+    type: VARCHAR
+  - name: q0013_0004_0001
+    type: VARCHAR
+  - name: q0013_0005_0001
+    type: VARCHAR
+  - name: q0013_0006_0001
+    type: VARCHAR
+  - name: q0013_other
+    type: VARCHAR
+  - name: q0014
+    type: VARCHAR
+  - name: q0015
+    type: VARCHAR
+  - name: q0016
+    type: VARCHAR
+  - name: q0017_0001
+    type: VARCHAR
+  - name: q0017_0002
+    type: VARCHAR
+  - name: q0017_0003
+    type: VARCHAR
+  - name: q0017_0004
+    type: VARCHAR
+  - name: q0017_0005
+    type: VARCHAR
+  - name: q0017_0006
+    type: VARCHAR
+  - name: q0017_0007
+    type: VARCHAR
+  - name: q0017_0008
+    type: VARCHAR
+  - name: q0017_0009
+    type: VARCHAR
+  - name: q0017_0010
+    type: VARCHAR
+  - name: q0017_other
+    type: VARCHAR
+  - name: q0018_0001
+    type: VARCHAR
+  - name: q0018_0002
+    type: VARCHAR
+  - name: q0018_0003
+    type: VARCHAR
+  - name: q0018_0004
+    type: VARCHAR
+  - name: q0018_0005
+    type: VARCHAR
+  - name: q0018_0006
+    type: VARCHAR
+  - name: q0018_0007
+    type: VARCHAR
+  - name: q0018_0008
+    type: VARCHAR
+  - name: q0018_0009
+    type: VARCHAR
+  - name: q0018_other
+    type: VARCHAR
+  - name: q0019_0001_0001
+    type: VARCHAR
+  - name: q0019_0002_0001
+    type: VARCHAR
+  - name: q0019_0003_0001
+    type: VARCHAR
+  - name: q0019_0004_0001
+    type: VARCHAR
+  - name: q0019_0005_0001
+    type: VARCHAR
+  - name: q0020_0001_0001
+    type: VARCHAR
+  - name: q0020_0002_0001
+    type: VARCHAR
+  - name: q0020_0003_0001
+    type: VARCHAR
+  - name: q0020_0004_0001
+    type: VARCHAR
+  - name: q0020_0005_0001
+    type: VARCHAR
+  - name: q0021_0001_0001
+    type: VARCHAR
+  - name: q0021_0002_0001
+    type: VARCHAR
+  - name: q0021_0003_0001
+    type: VARCHAR
+  - name: q0021_0004_0001
+    type: VARCHAR
+  - name: q0021_0005_0001
+    type: VARCHAR
+  - name: q0022_0001_0001
+    type: VARCHAR
+  - name: q0022_0001_0002
+    type: VARCHAR
+  - name: q0022_0001_0003
+    type: VARCHAR
+  - name: q0022_0001_0004
+    type: VARCHAR
+  - name: q0022_0001_0005
+    type: VARCHAR
+  - name: q0023_0001_0001
+    type: VARCHAR
+  - name: q0023_0001_0002
+    type: VARCHAR
+  - name: q0023_0001_0003
+    type: VARCHAR
+  - name: q0023_0001_0004
+    type: VARCHAR
+  - name: q0023_0001_0005
+    type: VARCHAR
+  - name: q0024_0001_0001
+    type: VARCHAR
+  - name: q0024_0002_0001
+    type: VARCHAR
+  - name: q0024_0003_0001
+    type: VARCHAR
+  - name: q0024_0004_0001
+    type: VARCHAR
+  - name: q0024_0005_0001
+    type: VARCHAR
+  - name: q0025_0001_0001
+    type: VARCHAR
+  - name: q0025_0002_0001
+    type: VARCHAR
+  - name: q0025_0003_0001
+    type: VARCHAR
+  - name: q0025_0004_0001
+    type: VARCHAR
+  - name: q0025_0005_0001
+    type: VARCHAR
+  - name: q0026_0001_0001
+    type: VARCHAR
+  - name: q0026_0002_0001
+    type: VARCHAR
+  - name: q0026_0003_0001
+    type: VARCHAR
+  - name: q0026_0004_0001
+    type: VARCHAR
+  - name: q0026_0005_0001
+    type: VARCHAR
+  - name: q0026_0006_0001
+    type: VARCHAR
+  - name: q0026_0007_0001
+    type: VARCHAR
+  - name: q0026_0008_0001
+    type: VARCHAR
+  - name: q0026_0009_0001
+    type: VARCHAR
+  - name: q0026_0010_0001
+    type: VARCHAR
+  - name: q0026_0011_0001
+    type: VARCHAR
+  - name: q0026_0012_0001
+    type: VARCHAR
+  - name: q0026_other
+    type: VARCHAR
+  - name: q0027_0001
+    type: VARCHAR
+  - name: q0027_0002
+    type: VARCHAR
+  - name: q0027_0003
+    type: VARCHAR
+  - name: q0027_0004
+    type: VARCHAR
+  - name: q0027_0005
+    type: VARCHAR
+  - name: q0027_0006
+    type: VARCHAR
+  - name: q0027_0007
+    type: VARCHAR
+  - name: q0027_0008
+    type: VARCHAR
+  - name: q0027_0009
+    type: VARCHAR
+  - name: q0027_0010
+    type: VARCHAR
+  - name: q0027_0011
+    type: VARCHAR
+  - name: q0027_0012
+    type: VARCHAR
+  - name: q0027_0013
+    type: VARCHAR
+  - name: q0027_0014
+    type: VARCHAR
+  - name: q0027_0015
+    type: VARCHAR
+  - name: q0027_0016
+    type: VARCHAR
+  - name: q0027_0017
+    type: VARCHAR
+  - name: q0027_other
+    type: VARCHAR
+  - name: q0028
+    type: VARCHAR
+  - name: q0029_0001
+    type: VARCHAR
+  - name: q0029_0002
+    type: VARCHAR
+  - name: q0029_0003
+    type: VARCHAR
+  - name: q0029_0004
+    type: VARCHAR
+  - name: q0029_0005
+    type: VARCHAR
+  - name: q0029_0006
+    type: VARCHAR
+  - name: q0029_0007
+    type: VARCHAR
+  - name: q0029_0008
+    type: VARCHAR
+  - name: q0029_0009
+    type: VARCHAR
+  - name: q0029_other
+    type: VARCHAR
+  - name: q0030_0001
+    type: VARCHAR
+  - name: q0030_0002
+    type: VARCHAR
+  - name: q0030_0003
+    type: VARCHAR
+  - name: q0030_0004
+    type: VARCHAR
+  - name: q0031
+    type: VARCHAR
+  - name: q0032_0001
+    type: VARCHAR
+  - name: q0032_0002
+    type: VARCHAR
+  - name: q0032_0003
+    type: VARCHAR
+  - name: q0032_0004
+    type: VARCHAR
+  - name: q0032_0005
+    type: VARCHAR
+  - name: q0032_0006
+    type: VARCHAR
+  - name: q0032_0007
+    type: VARCHAR
+  - name: q0032_0008
+    type: VARCHAR
+  - name: q0032_0009
+    type: VARCHAR
+  - name: q0032_other
+    type: VARCHAR
+  - name: q0033_0001
+    type: VARCHAR
+  - name: q0033_0002
+    type: VARCHAR
+  - name: q0033_0003
+    type: VARCHAR
+  - name: q0033_0004
+    type: VARCHAR
+  - name: q0034
+    type: VARCHAR
+  - name: q0035_0001
+    type: VARCHAR
+  - name: q0035_0002
+    type: VARCHAR
+  - name: q0035_0003
+    type: VARCHAR
+  - name: q0035_0004
+    type: VARCHAR
+  - name: q0035_0005
+    type: VARCHAR
+  - name: q0035_other
+    type: VARCHAR
+  - name: q0036
+    type: VARCHAR
+  - name: q0037
+    type: VARCHAR
+  - name: q0038
+    type: BIGINT
+  - name: q0039_0001
+    type: VARCHAR
+  - name: q0039_0002
+    type: VARCHAR
+  - name: q0039_0003
+    type: VARCHAR
+  - name: q0039_0004
+    type: VARCHAR
+  - name: q0039_0005
+    type: VARCHAR
+  - name: q0039_0006
+    type: VARCHAR
+  - name: q0039_0007
+    type: VARCHAR
+  - name: q0039_0008
+    type: VARCHAR
+  - name: q0039_other
+    type: VARCHAR
+  - name: q0040_0001
+    type: VARCHAR
+  - name: q0040_0002
+    type: VARCHAR
+  - name: q0040_0003
+    type: VARCHAR
+  - name: q0040_0004
+    type: VARCHAR
+  - name: q0040_0005
+    type: VARCHAR
+  - name: q0040_0006
+    type: VARCHAR
+  - name: q0040_0007
+    type: VARCHAR
+  - name: q0040_0008
+    type: VARCHAR
+  - name: q0040_0009
+    type: VARCHAR
+  - name: q0040_0010
+    type: VARCHAR
+  - name: q0040_0011
+    type: VARCHAR
+  - name: q0040_other
+    type: VARCHAR
+  - name: q0041_0001
+    type: VARCHAR
+  - name: q0041_0002
+    type: VARCHAR
+  - name: q0041_0003
+    type: VARCHAR
+  - name: q0041_0004
+    type: VARCHAR
+  - name: q0041_0005
+    type: VARCHAR
+  - name: q0041_0006
+    type: VARCHAR
+  - name: q0041_0007
+    type: VARCHAR
+  - name: q0041_other
+    type: VARCHAR
+  - name: q0042_0001
+    type: VARCHAR
+  - name: q0042_0002
+    type: VARCHAR
+  - name: q0042_0003
+    type: VARCHAR
+  - name: q0042_0004
+    type: VARCHAR
+  - name: q0042_0005
+    type: VARCHAR
+  - name: q0042_0006
+    type: VARCHAR
+  - name: q0042_0007
+    type: VARCHAR
+  - name: q0043_0001
+    type: VARCHAR
+  - name: q0043_0002
+    type: VARCHAR
+  - name: q0043_0003
+    type: VARCHAR
+  - name: q0043_0004
+    type: VARCHAR
+  - name: q0043_0005
+    type: VARCHAR
+  - name: q0043_0006
+    type: VARCHAR
+  - name: q0043_0007
+    type: VARCHAR
+  - name: q0043_0008
+    type: VARCHAR
+  - name: q0043_0009
+    type: VARCHAR
+  - name: q0043_0010
+    type: VARCHAR
+  - name: q0043_0011
+    type: VARCHAR
+  - name: q0043_0012
+    type: VARCHAR
+  - name: q0043_0013
+    type: VARCHAR
+  - name: q0043_other
+    type: VARCHAR
+  - name: q0044_0001
+    type: VARCHAR
+  - name: q0044_0002
+    type: VARCHAR
+  - name: q0044_0003
+    type: VARCHAR
+  - name: q0044_0004
+    type: VARCHAR
+  - name: q0044_0005
+    type: VARCHAR
+  - name: q0044_0006
+    type: VARCHAR
+  - name: q0044_other
+    type: VARCHAR
+  - name: q0045_0001_0001
+    type: VARCHAR
+  - name: q0045_0002_0001
+    type: VARCHAR
+  - name: q0045_0003_0001
+    type: VARCHAR
+  - name: q0045_0004_0001
+    type: VARCHAR
+  - name: q0045_0005_0001
+    type: VARCHAR
+  - name: q0045_0006_0001
+    type: VARCHAR
+  - name: q0045_0007_0001
+    type: VARCHAR
+  - name: q0045_0008_0001
+    type: VARCHAR
+  - name: q0045_0009_0001
+    type: VARCHAR
+  - name: q0045_0010_0001
+    type: VARCHAR
+  - name: q0046
+    type: VARCHAR
+  - name: q0047_0001
+    type: VARCHAR
+  - name: q0047_0002
+    type: VARCHAR
+  - name: q0047_0003
+    type: VARCHAR
+  - name: q0047_0004
+    type: VARCHAR
+  - name: q0047_0005
+    type: VARCHAR
+  - name: q0047_0006
+    type: VARCHAR
+  - name: q0047_0007
+    type: VARCHAR
+  - name: q0047_0008
+    type: VARCHAR
+  - name: q0047_0009
+    type: VARCHAR
+  - name: q0047_0010
+    type: VARCHAR
+  - name: q0047_other
+    type: VARCHAR
+  - name: q0048
+    type: VARCHAR
+  - name: q0049
+    type: VARCHAR
+  - name: size
+    type: VARCHAR
+  - name: order
+    type: BIGINT
+  - name: sectorgrp
+    type: VARCHAR
+  - name: parish
+    type: VARCHAR
+  - name: q0044_0001new
+    type: BIGINT
+  - name: q0044_0002new
+    type: BIGINT
+  - name: q0044_0003new
+    type: BIGINT
+  - name: q0044_0004new
+    type: BIGINT
+  - name: q0044_0005new
+    type: BIGINT
+  - name: q0044_0006new
+    type: BIGINT
+  - name: filter
+    type: VARCHAR
+  - name: q0043_0001new
+    type: BIGINT
+  - name: q0043_0002new
+    type: BIGINT
+  - name: q0043_0003new
+    type: BIGINT
+  - name: q0043_0004new
+    type: BIGINT
+  - name: q0043_0005new
+    type: BIGINT
+  - name: q0043_0006new
+    type: BIGINT
+  - name: q0043_0007new
+    type: BIGINT
+  - name: q0043_0008new
+    type: BIGINT
+  - name: q0043_0009new
+    type: BIGINT
+  - name: q0043_0010new
+    type: BIGINT
+  - name: q0043_0011new
+    type: BIGINT
+  - name: q0043_0012new
+    type: BIGINT
+  - name: q0043_0013new
+    type: BIGINT
+  - name: pastinn1
+    type: VARCHAR
+  - name: pastinn2
+    type: VARCHAR
+  - name: pastinn3
+    type: VARCHAR
+  - name: pastinn4
+    type: VARCHAR
+  - name: pastinn5
+    type: VARCHAR
+  - name: pastinn6
+    type: VARCHAR
+  - name: pastinn7
+    type: VARCHAR
+  - name: pastinn8
+    type: VARCHAR
+  - name: pastinn9
+    type: VARCHAR
+  - name: specialsector
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

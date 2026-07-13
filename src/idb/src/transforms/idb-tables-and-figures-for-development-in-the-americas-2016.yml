@@ -1,5 +1,16 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-tables-and-figures-for-development-in-the-americas-2016`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: year
+    type: VARCHAR
+  - name: latin_america_and_the_caribbean
+    type: VARCHAR
+  - name: emerging_asia
+    type: VARCHAR
+  - name: advanced_economies
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

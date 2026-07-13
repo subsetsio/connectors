@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `idb-brazilian-education-panel-databases-1996-2015`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [co_entidade, co_municipio, uf, sigla, nu_ano_censo]
+checks:
+  - kind: unique
+    columns: [co_entidade, co_municipio, uf, sigla, nu_ano_censo]
+  - kind: not_null
+    col: co_entidade
+  - kind: not_null
+    col: co_municipio
+  - kind: not_null
+    col: uf
+  - kind: not_null
+    col: sigla
+  - kind: not_null
+    col: nu_ano_censo
+  - kind: row_floor
+    min: 2033265
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

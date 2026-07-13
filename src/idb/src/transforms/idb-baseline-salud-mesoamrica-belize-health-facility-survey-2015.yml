@@ -1,5 +1,55 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-baseline-salud-mesoamrica-belize-health-facility-survey-2015`. Regenerate after model-verify.
+key: [customid]
+sort: [customid]
 columns:
+  - name: customid
+    type: VARCHAR
+  - name: fac_cone_classification
+    type: VARCHAR
+  - name: mrr_date
+    type: VARCHAR
+  - name: mrr_intervw_id1
+    type: BIGINT
+  - name: mrr_intervw_id2
+    type: BIGINT
+  - name: mrr_child_birthdate
+    type: VARCHAR
+  - name: mrr_child_birthdate_date
+    type: VARCHAR
+  - name: mrr_child_enrollment
+    type: VARCHAR
+  - name: mrr_child_enrollment_date
+    type: VARCHAR
+  - name: mrr_child_services
+    type: VARCHAR
+  - name: mrr_child_services_age
+    type: VARCHAR
+  - name: fac_type
+    type: BIGINT
+  - name: age
+    type: BIGINT
+  - name: today_day
+    type: BIGINT
+  - name: today_mon
+    type: VARCHAR
+  - name: today_yr
+    type: BIGINT
+  - name: compl
+    type: VARCHAR
+  - name: module
+    type: VARCHAR
+  - name: record_id
+    type: BIGINT
+  - name: dist_num
+    type: VARCHAR
+  - name: dist_name
+    type: VARCHAR
+  - name: arm
+    type: VARCHAR
+  - name: iso
+    type: VARCHAR
+  - name: facility_id2
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

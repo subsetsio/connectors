@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-olas-lapop-20182019-wash-indicators`. Regenerate after model-verify.
+key: [value, count_respondents, indicator, iso3, quintile]
+sort: [value, count_respondents, indicator, iso3, quintile]
 columns:
   - name: iso3
     type: VARCHAR
   - name: count_respondents
-    type: VARCHAR
+    type: BIGINT
   - name: scope
     type: VARCHAR
   - name: gender
@@ -13,6 +16,6 @@ columns:
   - name: indicator
     type: VARCHAR
   - name: value
-    type: VARCHAR
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

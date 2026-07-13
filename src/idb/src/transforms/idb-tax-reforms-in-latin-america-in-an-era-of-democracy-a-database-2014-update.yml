@@ -1,38 +1,42 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-tax-reforms-in-latin-america-in-an-era-of-democracy-a-database-2014-update`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: country
     type: VARCHAR
   - name: year
-    type: VARCHAR
-  - name: TaxRefOverhaul
-    type: VARCHAR
-  - name: TaxRefMinorDuties
-    type: VARCHAR
-  - name: TaxRefVATCreation
-    type: VARCHAR
-  - name: TaxRefVATExpansion
-    type: VARCHAR
-  - name: TaxRefVATRate
-    type: VARCHAR
-  - name: TaxRefPITBroad
-    type: VARCHAR
-  - name: TaxRefPITRate
-    type: VARCHAR
-  - name: TaxRefCITBroad
-    type: VARCHAR
-  - name: TaxRefCITRate
-    type: VARCHAR
-  - name: TaxRefAdmReform
-    type: VARCHAR
-  - name: TaxRefFinancialTax
-    type: VARCHAR
-  - name: TaxRefExcise
-    type: VARCHAR
-  - name: TaxRefOtherTaxes
-    type: VARCHAR
-  - name: TaxRefIncentives
-    type: VARCHAR
-  - name: TaxRefSocialSecurity
-    type: VARCHAR
+    type: BIGINT
+  - name: taxrefoverhaul
+    type: BIGINT
+  - name: taxrefminorduties
+    type: BIGINT
+  - name: taxrefvatcreation
+    type: BIGINT
+  - name: taxrefvatexpansion
+    type: BIGINT
+  - name: taxrefvatrate
+    type: BIGINT
+  - name: taxrefpitbroad
+    type: BIGINT
+  - name: taxrefpitrate
+    type: BIGINT
+  - name: taxrefcitbroad
+    type: BIGINT
+  - name: taxrefcitrate
+    type: BIGINT
+  - name: taxrefadmreform
+    type: BIGINT
+  - name: taxreffinancialtax
+    type: BIGINT
+  - name: taxrefexcise
+    type: BIGINT
+  - name: taxrefothertaxes
+    type: BIGINT
+  - name: taxrefincentives
+    type: BIGINT
+  - name: taxrefsocialsecurity
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

@@ -1,5 +1,15 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-data-of-violence-against-women-colombia-survey-answers-2014`. Regenerate after model-verify.
+key: [column, type, source_resource]
+sort: [column, type, source_resource]
 columns:
+  - name: column
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: choices
+    type: VARCHAR
   - name: source_resource
     type: VARCHAR

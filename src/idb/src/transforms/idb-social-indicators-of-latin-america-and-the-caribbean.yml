@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-social-indicators-of-latin-america-and-the-caribbean`. Regenerate after model-verify.
+key: []
+temporal: dt
+sort: [dt]
 columns:
   - name: iddate
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: idgeo
     type: VARCHAR
   - name: isoalpha3
@@ -25,13 +29,13 @@ columns:
   - name: ethnicity
     type: VARCHAR
   - name: value
-    type: VARCHAR
+    type: DOUBLE
   - name: se
-    type: VARCHAR
+    type: DOUBLE
   - name: cv
-    type: VARCHAR
+    type: DOUBLE
   - name: sample
-    type: VARCHAR
+    type: DOUBLE
   - name: language
     type: VARCHAR
   - name: collection_es
@@ -53,22 +57,22 @@ columns:
   - name: month
     type: VARCHAR
   - name: totals_dummy
-    type: VARCHAR
+    type: BIGINT
   - name: admin1_ipums
-    type: VARCHAR
+    type: BIGINT
   - name: level
-    type: VARCHAR
-  - name: dummy_GDI
-    type: VARCHAR
+    type: DOUBLE
+  - name: dummy_gdi
+    type: BIGINT
   - name: scldata3_highlight_profile
-    type: VARCHAR
+    type: BIGINT
   - name: scldata3_highlight_census
-    type: VARCHAR
+    type: BIGINT
   - name: quality_check
-    type: VARCHAR
+    type: BIGINT
   - name: dt
-    type: VARCHAR
-  - name: indicadoresAbleToBeMoreThanOne
-    type: VARCHAR
+    type: DATE
+  - name: indicadoresabletobemorethanone
+    type: BIGINT
   - name: source_resource
     type: VARCHAR

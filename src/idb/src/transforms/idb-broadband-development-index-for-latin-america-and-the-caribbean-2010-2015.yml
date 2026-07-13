@@ -1,24 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-broadband-development-index-for-latin-america-and-the-caribbean-2010-2015`. Regenerate after model-verify.
+key: []
 columns:
-  - name: Codigo
+  - name: codigo
     type: VARCHAR
-  - name: Nombre_Variable
+  - name: nombre_variable
     type: VARCHAR
-  - name: Unidad
+  - name: unidad
     type: VARCHAR
-  - name: Fuente
+  - name: fuente
     type: VARCHAR
-  - name: Descripcion
+  - name: descripcion
     type: VARCHAR
-  - name: Ano_Fecha
+  - name: ano_fecha
+    type: BIGINT
+  - name: ano_texto
+    type: BIGINT
+  - name: pais_nombre
     type: VARCHAR
-  - name: Ano_Texto
+  - name: pais_codigo
     type: VARCHAR
-  - name: Pais_Nombre
-    type: VARCHAR
-  - name: Pais_Codigo
-    type: VARCHAR
-  - name: Valor
-    type: VARCHAR
+  - name: valor
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR

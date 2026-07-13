@@ -1,16 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-emerging-and-sustainable-cities-initiative-datasets-1995-2015`. Regenerate after model-verify.
+key: []
 columns:
-  - name: IndicadorId
+  - name: indicadorid
+    type: BIGINT
+  - name: ciudadid
     type: VARCHAR
-  - name: CiudadId
+  - name: fuente
     type: VARCHAR
-  - name: Fuente
+  - name: source
     type: VARCHAR
-  - name: Source
-    type: VARCHAR
-  - name: Anio
-    type: VARCHAR
-  - name: Valor
+  - name: anio
+    type: BIGINT
+  - name: valor
     type: VARCHAR
   - name: source_resource
     type: VARCHAR

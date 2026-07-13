@@ -1,5 +1,330 @@
-# placeholder pass-through for first full run; regenerate with `hardened compile-transforms idb --write --force` after model-verify profiles raw.
-write_mode: overwrite
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `idb-replication-data-for-grandmothers-and-the-gender-gap-in-the-mexican-labor-m`. Regenerate after model-verify.
+key: []
+temporal: year
+sort: [year]
 columns:
+  - name: year
+    type: BIGINT
+  - name: per
+    type: BIGINT
+  - name: loc
+    type: VARCHAR
+  - name: mun
+    type: VARCHAR
+  - name: ent
+    type: VARCHAR
+  - name: upm
+    type: VARCHAR
+  - name: n_pro_viv
+    type: VARCHAR
+  - name: n_hog
+    type: BIGINT
+  - name: hh_id
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: n_ent
+    type: BIGINT
+  - name: n_ren
+    type: BIGINT
+  - name: year_period
+    type: BIGINT
+  - name: yq_c
+    type: BIGINT
+  - name: mun_full
+    type: VARCHAR
+  - name: loc_group
+    type: BIGINT
+  - name: sex
+    type: DOUBLE
+  - name: eda
+    type: DOUBLE
+  - name: n_hij
+    type: VARCHAR
+  - name: anios_esc
+    type: BIGINT
+  - name: mom
+    type: BIGINT
+  - name: dad
+    type: BIGINT
+  - name: gk
+    type: BIGINT
+  - name: woman
+    type: BIGINT
+  - name: man
+    type: BIGINT
+  - name: gm
+    type: BIGINT
+  - name: gd
+    type: BIGINT
+  - name: gm_m_side
+    type: DOUBLE
+  - name: gk_m_u6
+    type: BIGINT
+  - name: max_eda
+    type: BIGINT
+  - name: max_eda_gk
+    type: BIGINT
+  - name: max_eda_gm
+    type: DOUBLE
+  - name: max_eda_gd
+    type: DOUBLE
+  - name: max_eda_gk_3
+    type: BIGINT
+  - name: y_le_5
+    type: BIGINT
+  - name: o_le_5
+    type: BIGINT
+  - name: gm_le60
+    type: BIGINT
+  - name: gm_le70
+    type: BIGINT
+  - name: t_loc
+    type: VARCHAR
+  - name: t_gm_max
+    type: BIGINT
+  - name: t_gd_max
+    type: BIGINT
+  - name: t_mom_max
+    type: BIGINT
+  - name: t_gk
+    type: BIGINT
+  - name: t_gk_max
+    type: BIGINT
+  - name: t_dad_max
+    type: BIGINT
+  - name: t_ind_max
+    type: BIGINT
+  - name: t_gm_died
+    type: BIGINT
+  - name: t_gd_died
+    type: BIGINT
+  - name: t_sec_gen_max
+    type: BIGINT
+  - name: t_gk_p1
+    type: BIGINT
+  - name: t_gk_m_p1
+    type: BIGINT
+  - name: t_gk_u6_p1
+    type: BIGINT
+  - name: employed
+    type: BIGINT
+  - name: part_time
+    type: BIGINT
+  - name: part_time_t2
+    type: BIGINT
+  - name: part_time_t2_p1
+    type: BIGINT
+  - name: middle_time
+    type: BIGINT
+  - name: full_time
+    type: BIGINT
+  - name: full_time_p1
+    type: BIGINT
+  - name: hrsocup
+    type: DOUBLE
+  - name: ingocup
+    type: DOUBLE
+  - name: ing_x_hrs
+    type: DOUBLE
+  - name: emp_ppal
+    type: VARCHAR
+  - name: any_work
+    type: BIGINT
+  - name: any_paidwork
+    type: BIGINT
+  - name: edu_max
+    type: DOUBLE
+  - name: eda_cat5
+    type: BIGINT
+  - name: inc_f_cat10
+    type: BIGINT
+  - name: hrsocup_p1
+    type: DOUBLE
+  - name: ingocup_p1
+    type: DOUBLE
+  - name: n_hij_p1
+    type: BIGINT
+  - name: f_emp_p1
+    type: BIGINT
+  - name: n_624411_p0a5_20
+    type: DOUBLE
+  - name: n_624412_p0a5_20
+    type: DOUBLE
+  - name: fac
+    type: BIGINT
+  - name: merge_denue
+    type: VARCHAR
+  - name: merge_mun
+    type: VARCHAR
+  - name: merge_eness_format
+    type: VARCHAR
+  - name: merge_loc
+    type: VARCHAR
+  - name: merge_est
+    type: VARCHAR
+  - name: obs_hh
+    type: BIGINT
+  - name: generations
+    type: BIGINT
+  - name: time_cuidar
+    type: DOUBLE
+  - name: gd_died
+    type: BIGINT
+  - name: gm_died
+    type: BIGINT
+  - name: post_gd_died
+    type: BIGINT
+  - name: post_gm_died
+    type: BIGINT
+  - name: gm_died_ob1
+    type: BIGINT
+  - name: gm_died_a1
+    type: BIGINT
+  - name: gm_died_b2
+    type: BIGINT
+  - name: gm_died_a2
+    type: BIGINT
+  - name: gm_died_b3
+    type: BIGINT
+  - name: gm_died_a3
+    type: BIGINT
+  - name: gm_died_b4
+    type: BIGINT
+  - name: gm_died_a4
+    type: BIGINT
+  - name: gd_died_ob1
+    type: BIGINT
+  - name: gd_died_a1
+    type: BIGINT
+  - name: gd_died_b2
+    type: BIGINT
+  - name: gd_died_a2
+    type: BIGINT
+  - name: gd_died_b3
+    type: BIGINT
+  - name: gd_died_a3
+    type: BIGINT
+  - name: gd_died_b4
+    type: BIGINT
+  - name: gd_died_a4
+    type: BIGINT
+  - name: gm_died_b4_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_b3_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_b2_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_ob1_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_a1_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_a2_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_a3_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_a4_o_le_5_mom
+    type: BIGINT
+  - name: gm_died_b4_o_le_5
+    type: BIGINT
+  - name: gm_died_b3_o_le_5
+    type: BIGINT
+  - name: gm_died_b2_o_le_5
+    type: BIGINT
+  - name: gm_died_ob1_o_le_5
+    type: BIGINT
+  - name: gm_died_a1_o_le_5
+    type: BIGINT
+  - name: gm_died_a2_o_le_5
+    type: BIGINT
+  - name: gm_died_a3_o_le_5
+    type: BIGINT
+  - name: gm_died_a4_o_le_5
+    type: BIGINT
+  - name: gd_died_b4_o_le_5
+    type: BIGINT
+  - name: gd_died_b3_o_le_5
+    type: BIGINT
+  - name: gd_died_b2_o_le_5
+    type: BIGINT
+  - name: gd_died_a1_o_le_5
+    type: BIGINT
+  - name: gd_died_a2_o_le_5
+    type: BIGINT
+  - name: gd_died_a3_o_le_5
+    type: BIGINT
+  - name: gd_died_a4_o_le_5
+    type: BIGINT
+  - name: gm_died_b4_mom
+    type: BIGINT
+  - name: gm_died_b3_mom
+    type: BIGINT
+  - name: gm_died_b2_mom
+    type: BIGINT
+  - name: gm_died_ob1_mom
+    type: BIGINT
+  - name: gm_died_a1_mom
+    type: BIGINT
+  - name: gm_died_a2_mom
+    type: BIGINT
+  - name: gm_died_a3_mom
+    type: BIGINT
+  - name: gm_died_a4_mom
+    type: BIGINT
+  - name: post_gm_died_mom
+    type: BIGINT
+  - name: post_gm_died_o_le_5
+    type: BIGINT
+  - name: post_gm_died_y_le_5
+    type: BIGINT
+  - name: post_gm_died_o_le_5_mom
+    type: BIGINT
+  - name: post_gm_died_y_le_5_mom
+    type: BIGINT
+  - name: sec_gen
+    type: BIGINT
+  - name: miss_sex
+    type: BIGINT
+  - name: pobtot_20_mun
+    type: BIGINT
+  - name: pobtot_20_loc
+    type: DOUBLE
+  - name: p0a5_20_loc
+    type: DOUBLE
+  - name: ei_n_p0a5_20
+    type: DOUBLE
+  - name: time_cuidar_gm_p1
+    type: DOUBLE
+  - name: time_cuidar_gm
+    type: DOUBLE
+  - name: as_time_cuidar
+    type: DOUBLE
+  - name: cuida
+    type: BIGINT
+  - name: high_more_p1
+    type: BIGINT
+  - name: coll_more_p1
+    type: BIGINT
+  - name: d_gk_m_p1
+    type: BIGINT
+  - name: employed_p1
+    type: BIGINT
+  - name: z_pago_hora_pr
+    type: DOUBLE
+  - name: z_pago_hora_pu
+    type: DOUBLE
+  - name: z_pago_pr
+    type: DOUBLE
+  - name: z_pago_pu
+    type: DOUBLE
+  - name: z_pago_hora_es
+    type: DOUBLE
+  - name: z_pago_es
+    type: DOUBLE
+  - name: z_pago_hora_con_es
+    type: DOUBLE
+  - name: z_pago_con_es
+    type: DOUBLE
   - name: source_resource
     type: VARCHAR
