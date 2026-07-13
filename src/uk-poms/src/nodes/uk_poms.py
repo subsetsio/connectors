@@ -56,7 +56,10 @@ def _csv_member(uuid: str, member: str) -> bytes:
 
 
 def _csv_to_string_table(content: bytes) -> pa.Table:
-    text = content.decode("utf-8-sig")
+    try:
+        text = content.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = content.decode("cp1252")
     reader = csv.DictReader(io.StringIO(text))
     if not reader.fieldnames:
         raise ValueError("CSV has no header")

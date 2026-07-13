@@ -4,11 +4,11 @@ coverage:
   frozen: true
   reason: NHM historical archive covers 1913-1989 and does not advance; post-1990 CSIP records require permission and are out of scope.
 tests:
-  - not_null: S_W_No
-    reason: Stranded Whale number identifies each record in the historical archive.
+  - not_null: Spec_No
+    reason: Natural History Museum specimen number identifies each row in the historical archive.
     certainty: 95
-  - unique: S_W_No
-    reason: One row per recorded stranding individual; duplicate identifiers indicate duplicate ingestion.
+  - unique: Spec_No
+    reason: One row per recorded specimen number; duplicate values indicate duplicate ingestion.
     certainty: 90
   - not_null: Scientific Name
     reason: The cleaned dataset corrected taxonomy for each record.

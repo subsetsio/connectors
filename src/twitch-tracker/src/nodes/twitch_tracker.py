@@ -30,7 +30,7 @@ from urllib.parse import quote
 import pyarrow as pa
 from ratelimit import limits, sleep_and_retry
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 from constants import CHANNEL_LOGINS, GAMES
 
 log = logging.getLogger("twitch-tracker")
@@ -148,40 +148,4 @@ def fetch_games(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="twitch-tracker-channels", fn=fetch_channels, kind="download"),
     NodeSpec(id="twitch-tracker-games", fn=fetch_games, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="twitch-tracker-channels-transform",
-        deps=["twitch-tracker-channels"],
-        sql='''
-            SELECT
-                channel,
-                CAST(rank AS INTEGER)             AS rank,
-                CAST(minutes_streamed AS BIGINT)  AS minutes_streamed,
-                CAST(avg_viewers AS BIGINT)       AS avg_viewers,
-                CAST(max_viewers AS BIGINT)       AS max_viewers,
-                CAST(hours_watched AS BIGINT)     AS hours_watched,
-                CAST(followers AS BIGINT)         AS followers,
-                CAST(followers_total AS BIGINT)   AS followers_total,
-                CAST(captured_date AS DATE)       AS captured_date
-            FROM "twitch-tracker-channels"
-            WHERE channel IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="twitch-tracker-games-transform",
-        deps=["twitch-tracker-games"],
-        sql='''
-            SELECT
-                game,
-                CAST(rank AS INTEGER)         AS rank,
-                CAST(avg_viewers AS BIGINT)   AS avg_viewers,
-                CAST(avg_channels AS BIGINT)  AS avg_channels,
-                CAST(hours_watched AS BIGINT) AS hours_watched,
-                CAST(captured_date AS DATE)   AS captured_date
-            FROM "twitch-tracker-games"
-            WHERE game IS NOT NULL
-        ''',
-    ),
 ]

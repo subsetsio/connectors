@@ -1,5 +1,8 @@
 spec_id: tiobe-very-long-term-history
 status: active
+coverage:
+  frozen: true
+  reason: very long term history is a coarse historical snapshot table with irregular multi-year checkpoint columns, not a recurring freshness surface
 tests:
   - not_null: language
   - not_null: snapshot_year

@@ -1,5 +1,8 @@
 spec_id: tiobe-hall-of-fame
 status: active
+coverage:
+  frozen: true
+  reason: historical award winners are a reference list; new winners are appended annually rather than refreshed on a monthly source cadence
 tests:
   - not_null: year
   - not_null: language
