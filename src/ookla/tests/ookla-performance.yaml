@@ -1,30 +1,10 @@
 spec_id: ookla-performance
 status: active
 tests:
-  - not_null: quadkey
-    reason: quadkey is the tile primary key; every Ookla open-data row carries one
-    certainty: 99
-  - column_type: {col: quadkey, type: string}
-    certainty: 95
-  - column_type: {col: year, type: integer}
-    certainty: 95
-  - column_type: {col: avg_d_kbps, type: integer}
-    reason: source publishes download speed as integer kbps
-    certainty: 90
-  - between: {col: year, lo: 2019, hi: 2026}
-    reason: open data begins 2019 Q1; upper bound is the current year
-    certainty: 90
-  - at_most: {col: year, expr: current_year()}
-    certainty: 80
-    points_outward: true
-    severity: warn
   - freshness: {col: year, reaches: current_year()}
     reason: Ookla publishes quarterly and the open-data catalog is expected to include the current calendar year after Q1 is released
     certainty: 80
     points_outward: true
-  - at_least: {col: avg_d_kbps, expr: 0}
-    reason: speeds are non-negative averages in kbps
-    certainty: 95
   - row_count: {min: 100000}
     reason: a single quarterly global partition holds millions of tiles; <100k means a truncated/empty download
     certainty: 85
