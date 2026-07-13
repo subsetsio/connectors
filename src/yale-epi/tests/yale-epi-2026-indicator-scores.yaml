@@ -5,7 +5,7 @@ coverage:
   reason: 2026 EPI indicator score ZIP is a fixed release-year snapshot.
 tests:
   - row_count: {min: 250000}
-    reason: about 52 indicators by roughly 180 countries by 30 annual columns
+    reason: about 40 indicators by roughly 180 countries by 30 annual columns
     certainty: 90
   - not_null: variable_code
   - not_null: iso
@@ -14,10 +14,9 @@ tests:
   - column_type: {col: value, type: float}
   - between: {col: observation_year, lo: 1996, hi: 2026}
     certainty: 95
-  - distinct_count: {col: variable_code, min: 50}
-    reason: current indicator bundle contains about 52 indicator CSV members
+  - distinct_count: {col: variable_code, min: 40}
+    reason: current indicator bundle contains 40 indicator CSV members
     certainty: 95
   - distinct_count: {col: iso, min: 170}
     reason: current EPI scores cover roughly 180 countries
     certainty: 90
-

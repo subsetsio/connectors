@@ -1,0 +1,875 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `yale-epi-2026-scores-trends-and-ranks`. Regenerate after model-verify.
+key: [source_row_number, sheet_name]
+sort: [source_row_number, sheet_name]
+columns:
+  - name: type
+    type: VARCHAR
+  - name: tla
+    type: VARCHAR
+  - name: component
+    type: VARCHAR
+  - name: unnamed_3
+    type: JSON
+  - name: columns
+    type: VARCHAR
+  - name: meaning
+    type: VARCHAR
+  - name: unnamed_6
+    type: JSON
+  - name: notes
+    type: VARCHAR
+  - name: unnamed_8
+    type: VARCHAR
+  - name: release_year
+    type: BIGINT
+  - name: source_file
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: iso
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: epi_new
+    type: DOUBLE
+  - name: hlt_new
+    type: DOUBLE
+  - name: air_new
+    type: DOUBLE
+  - name: pmd_new
+    type: DOUBLE
+  - name: hfd_new
+    type: DOUBLE
+  - name: ozd_new
+    type: DOUBLE
+  - name: nod_new
+    type: DOUBLE
+  - name: coe_new
+    type: DOUBLE
+  - name: soe_new
+    type: DOUBLE
+  - name: voe_new
+    type: DOUBLE
+  - name: h2o_new
+    type: DOUBLE
+  - name: usd_new
+    type: DOUBLE
+  - name: uwd_new
+    type: DOUBLE
+  - name: hmt_new
+    type: DOUBLE
+  - name: pbd_new
+    type: DOUBLE
+  - name: wmg_new
+    type: DOUBLE
+  - name: smw_new
+    type: DOUBLE
+  - name: eco_new
+    type: DOUBLE
+  - name: bdh_new
+    type: DOUBLE
+  - name: mhp_new
+    type: DOUBLE
+  - name: mkp_new
+    type: DOUBLE
+  - name: mpe_new
+    type: DOUBLE
+  - name: tbn_new
+    type: DOUBLE
+  - name: tkp_new
+    type: DOUBLE
+  - name: par_new
+    type: DOUBLE
+  - name: pac_new
+    type: DOUBLE
+  - name: spi_new
+    type: DOUBLE
+  - name: shi_new
+    type: DOUBLE
+  - name: rli_new
+    type: DOUBLE
+  - name: bhi_new
+    type: DOUBLE
+  - name: ber_new
+    type: DOUBLE
+  - name: fsh_new
+    type: DOUBLE
+  - name: fcd_new
+    type: DOUBLE
+  - name: bto_new
+    type: DOUBLE
+  - name: btz_new
+    type: DOUBLE
+  - name: rms_new
+    type: DOUBLE
+  - name: for_new
+    type: DOUBLE
+  - name: tcl_new
+    type: DOUBLE
+  - name: kfl_new
+    type: DOUBLE
+  - name: grs_new
+    type: DOUBLE
+  - name: gel_new
+    type: DOUBLE
+  - name: kgl_new
+    type: DOUBLE
+  - name: apo_new
+    type: DOUBLE
+  - name: nxa_new
+    type: DOUBLE
+  - name: sda_new
+    type: DOUBLE
+  - name: agr_new
+    type: DOUBLE
+  - name: snm_new
+    type: DOUBLE
+  - name: psu_new
+    type: DOUBLE
+  - name: rcy_new
+    type: DOUBLE
+  - name: prs_new
+    type: DOUBLE
+  - name: wrs_new
+    type: DOUBLE
+  - name: wwt_new
+    type: DOUBLE
+  - name: pcc_new
+    type: DOUBLE
+  - name: cch_new
+    type: DOUBLE
+  - name: cda_new
+    type: DOUBLE
+  - name: cha_new
+    type: DOUBLE
+  - name: nda_new
+    type: DOUBLE
+  - name: fga_new
+    type: DOUBLE
+  - name: bca_new
+    type: DOUBLE
+  - name: gtp_new
+    type: DOUBLE
+  - name: gti_new
+    type: DOUBLE
+  - name: gho_new
+    type: DOUBLE
+  - name: luf_new
+    type: DOUBLE
+  - name: epi_chg
+    type: DOUBLE
+  - name: hlt_chg
+    type: DOUBLE
+  - name: air_chg
+    type: DOUBLE
+  - name: pmd_chg
+    type: DOUBLE
+  - name: hfd_chg
+    type: DOUBLE
+  - name: ozd_chg
+    type: DOUBLE
+  - name: nod_chg
+    type: DOUBLE
+  - name: coe_chg
+    type: DOUBLE
+  - name: soe_chg
+    type: DOUBLE
+  - name: voe_chg
+    type: DOUBLE
+  - name: h2o_chg
+    type: DOUBLE
+  - name: usd_chg
+    type: DOUBLE
+  - name: uwd_chg
+    type: DOUBLE
+  - name: hmt_chg
+    type: DOUBLE
+  - name: pbd_chg
+    type: DOUBLE
+  - name: wmg_chg
+    type: JSON
+  - name: smw_chg
+    type: JSON
+  - name: eco_chg
+    type: DOUBLE
+  - name: bdh_chg
+    type: DOUBLE
+  - name: mhp_chg
+    type: DOUBLE
+  - name: mkp_chg
+    type: DOUBLE
+  - name: mpe_chg
+    type: DOUBLE
+  - name: tbn_chg
+    type: DOUBLE
+  - name: tkp_chg
+    type: DOUBLE
+  - name: par_chg
+    type: DOUBLE
+  - name: pac_chg
+    type: DOUBLE
+  - name: spi_chg
+    type: JSON
+  - name: shi_chg
+    type: JSON
+  - name: rli_chg
+    type: DOUBLE
+  - name: bhi_chg
+    type: DOUBLE
+  - name: ber_chg
+    type: DOUBLE
+  - name: fsh_chg
+    type: DOUBLE
+  - name: fcd_chg
+    type: DOUBLE
+  - name: bto_chg
+    type: DOUBLE
+  - name: btz_chg
+    type: DOUBLE
+  - name: rms_chg
+    type: DOUBLE
+  - name: for_chg
+    type: DOUBLE
+  - name: tcl_chg
+    type: DOUBLE
+  - name: kfl_chg
+    type: DOUBLE
+  - name: grs_chg
+    type: DOUBLE
+  - name: gel_chg
+    type: DOUBLE
+  - name: kgl_chg
+    type: DOUBLE
+  - name: apo_chg
+    type: DOUBLE
+  - name: nxa_chg
+    type: DOUBLE
+  - name: sda_chg
+    type: DOUBLE
+  - name: agr_chg
+    type: DOUBLE
+  - name: snm_chg
+    type: DOUBLE
+  - name: psu_chg
+    type: DOUBLE
+  - name: rcy_chg
+    type: DOUBLE
+  - name: prs_chg
+    type: DOUBLE
+  - name: wrs_chg
+    type: JSON
+  - name: wwt_chg
+    type: JSON
+  - name: pcc_chg
+    type: DOUBLE
+  - name: cch_chg
+    type: DOUBLE
+  - name: cda_chg
+    type: DOUBLE
+  - name: cha_chg
+    type: DOUBLE
+  - name: nda_chg
+    type: DOUBLE
+  - name: fga_chg
+    type: DOUBLE
+  - name: bca_chg
+    type: DOUBLE
+  - name: gtp_chg
+    type: DOUBLE
+  - name: gti_chg
+    type: DOUBLE
+  - name: gho_chg
+    type: DOUBLE
+  - name: luf_chg
+    type: DOUBLE
+  - name: epi_rank
+    type: BIGINT
+  - name: hlt_rank
+    type: BIGINT
+  - name: air_rank
+    type: BIGINT
+  - name: pmd_rank
+    type: BIGINT
+  - name: hfd_rank
+    type: BIGINT
+  - name: ozd_rank
+    type: BIGINT
+  - name: nod_rank
+    type: BIGINT
+  - name: coe_rank
+    type: BIGINT
+  - name: soe_rank
+    type: BIGINT
+  - name: voe_rank
+    type: BIGINT
+  - name: h2o_rank
+    type: BIGINT
+  - name: usd_rank
+    type: BIGINT
+  - name: uwd_rank
+    type: BIGINT
+  - name: hmt_rank
+    type: BIGINT
+  - name: pbd_rank
+    type: BIGINT
+  - name: wmg_rank
+    type: BIGINT
+  - name: smw_rank
+    type: BIGINT
+  - name: eco_rank
+    type: BIGINT
+  - name: bdh_rank
+    type: BIGINT
+  - name: mhp_rank
+    type: DOUBLE
+  - name: mkp_rank
+    type: DOUBLE
+  - name: mpe_rank
+    type: DOUBLE
+  - name: tbn_rank
+    type: BIGINT
+  - name: tkp_rank
+    type: BIGINT
+  - name: par_rank
+    type: DOUBLE
+  - name: pac_rank
+    type: DOUBLE
+  - name: spi_rank
+    type: BIGINT
+  - name: shi_rank
+    type: DOUBLE
+  - name: rli_rank
+    type: DOUBLE
+  - name: bhi_rank
+    type: DOUBLE
+  - name: ber_rank
+    type: DOUBLE
+  - name: fsh_rank
+    type: DOUBLE
+  - name: fcd_rank
+    type: DOUBLE
+  - name: bto_rank
+    type: DOUBLE
+  - name: btz_rank
+    type: DOUBLE
+  - name: rms_rank
+    type: DOUBLE
+  - name: for_rank
+    type: DOUBLE
+  - name: tcl_rank
+    type: DOUBLE
+  - name: kfl_rank
+    type: DOUBLE
+  - name: grs_rank
+    type: DOUBLE
+  - name: gel_rank
+    type: DOUBLE
+  - name: kgl_rank
+    type: DOUBLE
+  - name: apo_rank
+    type: BIGINT
+  - name: nxa_rank
+    type: BIGINT
+  - name: sda_rank
+    type: BIGINT
+  - name: agr_rank
+    type: BIGINT
+  - name: snm_rank
+    type: BIGINT
+  - name: psu_rank
+    type: BIGINT
+  - name: rcy_rank
+    type: DOUBLE
+  - name: prs_rank
+    type: BIGINT
+  - name: wrs_rank
+    type: BIGINT
+  - name: wwt_rank
+    type: BIGINT
+  - name: pcc_rank
+    type: BIGINT
+  - name: cch_rank
+    type: BIGINT
+  - name: cda_rank
+    type: BIGINT
+  - name: cha_rank
+    type: BIGINT
+  - name: nda_rank
+    type: BIGINT
+  - name: fga_rank
+    type: DOUBLE
+  - name: bca_rank
+    type: BIGINT
+  - name: gtp_rank
+    type: BIGINT
+  - name: gti_rank
+    type: BIGINT
+  - name: gho_rank
+    type: BIGINT
+  - name: luf_rank
+    type: DOUBLE
+  - name: epi_rgn_mean
+    type: DOUBLE
+  - name: hlt_rgn_mean
+    type: DOUBLE
+  - name: air_rgn_mean
+    type: DOUBLE
+  - name: pmd_rgn_mean
+    type: DOUBLE
+  - name: hfd_rgn_mean
+    type: DOUBLE
+  - name: ozd_rgn_mean
+    type: DOUBLE
+  - name: nod_rgn_mean
+    type: DOUBLE
+  - name: coe_rgn_mean
+    type: DOUBLE
+  - name: soe_rgn_mean
+    type: DOUBLE
+  - name: voe_rgn_mean
+    type: DOUBLE
+  - name: h2o_rgn_mean
+    type: DOUBLE
+  - name: usd_rgn_mean
+    type: DOUBLE
+  - name: uwd_rgn_mean
+    type: DOUBLE
+  - name: hmt_rgn_mean
+    type: DOUBLE
+  - name: pbd_rgn_mean
+    type: DOUBLE
+  - name: wmg_rgn_mean
+    type: DOUBLE
+  - name: smw_rgn_mean
+    type: DOUBLE
+  - name: eco_rgn_mean
+    type: DOUBLE
+  - name: bdh_rgn_mean
+    type: DOUBLE
+  - name: mhp_rgn_mean
+    type: DOUBLE
+  - name: mkp_rgn_mean
+    type: DOUBLE
+  - name: mpe_rgn_mean
+    type: DOUBLE
+  - name: tbn_rgn_mean
+    type: DOUBLE
+  - name: tkp_rgn_mean
+    type: DOUBLE
+  - name: par_rgn_mean
+    type: DOUBLE
+  - name: pac_rgn_mean
+    type: DOUBLE
+  - name: spi_rgn_mean
+    type: DOUBLE
+  - name: shi_rgn_mean
+    type: DOUBLE
+  - name: rli_rgn_mean
+    type: DOUBLE
+  - name: bhi_rgn_mean
+    type: DOUBLE
+  - name: ber_rgn_mean
+    type: DOUBLE
+  - name: fsh_rgn_mean
+    type: DOUBLE
+  - name: fcd_rgn_mean
+    type: DOUBLE
+  - name: bto_rgn_mean
+    type: DOUBLE
+  - name: btz_rgn_mean
+    type: DOUBLE
+  - name: rms_rgn_mean
+    type: DOUBLE
+  - name: for_rgn_mean
+    type: DOUBLE
+  - name: tcl_rgn_mean
+    type: DOUBLE
+  - name: kfl_rgn_mean
+    type: DOUBLE
+  - name: grs_rgn_mean
+    type: DOUBLE
+  - name: gel_rgn_mean
+    type: DOUBLE
+  - name: kgl_rgn_mean
+    type: DOUBLE
+  - name: apo_rgn_mean
+    type: DOUBLE
+  - name: nxa_rgn_mean
+    type: DOUBLE
+  - name: sda_rgn_mean
+    type: DOUBLE
+  - name: agr_rgn_mean
+    type: DOUBLE
+  - name: snm_rgn_mean
+    type: DOUBLE
+  - name: psu_rgn_mean
+    type: DOUBLE
+  - name: rcy_rgn_mean
+    type: DOUBLE
+  - name: prs_rgn_mean
+    type: DOUBLE
+  - name: wrs_rgn_mean
+    type: DOUBLE
+  - name: wwt_rgn_mean
+    type: DOUBLE
+  - name: pcc_rgn_mean
+    type: DOUBLE
+  - name: cch_rgn_mean
+    type: DOUBLE
+  - name: cda_rgn_mean
+    type: DOUBLE
+  - name: cha_rgn_mean
+    type: DOUBLE
+  - name: nda_rgn_mean
+    type: DOUBLE
+  - name: fga_rgn_mean
+    type: DOUBLE
+  - name: bca_rgn_mean
+    type: DOUBLE
+  - name: gtp_rgn_mean
+    type: DOUBLE
+  - name: gti_rgn_mean
+    type: DOUBLE
+  - name: gho_rgn_mean
+    type: DOUBLE
+  - name: luf_rgn_mean
+    type: DOUBLE
+  - name: epi_rgn_rank
+    type: BIGINT
+  - name: hlt_rgn_rank
+    type: BIGINT
+  - name: air_rgn_rank
+    type: BIGINT
+  - name: pmd_rgn_rank
+    type: BIGINT
+  - name: hfd_rgn_rank
+    type: BIGINT
+  - name: ozd_rgn_rank
+    type: BIGINT
+  - name: nod_rgn_rank
+    type: BIGINT
+  - name: coe_rgn_rank
+    type: BIGINT
+  - name: soe_rgn_rank
+    type: BIGINT
+  - name: voe_rgn_rank
+    type: BIGINT
+  - name: h2o_rgn_rank
+    type: BIGINT
+  - name: usd_rgn_rank
+    type: BIGINT
+  - name: uwd_rgn_rank
+    type: BIGINT
+  - name: hmt_rgn_rank
+    type: BIGINT
+  - name: pbd_rgn_rank
+    type: BIGINT
+  - name: wmg_rgn_rank
+    type: BIGINT
+  - name: smw_rgn_rank
+    type: BIGINT
+  - name: eco_rgn_rank
+    type: BIGINT
+  - name: bdh_rgn_rank
+    type: BIGINT
+  - name: mhp_rgn_rank
+    type: DOUBLE
+  - name: mkp_rgn_rank
+    type: DOUBLE
+  - name: mpe_rgn_rank
+    type: DOUBLE
+  - name: tbn_rgn_rank
+    type: BIGINT
+  - name: tkp_rgn_rank
+    type: BIGINT
+  - name: par_rgn_rank
+    type: DOUBLE
+  - name: pac_rgn_rank
+    type: DOUBLE
+  - name: spi_rgn_rank
+    type: BIGINT
+  - name: shi_rgn_rank
+    type: DOUBLE
+  - name: rli_rgn_rank
+    type: DOUBLE
+  - name: bhi_rgn_rank
+    type: DOUBLE
+  - name: ber_rgn_rank
+    type: DOUBLE
+  - name: fsh_rgn_rank
+    type: DOUBLE
+  - name: fcd_rgn_rank
+    type: DOUBLE
+  - name: bto_rgn_rank
+    type: DOUBLE
+  - name: btz_rgn_rank
+    type: DOUBLE
+  - name: rms_rgn_rank
+    type: DOUBLE
+  - name: for_rgn_rank
+    type: DOUBLE
+  - name: tcl_rgn_rank
+    type: DOUBLE
+  - name: kfl_rgn_rank
+    type: DOUBLE
+  - name: grs_rgn_rank
+    type: DOUBLE
+  - name: gel_rgn_rank
+    type: DOUBLE
+  - name: kgl_rgn_rank
+    type: DOUBLE
+  - name: apo_rgn_rank
+    type: BIGINT
+  - name: nxa_rgn_rank
+    type: BIGINT
+  - name: sda_rgn_rank
+    type: BIGINT
+  - name: agr_rgn_rank
+    type: BIGINT
+  - name: snm_rgn_rank
+    type: BIGINT
+  - name: psu_rgn_rank
+    type: BIGINT
+  - name: rcy_rgn_rank
+    type: DOUBLE
+  - name: prs_rgn_rank
+    type: BIGINT
+  - name: wrs_rgn_rank
+    type: BIGINT
+  - name: wwt_rgn_rank
+    type: BIGINT
+  - name: pcc_rgn_rank
+    type: BIGINT
+  - name: cch_rgn_rank
+    type: BIGINT
+  - name: cda_rgn_rank
+    type: BIGINT
+  - name: cha_rgn_rank
+    type: BIGINT
+  - name: nda_rgn_rank
+    type: BIGINT
+  - name: fga_rgn_rank
+    type: DOUBLE
+  - name: bca_rgn_rank
+    type: BIGINT
+  - name: gtp_rgn_rank
+    type: BIGINT
+  - name: gti_rgn_rank
+    type: BIGINT
+  - name: gho_rgn_rank
+    type: BIGINT
+  - name: luf_rgn_rank
+    type: DOUBLE
+  - name: epi_wld_mean
+    type: DOUBLE
+  - name: hlt_wld_mean
+    type: DOUBLE
+  - name: air_wld_mean
+    type: DOUBLE
+  - name: pmd_wld_mean
+    type: DOUBLE
+  - name: hfd_wld_mean
+    type: DOUBLE
+  - name: ozd_wld_mean
+    type: DOUBLE
+  - name: nod_wld_mean
+    type: DOUBLE
+  - name: coe_wld_mean
+    type: DOUBLE
+  - name: soe_wld_mean
+    type: DOUBLE
+  - name: voe_wld_mean
+    type: DOUBLE
+  - name: h2o_wld_mean
+    type: DOUBLE
+  - name: usd_wld_mean
+    type: DOUBLE
+  - name: uwd_wld_mean
+    type: DOUBLE
+  - name: hmt_wld_mean
+    type: DOUBLE
+  - name: pbd_wld_mean
+    type: DOUBLE
+  - name: wmg_wld_mean
+    type: DOUBLE
+  - name: smw_wld_mean
+    type: DOUBLE
+  - name: eco_wld_mean
+    type: DOUBLE
+  - name: bdh_wld_mean
+    type: DOUBLE
+  - name: mhp_wld_mean
+    type: DOUBLE
+  - name: mkp_wld_mean
+    type: DOUBLE
+  - name: mpe_wld_mean
+    type: DOUBLE
+  - name: tbn_wld_mean
+    type: DOUBLE
+  - name: tkp_wld_mean
+    type: DOUBLE
+  - name: par_wld_mean
+    type: DOUBLE
+  - name: pac_wld_mean
+    type: DOUBLE
+  - name: spi_wld_mean
+    type: DOUBLE
+  - name: shi_wld_mean
+    type: DOUBLE
+  - name: rli_wld_mean
+    type: DOUBLE
+  - name: bhi_wld_mean
+    type: DOUBLE
+  - name: ber_wld_mean
+    type: DOUBLE
+  - name: fsh_wld_mean
+    type: DOUBLE
+  - name: fcd_wld_mean
+    type: DOUBLE
+  - name: bto_wld_mean
+    type: DOUBLE
+  - name: btz_wld_mean
+    type: DOUBLE
+  - name: rms_wld_mean
+    type: JSON
+  - name: for_wld_mean
+    type: DOUBLE
+  - name: tcl_wld_mean
+    type: DOUBLE
+  - name: kfl_wld_mean
+    type: DOUBLE
+  - name: grs_wld_mean
+    type: DOUBLE
+  - name: gel_wld_mean
+    type: BIGINT
+  - name: kgl_wld_mean
+    type: DOUBLE
+  - name: apo_wld_mean
+    type: DOUBLE
+  - name: nxa_wld_mean
+    type: DOUBLE
+  - name: sda_wld_mean
+    type: DOUBLE
+  - name: agr_wld_mean
+    type: DOUBLE
+  - name: snm_wld_mean
+    type: DOUBLE
+  - name: psu_wld_mean
+    type: BIGINT
+  - name: rcy_wld_mean
+    type: JSON
+  - name: prs_wld_mean
+    type: JSON
+  - name: wrs_wld_mean
+    type: DOUBLE
+  - name: wwt_wld_mean
+    type: DOUBLE
+  - name: pcc_wld_mean
+    type: DOUBLE
+  - name: cch_wld_mean
+    type: DOUBLE
+  - name: cda_wld_mean
+    type: DOUBLE
+  - name: cha_wld_mean
+    type: DOUBLE
+  - name: nda_wld_mean
+    type: DOUBLE
+  - name: fga_wld_mean
+    type: DOUBLE
+  - name: bca_wld_mean
+    type: DOUBLE
+  - name: gtp_wld_mean
+    type: DOUBLE
+  - name: gti_wld_mean
+    type: DOUBLE
+  - name: gho_wld_mean
+    type: DOUBLE
+  - name: luf_wld_mean
+    type: DOUBLE
+  - name: epi_1
+    type: VARCHAR
+  - name: epi_2
+    type: VARCHAR
+  - name: epi_3
+    type: VARCHAR
+  - name: epi_4
+    type: VARCHAR
+  - name: epi_5
+    type: VARCHAR
+  - name: epi_6
+    type: VARCHAR
+  - name: epi_7
+    type: VARCHAR
+  - name: epi_8
+    type: VARCHAR
+  - name: epi_9
+    type: VARCHAR
+  - name: gpc_1
+    type: VARCHAR
+  - name: gpc_2
+    type: VARCHAR
+  - name: gpc_3
+    type: VARCHAR
+  - name: gpc_4
+    type: VARCHAR
+  - name: gpc_5
+    type: VARCHAR
+  - name: gpc_6
+    type: VARCHAR
+  - name: gpc_7
+    type: VARCHAR
+  - name: gpc_8
+    type: VARCHAR
+  - name: gpc_9
+    type: VARCHAR
+  - name: knn_1
+    type: VARCHAR
+  - name: knn_2
+    type: VARCHAR
+  - name: knn_3
+    type: VARCHAR
+  - name: knn_4
+    type: VARCHAR
+  - name: knn_5
+    type: VARCHAR
+  - name: knn_6
+    type: VARCHAR
+  - name: knn_7
+    type: VARCHAR
+  - name: knn_8
+    type: VARCHAR
+  - name: knn_9
+    type: VARCHAR
+  - name: grp_1
+    type: VARCHAR
+  - name: grp_2
+    type: VARCHAR
+  - name: grp_3
+    type: VARCHAR
+  - name: grp_4
+    type: VARCHAR
+  - name: grp_5
+    type: VARCHAR
+  - name: grp_6
+    type: VARCHAR
+  - name: grp_7
+    type: VARCHAR
+  - name: grp_8
+    type: VARCHAR
+  - name: grp_9
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: groupname
+    type: VARCHAR
+  - name: gdp
+    type: DOUBLE
+  - name: gpc
+    type: DOUBLE
+  - name: pop
+    type: DOUBLE
+  - name: lda
+    type: DOUBLE

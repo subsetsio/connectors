@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `yale-epi-2026-indicator-scores-with-missing-value-codes`. Regenerate after model-verify.
+key: [value_text, source_column, iso, country, country_code]
+sort: [value_text, source_column, iso, country, country_code]
+columns:
+  - name: release_year
+    type: SMALLINT
+  - name: source_file
+    type: VARCHAR
+  - name: variable_code
+    type: VARCHAR
+  - name: series_kind
+    type: VARCHAR
+  - name: country_code
+    type: BIGINT
+  - name: iso
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: observation_year
+    type: SMALLINT
+  - name: value
+    type: DOUBLE
+  - name: value_text
+    type: DOUBLE
+  - name: has_missing_value_codes
+    type: BOOLEAN
+  - name: source_column
+    type: VARCHAR

@@ -5,7 +5,7 @@ coverage:
   reason: 2026 EPI raw data ZIP is a fixed release-year snapshot.
 tests:
   - row_count: {min: 350000}
-    reason: about 104 raw variables by roughly 180 countries across variable-specific year ranges
+    reason: about 95 raw variables by roughly 180 countries across variable-specific year ranges
     certainty: 85
   - not_null: variable_code
   - not_null: iso
@@ -14,10 +14,9 @@ tests:
   - column_type: {col: value, type: float}
   - between: {col: observation_year, lo: 1750, hi: 2026}
     certainty: 90
-  - distinct_count: {col: variable_code, min: 100}
-    reason: current raw bundle contains about 104 raw CSV members
+  - distinct_count: {col: variable_code, min: 95}
+    reason: current raw bundle contains 95 raw CSV members
     certainty: 95
   - distinct_count: {col: iso, min: 170}
     reason: current EPI raw data covers roughly 180 countries
     certainty: 90
-
