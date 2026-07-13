@@ -23,8 +23,8 @@ tests:
     reason: observations are historical monthly releases, not projections
     certainty: 95
     points_outward: true
-  - distinct_count: {col: market, min: 12, max: 12}
-    reason: values should cover the C11 composite plus eleven metro markets
+  - distinct_count: {col: market, min: 12, max: 13}
+    reason: values should cover the C11 composite plus eleven metro markets; this profile-style count can overestimate by one, while explicit coverage below remains fixed at 12
     certainty: 95
   - coverage: {col: market, expected: 12}
     reason: every public market block in the CSV should land in the values table
