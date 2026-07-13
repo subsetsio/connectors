@@ -100,6 +100,7 @@ import os
 import time
 
 import httpx
+import psutil
 import pyarrow.parquet as pq
 
 from constants import ENTITY_IDS
@@ -146,7 +147,13 @@ def _leg_seconds() -> float:
         budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
-    return budget * LEG_FRACTION
+    nominal = budget * LEG_FRACTION
+    try:
+        parent_started = psutil.Process(os.getppid()).create_time()
+    except Exception:
+        return nominal
+    remaining = budget - max(0.0, time.time() - parent_started)
+    return max(0.0, min(nominal, remaining))
 
 
 def _table_for(node_id: str) -> str:
