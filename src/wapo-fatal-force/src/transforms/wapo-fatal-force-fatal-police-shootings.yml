@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wapo-fatal-force-fatal-police-shootings`. Regenerate after model-verify.
+# caution: Records describe fatal police shooting deaths tracked by The Washington Post; analyses by agency require treating the agency identifiers as a multi-value field rather than summing joined agency rows as independent deaths.
+key: [date, id, state]
+temporal: date
+sort: [date, id, state]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: threat_type
+    type: VARCHAR
+  - name: flee_status
+    type: VARCHAR
+  - name: armed_with
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: location_precision
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: age
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: race_source
+    type: VARCHAR
+  - name: was_mental_illness_related
+    type: BOOLEAN
+  - name: body_camera
+    type: BOOLEAN
+  - name: agency_ids
+    type: VARCHAR
