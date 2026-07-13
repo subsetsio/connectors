@@ -241,6 +241,10 @@ def _clean_str(v):
 def _clean_int(v):
     if v is None or (isinstance(v, float) and pd.isna(v)):
         return None
+    try:
+        return int(v)
+    except (TypeError, ValueError):
+        return None
 
 
 def _parse_incident_date(v):
@@ -248,10 +252,6 @@ def _parse_incident_date(v):
     if not s:
         return None
     return datetime.strptime(s, "%B %d, %Y").date()
-    try:
-        return int(v)
-    except (TypeError, ValueError):
-        return None
 
 
 def fetch_incidents(node_id: str) -> None:
@@ -262,7 +262,21 @@ def fetch_incidents(node_id: str) -> None:
         rows.extend(_crawl_report(slug))
     if not rows:
         raise RuntimeError("no incidents fetched across any standing report")
-    table = pa.Table.from_pylist(rows, schema=SCHEMA)
+    deduped = []
+    seen = set()
+    for row in rows:
+        key = (
+            row["report_population"],
+            row["incident_id"],
+            row["incident_date"],
+            row["state"],
+            row["city_or_county"],
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(row)
+    table = pa.Table.from_pylist(deduped, schema=SCHEMA)
     save_raw_parquet(table, asset)
 
 
