@@ -1,0 +1,53 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The table is a closed historical archive ending in 1989; post-1990 CSIP records require separate permission and are not included.
+-- caution: Some historical rows have unknown or incomplete dates, represented by source date fields such as Year_val=0.
+SELECT
+    CAST("_id" AS BIGINT) AS id,
+    CAST("Spec_No" AS BIGINT) AS spec_no,
+    "S_W_No" AS s_w_no,
+    "Date" AS date,
+    "Common Name" AS common_name,
+    "Scientific Name" AS scientific_name,
+    "County" AS county,
+    "Latitude" AS latitude,
+    "Longitude" AS longitude,
+    "Location" AS location,
+    "Grid ref" AS grid_ref,
+    "Mass_Single" AS mass_single,
+    "Sex" AS sex,
+    "Length Approx" AS length_approx,
+    "Length Imp" AS length_imp,
+    "Length et" AS length_et,
+    "Condition" AS condition,
+    "in Collections" AS in_collections,
+    CAST("year" AS BIGINT) AS year,
+    CAST("sequ" AS BIGINT) AS sequ,
+    "lett",
+    "Entered" AS entered,
+    "Updated" AS updated,
+    CAST("Count" AS BIGINT) AS count,
+    "MCS" AS mcs,
+    "BMNH" AS bmnh,
+    "Rect_CoNAord_" AS rect_conaord,
+    "Other refs" AS other_refs,
+    "age",
+    "Old County" AS old_county,
+    "GRef Source" AS gref_source,
+    "By Catch" AS by_catch,
+    "Rep_Source" AS rep_source,
+    "JBaker" AS jbaker,
+    "CBRU" AS cbru,
+    "Other" AS other,
+    "Comb_other_ref" AS comb_other_ref,
+    CAST("Year_val" AS BIGINT) AS year_val,
+    CAST("Month_val" AS BIGINT) AS month_val,
+    CAST("Day_val" AS BIGINT) AS day_val,
+    "Aggregated_Date" AS aggregated_date,
+    "Fam_Genus" AS fam_genus,
+    "species",
+    "Country Code" AS country_code,
+    "Comment" AS comment
+FROM "uk-cetacean-strandings-historical-uk-cetacean-strandings-1913-1989"

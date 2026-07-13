@@ -1,0 +1,98 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `uk-cetacean-strandings-historical-uk-cetacean-strandings-1913-1989`. Regenerate after model-verify.
+# caution: The table is a closed historical archive ending in 1989; post-1990 CSIP records require separate permission and are not included.
+# caution: Some historical rows have unknown or incomplete dates, represented by source date fields such as Year_val=0.
+key: [spec_no]
+temporal: year_val
+sort: [year_val, spec_no]
+columns:
+  - name: id
+    type: BIGINT
+  - name: spec_no
+    type: BIGINT
+  - name: s_w_no
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: scientific_name
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: grid_ref
+    type: VARCHAR
+  - name: mass_single
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: length_approx
+    type: VARCHAR
+  - name: length_imp
+    type: VARCHAR
+  - name: length_et
+    type: VARCHAR
+  - name: condition
+    type: VARCHAR
+  - name: in_collections
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sequ
+    type: BIGINT
+  - name: lett
+    type: VARCHAR
+  - name: entered
+    type: VARCHAR
+  - name: updated
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: mcs
+    type: VARCHAR
+  - name: bmnh
+    type: VARCHAR
+  - name: rect_conaord
+    type: VARCHAR
+  - name: other_refs
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: old_county
+    type: VARCHAR
+  - name: gref_source
+    type: VARCHAR
+  - name: by_catch
+    type: VARCHAR
+  - name: rep_source
+    type: VARCHAR
+  - name: jbaker
+    type: VARCHAR
+  - name: cbru
+    type: VARCHAR
+  - name: other
+    type: VARCHAR
+  - name: comb_other_ref
+    type: VARCHAR
+  - name: year_val
+    type: BIGINT
+  - name: month_val
+    type: BIGINT
+  - name: day_val
+    type: BIGINT
+  - name: aggregated_date
+    type: VARCHAR
+  - name: fam_genus
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: comment
+    type: VARCHAR
