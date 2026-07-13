@@ -88,6 +88,7 @@ _FULLDATA_YEARS = (
     2025,
     2026,
 )
+_FULLDATA_MONTHLY_FROM_YEAR = 2008
 _NCEI_GRID_BASE = (
     "https://www.ncei.noaa.gov/data/oceans/ncei/ocads/data/0315110/"
     "SOCATv2026_Gridded_Data"
@@ -127,23 +128,21 @@ def fetch_csv(node_id: str) -> None:
 
 
 def _fetch_fulldata_by_year(node_id: str) -> None:
-    """Fetch full trajectory observations as yearly ERDDAP fragments.
+    """Fetch full trajectory observations as bounded ERDDAP fragments.
 
     A single unconstrained ERDDAP CSV stream is large enough to fail with
-    incomplete chunked reads. Year fragments keep each response bounded while
-    preserving one logical raw asset through the raw manifest.
+    incomplete chunked reads. Older low-volume years are fetched as yearly
+    fragments; 2008+ is split monthly to keep high-volume responses bounded
+    while preserving one logical raw asset through the raw manifest.
     """
     done_this_run = {
         fragment
         for fragment, meta in list_raw_fragments(node_id, "csv.gz").items()
         if meta.get("run_id") == os.environ.get("RUN_ID", "unknown")
     }
-    for year in _FULLDATA_YEARS:
-        fragment = str(year)
+    for fragment, start, end in _fulldata_fragment_windows():
         if fragment in done_this_run:
             continue
-        start = f"{year}-01-01T00:00:00Z"
-        end = f"{year + 1}-01-01T00:00:00Z"
         constraint = (
             f"&time%3E={quote(start, safe='')}"
             f"&time%3C{quote(end, safe='')}"
@@ -166,6 +165,36 @@ def _fetch_fulldata_by_year(node_id: str) -> None:
                 for chunk in response.iter_bytes(_CHUNK_SIZE):
                     if chunk:
                         out.write(chunk)
+
+
+def _fulldata_fragment_windows() -> tuple[tuple[str, str, str], ...]:
+    windows: list[tuple[str, str, str]] = []
+    for year in _FULLDATA_YEARS:
+        if year < _FULLDATA_MONTHLY_FROM_YEAR:
+            windows.append(
+                (
+                    str(year),
+                    f"{year}-01-01T00:00:00Z",
+                    f"{year + 1}-01-01T00:00:00Z",
+                )
+            )
+            continue
+
+        for month in range(1, 13):
+            if month == 12:
+                next_year = year + 1
+                next_month = 1
+            else:
+                next_year = year
+                next_month = month + 1
+            windows.append(
+                (
+                    f"{year}-{month:02d}",
+                    f"{year}-{month:02d}-01T00:00:00Z",
+                    f"{next_year}-{next_month:02d}-01T00:00:00Z",
+                )
+            )
+    return tuple(windows)
 
 
 DOWNLOAD_SPECS = [
@@ -214,7 +243,7 @@ def _fulldata_fragments_fresh(asset_id: str) -> bool:
     if not fragments:
         return False
 
-    expected = {str(year) for year in _FULLDATA_YEARS}
+    expected = {fragment for fragment, _, _ in _fulldata_fragment_windows()}
     if not expected.issubset(fragments):
         return False
 
