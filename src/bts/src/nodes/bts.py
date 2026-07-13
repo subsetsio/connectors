@@ -165,7 +165,7 @@ def _detect_prezip_prefix(meta: dict) -> str | None:
     if so, its stable filename prefix (e.g.
     'On_Time_Reporting_Carrier_On_Time_Performance_1987_present'). Returns None
     for tables that only serve the on-demand custom download."""
-    if meta["lookup"]:
+    if meta["lookup"] or not meta["has_period_select"]:
         return None
     data = dict(meta["vs"])
     data["cboYear"] = str(meta["years"][-1])
