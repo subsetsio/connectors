@@ -193,6 +193,10 @@ def _read_chart(app_id: int, app_name: str) -> list[dict]:
     return rows
 
 
+def _is_not_found(exc: httpx.HTTPStatusError) -> bool:
+    return exc.response.status_code == 404
+
+
 def fetch_games(node_id: str) -> None:
     fetched_at = _now()
     rows = []
@@ -207,7 +211,12 @@ def fetch_games(node_id: str) -> None:
 def fetch_monthly_stats(node_id: str) -> None:
     rows = []
     for game in _enumerate_games():
-        _, app_rows = _read_app_page(game["app_id"])
+        try:
+            _, app_rows = _read_app_page(game["app_id"])
+        except httpx.HTTPStatusError as exc:
+            if _is_not_found(exc):
+                continue
+            raise
         rows.extend(app_rows)
         time.sleep(0.1)
     table = pa.Table.from_pylist(rows, schema=MONTHLY_SCHEMA)
@@ -217,7 +226,12 @@ def fetch_monthly_stats(node_id: str) -> None:
 def fetch_chart_values(node_id: str) -> None:
     rows = []
     for game in _enumerate_games():
-        rows.extend(_read_chart(game["app_id"], game["name"]))
+        try:
+            rows.extend(_read_chart(game["app_id"], game["name"]))
+        except httpx.HTTPStatusError as exc:
+            if _is_not_found(exc):
+                continue
+            raise
         time.sleep(0.1)
     table = pa.Table.from_pylist(rows, schema=CHART_SCHEMA)
     save_raw_parquet(table, node_id)
