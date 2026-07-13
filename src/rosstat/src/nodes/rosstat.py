@@ -199,7 +199,7 @@ def _detect_delim(text: str) -> str:
     best_med, best_delim = 0, ";"
     for delim in (";", ",", "\t"):
         counts = []
-        for i, row in enumerate(csv.reader(io.StringIO(text), delimiter=delim)):
+        for i, row in enumerate(csv.reader(io.StringIO(text, newline=""), delimiter=delim)):
             if i >= 25:
                 break
             counts.append(len(row))
@@ -267,7 +267,7 @@ def _plan_columns(sample):
 def _resolve_data_url(slug: str) -> str:
     raw = _fetch_bytes(f"{BASE}/{slug}/meta.csv")
     text = raw.decode("cp1251", "replace")
-    for row in csv.reader(io.StringIO(text)):
+    for row in csv.reader(io.StringIO(text, newline="")):
         if len(row) >= 2 and row[0].startswith("data-"):
             return row[1]
     raise AssertionError(f"{slug}: no 'data-' row in meta.csv")
@@ -435,7 +435,7 @@ def fetch_one(node_id: str) -> None:
 
     # Peek a head sample to decide title/header handling and the columns.
     sample = []
-    for row in csv.reader(io.StringIO(text), delimiter=delim):
+    for row in csv.reader(io.StringIO(text, newline=""), delimiter=delim):
         if any(c.strip() for c in row):
             sample.append(row)
         if len(sample) >= 50:
@@ -449,7 +449,7 @@ def fetch_one(node_id: str) -> None:
                     encoding="utf-8") as fh:
         seen = 0
         n = 0
-        for row in csv.reader(io.StringIO(text), delimiter=delim):
+        for row in csv.reader(io.StringIO(text, newline=""), delimiter=delim):
             if not any(c.strip() for c in row):
                 continue  # blank line
             seen += 1
