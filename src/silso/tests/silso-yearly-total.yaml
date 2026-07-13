@@ -12,7 +12,7 @@ tests:
     certainty: 95
   - between: {col: year_mid, lo: 1700, hi: current_year()}
     certainty: 95
-  - freshness: {col: year_mid, reaches: current_year()}
-    reason: SILSO yearly file carries the current provisional year
+  - freshness: {col: year_mid, reaches: 2025}
+    reason: SILSO yearly file carries the most recent complete annual mean
     certainty: 75
     points_outward: true
