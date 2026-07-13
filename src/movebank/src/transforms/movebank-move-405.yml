@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `movebank-move-405`. Regenerate after model-verify.
+# caution: Rows are raw Movebank location or sensor events for one study and may mix individuals, tags, sensor types, and taxa; filter those dimensions before aggregating movement records.
+key: [timestamp, individual_id]
+temporal: timestamp
+sort: [timestamp, individual_id]
+columns:
+  - name: event_id
+    type: JSON
+  - name: timestamp
+    type: TIMESTAMP
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: sensor_type
+    type: JSON
+  - name: taxon
+    type: JSON
+  - name: individual_id
+    type: BIGINT
+  - name: tag_id
+    type: JSON
+  - name: study_name
+    type: JSON

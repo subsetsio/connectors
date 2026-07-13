@@ -1,5 +1,8 @@
 spec_id: movebank-move-670
 status: active
+coverage:
+  frozen: true
+  reason: Movebank Data Repository datapackages are fixed archival study snapshots; this connector republishes each archived bundle rather than tracking a live-updating feed.
 tests:
   - row_count:
       min: 1
