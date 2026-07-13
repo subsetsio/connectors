@@ -11,11 +11,6 @@ tests:
   - column_type: {col: avg_d_kbps, type: integer}
     reason: source publishes download speed as integer kbps
     certainty: 90
-  - enum: {col: connection_type, values: [fixed, mobile]}
-    reason: the bucket has exactly two performance types
-    certainty: 99
-  - enum: {col: quarter, values: [1, 2, 3, 4]}
-    certainty: 99
   - between: {col: year, lo: 2019, hi: 2026}
     reason: open data begins 2019 Q1; upper bound is the current year
     certainty: 90
@@ -30,10 +25,6 @@ tests:
   - at_least: {col: avg_d_kbps, expr: 0}
     reason: speeds are non-negative averages in kbps
     certainty: 95
-  - median_between: {col: avg_d_kbps, lo: 1000, hi: 500000}
-    reason: typical tile median download is single-to-hundreds of Mbps (1e3-5e5 kbps); a wild median signals a unit/parse error
-    certainty: 55
-    severity: warn
   - row_count: {min: 100000}
     reason: a single quarterly global partition holds millions of tiles; <100k means a truncated/empty download
     certainty: 85

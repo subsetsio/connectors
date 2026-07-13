@@ -1,0 +1,22 @@
+spec_id: steamdb-top-releases
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: GetTopReleasesPages returns several monthly pages of ranked app releases
+    certainty: 85
+  - not_null: month_name
+  - not_null: start_of_month
+  - not_null: rank
+  - not_null: appid
+  - column_type: {col: month_name, type: string}
+  - column_type: {col: start_of_month, type: integer}
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: appid, type: integer}
+  - unique: [start_of_month, rank]
+    reason: each month page should have one app at each rank
+    certainty: 90
+  - between: {col: rank, lo: 1, hi: 200}
+  - freshness: {col: start_of_month, reaches: today - 730d}
+    reason: top-release pages are temporal release cohorts; the keyless endpoint has historically exposed only recent pages, but not necessarily current-month pages
+    certainty: 65
+    points_outward: true

@@ -1,0 +1,21 @@
+spec_id: steamdb-app-reviews
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: review summaries cover the chart-derived app universe; a smaller pull usually means store throttling or response drift
+    certainty: 90
+  - not_null: appid
+  - not_null: total_reviews
+  - column_type: {col: appid, type: integer}
+  - column_type: {col: review_score, type: integer}
+  - column_type: {col: total_positive, type: integer}
+  - column_type: {col: total_negative, type: integer}
+  - column_type: {col: total_reviews, type: integer}
+  - unique: appid
+    reason: appreviews query_summary returns one aggregate review record per appid
+    certainty: 95
+  - between: {col: review_score, lo: 0, hi: 9}
+    reason: Steam review_score is a 0-9 bucket code
+    certainty: 95
+  - relationship: {left: total_reviews, op: ">=", right: total_positive}
+  - relationship: {left: total_reviews, op: ">=", right: total_negative}

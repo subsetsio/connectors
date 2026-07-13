@@ -1,0 +1,21 @@
+spec_id: steamdb-app-details
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: app details enrich the union of chart appids; the chart universe should not collapse below dozens of apps
+    certainty: 95
+  - not_null: appid
+  - not_null: name
+  - column_type: {col: appid, type: integer}
+  - column_type: {col: name, type: string}
+  - column_type: {col: is_free, type: boolean}
+  - unique: appid
+    reason: appdetails returns at most one store metadata record per Steam appid
+    certainty: 95
+  - enum: {col: type, values: [game, dlc, demo, music, video, advertising, hardware, application, mod, series, episode]}
+    reason: Steam store appdetails exposes a bounded product type vocabulary
+    certainty: 70
+    severity: warn
+  - between: {col: discount_percent, lo: 0, hi: 100}
+    reason: store discounts are percentages
+    certainty: 95

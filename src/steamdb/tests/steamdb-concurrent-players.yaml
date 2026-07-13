@@ -1,0 +1,31 @@
+spec_id: steamdb-concurrent-players
+status: active
+tests:
+  - row_count: {min: 50, max: 150}
+    reason: GetGamesByConcurrentPlayers is a top-100 style leaderboard
+    certainty: 95
+  - not_null: rank
+  - not_null: appid
+  - not_null: concurrent_in_game
+  - not_null: peak_in_game
+  - not_null: last_update
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: appid, type: integer}
+  - column_type: {col: concurrent_in_game, type: integer}
+  - column_type: {col: peak_in_game, type: integer}
+  - unique: rank
+    reason: each leaderboard position should appear once in the snapshot
+    certainty: 95
+  - unique: appid
+    reason: an app should occupy at most one current-player rank
+    certainty: 95
+  - between: {col: rank, lo: 1, hi: 150}
+  - at_least: {col: concurrent_in_game, expr: 0}
+  - at_least: {col: peak_in_game, expr: 0}
+  - relationship: {left: peak_in_game, op: ">=", right: concurrent_in_game}
+    reason: 24-hour peak should not be below the current concurrent count
+    certainty: 90
+  - freshness: {col: last_update, reaches: today - 30d}
+    reason: current-player leaderboard is a live Steam chart and should refresh frequently
+    certainty: 90
+    points_outward: true

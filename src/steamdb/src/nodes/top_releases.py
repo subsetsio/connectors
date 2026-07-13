@@ -5,7 +5,7 @@ snapshot overwritten each run.
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import TOP_RELEASES_URL, _web_json
 
 _TOP_RELEASES_SCHEMA = pa.schema([
@@ -31,24 +31,3 @@ def fetch_top_releases(node_id: str) -> None:
             })
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_TOP_RELEASES_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="steamdb-top-releases", fn=fetch_top_releases, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="steamdb-top-releases-transform",
-        deps=["steamdb-top-releases"],
-        sql='''
-            SELECT
-                month_name,
-                to_timestamp(start_of_month) AS start_of_month,
-                CAST(rank AS INTEGER)        AS rank,
-                CAST(appid AS BIGINT)        AS appid
-            FROM "steamdb-top-releases"
-            WHERE appid IS NOT NULL
-            ORDER BY start_of_month DESC, rank
-        ''',
-    ),
-]

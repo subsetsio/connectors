@@ -5,7 +5,7 @@ store host (~16/min per process). Current-state snapshot overwritten each run.
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import STORE_API, _chart_appids, _store_json_limited
 
 _APP_REVIEWS_SCHEMA = pa.schema([
@@ -41,25 +41,3 @@ def fetch_app_reviews(node_id: str) -> None:
         raise AssertionError("app_reviews produced 0 rows; store appreviews likely throttled/blocked")
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_APP_REVIEWS_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="steamdb-app-reviews", fn=fetch_app_reviews, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="steamdb-app-reviews-transform",
-        deps=["steamdb-app-reviews"],
-        sql='''
-            SELECT
-                CAST(appid AS BIGINT)           AS appid,
-                CAST(review_score AS INTEGER)   AS review_score,
-                review_score_desc,
-                CAST(total_positive AS BIGINT)  AS total_positive,
-                CAST(total_negative AS BIGINT)  AS total_negative,
-                CAST(total_reviews AS BIGINT)   AS total_reviews
-            FROM "steamdb-app-reviews"
-            WHERE appid IS NOT NULL
-        ''',
-    ),
-]

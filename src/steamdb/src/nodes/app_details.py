@@ -5,7 +5,7 @@ store host (~16/min per process). Current-state snapshot overwritten each run.
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import STORE_API, _chart_appids, _store_json_limited
 
 _APP_DETAILS_SCHEMA = pa.schema([
@@ -72,36 +72,3 @@ def fetch_app_details(node_id: str) -> None:
         raise AssertionError("app_details produced 0 rows; store appdetails likely throttled/blocked")
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_APP_DETAILS_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="steamdb-app-details", fn=fetch_app_details, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="steamdb-app-details-transform",
-        deps=["steamdb-app-details"],
-        sql='''
-            SELECT
-                CAST(appid AS BIGINT)                  AS appid,
-                name,
-                type,
-                is_free,
-                CAST(price_final_cents AS BIGINT)      AS price_final_cents,
-                CAST(price_initial_cents AS BIGINT)    AS price_initial_cents,
-                price_currency,
-                CAST(discount_percent AS INTEGER)      AS discount_percent,
-                genres,
-                categories,
-                on_windows,
-                on_mac,
-                on_linux,
-                release_date,
-                coming_soon,
-                CAST(metacritic_score AS INTEGER)      AS metacritic_score,
-                CAST(recommendations_total AS BIGINT)  AS recommendations_total
-            FROM "steamdb-app-details"
-            WHERE appid IS NOT NULL
-        ''',
-    ),
-]

@@ -5,7 +5,7 @@ one-shot ~100-row payload; current-state snapshot overwritten each run.
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import CONCURRENT_URL, _web_json
 
 _CONCURRENT_SCHEMA = pa.schema([
@@ -32,25 +32,3 @@ def fetch_concurrent_players(node_id: str) -> None:
     ]
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_CONCURRENT_SCHEMA), node_id)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="steamdb-concurrent-players", fn=fetch_concurrent_players, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="steamdb-concurrent-players-transform",
-        deps=["steamdb-concurrent-players"],
-        sql='''
-            SELECT
-                CAST(rank AS INTEGER)               AS rank,
-                CAST(appid AS BIGINT)               AS appid,
-                CAST(concurrent_in_game AS BIGINT)  AS concurrent_in_game,
-                CAST(peak_in_game AS BIGINT)        AS peak_in_game,
-                to_timestamp(last_update)           AS observed_at
-            FROM "steamdb-concurrent-players"
-            WHERE appid IS NOT NULL
-            ORDER BY rank
-        ''',
-    ),
-]
