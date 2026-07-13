@@ -1,0 +1,30 @@
+spec_id: wapo-fatal-force-fatal-police-shootings
+status: active
+tests:
+  - row_count: {min: 9000}
+    reason: The database has tracked fatal police shootings since 2015 and should remain well above this floor.
+    certainty: 95
+  - not_null: id
+  - not_null: date
+  - unique: id
+    reason: The v2 README defines id as the unique fatal shooting incident identifier.
+    certainty: 95
+  - column_type: {col: id, type: integer}
+  - column_type: {col: date, type: date}
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: longitude, type: float}
+  - column_type: {col: was_mental_illness_related, type: boolean}
+  - column_type: {col: body_camera, type: boolean}
+  - between: {col: date, lo: "2015-01-01", hi: today}
+    reason: The database scope starts January 1, 2015 and should not contain future incidents.
+    certainty: 95
+  - freshness: {col: date, reaches: today - 2y}
+    reason: The public GitHub mirror is updated by bot but may lag current incidents; a gap beyond two years is stale for this source.
+    certainty: 70
+    points_outward: true
+  - enum: {col: body_camera, values: [true, false]}
+    reason: The README documents body_camera as boolean True/False.
+    certainty: 95
+  - enum: {col: was_mental_illness_related, values: [true, false]}
+    reason: The README documents was_mental_illness_related as boolean True/False.
+    certainty: 95

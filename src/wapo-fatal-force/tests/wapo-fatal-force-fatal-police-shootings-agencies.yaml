@@ -1,0 +1,25 @@
+spec_id: wapo-fatal-force-fatal-police-shootings-agencies
+status: active
+tests:
+  - row_count: {min: 3000}
+    reason: The agencies file covers departments involved in at least one fatal shooting since 2015.
+    certainty: 90
+  - not_null: id
+  - not_null: name
+  - unique: id
+    reason: The v2 README defines id as the department database id.
+    certainty: 95
+  - column_type: {col: id, type: integer}
+  - column_type: {col: total_shootings, type: integer}
+  - enum:
+      col: type
+      values:
+        - local_police
+        - local_other
+        - sheriff
+        - other
+        - state_police
+        - state_other
+        - federal
+    reason: The README lists these as the agency type categories.
+    certainty: 90
