@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import datetime as dt
 import json
-import re
 import xml.etree.ElementTree as ET
 
 import httpx
@@ -25,11 +24,7 @@ BASE = "https://services.usanpn.org/npn_portal/"
 GEOSERVER_WMS = "https://geoserver.usanpn.org/geoserver/wms?request=GetCapabilities"
 REQUEST_SOURCE = "subsets.io connector"
 START_YEAR = 1955
-MONTHLY_FROM_YEAR = {
-    "magnitude-phenometrics": 2018,
-    "site-phenometrics": 2018,
-    "status-intensity-observations": 2021,
-}
+MONTHLY_FROM_YEAR = 2018
 
 OBSERVATION_ENDPOINTS = {
     "status-intensity-observations": "observations/getObservations.json",
@@ -136,13 +131,56 @@ def _stream_observation_window(
             return _write_json_array_as_ndjson(resp, out)
 
 
+def _fragment_name(start_date: dt.date, end_date: dt.date) -> str:
+    if (
+        start_date.month == 1
+        and start_date.day == 1
+        and end_date.month == 12
+        and end_date.day == 31
+    ):
+        return f"{start_date.year}"
+    month_end = (
+        dt.date(start_date.year, 12, 31)
+        if start_date.month == 12
+        else dt.date(start_date.year, start_date.month + 1, 1) - dt.timedelta(days=1)
+    )
+    if start_date.day == 1 and end_date == month_end:
+        return f"{start_date.year}-{start_date.month:02d}"
+    if start_date == end_date:
+        return start_date.isoformat()
+    return f"{start_date.isoformat()}__{end_date.isoformat()}"
+
+
+def _stream_observation_window_adaptive(
+    asset_id: str,
+    endpoint: str,
+    start_date: dt.date,
+    end_date: dt.date,
+) -> int:
+    fragment = _fragment_name(start_date, end_date)
+    try:
+        return _stream_observation_window(asset_id, endpoint, start_date, end_date, fragment)
+    except (httpx.HTTPError, RuntimeError):
+        if start_date >= end_date:
+            raise
+        midpoint = start_date + (end_date - start_date) // 2
+        left_rows = _stream_observation_window_adaptive(
+            asset_id, endpoint, start_date, midpoint
+        )
+        right_rows = _stream_observation_window_adaptive(
+            asset_id, endpoint, midpoint + dt.timedelta(days=1), end_date
+        )
+        return left_rows + right_rows
+
+
 def _observation_windows(entity_id: str, current_year: int) -> list[tuple[dt.date, dt.date, str]]:
     windows: list[tuple[dt.date, dt.date, str]] = []
-    monthly_from = MONTHLY_FROM_YEAR.get(entity_id, current_year + 1)
     today = dt.date.today()
     for year in range(START_YEAR, current_year + 1):
-        if year < monthly_from:
-            windows.append((dt.date(year, 1, 1), dt.date(year, 12, 31), str(year)))
+        if year < MONTHLY_FROM_YEAR:
+            start_date = dt.date(year, 1, 1)
+            end_date = dt.date(year, 12, 31)
+            windows.append((start_date, end_date, _fragment_name(start_date, end_date)))
             continue
         for month in range(1, 13):
             start_date = dt.date(year, month, 1)
@@ -152,7 +190,8 @@ def _observation_windows(entity_id: str, current_year: int) -> list[tuple[dt.dat
                 end_date = dt.date(year, 12, 31)
             else:
                 end_date = dt.date(year, month + 1, 1) - dt.timedelta(days=1)
-            windows.append((start_date, min(end_date, today), f"{year}-{month:02d}"))
+            end_date = min(end_date, today)
+            windows.append((start_date, end_date, _fragment_name(start_date, end_date)))
     return windows
 
 
@@ -160,8 +199,8 @@ def _fetch_observation_product(node_id: str, entity_id: str) -> None:
     endpoint = OBSERVATION_ENDPOINTS[entity_id]
     current_year = dt.date.today().year
     total_rows = 0
-    for start_date, end_date, fragment in _observation_windows(entity_id, current_year):
-        total_rows += _stream_observation_window(node_id, endpoint, start_date, end_date, fragment)
+    for start_date, end_date, _fragment in _observation_windows(entity_id, current_year):
+        total_rows += _stream_observation_window_adaptive(node_id, endpoint, start_date, end_date)
     if total_rows == 0:
         raise RuntimeError(f"{entity_id} returned zero rows across {START_YEAR}-{current_year}")
 
