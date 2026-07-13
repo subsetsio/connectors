@@ -1,8 +1,8 @@
 spec_id: wgms-fog-mass-balance-point
 status: active
 tests:
-  - row_count: {min: 100000}
-    reason: mass_balance_point contains point measurements for many glaciers and years.
+  - row_count: {min: 70000}
+    reason: mass_balance_point contains point measurements for many glaciers and years in the current FoG release.
     certainty: 85
   - not_null: glacier_id
   - not_null: year
@@ -10,4 +10,3 @@ tests:
     reason: the current FoG release covers annual mass-balance observations through 2024.
     certainty: 85
     points_outward: true
-

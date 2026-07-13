@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `steam-charts-monthly-stats`. Regenerate after model-verify.
+# caution: Monthly statistics are grouped by Steam Charts' period labels; treat period_label as the source month label and fetched_at as the collection timestamp.
+key: [fetched_at, app_name, app_id, period_label]
+temporal: fetched_at
+sort: [fetched_at, app_name, app_id, period_label]
+columns:
+  - name: app_id
+    type: BIGINT
+  - name: app_name
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
+  - name: period_start
+    type: DATE
+  - name: is_last_30_days
+    type: BOOLEAN
+  - name: avg_players
+    type: DOUBLE
+  - name: gain
+    type: DOUBLE
+  - name: percent_gain
+    type: DOUBLE
+  - name: peak_players
+    type: BIGINT
+  - name: fetched_at
+    type: "TIMESTAMP WITH TIME ZONE"

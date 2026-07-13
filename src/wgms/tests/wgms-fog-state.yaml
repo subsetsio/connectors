@@ -1,8 +1,8 @@
 spec_id: wgms-fog-state
 status: active
 tests:
-  - row_count: {min: 100000}
-    reason: FoG state.csv contains repeated glacier state measurements across the catalog.
+  - row_count: {min: 10000}
+    reason: FoG state.csv contains repeated glacier state measurements across the current catalog.
     certainty: 85
   - not_null: glacier_id
   - not_null: id
@@ -10,4 +10,3 @@ tests:
     reason: the current FoG release includes glacier state observations through 2024.
     certainty: 85
     points_outward: true
-

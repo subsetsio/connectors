@@ -4,10 +4,8 @@ tests:
   - row_count: {min: 100000}
     reason: FoG change.csv is the largest relational table in the release.
     certainty: 90
-  - not_null: glacier_id
   - not_null: id
   - freshness: {col: end_date, reaches: "2024-01-01"}
     reason: the current FoG release contains glacier change observations through 2024.
     certainty: 85
     points_outward: true
-

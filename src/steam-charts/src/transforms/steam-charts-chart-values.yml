@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `steam-charts-chart-values`. Regenerate after model-verify.
+# caution: Chart values come from Steam Charts per-app chart JSON; the source does not document the exact chart aggregate represented by each value.
+key: [observed_at, fetched_at, app_name, app_id]
+temporal: observed_at
+sort: [observed_at, fetched_at, app_name, app_id]
+columns:
+  - name: app_id
+    type: BIGINT
+  - name: app_name
+    type: VARCHAR
+  - name: observed_at
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: players
+    type: BIGINT
+  - name: fetched_at
+    type: "TIMESTAMP WITH TIME ZONE"

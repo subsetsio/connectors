@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `steam-charts-games`. Regenerate after model-verify.
+# caution: The table is a point-in-time catalog snapshot of Steam Charts metrics captured at fetch time; use fetched_at when comparing repeated runs.
+key: [name, app_id]
+temporal: fetched_at
+sort: [fetched_at, name, app_id]
+columns:
+  - name: app_id
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: rank
+    type: BIGINT
+  - name: current_players
+    type: BIGINT
+  - name: peak_players_30d
+    type: BIGINT
+  - name: player_hours_30d
+    type: BIGINT
+  - name: source_page
+    type: BIGINT
+  - name: fetched_at
+    type: "TIMESTAMP WITH TIME ZONE"

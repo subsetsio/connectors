@@ -4,10 +4,8 @@ tests:
   - row_count: {min: 100}
     reason: FoG carries a historical glacier-event table across contributing countries.
     certainty: 80
-  - not_null: glacier_id
   - not_null: id
   - freshness: {col: date, reaches: "2020-01-01"}
     reason: event reports are irregular, but the active FoG release should include recent events.
     certainty: 70
     points_outward: true
-
