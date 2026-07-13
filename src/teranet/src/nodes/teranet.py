@@ -28,11 +28,9 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 CSV_URL = "https://housepriceindex.ca/_data/House_Price_Index.csv"
@@ -104,6 +102,14 @@ RAW_SCHEMA = pa.schema([
     ("sales_pair_count", pa.float64()),
 ])
 
+MARKETS_SCHEMA = pa.schema([
+    ("market", pa.string()),
+    ("market_name", pa.string()),
+    ("province", pa.string()),
+    ("market_type", pa.string()),
+    ("sort_order", pa.int64()),
+])
+
 
 def _ensure_ca_chain() -> None:
     """Append the missing GlobalSign intermediate to certifi's bundle (idempotent),
@@ -118,7 +124,6 @@ def _ensure_ca_chain() -> None:
         configure_http()  # force the shared client (and its SSL context) to rebuild
 
 
-@transient_retry()
 def _fetch_csv() -> str:
     resp = get(CSV_URL, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -146,6 +151,46 @@ def _column_markets(header_codes: list[str]) -> list[str]:
             current = token
         out.append(current)
     return out
+
+
+def _read_header_market_order(text: str) -> list[str]:
+    reader = csv.reader(io.StringIO(text))
+    header0 = next(reader)
+    assert header0[0].strip().lower().startswith("transaction date"), \
+        f"unexpected first header cell: {header0[0]!r}"
+    col_markets = _column_markets(header0[1:])
+    market_order = [
+        col_markets[i]
+        for i in range(0, len(col_markets), len(MEASURE_COLS))
+        if col_markets[i]
+    ]
+    unknown = sorted({m for m in market_order if m not in MARKETS})
+    assert not unknown, f"unknown market codes in CSV header: {unknown}"
+    expected = list(MARKETS)
+    assert market_order == expected, (
+        f"unexpected market order in CSV header: got {market_order}, expected {expected}"
+    )
+    return market_order
+
+
+def fetch_markets(node_id: str) -> None:
+    asset = node_id
+    _ensure_ca_chain()
+    text = _fetch_csv()
+    market_order = _read_header_market_order(text)
+    rows = []
+    for sort_order, market in enumerate(market_order, start=1):
+        market_name, province, market_type = MARKETS[market]
+        rows.append({
+            "market": market,
+            "market_name": market_name,
+            "province": province,
+            "market_type": market_type,
+            "sort_order": sort_order,
+        })
+
+    table = pa.Table.from_pylist(rows, schema=MARKETS_SCHEMA)
+    save_raw_parquet(table, asset)
 
 
 def fetch_values(node_id: str) -> None:
@@ -198,34 +243,6 @@ def fetch_values(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="teranet-markets", fn=fetch_markets, kind="download"),
     NodeSpec(id="teranet-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="teranet-values-transform",
-        deps=["teranet-values"],
-        key=("date", "market"),
-        temporal="date",
-        sql='''
-            -- An index value of 0 is never valid (base 100 = June 2005); the
-            -- source writes a literal 0.00 in smoothing-warmup cells where the
-            -- value should be absent, so NULLIF those to null. A sales_pair_count
-            -- of 0 is legitimate, so it is left untouched.
-            SELECT
-                CAST("date" AS DATE)                          AS "date",
-                market,
-                NULLIF(CAST("index" AS DOUBLE), 0)            AS "index",
-                NULLIF(CAST(sa_index AS DOUBLE), 0)          AS sa_index,
-                NULLIF(CAST(smoothed_index AS DOUBLE), 0)    AS smoothed_index,
-                NULLIF(CAST(smoothed_sa_index AS DOUBLE), 0) AS smoothed_sa_index,
-                CAST(sales_pair_count AS BIGINT)              AS sales_pair_count
-            FROM "teranet-values"
-            WHERE "index" IS NOT NULL
-               OR sa_index IS NOT NULL
-               OR smoothed_index IS NOT NULL
-               OR smoothed_sa_index IS NOT NULL
-               OR sales_pair_count IS NOT NULL
-        ''',
-    ),
 ]

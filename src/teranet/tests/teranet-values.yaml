@@ -1,0 +1,35 @@
+spec_id: teranet-values
+status: active
+tests:
+  - row_count: {min: 3500}
+    reason: monthly history begins in 1990 and spans twelve market series with some early blanks
+    certainty: 90
+  - unique: [date, market]
+    reason: one observation row per market-month after reshaping the source CSV
+    certainty: 100
+  - not_null: date
+  - not_null: market
+  - column_type: {col: date, type: date}
+  - column_type: {col: market, type: string}
+  - column_type: {col: index, type: float}
+  - column_type: {col: sa_index, type: float}
+  - column_type: {col: smoothed_index, type: float}
+  - column_type: {col: smoothed_sa_index, type: float}
+  - column_type: {col: sales_pair_count, type: float}
+  - at_least: {col: date, expr: "1990-06-01"}
+    reason: the C11 public history starts in June 1990
+    certainty: 95
+  - at_most: {col: date, expr: today}
+    reason: observations are historical monthly releases, not projections
+    certainty: 95
+    points_outward: true
+  - distinct_count: {col: market, min: 12, max: 12}
+    reason: values should cover the C11 composite plus eleven metro markets
+    certainty: 95
+  - coverage: {col: market, expected: 12}
+    reason: every public market block in the CSV should land in the values table
+    certainty: 95
+  - freshness: {col: date, reaches: today - 75d}
+    reason: the index is released monthly around mid-month, so a 75-day window allows publication lag
+    certainty: 90
+    points_outward: true

@@ -1,0 +1,18 @@
+key: [market]
+sort: [sort_order]
+columns:
+  - name: market
+    type: VARCHAR
+    description: Source market code from the Teranet-National Bank HPI CSV header.
+  - name: market_name
+    type: VARCHAR
+    description: Human-readable market name.
+  - name: province
+    type: VARCHAR
+    description: Canadian province abbreviation for metro markets; null for the C11 composite.
+  - name: market_type
+    type: VARCHAR
+    description: Market category, either composite or metro.
+  - name: sort_order
+    type: BIGINT
+    description: Source column order in the public CSV.

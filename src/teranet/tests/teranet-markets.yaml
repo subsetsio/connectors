@@ -1,0 +1,25 @@
+spec_id: teranet-markets
+status: active
+tests:
+  - row_count: {min: 12, max: 12}
+    reason: the public C11 download has one composite plus eleven metro markets
+    certainty: 95
+  - unique: market
+    reason: market code is the reference-table grain
+    certainty: 100
+  - not_null: market
+  - not_null: market_name
+  - not_null: market_type
+  - column_type: {col: market, type: string}
+  - column_type: {col: market_name, type: string}
+  - column_type: {col: province, type: string}
+  - column_type: {col: market_type, type: string}
+  - column_type: {col: sort_order, type: integer}
+  - enum:
+      col: market_type
+      values: [composite, metro]
+    reason: the source publishes one C11 composite and metro-level city indexes
+    certainty: 100
+  - coverage: {col: market, expected: 12}
+    reason: the market reference should include every market block present in the bulk CSV
+    certainty: 95
