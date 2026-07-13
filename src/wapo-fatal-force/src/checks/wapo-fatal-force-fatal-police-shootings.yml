@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `wapo-fatal-force-fatal-police-shootings`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, id, state]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, id, state]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: state
+  - kind: row_floor
+    min: 5215
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
