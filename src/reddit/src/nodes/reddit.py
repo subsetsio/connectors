@@ -1,7 +1,6 @@
 """Reddit connector — Arctic Shift precomputed time_series + subreddit metadata.
 
-Four subsets, each a download NodeSpec + a SqlNodeSpec that publishes one Delta
-table:
+Four raw download subsets:
 
 - reddit-global-activity      Reddit-wide monthly posts/comments counts & score sums
 - reddit-subreddit-activity   per-subreddit monthly posts/comments counts & score sums
@@ -11,15 +10,17 @@ table:
 All HTTP/enumeration/retry policy lives in src/utils.py (shared transport). We
 use only the two endpoints of the chosen `arctic_shift_rest` mechanism:
 /api/time_series (precomputed series) and /api/subreddits/search (metadata +
-enumeration). Stateless full re-pull every run — the series are small
-(precision=month) and overwritten downstream.
+enumeration). The per-subreddit tables intentionally cover the top-community
+panel configured in utils.MIN_SUBSCRIBERS; pulling every medium-sized subreddit
+does not fit the harness cloud runtime.
 """
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists, save_raw_parquet
 from utils import (
     BATCH_SUBREDDITS,
+    MIN_SUBSCRIBERS,
     _SKIPPABLE_EXC,
     _check_skips,
     _time_series,
@@ -191,72 +192,24 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="reddit-subreddits", fn=fetch_subreddits, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="reddit-global-activity-transform",
-        deps=["reddit-global-activity"],
-        key=("date",),
-        temporal="date",
-        sql='''
-            SELECT
-                CAST(to_timestamp(date) AS DATE)                          AS date,
-                CAST(MAX(value) FILTER (WHERE metric='posts_count')    AS BIGINT) AS posts_count,
-                CAST(MAX(value) FILTER (WHERE metric='comments_count') AS BIGINT) AS comments_count,
-                MAX(value) FILTER (WHERE metric='posts_sum_score')       AS posts_sum_score,
-                MAX(value) FILTER (WHERE metric='comments_sum_score')    AS comments_sum_score
-            FROM "reddit-global-activity"
-            GROUP BY 1
-            ORDER BY 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="reddit-subreddit-activity-transform",
-        deps=["reddit-subreddit-activity"],
-        key=("subreddit", "date"),
-        temporal="date",
-        sql='''
-            SELECT
-                subreddit,
-                CAST(to_timestamp(date) AS DATE)                          AS date,
-                CAST(MAX(value) FILTER (WHERE metric='posts_count')    AS BIGINT) AS posts_count,
-                CAST(MAX(value) FILTER (WHERE metric='comments_count') AS BIGINT) AS comments_count,
-                MAX(value) FILTER (WHERE metric='posts_sum_score')       AS posts_sum_score,
-                MAX(value) FILTER (WHERE metric='comments_sum_score')    AS comments_sum_score
-            FROM "reddit-subreddit-activity"
-            GROUP BY 1, 2
-        ''',
-    ),
-    SqlNodeSpec(
-        id="reddit-subreddit-subscribers-transform",
-        deps=["reddit-subreddit-subscribers"],
-        key=("subreddit", "date"),
-        temporal="date",
-        sql='''
-            SELECT
-                subreddit,
-                CAST(to_timestamp(date) AS DATE)   AS date,
-                CAST(round(value) AS BIGINT)       AS subscribers
-            FROM "reddit-subreddit-subscribers"
-            WHERE value IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY subreddit, CAST(to_timestamp(date) AS DATE) ORDER BY value DESC) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="reddit-subreddits-transform",
-        deps=["reddit-subreddits"],
-        key=("subreddit",),
-        sql='''
-            SELECT
-                subreddit,
-                subscribers,
-                CAST(to_timestamp(created_utc) AS DATE) AS created_date,
-                over18,
-                subreddit_type,
-                lang,
-                num_posts,
-                num_comments
-            FROM "reddit-subreddits"
-            WHERE subreddit IS NOT NULL
-        ''',
-    ),
+MAINTAIN_MAX_AGE_DAYS = 2
+
+
+def _is_fresh(asset_id: str) -> bool:
+    return raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            f"Refetch when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. Arctic Shift "
+            "time_series has no snapshot validator; this short window lets cloud "
+            "continuation/retry legs skip specs already committed in the same run "
+            f"while routine refreshes rebuild the top subreddits with at least "
+            f"{MIN_SUBSCRIBERS:,} subscribers."
+        ),
+        check=_is_fresh,
+    )
+    for spec in DOWNLOAD_SPECS
 ]

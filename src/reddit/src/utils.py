@@ -28,12 +28,15 @@ from subsets_utils import get
 
 API = "https://arctic-shift.photon-reddit.com/api"
 
-# Coverage floor for the per-subreddit tables (subscribers). ~15.7k subreddits.
-MIN_SUBSCRIBERS = 50_000
+# Coverage floor for the per-subreddit tables. Arctic Shift has ~15k
+# subreddits above 50k subscribers; fetching 5 time_series keys for all of them
+# exceeds one GitHub Actions budget and continuation legs cannot commit a
+# half-finished single node. Use an explicit top-community panel instead.
+MIN_SUBSCRIBERS = 1_000_000
 PRECISION = "month"          # monthly: stable, compact (~250 global points)
 ENUM_LIMIT = 1000            # max page size for subreddits/search
 ENUM_MAX_PAGES = 400         # safety ceiling — raises if exceeded (see _walk)
-BATCH_SUBREDDITS = 1000      # subreddits per raw parquet batch
+BATCH_SUBREDDITS = 500       # subreddits per raw parquet batch
 # Per-subreddit fetches that exhaust retries (isolated network blips over a
 # ~2h crawl of ~15k communities) are skipped this run rather than aborting the
 # whole node — re-pulled next run. Abort only if skips look systemic.
