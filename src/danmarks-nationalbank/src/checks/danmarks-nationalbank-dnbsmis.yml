@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `danmarks-nationalbank-dnbsmis`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, kortype, misbrug2, nation, data, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [value, kortype, misbrug2, nation, data, time]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: kortype
+  - kind: not_null
+    col: misbrug2
+  - kind: not_null
+    col: nation
+  - kind: not_null
+    col: data
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 15474
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

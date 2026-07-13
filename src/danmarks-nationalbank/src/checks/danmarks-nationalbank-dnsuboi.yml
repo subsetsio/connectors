@@ -1,0 +1,34 @@
+# compiled by `hardened compile-checks` — post-publish audit of `danmarks-nationalbank-dnsuboi`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, baeredygtighed, klassificering, udstedsektor, holdersek, vaerdi2, l_betid3, valuta, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [value, baeredygtighed, klassificering, udstedsektor, holdersek, vaerdi2, l_betid3, valuta, time]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: baeredygtighed
+  - kind: not_null
+    col: klassificering
+  - kind: not_null
+    col: udstedsektor
+  - kind: not_null
+    col: holdersek
+  - kind: not_null
+    col: vaerdi2
+  - kind: not_null
+    col: l_betid3
+  - kind: not_null
+    col: valuta
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 142560
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

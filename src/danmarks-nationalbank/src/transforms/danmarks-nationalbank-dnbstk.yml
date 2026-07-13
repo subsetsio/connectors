@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnbstk`. Regenerate after model-verify.
+key: [value, kortype, korttek, data, time]
+temporal: time
+sort: [time, value, kortype, korttek, data]
+columns:
+  - name: kortype
+    type: VARCHAR
+  - name: korttek
+    type: VARCHAR
+  - name: data
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: value
+    type: BIGINT

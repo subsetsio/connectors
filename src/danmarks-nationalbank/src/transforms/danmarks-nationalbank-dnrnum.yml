@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnrnum`. Regenerate after model-verify.
+# caution: Raw StatBank extract contains duplicate rows even across all emitted fields; treat rows as source observations and aggregate with care.
+key: []
+temporal: time
+sort: [time]
+columns:
+  - name: form_l
+    type: VARCHAR
+  - name: data
+    type: VARCHAR
+  - name: indsek
+    type: VARCHAR
+  - name: valuta
+    type: VARCHAR
+  - name: l_betid1
+    type: VARCHAR
+  - name: rentfix1
+    type: VARCHAR
+  - name: laanstr
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: value
+    type: VARCHAR

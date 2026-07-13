@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `danmarks-nationalbank-dnrugpi`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, instrnat, institype, indsek, valuta, form_l, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [value, instrnat, institype, indsek, valuta, form_l, time]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: instrnat
+  - kind: not_null
+    col: institype
+  - kind: not_null
+    col: indsek
+  - kind: not_null
+    col: valuta
+  - kind: not_null
+    col: form_l
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 126450
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

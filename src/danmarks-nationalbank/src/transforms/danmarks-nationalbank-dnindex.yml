@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnindex`. Regenerate after model-verify.
+key: [value, instrument, opgoer, time]
+temporal: time
+sort: [time, value, instrument, opgoer]
+columns:
+  - name: instrument
+    type: VARCHAR
+  - name: opgoer
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

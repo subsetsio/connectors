@@ -11,4 +11,3 @@ SELECT
     NULLIF(n_obs_south, -1)            AS n_obs_south,
     definitive = 1                     AS definitive
 FROM "silso-monthly-hemispheric"
-WHERE NULLIF(sn_total, -1) IS NOT NULL

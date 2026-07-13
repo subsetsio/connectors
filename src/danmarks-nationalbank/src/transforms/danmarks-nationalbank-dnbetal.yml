@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnbetal`. Regenerate after model-verify.
+key: [value, egensektor, instrument, data, betalfrist, time]
+temporal: time
+sort: [time, value, egensektor, instrument, data, betalfrist]
+columns:
+  - name: egensektor
+    type: VARCHAR
+  - name: instrument
+    type: VARCHAR
+  - name: data
+    type: VARCHAR
+  - name: betalfrist
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: value
+    type: VARCHAR

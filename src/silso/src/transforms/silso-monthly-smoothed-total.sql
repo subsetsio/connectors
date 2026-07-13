@@ -5,4 +5,3 @@ SELECT
     NULLIF(n_observations, -1)             AS n_observations,
     definitive = 1                         AS definitive
 FROM "silso-monthly-smoothed-total"
-WHERE NULLIF(smoothed_sunspot_number, -1) IS NOT NULL

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnvala`. Regenerate after model-verify.
+key: [value, valuta, kurtyp, opgoer, time]
+temporal: time
+sort: [time, value, valuta, kurtyp, opgoer]
+columns:
+  - name: valuta
+    type: VARCHAR
+  - name: kurtyp
+    type: VARCHAR
+  - name: opgoer
+    type: VARCHAR
+  - name: time
+    type: BIGINT
+  - name: value
+    type: VARCHAR

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `danmarks-nationalbank-dnmin`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, instrnat, data, sektornat, valuta, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [value, instrnat, data, sektornat, valuta, time]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: instrnat
+  - kind: not_null
+    col: data
+  - kind: not_null
+    col: sektornat
+  - kind: not_null
+    col: valuta
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 619605
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
