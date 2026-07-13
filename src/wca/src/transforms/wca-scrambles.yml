@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-scrambles`. Regenerate after model-verify.
+# caution: Scramble rows identify generated scrambles for competition groups and rounds, not competitor attempts.
+key: [id, competition_id, group_id, event_id, round_type_id]
+temporal: export_date
+sort: [export_date, id, competition_id, group_id, event_id, round_type_id]
+columns:
+  - name: scramble
+    type: VARCHAR
+  - name: id
+    type: BIGINT
+  - name: competition_id
+    type: VARCHAR
+  - name: event_id
+    type: VARCHAR
+  - name: group_id
+    type: VARCHAR
+  - name: is_extra
+    type: BIGINT
+  - name: round_type_id
+    type: VARCHAR
+  - name: scramble_num
+    type: BIGINT
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

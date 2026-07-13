@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-result-attempts`. Regenerate after model-verify.
+# caution: Attempt values use WCA result encodings; negative or sentinel values should be interpreted with WCA rules rather than as measured times.
+key: [result_id, value, attempt_number]
+temporal: export_date
+sort: [export_date, result_id, value, attempt_number]
+columns:
+  - name: value
+    type: BIGINT
+  - name: attempt_number
+    type: BIGINT
+  - name: result_id
+    type: BIGINT
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

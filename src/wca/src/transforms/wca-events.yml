@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-events`. Regenerate after model-verify.
+key: [name]
+temporal: export_date
+sort: [export_date, name]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: format
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: rank
+    type: BIGINT
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

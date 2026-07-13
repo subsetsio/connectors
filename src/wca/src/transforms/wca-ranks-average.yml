@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-ranks-average`. Regenerate after model-verify.
+# caution: Ranks are event-specific standing snapshots from the export and should not be summed across events or rank scopes.
+key: [person_id, best, event_id]
+temporal: export_date
+sort: [export_date, person_id, best, event_id]
+columns:
+  - name: best
+    type: BIGINT
+  - name: person_id
+    type: VARCHAR
+  - name: event_id
+    type: VARCHAR
+  - name: world_rank
+    type: BIGINT
+  - name: continent_rank
+    type: BIGINT
+  - name: country_rank
+    type: BIGINT
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

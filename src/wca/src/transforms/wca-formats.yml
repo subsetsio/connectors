@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-formats`. Regenerate after model-verify.
+key: [name]
+temporal: export_date
+sort: [export_date, name]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: expected_solve_count
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: sort_by
+    type: VARCHAR
+  - name: sort_by_second
+    type: VARCHAR
+  - name: trim_fastest_n
+    type: BIGINT
+  - name: trim_slowest_n
+    type: BIGINT
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

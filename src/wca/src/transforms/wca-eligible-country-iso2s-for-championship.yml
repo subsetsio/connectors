@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-eligible-country-iso2s-for-championship`. Regenerate after model-verify.
+# caution: This is a championship eligibility list, not a complete country dimension.
+key: [eligible_country_iso2]
+temporal: export_date
+sort: [export_date, eligible_country_iso2]
+columns:
+  - name: championship_type
+    type: VARCHAR
+  - name: eligible_country_iso2
+    type: VARCHAR
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

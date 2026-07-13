@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-persons`. Regenerate after model-verify.
+# caution: Person rows can include multiple sub_id values for the same public WCA id as the export preserves person record history.
+key: [wca_id, name, country_id, sub_id]
+temporal: export_date
+sort: [export_date, wca_id, name, country_id, sub_id]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: wca_id
+    type: VARCHAR
+  - name: sub_id
+    type: BIGINT
+  - name: country_id
+    type: VARCHAR
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

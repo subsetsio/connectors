@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-round-types`. Regenerate after model-verify.
+key: [id]
+temporal: export_date
+sort: [export_date, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: final
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: rank
+    type: BIGINT
+  - name: cell_name
+    type: VARCHAR
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

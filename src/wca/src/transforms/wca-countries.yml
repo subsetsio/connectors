@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-countries`. Regenerate after model-verify.
+key: [name, id, continent_id]
+temporal: export_date
+sort: [export_date, name, id, continent_id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: iso2
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: continent_id
+    type: VARCHAR
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

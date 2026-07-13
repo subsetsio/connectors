@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-competitions`. Regenerate after model-verify.
+# caution: Competition location and event fields describe the competition record; results and scrambles live in separate fact tables.
+key: [name, id, longitude_microdegrees, latitude_microdegrees, event_specs]
+temporal: export_date
+sort: [export_date, name, id, longitude_microdegrees, latitude_microdegrees, event_specs]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: information
+    type: VARCHAR
+  - name: external_website
+    type: VARCHAR
+  - name: venue
+    type: VARCHAR
+  - name: city_name
+    type: VARCHAR
+  - name: country_id
+    type: VARCHAR
+  - name: venue_address
+    type: VARCHAR
+  - name: venue_details
+    type: VARCHAR
+  - name: cell_name
+    type: VARCHAR
+  - name: cancelled
+    type: BIGINT
+  - name: event_specs
+    type: VARCHAR
+  - name: delegates
+    type: VARCHAR
+  - name: organizers
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: end_year
+    type: BIGINT
+  - name: end_month
+    type: BIGINT
+  - name: end_day
+    type: BIGINT
+  - name: latitude_microdegrees
+    type: BIGINT
+  - name: longitude_microdegrees
+    type: BIGINT
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

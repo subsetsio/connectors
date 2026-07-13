@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wca-results`. Regenerate after model-verify.
+# caution: Result values use WCA event-specific encodings for times, means, averages, and penalties; compare values within the same event and format.
+key: [id]
+temporal: export_date
+sort: [export_date, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: pos
+    type: BIGINT
+  - name: best
+    type: BIGINT
+  - name: average
+    type: BIGINT
+  - name: competition_id
+    type: VARCHAR
+  - name: round_type_id
+    type: VARCHAR
+  - name: event_id
+    type: VARCHAR
+  - name: person_name
+    type: VARCHAR
+  - name: person_id
+    type: VARCHAR
+  - name: format_id
+    type: VARCHAR
+  - name: regional_single_record
+    type: VARCHAR
+  - name: regional_average_record
+    type: VARCHAR
+  - name: person_country_id
+    type: VARCHAR
+  - name: source_table
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: export_version
+    type: VARCHAR

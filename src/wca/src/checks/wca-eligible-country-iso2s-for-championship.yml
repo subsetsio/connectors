@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `wca-eligible-country-iso2s-for-championship`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [eligible_country_iso2]
+temporal: export_date
+checks:
+  - kind: unique
+    columns: [eligible_country_iso2]
+  - kind: not_null
+    col: eligible_country_iso2
+  - kind: row_floor
+    min: 2
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

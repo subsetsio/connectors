@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `wca-competitions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [name, id, longitude_microdegrees, latitude_microdegrees, event_specs]
+temporal: export_date
+checks:
+  - kind: unique
+    columns: [name, id, longitude_microdegrees, latitude_microdegrees, event_specs]
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: longitude_microdegrees
+  - kind: not_null
+    col: latitude_microdegrees
+  - kind: not_null
+    col: event_specs
+  - kind: row_floor
+    min: 9061
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
