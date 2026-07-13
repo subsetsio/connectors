@@ -1,7 +1,9 @@
-key: [person_id]
-sort: [person_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-person`. Regenerate after model-verify.
+key: [name, id, surname]
+sort: [name, id, surname]
 columns:
-  - name: person_id
+  - name: id
     type: BIGINT
   - name: name
     type: VARCHAR
@@ -16,8 +18,8 @@ columns:
   - name: url
     type: VARCHAR
   - name: birth_year
-    type: INTEGER
+    type: BIGINT
   - name: death_year
-    type: INTEGER
+    type: BIGINT
   - name: remarks
     type: VARCHAR

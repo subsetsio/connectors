@@ -1,16 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Annual and cumulative mass-change measures appear together; do not sum cumulative columns across years.
 SELECT
-    TRY_CAST(year AS INTEGER)               AS year,
-    TRY_CAST(area_km2 AS DOUBLE)            AS area_km2,
-    TRY_CAST(mwe AS DOUBLE)                 AS mwe,
-    TRY_CAST(mwe_sigma AS DOUBLE)           AS mwe_sigma,
-    TRY_CAST(mwe_cumsum AS DOUBLE)          AS mwe_cumsum,
-    TRY_CAST(gt AS DOUBLE)                  AS gt,
-    TRY_CAST(gt_sigma AS DOUBLE)            AS gt_sigma,
-    TRY_CAST(gt_cumsum AS DOUBLE)           AS gt_cumsum,
-    TRY_CAST(gt_cumsum_sigma AS DOUBLE)     AS gt_cumsum_sigma,
-    TRY_CAST(mmsle AS DOUBLE)               AS mmsle,
-    TRY_CAST(mmsle_sigma AS DOUBLE)         AS mmsle_sigma,
-    TRY_CAST(mmsle_cumsum AS DOUBLE)        AS mmsle_cumsum,
-    TRY_CAST(mmsle_cumsum_sigma AS DOUBLE)  AS mmsle_cumsum_sigma
+    "year",
+    "area_km2",
+    "mwe",
+    "mwe_sigma",
+    "mwe_cumsum",
+    "gt",
+    "gt_sigma",
+    "gt_cumsum",
+    "gt_cumsum_sigma",
+    "mmsle",
+    "mmsle_sigma",
+    "mmsle_cumsum",
+    "mmsle_cumsum_sigma"
 FROM "wgms-amce-global"
-WHERE TRY_CAST(year AS INTEGER) IS NOT NULL

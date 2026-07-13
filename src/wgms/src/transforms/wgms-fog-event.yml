@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-event`. Regenerate after model-verify.
+key: [id]
+temporal: date
+sort: [date, id]
 columns:
   - name: country
     type: VARCHAR
@@ -11,7 +15,7 @@ columns:
   - name: date
     type: DATE
   - name: date_unc
-    type: VARCHAR
+    type: DOUBLE
   - name: latitude
     type: DOUBLE
   - name: longitude
@@ -19,28 +23,28 @@ columns:
   - name: description
     type: VARCHAR
   - name: surge
-    type: VARCHAR
+    type: BOOLEAN
   - name: calving
-    type: VARCHAR
+    type: BOOLEAN
   - name: flood
-    type: VARCHAR
+    type: BOOLEAN
   - name: avalanche
-    type: VARCHAR
+    type: BOOLEAN
   - name: rockfall
-    type: VARCHAR
+    type: BOOLEAN
   - name: debris_flow
-    type: VARCHAR
+    type: BOOLEAN
   - name: earthquake
-    type: VARCHAR
+    type: BOOLEAN
   - name: volcanic_eruption
-    type: VARCHAR
+    type: BOOLEAN
   - name: other
-    type: VARCHAR
+    type: BOOLEAN
   - name: investigators
     type: VARCHAR
   - name: agencies
     type: VARCHAR
-  - name: reference_ids
+  - name: references
     type: VARCHAR
   - name: remarks
     type: VARCHAR

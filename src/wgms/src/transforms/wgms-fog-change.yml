@@ -1,6 +1,8 @@
-key: [id]
-temporal: end_date
-sort: [end_date, id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-change`. Regenerate after model-verify.
+key: [id, end_date, begin_date, country, end_date_unc]
+temporal: begin_date
+sort: [begin_date, id, end_date, country, end_date_unc]
 columns:
   - name: country
     type: VARCHAR
@@ -17,21 +19,21 @@ columns:
   - name: begin_date
     type: DATE
   - name: begin_date_unc
-    type: VARCHAR
+    type: DOUBLE
   - name: end_date
     type: DATE
   - name: end_date_unc
-    type: VARCHAR
-  - name: area
     type: DOUBLE
+  - name: area
+    type: BIGINT
   - name: elevation_change
     type: DOUBLE
   - name: elevation_change_unc
     type: DOUBLE
   - name: volume_change
-    type: DOUBLE
+    type: BIGINT
   - name: volume_change_unc
-    type: DOUBLE
+    type: BIGINT
   - name: begin_platform
     type: VARCHAR
   - name: begin_method
@@ -44,7 +46,7 @@ columns:
     type: VARCHAR
   - name: agencies
     type: VARCHAR
-  - name: reference_ids
+  - name: references
     type: VARCHAR
   - name: remarks
     type: VARCHAR

@@ -1,6 +1,8 @@
-key: [glacier_id, year]
-temporal: year
-sort: [year, glacier_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-mass-balance`. Regenerate after model-verify.
+key: [glacier_name, glacier_id, year, country]
+temporal: end_date
+sort: [end_date, glacier_name, glacier_id, year, country]
 columns:
   - name: country
     type: VARCHAR
@@ -9,23 +11,23 @@ columns:
   - name: glacier_id
     type: BIGINT
   - name: outline_id
-    type: VARCHAR
+    type: BIGINT
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: time_system
     type: VARCHAR
   - name: begin_date
     type: DATE
   - name: begin_date_unc
-    type: VARCHAR
+    type: DOUBLE
   - name: midseason_date
     type: DATE
   - name: midseason_date_unc
-    type: VARCHAR
+    type: DOUBLE
   - name: end_date
     type: DATE
   - name: end_date_unc
-    type: VARCHAR
+    type: DOUBLE
   - name: winter_balance
     type: DOUBLE
   - name: winter_balance_unc
@@ -41,18 +43,18 @@ columns:
   - name: ela_position
     type: VARCHAR
   - name: ela
-    type: DOUBLE
+    type: BIGINT
   - name: ela_unc
-    type: DOUBLE
+    type: BIGINT
   - name: aar
     type: DOUBLE
   - name: area
-    type: DOUBLE
+    type: BIGINT
   - name: investigators
     type: VARCHAR
   - name: agencies
     type: VARCHAR
-  - name: reference_ids
+  - name: references
     type: VARCHAR
   - name: remarks
     type: VARCHAR

@@ -1,6 +1,8 @@
-key: [id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-state`. Regenerate after model-verify.
+key: [id, glacier_name, glacier_id, date, date_unc]
 temporal: date
-sort: [date, id]
+sort: [date, id, glacier_name, glacier_id, date_unc]
 columns:
   - name: country
     type: VARCHAR
@@ -15,23 +17,23 @@ columns:
   - name: date
     type: DATE
   - name: date_unc
-    type: VARCHAR
+    type: DOUBLE
   - name: highest_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: lowest_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: mean_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: elevation_unc
-    type: DOUBLE
+    type: BIGINT
   - name: area
-    type: DOUBLE
+    type: BIGINT
   - name: area_unc
-    type: DOUBLE
+    type: BIGINT
   - name: length
-    type: DOUBLE
+    type: BIGINT
   - name: length_unc
-    type: DOUBLE
+    type: BIGINT
   - name: terminus_type
     type: VARCHAR
   - name: platform
@@ -42,7 +44,7 @@ columns:
     type: VARCHAR
   - name: agencies
     type: VARCHAR
-  - name: reference_ids
+  - name: references
     type: VARCHAR
   - name: remarks
     type: VARCHAR

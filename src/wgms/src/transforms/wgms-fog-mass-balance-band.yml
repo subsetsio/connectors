@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-mass-balance-band`. Regenerate after model-verify.
+# caution: Rows are elevation bands within a glacier-year; glacier-wide balance should come from the glacier-wide table or a weighted aggregation, not a simple row average.
+key: [lower_elevation, upper_elevation, glacier_name, glacier_id, year]
+temporal: year
+sort: [year, lower_elevation, upper_elevation, glacier_name, glacier_id]
 columns:
   - name: country
     type: VARCHAR
@@ -7,13 +12,13 @@ columns:
   - name: glacier_id
     type: BIGINT
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: lower_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: upper_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: area
-    type: DOUBLE
+    type: BIGINT
   - name: winter_balance
     type: DOUBLE
   - name: winter_balance_unc

@@ -1,12 +1,18 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are elevation bands within a glacier state snapshot; summarize within each state_id before comparing glaciers or dates.
 SELECT
-    country, glacier_name,
-    TRY_CAST(glacier_id AS BIGINT)      AS glacier_id,
-    TRY_CAST(state_id AS BIGINT)        AS state_id,
-    TRY_CAST(lower_elevation AS DOUBLE) AS lower_elevation,
-    TRY_CAST(upper_elevation AS DOUBLE) AS upper_elevation,
-    TRY_CAST(mean_elevation AS DOUBLE)  AS mean_elevation,
-    TRY_CAST(elevation_unc AS DOUBLE)   AS elevation_unc,
-    TRY_CAST(area AS DOUBLE)            AS area,
-    TRY_CAST(area_unc AS DOUBLE)        AS area_unc,
-    remarks
+    "country",
+    "glacier_name",
+    CAST("glacier_id" AS BIGINT) AS glacier_id,
+    CAST("state_id" AS BIGINT) AS state_id,
+    CAST("lower_elevation" AS BIGINT) AS lower_elevation,
+    CAST("upper_elevation" AS BIGINT) AS upper_elevation,
+    CAST("mean_elevation" AS BIGINT) AS mean_elevation,
+    CAST("elevation_unc" AS BIGINT) AS elevation_unc,
+    CAST("area" AS BIGINT) AS area,
+    CAST("area_unc" AS BIGINT) AS area_unc,
+    "remarks"
 FROM "wgms-fog-state-band"

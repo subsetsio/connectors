@@ -1,9 +1,11 @@
-key: [agency_id]
-sort: [agency_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-agency`. Regenerate after model-verify.
+key: [id, name]
+sort: [id, name]
 columns:
   - name: country
     type: VARCHAR
-  - name: agency_id
+  - name: id
     type: BIGINT
   - name: parent_agency_id
     type: BIGINT
@@ -26,9 +28,9 @@ columns:
   - name: wikidata_id
     type: VARCHAR
   - name: begin_year
-    type: INTEGER
+    type: BIGINT
   - name: end_year
-    type: INTEGER
+    type: BIGINT
   - name: former_agency_id
     type: BIGINT
   - name: remarks

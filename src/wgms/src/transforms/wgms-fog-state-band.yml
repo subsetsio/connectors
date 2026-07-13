@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wgms-fog-state-band`. Regenerate after model-verify.
+# caution: Rows are elevation bands within a glacier state snapshot; summarize within each state_id before comparing glaciers or dates.
+key: [area, lower_elevation, upper_elevation, state_id, glacier_name]
+sort: [area, lower_elevation, upper_elevation, state_id, glacier_name]
 columns:
   - name: country
     type: VARCHAR
@@ -9,16 +13,16 @@ columns:
   - name: state_id
     type: BIGINT
   - name: lower_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: upper_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: mean_elevation
-    type: DOUBLE
+    type: BIGINT
   - name: elevation_unc
-    type: DOUBLE
+    type: BIGINT
   - name: area
-    type: DOUBLE
+    type: BIGINT
   - name: area_unc
-    type: DOUBLE
+    type: BIGINT
   - name: remarks
     type: VARCHAR
