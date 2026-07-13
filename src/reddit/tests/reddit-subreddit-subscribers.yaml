@@ -22,3 +22,7 @@ tests:
     reason: time_series occasionally emits gaps; the transform filters them, but raw should be mostly populated
     certainty: 70
     severity: warn
+  - freshness: {col: date, reaches: 1775001600}
+    reason: monthly epoch-second subscriber series should reach at least 2026-04-01; stale max means the source stopped updating
+    certainty: 70
+    points_outward: true

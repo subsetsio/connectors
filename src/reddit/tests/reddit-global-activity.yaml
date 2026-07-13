@@ -25,8 +25,7 @@ tests:
     reason: ~20y monthly x 4 metrics ~ 960 points; well above 400 even allowing short keys
     certainty: 75
     severity: warn
-  - freshness: {col: date, reaches: today - 90d}
-    reason: monthly series should extend to within ~36h-incomplete trailing edge; stale max means the source stopped updating
+  - freshness: {col: date, reaches: 1775001600}
+    reason: monthly epoch-second series should reach at least 2026-04-01; stale max means the source stopped updating
     certainty: 70
     points_outward: true
-    severity: warn
