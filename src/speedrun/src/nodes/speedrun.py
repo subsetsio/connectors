@@ -14,9 +14,12 @@ from __future__ import annotations
 import json
 import time
 from collections.abc import Iterator
+from datetime import datetime, timezone
 from urllib.parse import parse_qs, urlparse
 
-from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, raw_writer
+import pyarrow as pa
+
+from subsets_utils import NodeSpec, get, raw_writer, save_raw_parquet
 
 BASE_URL = "https://www.speedrun.com/api/v1"
 REQUEST_DELAY_SECONDS = 0.7  # stay under the documented 100 requests/min/IP
@@ -59,6 +62,25 @@ GAMES_WITH_EMBEDS_PARAMS = {
 }
 
 LEADERBOARD_RECORD_GAME_LIMIT = 500
+
+VARIABLES_SCHEMA = pa.schema(
+    [
+        ("id", pa.string()),
+        ("name", pa.string()),
+        ("category", pa.string()),
+        ("scope_json", pa.string()),
+        ("mandatory", pa.bool_()),
+        ("user_defined", pa.bool_()),
+        ("obsoletes", pa.bool_()),
+        ("values_count", pa.int64()),
+        ("values_json", pa.string()),
+        ("links_json", pa.string()),
+        ("_fetched_at", pa.timestamp("s", tz="UTC")),
+        ("_resource", pa.string()),
+        ("_game", pa.string()),
+        ("_game_abbreviation", pa.string()),
+    ]
+)
 
 
 def _entity_from_node_id(node_id: str) -> str:
@@ -176,16 +198,45 @@ def _iter_game_child_resource(entity: str) -> Iterator[dict]:
             if not isinstance(row, dict):
                 raise RuntimeError(f"{entity}: non-object row {row!r}")
             out = dict(row)
-            if entity == "variables":
-                values = out.get("values")
-                value_map = values.get("values") if isinstance(values, dict) else None
-                out["values_count"] = len(value_map) if isinstance(value_map, dict) else 0
-                out["values"] = json.dumps(values, sort_keys=True, separators=(",", ":"))
             out["_fetched_at"] = fetched_at
             out["_resource"] = entity
             out["_game"] = game_id
             out["_game_abbreviation"] = game.get("abbreviation")
             yield out
+
+
+def _iter_variables() -> Iterator[dict]:
+    fetched_at = datetime.now(timezone.utc).replace(microsecond=0)
+
+    for game in _iter_games_with_embeds():
+        game_id = game.get("id")
+        embedded = game.get("variables") or {}
+        rows = embedded.get("data") or []
+        if not isinstance(rows, list):
+            raise RuntimeError(f"variables: embedded data for game {game_id} is not a list")
+
+        for row in rows:
+            if not isinstance(row, dict):
+                raise RuntimeError(f"variables: non-object row {row!r}")
+
+            values = row.get("values")
+            value_map = values.get("values") if isinstance(values, dict) else None
+            yield {
+                "id": row.get("id"),
+                "name": row.get("name"),
+                "category": row.get("category"),
+                "scope_json": json.dumps(row.get("scope"), sort_keys=True, separators=(",", ":")),
+                "mandatory": row.get("mandatory"),
+                "user_defined": row.get("user-defined"),
+                "obsoletes": row.get("obsoletes"),
+                "values_count": len(value_map) if isinstance(value_map, dict) else 0,
+                "values_json": json.dumps(values, sort_keys=True, separators=(",", ":")),
+                "links_json": json.dumps(row.get("links"), sort_keys=True, separators=(",", ":")),
+                "_fetched_at": fetched_at,
+                "_resource": "variables",
+                "_game": game_id,
+                "_game_abbreviation": game.get("abbreviation"),
+            }
 
 
 def _iter_bulk_games(limit: int | None = None) -> Iterator[dict]:
@@ -272,6 +323,16 @@ def fetch_game_child_resource(node_id: str) -> None:
     print(f"{node_id}: wrote {count:,} rows")
 
 
+def fetch_variables(node_id: str) -> None:
+    rows = list(_iter_variables())
+    if not rows:
+        raise RuntimeError(f"{node_id}: wrote 0 rows")
+
+    table = pa.Table.from_pylist(rows, schema=VARIABLES_SCHEMA)
+    save_raw_parquet(table, node_id)
+    print(f"{node_id}: wrote {table.num_rows:,} rows")
+
+
 def fetch_leaderboard_records(node_id: str) -> None:
     count = 0
     with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as f:
@@ -293,18 +354,5 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="speedrun-regions", fn=fetch_resource, kind="download"),
     NodeSpec(id="speedrun-runs", fn=fetch_resource, kind="download"),
     NodeSpec(id="speedrun-series", fn=fetch_resource, kind="download"),
-    NodeSpec(id="speedrun-variables", fn=fetch_game_child_resource, kind="download"),
-]
-
-MAINTAIN_SPECS = [
-    MaintainSpec(
-        asset_id=spec.id,
-        description=(
-            "Refresh weekly; Speedrun.com API is live community data with no "
-            "published release schedule, cadence inferred from active verified "
-            "runs and documented API cache windows."
-        ),
-        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
-    )
-    for spec in DOWNLOAD_SPECS
+    NodeSpec(id="speedrun-variables", fn=fetch_variables, kind="download"),
 ]
