@@ -1,0 +1,58 @@
+key: [glacier_id, year]
+temporal: year
+sort: [year, glacier_id]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: glacier_name
+    type: VARCHAR
+  - name: glacier_id
+    type: BIGINT
+  - name: outline_id
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: time_system
+    type: VARCHAR
+  - name: begin_date
+    type: DATE
+  - name: begin_date_unc
+    type: VARCHAR
+  - name: midseason_date
+    type: DATE
+  - name: midseason_date_unc
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: end_date_unc
+    type: VARCHAR
+  - name: winter_balance
+    type: DOUBLE
+  - name: winter_balance_unc
+    type: DOUBLE
+  - name: summer_balance
+    type: DOUBLE
+  - name: summer_balance_unc
+    type: DOUBLE
+  - name: annual_balance
+    type: DOUBLE
+  - name: annual_balance_unc
+    type: DOUBLE
+  - name: ela_position
+    type: VARCHAR
+  - name: ela
+    type: DOUBLE
+  - name: ela_unc
+    type: DOUBLE
+  - name: aar
+    type: DOUBLE
+  - name: area
+    type: DOUBLE
+  - name: investigators
+    type: VARCHAR
+  - name: agencies
+    type: VARCHAR
+  - name: reference_ids
+    type: VARCHAR
+  - name: remarks
+    type: VARCHAR
