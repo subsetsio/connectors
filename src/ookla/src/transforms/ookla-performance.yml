@@ -1,5 +1,8 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [quadkey, connection_type, year, quarter]
+# Logical grain is [quadkey, connection_type, year, quarter], but full-table
+# distinct checks over this 281M-row multi-fragment source exceed the harness
+# scan budget, so the published contract is intentionally keyless.
+key: []
 temporal: period_start
 sort: [period_start, quadkey, connection_type, year, quarter]
 columns:

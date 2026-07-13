@@ -1,0 +1,24 @@
+spec_id: steam-spy-app-tags
+status: active
+tests:
+  - not_null: appid
+    reason: every tag row belongs to a Steam appid
+    certainty: 95
+  - not_null: tag
+    reason: Steam Spy appdetails returns tags as named keys
+    certainty: 95
+  - column_type: {col: appid, type: integer}
+    certainty: 95
+  - column_type: {col: tag, type: string}
+    certainty: 95
+  - column_type: {col: votes, type: integer}
+    certainty: 90
+  - unique: [appid, tag]
+    reason: appdetails returns each tag at most once for a given app
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: popular Steam games expose many public tags through Steam Spy
+    certainty: 85
+  - at_least: {col: votes, expr: 0}
+    reason: tag vote counts are non-negative
+    certainty: 90

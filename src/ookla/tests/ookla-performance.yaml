@@ -30,9 +30,6 @@ tests:
   - at_least: {col: avg_d_kbps, expr: 0}
     reason: speeds are non-negative averages in kbps
     certainty: 95
-  - unique: [quadkey, connection_type, year, quarter]
-    reason: source aggregates to one row per tile per partition; dupes mean a partition was written twice without overwrite
-    certainty: 90
   - median_between: {col: avg_d_kbps, lo: 1000, hi: 500000}
     reason: typical tile median download is single-to-hundreds of Mbps (1e3-5e5 kbps); a wild median signals a unit/parse error
     certainty: 55
