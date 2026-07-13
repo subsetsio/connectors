@@ -61,6 +61,7 @@ from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponen
 from subsets_utils import (
     NodeSpec,
     get,
+    delete_raw_file,
     save_raw_parquet,
     list_raw_fragments,
 )
@@ -70,7 +71,9 @@ NODE_BUDGET_S = 1200     # ~20 min of fetching per fact node per leg, then check
                          # (returns needs_continuation). Keep this well below the
                          # runner deadline so staged manifest fragments commit
                          # before the deadline watchdog can kill the child.
-PAGE_SIZE = 10000        # smaller payloads avoid long single-response stalls on OTS
+PAGE_SIZE = 30000        # live OTS probes cap $top at 30k even when 40k is requested
+MAX_PAGES_PER_INVOCATION = 300
+PAGE_SIZE_MARKER = f"_page-size-{PAGE_SIZE}"
 
 # ---------------------------------------------------------------------------
 # HTTP: rate-limited GET wrapped in a transient-only retry with backoff.
@@ -111,17 +114,24 @@ def _fetch(url: str, params: dict | None = None) -> dict:
 
 
 def _fetch_all_pages(entity: str, params: dict) -> list[dict]:
-    """Follow the @odata.nextLink chain, returning every row for the query."""
+    """Fetch every row for a query using explicit $skip pagination.
+
+    Some entity sets omit @odata.nextLink even when more than the old 10k
+    default can be fetched, so do not rely on nextLink for completeness.
+    """
     rows: list[dict] = []
-    query = {"$top": PAGE_SIZE}
-    query.update(params)
-    data = _fetch(f"{BASE}/{entity}", query)
-    rows.extend(data.get("value", []))
-    nxt = data.get("@odata.nextLink")
-    while nxt:
-        page = _fetch(nxt)
-        rows.extend(page.get("value", []))
-        nxt = page.get("@odata.nextLink")
+    skip = 0
+    while True:
+        query = {"$top": PAGE_SIZE, "$skip": skip}
+        query.update(params)
+        data = _fetch(f"{BASE}/{entity}", query)
+        page_rows = data.get("value", [])
+        if not page_rows:
+            break
+        rows.extend(page_rows)
+        if len(page_rows) < PAGE_SIZE:
+            break
+        skip += len(page_rows)
     return rows
 
 
@@ -262,14 +272,16 @@ def _run_partitioned(
     after NODE_BUDGET_S and returns True (needs continuation) if work remains,
     else False (this entity is fully drained for now)."""
     periods = sorted(set(periods))
+    _ensure_page_size_manifest(node_id, SCHEMAS[entity])
     done = set(list_raw_fragments(node_id, "parquet").keys())
     worklist = [p for p in reversed(periods)                 # newest-first
                 if f"{_fragment_name(p)}-complete" not in done]
     t0 = time.monotonic()
     processed = 0
+    pages_fetched = 0
     for period in worklist:
         fragment = _fragment_name(period)
-        if _fetch_partition_pages(
+        should_continue, fetched = _fetch_partition_pages(
             node_id,
             entity,
             schema=SCHEMAS[entity],
@@ -277,12 +289,34 @@ def _run_partitioned(
             field=field,
             period=period,
             t0=t0,
-        ):
+            pages_remaining=MAX_PAGES_PER_INVOCATION - pages_fetched,
+        )
+        pages_fetched += fetched
+        if should_continue:
             return True
         processed += 1
         if time.monotonic() - t0 > NODE_BUDGET_S:
             break
+        if pages_fetched >= MAX_PAGES_PER_INVOCATION:
+            break
     return processed < len(worklist)  # True => more periods remain, continue next leg
+
+
+def _ensure_page_size_manifest(node_id: str, schema: pa.Schema) -> None:
+    """One-time migration away from earlier 10k-page fragments.
+
+    Fragment names encode page number but not page size. Mixing old 10k pages
+    with new 30k pages would make `$skip = page_number * PAGE_SIZE` skip data,
+    and stale higher-numbered fragments would remain visible to transforms.
+    Delete the asset manifest once, then commit an empty marker fragment so
+    later continuation legs know the migration already happened.
+    """
+    done = set(list_raw_fragments(node_id, "parquet").keys())
+    if PAGE_SIZE_MARKER in done:
+        return
+    if done:
+        delete_raw_file(node_id, "parquet")
+    save_raw_parquet(pa.Table.from_pylist([], schema=schema), node_id, fragment=PAGE_SIZE_MARKER)
 
 
 def _fetch_partition_pages(
@@ -294,12 +328,17 @@ def _fetch_partition_pages(
     field: str,
     period: int | tuple[int, int],
     t0: float,
-) -> bool:
-    """Fetch one period in page fragments. True means stop and continue later."""
+    pages_remaining: int,
+) -> tuple[bool, int]:
+    """Fetch one period in page fragments.
+
+    Returns (should_continue, pages_fetched). should_continue means stop this
+    node now so the parent process can commit staged fragments and resume later.
+    """
     done = set(list_raw_fragments(node_id, "parquet").keys())
     complete_fragment = f"{base_fragment}-complete"
     if complete_fragment in done:
-        return False
+        return False, 0
 
     page_prefix = f"{base_fragment}-page-"
     page_numbers = [
@@ -308,10 +347,13 @@ def _fetch_partition_pages(
         if name.startswith(page_prefix) and name.rsplit("-", 1)[-1].isdigit()
     ]
     page_number = max(page_numbers, default=-1) + 1
+    fetched = 0
 
     while True:
         if time.monotonic() - t0 > NODE_BUDGET_S:
-            return True
+            return True, fetched
+        if fetched >= pages_remaining:
+            return True, fetched
         if isinstance(period, tuple):
             month_id, flow_type_id = period
             filters = f"{field} eq {month_id} and FlowTypeId eq {flow_type_id}"
@@ -324,16 +366,17 @@ def _fetch_partition_pages(
         }).get("value", [])
         if not rows:
             save_raw_parquet(pa.Table.from_pylist([], schema=schema), node_id, fragment=complete_fragment)
-            return False
+            return False, fetched
         page_fragment = f"{page_prefix}{page_number:05d}"
         table = pa.Table.from_pylist(rows, schema=schema)    # 0 rows => empty period marked done
         save_raw_parquet(table, node_id, fragment=page_fragment)
         page_number += 1
+        fetched += 1
         if len(rows) < PAGE_SIZE:
             save_raw_parquet(pa.Table.from_pylist([], schema=schema), node_id, fragment=complete_fragment)
-            return False
+            return False, fetched
         if time.monotonic() - t0 > NODE_BUDGET_S:
-            return True
+            return True, fetched
 
 
 def _fragment_name(period: int | tuple[int, int]) -> str:
