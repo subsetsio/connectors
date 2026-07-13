@@ -1,0 +1,19 @@
+spec_id: stack-overflow-annual-developer-survey-schema-codebook
+status: active
+tests:
+  - not_null: survey_year
+    reason: every codebook row is attached to the survey release year it documents
+    certainty: 95
+  - not_null: column_name
+    reason: codebook must identify the response-table column it describes
+    certainty: 95
+  - not_null: question_text
+    reason: codebook rows are useful only when the survey question text is present
+    certainty: 90
+  - row_count: {min: 300}
+    reason: stacked codebook should cover hundreds of questions across the 2016+ releases
+    certainty: 85
+  - freshness: {col: survey_year, reaches: 2025}
+    reason: the latest archived result/codebook should be the prior annual survey while the current survey is still being fielded
+    certainty: 80
+    points_outward: true

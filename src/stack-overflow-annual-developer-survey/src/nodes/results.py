@@ -19,7 +19,7 @@ and never fights per-year type drift; downstream consumers cast as needed.
 """
 import re
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 from utils import RAW_BASE, fetch_bytes, read_csv
 
@@ -88,18 +88,7 @@ def fetch_results(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
-DOWNLOAD_SPECS = [
+_RESULTS_DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-results-{year}", fn=fetch_results, kind="download")
     for year in RESULTS_YEARS
-]
-
-
-def _results_sql(asset_id: str) -> str:
-    # Thin passthrough: all columns are already Delta-safe strings.
-    return f'SELECT * FROM "{asset_id}"'
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_results_sql(s.id))
-    for s in DOWNLOAD_SPECS
 ]

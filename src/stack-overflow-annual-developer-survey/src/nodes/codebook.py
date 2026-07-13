@@ -8,7 +8,7 @@ columns before concatenation. Joinable to the results tables by
 """
 import httpx
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 from utils import RAW_BASE, fetch_bytes, read_csv
 
@@ -64,24 +64,6 @@ def fetch_codebook(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
-DOWNLOAD_SPECS = [
+_CODEBOOK_DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-schema-codebook", fn=fetch_codebook, kind="download"),
-]
-
-
-_CODEBOOK_SQL = f'''
-    SELECT
-        CAST(survey_year AS INTEGER) AS survey_year,
-        column_name,
-        question_text
-    FROM "{SLUG}-schema-codebook"
-    WHERE column_name IS NOT NULL
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-schema-codebook-transform",
-        deps=[f"{SLUG}-schema-codebook"],
-        sql=_CODEBOOK_SQL,
-    ),
 ]

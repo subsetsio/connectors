@@ -1,0 +1,9 @@
+spec_id: stack-overflow-annual-developer-survey-results-2021
+status: active
+coverage:
+  frozen: true
+  reason: released annual survey response file is an immutable historical snapshot
+tests:
+  - row_count: {min: 1000}
+    reason: public annual developer survey response file should contain respondent-scale microdata
+    certainty: 90
