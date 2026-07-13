@@ -24,8 +24,70 @@ from subsets_utils import (
 )
 
 _CHUNK_SIZE = 1 << 20
-_FIRST_FULLDATA_YEAR = 1957
 _FULLDATA_MAX_AGE_DAYS = 370
+_FULLDATA_YEARS = (
+    1957,
+    1961,
+    1962,
+    1963,
+    1968,
+    1969,
+    1970,
+    1973,
+    1974,
+    1975,
+    1976,
+    1977,
+    1978,
+    1979,
+    1980,
+    1981,
+    1982,
+    1983,
+    1984,
+    1985,
+    1986,
+    1987,
+    1988,
+    1989,
+    1990,
+    1991,
+    1992,
+    1993,
+    1994,
+    1995,
+    1996,
+    1997,
+    1998,
+    1999,
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+)
 _NCEI_GRID_BASE = (
     "https://www.ncei.noaa.gov/data/oceans/ncei/ocads/data/0315110/"
     "SOCATv2026_Gridded_Data"
@@ -71,13 +133,12 @@ def _fetch_fulldata_by_year(node_id: str) -> None:
     incomplete chunked reads. Year fragments keep each response bounded while
     preserving one logical raw asset through the raw manifest.
     """
-    current_year = datetime.now(timezone.utc).year
     done_this_run = {
         fragment
         for fragment, meta in list_raw_fragments(node_id, "csv.gz").items()
         if meta.get("run_id") == os.environ.get("RUN_ID", "unknown")
     }
-    for year in range(_FIRST_FULLDATA_YEAR, current_year + 1):
+    for year in _FULLDATA_YEARS:
         fragment = str(year)
         if fragment in done_this_run:
             continue
@@ -90,6 +151,10 @@ def _fetch_fulldata_by_year(node_id: str) -> None:
         url = f"{_URLS[node_id]}?{constraint}"
         client = get_client()
         with client.stream("GET", url, timeout=(10.0, 900.0)) as response:
+            if response.status_code == 404:
+                body = response.read().decode("utf-8", errors="replace")
+                if "nRows = 0" in body:
+                    continue
             response.raise_for_status()
             with raw_writer(
                 node_id,
@@ -149,8 +214,7 @@ def _fulldata_fragments_fresh(asset_id: str) -> bool:
     if not fragments:
         return False
 
-    current_year = datetime.now(timezone.utc).year
-    expected = {str(year) for year in range(_FIRST_FULLDATA_YEAR, current_year + 1)}
+    expected = {str(year) for year in _FULLDATA_YEARS}
     if not expected.issubset(fragments):
         return False
 
