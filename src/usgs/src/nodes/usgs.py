@@ -19,7 +19,7 @@ from datetime import datetime, timedelta, timezone
 
 import httpx
 
-from subsets_utils import NodeSpec, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists, raw_writer
 from utils import MAX_PAGES, get_json, get_text
 
 WATER_BASE = "https://api.waterdata.usgs.gov/ogcapi/v0"
@@ -71,10 +71,47 @@ FDSN_LIST_ENDPOINTS = {
 PAGE_LIMIT = 5000
 
 # Nationally unbounded high-frequency collections are fetched as recent rolling
-# windows. The latest-* collections are already live-edge snapshots.
+# windows. The latest-* collections are already live-edge snapshots. Continuous
+# is especially throttle-prone at national scale, so keep it to a compact live
+# sample instead of a full-day crawl.
 WINDOW_DAYS = {
-    "continuous": 1,
+    "continuous": 0.125,
     "daily": 14,
+}
+
+ROLLING_ENTITY_IDS = {
+    "continuous",
+    "daily",
+    "latest-continuous",
+    "latest-daily",
+    "latest-field-measurements",
+}
+
+REFERENCE_ENTITY_IDS = {
+    "agency-codes",
+    "altitude-datums",
+    "aquifer-codes",
+    "aquifer-types",
+    "citations",
+    "coordinate-accuracy-codes",
+    "coordinate-datum-codes",
+    "coordinate-method-codes",
+    "counties",
+    "countries",
+    "hydrologic-unit-codes",
+    "medium-codes",
+    "method-categories",
+    "method-citations",
+    "methods",
+    "national-aquifer-codes",
+    "parameter-codes",
+    "reliability-codes",
+    "site-types",
+    "states",
+    "statistic-codes",
+    "time-zone-codes",
+    "topographic-codes",
+    *FDSN_LIST_ENDPOINTS,
 }
 
 EQ_SOURCE_MIN = "1900-01-01T00:00:00Z"
@@ -239,4 +276,57 @@ DOWNLOAD_SPECS = [
     *(NodeSpec(id=f"usgs-{entity_id}", fn=fetch_water, kind="download") for entity_id in WATER_ENTITY_IDS),
     *(NodeSpec(id=f"usgs-{entity_id}", fn=fetch_fdsn_list, kind="download") for entity_id in FDSN_LIST_ENDPOINTS),
     NodeSpec(id="usgs-earthquakes", fn=fetch_earthquakes, kind="download"),
+]
+
+MAINTAIN_SPECS = [
+    *(
+        MaintainSpec(
+            asset_id=f"usgs-{entity_id}",
+            description=(
+                "Fresh for one day via raw manifest age; USGS Water Data OGC "
+                "live/rolling collections update continuously or daily "
+                "(https://api.waterdata.usgs.gov/ogcapi/v0)."
+            ),
+            check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=1),
+        )
+        for entity_id in sorted(ROLLING_ENTITY_IDS)
+    ),
+    *(
+        MaintainSpec(
+            asset_id=f"usgs-{entity_id}",
+            description=(
+                "Fresh for 30 days via raw manifest age; USGS Water Data/FDSN "
+                "reference metadata changes infrequently "
+                "(https://api.waterdata.usgs.gov/ogcapi/v0, "
+                "https://earthquake.usgs.gov/fdsnws/event/1)."
+            ),
+            check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=30),
+        )
+        for entity_id in sorted(REFERENCE_ENTITY_IDS)
+    ),
+    *(
+        MaintainSpec(
+            asset_id=f"usgs-{entity_id}",
+            description=(
+                "Fresh for seven days via raw manifest age; USGS Water Data "
+                "large observational collections are refreshed on the connector "
+                "weekly cadence (https://api.waterdata.usgs.gov/ogcapi/v0)."
+            ),
+            check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+        )
+        for entity_id in sorted(
+            set(WATER_ENTITY_IDS)
+            - ROLLING_ENTITY_IDS
+            - REFERENCE_ENTITY_IDS
+        )
+    ),
+    MaintainSpec(
+        asset_id="usgs-earthquakes",
+        description=(
+            "Fresh for seven days via raw manifest age; USGS FDSN ComCat is "
+            "queried on the connector weekly cadence "
+            "(https://earthquake.usgs.gov/fdsnws/event/1)."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+    ),
 ]

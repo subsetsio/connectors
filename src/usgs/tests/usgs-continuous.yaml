@@ -1,7 +1,7 @@
 spec_id: usgs-continuous
-# Continuous (15-minute) sensor readings, published as a recent rolling window
-# (WINDOW_DAYS=1) because the national corpus is unbounded (~5.2M rows/day).
-# Raw is stringified NDJSON.
+# Continuous (15-minute) sensor readings, published as a compact recent rolling
+# window (WINDOW_DAYS=0.125, three hours) because the national corpus is
+# unbounded and the OGC API throttles long crawls. Raw is stringified NDJSON.
 status: active
 tests:
   - not_null: time_series_id
@@ -25,7 +25,7 @@ tests:
     certainty: 80
     severity: warn
   - freshness: {col: time, reaches: today - 3d}
-    reason: a 1-day window pinned to run time should always reach within days of today; staler means the source lagged.
+    reason: a recent rolling window pinned to run time should always reach within days of today; staler means the source lagged.
     certainty: 70
     points_outward: true
     severity: warn
