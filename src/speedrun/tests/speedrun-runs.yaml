@@ -13,8 +13,8 @@ tests:
   - not_null: status
     reason: run verification state is part of the source record
     certainty: 95
-  - row_count: {min: 10000}
-    reason: the newest-run window should reach the API's documented practical offset ceiling; fewer rows means pagination broke early
+  - row_count: {min: 9900}
+    reason: the newest-run window should reach the API's documented practical offset ceiling after de-duplicating live pagination drift
     certainty: 90
   - unique: id
     reason: each run id should appear once in the newest-run window

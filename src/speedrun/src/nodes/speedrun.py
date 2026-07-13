@@ -100,6 +100,7 @@ def _iter_resource(entity: str) -> Iterator[dict]:
     url = BASE_URL + config["path"]
     params = dict(config["params"])
     page = 0
+    seen_ids: set[str] = set()
 
     while url:
         payload = _fetch_page(url, params)
@@ -113,6 +114,11 @@ def _iter_resource(entity: str) -> Iterator[dict]:
         for row in rows:
             if not isinstance(row, dict):
                 raise RuntimeError(f"{entity}: non-object row {row!r}")
+            row_id = row.get("id")
+            if entity == "runs" and isinstance(row_id, str):
+                if row_id in seen_ids:
+                    continue
+                seen_ids.add(row_id)
             out = dict(row)
             out["_fetched_at"] = fetched_at
             out["_resource"] = entity
@@ -170,6 +176,11 @@ def _iter_game_child_resource(entity: str) -> Iterator[dict]:
             if not isinstance(row, dict):
                 raise RuntimeError(f"{entity}: non-object row {row!r}")
             out = dict(row)
+            if entity == "variables":
+                values = out.get("values")
+                value_map = values.get("values") if isinstance(values, dict) else None
+                out["values_count"] = len(value_map) if isinstance(value_map, dict) else 0
+                out["values"] = json.dumps(values, sort_keys=True, separators=(",", ":"))
             out["_fetched_at"] = fetched_at
             out["_resource"] = entity
             out["_game"] = game_id
