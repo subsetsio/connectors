@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-platforms`. Regenerate after model-verify.
+key: [name]
+temporal: fetched_at
+sort: [fetched_at, name]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: released
+    type: BIGINT
+  - name: links
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)[]"
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: page
+    type: BIGINT

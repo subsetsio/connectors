@@ -16,4 +16,6 @@ tests:
   - unique: id
     reason: each game id should appear once in the bulk catalog
     certainty: 95
-
+  - freshness: {col: _fetched_at, reaches: today - 7d}
+    reason: _fetched_at is stamped during download; a stale max means the raw asset was not refreshed
+    points_outward: false

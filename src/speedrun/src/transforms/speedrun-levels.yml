@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-levels`. Regenerate after model-verify.
+# caution: Levels are scoped to games; level names are not globally unique across games.
+key: [id]
+temporal: fetched_at
+sort: [fetched_at, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: weblink
+    type: VARCHAR
+  - name: rules
+    type: VARCHAR
+  - name: links
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)[]"
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: game
+    type: VARCHAR
+  - name: game_abbreviation
+    type: VARCHAR

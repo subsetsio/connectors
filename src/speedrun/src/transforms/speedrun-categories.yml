@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-categories`. Regenerate after model-verify.
+# caution: Categories are scoped to games; category names such as Any% are not globally unique across games.
+key: [weblink]
+temporal: fetched_at
+sort: [fetched_at, weblink]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: weblink
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: rules
+    type: VARCHAR
+  - name: players
+    type: "STRUCT(\"type\" VARCHAR, \"value\" BIGINT)"
+  - name: miscellaneous
+    type: BOOLEAN
+  - name: links
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)[]"
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: game
+    type: VARCHAR
+  - name: game_abbreviation
+    type: VARCHAR

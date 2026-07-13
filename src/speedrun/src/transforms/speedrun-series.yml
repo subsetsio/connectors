@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-series`. Regenerate after model-verify.
+# caution: Series abbreviations are source slugs used as identifiers in this snapshot; display names can differ from abbreviations.
+key: [abbreviation]
+temporal: fetched_at
+sort: [fetched_at, abbreviation]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: names
+    type: "STRUCT(international VARCHAR, japanese JSON)"
+  - name: abbreviation
+    type: VARCHAR
+  - name: weblink
+    type: VARCHAR
+  - name: discord
+    type: VARCHAR
+  - name: moderators
+    type: "MAP(VARCHAR, VARCHAR)"
+  - name: created
+    type: TIMESTAMP
+  - name: assets
+    type: "STRUCT(logo STRUCT(uri VARCHAR), \"cover-tiny\" STRUCT(uri VARCHAR), \"cover-small\" STRUCT(uri VARCHAR), \"cover-medium\" STRUCT(uri VARCHAR), \"cover-large\" STRUCT(uri VARCHAR), icon STRUCT(uri VARCHAR), \"trophy-1st\" STRUCT(uri VARCHAR), \"trophy-2nd\" STRUCT(uri VARCHAR), \"trophy-3rd\" STRUCT(uri VARCHAR), \"trophy-4th\" STRUCT(uri VARCHAR), background STRUCT(uri VARCHAR), foreground STRUCT(uri VARCHAR))"
+  - name: links
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)[]"
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: page
+    type: BIGINT

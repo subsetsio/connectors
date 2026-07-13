@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-variables`. Regenerate after model-verify.
+# caution: Variables are scoped to games and sometimes categories; variable and value labels are not globally unique without their game context.
+key: [links_json]
+temporal: fetched_at
+sort: [fetched_at, links_json]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: scope_json
+    type: VARCHAR
+  - name: mandatory
+    type: BOOLEAN
+  - name: user_defined
+    type: BOOLEAN
+  - name: obsoletes
+    type: BOOLEAN
+  - name: values_count
+    type: BIGINT
+  - name: values_json
+    type: VARCHAR
+  - name: links_json
+    type: VARCHAR
+  - name: fetched_at
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: resource
+    type: VARCHAR
+  - name: game
+    type: VARCHAR
+  - name: game_abbreviation
+    type: VARCHAR

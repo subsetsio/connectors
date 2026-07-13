@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-games`. Regenerate after model-verify.
+key: [id]
+temporal: fetched_at
+sort: [fetched_at, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: names
+    type: "STRUCT(international VARCHAR, japanese JSON)"
+  - name: abbreviation
+    type: VARCHAR
+  - name: weblink
+    type: VARCHAR
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: page
+    type: BIGINT

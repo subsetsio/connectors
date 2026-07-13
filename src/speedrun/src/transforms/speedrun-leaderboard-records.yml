@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-leaderboard-records`. Regenerate after model-verify.
+# caution: This is a leaderboard snapshot by game/category/level, not the full run submission history; use speedrun-runs for individual submission analysis.
+key: [weblink]
+temporal: fetched_at
+sort: [fetched_at, weblink]
+columns:
+  - name: weblink
+    type: VARCHAR
+  - name: game
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: platform
+    type: JSON
+  - name: region
+    type: JSON
+  - name: emulators
+    type: JSON
+  - name: video_only
+    type: BOOLEAN
+  - name: timing
+    type: JSON
+  - name: values
+    type: "MAP(VARCHAR, JSON)"
+  - name: runs
+    type: "STRUCT(place BIGINT, run STRUCT(id VARCHAR, weblink VARCHAR, game VARCHAR, \"level\" VARCHAR, category VARCHAR, videos STRUCT(links STRUCT(uri VARCHAR)[], \"text\" VARCHAR), \"comment\" VARCHAR, status STRUCT(status VARCHAR, examiner VARCHAR, \"verify-date\" TIMESTAMP), players STRUCT(rel VARCHAR, id VARCHAR, uri VARCHAR, \"name\" VARCHAR)[], date DATE, submitted TIMESTAMP, times STRUCT(\"primary\" VARCHAR, primary_t DOUBLE, realtime VARCHAR, realtime_t DOUBLE, realtime_noloads VARCHAR, realtime_noloads_t DOUBLE, ingame VARCHAR, ingame_t DOUBLE), \"system\" STRUCT(platform VARCHAR, emulated BOOLEAN, region VARCHAR), splits STRUCT(rel VARCHAR, uri VARCHAR), \"values\" MAP(VARCHAR, VARCHAR)))[]"
+  - name: links
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)[]"
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: game_2
+    type: VARCHAR
+  - name: game_abbreviation
+    type: VARCHAR

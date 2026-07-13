@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `speedrun-runs`. Regenerate after model-verify.
+# caution: Rows are individual run submissions and may reference players, platforms, regions, categories, levels, and variables through source identifiers or embedded JSON fields.
+key: [id]
+temporal: date
+sort: [date, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: weblink
+    type: VARCHAR
+  - name: game
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: videos
+    type: "STRUCT(links STRUCT(uri VARCHAR)[], \"text\" VARCHAR)"
+  - name: comment
+    type: VARCHAR
+  - name: status
+    type: "STRUCT(status VARCHAR, examiner VARCHAR, \"verify-date\" TIMESTAMP, reason VARCHAR)"
+  - name: players
+    type: "STRUCT(rel VARCHAR, id VARCHAR, uri VARCHAR, \"name\" VARCHAR)[]"
+  - name: date
+    type: DATE
+  - name: submitted
+    type: TIMESTAMP
+  - name: times
+    type: "STRUCT(\"primary\" VARCHAR, primary_t DOUBLE, realtime VARCHAR, realtime_t DOUBLE, realtime_noloads VARCHAR, realtime_noloads_t DOUBLE, ingame VARCHAR, ingame_t DOUBLE)"
+  - name: system
+    type: "STRUCT(platform VARCHAR, emulated BOOLEAN, region VARCHAR)"
+  - name: splits
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)"
+  - name: values
+    type: "MAP(VARCHAR, VARCHAR)"
+  - name: links
+    type: "STRUCT(rel VARCHAR, uri VARCHAR)[]"
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: resource
+    type: VARCHAR
+  - name: page
+    type: BIGINT
