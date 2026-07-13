@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-kosningar-althingi-althkjosendur-kos02101`. Regenerate after model-verify.
+key: [municipality, year, sex, category]
+temporal: source_updated
+sort: [source_updated, municipality, year, sex, category]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: municipality
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR

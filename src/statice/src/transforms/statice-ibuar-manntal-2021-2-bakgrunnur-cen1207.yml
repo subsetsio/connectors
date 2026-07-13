@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-manntal-2021-2-bakgrunnur-cen1207`. Regenerate after model-verify.
+key: [citizenship, age_group, sex, year]
+temporal: source_updated
+sort: [source_updated, citizenship, age_group, sex, year]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: citizenship
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR

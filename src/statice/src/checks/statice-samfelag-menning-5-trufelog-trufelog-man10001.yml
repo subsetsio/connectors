@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-samfelag-menning-5-trufelog-trufelog-man10001`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [religious, obs_time, year, division]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [religious, obs_time, year, division]
+  - kind: not_null
+    col: religious
+  - kind: not_null
+    col: obs_time
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: division
+  - kind: row_floor
+    min: 6432
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

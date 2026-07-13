@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-ibuar-manntal-2021-3-menntun-cen1311`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age_group, educational_attainment, background, sex, year]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [age_group, educational_attainment, background, sex, year]
+  - kind: not_null
+    col: age_group
+  - kind: not_null
+    col: educational_attainment
+  - kind: not_null
+    col: background
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 278
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

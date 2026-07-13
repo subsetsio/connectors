@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-efnahagur-visitolur-1-vnv-4-eldraefni-vis01304`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [subindex, obs_time, month]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [subindex, obs_time, month]
+  - kind: not_null
+    col: subindex
+  - kind: not_null
+    col: obs_time
+  - kind: not_null
+    col: month
+  - kind: row_floor
+    min: 27764
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

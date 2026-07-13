@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-vinnumarkadur-vinnumarkadsrannsokn-3-arstolur-vin01105`. Regenerate after model-verify.
+key: [economic_activity_main_and_second_job, year, sex_og_region, unit]
+temporal: source_updated
+sort: [source_updated, economic_activity_main_and_second_job, year, sex_og_region, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: sex_og_region
+    type: VARCHAR
+  - name: economic_activity_main_and_second_job
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

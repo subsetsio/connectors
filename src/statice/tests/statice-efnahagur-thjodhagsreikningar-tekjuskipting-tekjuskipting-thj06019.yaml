@@ -1,2 +1,4 @@
 spec_id: statice-efnahagur-thjodhagsreikningar-tekjuskipting-tekjuskipting-thj06019
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

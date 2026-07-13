@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-samfelag-lifskjor-5-skuldastada-heimili-1-skuldir-eignir-thj09010`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, family_type_age_and_residence, debt_ratio_of_disposable_income]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [year, family_type_age_and_residence, debt_ratio_of_disposable_income]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: family_type_age_and_residence
+  - kind: not_null
+    col: debt_ratio_of_disposable_income
+  - kind: row_floor
+    min: 952
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

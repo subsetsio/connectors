@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-ibuar-manntal-2021-5-fjolskyldan-cen1508`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age, background, child_in_family, sex, year]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [age, background, child_in_family, sex, year]
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: background
+  - kind: not_null
+    col: child_in_family
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 1197
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

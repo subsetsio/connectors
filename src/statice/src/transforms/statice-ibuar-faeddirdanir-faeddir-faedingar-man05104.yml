@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-faeddirdanir-faeddir-faedingar-man05104`. Regenerate after model-verify.
+key: [obs_time, year, order, marcial_status]
+temporal: source_updated
+sort: [source_updated, obs_time, year, order, marcial_status]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: marcial_status
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: order
+    type: VARCHAR

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-thjodhagsreikningar-ferdathjonustureikningar-ferdathjonustureikningar-sam08006`. Regenerate after model-verify.
+key: [obs_time, year, mode_of_transport]
+temporal: source_updated
+sort: [source_updated, obs_time, year, mode_of_transport]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: mode_of_transport
+    type: VARCHAR
+  - name: year
+    type: BIGINT

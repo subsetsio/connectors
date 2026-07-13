@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-menning-5-trufelog-trufelog-man10001`. Regenerate after model-verify.
+key: [religious, obs_time, year, division]
+temporal: source_updated
+sort: [source_updated, religious, obs_time, year, division]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: religious
+    type: VARCHAR
+  - name: division
+    type: VARCHAR

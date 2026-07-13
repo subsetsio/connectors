@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-vinnumarkadur-vinnumarkadsrannsokn-2-arsfjordungstolur-vin01511`. Regenerate after model-verify.
+key: [obs_time, quarter, reasons, sex, unit]
+temporal: source_updated
+sort: [source_updated, obs_time, quarter, reasons, sex, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: reasons
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR

@@ -1,2 +1,4 @@
 spec_id: statice-ibuar-manntal-2021-2-bakgrunnur-cen1206
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

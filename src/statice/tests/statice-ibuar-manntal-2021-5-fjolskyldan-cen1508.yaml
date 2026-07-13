@@ -1,2 +1,4 @@
 spec_id: statice-ibuar-manntal-2021-5-fjolskyldan-cen1508
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

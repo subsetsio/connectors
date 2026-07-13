@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-utanrikisverslun-1-voruvidskipti-01-voruskipti-uta06102`. Regenerate after model-verify.
+key: [country, obs_time, month, branches, unit]
+temporal: source_updated
+sort: [source_updated, country, obs_time, month, branches, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: VARCHAR
+  - name: branches
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR

@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-launogtekjur-1-laun-1-laun-vin02002
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-ibuar-kosningar-althingi-althkjornir-kos02052`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [political_organisation, year, age, sex]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [political_organisation, year, age, sex]
+  - kind: not_null
+    col: political_organisation
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 519
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

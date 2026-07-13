@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-atvinnuvegir-landbunadur-landbhagreikn-rekstrarogefnahagsyfirlit-lan05005`. Regenerate after model-verify.
+key: [account_heading, obs_time, year, region]
+temporal: source_updated
+sort: [source_updated, account_heading, obs_time, year, region]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: account_heading
+    type: VARCHAR
+  - name: year
+    type: BIGINT

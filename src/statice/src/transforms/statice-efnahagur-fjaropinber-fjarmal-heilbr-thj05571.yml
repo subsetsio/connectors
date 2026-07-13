@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-fjaropinber-fjarmal-heilbr-thj05571`. Regenerate after model-verify.
+key: [obs_time, year, health_care_providers_hp, unit]
+temporal: source_updated
+sort: [source_updated, obs_time, year, health_care_providers_hp, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: health_care_providers_hp
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: year
+    type: BIGINT

@@ -1,2 +1,4 @@
 spec_id: statice-ibuar-buferlaflutningar-buferlaflmillilanda-man01405
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

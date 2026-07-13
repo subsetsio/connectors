@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-felagsmal-felagsthjonusta-sveitarfelaga-1-fjarhagursvf-hei09102`. Regenerate after model-verify.
+key: [obs_time, year, family_type, age_group, region]
+temporal: source_updated
+sort: [source_updated, obs_time, year, family_type, age_group, region]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: family_type
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-manntal-2021-6-tekjurheimila-cen1607`. Regenerate after model-verify.
+key: [statistical_output_area, tenure_status, year]
+temporal: source_updated
+sort: [source_updated, statistical_output_area, tenure_status, year]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: statistical_output_area
+    type: VARCHAR
+  - name: tenure_status
+    type: VARCHAR
+  - name: year
+    type: BIGINT

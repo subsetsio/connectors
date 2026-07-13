@@ -1,2 +1,4 @@
 spec_id: statice-efnahagur-fjaropinber-fjarmal-fraedsla-1-utgjold-fraedsla-thj05611
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

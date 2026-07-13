@@ -1,2 +1,4 @@
 spec_id: statice-ibuar-manntal-2021-6-tekjurheimila-cen1613
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

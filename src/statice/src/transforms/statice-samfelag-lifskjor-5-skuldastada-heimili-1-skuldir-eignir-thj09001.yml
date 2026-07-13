@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-lifskjor-5-skuldastada-heimili-1-skuldir-eignir-thj09001`. Regenerate after model-verify.
+key: [obs_time, year, family_type_age_and_residence, income_and_expenses]
+temporal: source_updated
+sort: [source_updated, obs_time, year, family_type_age_and_residence, income_and_expenses]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: family_type_age_and_residence
+    type: VARCHAR
+  - name: income_and_expenses
+    type: VARCHAR

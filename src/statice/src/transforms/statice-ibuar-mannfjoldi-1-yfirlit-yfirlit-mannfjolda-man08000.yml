@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-mannfjoldi-1-yfirlit-yfirlit-mannfjolda-man08000`. Regenerate after model-verify.
+key: [year, age, sex]
+temporal: source_updated
+sort: [source_updated, year, age, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: year
+    type: BIGINT

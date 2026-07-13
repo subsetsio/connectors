@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-skolamal-2-grunnskolastig-1-gsstarfsfolk-sko02305
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

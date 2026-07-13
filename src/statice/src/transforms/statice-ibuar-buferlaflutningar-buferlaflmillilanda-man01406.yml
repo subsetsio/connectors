@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-buferlaflutningar-buferlaflmillilanda-man01406`. Regenerate after model-verify.
+key: [citizenship, obs_time, year, sex, migration]
+temporal: source_updated
+sort: [source_updated, citizenship, obs_time, year, sex, migration]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: citizenship
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: migration
+    type: VARCHAR

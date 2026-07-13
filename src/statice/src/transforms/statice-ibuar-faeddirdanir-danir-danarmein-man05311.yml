@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-faeddirdanir-danir-danarmein-man05311`. Regenerate after model-verify.
+key: [year, cause_of_deaths, sex, unit]
+temporal: source_updated
+sort: [source_updated, year, cause_of_deaths, sex, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: unit
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: cause_of_deaths
+    type: VARCHAR
+  - name: year
+    type: VARCHAR

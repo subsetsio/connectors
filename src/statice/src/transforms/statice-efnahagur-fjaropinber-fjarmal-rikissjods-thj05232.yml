@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-fjaropinber-fjarmal-rikissjods-thj05232`. Regenerate after model-verify.
+key: [category, obs_time, year, unit]
+temporal: source_updated
+sort: [source_updated, category, obs_time, year, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: unit
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: year
+    type: BIGINT

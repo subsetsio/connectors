@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-mannfjoldi-3-bakgrunnur-vernd-dvalarleyfi-man44002`. Regenerate after model-verify.
+key: [obs_time, year, age, type, sex]
+temporal: source_updated
+sort: [source_updated, obs_time, year, age, type, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: age
+    type: VARCHAR

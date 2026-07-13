@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-thjodhagsreikningar-fjarmunamyndun-fjarmunaeign-fjarmunamyndun-thj03105`. Regenerate after model-verify.
+key: [activity, obs_time, year, value_unit]
+temporal: source_updated
+sort: [source_updated, activity, obs_time, year, value_unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: value_unit
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: year
+    type: BIGINT

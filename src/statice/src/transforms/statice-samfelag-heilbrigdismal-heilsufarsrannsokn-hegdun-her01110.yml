@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-heilbrigdismal-heilsufarsrannsokn-hegdun-her01110`. Regenerate after model-verify.
+key: [variables, frequency, sex, unit]
+temporal: source_updated
+sort: [source_updated, variables, frequency, sex, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: sex
+    type: VARCHAR
+  - name: variables
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR

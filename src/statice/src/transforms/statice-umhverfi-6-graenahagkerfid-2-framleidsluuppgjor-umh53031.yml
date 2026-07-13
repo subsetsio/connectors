@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-umhverfi-6-graenahagkerfid-2-framleidsluuppgjor-umh53031`. Regenerate after model-verify.
+key: [economic_activity, product_and_service_classification, obs_time, year]
+temporal: source_updated
+sort: [source_updated, economic_activity, product_and_service_classification, obs_time, year]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: economic_activity
+    type: VARCHAR
+  - name: product_and_service_classification
+    type: VARCHAR
+  - name: year
+    type: BIGINT

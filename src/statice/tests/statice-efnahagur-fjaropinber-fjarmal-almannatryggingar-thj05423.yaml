@@ -1,2 +1,4 @@
 spec_id: statice-efnahagur-fjaropinber-fjarmal-almannatryggingar-thj05423
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

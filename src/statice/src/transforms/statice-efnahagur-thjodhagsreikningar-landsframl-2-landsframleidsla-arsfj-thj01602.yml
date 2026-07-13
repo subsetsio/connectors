@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-thjodhagsreikningar-landsframl-2-landsframleidsla-arsfj-thj01602`. Regenerate after model-verify.
+key: [obs_time, quarter, trade_in_services, category]
+temporal: source_updated
+sort: [source_updated, obs_time, quarter, trade_in_services, category]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: trade_in_services
+    type: VARCHAR
+  - name: category
+    type: VARCHAR

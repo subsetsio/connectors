@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-lifskjor-5-skuldastada-heimili-1-skuldir-eignir-thj09002
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

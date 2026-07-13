@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-samfelag-heilbrigdismal-heilsufarsrannsokn-hegdun-her01110`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [variables, frequency, sex, unit]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [variables, frequency, sex, unit]
+  - kind: not_null
+    col: variables
+  - kind: not_null
+    col: frequency
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 160
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

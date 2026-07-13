@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-mannfjoldi-2-byggdir-byggdakjarnar-man030106`. Regenerate after model-verify.
+key: [age, localities, obs_time, year, sex]
+temporal: source_updated
+sort: [source_updated, age, localities, obs_time, year, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: localities
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR

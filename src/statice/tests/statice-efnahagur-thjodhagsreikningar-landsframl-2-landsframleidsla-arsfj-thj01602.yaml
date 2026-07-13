@@ -1,2 +1,4 @@
 spec_id: statice-efnahagur-thjodhagsreikningar-landsframl-2-landsframleidsla-arsfj-thj01602
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

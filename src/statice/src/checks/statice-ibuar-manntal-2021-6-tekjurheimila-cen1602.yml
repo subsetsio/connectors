@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-ibuar-manntal-2021-6-tekjurheimila-cen1602`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [municipality, income_quintile, unit, year]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [municipality, income_quintile, unit, year]
+  - kind: not_null
+    col: municipality
+  - kind: not_null
+    col: income_quintile
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 1005
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

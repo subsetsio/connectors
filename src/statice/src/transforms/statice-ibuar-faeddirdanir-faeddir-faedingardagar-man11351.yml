@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-faeddirdanir-faeddir-faedingardagar-man11351`. Regenerate after model-verify.
+key: [birth_year, day, month]
+temporal: source_updated
+sort: [source_updated, birth_year, day, month]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: birth_year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: day
+    type: BIGINT

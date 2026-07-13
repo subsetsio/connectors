@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-manntal-1-yfirlit-cen9905`. Regenerate after model-verify.
+key: [relationship, year]
+temporal: source_updated
+sort: [source_updated, relationship, year]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: relationship
+    type: VARCHAR
+  - name: year
+    type: BIGINT

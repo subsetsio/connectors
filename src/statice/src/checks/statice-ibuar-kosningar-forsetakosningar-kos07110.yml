@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-ibuar-kosningar-forsetakosningar-kos07110`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [candidates_and_year_of_election, constituency, valid_votes]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [candidates_and_year_of_election, constituency, valid_votes]
+  - kind: not_null
+    col: candidates_and_year_of_election
+  - kind: not_null
+    col: constituency
+  - kind: not_null
+    col: valid_votes
+  - kind: row_floor
+    min: 259
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

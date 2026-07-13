@@ -1,2 +1,4 @@
 spec_id: statice-atvinnuvegir-landbunadur-landbhagreikn-rekstrarogefnahagsyfirlit-lan05005
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

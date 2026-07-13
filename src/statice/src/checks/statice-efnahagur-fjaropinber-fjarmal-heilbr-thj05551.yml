@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-efnahagur-fjaropinber-fjarmal-heilbr-thj05551`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [health_care_function_hc, obs_time, year, financing_schemes_hf, unit]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [health_care_function_hc, obs_time, year, financing_schemes_hf, unit]
+  - kind: not_null
+    col: health_care_function_hc
+  - kind: not_null
+    col: obs_time
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: financing_schemes_hf
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 3800
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

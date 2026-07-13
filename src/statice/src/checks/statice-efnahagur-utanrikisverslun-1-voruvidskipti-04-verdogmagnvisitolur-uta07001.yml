@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-efnahagur-utanrikisverslun-1-voruvidskipti-04-verdogmagnvisitolur-uta07001`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_time, quarter, products, index]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [obs_time, quarter, products, index]
+  - kind: not_null
+    col: obs_time
+  - kind: not_null
+    col: quarter
+  - kind: not_null
+    col: products
+  - kind: not_null
+    col: index
+  - kind: row_floor
+    min: 1848
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

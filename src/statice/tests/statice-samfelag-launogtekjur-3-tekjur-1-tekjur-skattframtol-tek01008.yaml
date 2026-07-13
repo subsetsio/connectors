@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-launogtekjur-3-tekjur-1-tekjur-skattframtol-tek01008
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-menning-5-trufelog-trufelog-man10289
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

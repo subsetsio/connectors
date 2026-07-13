@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-thjodhagsreikningar-fjarmalareikningar-fjarmalareikningar-thj10002`. Regenerate after model-verify.
+key: [obs_time, year, sectors, financial_instruments]
+temporal: source_updated
+sort: [source_updated, obs_time, year, sectors, financial_instruments]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: sectors
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: financial_instruments
+    type: VARCHAR

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-manntal-2021-3-menntun-cen1311`. Regenerate after model-verify.
+key: [age_group, educational_attainment, background, sex, year]
+temporal: source_updated
+sort: [source_updated, age_group, educational_attainment, background, sex, year]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: age_group
+    type: VARCHAR
+  - name: background
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: educational_attainment
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR

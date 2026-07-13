@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-vinnumarkadur-vinnumarkadsrannsokn-3-arstolur-vin01007`. Regenerate after model-verify.
+key: [year, background, mempbership, unit]
+temporal: source_updated
+sort: [source_updated, year, background, mempbership, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: background
+    type: VARCHAR
+  - name: mempbership
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: unit
+    type: VARCHAR

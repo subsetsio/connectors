@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-samfelag-vinnumarkadur-vinnumarkadsrannsokn-3-arstolur-vin01006`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_time, years, background, status_in_employment, unit]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [obs_time, years, background, status_in_employment, unit]
+  - kind: not_null
+    col: obs_time
+  - kind: not_null
+    col: years
+  - kind: not_null
+    col: background
+  - kind: not_null
+    col: status_in_employment
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 920
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

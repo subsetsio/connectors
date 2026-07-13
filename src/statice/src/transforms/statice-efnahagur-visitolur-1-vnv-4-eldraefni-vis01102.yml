@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-visitolur-1-vnv-4-eldraefni-vis01102`. Regenerate after model-verify.
+key: [obs_time, month, category, item]
+temporal: source_updated
+sort: [source_updated, obs_time, month, category, item]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: item
+    type: VARCHAR
+  - name: category
+    type: VARCHAR

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-skolamal-5-menntunarstada-sko00001`. Regenerate after model-verify.
+key: [obs_time, year, age_group_residence, education, sex]
+temporal: source_updated
+sort: [source_updated, obs_time, year, age_group_residence, education, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: age_group_residence
+    type: VARCHAR
+  - name: education
+    type: VARCHAR
+  - name: year
+    type: BIGINT

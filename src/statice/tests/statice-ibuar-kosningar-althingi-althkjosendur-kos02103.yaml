@@ -1,2 +1,4 @@
 spec_id: statice-ibuar-kosningar-althingi-althkjosendur-kos02103
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

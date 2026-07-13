@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-mannfjoldi-4-endurskodun-man90003`. Regenerate after model-verify.
+key: [citizenship, obs_time, year, sex, residential_status]
+temporal: source_updated
+sort: [source_updated, citizenship, obs_time, year, sex, residential_status]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: citizenship
+    type: VARCHAR
+  - name: residential_status
+    type: VARCHAR
+  - name: year
+    type: BIGINT

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-mannfjoldi-3-bakgrunnur-faedingarland-man12104`. Regenerate after model-verify.
+key: [country_of_birth, municipality, obs_time, year, sex]
+temporal: source_updated
+sort: [source_updated, country_of_birth, municipality, obs_time, year, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: municipality
+    type: VARCHAR
+  - name: country_of_birth
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT

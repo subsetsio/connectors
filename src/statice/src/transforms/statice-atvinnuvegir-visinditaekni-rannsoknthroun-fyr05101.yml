@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-atvinnuvegir-visinditaekni-rannsoknthroun-fyr05101`. Regenerate after model-verify.
+key: [obs_time, year, sectors, results]
+temporal: source_updated
+sort: [source_updated, obs_time, year, sectors, results]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: sectors
+    type: VARCHAR
+  - name: results
+    type: VARCHAR

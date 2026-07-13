@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-heilbrigdismal-heilsufarsrannsokn-hegdun-her01213
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

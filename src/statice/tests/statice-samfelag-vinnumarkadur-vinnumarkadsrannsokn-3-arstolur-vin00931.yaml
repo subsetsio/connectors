@@ -1,2 +1,4 @@
 spec_id: statice-samfelag-vinnumarkadur-vinnumarkadsrannsokn-3-arstolur-vin00931
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

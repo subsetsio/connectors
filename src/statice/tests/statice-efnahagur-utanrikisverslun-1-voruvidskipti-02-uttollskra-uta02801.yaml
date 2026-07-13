@@ -1,2 +1,4 @@
 spec_id: statice-efnahagur-utanrikisverslun-1-voruvidskipti-02-uttollskra-uta02801
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

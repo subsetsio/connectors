@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-manntal-2021-4-vinnumarkadur-cen1402`. Regenerate after model-verify.
+key: [minor_statistical_output_area, current_activity_status, age_group, sex]
+temporal: source_updated
+sort: [source_updated, minor_statistical_output_area, current_activity_status, age_group, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: minor_statistical_output_area
+    type: VARCHAR
+  - name: current_activity_status
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR

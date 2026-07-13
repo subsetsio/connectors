@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-utanrikisverslun-2-thjonusta-thjonusta-uta04008`. Regenerate after model-verify.
+key: [obs_time, month, category, trade_in_services]
+temporal: source_updated
+sort: [source_updated, obs_time, month, category, trade_in_services]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: VARCHAR
+  - name: trade_in_services
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: month
+    type: VARCHAR

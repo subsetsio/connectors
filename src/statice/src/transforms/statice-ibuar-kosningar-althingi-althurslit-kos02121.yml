@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-kosningar-althingi-althurslit-kos02121`. Regenerate after model-verify.
+key: [political_organisation, year, category]
+temporal: source_updated
+sort: [source_updated, political_organisation, year, category]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: category
+    type: VARCHAR
+  - name: political_organisation
+    type: VARCHAR
+  - name: year
+    type: BIGINT

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-kosningar-kosningayfirlit-kos02000`. Regenerate after model-verify.
+key: [year, ballots, unit]
+temporal: source_updated
+sort: [source_updated, year, ballots, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: year
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: ballots
+    type: VARCHAR

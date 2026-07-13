@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-manntal-2021-1-kynogaldur-cen1103`. Regenerate after model-verify.
+key: [age, statistical_output_area, sex, year]
+temporal: source_updated
+sort: [source_updated, age, statistical_output_area, sex, year]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: statistical_output_area
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR

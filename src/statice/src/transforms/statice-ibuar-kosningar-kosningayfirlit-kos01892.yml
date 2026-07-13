@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-ibuar-kosningar-kosningayfirlit-kos01892`. Regenerate after model-verify.
+key: [elections, size_of_municipality, age, sex]
+temporal: source_updated
+sort: [source_updated, elections, size_of_municipality, age, sex]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: JSON
+  - name: elections
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: size_of_municipality
+    type: VARCHAR

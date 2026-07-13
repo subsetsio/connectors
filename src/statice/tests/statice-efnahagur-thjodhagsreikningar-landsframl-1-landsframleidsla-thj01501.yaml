@@ -1,2 +1,4 @@
 spec_id: statice-efnahagur-thjodhagsreikningar-landsframl-1-landsframleidsla-thj01501
 status: deferred
+tests:
+  - freshness: {col: source_updated, reaches: today - 30d}

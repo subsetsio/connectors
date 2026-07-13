@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-efnahagur-thjodhagsreikningar-framluppgj-isat2008-thj08421`. Regenerate after model-verify.
+key: [activity, obs_time, year, production_approach_component, prices]
+temporal: source_updated
+sort: [source_updated, activity, obs_time, year, production_approach_component, prices]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: activity
+    type: VARCHAR
+  - name: production_approach_component
+    type: VARCHAR
+  - name: prices
+    type: VARCHAR
+  - name: year
+    type: BIGINT

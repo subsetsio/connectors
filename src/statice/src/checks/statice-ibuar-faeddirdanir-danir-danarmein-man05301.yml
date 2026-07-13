@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statice-ibuar-faeddirdanir-danir-danarmein-man05301`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age, cause_of_death, obs_time, year, sex]
+temporal: source_updated
+checks:
+  - kind: unique
+    columns: [age, cause_of_death, obs_time, year, sex]
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: cause_of_death
+  - kind: not_null
+    col: obs_time
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 90078
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

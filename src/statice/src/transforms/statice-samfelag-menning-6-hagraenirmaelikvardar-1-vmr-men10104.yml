@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statice-samfelag-menning-6-hagraenirmaelikvardar-1-vmr-men10104`. Regenerate after model-verify.
+key: [obs_time, year, sex, categories, unit]
+temporal: source_updated
+sort: [source_updated, obs_time, year, sex, categories, unit]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: table_name
+    type: VARCHAR
+  - name: source_updated
+    type: TIMESTAMP
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_time
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: categories
+    type: VARCHAR
