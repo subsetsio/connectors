@@ -6,8 +6,8 @@ import json
 import re
 import time
 from datetime import datetime, timezone
-from urllib.parse import urljoin
 
+import httpx
 import pyarrow as pa
 from lxml import html
 
@@ -92,7 +92,12 @@ def _top_url(page: int) -> str:
 
 
 def _read_top_page(page: int) -> tuple[list[dict], bool]:
-    resp = _fetch(_top_url(page))
+    try:
+        resp = _fetch(_top_url(page))
+    except httpx.HTTPStatusError as exc:
+        if page > 1 and exc.response.status_code == 404:
+            return [], False
+        raise
     doc = html.fromstring(resp.text)
     rows = []
     for tr in doc.xpath('//table[@id="top-games"]/tbody/tr'):
