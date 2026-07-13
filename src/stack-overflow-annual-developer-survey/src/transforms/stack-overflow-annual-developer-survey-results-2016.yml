@@ -1,7 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2016`. Regenerate after model-verify.
+# caution: The row identity for 2016 is the source row number plus collector field, not a reusable respondent id.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2016 questionnaire and are not harmonized to other years.
+key: [unnamed_0, collector]
+sort: [unnamed_0, collector]
 columns:
-  - name: Unnamed_0
-    type: VARCHAR
+  - name: unnamed_0
+    type: BIGINT
   - name: collector
     type: VARCHAR
   - name: country
@@ -13,7 +18,7 @@ columns:
   - name: age_range
     type: VARCHAR
   - name: age_midpoint
-    type: VARCHAR
+    type: DOUBLE
   - name: gender
     type: VARCHAR
   - name: self_identification
@@ -25,13 +30,13 @@ columns:
   - name: experience_range
     type: VARCHAR
   - name: experience_midpoint
-    type: VARCHAR
+    type: DOUBLE
   - name: salary_range
     type: VARCHAR
   - name: salary_midpoint
-    type: VARCHAR
+    type: DOUBLE
   - name: big_mac_index
-    type: VARCHAR
+    type: DOUBLE
   - name: tech_do
     type: VARCHAR
   - name: tech_want
@@ -39,7 +44,7 @@ columns:
   - name: aliens
     type: VARCHAR
   - name: programming_ability
-    type: VARCHAR
+    type: DOUBLE
   - name: employment_status
     type: VARCHAR
   - name: industry

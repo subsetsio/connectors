@@ -1,5 +1,8 @@
 spec_id: sea-around-us-catch-tonnage-by-taxon
 status: active
+coverage:
+  frozen: true
+  reason: Sea Around Us API v1 currently publishes this reconstruction as a fixed 1950-2019 annual series; refreshes are discrete upstream reconstruction releases, not rolling annual updates.
 tests:
   - not_null: region_type
   - not_null: region_id

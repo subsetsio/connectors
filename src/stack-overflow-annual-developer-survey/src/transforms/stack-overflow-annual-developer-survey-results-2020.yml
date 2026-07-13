@@ -1,124 +1,129 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2020`. Regenerate after model-verify.
+# caution: Respondent identifies a row within this survey year only; it is not a cross-year person identifier.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2020 questionnaire and are not harmonized to other years.
+key: [respondent]
+sort: [respondent]
 columns:
-  - name: Respondent
+  - name: respondent
+    type: BIGINT
+  - name: mainbranch
     type: VARCHAR
-  - name: MainBranch
+  - name: hobbyist
     type: VARCHAR
-  - name: Hobbyist
+  - name: age
+    type: BIGINT
+  - name: age1stcode
     type: VARCHAR
-  - name: Age
+  - name: compfreq
     type: VARCHAR
-  - name: Age1stCode
+  - name: comptotal
+    type: DOUBLE
+  - name: convertedcomp
+    type: DOUBLE
+  - name: country
     type: VARCHAR
-  - name: CompFreq
+  - name: currencydesc
     type: VARCHAR
-  - name: CompTotal
+  - name: currencysymbol
     type: VARCHAR
-  - name: ConvertedComp
+  - name: databasedesirenextyear
     type: VARCHAR
-  - name: Country
+  - name: databaseworkedwith
     type: VARCHAR
-  - name: CurrencyDesc
+  - name: devtype
     type: VARCHAR
-  - name: CurrencySymbol
+  - name: edlevel
     type: VARCHAR
-  - name: DatabaseDesireNextYear
+  - name: employment
     type: VARCHAR
-  - name: DatabaseWorkedWith
+  - name: ethnicity
     type: VARCHAR
-  - name: DevType
+  - name: gender
     type: VARCHAR
-  - name: EdLevel
+  - name: jobfactors
     type: VARCHAR
-  - name: Employment
+  - name: jobsat
     type: VARCHAR
-  - name: Ethnicity
+  - name: jobseek
     type: VARCHAR
-  - name: Gender
+  - name: languagedesirenextyear
     type: VARCHAR
-  - name: JobFactors
+  - name: languageworkedwith
     type: VARCHAR
-  - name: JobSat
+  - name: misctechdesirenextyear
     type: VARCHAR
-  - name: JobSeek
+  - name: misctechworkedwith
     type: VARCHAR
-  - name: LanguageDesireNextYear
+  - name: newcollabtoolsdesirenextyear
     type: VARCHAR
-  - name: LanguageWorkedWith
+  - name: newcollabtoolsworkedwith
     type: VARCHAR
-  - name: MiscTechDesireNextYear
+  - name: newdevops
     type: VARCHAR
-  - name: MiscTechWorkedWith
+  - name: newdevopsimpt
     type: VARCHAR
-  - name: NEWCollabToolsDesireNextYear
+  - name: newedimpt
     type: VARCHAR
-  - name: NEWCollabToolsWorkedWith
+  - name: newjobhunt
     type: VARCHAR
-  - name: NEWDevOps
+  - name: newjobhuntresearch
     type: VARCHAR
-  - name: NEWDevOpsImpt
+  - name: newlearn
     type: VARCHAR
-  - name: NEWEdImpt
+  - name: newofftopic
     type: VARCHAR
-  - name: NEWJobHunt
+  - name: newonboardgood
     type: VARCHAR
-  - name: NEWJobHuntResearch
+  - name: newothercomms
     type: VARCHAR
-  - name: NEWLearn
+  - name: newovertime
     type: VARCHAR
-  - name: NEWOffTopic
+  - name: newpurchaseresearch
     type: VARCHAR
-  - name: NEWOnboardGood
+  - name: newpurplelink
     type: VARCHAR
-  - name: NEWOtherComms
+  - name: newsosites
     type: VARCHAR
-  - name: NEWOvertime
+  - name: newstuck
     type: VARCHAR
-  - name: NEWPurchaseResearch
+  - name: opsys
     type: VARCHAR
-  - name: NEWPurpleLink
+  - name: orgsize
     type: VARCHAR
-  - name: NEWSOSites
+  - name: platformdesirenextyear
     type: VARCHAR
-  - name: NEWStuck
+  - name: platformworkedwith
     type: VARCHAR
-  - name: OpSys
+  - name: purchasewhat
     type: VARCHAR
-  - name: OrgSize
+  - name: sexuality
     type: VARCHAR
-  - name: PlatformDesireNextYear
+  - name: soaccount
     type: VARCHAR
-  - name: PlatformWorkedWith
+  - name: socomm
     type: VARCHAR
-  - name: PurchaseWhat
+  - name: sopartfreq
     type: VARCHAR
-  - name: Sexuality
+  - name: sovisitfreq
     type: VARCHAR
-  - name: SOAccount
+  - name: surveyease
     type: VARCHAR
-  - name: SOComm
+  - name: surveylength
     type: VARCHAR
-  - name: SOPartFreq
+  - name: trans
     type: VARCHAR
-  - name: SOVisitFreq
+  - name: undergradmajor
     type: VARCHAR
-  - name: SurveyEase
+  - name: webframedesirenextyear
     type: VARCHAR
-  - name: SurveyLength
+  - name: webframeworkedwith
     type: VARCHAR
-  - name: Trans
+  - name: welcomechange
     type: VARCHAR
-  - name: UndergradMajor
+  - name: workweekhrs
+    type: BIGINT
+  - name: yearscode
     type: VARCHAR
-  - name: WebframeDesireNextYear
-    type: VARCHAR
-  - name: WebframeWorkedWith
-    type: VARCHAR
-  - name: WelcomeChange
-    type: VARCHAR
-  - name: WorkWeekHrs
-    type: VARCHAR
-  - name: YearsCode
-    type: VARCHAR
-  - name: YearsCodePro
+  - name: yearscodepro
     type: VARCHAR

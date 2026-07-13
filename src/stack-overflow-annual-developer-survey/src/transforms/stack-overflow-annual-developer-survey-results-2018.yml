@@ -1,260 +1,265 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2018`. Regenerate after model-verify.
+# caution: Respondent identifies a row within this survey year only; it is not a cross-year person identifier.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2018 questionnaire and are not harmonized to other years.
+key: [respondent]
+sort: [respondent]
 columns:
-  - name: Respondent
+  - name: respondent
+    type: BIGINT
+  - name: hobby
+    type: VARCHAR
+  - name: opensource
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: student
+    type: VARCHAR
+  - name: employment
+    type: VARCHAR
+  - name: formaleducation
+    type: VARCHAR
+  - name: undergradmajor
+    type: VARCHAR
+  - name: companysize
+    type: VARCHAR
+  - name: devtype
+    type: VARCHAR
+  - name: yearscoding
+    type: VARCHAR
+  - name: yearscodingprof
+    type: VARCHAR
+  - name: jobsatisfaction
+    type: VARCHAR
+  - name: careersatisfaction
+    type: VARCHAR
+  - name: hopefiveyears
+    type: VARCHAR
+  - name: jobsearchstatus
+    type: VARCHAR
+  - name: lastnewjob
+    type: VARCHAR
+  - name: assessjob1
+    type: BIGINT
+  - name: assessjob2
+    type: BIGINT
+  - name: assessjob3
+    type: BIGINT
+  - name: assessjob4
+    type: BIGINT
+  - name: assessjob5
+    type: BIGINT
+  - name: assessjob6
+    type: BIGINT
+  - name: assessjob7
+    type: BIGINT
+  - name: assessjob8
+    type: BIGINT
+  - name: assessjob9
+    type: BIGINT
+  - name: assessjob10
+    type: BIGINT
+  - name: assessbenefits1
+    type: BIGINT
+  - name: assessbenefits2
+    type: BIGINT
+  - name: assessbenefits3
+    type: BIGINT
+  - name: assessbenefits4
+    type: BIGINT
+  - name: assessbenefits5
+    type: BIGINT
+  - name: assessbenefits6
+    type: BIGINT
+  - name: assessbenefits7
+    type: BIGINT
+  - name: assessbenefits8
+    type: BIGINT
+  - name: assessbenefits9
+    type: BIGINT
+  - name: assessbenefits10
+    type: BIGINT
+  - name: assessbenefits11
+    type: BIGINT
+  - name: jobcontactpriorities1
+    type: BIGINT
+  - name: jobcontactpriorities2
+    type: BIGINT
+  - name: jobcontactpriorities3
+    type: BIGINT
+  - name: jobcontactpriorities4
+    type: BIGINT
+  - name: jobcontactpriorities5
+    type: BIGINT
+  - name: jobemailpriorities1
+    type: BIGINT
+  - name: jobemailpriorities2
+    type: BIGINT
+  - name: jobemailpriorities3
+    type: BIGINT
+  - name: jobemailpriorities4
+    type: BIGINT
+  - name: jobemailpriorities5
+    type: BIGINT
+  - name: jobemailpriorities6
+    type: BIGINT
+  - name: jobemailpriorities7
+    type: BIGINT
+  - name: updatecv
     type: VARCHAR
-  - name: Hobby
+  - name: currency
     type: VARCHAR
-  - name: OpenSource
+  - name: salary
     type: VARCHAR
-  - name: Country
+  - name: salarytype
     type: VARCHAR
-  - name: Student
+  - name: convertedsalary
+    type: DOUBLE
+  - name: currencysymbol
     type: VARCHAR
-  - name: Employment
+  - name: communicationtools
     type: VARCHAR
-  - name: FormalEducation
+  - name: timefullyproductive
     type: VARCHAR
-  - name: UndergradMajor
+  - name: educationtypes
     type: VARCHAR
-  - name: CompanySize
+  - name: selftaughttypes
     type: VARCHAR
-  - name: DevType
+  - name: timeafterbootcamp
     type: VARCHAR
-  - name: YearsCoding
+  - name: hackathonreasons
     type: VARCHAR
-  - name: YearsCodingProf
+  - name: agreedisagree1
     type: VARCHAR
-  - name: JobSatisfaction
+  - name: agreedisagree2
     type: VARCHAR
-  - name: CareerSatisfaction
+  - name: agreedisagree3
     type: VARCHAR
-  - name: HopeFiveYears
+  - name: languageworkedwith
     type: VARCHAR
-  - name: JobSearchStatus
+  - name: languagedesirenextyear
     type: VARCHAR
-  - name: LastNewJob
+  - name: databaseworkedwith
     type: VARCHAR
-  - name: AssessJob1
+  - name: databasedesirenextyear
     type: VARCHAR
-  - name: AssessJob2
+  - name: platformworkedwith
     type: VARCHAR
-  - name: AssessJob3
+  - name: platformdesirenextyear
     type: VARCHAR
-  - name: AssessJob4
+  - name: frameworkworkedwith
     type: VARCHAR
-  - name: AssessJob5
+  - name: frameworkdesirenextyear
     type: VARCHAR
-  - name: AssessJob6
+  - name: ide
     type: VARCHAR
-  - name: AssessJob7
+  - name: operatingsystem
     type: VARCHAR
-  - name: AssessJob8
+  - name: numbermonitors
     type: VARCHAR
-  - name: AssessJob9
+  - name: methodology
     type: VARCHAR
-  - name: AssessJob10
+  - name: versioncontrol
     type: VARCHAR
-  - name: AssessBenefits1
+  - name: checkincode
     type: VARCHAR
-  - name: AssessBenefits2
+  - name: adblocker
     type: VARCHAR
-  - name: AssessBenefits3
+  - name: adblockerdisable
     type: VARCHAR
-  - name: AssessBenefits4
+  - name: adblockerreasons
     type: VARCHAR
-  - name: AssessBenefits5
+  - name: adsagreedisagree1
     type: VARCHAR
-  - name: AssessBenefits6
+  - name: adsagreedisagree2
     type: VARCHAR
-  - name: AssessBenefits7
+  - name: adsagreedisagree3
     type: VARCHAR
-  - name: AssessBenefits8
+  - name: adsactions
     type: VARCHAR
-  - name: AssessBenefits9
+  - name: adspriorities1
+    type: BIGINT
+  - name: adspriorities2
+    type: BIGINT
+  - name: adspriorities3
+    type: BIGINT
+  - name: adspriorities4
+    type: BIGINT
+  - name: adspriorities5
+    type: BIGINT
+  - name: adspriorities6
+    type: BIGINT
+  - name: adspriorities7
+    type: BIGINT
+  - name: aidangerous
     type: VARCHAR
-  - name: AssessBenefits10
+  - name: aiinteresting
     type: VARCHAR
-  - name: AssessBenefits11
+  - name: airesponsible
     type: VARCHAR
-  - name: JobContactPriorities1
+  - name: aifuture
     type: VARCHAR
-  - name: JobContactPriorities2
+  - name: ethicschoice
     type: VARCHAR
-  - name: JobContactPriorities3
+  - name: ethicsreport
     type: VARCHAR
-  - name: JobContactPriorities4
+  - name: ethicsresponsible
     type: VARCHAR
-  - name: JobContactPriorities5
+  - name: ethicalimplications
     type: VARCHAR
-  - name: JobEmailPriorities1
+  - name: stackoverflowrecommend
     type: VARCHAR
-  - name: JobEmailPriorities2
+  - name: stackoverflowvisit
     type: VARCHAR
-  - name: JobEmailPriorities3
+  - name: stackoverflowhasaccount
     type: VARCHAR
-  - name: JobEmailPriorities4
+  - name: stackoverflowparticipate
     type: VARCHAR
-  - name: JobEmailPriorities5
+  - name: stackoverflowjobs
     type: VARCHAR
-  - name: JobEmailPriorities6
+  - name: stackoverflowdevstory
     type: VARCHAR
-  - name: JobEmailPriorities7
+  - name: stackoverflowjobsrecommend
     type: VARCHAR
-  - name: UpdateCV
+  - name: stackoverflowconsidermember
     type: VARCHAR
-  - name: Currency
+  - name: hypotheticaltools1
     type: VARCHAR
-  - name: Salary
+  - name: hypotheticaltools2
     type: VARCHAR
-  - name: SalaryType
+  - name: hypotheticaltools3
     type: VARCHAR
-  - name: ConvertedSalary
+  - name: hypotheticaltools4
     type: VARCHAR
-  - name: CurrencySymbol
+  - name: hypotheticaltools5
     type: VARCHAR
-  - name: CommunicationTools
+  - name: waketime
     type: VARCHAR
-  - name: TimeFullyProductive
+  - name: hourscomputer
     type: VARCHAR
-  - name: EducationTypes
+  - name: hoursoutside
     type: VARCHAR
-  - name: SelfTaughtTypes
+  - name: skipmeals
     type: VARCHAR
-  - name: TimeAfterBootcamp
+  - name: ergonomicdevices
     type: VARCHAR
-  - name: HackathonReasons
+  - name: exercise
     type: VARCHAR
-  - name: AgreeDisagree1
+  - name: gender
     type: VARCHAR
-  - name: AgreeDisagree2
+  - name: sexualorientation
     type: VARCHAR
-  - name: AgreeDisagree3
+  - name: educationparents
     type: VARCHAR
-  - name: LanguageWorkedWith
+  - name: raceethnicity
     type: VARCHAR
-  - name: LanguageDesireNextYear
+  - name: age
     type: VARCHAR
-  - name: DatabaseWorkedWith
+  - name: dependents
     type: VARCHAR
-  - name: DatabaseDesireNextYear
+  - name: militaryus
     type: VARCHAR
-  - name: PlatformWorkedWith
+  - name: surveytoolong
     type: VARCHAR
-  - name: PlatformDesireNextYear
-    type: VARCHAR
-  - name: FrameworkWorkedWith
-    type: VARCHAR
-  - name: FrameworkDesireNextYear
-    type: VARCHAR
-  - name: IDE
-    type: VARCHAR
-  - name: OperatingSystem
-    type: VARCHAR
-  - name: NumberMonitors
-    type: VARCHAR
-  - name: Methodology
-    type: VARCHAR
-  - name: VersionControl
-    type: VARCHAR
-  - name: CheckInCode
-    type: VARCHAR
-  - name: AdBlocker
-    type: VARCHAR
-  - name: AdBlockerDisable
-    type: VARCHAR
-  - name: AdBlockerReasons
-    type: VARCHAR
-  - name: AdsAgreeDisagree1
-    type: VARCHAR
-  - name: AdsAgreeDisagree2
-    type: VARCHAR
-  - name: AdsAgreeDisagree3
-    type: VARCHAR
-  - name: AdsActions
-    type: VARCHAR
-  - name: AdsPriorities1
-    type: VARCHAR
-  - name: AdsPriorities2
-    type: VARCHAR
-  - name: AdsPriorities3
-    type: VARCHAR
-  - name: AdsPriorities4
-    type: VARCHAR
-  - name: AdsPriorities5
-    type: VARCHAR
-  - name: AdsPriorities6
-    type: VARCHAR
-  - name: AdsPriorities7
-    type: VARCHAR
-  - name: AIDangerous
-    type: VARCHAR
-  - name: AIInteresting
-    type: VARCHAR
-  - name: AIResponsible
-    type: VARCHAR
-  - name: AIFuture
-    type: VARCHAR
-  - name: EthicsChoice
-    type: VARCHAR
-  - name: EthicsReport
-    type: VARCHAR
-  - name: EthicsResponsible
-    type: VARCHAR
-  - name: EthicalImplications
-    type: VARCHAR
-  - name: StackOverflowRecommend
-    type: VARCHAR
-  - name: StackOverflowVisit
-    type: VARCHAR
-  - name: StackOverflowHasAccount
-    type: VARCHAR
-  - name: StackOverflowParticipate
-    type: VARCHAR
-  - name: StackOverflowJobs
-    type: VARCHAR
-  - name: StackOverflowDevStory
-    type: VARCHAR
-  - name: StackOverflowJobsRecommend
-    type: VARCHAR
-  - name: StackOverflowConsiderMember
-    type: VARCHAR
-  - name: HypotheticalTools1
-    type: VARCHAR
-  - name: HypotheticalTools2
-    type: VARCHAR
-  - name: HypotheticalTools3
-    type: VARCHAR
-  - name: HypotheticalTools4
-    type: VARCHAR
-  - name: HypotheticalTools5
-    type: VARCHAR
-  - name: WakeTime
-    type: VARCHAR
-  - name: HoursComputer
-    type: VARCHAR
-  - name: HoursOutside
-    type: VARCHAR
-  - name: SkipMeals
-    type: VARCHAR
-  - name: ErgonomicDevices
-    type: VARCHAR
-  - name: Exercise
-    type: VARCHAR
-  - name: Gender
-    type: VARCHAR
-  - name: SexualOrientation
-    type: VARCHAR
-  - name: EducationParents
-    type: VARCHAR
-  - name: RaceEthnicity
-    type: VARCHAR
-  - name: Age
-    type: VARCHAR
-  - name: Dependents
-    type: VARCHAR
-  - name: MilitaryUS
-    type: VARCHAR
-  - name: SurveyTooLong
-    type: VARCHAR
-  - name: SurveyEasy
+  - name: surveyeasy
     type: VARCHAR

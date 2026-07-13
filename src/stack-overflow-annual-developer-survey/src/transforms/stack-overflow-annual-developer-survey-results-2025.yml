@@ -1,346 +1,351 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2025`. Regenerate after model-verify.
+# caution: The verified 2025 row identity requires ResponseId plus age and main-branch fields; do not use ResponseId as a durable cross-year person key.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2025 questionnaire and are not harmonized to other years.
+key: [responseid, age, mainbranch]
+sort: [responseid, age, mainbranch]
 columns:
-  - name: ResponseId
+  - name: responseid
+    type: BIGINT
+  - name: mainbranch
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: edlevel
+    type: VARCHAR
+  - name: employment
+    type: VARCHAR
+  - name: employmentaddl
+    type: VARCHAR
+  - name: workexp
+    type: BIGINT
+  - name: learncodechoose
+    type: VARCHAR
+  - name: learncode
+    type: VARCHAR
+  - name: learncodeai
+    type: VARCHAR
+  - name: ailearnhow
+    type: VARCHAR
+  - name: yearscode
+    type: BIGINT
+  - name: devtype
+    type: VARCHAR
+  - name: orgsize
+    type: VARCHAR
+  - name: icorpm
+    type: VARCHAR
+  - name: remotework
+    type: VARCHAR
+  - name: purchaseinfluence
+    type: VARCHAR
+  - name: techendorseintro
+    type: VARCHAR
+  - name: techendorse_1
+    type: BIGINT
+  - name: techendorse_2
+    type: BIGINT
+  - name: techendorse_3
+    type: BIGINT
+  - name: techendorse_4
+    type: BIGINT
+  - name: techendorse_5
+    type: BIGINT
+  - name: techendorse_6
+    type: BIGINT
+  - name: techendorse_7
+    type: BIGINT
+  - name: techendorse_8
+    type: BIGINT
+  - name: techendorse_9
+    type: BIGINT
+  - name: techendorse_13
+    type: BIGINT
+  - name: techendorse_13_text
+    type: VARCHAR
+  - name: techoppose_1
+    type: BIGINT
+  - name: techoppose_2
+    type: BIGINT
+  - name: techoppose_3
+    type: BIGINT
+  - name: techoppose_5
+    type: BIGINT
+  - name: techoppose_7
+    type: BIGINT
+  - name: techoppose_9
+    type: BIGINT
+  - name: techoppose_11
+    type: BIGINT
+  - name: techoppose_13
+    type: BIGINT
+  - name: techoppose_16
+    type: BIGINT
+  - name: techoppose_15
+    type: BIGINT
+  - name: techoppose_15_text
     type: VARCHAR
-  - name: MainBranch
+  - name: industry
     type: VARCHAR
-  - name: Age
+  - name: jobsatpoints_1
+    type: BIGINT
+  - name: jobsatpoints_2
+    type: BIGINT
+  - name: jobsatpoints_3
+    type: BIGINT
+  - name: jobsatpoints_4
+    type: BIGINT
+  - name: jobsatpoints_5
+    type: BIGINT
+  - name: jobsatpoints_6
+    type: BIGINT
+  - name: jobsatpoints_7
+    type: BIGINT
+  - name: jobsatpoints_8
+    type: BIGINT
+  - name: jobsatpoints_9
+    type: BIGINT
+  - name: jobsatpoints_10
+    type: BIGINT
+  - name: jobsatpoints_11
+    type: BIGINT
+  - name: jobsatpoints_13
+    type: BIGINT
+  - name: jobsatpoints_14
+    type: BIGINT
+  - name: jobsatpoints_15
+    type: BIGINT
+  - name: jobsatpoints_16
+    type: BIGINT
+  - name: jobsatpoints_15_text
     type: VARCHAR
-  - name: EdLevel
+  - name: aithreat
     type: VARCHAR
-  - name: Employment
+  - name: newrole
     type: VARCHAR
-  - name: EmploymentAddl
+  - name: toolcountwork
+    type: BIGINT
+  - name: toolcountpersonal
+    type: BIGINT
+  - name: country
     type: VARCHAR
-  - name: WorkExp
+  - name: currency
     type: VARCHAR
-  - name: LearnCodeChoose
+  - name: comptotal
     type: VARCHAR
-  - name: LearnCode
+  - name: languagechoice
     type: VARCHAR
-  - name: LearnCodeAI
+  - name: languagehaveworkedwith
     type: VARCHAR
-  - name: AILearnHow
+  - name: languagewanttoworkwith
     type: VARCHAR
-  - name: YearsCode
+  - name: languageadmired
     type: VARCHAR
-  - name: DevType
+  - name: languageshaveentry
     type: VARCHAR
-  - name: OrgSize
+  - name: languageswantentry
     type: VARCHAR
-  - name: ICorPM
+  - name: databasechoice
     type: VARCHAR
-  - name: RemoteWork
+  - name: databasehaveworkedwith
     type: VARCHAR
-  - name: PurchaseInfluence
+  - name: databasewanttoworkwith
     type: VARCHAR
-  - name: TechEndorseIntro
+  - name: databaseadmired
     type: VARCHAR
-  - name: TechEndorse_1
+  - name: databasehaveentry
     type: VARCHAR
-  - name: TechEndorse_2
+  - name: databasewantentry
     type: VARCHAR
-  - name: TechEndorse_3
+  - name: platformchoice
     type: VARCHAR
-  - name: TechEndorse_4
+  - name: platformhaveworkedwith
     type: VARCHAR
-  - name: TechEndorse_5
+  - name: platformwanttoworkwith
     type: VARCHAR
-  - name: TechEndorse_6
+  - name: platformadmired
     type: VARCHAR
-  - name: TechEndorse_7
+  - name: platformhaveentry
     type: VARCHAR
-  - name: TechEndorse_8
+  - name: platformwantentry
     type: VARCHAR
-  - name: TechEndorse_9
+  - name: webframechoice
     type: VARCHAR
-  - name: TechEndorse_13
+  - name: webframehaveworkedwith
     type: VARCHAR
-  - name: TechEndorse_13_TEXT
+  - name: webframewanttoworkwith
     type: VARCHAR
-  - name: TechOppose_1
+  - name: webframeadmired
     type: VARCHAR
-  - name: TechOppose_2
+  - name: webframehaveentry
     type: VARCHAR
-  - name: TechOppose_3
+  - name: webframewantentry
     type: VARCHAR
-  - name: TechOppose_5
+  - name: devenvschoice
     type: VARCHAR
-  - name: TechOppose_7
+  - name: devenvshaveworkedwith
     type: VARCHAR
-  - name: TechOppose_9
+  - name: devenvswanttoworkwith
     type: VARCHAR
-  - name: TechOppose_11
+  - name: devenvsadmired
     type: VARCHAR
-  - name: TechOppose_13
+  - name: devenvhaveentry
     type: VARCHAR
-  - name: TechOppose_16
+  - name: devenvwantentry
     type: VARCHAR
-  - name: TechOppose_15
+  - name: sotagshaveworkedwith
     type: VARCHAR
-  - name: TechOppose_15_TEXT
+  - name: sotagswanttoworkwith
     type: VARCHAR
-  - name: Industry
+  - name: sotagsadmired
     type: VARCHAR
-  - name: JobSatPoints_1
+  - name: sotagshaveentry
     type: VARCHAR
-  - name: JobSatPoints_2
+  - name: sotagswant_entry
     type: VARCHAR
-  - name: JobSatPoints_3
+  - name: opsyspersonal_use
     type: VARCHAR
-  - name: JobSatPoints_4
+  - name: opsysprofessional_use
     type: VARCHAR
-  - name: JobSatPoints_5
+  - name: officestackasynchaveworkedwith
     type: VARCHAR
-  - name: JobSatPoints_6
+  - name: officestackasyncwanttoworkwith
     type: VARCHAR
-  - name: JobSatPoints_7
+  - name: officestackasyncadmired
     type: VARCHAR
-  - name: JobSatPoints_8
+  - name: officestackhaveentry
     type: VARCHAR
-  - name: JobSatPoints_9
+  - name: officestackwantentry
     type: VARCHAR
-  - name: JobSatPoints_10
+  - name: commplatformhaveworkedwith
     type: VARCHAR
-  - name: JobSatPoints_11
+  - name: commplatformwanttoworkwith
     type: VARCHAR
-  - name: JobSatPoints_13
+  - name: commplatformadmired
     type: VARCHAR
-  - name: JobSatPoints_14
+  - name: commplatformhaveentr
     type: VARCHAR
-  - name: JobSatPoints_15
+  - name: commplatformwantentr
     type: VARCHAR
-  - name: JobSatPoints_16
+  - name: aimodelschoice
     type: VARCHAR
-  - name: JobSatPoints_15_TEXT
+  - name: aimodelshaveworkedwith
     type: VARCHAR
-  - name: AIThreat
+  - name: aimodelswanttoworkwith
     type: VARCHAR
-  - name: NewRole
+  - name: aimodelsadmired
     type: VARCHAR
-  - name: ToolCountWork
+  - name: aimodelshaveentry
     type: VARCHAR
-  - name: ToolCountPersonal
+  - name: aimodelswantentry
     type: VARCHAR
-  - name: Country
+  - name: soaccount
     type: VARCHAR
-  - name: Currency
+  - name: sovisitfreq
     type: VARCHAR
-  - name: CompTotal
+  - name: soduration
     type: VARCHAR
-  - name: LanguageChoice
+  - name: sopartfreq
     type: VARCHAR
-  - name: LanguageHaveWorkedWith
+  - name: so_dev_content
     type: VARCHAR
-  - name: LanguageWantToWorkWith
+  - name: so_actions_1
+    type: BIGINT
+  - name: so_actions_16
+    type: BIGINT
+  - name: so_actions_3
+    type: BIGINT
+  - name: so_actions_4
+    type: BIGINT
+  - name: so_actions_5
+    type: BIGINT
+  - name: so_actions_6
+    type: BIGINT
+  - name: so_actions_9
+    type: BIGINT
+  - name: so_actions_7
+    type: BIGINT
+  - name: so_actions_10
+    type: BIGINT
+  - name: so_actions_15
+    type: BIGINT
+  - name: so_actions_15_text
     type: VARCHAR
-  - name: LanguageAdmired
+  - name: socomm
     type: VARCHAR
-  - name: LanguagesHaveEntry
+  - name: sofriction
     type: VARCHAR
-  - name: LanguagesWantEntry
+  - name: aiselect
     type: VARCHAR
-  - name: DatabaseChoice
+  - name: aisent
     type: VARCHAR
-  - name: DatabaseHaveWorkedWith
+  - name: aiacc
     type: VARCHAR
-  - name: DatabaseWantToWorkWith
+  - name: aicomplex
     type: VARCHAR
-  - name: DatabaseAdmired
+  - name: aitoolcurrently_partially_ai
     type: VARCHAR
-  - name: DatabaseHaveEntry
+  - name: aitooldon_t_plan_to_use_ai_for_this_task
     type: VARCHAR
-  - name: DatabaseWantEntry
+  - name: aitoolplan_to_partially_use_ai
     type: VARCHAR
-  - name: PlatformChoice
+  - name: aitoolplan_to_mostly_use_ai
     type: VARCHAR
-  - name: PlatformHaveWorkedWith
+  - name: aitoolcurrently_mostly_ai
     type: VARCHAR
-  - name: PlatformWantToWorkWith
+  - name: aifrustration
     type: VARCHAR
-  - name: PlatformAdmired
+  - name: aiexplain
     type: VARCHAR
-  - name: PlatformHaveEntry
+  - name: aiagents
     type: VARCHAR
-  - name: PlatformWantEntry
+  - name: aiagentchange
     type: VARCHAR
-  - name: WebframeChoice
+  - name: aiagent_uses
     type: VARCHAR
-  - name: WebframeHaveWorkedWith
+  - name: agentusesgeneral
     type: VARCHAR
-  - name: WebframeWantToWorkWith
+  - name: aiagentimpactsomewhat_agree
     type: VARCHAR
-  - name: WebframeAdmired
+  - name: aiagentimpactneutral
     type: VARCHAR
-  - name: WebframeHaveEntry
+  - name: aiagentimpactsomewhat_disagree
     type: VARCHAR
-  - name: WebframeWantEntry
+  - name: aiagentimpactstrongly_agree
     type: VARCHAR
-  - name: DevEnvsChoice
+  - name: aiagentimpactstrongly_disagree
     type: VARCHAR
-  - name: DevEnvsHaveWorkedWith
+  - name: aiagentchallengesneutral
     type: VARCHAR
-  - name: DevEnvsWantToWorkWith
+  - name: aiagentchallengessomewhat_disagree
     type: VARCHAR
-  - name: DevEnvsAdmired
+  - name: aiagentchallengesstrongly_agree
     type: VARCHAR
-  - name: DevEnvHaveEntry
+  - name: aiagentchallengessomewhat_agree
     type: VARCHAR
-  - name: DevEnvWantEntry
+  - name: aiagentchallengesstrongly_disagree
     type: VARCHAR
-  - name: SOTagsHaveWorkedWith
+  - name: aiagentknowledge
     type: VARCHAR
-  - name: SOTagsWantToWorkWith
+  - name: aiagentknowwrite
     type: VARCHAR
-  - name: SOTagsAdmired
+  - name: aiagentorchestration
     type: VARCHAR
-  - name: SOTagsHaveEntry
+  - name: aiagentorchwrite
     type: VARCHAR
-  - name: SOTagsWant_Entry
+  - name: aiagentobservesecure
     type: VARCHAR
-  - name: OpSysPersonal_use
+  - name: aiagentobswrite
     type: VARCHAR
-  - name: OpSysProfessional_use
+  - name: aiagentexternal
     type: VARCHAR
-  - name: OfficeStackAsyncHaveWorkedWith
+  - name: aiagentextwrite
     type: VARCHAR
-  - name: OfficeStackAsyncWantToWorkWith
+  - name: aihuman
     type: VARCHAR
-  - name: OfficeStackAsyncAdmired
+  - name: aiopen
     type: VARCHAR
-  - name: OfficeStackHaveEntry
-    type: VARCHAR
-  - name: OfficeStackWantEntry
-    type: VARCHAR
-  - name: CommPlatformHaveWorkedWith
-    type: VARCHAR
-  - name: CommPlatformWantToWorkWith
-    type: VARCHAR
-  - name: CommPlatformAdmired
-    type: VARCHAR
-  - name: CommPlatformHaveEntr
-    type: VARCHAR
-  - name: CommPlatformWantEntr
-    type: VARCHAR
-  - name: AIModelsChoice
-    type: VARCHAR
-  - name: AIModelsHaveWorkedWith
-    type: VARCHAR
-  - name: AIModelsWantToWorkWith
-    type: VARCHAR
-  - name: AIModelsAdmired
-    type: VARCHAR
-  - name: AIModelsHaveEntry
-    type: VARCHAR
-  - name: AIModelsWantEntry
-    type: VARCHAR
-  - name: SOAccount
-    type: VARCHAR
-  - name: SOVisitFreq
-    type: VARCHAR
-  - name: SODuration
-    type: VARCHAR
-  - name: SOPartFreq
-    type: VARCHAR
-  - name: SO_Dev_Content
-    type: VARCHAR
-  - name: SO_Actions_1
-    type: VARCHAR
-  - name: SO_Actions_16
-    type: VARCHAR
-  - name: SO_Actions_3
-    type: VARCHAR
-  - name: SO_Actions_4
-    type: VARCHAR
-  - name: SO_Actions_5
-    type: VARCHAR
-  - name: SO_Actions_6
-    type: VARCHAR
-  - name: SO_Actions_9
-    type: VARCHAR
-  - name: SO_Actions_7
-    type: VARCHAR
-  - name: SO_Actions_10
-    type: VARCHAR
-  - name: SO_Actions_15
-    type: VARCHAR
-  - name: SO_Actions_15_TEXT
-    type: VARCHAR
-  - name: SOComm
-    type: VARCHAR
-  - name: SOFriction
-    type: VARCHAR
-  - name: AISelect
-    type: VARCHAR
-  - name: AISent
-    type: VARCHAR
-  - name: AIAcc
-    type: VARCHAR
-  - name: AIComplex
-    type: VARCHAR
-  - name: AIToolCurrently_partially_AI
-    type: VARCHAR
-  - name: AIToolDon_t_plan_to_use_AI_for_this_task
-    type: VARCHAR
-  - name: AIToolPlan_to_partially_use_AI
-    type: VARCHAR
-  - name: AIToolPlan_to_mostly_use_AI
-    type: VARCHAR
-  - name: AIToolCurrently_mostly_AI
-    type: VARCHAR
-  - name: AIFrustration
-    type: VARCHAR
-  - name: AIExplain
-    type: VARCHAR
-  - name: AIAgents
-    type: VARCHAR
-  - name: AIAgentChange
-    type: VARCHAR
-  - name: AIAgent_Uses
-    type: VARCHAR
-  - name: AgentUsesGeneral
-    type: VARCHAR
-  - name: AIAgentImpactSomewhat_agree
-    type: VARCHAR
-  - name: AIAgentImpactNeutral
-    type: VARCHAR
-  - name: AIAgentImpactSomewhat_disagree
-    type: VARCHAR
-  - name: AIAgentImpactStrongly_agree
-    type: VARCHAR
-  - name: AIAgentImpactStrongly_disagree
-    type: VARCHAR
-  - name: AIAgentChallengesNeutral
-    type: VARCHAR
-  - name: AIAgentChallengesSomewhat_disagree
-    type: VARCHAR
-  - name: AIAgentChallengesStrongly_agree
-    type: VARCHAR
-  - name: AIAgentChallengesSomewhat_agree
-    type: VARCHAR
-  - name: AIAgentChallengesStrongly_disagree
-    type: VARCHAR
-  - name: AIAgentKnowledge
-    type: VARCHAR
-  - name: AIAgentKnowWrite
-    type: VARCHAR
-  - name: AIAgentOrchestration
-    type: VARCHAR
-  - name: AIAgentOrchWrite
-    type: VARCHAR
-  - name: AIAgentObserveSecure
-    type: VARCHAR
-  - name: AIAgentObsWrite
-    type: VARCHAR
-  - name: AIAgentExternal
-    type: VARCHAR
-  - name: AIAgentExtWrite
-    type: VARCHAR
-  - name: AIHuman
-    type: VARCHAR
-  - name: AIOpen
-    type: VARCHAR
-  - name: ConvertedCompYearly
-    type: VARCHAR
-  - name: JobSat
-    type: VARCHAR
+  - name: convertedcompyearly
+    type: BIGINT
+  - name: jobsat
+    type: BIGINT

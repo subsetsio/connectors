@@ -1,172 +1,177 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2019`. Regenerate after model-verify.
+# caution: Respondent identifies a row within this survey year only; it is not a cross-year person identifier.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2019 questionnaire and are not harmonized to other years.
+key: [respondent]
+sort: [respondent]
 columns:
-  - name: Respondent
+  - name: respondent
+    type: BIGINT
+  - name: mainbranch
     type: VARCHAR
-  - name: MainBranch
+  - name: hobbyist
     type: VARCHAR
-  - name: Hobbyist
+  - name: opensourcer
     type: VARCHAR
-  - name: OpenSourcer
+  - name: opensource
     type: VARCHAR
-  - name: OpenSource
+  - name: employment
     type: VARCHAR
-  - name: Employment
+  - name: country
     type: VARCHAR
-  - name: Country
+  - name: student
     type: VARCHAR
-  - name: Student
+  - name: edlevel
     type: VARCHAR
-  - name: EdLevel
+  - name: undergradmajor
     type: VARCHAR
-  - name: UndergradMajor
+  - name: eduother
     type: VARCHAR
-  - name: EduOther
+  - name: orgsize
     type: VARCHAR
-  - name: OrgSize
+  - name: devtype
     type: VARCHAR
-  - name: DevType
+  - name: yearscode
     type: VARCHAR
-  - name: YearsCode
+  - name: age1stcode
     type: VARCHAR
-  - name: Age1stCode
+  - name: yearscodepro
     type: VARCHAR
-  - name: YearsCodePro
+  - name: careersat
     type: VARCHAR
-  - name: CareerSat
+  - name: jobsat
     type: VARCHAR
-  - name: JobSat
+  - name: mgridiot
     type: VARCHAR
-  - name: MgrIdiot
+  - name: mgrmoney
     type: VARCHAR
-  - name: MgrMoney
+  - name: mgrwant
     type: VARCHAR
-  - name: MgrWant
+  - name: jobseek
     type: VARCHAR
-  - name: JobSeek
+  - name: lasthiredate
     type: VARCHAR
-  - name: LastHireDate
+  - name: lastint
     type: VARCHAR
-  - name: LastInt
+  - name: fizzbuzz
     type: VARCHAR
-  - name: FizzBuzz
+  - name: jobfactors
     type: VARCHAR
-  - name: JobFactors
+  - name: resumeupdate
     type: VARCHAR
-  - name: ResumeUpdate
+  - name: currencysymbol
     type: VARCHAR
-  - name: CurrencySymbol
+  - name: currencydesc
     type: VARCHAR
-  - name: CurrencyDesc
+  - name: comptotal
+    type: DOUBLE
+  - name: compfreq
     type: VARCHAR
-  - name: CompTotal
+  - name: convertedcomp
+    type: DOUBLE
+  - name: workweekhrs
+    type: DOUBLE
+  - name: workplan
     type: VARCHAR
-  - name: CompFreq
+  - name: workchallenge
     type: VARCHAR
-  - name: ConvertedComp
+  - name: workremote
     type: VARCHAR
-  - name: WorkWeekHrs
+  - name: workloc
     type: VARCHAR
-  - name: WorkPlan
+  - name: impsyn
     type: VARCHAR
-  - name: WorkChallenge
+  - name: coderev
     type: VARCHAR
-  - name: WorkRemote
+  - name: coderevhrs
     type: VARCHAR
-  - name: WorkLoc
+  - name: unittests
     type: VARCHAR
-  - name: ImpSyn
+  - name: purchasehow
     type: VARCHAR
-  - name: CodeRev
+  - name: purchasewhat
     type: VARCHAR
-  - name: CodeRevHrs
+  - name: languageworkedwith
     type: VARCHAR
-  - name: UnitTests
+  - name: languagedesirenextyear
     type: VARCHAR
-  - name: PurchaseHow
+  - name: databaseworkedwith
     type: VARCHAR
-  - name: PurchaseWhat
+  - name: databasedesirenextyear
     type: VARCHAR
-  - name: LanguageWorkedWith
+  - name: platformworkedwith
     type: VARCHAR
-  - name: LanguageDesireNextYear
+  - name: platformdesirenextyear
     type: VARCHAR
-  - name: DatabaseWorkedWith
+  - name: webframeworkedwith
     type: VARCHAR
-  - name: DatabaseDesireNextYear
+  - name: webframedesirenextyear
     type: VARCHAR
-  - name: PlatformWorkedWith
+  - name: misctechworkedwith
     type: VARCHAR
-  - name: PlatformDesireNextYear
+  - name: misctechdesirenextyear
     type: VARCHAR
-  - name: WebFrameWorkedWith
+  - name: devenviron
     type: VARCHAR
-  - name: WebFrameDesireNextYear
+  - name: opsys
     type: VARCHAR
-  - name: MiscTechWorkedWith
+  - name: containers
     type: VARCHAR
-  - name: MiscTechDesireNextYear
+  - name: blockchainorg
     type: VARCHAR
-  - name: DevEnviron
+  - name: blockchainis
     type: VARCHAR
-  - name: OpSys
+  - name: betterlife
     type: VARCHAR
-  - name: Containers
+  - name: itperson
     type: VARCHAR
-  - name: BlockchainOrg
+  - name: offon
     type: VARCHAR
-  - name: BlockchainIs
+  - name: socialmedia
     type: VARCHAR
-  - name: BetterLife
+  - name: extraversion
     type: VARCHAR
-  - name: ITperson
+  - name: screenname
     type: VARCHAR
-  - name: OffOn
+  - name: sovisit1st
     type: VARCHAR
-  - name: SocialMedia
+  - name: sovisitfreq
     type: VARCHAR
-  - name: Extraversion
+  - name: sovisitto
     type: VARCHAR
-  - name: ScreenName
+  - name: sofindanswer
     type: VARCHAR
-  - name: SOVisit1st
+  - name: sotimesaved
     type: VARCHAR
-  - name: SOVisitFreq
+  - name: sohowmuchtime
     type: VARCHAR
-  - name: SOVisitTo
+  - name: soaccount
     type: VARCHAR
-  - name: SOFindAnswer
+  - name: sopartfreq
     type: VARCHAR
-  - name: SOTimeSaved
+  - name: sojobs
     type: VARCHAR
-  - name: SOHowMuchTime
+  - name: entteams
     type: VARCHAR
-  - name: SOAccount
+  - name: socomm
     type: VARCHAR
-  - name: SOPartFreq
+  - name: welcomechange
     type: VARCHAR
-  - name: SOJobs
+  - name: sonewcontent
     type: VARCHAR
-  - name: EntTeams
+  - name: age
+    type: BIGINT
+  - name: gender
     type: VARCHAR
-  - name: SOComm
+  - name: trans
     type: VARCHAR
-  - name: WelcomeChange
+  - name: sexuality
     type: VARCHAR
-  - name: SONewContent
+  - name: ethnicity
     type: VARCHAR
-  - name: Age
+  - name: dependents
     type: VARCHAR
-  - name: Gender
+  - name: surveylength
     type: VARCHAR
-  - name: Trans
-    type: VARCHAR
-  - name: Sexuality
-    type: VARCHAR
-  - name: Ethnicity
-    type: VARCHAR
-  - name: Dependents
-    type: VARCHAR
-  - name: SurveyLength
-    type: VARCHAR
-  - name: SurveyEase
+  - name: surveyease
     type: VARCHAR

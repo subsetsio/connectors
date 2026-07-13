@@ -1,170 +1,175 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2023`. Regenerate after model-verify.
+# caution: ResponseId identifies a row within this survey year only; it is not a cross-year person identifier.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2023 questionnaire and are not harmonized to other years.
+key: [responseid]
+sort: [responseid]
 columns:
-  - name: ResponseId
+  - name: responseid
+    type: BIGINT
+  - name: q120
     type: VARCHAR
-  - name: Q120
+  - name: mainbranch
     type: VARCHAR
-  - name: MainBranch
+  - name: age
     type: VARCHAR
-  - name: Age
+  - name: employment
     type: VARCHAR
-  - name: Employment
+  - name: remotework
     type: VARCHAR
-  - name: RemoteWork
+  - name: codingactivities
     type: VARCHAR
-  - name: CodingActivities
+  - name: edlevel
     type: VARCHAR
-  - name: EdLevel
+  - name: learncode
     type: VARCHAR
-  - name: LearnCode
+  - name: learncodeonline
     type: VARCHAR
-  - name: LearnCodeOnline
+  - name: learncodecoursescert
     type: VARCHAR
-  - name: LearnCodeCoursesCert
+  - name: yearscode
     type: VARCHAR
-  - name: YearsCode
+  - name: yearscodepro
     type: VARCHAR
-  - name: YearsCodePro
+  - name: devtype
     type: VARCHAR
-  - name: DevType
+  - name: orgsize
     type: VARCHAR
-  - name: OrgSize
+  - name: purchaseinfluence
     type: VARCHAR
-  - name: PurchaseInfluence
+  - name: techlist
     type: VARCHAR
-  - name: TechList
+  - name: buynewtool
     type: VARCHAR
-  - name: BuyNewTool
+  - name: country
     type: VARCHAR
-  - name: Country
+  - name: currency
     type: VARCHAR
-  - name: Currency
+  - name: comptotal
     type: VARCHAR
-  - name: CompTotal
+  - name: languagehaveworkedwith
     type: VARCHAR
-  - name: LanguageHaveWorkedWith
+  - name: languagewanttoworkwith
     type: VARCHAR
-  - name: LanguageWantToWorkWith
+  - name: databasehaveworkedwith
     type: VARCHAR
-  - name: DatabaseHaveWorkedWith
+  - name: databasewanttoworkwith
     type: VARCHAR
-  - name: DatabaseWantToWorkWith
+  - name: platformhaveworkedwith
     type: VARCHAR
-  - name: PlatformHaveWorkedWith
+  - name: platformwanttoworkwith
     type: VARCHAR
-  - name: PlatformWantToWorkWith
+  - name: webframehaveworkedwith
     type: VARCHAR
-  - name: WebframeHaveWorkedWith
+  - name: webframewanttoworkwith
     type: VARCHAR
-  - name: WebframeWantToWorkWith
+  - name: misctechhaveworkedwith
     type: VARCHAR
-  - name: MiscTechHaveWorkedWith
+  - name: misctechwanttoworkwith
     type: VARCHAR
-  - name: MiscTechWantToWorkWith
+  - name: toolstechhaveworkedwith
     type: VARCHAR
-  - name: ToolsTechHaveWorkedWith
+  - name: toolstechwanttoworkwith
     type: VARCHAR
-  - name: ToolsTechWantToWorkWith
+  - name: newcollabtoolshaveworkedwith
     type: VARCHAR
-  - name: NEWCollabToolsHaveWorkedWith
+  - name: newcollabtoolswanttoworkwith
     type: VARCHAR
-  - name: NEWCollabToolsWantToWorkWith
+  - name: opsyspersonal_use
     type: VARCHAR
-  - name: OpSysPersonal_use
+  - name: opsysprofessional_use
     type: VARCHAR
-  - name: OpSysProfessional_use
+  - name: officestackasynchaveworkedwith
     type: VARCHAR
-  - name: OfficeStackAsyncHaveWorkedWith
+  - name: officestackasyncwanttoworkwith
     type: VARCHAR
-  - name: OfficeStackAsyncWantToWorkWith
+  - name: officestacksynchaveworkedwith
     type: VARCHAR
-  - name: OfficeStackSyncHaveWorkedWith
+  - name: officestacksyncwanttoworkwith
     type: VARCHAR
-  - name: OfficeStackSyncWantToWorkWith
+  - name: aisearchhaveworkedwith
     type: VARCHAR
-  - name: AISearchHaveWorkedWith
+  - name: aisearchwanttoworkwith
     type: VARCHAR
-  - name: AISearchWantToWorkWith
+  - name: aidevhaveworkedwith
     type: VARCHAR
-  - name: AIDevHaveWorkedWith
+  - name: aidevwanttoworkwith
     type: VARCHAR
-  - name: AIDevWantToWorkWith
+  - name: newsosites
     type: VARCHAR
-  - name: NEWSOSites
+  - name: sovisitfreq
     type: VARCHAR
-  - name: SOVisitFreq
+  - name: soaccount
     type: VARCHAR
-  - name: SOAccount
+  - name: sopartfreq
     type: VARCHAR
-  - name: SOPartFreq
+  - name: socomm
     type: VARCHAR
-  - name: SOComm
+  - name: soai
     type: VARCHAR
-  - name: SOAI
+  - name: aiselect
     type: VARCHAR
-  - name: AISelect
+  - name: aisent
     type: VARCHAR
-  - name: AISent
+  - name: aiacc
     type: VARCHAR
-  - name: AIAcc
+  - name: aiben
     type: VARCHAR
-  - name: AIBen
+  - name: aitoolinterested_in_using
     type: VARCHAR
-  - name: AIToolInterested_in_Using
+  - name: aitoolcurrently_using
     type: VARCHAR
-  - name: AIToolCurrently_Using
+  - name: aitoolnot_interested_in_using
     type: VARCHAR
-  - name: AIToolNot_interested_in_Using
+  - name: ainextvery_different
     type: VARCHAR
-  - name: AINextVery_different
+  - name: ainextneither_different_nor_similar
     type: VARCHAR
-  - name: AINextNeither_different_nor_similar
+  - name: ainextsomewhat_similar
     type: VARCHAR
-  - name: AINextSomewhat_similar
+  - name: ainextvery_similar
     type: VARCHAR
-  - name: AINextVery_similar
+  - name: ainextsomewhat_different
     type: VARCHAR
-  - name: AINextSomewhat_different
+  - name: tbranch
     type: VARCHAR
-  - name: TBranch
+  - name: icorpm
     type: VARCHAR
-  - name: ICorPM
+  - name: workexp
+    type: BIGINT
+  - name: knowledge_1
     type: VARCHAR
-  - name: WorkExp
+  - name: knowledge_2
     type: VARCHAR
-  - name: Knowledge_1
+  - name: knowledge_3
     type: VARCHAR
-  - name: Knowledge_2
+  - name: knowledge_4
     type: VARCHAR
-  - name: Knowledge_3
+  - name: knowledge_5
     type: VARCHAR
-  - name: Knowledge_4
+  - name: knowledge_6
     type: VARCHAR
-  - name: Knowledge_5
+  - name: knowledge_7
     type: VARCHAR
-  - name: Knowledge_6
+  - name: knowledge_8
     type: VARCHAR
-  - name: Knowledge_7
+  - name: frequency_1
     type: VARCHAR
-  - name: Knowledge_8
+  - name: frequency_2
     type: VARCHAR
-  - name: Frequency_1
+  - name: frequency_3
     type: VARCHAR
-  - name: Frequency_2
+  - name: timesearching
     type: VARCHAR
-  - name: Frequency_3
+  - name: timeanswering
     type: VARCHAR
-  - name: TimeSearching
+  - name: professionaltech
     type: VARCHAR
-  - name: TimeAnswering
+  - name: industry
     type: VARCHAR
-  - name: ProfessionalTech
+  - name: surveylength
     type: VARCHAR
-  - name: Industry
+  - name: surveyease
     type: VARCHAR
-  - name: SurveyLength
-    type: VARCHAR
-  - name: SurveyEase
-    type: VARCHAR
-  - name: ConvertedCompYearly
-    type: VARCHAR
+  - name: convertedcompyearly
+    type: BIGINT

@@ -1,1 +1,56 @@
-SELECT * FROM "stack-overflow-annual-developer-survey-results-2021"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The verified 2021 row identity requires ResponseId plus country and main-branch fields; do not use ResponseId as a durable cross-year person key.
+-- caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2021 questionnaire and are not harmonized to other years.
+SELECT
+    CAST("ResponseId" AS BIGINT) AS responseid,
+    "MainBranch" AS mainbranch,
+    "Employment" AS employment,
+    "Country" AS country,
+    "US_State" AS us_state,
+    "UK_Country" AS uk_country,
+    "EdLevel" AS edlevel,
+    "Age1stCode" AS age1stcode,
+    "LearnCode" AS learncode,
+    "YearsCode" AS yearscode,
+    "YearsCodePro" AS yearscodepro,
+    "DevType" AS devtype,
+    "OrgSize" AS orgsize,
+    "Currency" AS currency,
+    "CompTotal" AS comptotal,
+    "CompFreq" AS compfreq,
+    "LanguageHaveWorkedWith" AS languagehaveworkedwith,
+    "LanguageWantToWorkWith" AS languagewanttoworkwith,
+    "DatabaseHaveWorkedWith" AS databasehaveworkedwith,
+    "DatabaseWantToWorkWith" AS databasewanttoworkwith,
+    "PlatformHaveWorkedWith" AS platformhaveworkedwith,
+    "PlatformWantToWorkWith" AS platformwanttoworkwith,
+    "WebframeHaveWorkedWith" AS webframehaveworkedwith,
+    "WebframeWantToWorkWith" AS webframewanttoworkwith,
+    "MiscTechHaveWorkedWith" AS misctechhaveworkedwith,
+    "MiscTechWantToWorkWith" AS misctechwanttoworkwith,
+    "ToolsTechHaveWorkedWith" AS toolstechhaveworkedwith,
+    "ToolsTechWantToWorkWith" AS toolstechwanttoworkwith,
+    "NEWCollabToolsHaveWorkedWith" AS newcollabtoolshaveworkedwith,
+    "NEWCollabToolsWantToWorkWith" AS newcollabtoolswanttoworkwith,
+    "OpSys" AS opsys,
+    "NEWStuck" AS newstuck,
+    "NEWSOSites" AS newsosites,
+    "SOVisitFreq" AS sovisitfreq,
+    "SOAccount" AS soaccount,
+    "SOPartFreq" AS sopartfreq,
+    "SOComm" AS socomm,
+    "NEWOtherComms" AS newothercomms,
+    "Age" AS age,
+    "Gender" AS gender,
+    "Trans" AS trans,
+    "Sexuality" AS sexuality,
+    "Ethnicity" AS ethnicity,
+    "Accessibility" AS accessibility,
+    "MentalHealth" AS mentalhealth,
+    "SurveyLength" AS surveylength,
+    "SurveyEase" AS surveyease,
+    CAST("ConvertedCompYearly" AS BIGINT) AS convertedcompyearly
+FROM "stack-overflow-annual-developer-survey-results-2021"

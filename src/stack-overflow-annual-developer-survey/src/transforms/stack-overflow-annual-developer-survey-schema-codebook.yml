@@ -1,7 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-schema-codebook`. Regenerate after model-verify.
+# caution: The codebook covers only years that ship schema.csv files; older survey response tables have no companion schema rows in this reference table.
+# caution: Column names and question wording are survey-year-specific; use survey_year with column_name when joining to response tables.
+key: [column_name, survey_year]
+sort: [column_name, survey_year]
 columns:
   - name: survey_year
-    type: INTEGER
+    type: BIGINT
   - name: column_name
     type: VARCHAR
   - name: question_text

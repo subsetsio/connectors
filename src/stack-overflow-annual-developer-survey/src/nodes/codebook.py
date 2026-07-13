@@ -55,6 +55,14 @@ def fetch_codebook(node_id: str) -> None:
         }))
 
     combined = pd.concat(frames, ignore_index=True)
+    combined["column_name"] = combined["column_name"].astype("string").str.strip()
+    combined["question_text"] = combined["question_text"].astype("string").str.strip()
+    combined = combined[
+        combined["column_name"].notna()
+        & combined["question_text"].notna()
+        & (combined["column_name"] != "")
+        & (combined["question_text"] != "")
+    ].reset_index(drop=True)
     schema = pa.schema([
         ("survey_year", pa.int64()),
         ("column_name", pa.string()),

@@ -1,98 +1,103 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2021`. Regenerate after model-verify.
+# caution: The verified 2021 row identity requires ResponseId plus country and main-branch fields; do not use ResponseId as a durable cross-year person key.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2021 questionnaire and are not harmonized to other years.
+key: [responseid, country, mainbranch]
+sort: [responseid, country, mainbranch]
 columns:
-  - name: ResponseId
+  - name: responseid
+    type: BIGINT
+  - name: mainbranch
     type: VARCHAR
-  - name: MainBranch
+  - name: employment
     type: VARCHAR
-  - name: Employment
+  - name: country
     type: VARCHAR
-  - name: Country
+  - name: us_state
     type: VARCHAR
-  - name: US_State
+  - name: uk_country
     type: VARCHAR
-  - name: UK_Country
+  - name: edlevel
     type: VARCHAR
-  - name: EdLevel
+  - name: age1stcode
     type: VARCHAR
-  - name: Age1stCode
+  - name: learncode
     type: VARCHAR
-  - name: LearnCode
+  - name: yearscode
     type: VARCHAR
-  - name: YearsCode
+  - name: yearscodepro
     type: VARCHAR
-  - name: YearsCodePro
+  - name: devtype
     type: VARCHAR
-  - name: DevType
+  - name: orgsize
     type: VARCHAR
-  - name: OrgSize
+  - name: currency
     type: VARCHAR
-  - name: Currency
+  - name: comptotal
     type: VARCHAR
-  - name: CompTotal
+  - name: compfreq
     type: VARCHAR
-  - name: CompFreq
+  - name: languagehaveworkedwith
     type: VARCHAR
-  - name: LanguageHaveWorkedWith
+  - name: languagewanttoworkwith
     type: VARCHAR
-  - name: LanguageWantToWorkWith
+  - name: databasehaveworkedwith
     type: VARCHAR
-  - name: DatabaseHaveWorkedWith
+  - name: databasewanttoworkwith
     type: VARCHAR
-  - name: DatabaseWantToWorkWith
+  - name: platformhaveworkedwith
     type: VARCHAR
-  - name: PlatformHaveWorkedWith
+  - name: platformwanttoworkwith
     type: VARCHAR
-  - name: PlatformWantToWorkWith
+  - name: webframehaveworkedwith
     type: VARCHAR
-  - name: WebframeHaveWorkedWith
+  - name: webframewanttoworkwith
     type: VARCHAR
-  - name: WebframeWantToWorkWith
+  - name: misctechhaveworkedwith
     type: VARCHAR
-  - name: MiscTechHaveWorkedWith
+  - name: misctechwanttoworkwith
     type: VARCHAR
-  - name: MiscTechWantToWorkWith
+  - name: toolstechhaveworkedwith
     type: VARCHAR
-  - name: ToolsTechHaveWorkedWith
+  - name: toolstechwanttoworkwith
     type: VARCHAR
-  - name: ToolsTechWantToWorkWith
+  - name: newcollabtoolshaveworkedwith
     type: VARCHAR
-  - name: NEWCollabToolsHaveWorkedWith
+  - name: newcollabtoolswanttoworkwith
     type: VARCHAR
-  - name: NEWCollabToolsWantToWorkWith
+  - name: opsys
     type: VARCHAR
-  - name: OpSys
+  - name: newstuck
     type: VARCHAR
-  - name: NEWStuck
+  - name: newsosites
     type: VARCHAR
-  - name: NEWSOSites
+  - name: sovisitfreq
     type: VARCHAR
-  - name: SOVisitFreq
+  - name: soaccount
     type: VARCHAR
-  - name: SOAccount
+  - name: sopartfreq
     type: VARCHAR
-  - name: SOPartFreq
+  - name: socomm
     type: VARCHAR
-  - name: SOComm
+  - name: newothercomms
     type: VARCHAR
-  - name: NEWOtherComms
+  - name: age
     type: VARCHAR
-  - name: Age
+  - name: gender
     type: VARCHAR
-  - name: Gender
+  - name: trans
     type: VARCHAR
-  - name: Trans
+  - name: sexuality
     type: VARCHAR
-  - name: Sexuality
+  - name: ethnicity
     type: VARCHAR
-  - name: Ethnicity
+  - name: accessibility
     type: VARCHAR
-  - name: Accessibility
+  - name: mentalhealth
     type: VARCHAR
-  - name: MentalHealth
+  - name: surveylength
     type: VARCHAR
-  - name: SurveyLength
+  - name: surveyease
     type: VARCHAR
-  - name: SurveyEase
-    type: VARCHAR
-  - name: ConvertedCompYearly
-    type: VARCHAR
+  - name: convertedcompyearly
+    type: BIGINT

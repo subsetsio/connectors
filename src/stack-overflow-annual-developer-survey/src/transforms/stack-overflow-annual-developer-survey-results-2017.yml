@@ -1,310 +1,315 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `stack-overflow-annual-developer-survey-results-2017`. Regenerate after model-verify.
+# caution: The verified 2017 row identity requires respondent id plus several demographic/status fields; do not use Respondent alone as a durable cross-year person key.
+# caution: Question text, column names, coding, and multi-select answer encoding are specific to the 2017 questionnaire and are not harmonized to other years.
+key: [respondent, country, formaleducation, employmentstatus, professional]
+sort: [respondent, country, formaleducation, employmentstatus, professional]
 columns:
-  - name: Respondent
+  - name: respondent
+    type: BIGINT
+  - name: professional
     type: VARCHAR
-  - name: Professional
+  - name: programhobby
     type: VARCHAR
-  - name: ProgramHobby
+  - name: country
     type: VARCHAR
-  - name: Country
+  - name: university
     type: VARCHAR
-  - name: University
+  - name: employmentstatus
     type: VARCHAR
-  - name: EmploymentStatus
+  - name: formaleducation
     type: VARCHAR
-  - name: FormalEducation
+  - name: majorundergrad
     type: VARCHAR
-  - name: MajorUndergrad
+  - name: homeremote
     type: VARCHAR
-  - name: HomeRemote
+  - name: companysize
     type: VARCHAR
-  - name: CompanySize
+  - name: companytype
     type: VARCHAR
-  - name: CompanyType
+  - name: yearsprogram
     type: VARCHAR
-  - name: YearsProgram
+  - name: yearscodedjob
     type: VARCHAR
-  - name: YearsCodedJob
+  - name: yearscodedjobpast
     type: VARCHAR
-  - name: YearsCodedJobPast
+  - name: developertype
     type: VARCHAR
-  - name: DeveloperType
+  - name: webdevelopertype
     type: VARCHAR
-  - name: WebDeveloperType
+  - name: mobiledevelopertype
     type: VARCHAR
-  - name: MobileDeveloperType
+  - name: nondevelopertype
     type: VARCHAR
-  - name: NonDeveloperType
+  - name: careersatisfaction
+    type: BIGINT
+  - name: jobsatisfaction
+    type: BIGINT
+  - name: excoderreturn
     type: VARCHAR
-  - name: CareerSatisfaction
+  - name: excodernotforme
     type: VARCHAR
-  - name: JobSatisfaction
+  - name: excoderbalance
     type: VARCHAR
-  - name: ExCoderReturn
+  - name: excoder10years
     type: VARCHAR
-  - name: ExCoderNotForMe
+  - name: excoderbelonged
     type: VARCHAR
-  - name: ExCoderBalance
+  - name: excoderskills
     type: VARCHAR
-  - name: ExCoder10Years
+  - name: excoderwillnotcode
     type: VARCHAR
-  - name: ExCoderBelonged
+  - name: excoderactive
     type: VARCHAR
-  - name: ExCoderSkills
+  - name: pronouncegif
     type: VARCHAR
-  - name: ExCoderWillNotCode
+  - name: problemsolving
     type: VARCHAR
-  - name: ExCoderActive
+  - name: buildingthings
     type: VARCHAR
-  - name: PronounceGIF
+  - name: learningnewtech
     type: VARCHAR
-  - name: ProblemSolving
+  - name: boringdetails
     type: VARCHAR
-  - name: BuildingThings
+  - name: jobsecurity
     type: VARCHAR
-  - name: LearningNewTech
+  - name: diversityimportant
     type: VARCHAR
-  - name: BoringDetails
+  - name: annoyingui
     type: VARCHAR
-  - name: JobSecurity
+  - name: friendsdevelopers
     type: VARCHAR
-  - name: DiversityImportant
+  - name: rightwrongway
     type: VARCHAR
-  - name: AnnoyingUI
+  - name: understandcomputers
     type: VARCHAR
-  - name: FriendsDevelopers
+  - name: seriouswork
     type: VARCHAR
-  - name: RightWrongWay
+  - name: investtimetools
     type: VARCHAR
-  - name: UnderstandComputers
+  - name: workpaycare
     type: VARCHAR
-  - name: SeriousWork
+  - name: kinshipdevelopers
     type: VARCHAR
-  - name: InvestTimeTools
+  - name: challengemyself
     type: VARCHAR
-  - name: WorkPayCare
+  - name: competepeers
     type: VARCHAR
-  - name: KinshipDevelopers
+  - name: changeworld
     type: VARCHAR
-  - name: ChallengeMyself
+  - name: jobseekingstatus
     type: VARCHAR
-  - name: CompetePeers
+  - name: hoursperweek
+    type: BIGINT
+  - name: lastnewjob
     type: VARCHAR
-  - name: ChangeWorld
+  - name: assessjobindustry
     type: VARCHAR
-  - name: JobSeekingStatus
+  - name: assessjobrole
     type: VARCHAR
-  - name: HoursPerWeek
+  - name: assessjobexp
     type: VARCHAR
-  - name: LastNewJob
+  - name: assessjobdept
     type: VARCHAR
-  - name: AssessJobIndustry
+  - name: assessjobtech
     type: VARCHAR
-  - name: AssessJobRole
+  - name: assessjobprojects
     type: VARCHAR
-  - name: AssessJobExp
+  - name: assessjobcompensation
     type: VARCHAR
-  - name: AssessJobDept
+  - name: assessjoboffice
     type: VARCHAR
-  - name: AssessJobTech
+  - name: assessjobcommute
     type: VARCHAR
-  - name: AssessJobProjects
+  - name: assessjobremote
     type: VARCHAR
-  - name: AssessJobCompensation
+  - name: assessjobleaders
     type: VARCHAR
-  - name: AssessJobOffice
+  - name: assessjobprofdevel
     type: VARCHAR
-  - name: AssessJobCommute
+  - name: assessjobdiversity
     type: VARCHAR
-  - name: AssessJobRemote
+  - name: assessjobproduct
     type: VARCHAR
-  - name: AssessJobLeaders
+  - name: assessjobfinances
     type: VARCHAR
-  - name: AssessJobProfDevel
+  - name: importantbenefits
     type: VARCHAR
-  - name: AssessJobDiversity
+  - name: clickykeys
     type: VARCHAR
-  - name: AssessJobProduct
+  - name: jobprofile
     type: VARCHAR
-  - name: AssessJobFinances
+  - name: resumeprompted
     type: VARCHAR
-  - name: ImportantBenefits
+  - name: learnedhiring
     type: VARCHAR
-  - name: ClickyKeys
+  - name: importanthiringalgorithms
     type: VARCHAR
-  - name: JobProfile
+  - name: importanthiringtechexp
     type: VARCHAR
-  - name: ResumePrompted
+  - name: importanthiringcommunication
     type: VARCHAR
-  - name: LearnedHiring
+  - name: importanthiringopensource
     type: VARCHAR
-  - name: ImportantHiringAlgorithms
+  - name: importanthiringpmexp
     type: VARCHAR
-  - name: ImportantHiringTechExp
+  - name: importanthiringcompanies
     type: VARCHAR
-  - name: ImportantHiringCommunication
+  - name: importanthiringtitles
     type: VARCHAR
-  - name: ImportantHiringOpenSource
+  - name: importanthiringeducation
     type: VARCHAR
-  - name: ImportantHiringPMExp
+  - name: importanthiringrep
     type: VARCHAR
-  - name: ImportantHiringCompanies
+  - name: importanthiringgettingthingsdone
     type: VARCHAR
-  - name: ImportantHiringTitles
+  - name: currency
     type: VARCHAR
-  - name: ImportantHiringEducation
+  - name: overpaid
     type: VARCHAR
-  - name: ImportantHiringRep
+  - name: tabsspaces
     type: VARCHAR
-  - name: ImportantHiringGettingThingsDone
+  - name: educationimportant
     type: VARCHAR
-  - name: Currency
+  - name: educationtypes
     type: VARCHAR
-  - name: Overpaid
+  - name: selftaughttypes
     type: VARCHAR
-  - name: TabsSpaces
+  - name: timeafterbootcamp
     type: VARCHAR
-  - name: EducationImportant
+  - name: cousineducation
     type: VARCHAR
-  - name: EducationTypes
+  - name: workstart
     type: VARCHAR
-  - name: SelfTaughtTypes
+  - name: haveworkedlanguage
     type: VARCHAR
-  - name: TimeAfterBootcamp
+  - name: wantworklanguage
     type: VARCHAR
-  - name: CousinEducation
+  - name: haveworkedframework
     type: VARCHAR
-  - name: WorkStart
+  - name: wantworkframework
     type: VARCHAR
-  - name: HaveWorkedLanguage
+  - name: haveworkeddatabase
     type: VARCHAR
-  - name: WantWorkLanguage
+  - name: wantworkdatabase
     type: VARCHAR
-  - name: HaveWorkedFramework
+  - name: haveworkedplatform
     type: VARCHAR
-  - name: WantWorkFramework
+  - name: wantworkplatform
     type: VARCHAR
-  - name: HaveWorkedDatabase
+  - name: ide
     type: VARCHAR
-  - name: WantWorkDatabase
+  - name: auditoryenvironment
     type: VARCHAR
-  - name: HaveWorkedPlatform
+  - name: methodology
     type: VARCHAR
-  - name: WantWorkPlatform
+  - name: versioncontrol
     type: VARCHAR
-  - name: IDE
+  - name: checkincode
     type: VARCHAR
-  - name: AuditoryEnvironment
+  - name: shipit
     type: VARCHAR
-  - name: Methodology
+  - name: otherpeoplescode
     type: VARCHAR
-  - name: VersionControl
+  - name: projectmanagement
     type: VARCHAR
-  - name: CheckInCode
+  - name: enjoydebugging
     type: VARCHAR
-  - name: ShipIt
+  - name: inthezone
     type: VARCHAR
-  - name: OtherPeoplesCode
+  - name: difficultcommunication
     type: VARCHAR
-  - name: ProjectManagement
+  - name: collaborateremote
     type: VARCHAR
-  - name: EnjoyDebugging
+  - name: metricassess
     type: VARCHAR
-  - name: InTheZone
+  - name: equipmentsatisfiedmonitors
     type: VARCHAR
-  - name: DifficultCommunication
+  - name: equipmentsatisfiedcpu
     type: VARCHAR
-  - name: CollaborateRemote
+  - name: equipmentsatisfiedram
     type: VARCHAR
-  - name: MetricAssess
+  - name: equipmentsatisfiedstorage
     type: VARCHAR
-  - name: EquipmentSatisfiedMonitors
+  - name: equipmentsatisfiedrw
     type: VARCHAR
-  - name: EquipmentSatisfiedCPU
+  - name: influenceinternet
     type: VARCHAR
-  - name: EquipmentSatisfiedRAM
+  - name: influenceworkstation
     type: VARCHAR
-  - name: EquipmentSatisfiedStorage
+  - name: influencehardware
     type: VARCHAR
-  - name: EquipmentSatisfiedRW
+  - name: influenceservers
     type: VARCHAR
-  - name: InfluenceInternet
+  - name: influencetechstack
     type: VARCHAR
-  - name: InfluenceWorkstation
+  - name: influencedepttech
     type: VARCHAR
-  - name: InfluenceHardware
+  - name: influenceviztools
     type: VARCHAR
-  - name: InfluenceServers
+  - name: influencedatabase
     type: VARCHAR
-  - name: InfluenceTechStack
+  - name: influencecloud
     type: VARCHAR
-  - name: InfluenceDeptTech
+  - name: influenceconsultants
     type: VARCHAR
-  - name: InfluenceVizTools
+  - name: influencerecruitment
     type: VARCHAR
-  - name: InfluenceDatabase
+  - name: influencecommunication
     type: VARCHAR
-  - name: InfluenceCloud
+  - name: stackoverflowdescribes
     type: VARCHAR
-  - name: InfluenceConsultants
+  - name: stackoverflowsatisfaction
+    type: BIGINT
+  - name: stackoverflowdevices
     type: VARCHAR
-  - name: InfluenceRecruitment
+  - name: stackoverflowfoundanswer
     type: VARCHAR
-  - name: InfluenceCommunication
+  - name: stackoverflowcopiedcode
     type: VARCHAR
-  - name: StackOverflowDescribes
+  - name: stackoverflowjoblisting
     type: VARCHAR
-  - name: StackOverflowSatisfaction
+  - name: stackoverflowcompanypage
     type: VARCHAR
-  - name: StackOverflowDevices
+  - name: stackoverflowjobsearch
     type: VARCHAR
-  - name: StackOverflowFoundAnswer
+  - name: stackoverflownewquestion
     type: VARCHAR
-  - name: StackOverflowCopiedCode
+  - name: stackoverflowanswer
     type: VARCHAR
-  - name: StackOverflowJobListing
+  - name: stackoverflowmetachat
     type: VARCHAR
-  - name: StackOverflowCompanyPage
+  - name: stackoverflowadsrelevant
     type: VARCHAR
-  - name: StackOverflowJobSearch
+  - name: stackoverflowadsdistracting
     type: VARCHAR
-  - name: StackOverflowNewQuestion
+  - name: stackoverflowmoderation
     type: VARCHAR
-  - name: StackOverflowAnswer
+  - name: stackoverflowcommunity
     type: VARCHAR
-  - name: StackOverflowMetaChat
+  - name: stackoverflowhelpful
     type: VARCHAR
-  - name: StackOverflowAdsRelevant
+  - name: stackoverflowbetter
     type: VARCHAR
-  - name: StackOverflowAdsDistracting
+  - name: stackoverflowwhatdo
     type: VARCHAR
-  - name: StackOverflowModeration
+  - name: stackoverflowmakemoney
     type: VARCHAR
-  - name: StackOverflowCommunity
+  - name: gender
     type: VARCHAR
-  - name: StackOverflowHelpful
+  - name: highesteducationparents
     type: VARCHAR
-  - name: StackOverflowBetter
+  - name: race
     type: VARCHAR
-  - name: StackOverflowWhatDo
+  - name: surveylong
     type: VARCHAR
-  - name: StackOverflowMakeMoney
+  - name: questionsinteresting
     type: VARCHAR
-  - name: Gender
+  - name: questionsconfusing
     type: VARCHAR
-  - name: HighestEducationParents
+  - name: interestedanswers
     type: VARCHAR
-  - name: Race
-    type: VARCHAR
-  - name: SurveyLong
-    type: VARCHAR
-  - name: QuestionsInteresting
-    type: VARCHAR
-  - name: QuestionsConfusing
-    type: VARCHAR
-  - name: InterestedAnswers
-    type: VARCHAR
-  - name: Salary
-    type: VARCHAR
-  - name: ExpectedSalary
-    type: VARCHAR
+  - name: salary
+    type: DOUBLE
+  - name: expectedsalary
+    type: DOUBLE
