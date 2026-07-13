@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ukbms-collated-indices-2024`. Regenerate after model-verify.
+# caution: Rows include United Kingdom and country-level geographies; filter COUNTRY before aggregating or comparing regional series.
+key: [common_name, species, species_code, year, country]
+temporal: year
+sort: [year, common_name, species, species_code, country]
+columns:
+  - name: species_code
+    type: BIGINT
+  - name: species
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: n_sites
+    type: BIGINT
+  - name: collated_index
+    type: DOUBLE
+  - name: year_rank
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: country
+    type: VARCHAR

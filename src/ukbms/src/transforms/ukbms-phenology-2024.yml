@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ukbms-phenology-2024`. Regenerate after model-verify.
+# caution: The source contains duplicate site/species/year phenology records, including exact duplicate rows, so consumers should deduplicate or aggregate deliberately before site-year analysis.
+# caution: FIRSTDAY, LASTDAY, PEAKDAY, and related flight-period fields are day offsets in the source, not calendar dates.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: siteno
+    type: BIGINT
+  - name: sitename
+    type: VARCHAR
+  - name: gridref
+    type: VARCHAR
+  - name: species_name
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: firstday
+    type: BIGINT
+  - name: lastday
+    type: BIGINT
+  - name: peakday
+    type: BIGINT
+  - name: peakcount
+    type: BIGINT
+  - name: mean_flight_date
+    type: DOUBLE
+  - name: flightperiod_sd
+    type: DOUBLE
+  - name: flightperiod_range
+    type: BIGINT

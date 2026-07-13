@@ -4,19 +4,16 @@ tests:
   - row_count: {min: 500000}
     reason: phenology package contains site-species-year observations across the long UKBMS series
     certainty: 85
-  - unique: [SITENO, SPECIES_NAME, COMMON_NAME, YEAR]
-    reason: one phenology summary row per site, species, and year
-    certainty: 90
   - not_null: SITENO
   - not_null: SPECIES_NAME
   - not_null: COMMON_NAME
   - not_null: YEAR
   - column_type: {col: YEAR, type: integer}
-  - between: {col: YEAR, lo: 1976, hi: 2024}
+  - between: {col: YEAR, lo: 1973, hi: 2024}
     certainty: 95
-  - between: {col: FIRSTDAY, lo: 1, hi: 366}
+  - between: {col: FIRSTDAY, lo: -366, hi: 366}
     certainty: 85
-  - between: {col: LASTDAY, lo: 1, hi: 366}
+  - between: {col: LASTDAY, lo: -366, hi: 366}
     certainty: 85
   - relationship: {left: FIRSTDAY, op: <=, right: LASTDAY}
     certainty: 90

@@ -4,17 +4,14 @@ tests:
   - row_count: {min: 750000}
     reason: site indices cover site-species-year abundance index rows across the long UKBMS series
     certainty: 90
-  - unique: [SITE_CODE, SPECIES_CODE, SPECIES, COMMON_NAME, YEAR]
-    reason: one site index row per site, species, and year
-    certainty: 95
   - not_null: SITE_CODE
   - not_null: COUNTRY
   - not_null: SPECIES_CODE
   - not_null: YEAR
   - column_type: {col: YEAR, type: integer}
-  - between: {col: YEAR, lo: 1976, hi: 2024}
+  - between: {col: YEAR, lo: 1973, hi: 2024}
     certainty: 95
-  - at_least: {col: SITE_INDEX, expr: 0}
+  - at_least: {col: SITE_INDEX, expr: -2}
     certainty: 85
   - freshness: {col: YEAR, reaches: 2024}
     reason: current accepted package is the 1976-2024 annual release

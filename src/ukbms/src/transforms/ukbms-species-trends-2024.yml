@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ukbms-species-trends-2024`. Regenerate after model-verify.
+# caution: Each row is a species-level trend summary for the annual release rather than an annual observation series.
+key: [common_name]
+sort: [common_name]
+columns:
+  - name: common_name
+    type: VARCHAR
+  - name: sci_name
+    type: VARCHAR
+  - name: nyears
+    type: BIGINT
+  - name: f_lin_b
+    type: DOUBLE
+  - name: f_lin_se
+    type: DOUBLE
+  - name: f_lin_p
+    type: DOUBLE
+  - name: f_trenddetail
+    type: VARCHAR
+  - name: f_full_r
+    type: DOUBLE
+  - name: t20_lin_b
+    type: DOUBLE
+  - name: t20_lin_se
+    type: DOUBLE
+  - name: t20_lin_p
+    type: DOUBLE
+  - name: t20_trenddetail
+    type: VARCHAR
+  - name: t20_20_r
+    type: DOUBLE
+  - name: t10_lin_b
+    type: DOUBLE
+  - name: t10_lin_se
+    type: DOUBLE
+  - name: t10_lin_p
+    type: DOUBLE
+  - name: t10_trenddetail
+    type: VARCHAR
+  - name: t10_10_r
+    type: DOUBLE

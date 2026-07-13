@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ukbms-site-location-data-2024`. Regenerate after model-verify.
+# caution: Site_Number can appear under multiple survey types; include Survey_type when joining to site-level observations.
+key: [site_number, country, survey_type]
+sort: [site_number, country, survey_type]
+columns:
+  - name: site_number
+    type: BIGINT
+  - name: site_name
+    type: VARCHAR
+  - name: gridreference
+    type: VARCHAR
+  - name: easting
+    type: BIGINT
+  - name: northing
+    type: BIGINT
+  - name: length
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: n_sections
+    type: BIGINT
+  - name: n_yrs_surveyed
+    type: BIGINT
+  - name: first_year_surveyed
+    type: BIGINT
+  - name: last_year_surveyed
+    type: BIGINT
+  - name: survey_type
+    type: VARCHAR

@@ -10,7 +10,7 @@ tests:
   - not_null: SPECIES_CODE
   - not_null: COMMON_NAME
   - not_null: YEAR
-  - enum: {col: COUNTRY, values: ["England", "Northern Ireland", "Scotland", "United Kingdom", "Wales"]}
+  - enum: {col: COUNTRY, values: ["England", "Northern Ireland", "Scotland", "UK", "Wales"]}
     certainty: 90
   - between: {col: YEAR, lo: 1976, hi: 2024}
     certainty: 95

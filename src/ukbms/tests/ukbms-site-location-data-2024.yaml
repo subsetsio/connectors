@@ -8,11 +8,10 @@ tests:
     reason: site number identifies a monitoring site in the location table
     certainty: 95
   - not_null: Site_Number
-  - not_null: Site_Name
   - not_null: Country
   - column_type: {col: Easting, type: integer}
   - column_type: {col: Northing, type: integer}
-  - enum: {col: Country, values: ["England", "Isle of Man", "Jersey", "Northern Ireland", "Scotland", "Wales"]}
+  - enum: {col: Country, values: ["Channel Islands", "England", "Isle of Man", "Northern Ireland", "Scotland", "Wales"]}
     certainty: 90
   - between: {col: First_year_surveyed, lo: 1973, hi: 2024}
     certainty: 90

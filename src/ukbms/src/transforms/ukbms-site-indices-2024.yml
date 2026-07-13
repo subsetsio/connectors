@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ukbms-site-indices-2024`. Regenerate after model-verify.
+# caution: The source contains repeated site/species/year records, including duplicate rows and some repeated rows with different SITE_INDEX sentinel values; do not assume one row per site/species/year.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: site_code
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: species_code
+    type: BIGINT
+  - name: species
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: site_index
+    type: BIGINT
