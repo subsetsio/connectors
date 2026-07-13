@@ -5,10 +5,8 @@
 SELECT
     "sheets",
     "description",
-    "unnamed_2",
     "columns",
     "meaning",
-    "unnamed_5",
     "code",
     "missing_value_code_meaning",
     "release_year",
