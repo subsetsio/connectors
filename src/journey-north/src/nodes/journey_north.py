@@ -10,11 +10,12 @@ one map layer in a single response: no pagination, no auth.
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
+import os
 
 import pyarrow as pa
 
 from constants import MAP_SLUGS, START_YEAR
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, delete_raw_file, get, list_raw_fragments, save_raw_parquet
 
 BASE = "https://maps.journeynorth.org/sightings_json.php"
 
@@ -140,22 +141,33 @@ def fetch_maps(node_id: str) -> None:
 
 def fetch_sightings(node_id: str) -> None:
     current_year = datetime.now(tz=timezone.utc).year
-    jobs = [
-        (map_slug, year)
-        for year in range(START_YEAR, current_year + 1)
-        for map_slug in MAP_SLUGS
-    ]
-    rows = []
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        futures = [pool.submit(_fetch_map_year, map_slug, year) for map_slug, year in jobs]
-        for future in as_completed(futures):
-            map_slug, year, payload = future.result()
-            features, season = _features(payload)
-            if features:
-                rows.extend(_rows(features, map_slug, year, season))
+    refresh_years = {current_year, current_year - 1}
+    existing = set(list_raw_fragments(node_id).keys())
+    force_refresh = os.environ.get("FORCE_REFRESH") == "1"
+    if "full" in existing:
+        delete_raw_file(node_id, "parquet")
+        existing = set()
 
-    table = pa.Table.from_pylist(rows, schema=SIGHTINGS_SCHEMA)
-    save_raw_parquet(table, node_id)
+    for year in range(START_YEAR, current_year + 1):
+        fragment = str(year)
+        if not force_refresh and fragment in existing and year not in refresh_years:
+            print(f"  -> Keeping existing {node_id}-{fragment}.parquet")
+            continue
+
+        rows = []
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            futures = [
+                pool.submit(_fetch_map_year, map_slug, year)
+                for map_slug in MAP_SLUGS
+            ]
+            for future in as_completed(futures):
+                map_slug, fetched_year, payload = future.result()
+                features, season = _features(payload)
+                if features:
+                    rows.extend(_rows(features, map_slug, fetched_year, season))
+
+        table = pa.Table.from_pylist(rows, schema=SIGHTINGS_SCHEMA)
+        save_raw_parquet(table, node_id, fragment=fragment)
 
 
 DOWNLOAD_SPECS = [
