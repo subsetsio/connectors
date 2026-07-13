@@ -10,5 +10,5 @@ SELECT
     CAST("obs_time" AS BIGINT) AS obs_time,
     CAST("year" AS BIGINT) AS year,
     "percentile",
-    "liabilities_assets_net_worth_total_annual_income_disposable_income"
+    "liabilities_assets_net_worth_total_annual_income_disposable_income" AS balance_sheet_item
 FROM "statice-samfelag-lifskjor-5-skuldastada-heimili-1-skuldir-eignir-thj09007"

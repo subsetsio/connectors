@@ -1,8 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statice-samfelag-lifskjor-5-skuldastada-heimili-1-skuldir-eignir-thj09007`. Regenerate after model-verify.
-key: [obs_time, year, percentile, liabilities_assets_net_worth_total_annual_income_disposable_income]
+key: [obs_time, year, percentile, balance_sheet_item]
 temporal: source_updated
-sort: [source_updated, obs_time, year, percentile, liabilities_assets_net_worth_total_annual_income_disposable_income]
+sort: [source_updated, obs_time, year, percentile, balance_sheet_item]
 columns:
   - name: table_id
     type: VARCHAR
@@ -18,5 +18,5 @@ columns:
     type: BIGINT
   - name: percentile
     type: VARCHAR
-  - name: liabilities_assets_net_worth_total_annual_income_disposable_income
+  - name: balance_sheet_item
     type: VARCHAR

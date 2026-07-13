@@ -3,11 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [obs_time, year, percentile, liabilities_assets_net_worth_total_annual_income_disposable_income]
+key: [obs_time, year, percentile, balance_sheet_item]
 temporal: source_updated
 checks:
   - kind: unique
-    columns: [obs_time, year, percentile, liabilities_assets_net_worth_total_annual_income_disposable_income]
+    columns: [obs_time, year, percentile, balance_sheet_item]
   - kind: not_null
     col: obs_time
   - kind: not_null
@@ -15,7 +15,7 @@ checks:
   - kind: not_null
     col: percentile
   - kind: not_null
-    col: liabilities_assets_net_worth_total_annual_income_disposable_income
+    col: balance_sheet_item
   - kind: row_floor
     min: 700
 regression:
