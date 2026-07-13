@@ -1,9 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are trailing-30-day summaries captured on a single date, not full historical time series observations.
 SELECT
-    game,
-    CAST(rank AS INTEGER)         AS rank,
-    CAST(avg_viewers AS BIGINT)   AS avg_viewers,
-    CAST(avg_channels AS BIGINT)  AS avg_channels,
-    CAST(hours_watched AS BIGINT) AS hours_watched,
-    CAST(captured_date AS DATE)   AS captured_date
+    "game",
+    "rank",
+    "avg_viewers",
+    "avg_channels",
+    "hours_watched",
+    "captured_date"
 FROM "twitch-tracker-games"
-WHERE game IS NOT NULL

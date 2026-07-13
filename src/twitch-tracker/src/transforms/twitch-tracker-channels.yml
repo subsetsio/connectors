@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `twitch-tracker-channels`. Regenerate after model-verify.
+# caution: Rows are trailing-30-day summaries captured on a single date, not full historical time series observations.
+key: [channel]
+temporal: captured_date
+sort: [captured_date, channel]
 columns:
   - name: channel
     type: VARCHAR
   - name: rank
-    type: INTEGER
+    type: BIGINT
   - name: minutes_streamed
     type: BIGINT
   - name: avg_viewers

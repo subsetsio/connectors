@@ -1,12 +1,16 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are trailing-30-day summaries captured on a single date, not full historical time series observations.
 SELECT
-    channel,
-    CAST(rank AS INTEGER)             AS rank,
-    CAST(minutes_streamed AS BIGINT)  AS minutes_streamed,
-    CAST(avg_viewers AS BIGINT)       AS avg_viewers,
-    CAST(max_viewers AS BIGINT)       AS max_viewers,
-    CAST(hours_watched AS BIGINT)     AS hours_watched,
-    CAST(followers AS BIGINT)         AS followers,
-    CAST(followers_total AS BIGINT)   AS followers_total,
-    CAST(captured_date AS DATE)       AS captured_date
+    "channel",
+    "rank",
+    "minutes_streamed",
+    "avg_viewers",
+    "max_viewers",
+    "hours_watched",
+    "followers",
+    "followers_total",
+    "captured_date"
 FROM "twitch-tracker-channels"
-WHERE channel IS NOT NULL
