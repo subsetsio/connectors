@@ -10,13 +10,15 @@ from __future__ import annotations
 import io
 import zipfile
 
+import pyarrow.csv as pacsv
+
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     get,
     raw_asset_exists,
-    raw_writer,
     record_source_signature,
+    save_raw_parquet,
     source_unchanged,
 )
 
@@ -104,29 +106,14 @@ def fetch_one(node_id: str) -> None:
     response = get(cfg["url"], timeout=(10.0, 1800.0))
     response.raise_for_status()
 
-    rows = 0
     with zipfile.ZipFile(io.BytesIO(response.content)) as zf:
         member = _find_member(zf, cfg["member"])
-        with zf.open(member) as src, raw_writer(
-            asset,
-            extension="csv.gz",
-            mode="wb",
-            compression="gzip",
-            encoding=None,
-        ) as dst:
-            previous = b""
-            while True:
-                chunk = src.read(1024 * 1024)
-                if not chunk:
-                    break
-                rows += chunk.count(b"\n")
-                dst.write(chunk)
-                previous = chunk
-            if previous and not previous.endswith((b"\n", b"\r")):
-                rows += 1
+        with zf.open(member) as src:
+            table = pacsv.read_csv(src)
 
-    if rows <= 1:
-        raise AssertionError(f"{asset}: extracted {rows} CSV lines from {cfg['member']}")
+    if table.num_rows < 1:
+        raise AssertionError(f"{asset}: extracted zero data rows from {cfg['member']}")
+    save_raw_parquet(table, asset)
     record_source_signature(asset, cfg["url"], response=response)
 
 
@@ -155,7 +142,7 @@ MAINTAIN_SPECS = [
             "freshness checked via Last-Modified/ETag on the ZIP URL."
         ),
         check=lambda aid: source_unchanged(aid, _FEEDS[_entity_id(aid)]["url"])
-        and raw_asset_exists(aid, "csv.gz"),
+        and raw_asset_exists(aid, "parquet"),
     )
     for spec in DOWNLOAD_SPECS
 ]
