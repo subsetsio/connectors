@@ -39,9 +39,9 @@ from constants import ENTITIES
 SLUG = "european-environment-agency"
 SQL_URL = "https://discodata.eea.europa.eu/sql"
 
-PAGE = 1000          # rows per SQL page — small enough to stay a light query
+PAGE = 500           # rows per SQL page — small enough to stay a light query
 MAX_PAGES = 100_000  # safety ceiling; raises rather than silently truncating
-SQL_MIN_INTERVAL = 5.0
+SQL_MIN_INTERVAL = 15.0
 SQL_LOCK_PATH = "/tmp/european_environment_agency_discodata_sql.lock"
 SQL_LAST_REQUEST_PATH = "/tmp/european_environment_agency_discodata_sql.last"
 
@@ -139,8 +139,8 @@ def _fetch_blob(node_id: str, blob_url: str) -> None:
 # ---- SQL fallback path -----------------------------------------------------
 
 @retry(retry=retry_if_exception(_retryable),
-       wait=wait_exponential(multiplier=20, min=20, max=300),
-       stop=stop_after_attempt(10), reraise=True)
+       wait=wait_exponential(multiplier=30, min=30, max=600),
+       stop=stop_after_attempt(12), reraise=True)
 def _sql_page(query: str, page: int) -> list[dict]:
     r = _throttled_sql_get(query, page)
     r.raise_for_status()
