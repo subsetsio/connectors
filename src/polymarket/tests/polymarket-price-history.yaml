@@ -6,14 +6,15 @@ tests:
     certainty: 90
   - not_null: market_id
   - not_null: timestamp
+  - not_null: datetime
   - not_null: price
   - unique: [market_id, timestamp]
     reason: Daily fidelity should produce at most one price observation per market per timestamp.
     certainty: 90
-  - between: {col: price, lo: 0, hi: 1}
-    reason: CLOB history prices are probabilities in the inclusive 0-1 range.
+  - between: {col: price, lo: 0, hi: 1.01}
+    reason: CLOB history prices are probabilities; the API can emit small precision overshoots just above 1.0.
     certainty: 95
-  - freshness: {col: timestamp, reaches: today - 30d}
+  - freshness: {col: datetime, reaches: today - 30d}
     reason: The scoped set includes active high-volume markets, so at least one price-history point should be recent.
     certainty: 80
     points_outward: true

@@ -7,8 +7,8 @@ tests:
   - not_null: market_id
   - not_null: slug
   - not_null: question
-  - unique: market_id
-    reason: Gamma market ids identify one market after walking both open and closed market sets.
+  - unique: [market_id, updated_at]
+    reason: Gamma market snapshots are identified by market id and update timestamp after walking both open and closed market sets.
     certainty: 90
   - freshness: {col: updated_at, reaches: today - 14d}
     reason: Active markets update continuously; the max updated_at should be recent even while closed markets remain historical.

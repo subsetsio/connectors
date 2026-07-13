@@ -1,10 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `polymarket-price-history`. Regenerate after model-verify.
+# caution: Price history is scoped to high-volume binary markets selected from the markets catalog, not every market on Polymarket.
+# caution: The price column is the Yes outcome probability at the sampled timestamp.
+key: [market_id, timestamp]
+temporal: datetime
+sort: [datetime, market_id, timestamp]
 columns:
   - name: market_id
-    type: VARCHAR
+    type: BIGINT
+    description: Polymarket market identifier whose Yes token price is observed.
   - name: timestamp
     type: BIGINT
+    description: Unix timestamp in seconds for the price observation.
   - name: datetime
     type: TIMESTAMP
+    description: UTC timestamp for the price observation derived from timestamp.
   - name: price
     type: DOUBLE
+    description: Yes outcome probability at the sampled timestamp, in the inclusive 0 to 1 range.

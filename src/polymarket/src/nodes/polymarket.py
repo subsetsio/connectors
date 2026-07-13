@@ -1,5 +1,6 @@
 """Polymarket downloads: Gamma events/markets and CLOB daily price history."""
 import json
+from datetime import datetime, timezone
 
 from subsets_utils import NodeSpec, raw_writer
 
@@ -164,7 +165,12 @@ def fetch_price_history(node_id: str) -> None:
                 price = _f(pt.get("p"))
                 if ts is None or price is None:
                     continue
-                f.write(json.dumps({"market_id": mid, "timestamp": ts, "price": price}) + "\n")
+                f.write(json.dumps({
+                    "market_id": mid,
+                    "timestamp": ts,
+                    "datetime": datetime.fromtimestamp(ts, tz=timezone.utc).isoformat(),
+                    "price": price,
+                }) + "\n")
                 total_points += 1
             done += 1
             if done % 200 == 0:

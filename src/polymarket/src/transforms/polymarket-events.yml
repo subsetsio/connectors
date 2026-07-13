@@ -1,17 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `polymarket-events`. Regenerate after model-verify.
+# caution: Events are grouping records for related markets; event-level volume and liquidity should not be summed together with market-level volume without choosing the intended aggregation level.
+key: [event_id]
+temporal: updated_at
+sort: [updated_at, event_id]
 columns:
   - name: event_id
-    type: VARCHAR
+    type: BIGINT
+    description: Polymarket Gamma event identifier.
   - name: ticker
     type: VARCHAR
+    description: Event ticker or short code assigned by Polymarket.
   - name: slug
     type: VARCHAR
+    description: URL-friendly event slug.
   - name: title
     type: VARCHAR
+    description: Human-readable event title.
   - name: category
     type: VARCHAR
+    description: Polymarket event category when provided.
   - name: description
     type: VARCHAR
+    description: Event description from Polymarket.
   - name: volume_usd
     type: DOUBLE
   - name: volume_24h_usd
@@ -27,7 +38,7 @@ columns:
   - name: open_interest
     type: DOUBLE
   - name: comment_count
-    type: BIGINT
+    type: HUGEINT
   - name: competitive
     type: DOUBLE
   - name: neg_risk
@@ -54,3 +65,4 @@ columns:
     type: TIMESTAMP
   - name: updated_at
     type: TIMESTAMP
+    description: Last update timestamp reported by Polymarket.

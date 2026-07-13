@@ -1,17 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Price history is scoped to high-volume binary markets selected from the markets catalog, not every market on Polymarket.
+-- caution: The price column is the Yes outcome probability at the sampled timestamp.
 SELECT
-    CAST(market_id AS VARCHAR)                        AS market_id,
-    CAST(timestamp AS BIGINT)                         AS timestamp,
-    CAST(to_timestamp(timestamp) AS TIMESTAMP)       AS datetime,
-    CAST(price AS DOUBLE)                            AS price
-FROM (
-    SELECT
-        market_id, timestamp, price,
-        row_number() OVER (
-            PARTITION BY market_id, timestamp ORDER BY price
-        ) AS _rn
-    FROM "polymarket-price-history"
-    WHERE market_id IS NOT NULL
-      AND timestamp IS NOT NULL
-      AND price IS NOT NULL
-)
-WHERE _rn = 1
+    CAST("market_id" AS BIGINT) AS market_id,
+    "timestamp",
+    CAST(to_timestamp("timestamp") AS TIMESTAMP) AS datetime,
+    "price"
+FROM "polymarket-price-history"

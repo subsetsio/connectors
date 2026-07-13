@@ -1,13 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `polymarket-markets`. Regenerate after model-verify.
+# caution: The raw market catalog can contain multiple snapshots of the same market across update times; use the latest-row transform when a one-row-per-market current catalog is needed.
+# caution: Binary Yes/No prices are only populated when the upstream outcomes decode to the standard Yes/No pair.
+key: [market_id, updated_at]
+temporal: updated_at
+sort: [updated_at, market_id]
 columns:
   - name: market_id
-    type: VARCHAR
+    type: BIGINT
+    description: Polymarket Gamma market identifier.
   - name: event_id
-    type: VARCHAR
+    type: BIGINT
+    description: Parent event identifier grouping related markets.
   - name: event_slug
     type: VARCHAR
+    description: URL-friendly slug of the parent event.
   - name: event_title
     type: VARCHAR
+    description: Human-readable title of the parent event.
   - name: neg_risk
     type: BOOLEAN
   - name: question
@@ -54,3 +64,4 @@ columns:
     type: TIMESTAMP
   - name: updated_at
     type: TIMESTAMP
+    description: Last update timestamp reported by Polymarket.
