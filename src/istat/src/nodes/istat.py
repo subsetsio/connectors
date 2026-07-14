@@ -118,6 +118,17 @@ _STR_NS = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"
 _MAX_SPLIT_CODES = 300
 _PREFERRED_SPLIT_DIMS = ("FREQ", "DATA_TYPE", "DESTINATION_WINEGRAPES")
 
+# These municipal population flows are known to time out before the generic
+# splitter gets useful signal: the full-flow probe wedges Istat, then the
+# required recovery sleep consumes the node timeout. Their published titles
+# expose bounded annual periods, so enter at year windows directly.
+_ANNUAL_FIRST_RANGES = {
+    "164_305": (1991, 2001),  # Estimated resident population - Years 1991-2001
+    "164_346": (1952, 1971),  # Estimated resident population - Years 1952-1971
+    "164_347": (1972, 1981),  # Estimated resident population - Years 1972-1981
+    "165_1245": (2024, 2050),  # Municipal population projections - Years 2024-2050
+}
+
 
 def _throttle() -> None:
     import fcntl  # POSIX (CI is ubuntu, dev is macOS) -- both have fcntl
@@ -476,6 +487,13 @@ def _iter_rows(flow_id: str):
                 f"{flow_id}: {year} is too large to serve whole but no monthly "
                 f"window returned rows — cannot subdivide further"
             )
+
+    if flow_id in _ANNUAL_FIRST_RANGES:
+        lo, hi = _ANNUAL_FIRST_RANGES[flow_id]
+        print(f"[istat] {flow_id}: known large annual flow — fetching {lo}..{hi} by year")
+        for year in range(lo, hi + 1):
+            yield from split_years(year, year)
+        return
 
     try:
         text = _fetch_csv(flow_id, attempts=1, timeout=_FULL_PROBE_TIMEOUT)
