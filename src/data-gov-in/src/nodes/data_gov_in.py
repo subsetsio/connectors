@@ -23,7 +23,16 @@ requests are paced and 429s get a source-specific longer backoff.
 import os
 import time
 
-from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_ndjson
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    delete_raw_file,
+    get,
+    load_state,
+    raw_asset_exists,
+    save_raw_ndjson,
+    save_state,
+)
 from constants import ENTITY_IDS
 
 SLUG = "data-gov-in"
@@ -39,6 +48,8 @@ _RAW_EXT = "ndjson.zst"
 _MAINTAIN_MAX_AGE_DAYS = 7
 _PACE_S = float(os.environ.get("DATA_GOV_IN_REQUEST_PACE_S", "1.5"))
 _RATE_LIMIT_ATTEMPTS = 8
+_STATE_VERSION = 1
+_LEG_SECONDS = int(os.environ.get("DATA_GOV_IN_LEG_SECONDS", str(4 * 60 * 60)))
 
 
 def _api_key() -> str:
@@ -69,19 +80,42 @@ def _fetch_page(resource_id: str, offset: int) -> dict:
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     resource_id = node_id[len(_PREFIX):]
+    run_id = os.environ.get("RUN_ID", "unknown")
+    state = load_state(asset)
+    same_run = (
+        state.get("schema_version") == _STATE_VERSION
+        and state.get("run_id") == run_id
+    )
+    if not same_run:
+        delete_raw_file(asset, _RAW_EXT)
+        state = {
+            "schema_version": _STATE_VERSION,
+            "run_id": run_id,
+            "next_offset": 0,
+            "total": None,
+            "complete": False,
+        }
+        save_state(asset, state)
 
-    rows: list[dict] = []
-    offset = 0
-    total = None
-    pages = 0
+    offset = int(state.get("next_offset") or 0)
+    total = state.get("total")
+    total = int(total) if total is not None else None
+    pages = offset // _PAGE
+    deadline = time.monotonic() + _LEG_SECONDS
     while True:
         payload = _fetch_page(resource_id, offset)
         if total is None:
             total = int(payload.get("total") or 0)
         batch = payload.get("records") or []
-        rows.extend(batch)
+        save_raw_ndjson(batch, asset, fragment=f"{offset:012d}")
         offset += _PAGE
         pages += 1
+        state.update({
+            "next_offset": offset,
+            "total": total,
+            "complete": offset >= total or not batch,
+        })
+        save_state(asset, state)
         if offset >= total or not batch:
             break
         if pages >= _MAX_PAGES:
@@ -89,9 +123,14 @@ def fetch_one(node_id: str) -> None:
                 f"{asset}: exceeded {_MAX_PAGES} pages (total={total}) — "
                 "resource is larger than expected; investigate before raising the cap"
             )
+        if time.monotonic() >= deadline:
+            print(
+                f"{resource_id}: leg budget spent at offset {offset}/{total}; "
+                "committing fragments and continuing next link"
+            )
+            return True
 
-    # Heterogeneous schema across resources, flat typed records → NDJSON.
-    save_raw_ndjson(rows, asset)
+    print(f"{resource_id}: complete, {total or 0} rows")
 
 
 DOWNLOAD_SPECS = [
@@ -103,14 +142,25 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+def _is_fresh(asset_id: str) -> bool:
+    state = load_state(asset_id)
+    return (
+        state.get("schema_version") == _STATE_VERSION
+        and state.get("complete") is True
+        and raw_asset_exists(asset_id, _RAW_EXT, max_age_days=_MAINTAIN_MAX_AGE_DAYS)
+    )
+
+
 MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=spec.id,
         description=(
             "Weekly full refresh; data.gov.in resource endpoint has no reliable "
-            "per-record cursor, so raw committed within the 7-day cadence is fresh"
+            "per-record cursor, so raw committed within the 7-day cadence is fresh. "
+            "The state complete flag prevents continuation fragments from being "
+            "mistaken for a complete asset."
         ),
-        check=lambda aid: raw_asset_exists(aid, _RAW_EXT, max_age_days=_MAINTAIN_MAX_AGE_DAYS),
+        check=_is_fresh,
     )
     for spec in DOWNLOAD_SPECS
 ]
