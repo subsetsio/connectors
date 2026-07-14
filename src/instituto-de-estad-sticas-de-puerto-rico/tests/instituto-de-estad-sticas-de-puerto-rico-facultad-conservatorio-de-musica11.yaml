@@ -1,5 +1,6 @@
 spec_id: instituto-de-estad-sticas-de-puerto-rico-facultad-conservatorio-de-musica11
 status: active
+coverage: {frozen: true, reason: "Conservatory faculty table is a small historical institutional snapshot; Year is an observation field, not a live freshness axis."}
 tests:
   - not_null: source_resource
     reason: every extracted row is tagged by construction with its originating CKAN resource; a null means the extractor failed to record provenance.

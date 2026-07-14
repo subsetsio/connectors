@@ -5,7 +5,7 @@
 SELECT
     "source_resource",
     "source_file",
-    "col_0",
+    "col_0" AS sector_code,
     CAST("Cons_D" AS BIGINT) AS cons_d,
     CAST("Cons_ND" AS BIGINT) AS cons_nd,
     CAST("Cons_S" AS BIGINT) AS cons_s,

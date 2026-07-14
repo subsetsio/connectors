@@ -1,5 +1,6 @@
 spec_id: instituto-de-estad-sticas-de-puerto-rico-ads-estimado-de-deposito-de-neumaticos-por-dia-de-operacion
 status: active
+coverage: {frozen: true, reason: "Historical 2013 tire-deposit estimate; the date column is the observation date in a fixed snapshot, not a live publication freshness axis."}
 tests:
   - not_null: source_resource
     reason: every extracted row is tagged by construction with its originating CKAN resource; a null means the extractor failed to record provenance.

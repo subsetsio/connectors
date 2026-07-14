@@ -3,13 +3,13 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [col_0]
+key: [record_number]
 temporal: fecha_de_efectividad
 checks:
   - kind: unique
-    columns: [col_0]
+    columns: [record_number]
   - kind: not_null
-    col: col_0
+    col: record_number
   - kind: row_floor
     min: 2873
 regression:

@@ -25,7 +25,7 @@ SELECT
     "DE" AS de,
     "ID" AS id,
     "AB" AS ab,
-    "C1" AS c1,
+    "C1" AS author_address,
     "RP" AS rp,
     "EM" AS em,
     "FU" AS fu,

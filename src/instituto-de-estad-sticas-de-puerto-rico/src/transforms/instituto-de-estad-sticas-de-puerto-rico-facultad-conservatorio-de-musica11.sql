@@ -16,5 +16,5 @@ SELECT
     CAST("Tenure" AS BIGINT) AS tenure,
     CAST("On tenure track" AS BIGINT) AS on_tenure_track,
     CAST("total" AS BIGINT) AS total,
-    "%" AS column
+    "%" AS percent
 FROM "instituto-de-estad-sticas-de-puerto-rico-facultad-conservatorio-de-musica11"

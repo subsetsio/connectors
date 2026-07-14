@@ -1,6 +1,8 @@
 spec_id: instituto-de-estad-sticas-de-puerto-rico-estadisticas-de-las-companias-aereas
 status: active
 tests:
+  - freshness: {col: YEAR, reaches: 2025}
+    reason: airline statistics currently reach the current year; a one-year slack allows ordinary reporting lag while catching stale extracts.
   - not_null: source_resource
     reason: every extracted row is tagged by construction with its originating CKAN resource; a null means the extractor failed to record provenance.
     certainty: 99

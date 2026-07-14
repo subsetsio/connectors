@@ -1,5 +1,6 @@
 spec_id: instituto-de-estad-sticas-de-puerto-rico-uso-estimado-del-agua
 status: active
+coverage: {frozen: true, reason: "Estimated water-use table is a historical 1990 snapshot; year is observation coverage, not source freshness."}
 tests:
   - not_null: source_resource
     reason: every extracted row is tagged by construction with its originating CKAN resource; a null means the extractor failed to record provenance.

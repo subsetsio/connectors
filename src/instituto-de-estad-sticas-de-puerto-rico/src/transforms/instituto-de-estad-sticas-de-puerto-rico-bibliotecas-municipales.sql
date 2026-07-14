@@ -23,7 +23,7 @@ SELECT
     "Población atendida en la biblioteca:" AS poblaci_n_atendida_en_la_biblioteca,
     "Entidad encargada de la Biblioteca" AS entidad_encargada_de_la_biblioteca,
     "Presupuesto operacional de la biblioteca proviene del gobierno" AS presupuesto_operacional_de_la_biblioteca_proviene_del_gobierno,
-    "Mencione otras subvenciones, donativos y formas de ayuda que recibe la biblioteca" AS mencione_otras_subvenciones_donativos_y_formas_de_ayuda_que_recibe_la_biblioteca,
+    "Mencione otras subvenciones, donativos y formas de ayuda que recibe la biblioteca" AS otras_subvenciones_donativos_ayuda_biblioteca,
     "¿La biblioteca tiene asignado un presupuesto?" AS la_biblioteca_tiene_asignado_un_presupuesto,
     "El presupuesto anual de la biblioteca es" AS el_presupuesto_anual_de_la_biblioteca_es,
     "Parte de ese presupuesto va dirigido a tecnología" AS parte_de_ese_presupuesto_va_dirigido_a_tecnolog_a,
@@ -40,8 +40,8 @@ SELECT
     "Cantidad de Personal Secretarial" AS cantidad_de_personal_secretarial,
     "Cantidad de Personal de Mantenimiento" AS cantidad_de_personal_de_mantenimiento,
     "Cantidad de otro Personal" AS cantidad_de_otro_personal,
-    "Participación del encargado de la biblioteca en acts. de educación continua:" AS participaci_n_del_encargado_de_la_biblioteca_en_acts_de_educaci_n_continua,
-    "Participación del otro persona de la biblioteca en acts. de educación continua:" AS participaci_n_del_otro_persona_de_la_biblioteca_en_acts_de_educaci_n_continua,
+    "Participación del encargado de la biblioteca en acts. de educación continua:" AS encargado_participa_educacion_continua,
+    "Participación del otro persona de la biblioteca en acts. de educación continua:" AS otro_personal_participa_educacion_continua,
     "Llevan registro de usuarios" AS llevan_registro_de_usuarios,
     CAST("¿De llevarlo cual es el año de la información más reciente?" AS BIGINT) AS de_llevarlo_cual_es_el_a_o_de_la_informaci_n_m_s_reciente,
     "Cantidad de usuarios anuales" AS cantidad_de_usuarios_anuales,
@@ -77,9 +77,9 @@ SELECT
     "¿Cuántas bibliotecas escolares disponibles hay en su municipio?" AS cu_ntas_bibliotecas_escolares_disponibles_hay_en_su_municipio,
     "¿Mantiene contacto con los maestros bibliotecarios?" AS mantiene_contacto_con_los_maestros_bibliotecarios,
     "Además de los servicios básicos, ¿ofrece otros a la comunidad?" AS adem_s_de_los_servicios_b_sicos_ofrece_otros_a_la_comunidad,
-    "¿Ofrecen servicios que se adapten a las necesidades de la comunidad con diversidad funcional?" AS ofrecen_servicios_que_se_adapten_a_las_necesidades_de_la_comunidad_con_diversidad_funcional,
+    "¿Ofrecen servicios que se adapten a las necesidades de la comunidad con diversidad funcional?" AS ofrece_servicios_diversidad_funcional,
     "¿Cuáles?" AS cu_les,
-    "¿Tiene la biblioteca acuerdos o proyecto colaborativos con otras bibliotecas?" AS tiene_la_biblioteca_acuerdos_o_proyecto_colaborativos_con_otras_bibliotecas,
-    "¿Qué necesidades u obstáculos enfrenta la biblioteca para cumplir con misión?" AS qu_necesidades_u_obst_culos_enfrenta_la_biblioteca_para_cumplir_con_misi_n,
-    "¿Que tipo de apoyo le gustaría recibir de la Biblioteca Nacional de Puerto Rico?" AS que_tipo_de_apoyo_le_gustar_a_recibir_de_la_biblioteca_nacional_de_puerto_rico
+    "¿Tiene la biblioteca acuerdos o proyecto colaborativos con otras bibliotecas?" AS acuerdos_colaborativos_otras_bibliotecas,
+    "¿Qué necesidades u obstáculos enfrenta la biblioteca para cumplir con misión?" AS necesidades_obstaculos_mision,
+    "¿Que tipo de apoyo le gustaría recibir de la Biblioteca Nacional de Puerto Rico?" AS apoyo_deseado_biblioteca_nacional
 FROM "instituto-de-estad-sticas-de-puerto-rico-bibliotecas-municipales"

@@ -116,5 +116,5 @@ SELECT
     "PARENT_COMPANY_DB_NUMBER" AS parent_company_db_number,
     "SYS_STSITSSXSOLCHJPSAF7486K4RV" AS sys_stsitssxsolchjpsaf7486k4rv,
     "SYS_STSWGMX8O#197_NPUKVK#S5$QM" AS sys_stswgmx8o_197_npukvk_s5_qm,
-    "col_111"
+    "col_111" AS supplemental_note
 FROM "instituto-de-estad-sticas-de-puerto-rico-tri"

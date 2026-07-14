@@ -5,7 +5,7 @@
 SELECT
     "source_resource",
     "source_file",
-    CAST("col_0" AS BIGINT) AS col_0,
+    CAST("col_0" AS BIGINT) AS record_number,
     "Organización" AS organizaci_n,
     "Número.de.exención" AS n_mero_de_exenci_n,
     strptime("Fecha.de.efectividad", '%Y-%m-%d')::DATE AS fecha_de_efectividad
