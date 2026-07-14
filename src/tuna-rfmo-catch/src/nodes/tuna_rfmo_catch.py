@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import json
 from io import BytesIO
 import re
 from urllib.parse import urljoin
 from zipfile import ZipFile
 
 import pandas as pd
-from subsets_utils import NodeSpec, get, record_source_signature, save_raw_ndjson
+from subsets_utils import NodeSpec, get, raw_writer, record_source_signature
 
 
 SLUG = "tuna-rfmo-catch"
@@ -171,49 +172,87 @@ def _read_csv(content: bytes) -> pd.DataFrame:
     return pd.read_csv(BytesIO(content), dtype=str, keep_default_na=False, on_bad_lines="skip")
 
 
-def _read_member_rows(content: bytes, filename: str, *, entity: str, rfmo: str, source_url: str):
+def _iter_csv_frames(content: bytes):
+    for encoding in ("utf-8-sig", "latin1"):
+        try:
+            yield from pd.read_csv(
+                BytesIO(content),
+                dtype=str,
+                keep_default_na=False,
+                sep=None,
+                engine="python",
+                encoding=encoding,
+                on_bad_lines="skip",
+                chunksize=100_000,
+            )
+            return
+        except Exception:
+            continue
+    yield from pd.read_csv(
+        BytesIO(content),
+        dtype=str,
+        keep_default_na=False,
+        on_bad_lines="skip",
+        chunksize=100_000,
+    )
+
+
+def _iter_frame_rows(frame: pd.DataFrame, *, source_file: str, entity: str, rfmo: str, source_url: str):
+    frame.columns = [str(col).strip() or f"unnamed_{idx}" for idx, col in enumerate(frame.columns)]
+    for record in frame.to_dict(orient="records"):
+        clean = {str(key): ("" if value is None else str(value)) for key, value in record.items()}
+        clean["_entity_id"] = entity
+        clean["_rfmo"] = rfmo
+        clean["_source_url"] = source_url
+        clean["_source_file"] = source_file
+        yield clean
+
+
+def _iter_member_rows(content: bytes, filename: str, *, entity: str, rfmo: str, source_url: str):
     lower = filename.lower()
     if lower.endswith((".csv", ".txt")):
-        frames = [(filename, _read_csv(content))]
+        for frame in _iter_csv_frames(content):
+            yield from _iter_frame_rows(
+                frame,
+                source_file=filename,
+                entity=entity,
+                rfmo=rfmo,
+                source_url=source_url,
+            )
+        return
     elif lower.endswith((".xlsx", ".xls")):
         workbook = pd.read_excel(BytesIO(content), sheet_name=None, dtype=str, keep_default_na=False)
         frames = [(f"{filename}::{sheet}", frame) for sheet, frame in workbook.items()]
     else:
-        return []
+        return
 
-    rows = []
     for source_file, frame in frames:
-        frame.columns = [str(col).strip() or f"unnamed_{idx}" for idx, col in enumerate(frame.columns)]
-        for record in frame.to_dict(orient="records"):
-            clean = {str(key): ("" if value is None else str(value)) for key, value in record.items()}
-            clean["_entity_id"] = entity
-            clean["_rfmo"] = rfmo
-            clean["_source_url"] = source_url
-            clean["_source_file"] = source_file
-            rows.append(clean)
-    return rows
+        yield from _iter_frame_rows(
+            frame,
+            source_file=source_file,
+            entity=entity,
+            rfmo=rfmo,
+            source_url=source_url,
+        )
 
 
-def _rows_from_response(content: bytes, *, entity: str, rfmo: str, source_url: str):
+def _iter_rows_from_response(content: bytes, *, entity: str, rfmo: str, source_url: str):
     if content[:2] == b"PK":
-        rows = []
         with ZipFile(BytesIO(content)) as archive:
             for name in archive.namelist():
                 if name.endswith("/"):
                     continue
-                rows.extend(
-                    _read_member_rows(
-                        archive.read(name),
-                        name,
-                        entity=entity,
-                        rfmo=rfmo,
-                        source_url=source_url,
-                    )
+                yield from _iter_member_rows(
+                    archive.read(name),
+                    name,
+                    entity=entity,
+                    rfmo=rfmo,
+                    source_url=source_url,
                 )
-        return rows
+        return
 
     filename = source_url.rsplit("/", 1)[-1]
-    return _read_member_rows(content, filename, entity=entity, rfmo=rfmo, source_url=source_url)
+    yield from _iter_member_rows(content, filename, entity=entity, rfmo=rfmo, source_url=source_url)
 
 
 def fetch_one(spec_id: str) -> None:
@@ -223,17 +262,29 @@ def fetch_one(spec_id: str) -> None:
     urls = list(config.get("urls", ()))
     urls.extend(_resolve_landing_url(url) for url in config.get("landing_urls", ()))
 
-    rows = []
-    for url in urls:
-        response = get(url, timeout=(10.0, 240.0))
-        response.raise_for_status()
-        source_url = str(response.url)
-        rows.extend(_rows_from_response(response.content, entity=entity, rfmo=rfmo, source_url=source_url))
+    row_count = 0
+    responses = []
+    with raw_writer(spec_id, "ndjson.gz", mode="wt", compression="gzip") as out:
+        for url in urls:
+            response = get(url, timeout=(10.0, 240.0))
+            response.raise_for_status()
+            source_url = str(response.url)
+            for row in _iter_rows_from_response(
+                response.content,
+                entity=entity,
+                rfmo=rfmo,
+                source_url=source_url,
+            ):
+                out.write(json.dumps(row, separators=(",", ":")) + "\n")
+                row_count += 1
+            responses.append((url, response))
+
+    for url, response in responses:
         record_source_signature(spec_id, url, response=response)
 
-    if not rows:
+    if row_count == 0:
         raise ValueError(f"{entity}: no tabular rows parsed from {len(urls)} URL(s)")
-    save_raw_ndjson(rows, spec_id)
+    print(f"  -> Wrote {row_count:,} records")
 
 
 DOWNLOAD_SPECS = [
