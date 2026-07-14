@@ -14,7 +14,7 @@ from urllib.parse import quote
 
 import httpx
 
-from subsets_utils import NodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, load_raw_ndjson, save_raw_ndjson
 
 BASE_URL = "https://understat.com"
 LEAGUES = {
@@ -237,14 +237,11 @@ def fetch_player_match_stats(node_id: str) -> None:
         "xGBuildup",
         "positionOrder",
     }
-    for match, payload in _iter_match_payloads():
-        for side, roster in (payload.get("rosters") or {}).items():
-            for roster_id, player in _iter_roster_players(roster):
-                row = {col: player.get(col) for col in stat_cols}
-                row.update(match)
-                row["side"] = side
-                row["roster_id"] = str(player.get("id") or roster_id)
-                rows.append(row)
+    for player in load_raw_ndjson("understat-rosters"):
+        row = {col: player.get(col) for col in stat_cols}
+        for col in ("league", "season", "match_id", "side", "roster_id"):
+            row[col] = player.get(col)
+        rows.append(row)
     if not rows:
         raise RuntimeError(f"{node_id}: no player match stats collected")
     save_raw_ndjson(rows, node_id)
@@ -258,5 +255,10 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="understat-team-match-stats", fn=fetch_team_match_stats, kind="download"),
     NodeSpec(id="understat-shots", fn=fetch_shots, kind="download"),
     NodeSpec(id="understat-rosters", fn=fetch_rosters, kind="download"),
-    NodeSpec(id="understat-player-match-stats", fn=fetch_player_match_stats, kind="download"),
+    NodeSpec(
+        id="understat-player-match-stats",
+        fn=fetch_player_match_stats,
+        kind="download",
+        deps=("understat-rosters",),
+    ),
 ]
