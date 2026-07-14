@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "DiDo declares a publication frequency per dataset; across the 178 published datafiles that is 113 annual, 32 monthly, 17 quarterly, 8 punctual and 8 unknown. The fastest real cadence is the monthly series (Conjoncture mensuelle de l'energie), so a 7-day re-check bounds its staleness to under a week; the annual and quarterly datasets simply re-publish unchanged between releases. Release dates are staggered per dataset (DiDo's frequency_date ranges from 2026-07-28 to 2027-01-31 across the accepted set), so there is no single fleet-wide due date to align to. Research found no incremental or changed-row query on the DiDo API, so every run re-enumerates the catalog and re-fetches the current millesime of each accepted datafile; raw is stored as parquet, which keeps a full weekly refresh cheap. Watch for future-dated millesimes: if the newest millesime carries a date_diffusion in the future, the export endpoint 400s until that timestamp, so the download picks the newest already-available millesime."
 }

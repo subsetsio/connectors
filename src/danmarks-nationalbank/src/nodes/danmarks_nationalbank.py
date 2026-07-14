@@ -16,11 +16,33 @@ multi-hundred-MB response (several of these tables are 600MB-950MB as one
 extract — DNSUBOH, DNVP2, DNVPDKF, DNVPDKR2). So instead of one POST with
 Tid=["*"], we pull the table in slices kept to ~TARGET_ROWS rows each.
 
-Use StatBank wildcards for the non-time dimensions on the normal path. For very
-wide sparse Nationalbank tables, expanding every dimension to explicit value
-lists makes the API evaluate an enormous Cartesian request before streaming
-results. Wildcards stream the sparse cells directly. Explicit value lists are
-kept only for the reactive splitter, where we genuinely need a bisectable axis.
+Why the non-time dimensions are requested as EXPLICIT value lists and never as
+the "*" wildcard: several of these tables share one physical StatBank cube with
+their siblings (DNRENTD/DNRENTM/DNRENTA are the daily/monthly/annual views of
+one interest-rate cube; the DNVP* securities tables likewise). Each *table*
+declares, via /v1/tableinfo, the subset of the cube it actually publishes. "*"
+does NOT mean "the values this table declares" — it means "every value present
+in the underlying cube", so it leaks cells belonging to the sibling tables'
+series. Those leaked cells have no entry in this table's value table, so BULK
+renders their dimension label as an EMPTY STRING (and `valuePresentation=Code`
+blanks them too — they are unidentifiable in BULK by any means).
+
+That is not a cosmetic defect. The leaked rows are indistinguishable from each
+other, so a coordinate box can come back several times with a blank dimension
+and different values, which destroys row identity: DNRENTD at 1983M05D10
+returned 49 rows for 8 distinct coordinates (45 blank-labelled), DNBALA 2003M01
+210 rows for 126 coordinates, DNVPU 2018M12 10,628 rows for 10,488. Downstream
+this is exactly why the model could not settle a real grain (it had to pad every
+key with the `value` MEASURE, and 18 tables ended up keyless).
+
+The explicit list is the source's own answer: tableinfo, JSONSTAT and CSV all
+return precisely the declared subset for the same request. Nothing is lost —
+the leaked series are published by the sibling table that declares them (the
+CSO10Y/CIT03M/CRO10Y yields DNRENTD leaks are declared by DNRENTM and DNRENTA,
+which this connector also downloads).
+
+The wildcard IS still correct for the time dimension: only one table owns a
+given frequency, so Tid never leaks.
 
 The slice size is set from *actual* row counts, not the dense cardinality
 product: many tables are extremely sparse (e.g. DNVPDKR2's dense cross-product is
@@ -28,8 +50,8 @@ product: many tables are extremely sparse (e.g. DNVPDKR2's dense cross-product i
 either over-splits into hundreds of thousands of tiny requests or — worse —
 under-splits because it can't see that a *single* period already blows past the
 limit. We instead probe the most-recent (largest) period to learn rows/period,
-then either pack several periods per request (small tables) or pull one period at
-a time while splitting the widest non-time dimension into batches (giant tables).
+then either pack several periods per request (small tables) or pull one period
+at a time (giant tables).
 Every fetch is additionally wrapped in a reactive splitter: if a slice still
 drops after the transient retries, it is bisected along its widest axis and
 retried, guaranteeing forward progress regardless of the size estimate.
@@ -41,6 +63,7 @@ here. The transform re-types the value column to DOUBLE.
 """
 
 import json
+from datetime import datetime, timezone
 
 from subsets_utils import (
     MaintainSpec,
@@ -48,6 +71,7 @@ from subsets_utils import (
     get,
     get_client,
     raw_asset_exists,
+    raw_manifest,
     transient_retry,
     raw_writer,
 )
@@ -63,10 +87,6 @@ API = "https://api.statbank.dk/v1"
 TARGET_ROWS = 200_000
 # Safety ceiling on periods per slice, independent of the row estimate.
 MAX_PERIODS_PER_CHUNK = 2_000
-# Dense-product ceiling for an individual oversized-table request. The real
-# output is sparse, but keeping the Cartesian box bounded prevents pathological
-# single-period streams such as DNVPDKR2 from staying multi-hundred-MB wide.
-DENSE_PRODUCT_TARGET = 200_000
 # Max recursive bisections in the reactive splitter before giving up.
 MAX_SPLIT_DEPTH = 32
 
@@ -169,40 +189,6 @@ def _emit_box(
     emit(rows)
 
 
-def _dense_product(var_specs: list) -> int:
-    product = 1
-    for spec in var_specs:
-        product *= max(1, len(spec["values"]))
-    return product
-
-
-def _partition_specs(var_specs: list, target: int = DENSE_PRODUCT_TARGET) -> list:
-    """Split non-time dimensions into bounded Cartesian boxes.
-
-    The StatBank response is sparse, so this is not a row-count guarantee. It is
-    still a useful upper bound on request breadth for giant tables whose single
-    latest-period probe would otherwise stream for a long time before failing.
-    """
-    boxes = [[{"code": s["code"], "values": list(s["values"])} for s in var_specs]]
-    out = []
-    while boxes:
-        box = boxes.pop()
-        if _dense_product(box) <= target:
-            out.append(box)
-            continue
-        widest = max(range(len(box)), key=lambda i: len(box[i]["values"]))
-        vals = box[widest]["values"]
-        if len(vals) < 2:
-            out.append(box)
-            continue
-        mid = len(vals) // 2
-        for half in (vals[:mid], vals[mid:]):
-            sub = [dict(s) for s in box]
-            sub[widest] = {"code": box[widest]["code"], "values": half}
-            boxes.append(sub)
-    return out
-
-
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     table_id = _table_id(node_id)
@@ -215,13 +201,10 @@ def fetch_one(node_id: str) -> None:
         v["id"]: [x["id"] for x in v["values"]]
         for v in variables
     }
-    # Wildcards keep StatBank on its sparse fast path. If a request fails, the
-    # splitter expands them to explicit values and bisects the widest axis.
+    # Explicit value lists, never "*": the wildcard returns the whole shared
+    # cube, including sibling tables' series, which BULK emits with a blank
+    # (unrecoverable) dimension label. See the module docstring.
     nt_specs = [
-        {"code": v["id"], "values": ["*"]}
-        for v in variables if not v.get("time")
-    ]
-    nt_specs_explicit = [
         {"code": v["id"], "values": [x["id"] for x in v["values"]]}
         for v in variables if not v.get("time")
     ]
@@ -284,16 +267,38 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Raw fetched before this instant was produced by the old wildcard fetch and
+# carries the leaked, blank-labelled sibling-cube rows the module docstring
+# describes. Such raw is wrong at any age, so the cadence skip must not honour
+# it — otherwise the corrupt extract survives until it ages past the 7-day
+# window and the fix silently does nothing. Self-expiring: once every asset has
+# been refetched past this instant the clause never fires again, and it can be
+# dropped along with the freshness join below.
+_WILDCARD_FIX_AT = datetime(2026, 7, 14, 21, 0, tzinfo=timezone.utc)
+
 _MAINTAIN_DESCRIPTION = (
-    "Skip raw assets fetched within 7 days; production cadence is weekly "
+    "Skip raw assets fetched within 7 days AND produced by the current "
+    "explicit-value-list fetch; production cadence is weekly "
     "(maintenance.json cadence_days=7), and each run re-pulls the full StatBank table."
 )
+
+
+def _raw_is_current(asset_id: str) -> bool:
+    if not raw_asset_exists(asset_id, "ndjson.gz", max_age_days=7):
+        return False
+    entry = raw_manifest.asset_entry(asset_id, "ndjson.gz")
+    if entry is None:
+        return False
+    fetched = raw_manifest.newest_fetched_at(entry)
+    # Unknown fetch time — refetch rather than trust a pre-fix extract.
+    return fetched is not None and fetched >= _WILDCARD_FIX_AT
+
 
 MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=spec.id,
         description=_MAINTAIN_DESCRIPTION,
-        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+        check=_raw_is_current,
     )
     for spec in DOWNLOAD_SPECS
 ]
