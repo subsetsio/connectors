@@ -68,9 +68,7 @@ from constants import ENTITY_IDS
 API_BASE = "https://api.stats.gov.wales/v1"
 
 # A truncated read is a cut origin stream, which a plain re-fetch fixes only if
-# it actually reaches the origin — see the CDN note above. The row count is
-# re-read each attempt so a dataset legitimately republished mid-fetch settles
-# instead of failing.
+# it actually reaches the origin — see the CDN note above.
 MAX_ATTEMPTS = 4
 RETRY_BACKOFF_S = 2.0
 _COUNT_PAGE_SIZE = 5  # the view endpoint's minimum; we only read page_info off it
@@ -111,30 +109,58 @@ def _expected_rows(dataset_id: str) -> int:
     return int(body["page_info"]["total_records"])
 
 
-def _download_csv(dataset_id: str) -> bytes:
-    url = f"{API_BASE}/{dataset_id}/download/csv"
-    resp = get(_uncached(url), timeout=(10.0, 180.0))
+def _fetch(dataset_id: str, fmt: str) -> bytes:
+    url = f"{API_BASE}/{dataset_id}/download/{fmt}"
+    resp = get(_uncached(url), timeout=(10.0, 600.0))
     resp.raise_for_status()
     return resp.content
+
+
+def _read_csv(dataset_id: str) -> pd.DataFrame:
+    return pd.read_csv(BytesIO(_fetch(dataset_id, "csv")), dtype="string")
+
+
+def _read_xlsx(dataset_id: str) -> pd.DataFrame:
+    """The whole table from the xlsx rendering, sheet spill included.
+
+    Only the first sheet carries the header row and the API starts a new sheet
+    every ~1.05M rows, so the sheets are read headerless and stitched by
+    position: anything that keys off ``read_excel``'s default (first sheet,
+    first row as header) silently drops every row past the first spill.
+    """
+    sheets = pd.read_excel(
+        BytesIO(_fetch(dataset_id, "xlsx")), sheet_name=None, dtype="string", header=None
+    )
+    frames = list(sheets.values())
+    columns = frames[0].iloc[0].tolist()
+    df = pd.concat([frames[0].iloc[1:]] + frames[1:], ignore_index=True)
+    df.columns = columns
+    return df
 
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     dataset_id = _entity_id(node_id)
 
+    # The row count is re-read each attempt so a dataset legitimately republished
+    # mid-fetch settles instead of failing.
     for attempt in range(1, MAX_ATTEMPTS + 1):
         expected = _expected_rows(dataset_id)
-        df = pd.read_csv(BytesIO(_download_csv(dataset_id)), dtype="string")
+        df = _read_csv(dataset_id)
         if len(df) >= expected:
             break  # short reads are the failure mode; a grown table is a fresh publish
         if attempt < MAX_ATTEMPTS:
             time.sleep(RETRY_BACKOFF_S * attempt)
     else:
-        raise RuntimeError(
-            f"{dataset_id}: truncated CSV download — got {len(df)} rows, "
-            f"expected {expected} (view page_info.total_records) "
-            f"after {MAX_ATTEMPTS} attempts"
-        )
+        csv_rows = len(df)
+        expected = _expected_rows(dataset_id)
+        df = _read_xlsx(dataset_id)
+        if len(df) < expected:
+            raise RuntimeError(
+                f"{dataset_id}: truncated download — CSV got {csv_rows} rows over "
+                f"{MAX_ATTEMPTS} attempts, xlsx fallback got {len(df)}, "
+                f"expected {expected} (view page_info.total_records)"
+            )
 
     out = BytesIO()
     df.to_parquet(out, index=False)
