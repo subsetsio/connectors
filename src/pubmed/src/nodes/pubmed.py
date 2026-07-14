@@ -36,15 +36,16 @@ STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 
-# Files fetched per invocation. The runner has no DAG_TIME_BUDGET, so the only
-# continuation mechanism is a node returning True (-> exit 2 -> self-retrigger
-# with the SAME RUN_ID, preserving run-scoped raw). We therefore bound each
-# invocation to a batch and request continuation while files remain, rather
-# than risk one ~38M-citation pass overrunning the 355-min GitHub job limit
-# (which is a host SIGTERM -> run marked failed, NO retrigger). The previous
-# 100-file batch still reached the runner deadline while returning continuation,
-# so keep each leg comfortably below the watchdog even when NCBI is slow.
-FILES_PER_RUN = 40
+# Files fetched per node invocation. The DAG continues scheduling a node that
+# returns True until the shared time budget is exhausted, so this is a commit
+# granularity, not a whole GitHub job cap. Keep it small enough that the final
+# watchdog interrupt discards at most a modest amount of work.
+FILES_PER_RUN = 20
+
+# Additional wall-clock cap for one child process. Runtime continuation still
+# owns the overall job budget; this just commits raw fragments regularly even
+# when a few large XML files parse slowly.
+MAX_NODE_SECONDS = 45 * 60
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
@@ -230,12 +231,20 @@ def fetch_citations(node_id: str):
         return  # None -> download done -> transform publishes the full corpus
 
     batch = pending[:FILES_PER_RUN]
+    deadline = time.monotonic() + MAX_NODE_SECONDS
     print(
         f"{prefix}: {len(completed)} present, fetching {len(batch)} "
         f"of {len(pending)} pending ({len(nums)} total)"
     )
 
     for i, n in enumerate(batch):
+        if i > 0 and time.monotonic() >= deadline:
+            print(
+                f"node time cap reached after {i} files; "
+                f"{len(pending) - i} files remaining — requesting continuation"
+            )
+            return True
+
         filename = f"{prefix}{n:04d}.xml.gz"
         raw = _fetch_bytes(BASE_URL + filename)
         records = _parse_articles(gzip.decompress(raw))
