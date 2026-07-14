@@ -3,21 +3,34 @@
 The source publishes one ZIP-compressed CSV per standardized location on the
 project data page, backed by Stanford Stacks file URLs. Files can be large and
 location schemas vary, so each download node streams its ZIP to a temporary file,
-then streams CSV rows to gzip-compressed NDJSON with a few provenance columns.
+then streams CSV rows to a Parquet file with a few provenance columns.
 Transforms type and select columns after profiling the real raw assets.
+
+Raw is Parquet with every source column typed `string`, so the read side does
+no type inference at all. The CSVs are R exports: missing cells carry the
+literal `NA`, which is indistinguishable from data until a value that isn't a
+date/time/number shows up. NDJSON made that fatal — read_json_auto infers from
+a sample of the file head, so a column whose first rows all parse as times is
+bound TIME and the scan then dies on the first `NA` deeper in the file (and no
+SQL cast can help: the failure is in the read, before the cast). Parquet is
+self-describing, so the declared string type IS the read type for every file
+and every future run. `NA` is preserved verbatim rather than nulled — it sits
+alongside genuine empty cells here (mt-statewide has both), and reading it as
+missing is a call for the model, not the download.
 """
 
 from __future__ import annotations
 
 import csv
 import html
-import json
 import re
 import tempfile
 import zipfile
 from pathlib import Path
 
 import httpx
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 from constants import ENTITY_IDS
 from subsets_utils import NodeSpec, get, raw_writer, transient_retry
@@ -26,6 +39,7 @@ SLUG = "stanford-open-policing-project"
 PREFIX = f"{SLUG}-"
 DATA_PAGE = "https://openpolicing.stanford.edu/data/"
 HEADERS = {"User-Agent": "subsets-factory/1.0"}
+_BATCH_ROWS = 50_000
 
 
 def fetch_one(node_id: str) -> None:
@@ -75,30 +89,57 @@ def _emit_zip_csv(zip_path: Path, asset: str, entity_id: str, source_file: str) 
         if len(csv_members) != 1:
             raise RuntimeError(f"{zip_path.name}: expected one CSV member, got {csv_members}")
         member = csv_members[0]
-        with zf.open(member) as raw, raw_writer(
-            asset, "ndjson.gz", mode="wt", compression="gzip"
-        ) as out:
+        with zf.open(member) as raw:
             text = (line.decode("utf-8-sig", errors="replace") for line in raw)
             reader = csv.DictReader(text)
             if not reader.fieldnames:
                 raise RuntimeError(f"{zip_path.name}: CSV has no header")
             fieldnames = _dedupe_headers(reader.fieldnames)
             reader.fieldnames = fieldnames
-            written = 0
-            for row_number, row in enumerate(reader, start=1):
-                rec = {
-                    "_source_entity_id": entity_id,
-                    "_source_file": source_file,
-                    "_source_member": member,
-                    "_row_number": row_number,
-                }
-                for key in fieldnames:
-                    value = row.get(key)
-                    rec[key] = value if value != "" else None
-                out.write(json.dumps(rec, ensure_ascii=False, separators=(",", ":")))
-                out.write("\n")
-                written += 1
+            schema = pa.schema(
+                [
+                    pa.field("_source_entity_id", pa.string()),
+                    pa.field("_source_file", pa.string()),
+                    pa.field("_source_member", pa.string()),
+                    pa.field("_row_number", pa.int64()),
+                ]
+                + [pa.field(name, pa.string()) for name in fieldnames]
+            )
+            with raw_writer(asset, "parquet") as out:
+                writer = pq.ParquetWriter(out, schema, compression="zstd")
+                try:
+                    written = _write_rows(reader, writer, schema, fieldnames, entity_id,
+                                          source_file, member)
+                finally:
+                    writer.close()
     return written
+
+
+def _write_rows(reader, writer, schema, fieldnames, entity_id, source_file, member) -> int:
+    """Stream CSV rows into `writer` in batches — these files don't fit in memory."""
+    buf: dict[str, list] = {name: [] for name in schema.names}
+    written = 0
+    for row_number, row in enumerate(reader, start=1):
+        buf["_source_entity_id"].append(entity_id)
+        buf["_source_file"].append(source_file)
+        buf["_source_member"].append(member)
+        buf["_row_number"].append(row_number)
+        for key in fieldnames:
+            value = row.get(key)
+            buf[key].append(value if value != "" else None)
+        written += 1
+        if len(buf["_row_number"]) >= _BATCH_ROWS:
+            _flush(writer, schema, buf)
+    _flush(writer, schema, buf)
+    return written
+
+
+def _flush(writer, schema, buf: dict[str, list]) -> None:
+    if not buf["_row_number"]:
+        return
+    writer.write_table(pa.Table.from_pydict(buf, schema=schema))
+    for values in buf.values():
+        values.clear()
 
 
 def _dedupe_headers(headers: list[str]) -> list[str]:

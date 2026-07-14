@@ -2,6 +2,7 @@
 -- profiles (model/tables + columns). Faithful pass-through: verified
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
+-- caution: Wide 2010 Census (PL 94-171) redistricting cross-tab: one row per congressional_district, and every other column is a population count whose NAME encodes the category — a race group, optionally narrowed to `not_hispanic_or_latino`, and optionally to `over_18`. The count columns are overlapping subtotals, not a partition: `total_population_2010` equals the six `*_alone_2010` race columns plus `population_of_two_or_more_races_2010`, and separately equals `hispanic_or_latino_of_any_race_2010` plus `not_hispanic_or_latino_2010` (verified on the data). Summing across columns counts the same people two or three times — pick the single column matching the category you want.
 SELECT
     "_entity_id" AS entity_id,
     "_source_type" AS source_type,

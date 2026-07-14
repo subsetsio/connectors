@@ -20,6 +20,12 @@ incremental is not possible here; the only delta signal is table-level
 documented cost of having no row-level delta filter. Memory stays bounded by
 streaming each row straight to a gzipped NDJSON file rather than buffering.
 
+Re-pull is stateless but not unconditional: the *fetch fns* stay dumb (if one is
+invoked, it fetches), while ``MAINTAIN_SPECS`` at the bottom of this module owns
+"should this table run at all?" — a whole-snapshot age check against the raw
+manifest. That split is what lets a ~19h corpus finish inside repeated ~5h45m
+invocations; see the comment there, it is load-bearing.
+
 Raw format — **NDJSON**. Every table has its own column set (each StatLine
 table is a distinct dimension/topic schema), so a single shared parquet schema
 is impossible; NDJSON re-types per table on read. One raw asset per table.
@@ -39,7 +45,14 @@ import json
 import socket
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, raw_writer, transient_retry
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    raw_asset_exists,
+    raw_writer,
+    transient_retry,
+)
 
 # ---------------------------------------------------------------------------
 # Source surface
@@ -48,6 +61,14 @@ from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 FEED_BASE = "https://opendata.cbs.nl/ODataFeed/odata"
 CATALOG_BASE = "https://opendata.cbs.nl/ODataCatalog"
 MAX_PAGES = 200_000        # safety ceiling (~2e9 rows); raises, never silent
+
+# One constant for the raw extension: the raw manifest addresses an asset by
+# (id, ext) with an EXACT string match, so a writer/skip-check drift here would
+# silently make every MaintainSpec check return False and re-crawl the corpus.
+RAW_EXT = "ndjson.gz"
+
+# Refresh window for the maintain skip — matches maintenance.json cadence_days.
+REFRESH_DAYS = 7
 
 # The theme taxonomy is a catalog-level entity set, not a StatLine table: it has
 # no Feed endpoint, no dimensions and no TypedDataSet. It gets its own fetch fn.
@@ -97,13 +118,20 @@ def _force_ipv4() -> None:
     _ipv4_forced = True
 
 
-# A full-corpus crawl runs for hours and hammers one host; opendata.cbs.nl
-# answers deep pages but intermittently throws a transient 503 under sustained
-# load (observed mid-crawl on a large table). The standard 6-attempt policy
-# exhausted inside one bad window and crashed the whole DAG, so widen the
-# budget: 10 attempts with backoff to 300s rides out a multi-minute server
-# wobble without giving up. 429/5xx/network errors are all `is_transient`.
-@transient_retry(attempts=10, min_wait=4, max_wait=300)
+# opendata.cbs.nl answers deep pages but intermittently throws a transient 503
+# under sustained load (observed mid-crawl on a large table), so a bare
+# single-shot call crashes the whole DAG. Retry — but note this stacks
+# MULTIPLICATIVELY with the shared client's own retry inside `get()` (4
+# attempts, Retry-After honoured). The previous policy here (10 attempts,
+# backoff to 300s) therefore meant 40 requests and a ~1073s wall per page: on
+# the 2026-07-14 outage every spec burned ~18min before failing, and 10
+# sequential specs tripped DAG_MAX_CONSECUTIVE_FAILURES after 3h having learned
+# nothing. 5 outer attempts x 4 inner = 20 requests over ~5min still rides out a
+# multi-minute wobble, fails a real outage ~4x sooner, and is a great deal
+# gentler on a source whose docs ask clients to be considerate. Losing the DAG
+# to a bad window is also no longer expensive: MAINTAIN_SPECS below means the
+# next invocation resumes instead of re-crawling from table 1.
+@transient_retry(attempts=5, min_wait=4, max_wait=60)
 def _fetch_page(url: str, params: dict | None = None) -> dict:
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -155,7 +183,7 @@ def fetch_one(node_id: str) -> None:
 
     pages = 0
     rows_written = 0
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
+    with raw_writer(asset, RAW_EXT, mode="wt", compression="gzip") as fh:
         while url is not None:
             if pages >= MAX_PAGES:
                 raise RuntimeError(
@@ -196,7 +224,7 @@ def fetch_themes(node_id: str) -> None:
     params = {"$format": "json"}
 
     rows_written = 0
-    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+    with raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip") as fh:
         while url is not None:
             payload = _fetch_page(url, params)
             params = None
@@ -217,6 +245,45 @@ DOWNLOAD_SPECS = [
         id=_node_id(eid),
         fn=fetch_themes if eid == THEMES_ENTITY_ID else fetch_one,
         kind="download",
+    )
+    for eid in ENTITY_IDS
+]
+
+
+# ---------------------------------------------------------------------------
+# Maintain — the freshness policy, and the only thing that makes this corpus
+# finishable at all
+# ---------------------------------------------------------------------------
+#
+# This connector crawls ~1531 tables at roughly 45s each (~19h of fetch), but a
+# cloud invocation gets DAG_TIME_BUDGET ~5h45m and the orchestrator treats every
+# main.py invocation as a FRESH DAG — cross-invocation node-state resume was
+# deliberately removed from the library. So without a maintain skip each run
+# restarts at the first table, gets ~460 tables in, and dies at the deadline
+# having re-fetched exactly what the last run already had: the corpus can never
+# complete. (Observed: run 20260709-112646 committed 462 assets; the 20260713
+# re-dispatch then began again at table 1 and made zero progress.)
+#
+# `raw_asset_exists` resolves through the CONNECTOR-scoped raw manifest, not the
+# run-scoped raw dir, so a snapshot committed by an earlier run still counts as
+# fresh under a new run_id. That turns each invocation into the next slice of one
+# backfill, and once the corpus is whole the same window makes the weekly refresh
+# re-pull it — which is what we want, since CBS revises tables in place and the
+# TypedDataSet endpoint offers no row-level `since` filter to be cleverer with.
+# FORCE_REFRESH=1 bypasses every check.
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=_node_id(eid),
+        description=(
+            f"CBS revises StatLine tables in place and exposes no row-level delta "
+            f"filter, so freshness is whole-snapshot age: refetch this table when "
+            f"its raw snapshot is older than {REFRESH_DAYS}d "
+            f"(maintenance.json cadence_days=7). Younger than that, skip — which "
+            f"is also how the ~1531-table backfill advances across invocations."
+        ),
+        check=lambda asset_id: raw_asset_exists(
+            asset_id, RAW_EXT, max_age_days=REFRESH_DAYS
+        ),
     )
     for eid in ENTITY_IDS
 ]

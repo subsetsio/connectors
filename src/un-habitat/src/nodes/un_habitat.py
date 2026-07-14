@@ -85,11 +85,19 @@ def _rows_from_arrow(item: dict, source_kind: str, source_name: str, meta: dict,
 
 
 def _read_vector_path(path: Path, item: dict, source_kind: str, source_name: str | None = None) -> list[dict]:
-    rows = []
+    # One accepted entity is one published dataset. Concatenating several
+    # feature classes would union unrelated schemas into a table with no grain.
     layers = pyogrio.list_layers(path)
-    for layer_name, _geometry_type in layers:
-        meta, table = pyogrio.read_arrow(path, layer=layer_name)
-        rows.extend(_rows_from_arrow(item, source_kind, str(layer_name), meta, table))
+    if len(layers) != 1:
+        names = ", ".join(str(name) for name, _geometry_type in layers)
+        raise RuntimeError(
+            f"{item['id']}: {source_name or path.name} holds {len(layers)} layers "
+            f"({names}); a multi-layer container is not one dataset"
+        )
+
+    layer_name = str(layers[0][0])
+    meta, table = pyogrio.read_arrow(path, layer=layer_name)
+    rows = _rows_from_arrow(item, source_kind, layer_name, meta, table)
     if not rows:
         raise RuntimeError(f"{item['id']}: no rows read from {source_name or path.name}")
     return rows
@@ -101,18 +109,17 @@ def _read_archive(item: dict, content: bytes) -> list[dict]:
         with zipfile.ZipFile(io.BytesIO(content)) as zf:
             zf.extractall(root)
 
-        rows = []
-        gdbs = list(root.rglob("*.gdb"))
-        if gdbs:
-            for gdb in gdbs:
-                rows.extend(_read_vector_path(gdb, item, "file_geodatabase", gdb.name))
-            return rows
-
-        shapefiles = list(root.rglob("*.shp"))
-        if shapefiles:
-            for shp in shapefiles:
-                rows.extend(_read_vector_path(shp, item, "shapefile", shp.name))
-            return rows
+        for pattern, source_kind in (("*.gdb", "file_geodatabase"), ("*.shp", "shapefile")):
+            found = list(root.rglob(pattern))
+            if not found:
+                continue
+            if len(found) > 1:
+                names = ", ".join(sorted(p.name for p in found))
+                raise RuntimeError(
+                    f"{item['id']}: archive holds {len(found)} {pattern} sources "
+                    f"({names}); a multi-source archive is not one dataset"
+                )
+            return _read_vector_path(found[0], item, source_kind, found[0].name)
 
     raise RuntimeError(f"{item['id']}: archive did not contain a readable File Geodatabase or Shapefile")
 
