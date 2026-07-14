@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-habitat-5755782d19584514a5a8c65df908a0ca`. Regenerate after model-verify.
+# caution: Each city is reported three times, once per Area_of_Interest (Total, City Core, Sub-urban area). Filter to a single Area_of_Interest before comparing cities or the same city is counted three times.
+# caution: Some rows carry no measurement at all; they are placeholders for a city the source listed but did not measure.
+key: [city, country, area_of_interest]
+sort: [city, country, area_of_interest]
+columns:
+  - name: source_item_id
+    type: VARCHAR
+  - name: source_title
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: source_kind
+    type: VARCHAR
+  - name: source_name
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: pct_proportion_of_land_allocate
+    type: DOUBLE
+  - name: street_density_km_per_km2
+    type: DOUBLE
+  - name: intersection_density_no_per_km2
+    type: DOUBLE
+  - name: regions
+    type: VARCHAR
+  - name: area_of_interest
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT

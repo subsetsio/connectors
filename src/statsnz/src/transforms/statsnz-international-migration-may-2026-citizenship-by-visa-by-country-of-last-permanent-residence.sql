@@ -15,4 +15,4 @@ SELECT
     CAST("estimate" AS BIGINT) AS estimate,
     CAST("standard_error" AS BIGINT) AS standard_error,
     "status"
-FROM "statsnz-international-migration-april-2026-citizenship-by-visa-by-country-of-last-permanent-residence"
+FROM "statsnz-international-migration-may-2026-citizenship-by-visa-by-country-of-last-permanent-residence"

@@ -1,13 +1,13 @@
-# compiled by `hardened compile-checks` — post-publish audit of `statsnz-international-migration-april-2026-citizenship-by-visa-by-country-of-last-permanent-residence`.
+# compiled by `hardened compile-checks` — post-publish audit of `statsnz-international-migration-may-2026-estimated-migration-by-age-and-sex`.
 # Grain/temporal from the transform contract, row floor from the measured
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [row_number, estimate, year_month, country_of_residence, standard_error]
+key: [row_number, estimate, year_month, standard_error, month_of_release]
 temporal: year_month
 checks:
   - kind: unique
-    columns: [row_number, estimate, year_month, country_of_residence, standard_error]
+    columns: [row_number, estimate, year_month, standard_error, month_of_release]
   - kind: not_null
     col: row_number
   - kind: not_null
@@ -15,11 +15,11 @@ checks:
   - kind: not_null
     col: year_month
   - kind: not_null
-    col: country_of_residence
-  - kind: not_null
     col: standard_error
+  - kind: not_null
+    col: month_of_release
   - kind: row_floor
-    min: 182762
+    min: 27075
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1

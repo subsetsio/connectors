@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-habitat-d4fb3523f45f413087aae021b5a8fe3f`. Regenerate after model-verify.
+# caution: City is not a city name and does not identify a row: it labels an urban area within one of the twelve US metropolitan regions the study covers (Downtown, Levittown, and similar), and the metropolitan region that would disambiguate it is absent from the table. Downtown therefore appears once per metro, and the rows cannot be told apart or joined to a place.
+# caution: City also carries 'Average' summary rows, which are study-wide aggregates rather than an urban area; exclude them before comparing places.
+# caution: Timeframe (Pre 1950 / Post 1950) marks the development era of the area's street network, not an observation date.
+# caution: Some rows carry no measurement at all; they are placeholders for an area the source listed but did not measure.
+key: [objectid]
+sort: [objectid]
+columns:
+  - name: source_item_id
+    type: VARCHAR
+  - name: source_title
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: source_kind
+    type: VARCHAR
+  - name: source_name
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: city
+    type: VARCHAR
+  - name: pct_proportion_of_land_allocate
+    type: DOUBLE
+  - name: street_density_km_per_km2
+    type: DOUBLE
+  - name: intersection_density_no_per_km2
+    type: DOUBLE
+  - name: timeframe
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT

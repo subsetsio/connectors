@@ -14,4 +14,4 @@ SELECT
     CAST("estimate" AS BIGINT) AS estimate,
     CAST("standard_error" AS BIGINT) AS standard_error,
     "status"
-FROM "statsnz-international-migration-april-2026-estimated-migration-by-age-sex"
+FROM "statsnz-international-migration-may-2026-estimated-migration-by-age-and-sex"

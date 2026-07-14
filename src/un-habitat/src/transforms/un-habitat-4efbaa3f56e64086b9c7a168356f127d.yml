@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-habitat-4efbaa3f56e64086b9c7a168356f127d`. Regenerate after model-verify.
+# caution: A 2006 snapshot of local-government borrowing and tax-setting powers; the two indicator columns are free-text answers, not booleans, and are not comparable across countries without reading them.
+# caution: Level_ records which tier of government the row describes, so rows for one country are not alternatives to each other.
+key: [area_name, country, level]
+sort: [area_name, country, level]
+columns:
+  - name: source_item_id
+    type: VARCHAR
+  - name: source_title
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: source_kind
+    type: VARCHAR
+  - name: source_name
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: area_name
+    type: VARCHAR
+  - name: local_government_can_borrow_mon
+    type: VARCHAR
+  - name: local_government_can_change_loc
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT

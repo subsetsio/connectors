@@ -15,10 +15,22 @@ paced to 1 req/s with patient backoff, a full walk measured ~5.4s/page — about
 5.5 hours, which exceeds neither run budget alone but does exceed it for two
 crawls back-to-back (an earlier run was interrupted mid-second-crawl). So each
 crawl checkpoints: rows are flushed one parquet fragment per ``PAGES_PER_FRAGMENT``
-pages and the next page index is saved to state, letting the supervisor interrupt
-the node at any point and a continuation run resume where it stopped. When a crawl
-drains, ``next_page`` resets to 0 so the following refresh re-pulls in full — the
-state holds a position, never a "done" flag.
+pages and the next page index is saved to state, and the crawl **returns True to
+request continuation** once ``CRAWL_YIELD_S`` of wall clock is up, so a follow-on
+run resumes where it stopped. When a crawl drains, ``next_page`` resets to 0 so the
+following refresh re-pulls in full — the state holds a position, never a "done" flag.
+
+**Why the crawl yields on a timer rather than running until it is killed.** The raw
+manifest — which is what makes a fragment readable at all — is committed by the
+orchestrator only for a node that *finishes*; a node killed mid-flight has its staged
+entries discarded (`orchestrator._apply_result` → `raw_manifest.discard_node`). Our
+own page watermark, though, is saved by the node itself and survives regardless. So
+being killed advances the watermark past fragments that stay unreferenced forever:
+the continuation resumes after them and the crawl never writes them again, holing the
+table silently. Returning True instead exits the node cleanly (`status="done"`,
+`needs_continuation=True`), which commits the fragments AND re-triggers the chain.
+The yield budget must therefore stay comfortably inside the 6h GitHub Actions job
+ceiling — this is a correctness bound, not a tuning knob.
 
 A page index is a sound watermark *here* specifically: the API returns records
 newest-first and the corpus only grows at the front, so records inserted mid-crawl
@@ -41,6 +53,7 @@ levels deep under ``product.vendor.name``.
 
 import csv
 import io
+import time
 from datetime import datetime, timezone
 
 import httpx

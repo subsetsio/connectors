@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-habitat-cc8c17fb67aa496e9feba634cec92446`. Regenerate after model-verify.
+# caution: Wide table covering two fixed inter-census periods (1996-2001 and 2001-2011) plus built-up area per capita at three census years; the period is part of each column name rather than a value, and the two periods are different lengths so their rates are not directly comparable.
+# caution: South African cities only, despite the generic SDG 11.3.1 indicator name.
+key: [city]
+sort: [city]
+columns:
+  - name: source_item_id
+    type: VARCHAR
+  - name: source_title
+    type: VARCHAR
+  - name: source_type
+    type: VARCHAR
+  - name: source_kind
+    type: VARCHAR
+  - name: source_name
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT
+  - name: city
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: lcr_1996_to_2001
+    type: DOUBLE
+  - name: lcr_2001_to_2011
+    type: DOUBLE
+  - name: pgr_1996_to_2001
+    type: DOUBLE
+  - name: pgr_2001_to_2011
+    type: DOUBLE
+  - name: lcrpgr_1996_to_2001
+    type: DOUBLE
+  - name: lcrpgr_2001_to_2011
+    type: DOUBLE
+  - name: bup_area_per_capita_1996
+    type: DOUBLE
+  - name: bup_area_per_capita_2001
+    type: DOUBLE
+  - name: bup_area_per_capita_2011
+    type: DOUBLE
+  - name: estimate_source
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT
