@@ -176,9 +176,16 @@ def _read_feature_service(item: dict) -> list[dict]:
     service_url = item.get("url")
     if not service_url:
         raise RuntimeError(f"{item['id']}: Feature Service item has no service URL")
-    rows = []
-    for layer in _service_layers(service_url):
-        rows.extend(_query_service_layer(item, service_url, layer))
+
+    layers = _service_layers(service_url)
+    if len(layers) != 1:
+        names = ", ".join(str(layer.get("name") or layer["id"]) for layer in layers)
+        raise RuntimeError(
+            f"{item['id']}: Feature Service advertises {len(layers)} layers "
+            f"({names}); a multi-layer service is not one dataset"
+        )
+
+    rows = _query_service_layer(item, service_url, layers[0])
     if not rows:
         raise RuntimeError(f"{item['id']}: no rows returned from Feature Service")
     return rows

@@ -4,17 +4,27 @@ Each download node is one accepted CKAN package. A package can contain one or
 more tabular resources with different schemas, so the raw asset is normalized
 to a fixed string-typed row table: package/resource metadata plus `data_json`,
 the original source row encoded as JSON.
+
+Every resource is streamed to disk and parsed in bounded batches: a package's
+rows are never all resident at once. The catalog's heavy tail makes that
+load-bearing rather than tidy — the median accepted package is ~0.2 MB, but the
+largest declares ~2.4 GB across 205 resources, and single resources reach a
+1.4 GB zip and a 390 MB spreadsheet.
 """
 
 from __future__ import annotations
 
-import io
 import json
+import os
 import re
+import shutil
+import tempfile
 import zipfile
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
 from pathlib import PurePosixPath
 
+import httpx
+import openpyxl
 import pandas as pd
 import pyarrow as pa
 
@@ -23,8 +33,9 @@ from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     get,
+    get_client,
     raw_asset_exists,
-    save_raw_parquet,
+    raw_parquet_writer,
 )
 
 SLUG = "london-datastore"
@@ -46,6 +57,11 @@ BASE_COLUMNS = [
     "data_json",
 ]
 
+# Rows per parquet batch. The cap on resident rows, so it bounds peak memory
+# across every resource shape below.
+BATCH_ROWS = 20_000
+RAW_SCHEMA = pa.schema([(col, pa.string()) for col in BASE_COLUMNS])
+
 
 def _api(action: str, **params):
     resp = get(f"{API}/{action}", params=params, timeout=(10.0, 120.0))
@@ -56,10 +72,26 @@ def _api(action: str, **params):
     return body["result"]
 
 
-def _download(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 300.0))
-    resp.raise_for_status()
-    return resp.content
+def _stream_to_file(url: str, dest: str) -> None:
+    """Stream a resource to disk. Multi-hundred-MB resources are routine here,
+    so the body never becomes a bytes object. get_client() is the raw httpx
+    client — unlike get(), it carries no retry, hence the explicit attempts."""
+    last: Exception | None = None
+    for attempt in range(3):
+        try:
+            with get_client().stream(
+                "GET", url, timeout=httpx.Timeout(300.0, connect=10.0)
+            ) as resp:
+                resp.raise_for_status()
+                with open(dest, "wb") as handle:
+                    for chunk in resp.iter_bytes(1 << 20):
+                        handle.write(chunk)
+            return
+        except Exception as exc:  # noqa: BLE001 - retried, then surfaced
+            last = exc
+            if attempt == 2:
+                break
+    raise last  # type: ignore[misc]
 
 
 def _extension(url_or_name: str) -> str:
@@ -119,49 +151,111 @@ def _stringify(value: object) -> str | None:
     return text or None
 
 
-def _rows_from_frame(frame: pd.DataFrame, *, sheet_name: str | None) -> list[dict]:
+def _batched(rows: list[dict]) -> Iterator[list[dict]]:
+    for start in range(0, len(rows), BATCH_ROWS):
+        yield rows[start:start + BATCH_ROWS]
+
+
+def _frame_rows(
+    frame: pd.DataFrame,
+    *,
+    sheet_name: str | None,
+    member_path: str | None,
+    start_number: int,
+) -> tuple[list[dict], int]:
+    """Rows for one frame (or one chunk of one). `start_number` continues
+    `source_row_number` across chunks of the same resource, so a chunked read
+    numbers rows exactly as a whole-file read would."""
+    number = start_number
     if frame.empty:
-        return []
+        return [], number
     frame = frame.dropna(how="all")
     if frame.empty:
-        return []
+        return [], number
     frame.columns = _dedupe(frame.columns)
     rows: list[dict] = []
-    for row_number, record in enumerate(frame.to_dict(orient="records"), start=1):
+    for record in frame.to_dict(orient="records"):
         row = {col: _stringify(value) for col, value in record.items()}
         if any(value is not None for value in row.values()):
-            row["source_row_number"] = str(row_number)
+            row["source_row_number"] = str(number)
             row["sheet_name"] = sheet_name
+            row["member_path"] = member_path
             rows.append(row)
-    return rows
+        number += 1
+    return rows, number
 
 
-def _read_csv(content: bytes) -> list[dict]:
-    frame = pd.read_csv(
-        io.BytesIO(content),
+def _csv_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]:
+    reader = pd.read_csv(
+        path,
         dtype=str,
         keep_default_na=False,
         na_values=[],
         encoding_errors="replace",
+        chunksize=BATCH_ROWS,
+        low_memory=False,
     )
-    return _rows_from_frame(frame, sheet_name=None)
+    number = 1
+    with reader:
+        for frame in reader:
+            rows, number = _frame_rows(
+                frame, sheet_name=None, member_path=member_path, start_number=number
+            )
+            if rows:
+                yield rows
 
 
-def _read_excel(content: bytes) -> list[dict]:
-    workbook = pd.read_excel(
-        io.BytesIO(content),
-        sheet_name=None,
-        dtype=str,
-        keep_default_na=False,
-    )
-    rows: list[dict] = []
+def _xlsx_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]:
+    """Stream an .xlsx sheet-by-sheet, row-by-row. pandas would materialize
+    every sheet at once, which the 390 MB workbooks in this catalog cannot
+    afford."""
+    workbook = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    try:
+        for sheet in workbook.worksheets:
+            values = sheet.iter_rows(values_only=True)
+            header = next(values, None)
+            if header is None:
+                continue
+            columns = _dedupe(header)
+            number = 1
+            batch: list[dict] = []
+            for record in values:
+                if all(value is None for value in record):
+                    continue
+                row = {
+                    col: _stringify(value) for col, value in zip(columns, record)
+                }
+                if any(value is not None for value in row.values()):
+                    row["source_row_number"] = str(number)
+                    row["sheet_name"] = str(sheet.title)
+                    row["member_path"] = member_path
+                    batch.append(row)
+                number += 1
+                if len(batch) >= BATCH_ROWS:
+                    yield batch
+                    batch = []
+            if batch:
+                yield batch
+    finally:
+        workbook.close()
+
+
+def _xls_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]:
+    # Legacy .xls caps at 65k rows/sheet, so a whole-workbook read stays bounded.
+    workbook = pd.read_excel(path, sheet_name=None, dtype=str, keep_default_na=False)
     for sheet_name, frame in workbook.items():
-        rows.extend(_rows_from_frame(frame, sheet_name=str(sheet_name)))
-    return rows
+        rows, _ = _frame_rows(
+            frame,
+            sheet_name=str(sheet_name),
+            member_path=member_path,
+            start_number=1,
+        )
+        yield from _batched(rows)
 
 
-def _read_json(content: bytes) -> list[dict]:
-    data = json.loads(content.decode("utf-8-sig"))
+def _json_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]:
+    with open(path, "rb") as handle:
+        data = json.loads(handle.read().decode("utf-8-sig"))
     if isinstance(data, dict):
         for key in ("result", "results", "data", "records", "rows"):
             if isinstance(data.get(key), list):
@@ -170,42 +264,62 @@ def _read_json(content: bytes) -> list[dict]:
     if not isinstance(data, list):
         data = [data]
     frame = pd.json_normalize(data, sep="_")
-    return _rows_from_frame(frame, sheet_name=None)
+    rows, _ = _frame_rows(
+        frame, sheet_name=None, member_path=member_path, start_number=1
+    )
+    yield from _batched(rows)
 
 
-def _read_tabular(content: bytes, name: str) -> list[dict]:
+def _file_row_batches(
+    path: str, name: str, member_path: str | None = None
+) -> Iterator[list[dict]]:
     ext = _extension(name)
     if ext == ".csv":
-        return _read_csv(content)
-    if ext in {".xls", ".xlsx"}:
-        return _read_excel(content)
-    if ext == ".json":
-        return _read_json(content)
-    return []
+        yield from _csv_row_batches(path, member_path)
+    elif ext == ".xlsx":
+        yield from _xlsx_row_batches(path, member_path)
+    elif ext == ".xls":
+        yield from _xls_row_batches(path, member_path)
+    elif ext == ".json":
+        yield from _json_row_batches(path, member_path)
 
 
-def _read_zip(content: bytes) -> list[dict]:
-    rows: list[dict] = []
-    with zipfile.ZipFile(io.BytesIO(content)) as archive:
+def _zip_row_batches(path: str, tmpdir: str) -> Iterator[list[dict]]:
+    with zipfile.ZipFile(path) as archive:
         for member in archive.infolist():
-            if member.is_dir() or _extension(member.filename) not in SUPPORTED_EXTENSIONS:
+            ext = _extension(member.filename)
+            if member.is_dir() or ext not in SUPPORTED_EXTENSIONS:
                 continue
-            member_rows = _read_tabular(archive.read(member), member.filename)
-            for row in member_rows:
-                row["member_path"] = member.filename
-            rows.extend(member_rows)
-    return rows
+            # Spill the member to disk rather than read() it: members reach
+            # multi-GB, and .xlsx needs a seekable file anyway.
+            dest = os.path.join(tmpdir, f"member{ext}")
+            with archive.open(member) as src, open(dest, "wb") as out:
+                shutil.copyfileobj(src, out, 1 << 20)
+            try:
+                yield from _file_row_batches(
+                    dest, member.filename, member_path=member.filename
+                )
+            finally:
+                if os.path.exists(dest):
+                    os.remove(dest)
 
 
-def _resource_rows(resource: dict) -> list[dict]:
+def _resource_batches(resource: dict, tmpdir: str) -> Iterator[list[dict]]:
     url = resource.get("url")
     if not url:
-        return []
-    content = _download(url)
-    fmt = _resource_format(resource)
-    if fmt == "zip" or _extension(url) == ".zip":
-        return _read_zip(content)
-    return _read_tabular(content, url)
+        return
+    is_zip = _resource_format(resource) == "zip" or _extension(url) == ".zip"
+    ext = ".zip" if is_zip else _extension(url)
+    dest = os.path.join(tmpdir, f"resource{ext}")
+    _stream_to_file(url, dest)
+    try:
+        if is_zip:
+            yield from _zip_row_batches(dest, tmpdir)
+        else:
+            yield from _file_row_batches(dest, url)
+    finally:
+        if os.path.exists(dest):
+            os.remove(dest)
 
 
 def _metadata_row(status: str, message: str) -> dict:
@@ -229,8 +343,25 @@ def _table_from_rows(rows: list[dict]) -> pa.Table:
                 "data_json": json.dumps(data, ensure_ascii=True, sort_keys=True),
             }
         )
-    schema = pa.schema([(col, pa.string()) for col in BASE_COLUMNS])
-    return pa.Table.from_pylist(normalized, schema=schema)
+    return pa.Table.from_pylist(normalized, schema=RAW_SCHEMA)
+
+
+def _write_rows(writer, rows: list[dict], package: dict, resource: dict) -> None:
+    for row in rows:
+        row.update(
+            {
+                "package_id": package["package_id"],
+                "package_title": package["package_title"],
+                "resource_id": str(resource.get("id") or ""),
+                "resource_name": str(resource.get("name") or ""),
+                "resource_format": _resource_format(resource),
+                "resource_url": str(resource.get("url") or ""),
+                "member_path": row.get("member_path"),
+                "sheet_name": row.get("sheet_name"),
+                "source_row_number": row.get("source_row_number"),
+            }
+        )
+    writer.write_table(_table_from_rows(rows))
 
 
 def fetch_one(node_id: str) -> None:
@@ -241,47 +372,57 @@ def fetch_one(node_id: str) -> None:
         for resource in package.get("resources") or []
         if _is_supported_resource(resource)
     ]
+    identity = {
+        "package_id": str(package.get("name") or entity_id),
+        "package_title": str(package.get("title") or ""),
+    }
 
-    rows: list[dict] = []
-    for resource in resources:
-        try:
-            resource_rows = _resource_rows(resource)
-        except Exception as exc:
-            resource_rows = [
-                _metadata_row("resource_error", f"{type(exc).__name__}: {exc}")
-            ]
-        if not resource_rows:
-            resource_rows = [
-                _metadata_row(
-                    "metadata_only",
-                    "supported resource contained no CSV/XLS/XLSX/JSON rows",
+    wrote_any = False
+    with tempfile.TemporaryDirectory() as tmpdir:
+        with raw_parquet_writer(node_id, RAW_SCHEMA) as writer:
+            for resource in resources:
+                wrote_resource = False
+                try:
+                    for batch in _resource_batches(resource, tmpdir):
+                        _write_rows(writer, batch, identity, resource)
+                        wrote_resource = True
+                except Exception as exc:  # noqa: BLE001 - recorded as a data row
+                    # Batches already written stay: partial rows plus an explicit
+                    # error row beat discarding what the resource did yield.
+                    _write_rows(
+                        writer,
+                        [_metadata_row("resource_error", f"{type(exc).__name__}: {exc}")],
+                        identity,
+                        resource,
+                    )
+                    wrote_resource = True
+                if not wrote_resource:
+                    _write_rows(
+                        writer,
+                        [
+                            _metadata_row(
+                                "metadata_only",
+                                "supported resource contained no CSV/XLS/XLSX/JSON rows",
+                            )
+                        ],
+                        identity,
+                        resource,
+                    )
+                wrote_any = True
+
+            if not wrote_any:
+                writer.write_table(
+                    _table_from_rows(
+                        [
+                            {
+                                **_metadata_row(
+                                    "metadata_only", "package has no supported resources"
+                                ),
+                                **identity,
+                            }
+                        ]
+                    )
                 )
-            ]
-        for row in resource_rows:
-            row.update(
-                {
-                    "package_id": str(package.get("name") or entity_id),
-                    "package_title": str(package.get("title") or ""),
-                    "resource_id": str(resource.get("id") or ""),
-                    "resource_name": str(resource.get("name") or ""),
-                    "resource_format": _resource_format(resource),
-                    "resource_url": str(resource.get("url") or ""),
-                    "member_path": row.get("member_path"),
-                    "sheet_name": row.get("sheet_name"),
-                    "source_row_number": row.get("source_row_number"),
-                }
-            )
-        rows.extend(resource_rows)
-
-    if not rows:
-        rows = [
-            {
-                **_metadata_row("metadata_only", "package has no supported resources"),
-                "package_id": str(package.get("name") or entity_id),
-                "package_title": str(package.get("title") or ""),
-            }
-        ]
-    save_raw_parquet(_table_from_rows(rows), node_id)
 
 
 DOWNLOAD_SPECS = [
