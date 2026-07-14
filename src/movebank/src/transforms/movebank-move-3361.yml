@@ -1,6 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `movebank-move-3361`. Regenerate after model-verify.
 # caution: Rows are raw Movebank location or sensor events for one study and may mix individuals, tags, sensor types, and taxa; filter those dimensions before aggregating movement records.
+# timestamp: raw reads back as TIMESTAMP; the model evidence (run 20260713-093144)
+# profiled it as VARCHAR from an earlier, differently-inferred raw. Do not recompile
+# this pair from that evidence without re-verifying the model.
 key: [event_id]
 sort: [event_id]
 columns:
