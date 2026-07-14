@@ -11,16 +11,28 @@ incremental filter, so a full refresh each run is cheap and picks up revisions
 for free; Parquet keeps downstream profiling and transforms from repeatedly
 inferring large remote CSV files.
 
-Integrity: the CSV endpoint answers over HTTP/2 with no Content-Length, so a
-stream the server cuts short arrives as a *complete-looking* 200 with a short
-body — a silent truncation no status check can catch. Run 20260712-135641 lost
->50% of two datasets that way (cc157acd: 16437 of 33810 rows). Every download
-is therefore checked against an authoritative row count from the paginated view
-endpoint (``page_info.total_records``) and retried on a short read, so a
-truncated pull fails loudly instead of publishing a half table.
+Integrity: the CSV endpoint answers with no Content-Length (chunked over
+HTTP/1.1, DATA frames over HTTP/2), so a stream cut short arrives as a
+*complete-looking* 200 with a short body — a silent truncation no status check
+can catch. Run 20260712-135641 lost >50% of two datasets that way (cc157acd:
+16437 of 33810 rows). Every download is therefore checked against an
+authoritative row count from the paginated view endpoint
+(``page_info.total_records``) and retried on a short read.
+
+Caching: the API sits behind a shared CDN (``cache-control: public, max-age=60``,
+``x-cache: TCP_HIT``) that has no length to validate against either, so it will
+happily store and re-serve a truncated body. That makes a short read *sticky*,
+not transient: run 20260714-101546 lost 17 datasets whose 4 retries — 12s of
+backoff, all inside the 60s TTL — re-read the same poisoned entry and returned
+the identical short body in under a second each. A ``Cache-Control: no-cache``
+request header does not help; the CDN ignores it. A unique query parameter is
+the only lever that reaches the origin, so every fetch carries one (verified
+payload-neutral: the origin ignores the extra param and returns byte-identical
+CSV). Datasets are pulled once per run, so bypassing a 60s cache costs nothing.
 """
 
 import time
+import uuid
 from io import BytesIO
 
 import pandas as pd
@@ -35,9 +47,10 @@ from constants import ENTITY_IDS
 
 API_BASE = "https://api.stats.gov.wales/v1"
 
-# A truncated read is transient (server-side stream cut under load), so a plain
-# re-fetch is the fix; the row count is re-read each attempt so that a dataset
-# legitimately republished mid-fetch settles instead of failing.
+# A truncated read is a cut origin stream, which a plain re-fetch fixes only if
+# it actually reaches the origin — see the CDN note above. The row count is
+# re-read each attempt so a dataset legitimately republished mid-fetch settles
+# instead of failing.
 MAX_ATTEMPTS = 4
 RETRY_BACKOFF_S = 2.0
 _COUNT_PAGE_SIZE = 5  # the view endpoint's minimum; we only read page_info off it
@@ -46,6 +59,16 @@ _COUNT_PAGE_SIZE = 5  # the view endpoint's minimum; we only read page_info off 
 def _entity_id(node_id: str) -> str:
     """Recover the dataset UUID from the spec id (strip the connector prefix)."""
     return node_id[len("statswales-"):]
+
+
+def _uncached(url: str) -> str:
+    """Append a single-use parameter so the CDN has to go to the origin.
+
+    Both endpoints ignore unknown query params, and the cache keys on the full
+    URL, so a value nothing else will reuse turns every fetch into a TCP_MISS.
+    """
+    sep = "&" if "?" in url else "?"
+    return f"{url}{sep}_cb={uuid.uuid4().hex}"
 
 
 def _expected_rows(dataset_id: str) -> int:
@@ -57,7 +80,7 @@ def _expected_rows(dataset_id: str) -> int:
     has to be raised by hand — ``raise_for_status`` never sees them.
     """
     url = f"{API_BASE}/{dataset_id}/view?page_size={_COUNT_PAGE_SIZE}&page_number=1"
-    resp = get(url, timeout=(10.0, 60.0))
+    resp = get(_uncached(url), timeout=(10.0, 60.0))
     resp.raise_for_status()
     body = resp.json()
     if "page_info" not in body:
@@ -70,7 +93,7 @@ def _expected_rows(dataset_id: str) -> int:
 
 def _download_csv(dataset_id: str) -> bytes:
     url = f"{API_BASE}/{dataset_id}/download/csv"
-    resp = get(url, timeout=(10.0, 180.0))
+    resp = get(_uncached(url), timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content
 

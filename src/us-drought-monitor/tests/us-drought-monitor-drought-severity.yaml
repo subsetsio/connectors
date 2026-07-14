@@ -22,8 +22,10 @@ tests:
   - unique: [date, region]
     reason: one severity row per USDM map week and region
     certainty: 95
-  - distinct_count: {col: region, min: 53, max: 53}
-    reason: raw severity covers CONUS plus 50 states, DC, and Puerto Rico
+  - coverage: {col: region, expected: 53}
+    reason: the node fetches an enumerated geography set in bulk — CONUS plus the
+      50 states, DC, and Puerto Rico (52 FIPS + US); a shortfall is silent
+      partial loss, not success
     certainty: 90
   - row_count: {min: 60000}
     reason: weekly history from 2000 onward across 53 regions is well above 60k rows
