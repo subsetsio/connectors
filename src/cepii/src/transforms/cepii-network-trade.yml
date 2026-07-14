@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-network-trade`. Regenerate after model-verify.
+# caution: Network-trade measures are centrality and fragmentation indicators, not additive bilateral trade flows.
+key: []
+columns:
+  - name: t
+    type: BIGINT
+  - name: id
+    type: BIGINT
+  - name: i
+    type: BIGINT
+  - name: iso3
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: out_degree
+    type: DOUBLE
+  - name: in_degree
+    type: DOUBLE
+  - name: out_strength
+    type: DOUBLE
+  - name: in_strength
+    type: DOUBLE
+  - name: out_degree_percent
+    type: DOUBLE
+  - name: in_degree_percent
+    type: DOUBLE
+  - name: out_strength_percent
+    type: DOUBLE
+  - name: in_strength_percent
+    type: DOUBLE
+  - name: out_closenness
+    type: DOUBLE
+  - name: in_closenness
+    type: DOUBLE
+  - name: w_out_closenness
+    type: DOUBLE
+  - name: w_in_closenness
+    type: DOUBLE
+  - name: out_eigenvector
+    type: DOUBLE
+  - name: in_eigenvector
+    type: DOUBLE
+  - name: w_out_eigenvector
+    type: DOUBLE
+  - name: w_in_eigenvector
+    type: DOUBLE

@@ -1,6 +1,9 @@
 spec_id: cepii-baci
 # Raw BACI CSVs (one per year) have the documented header t,i,j,k,v,q:
 # year, exporter (ISO numeric), importer, HS6 product, value (kUSD), quantity (t).
+coverage:
+  frozen: true
+  reason: configured BACI_HS92_V202601 archive is a fixed CEPII release; newer editions require updating the versioned URL
 tests:
   - not_null: t
     reason: every BACI row is stamped with a trade year

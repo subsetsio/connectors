@@ -1,2 +1,7 @@
 spec_id: cepii-eqchange
 status: deferred
+tests:
+  - freshness: {col: year, reaches: current_year() - 3}
+    reason: annual EQCHANGE REER/NEER indices should remain within a multi-year publication lag
+    certainty: 70
+    points_outward: true

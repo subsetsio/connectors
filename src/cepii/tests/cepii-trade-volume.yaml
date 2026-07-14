@@ -1,6 +1,9 @@
 spec_id: cepii-trade-volume
 # CSV header: aggregation_level, year, production_stage, trade_value_dollars,
 # price_index, trade_value_base100, trade_volume_base100.
+coverage:
+  frozen: true
+  reason: configured trade_volume_v202507 archive is a fixed CEPII release with observations through 2023
 tests:
   - not_null: year
     certainty: 90

@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-rca`. Regenerate after model-verify.
+# caution: The RCA asset combines HS2 and HS4 source files; filter by source_file before comparing product classifications.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: isocode
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: hs4
+    type: BIGINT
+  - name: rca
+    type: DOUBLE
+  - name: source_file
+    type: VARCHAR
+  - name: hs2
+    type: BIGINT

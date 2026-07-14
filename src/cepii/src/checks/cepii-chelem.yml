@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cepii-chelem`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [exporter, importer, secgroup, product]
+checks:
+  - kind: unique
+    columns: [exporter, importer, secgroup, product]
+  - kind: not_null
+    col: exporter
+  - kind: not_null
+    col: importer
+  - kind: not_null
+    col: secgroup
+  - kind: not_null
+    col: product
+  - kind: row_floor
+    min: 3709632
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cepii-gravity`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, country_id_o, country_id_d]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, country_id_o, country_id_d]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: country_id_o
+  - kind: not_null
+    col: country_id_d
+  - kind: row_floor
+    min: 2349648
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

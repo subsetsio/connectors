@@ -1,5 +1,8 @@
 spec_id: cepii-geodep
 # Direct CSV with header beginning: iso_d, hs6, year, i, ...
+coverage:
+  frozen: true
+  reason: configured geodep_data.csv snapshot currently covers the fixed 2019-2022 GeoDep release
 tests:
   - not_null: iso_d
     certainty: 90
