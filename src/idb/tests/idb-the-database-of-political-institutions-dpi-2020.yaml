@@ -1,5 +1,8 @@
 spec_id: idb-the-database-of-political-institutions-dpi-2020
 status: active
+coverage:
+  frozen: true
+  reason: IDB CKAN package is a versioned dataset publication; temporal fields describe the covered period rather than an ongoing refresh cadence.
 tests:
   - not_null: source_resource
     reason: every published row is tagged with the CKAN resource name it came from; nulls mean the provenance column broke

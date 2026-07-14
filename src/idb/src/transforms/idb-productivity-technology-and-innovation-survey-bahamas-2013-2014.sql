@@ -3,7 +3,7 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "column",
+    "column" AS field_name,
     "description",
     "type",
     "choices",
