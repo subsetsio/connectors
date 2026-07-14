@@ -66,7 +66,7 @@ MAX_PAGES = 20_000  # safety ceiling (~5x today's corpus). Raises; never truncat
 # without forcing the other long /api/search asset to restart.
 STATE_VERSION = {
     "enisa-vulnerabilities": 1,
-    "enisa-affected-products": 3,
+    "enisa-affected-products": 4,
 }
 TS_FORMAT = "%b %d, %Y, %I:%M:%S %p"
 
