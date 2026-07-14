@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung, familienmitglieder, geschlecht, einheit]
+key: [management_ownership_employment_security, familienmitglieder, geschlecht, einheit]
 checks:
   - kind: unique
-    columns: [leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung, familienmitglieder, geschlecht, einheit]
+    columns: [management_ownership_employment_security, familienmitglieder, geschlecht, einheit]
   - kind: not_null
-    col: leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung
+    col: management_ownership_employment_security
   - kind: not_null
     col: familienmitglieder
   - kind: not_null

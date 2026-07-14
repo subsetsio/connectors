@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen, region, jahr, einheit]
+key: [vehicles_machinery_facilities, region, jahr, einheit]
 checks:
   - kind: unique
-    columns: [motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen, region, jahr, einheit]
+    columns: [vehicles_machinery_facilities, region, jahr, einheit]
   - kind: not_null
-    col: motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen
+    col: vehicles_machinery_facilities
   - kind: not_null
     col: region
   - kind: not_null

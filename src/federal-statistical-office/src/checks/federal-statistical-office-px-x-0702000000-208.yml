@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung, jahr, region, beobachtungseinheit]
+key: [management_training_ownership_succession, jahr, region, beobachtungseinheit]
 checks:
   - kind: unique
-    columns: [betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung, jahr, region, beobachtungseinheit]
+    columns: [management_training_ownership_succession, jahr, region, beobachtungseinheit]
   - kind: not_null
-    col: betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung
+    col: management_training_ownership_succession
   - kind: not_null
     col: jahr
   - kind: not_null
