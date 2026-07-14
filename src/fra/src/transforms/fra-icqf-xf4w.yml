@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year4
-sort: [year4]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-icqf-xf4w`. Regenerate after model-verify.
+# caution: This source-form extract uses legacy FRA source fields; do not combine it with the curated Form 57 incident table without reconciling duplicate report concepts.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: amtrak
     type: VARCHAR
@@ -31,7 +34,7 @@ columns:
   - name: dummy1
     type: VARCHAR
   - name: casinjrr
-    type: VARCHAR
+    type: DOUBLE
   - name: gxid
     type: VARCHAR
   - name: year
@@ -41,9 +44,9 @@ columns:
   - name: day
     type: VARCHAR
   - name: timehr
-    type: VARCHAR
+    type: DOUBLE
   - name: timemin
-    type: VARCHAR
+    type: DOUBLE
   - name: ampm
     type: VARCHAR
   - name: station
@@ -53,7 +56,7 @@ columns:
   - name: state
     type: VARCHAR
   - name: region
-    type: VARCHAR
+    type: BIGINT
   - name: dummy2
     type: VARCHAR
   - name: city
@@ -67,33 +70,33 @@ columns:
   - name: vehdir
     type: VARCHAR
   - name: position
-    type: VARCHAR
+    type: BIGINT
   - name: rrequip
     type: VARCHAR
   - name: rrcar
     type: VARCHAR
   - name: typacc
-    type: VARCHAR
+    type: BIGINT
   - name: hazard
-    type: VARCHAR
+    type: BIGINT
   - name: temp
-    type: VARCHAR
+    type: DOUBLE
   - name: visiblty
-    type: VARCHAR
+    type: BIGINT
   - name: weather
-    type: VARCHAR
+    type: BIGINT
   - name: typeq
     type: VARCHAR
   - name: typtrk
-    type: VARCHAR
+    type: BIGINT
   - name: trkname
     type: VARCHAR
   - name: trkclas
     type: VARCHAR
   - name: nbrlocos
-    type: VARCHAR
+    type: DOUBLE
   - name: nbrcars
-    type: VARCHAR
+    type: DOUBLE
   - name: trnspd
     type: VARCHAR
   - name: typspd
@@ -105,49 +108,49 @@ columns:
   - name: locwarn
     type: VARCHAR
   - name: warnsig
-    type: VARCHAR
+    type: BIGINT
   - name: lights
-    type: VARCHAR
+    type: BIGINT
   - name: standveh
-    type: VARCHAR
+    type: BIGINT
   - name: train2
     type: VARCHAR
   - name: motorist
-    type: VARCHAR
+    type: BIGINT
   - name: view
-    type: VARCHAR
+    type: BIGINT
   - name: vehdmg
-    type: VARCHAR
+    type: DOUBLE
   - name: driver
-    type: VARCHAR
+    type: BIGINT
   - name: inveh
-    type: VARCHAR
+    type: BIGINT
   - name: totkld
-    type: VARCHAR
+    type: DOUBLE
   - name: totinj
-    type: VARCHAR
+    type: DOUBLE
   - name: totocc
-    type: VARCHAR
+    type: DOUBLE
   - name: incdrpt
-    type: VARCHAR
+    type: BIGINT
   - name: jointcd
-    type: VARCHAR
+    type: BIGINT
   - name: typrr
     type: VARCHAR
   - name: dummy3
-    type: VARCHAR
+    type: BIGINT
   - name: caskldrr
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy4
     type: VARCHAR
   - name: crossing
     type: VARCHAR
   - name: narrlen
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy5
     type: VARCHAR
   - name: year4
-    type: VARCHAR
+    type: BIGINT
   - name: division
     type: VARCHAR
   - name: public
@@ -157,7 +160,7 @@ columns:
   - name: stcnty
     type: VARCHAR
   - name: hzmrlsed
-    type: VARCHAR
+    type: BIGINT
   - name: hzmname
     type: VARCHAR
   - name: hzmqnty
@@ -179,17 +182,17 @@ columns:
   - name: ssb2
     type: VARCHAR
   - name: userkld
-    type: VARCHAR
+    type: DOUBLE
   - name: userinj
-    type: VARCHAR
+    type: DOUBLE
   - name: rrempkld
-    type: VARCHAR
+    type: DOUBLE
   - name: rrempinj
-    type: VARCHAR
+    type: DOUBLE
   - name: passkld
-    type: VARCHAR
+    type: DOUBLE
   - name: passinj
-    type: VARCHAR
+    type: DOUBLE
   - name: narr1
     type: VARCHAR
   - name: narr2
@@ -205,6 +208,6 @@ columns:
   - name: roadcond
     type: VARCHAR
   - name: videot
-    type: VARCHAR
+    type: BIGINT
   - name: videou
-    type: VARCHAR
+    type: BIGINT

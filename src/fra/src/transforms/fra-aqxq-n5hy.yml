@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year4
-sort: [year4]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-aqxq-n5hy`. Regenerate after model-verify.
+# caution: This source-form extract uses legacy FRA source fields; do not combine it with the curated Form 54 accident table without reconciling duplicate report concepts.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: iyr
     type: VARCHAR
@@ -37,21 +40,21 @@ columns:
   - name: day
     type: VARCHAR
   - name: timehr
-    type: VARCHAR
+    type: DOUBLE
   - name: timemin
-    type: VARCHAR
+    type: DOUBLE
   - name: ampm
     type: VARCHAR
   - name: type
     type: VARCHAR
   - name: cars
-    type: VARCHAR
+    type: DOUBLE
   - name: carsdmg
-    type: VARCHAR
+    type: DOUBLE
   - name: carshzd
-    type: VARCHAR
+    type: DOUBLE
   - name: evacuate
-    type: VARCHAR
+    type: DOUBLE
   - name: division
     type: VARCHAR
   - name: station
@@ -61,11 +64,11 @@ columns:
   - name: state
     type: VARCHAR
   - name: temp
-    type: VARCHAR
+    type: DOUBLE
   - name: visiblty
-    type: VARCHAR
+    type: BIGINT
   - name: weather
-    type: VARCHAR
+    type: BIGINT
   - name: trnspd
     type: VARCHAR
   - name: typspd
@@ -75,7 +78,7 @@ columns:
   - name: trndir
     type: VARCHAR
   - name: tons
-    type: VARCHAR
+    type: DOUBLE
   - name: typeq
     type: VARCHAR
   - name: eqatt
@@ -105,61 +108,61 @@ columns:
   - name: loaded2
     type: VARCHAR
   - name: headend1
-    type: VARCHAR
+    type: DOUBLE
   - name: midman1
-    type: VARCHAR
+    type: DOUBLE
   - name: midrem1
-    type: VARCHAR
+    type: DOUBLE
   - name: rman1
-    type: VARCHAR
+    type: DOUBLE
   - name: rrem1
-    type: VARCHAR
+    type: DOUBLE
   - name: headend2
-    type: VARCHAR
+    type: DOUBLE
   - name: midman2
-    type: VARCHAR
+    type: DOUBLE
   - name: midrem2
-    type: VARCHAR
+    type: DOUBLE
   - name: rman2
-    type: VARCHAR
+    type: DOUBLE
   - name: rrem2
-    type: VARCHAR
+    type: DOUBLE
   - name: loadf1
-    type: VARCHAR
+    type: DOUBLE
   - name: loadp1
-    type: VARCHAR
+    type: DOUBLE
   - name: emptyf1
-    type: VARCHAR
+    type: DOUBLE
   - name: emptyp1
-    type: VARCHAR
+    type: DOUBLE
   - name: caboose1
-    type: VARCHAR
+    type: DOUBLE
   - name: loadf2
-    type: VARCHAR
+    type: DOUBLE
   - name: loadp2
-    type: VARCHAR
+    type: DOUBLE
   - name: emptyf2
-    type: VARCHAR
+    type: DOUBLE
   - name: emptyp2
-    type: VARCHAR
+    type: DOUBLE
   - name: caboose2
-    type: VARCHAR
+    type: DOUBLE
   - name: eqpdmg
-    type: VARCHAR
+    type: DOUBLE
   - name: trkdmg
-    type: VARCHAR
+    type: DOUBLE
   - name: cause
     type: VARCHAR
   - name: cause2
     type: VARCHAR
   - name: caskldrr
-    type: VARCHAR
+    type: DOUBLE
   - name: casinjrr
-    type: VARCHAR
+    type: DOUBLE
   - name: caskld
-    type: VARCHAR
+    type: DOUBLE
   - name: casinj
-    type: VARCHAR
+    type: DOUBLE
   - name: accause
     type: VARCHAR
   - name: acctrk
@@ -169,25 +172,25 @@ columns:
   - name: highspd
     type: VARCHAR
   - name: accdmg
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy2
     type: VARCHAR
   - name: stcnty
     type: VARCHAR
   - name: totinj
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy3
     type: VARCHAR
   - name: totkld
-    type: VARCHAR
+    type: DOUBLE
   - name: engrs
-    type: VARCHAR
+    type: BIGINT
   - name: firemen
-    type: VARCHAR
+    type: BIGINT
   - name: conductr
-    type: VARCHAR
+    type: BIGINT
   - name: brakemen
-    type: VARCHAR
+    type: BIGINT
   - name: enghr
     type: VARCHAR
   - name: engmin
@@ -197,9 +200,9 @@ columns:
   - name: cdtrmin
     type: VARCHAR
   - name: jointcd
-    type: VARCHAR
+    type: BIGINT
   - name: region
-    type: VARCHAR
+    type: BIGINT
   - name: dummy4
     type: VARCHAR
   - name: typrr
@@ -211,23 +214,23 @@ columns:
   - name: method
     type: VARCHAR
   - name: narrlen
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy6
     type: VARCHAR
   - name: year4
-    type: VARCHAR
+    type: BIGINT
   - name: rrempkld
-    type: VARCHAR
+    type: DOUBLE
   - name: rrempinj
-    type: VARCHAR
+    type: DOUBLE
   - name: passkld
-    type: VARCHAR
+    type: DOUBLE
   - name: passinj
-    type: VARCHAR
+    type: DOUBLE
   - name: otherkld
-    type: VARCHAR
+    type: DOUBLE
   - name: otherinj
-    type: VARCHAR
+    type: DOUBLE
   - name: county
     type: VARCHAR
   - name: cntycd
@@ -277,13 +280,13 @@ columns:
   - name: rcl
     type: VARCHAR
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: longitud
-    type: VARCHAR
+    type: DOUBLE
   - name: signal
-    type: VARCHAR
+    type: BIGINT
   - name: mopera
-    type: VARCHAR
+    type: BIGINT
   - name: adjunct1
     type: VARCHAR
   - name: adjunct2

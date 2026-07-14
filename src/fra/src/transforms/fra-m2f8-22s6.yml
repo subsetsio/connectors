@@ -1,19 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annualaveragedailytrafficyear
-sort: [annualaveragedailytrafficyear]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-m2f8-22s6`. Regenerate after model-verify.
+# caution: Current inventory can contain multiple records per crossing/reporting context; filter to the intended status or revision fields before treating crossing identifiers as unique locations.
+key: []
+temporal: revisiondate
+sort: [revisiondate]
 columns:
   - name: revisiondate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: railroadcode
     type: VARCHAR
   - name: railroadname
     type: VARCHAR
   - name: reportingagencytypecode
-    type: VARCHAR
+    type: BIGINT
   - name: reportingagencytype
     type: VARCHAR
   - name: reasoncode
-    type: VARCHAR
+    type: BIGINT
   - name: reasondescription
     type: VARCHAR
   - name: crossingid
@@ -33,7 +36,7 @@ columns:
   - name: countyname
     type: VARCHAR
   - name: innearcode
-    type: VARCHAR
+    type: BIGINT
   - name: innear
     type: VARCHAR
   - name: citycode
@@ -91,15 +94,15 @@ columns:
   - name: crossingownercode
     type: VARCHAR
   - name: crossingtypecode
-    type: VARCHAR
+    type: BIGINT
   - name: crossingtype
     type: VARCHAR
   - name: crossingpurposecode
-    type: VARCHAR
+    type: BIGINT
   - name: crossingpurpose
     type: VARCHAR
   - name: crossingpositioncode
-    type: VARCHAR
+    type: BIGINT
   - name: crossingposition
     type: VARCHAR
   - name: publicaccess
@@ -107,35 +110,35 @@ columns:
   - name: typeoftrainserviceids
     type: VARCHAR
   - name: typeoftrainserviceid1
-    type: VARCHAR
+    type: BIGINT
   - name: typeoftrainservice1
     type: VARCHAR
   - name: typeoftrainserviceid2
-    type: VARCHAR
+    type: BIGINT
   - name: typeoftrainservice2
     type: VARCHAR
   - name: typeoftrainserviceid3
-    type: VARCHAR
+    type: BIGINT
   - name: typeoftrainservice3
     type: VARCHAR
   - name: typeoftrainserviceid4
-    type: VARCHAR
+    type: BIGINT
   - name: typeoftrainservice4
     type: VARCHAR
   - name: typeoftrainserviceid5
-    type: VARCHAR
+    type: BIGINT
   - name: typeoftrainservice5
     type: VARCHAR
   - name: typeoftrainserviceid6
-    type: VARCHAR
+    type: BIGINT
   - name: typeoftrainservice6
     type: VARCHAR
   - name: ltpassengertrainperday
     type: VARCHAR
   - name: numberpassengertrainperday
-    type: VARCHAR
+    type: BIGINT
   - name: developmenttypecode
-    type: VARCHAR
+    type: BIGINT
   - name: developmenttype
     type: VARCHAR
   - name: adjacentcrossing
@@ -143,11 +146,11 @@ columns:
   - name: adjacentcrossingnumber
     type: VARCHAR
   - name: whistlebancode
-    type: VARCHAR
+    type: BIGINT
   - name: whistleban
     type: VARCHAR
   - name: whistledate
-    type: VARCHAR
+    type: DATE
   - name: hsrcorridoridsuffix
     type: VARCHAR
   - name: hsrcorridorid
@@ -157,7 +160,7 @@ columns:
   - name: longitude
     type: VARCHAR
   - name: latlongsourcecode
-    type: VARCHAR
+    type: BIGINT
   - name: latlongsource
     type: VARCHAR
   - name: railroadnarrativebase
@@ -175,53 +178,53 @@ columns:
   - name: statecontacttelephonenumber
     type: VARCHAR
   - name: totaldaylightthrutrains
-    type: VARCHAR
+    type: BIGINT
   - name: totalnighttimethrutrains
-    type: VARCHAR
+    type: BIGINT
   - name: totalswitchingtrains
-    type: VARCHAR
+    type: BIGINT
   - name: totaltransittrains
-    type: VARCHAR
+    type: BIGINT
   - name: movementsperdaycode
-    type: VARCHAR
+    type: BIGINT
   - name: movementsperday
     type: VARCHAR
   - name: trainsperweek
-    type: VARCHAR
+    type: BIGINT
   - name: trainsperyear
-    type: VARCHAR
+    type: BIGINT
   - name: maximumtimetablespeed
-    type: VARCHAR
+    type: BIGINT
   - name: minimumspeedrangeovercrossing
-    type: VARCHAR
+    type: BIGINT
   - name: maximumspeedrangeovercrossing
-    type: VARCHAR
+    type: BIGINT
   - name: numberofmaintracks
-    type: VARCHAR
+    type: BIGINT
   - name: numberofsidingtracks
-    type: VARCHAR
+    type: BIGINT
   - name: numberofyardtracks
-    type: VARCHAR
+    type: BIGINT
   - name: numberoftransittracks
-    type: VARCHAR
+    type: BIGINT
   - name: numberofindustrytracks
-    type: VARCHAR
+    type: BIGINT
   - name: othertrack
-    type: VARCHAR
+    type: BIGINT
   - name: othertrackdescription
     type: VARCHAR
   - name: traindetectionids
     type: VARCHAR
   - name: traindetectionid1
-    type: VARCHAR
+    type: BIGINT
   - name: traindetection1
     type: VARCHAR
   - name: traindetectionid2
-    type: VARCHAR
+    type: BIGINT
   - name: traindetection2
     type: VARCHAR
   - name: traindetectionid3
-    type: VARCHAR
+    type: BIGINT
   - name: traindetection3
     type: VARCHAR
   - name: tracksignaled
@@ -233,77 +236,77 @@ columns:
   - name: signsorsignals
     type: VARCHAR
   - name: numbercrossbuckassemblies
-    type: VARCHAR
+    type: BIGINT
   - name: numberstopsigns
-    type: VARCHAR
+    type: BIGINT
   - name: numberyieldsigns
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarnings
     type: VARCHAR
   - name: advancewarning1
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext1
     type: VARCHAR
   - name: advancewarning2
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext2
     type: VARCHAR
   - name: advancewarning3
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext3
     type: VARCHAR
   - name: advancewarning4
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext4
     type: VARCHAR
   - name: advancewarning5
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext5
     type: VARCHAR
   - name: advancewarning6
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext6
     type: VARCHAR
   - name: advancewarning7
-    type: VARCHAR
+    type: BIGINT
   - name: advancewarningtext7
     type: VARCHAR
   - name: countadvw10_1
-    type: VARCHAR
+    type: BIGINT
   - name: countadvw10_2
-    type: VARCHAR
+    type: BIGINT
   - name: countadvw10_3
-    type: VARCHAR
+    type: BIGINT
   - name: countadvw10_4
-    type: VARCHAR
+    type: BIGINT
   - name: countadvw10_11
-    type: VARCHAR
+    type: BIGINT
   - name: countadvw10_12
-    type: VARCHAR
+    type: BIGINT
   - name: lowgroundclearancesigns
     type: VARCHAR
   - name: numberlowgroundclearancesigns
-    type: VARCHAR
+    type: BIGINT
   - name: pavementmarkingids
     type: VARCHAR
   - name: pavementmarkingid1
-    type: VARCHAR
+    type: BIGINT
   - name: pavementmarking1
     type: VARCHAR
   - name: pavementmarkingid2
-    type: VARCHAR
+    type: BIGINT
   - name: pavementmarking2
     type: VARCHAR
   - name: pavementmarkingid3
-    type: VARCHAR
+    type: BIGINT
   - name: pavementmarking3
     type: VARCHAR
   - name: pavementmarkingid4
-    type: VARCHAR
+    type: BIGINT
   - name: pavementmarking4
     type: VARCHAR
   - name: channeldevicemediancode
-    type: VARCHAR
+    type: BIGINT
   - name: channeldevicemedian
     type: VARCHAR
   - name: exemptsigns
@@ -313,19 +316,19 @@ columns:
   - name: othermutcdsigns
     type: VARCHAR
   - name: numberothermutcdsigns1
-    type: VARCHAR
+    type: BIGINT
   - name: othermutcdsignstype1
     type: VARCHAR
   - name: othermutcdsignstypetext1
     type: VARCHAR
   - name: numberothermutcdsigns2
-    type: VARCHAR
+    type: BIGINT
   - name: othermutcdsignstype2
     type: VARCHAR
   - name: othermutcdsignstypetext2
     type: VARCHAR
   - name: numberothermutcdsigns3
-    type: VARCHAR
+    type: BIGINT
   - name: othermutcdsignstype3
     type: VARCHAR
   - name: othermutcdsignstypetext3
@@ -335,9 +338,9 @@ columns:
   - name: ledenhancedsigns
     type: VARCHAR
   - name: countroadwaygatearms
-    type: VARCHAR
+    type: BIGINT
   - name: countpedestriangatearms
-    type: VARCHAR
+    type: BIGINT
   - name: gateconfigurationcode
     type: VARCHAR
   - name: gateconfiguration
@@ -347,15 +350,15 @@ columns:
   - name: gateconfigurationtype
     type: VARCHAR
   - name: countcantileveroverlane
-    type: VARCHAR
+    type: BIGINT
   - name: countcantilevernolane
-    type: VARCHAR
+    type: BIGINT
   - name: cantileveredtypestructurecode
     type: VARCHAR
   - name: cantileveredtypestructure
     type: VARCHAR
   - name: countmastmountedflashinglight
-    type: VARCHAR
+    type: BIGINT
   - name: mastmountedflashinglightcode
     type: VARCHAR
   - name: mastmountedflashinglighttype
@@ -365,7 +368,7 @@ columns:
   - name: mastmountedflashingsidelight
     type: VARCHAR
   - name: countflashinglightpair
-    type: VARCHAR
+    type: BIGINT
   - name: installationdateactivewa
     type: VARCHAR
   - name: waysidehorn
@@ -375,13 +378,13 @@ columns:
   - name: highwaytrafficsignal
     type: VARCHAR
   - name: numberofbells
-    type: VARCHAR
+    type: BIGINT
   - name: nontrainactivewarningcode
-    type: VARCHAR
+    type: BIGINT
   - name: nontrainactivewarning
     type: VARCHAR
   - name: countotherflashinglights
-    type: VARCHAR
+    type: BIGINT
   - name: otherflashinglightstype
     type: VARCHAR
   - name: nearbyhighwaytrafficsignals
@@ -397,9 +400,9 @@ columns:
   - name: highwaytrafficpresignals
     type: VARCHAR
   - name: stoplinedistance
-    type: VARCHAR
+    type: BIGINT
   - name: storagedistance
-    type: VARCHAR
+    type: BIGINT
   - name: highwaymonitoringdevicescode
     type: VARCHAR
   - name: highwaymonitoringdevices
@@ -407,7 +410,7 @@ columns:
   - name: trafficlane
     type: VARCHAR
   - name: trafficlanetypecode
-    type: VARCHAR
+    type: BIGINT
   - name: trafficlanetypedescription
     type: VARCHAR
   - name: highwaypaved
@@ -419,13 +422,13 @@ columns:
   - name: crossingsurfaceinstalldate
     type: VARCHAR
   - name: crossingsurfacewidth
-    type: VARCHAR
+    type: BIGINT
   - name: crossingsurfacelength
-    type: VARCHAR
+    type: BIGINT
   - name: crossingsurfaceids
     type: VARCHAR
   - name: crossingsurfaceid1
-    type: VARCHAR
+    type: BIGINT
   - name: crossingsurfacedescription1
     type: VARCHAR
   - name: crossingsurfaceid2
@@ -441,9 +444,9 @@ columns:
   - name: highwaynear
     type: VARCHAR
   - name: intersectingroadwaydistance
-    type: VARCHAR
+    type: BIGINT
   - name: smallestcrossinganglecode
-    type: VARCHAR
+    type: BIGINT
   - name: smallestcrossingangle
     type: VARCHAR
   - name: compower
@@ -453,17 +456,17 @@ columns:
   - name: highwaysystem
     type: VARCHAR
   - name: roadatcrossingcode
-    type: VARCHAR
+    type: BIGINT
   - name: roadatcrossing
     type: VARCHAR
   - name: roadatcrossingtypecode
-    type: VARCHAR
+    type: BIGINT
   - name: roadatcrossingtype
     type: VARCHAR
   - name: crossingonstatehighwaysystem
     type: VARCHAR
   - name: highwayspeedlimit
-    type: VARCHAR
+    type: BIGINT
   - name: highwayspeedlimittypecode
     type: VARCHAR
   - name: highwayspeedlimittype
@@ -473,15 +476,15 @@ columns:
   - name: linearrefsystemmilepost
     type: VARCHAR
   - name: annualaveragedailytrafficcount
-    type: VARCHAR
+    type: BIGINT
   - name: annualaveragedailytrafficyear
-    type: VARCHAR
+    type: BIGINT
   - name: estimatedpercenttrucks
     type: VARCHAR
   - name: schoolbusroute
     type: VARCHAR
   - name: schoolbusaveragecount
-    type: VARCHAR
+    type: BIGINT
   - name: emergencyservicesroute
     type: VARCHAR
   - name: ccmqzid
@@ -495,7 +498,7 @@ columns:
   - name: reportstatus
     type: VARCHAR
   - name: agencyid
-    type: VARCHAR
+    type: BIGINT
   - name: reporting_railroad_class
     type: VARCHAR
   - name: reporting_railroad_smt_grouping

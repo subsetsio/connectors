@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-7wn6-i5b9`. Regenerate after model-verify.
+# caution: FRA incident identifiers are not unique by the obvious railroad/year/month/incident-number fields; treat this as a source extract unless a narrower report key is introduced.
+key: []
 temporal: date
 sort: [date]
 columns:
@@ -7,7 +10,7 @@ columns:
   - name: railroadname
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: incidentnumber
     type: VARCHAR
   - name: incidentyear
@@ -37,15 +40,15 @@ columns:
   - name: gradecrossingid
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: month
     type: VARCHAR
   - name: day
     type: VARCHAR
   - name: hour
-    type: VARCHAR
+    type: BIGINT
   - name: minute
-    type: VARCHAR
+    type: BIGINT
   - name: ampm
     type: VARCHAR
   - name: time
@@ -77,13 +80,13 @@ columns:
   - name: highwayuser
     type: VARCHAR
   - name: estimatedvehiclespeed
-    type: VARCHAR
+    type: BIGINT
   - name: vehicledirectioncode
     type: VARCHAR
   - name: vehicledirection
     type: VARCHAR
   - name: highwayuserpositioncode
-    type: VARCHAR
+    type: BIGINT
   - name: highwayuserposition
     type: VARCHAR
   - name: equipmentinvolvedcode
@@ -91,17 +94,17 @@ columns:
   - name: equipmentinvolved
     type: VARCHAR
   - name: railroadcarunitposition
-    type: VARCHAR
+    type: BIGINT
   - name: equipmentstruckcode
-    type: VARCHAR
+    type: BIGINT
   - name: equipmentstruck
     type: VARCHAR
   - name: hazmatinvolvementcode
-    type: VARCHAR
+    type: BIGINT
   - name: hazmatinvolvement
     type: VARCHAR
   - name: hazmatreleasedbycode
-    type: VARCHAR
+    type: BIGINT
   - name: hazmatreleasedby
     type: VARCHAR
   - name: hazmatreleasedname
@@ -111,13 +114,13 @@ columns:
   - name: hazmatreleasedmeasure
     type: VARCHAR
   - name: temperature
-    type: VARCHAR
+    type: BIGINT
   - name: visibilitycode
-    type: VARCHAR
+    type: BIGINT
   - name: visibility
     type: VARCHAR
   - name: weatherconditioncode
-    type: VARCHAR
+    type: BIGINT
   - name: weathercondition
     type: VARCHAR
   - name: equipmenttypecode
@@ -125,7 +128,7 @@ columns:
   - name: equipmenttype
     type: VARCHAR
   - name: tracktypecode
-    type: VARCHAR
+    type: BIGINT
   - name: tracktype
     type: VARCHAR
   - name: trackname
@@ -133,11 +136,11 @@ columns:
   - name: trackclass
     type: VARCHAR
   - name: numberoflocomotiveunits
-    type: VARCHAR
+    type: BIGINT
   - name: numberofcars
-    type: VARCHAR
+    type: BIGINT
   - name: trainspeed
-    type: VARCHAR
+    type: BIGINT
   - name: estimatedrecordedspeedcode
     type: VARCHAR
   - name: traindirectioncode
@@ -145,21 +148,21 @@ columns:
   - name: traindirection
     type: VARCHAR
   - name: crossingwarningexpandedcode1
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode2
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode3
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode4
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode5
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode6
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode7
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode8
-    type: VARCHAR
+    type: BIGINT
   - name: crossingwarningexpandedcode9
     type: VARCHAR
   - name: crossingwarningexpandedcode10
@@ -213,47 +216,47 @@ columns:
   - name: crossingilluminated
     type: VARCHAR
   - name: userage
-    type: VARCHAR
+    type: BIGINT
   - name: usergender
     type: VARCHAR
   - name: userstruckbysecondtraincode
     type: VARCHAR
   - name: highwayuseractioncode
-    type: VARCHAR
+    type: BIGINT
   - name: highwayuseraction
     type: VARCHAR
   - name: driverpassedvehicle
     type: VARCHAR
   - name: viewobstructioncode
-    type: VARCHAR
+    type: BIGINT
   - name: viewobstruction
     type: VARCHAR
   - name: driverconditioncode
-    type: VARCHAR
+    type: BIGINT
   - name: drivercondition
     type: VARCHAR
   - name: driverinvehicle
     type: VARCHAR
   - name: crossinguserskilled
-    type: VARCHAR
+    type: BIGINT
   - name: crossingusersinjured
-    type: VARCHAR
+    type: BIGINT
   - name: vehicledamagecost
-    type: VARCHAR
+    type: BIGINT
   - name: numbervehicleoccupants
-    type: VARCHAR
+    type: BIGINT
   - name: employeeskilled
-    type: VARCHAR
+    type: BIGINT
   - name: employeesinjured
-    type: VARCHAR
+    type: BIGINT
   - name: numberpeopleontrain
-    type: VARCHAR
+    type: BIGINT
   - name: form54filed
     type: VARCHAR
   - name: passengerskilled
-    type: VARCHAR
+    type: BIGINT
   - name: passengersinjured
-    type: VARCHAR
+    type: BIGINT
   - name: videotaken
     type: VARCHAR
   - name: videoused
@@ -265,19 +268,19 @@ columns:
   - name: narrative
     type: VARCHAR
   - name: totalkilledform57
-    type: VARCHAR
+    type: BIGINT
   - name: totalinjuredform57
-    type: VARCHAR
+    type: BIGINT
   - name: railroadtype
     type: VARCHAR
   - name: railroadreporting
-    type: VARCHAR
+    type: BIGINT
   - name: totalkilledform55a
-    type: VARCHAR
+    type: BIGINT
   - name: totalinjuredform55a
-    type: VARCHAR
+    type: BIGINT
   - name: district
-    type: VARCHAR
+    type: BIGINT
   - name: whistlebancode
     type: VARCHAR
   - name: whistleban

@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year4
-sort: [year4]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-kuvg-3uwp`. Regenerate after model-verify.
+# caution: This source-form casualty extract uses legacy FRA source fields; do not combine it with the curated Form 55A casualty table without reconciling duplicate report concepts.
+key: []
 columns:
   - name: iyr
     type: VARCHAR
@@ -27,9 +28,9 @@ columns:
   - name: age
     type: VARCHAR
   - name: daysabs
-    type: VARCHAR
+    type: DOUBLE
   - name: daysres
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy
     type: VARCHAR
   - name: state
@@ -39,11 +40,11 @@ columns:
   - name: dummy1
     type: VARCHAR
   - name: region
-    type: VARCHAR
+    type: BIGINT
   - name: dummy2
     type: VARCHAR
   - name: narrlen
-    type: VARCHAR
+    type: DOUBLE
   - name: casfatal
     type: VARCHAR
   - name: cas57
@@ -51,15 +52,15 @@ columns:
   - name: cas54
     type: VARCHAR
   - name: dummy3
-    type: VARCHAR
+    type: BIGINT
   - name: day
     type: VARCHAR
   - name: year4
-    type: VARCHAR
+    type: BIGINT
   - name: timehr
-    type: VARCHAR
+    type: DOUBLE
   - name: timemin
-    type: VARCHAR
+    type: DOUBLE
   - name: ampm
     type: VARCHAR
   - name: county
@@ -99,6 +100,6 @@ columns:
   - name: coverdata
     type: VARCHAR
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: longitud
-    type: VARCHAR
+    type: DOUBLE

@@ -1,7 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [reportkey]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-rash-pd2d`. Regenerate after model-verify.
+key: []
 temporal: date
-sort: [date, reportkey]
+sort: [date]
 columns:
   - name: railroadcode
     type: VARCHAR
@@ -12,13 +13,13 @@ columns:
   - name: incidentnumber
     type: VARCHAR
   - name: incidentyear
-    type: VARCHAR
+    type: BIGINT
   - name: incidentmonth
     type: VARCHAR
   - name: incidentday
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: time
     type: VARCHAR
   - name: countycode
@@ -38,7 +39,7 @@ columns:
   - name: employeejobdescription
     type: VARCHAR
   - name: ageofperson
-    type: VARCHAR
+    type: BIGINT
   - name: positivealcoholtests
     type: VARCHAR
   - name: positivedrugtests
@@ -82,9 +83,9 @@ columns:
   - name: injurycause
     type: VARCHAR
   - name: daysawayfromwork
-    type: VARCHAR
+    type: BIGINT
   - name: daysrestrictedactivity
-    type: VARCHAR
+    type: BIGINT
   - name: hazmatexposure
     type: VARCHAR
   - name: covereddatacode
@@ -92,15 +93,15 @@ columns:
   - name: covereddatareason
     type: VARCHAR
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: longitude
-    type: VARCHAR
+    type: DOUBLE
   - name: narrative
     type: VARCHAR
   - name: employeesuspension
     type: VARCHAR
   - name: district
-    type: VARCHAR
+    type: BIGINT
   - name: fatality
     type: VARCHAR
   - name: form57filed

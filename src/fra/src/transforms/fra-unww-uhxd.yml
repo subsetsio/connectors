@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year4
-sort: [year4]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-unww-uhxd`. Regenerate after model-verify.
+# caution: This source-form operational extract uses legacy FRA source fields; do not combine it with the curated Form 55 operational table without reconciling duplicate report concepts.
+key: []
 columns:
   - name: railroad
     type: VARCHAR
@@ -13,33 +14,33 @@ columns:
   - name: county
     type: VARCHAR
   - name: locomi
-    type: VARCHAR
+    type: DOUBLE
   - name: mtmi
-    type: VARCHAR
+    type: DOUBLE
   - name: ysmi
-    type: VARCHAR
+    type: DOUBLE
   - name: totmi
-    type: VARCHAR
+    type: DOUBLE
   - name: emphrs
-    type: VARCHAR
+    type: DOUBLE
   - name: passmi
-    type: VARCHAR
+    type: DOUBLE
   - name: revpass
-    type: VARCHAR
+    type: DOUBLE
   - name: typrr
     type: VARCHAR
   - name: region
-    type: VARCHAR
+    type: BIGINT
   - name: dummy
     type: VARCHAR
   - name: year4
-    type: VARCHAR
+    type: BIGINT
   - name: frtrnmi
-    type: VARCHAR
+    type: DOUBLE
   - name: pastrnmi
-    type: VARCHAR
+    type: DOUBLE
   - name: othermi
-    type: VARCHAR
+    type: DOUBLE
   - name: cntycd
     type: VARCHAR
   - name: stcnty
@@ -51,6 +52,6 @@ columns:
   - name: narr3
     type: VARCHAR
   - name: narrlen
-    type: VARCHAR
+    type: DOUBLE
   - name: dummy1
     type: VARCHAR

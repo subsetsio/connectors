@@ -1,32 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [reportbaseid]
-temporal: aadtyear
-# sort omitted: 5.0M rows x 185 cols — an in-memory ORDER BY peaks ~14GB RSS
-# (measured) and OOM-kills the 7GB CI runner. Publishing unsorted keeps the
-# transform streaming/bounded. See TOOLS.md (sort optional for huge tables).
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-8uv2-y4is`. Regenerate after model-verify.
+# caution: Historical inventory contains multiple revisions for a crossing; filter or group by revision fields before treating crossing identifiers as current locations.
+key: []
+temporal: revisiondate
 columns:
   - name: crossingid
     type: VARCHAR
   - name: reportbaseid
-    type: VARCHAR
+    type: BIGINT
   - name: parentreportbaseid
-    type: VARCHAR
+    type: BIGINT
   - name: crossingclosed
-    type: VARCHAR
+    type: BIGINT
   - name: reportingagencytypeid
-    type: VARCHAR
+    type: BIGINT
   - name: reportingagencyid
-    type: VARCHAR
+    type: BIGINT
   - name: revisiondate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: reasonid
-    type: VARCHAR
+    type: BIGINT
   - name: crossingidsuffix
     type: VARCHAR
   - name: reportstatus
     type: VARCHAR
   - name: lastupdated
-    type: VARCHAR
+    type: TIMESTAMP
   - name: railroad
     type: VARCHAR
   - name: statecd
@@ -38,7 +37,7 @@ columns:
   - name: countyname
     type: VARCHAR
   - name: nearest
-    type: VARCHAR
+    type: BIGINT
   - name: citycd
     type: VARCHAR
   - name: cityname
@@ -50,7 +49,7 @@ columns:
   - name: highway
     type: VARCHAR
   - name: sepind
-    type: VARCHAR
+    type: BIGINT
   - name: seprr1
     type: VARCHAR
   - name: seprr2
@@ -60,9 +59,9 @@ columns:
   - name: seprr4
     type: VARCHAR
   - name: multfrmsfiled
-    type: VARCHAR
+    type: BIGINT
   - name: sameind
-    type: VARCHAR
+    type: BIGINT
   - name: samerr1
     type: VARCHAR
   - name: samerr2
@@ -82,25 +81,25 @@ columns:
   - name: xingownr
     type: VARCHAR
   - name: typexing
-    type: VARCHAR
+    type: BIGINT
   - name: xpurpose
-    type: VARCHAR
+    type: BIGINT
   - name: posxing
-    type: VARCHAR
+    type: BIGINT
   - name: openpub
-    type: VARCHAR
+    type: BIGINT
   - name: typetrnsrvcids
     type: VARCHAR
   - name: develtypid
-    type: VARCHAR
+    type: BIGINT
   - name: xingadj
-    type: VARCHAR
+    type: BIGINT
   - name: xngadjno
     type: VARCHAR
   - name: whistban
-    type: VARCHAR
+    type: BIGINT
   - name: whistdate
-    type: VARCHAR
+    type: TIMESTAMP
   - name: hscorrid
     type: VARCHAR
   - name: sfxhscorrid
@@ -110,7 +109,7 @@ columns:
   - name: longitude
     type: VARCHAR
   - name: llsource
-    type: VARCHAR
+    type: BIGINT
   - name: rrnarr1
     type: VARCHAR
   - name: rrnarr2
@@ -160,141 +159,141 @@ columns:
   - name: lt1passmov
     type: VARCHAR
   - name: passcnt
-    type: VARCHAR
+    type: BIGINT
   - name: daythru
-    type: VARCHAR
+    type: BIGINT
   - name: nghtthru
-    type: VARCHAR
+    type: DOUBLE
   - name: totalswt
-    type: VARCHAR
+    type: DOUBLE
   - name: totalltr
-    type: VARCHAR
+    type: DOUBLE
   - name: lt1mov
-    type: VARCHAR
+    type: BIGINT
   - name: weektrnmov
-    type: VARCHAR
+    type: DOUBLE
   - name: yeartrnmov
-    type: VARCHAR
+    type: DOUBLE
   - name: maxttspd
-    type: VARCHAR
+    type: BIGINT
   - name: minspd
-    type: VARCHAR
+    type: BIGINT
   - name: maxspd
-    type: VARCHAR
+    type: BIGINT
   - name: maintrk
-    type: VARCHAR
+    type: BIGINT
   - name: sidingtrk
-    type: VARCHAR
+    type: BIGINT
   - name: yardtrk
-    type: VARCHAR
+    type: BIGINT
   - name: transittrk
-    type: VARCHAR
+    type: BIGINT
   - name: industrytrk
-    type: VARCHAR
+    type: BIGINT
   - name: othrtrk
-    type: VARCHAR
+    type: BIGINT
   - name: othrtrkdes
     type: VARCHAR
   - name: spselids
     type: VARCHAR
   - name: sgnleqp
-    type: VARCHAR
+    type: BIGINT
   - name: emonitordvce
-    type: VARCHAR
+    type: BIGINT
   - name: healthmonitor
-    type: VARCHAR
+    type: BIGINT
   - name: nosigns
-    type: VARCHAR
+    type: BIGINT
   - name: xbuck
-    type: VARCHAR
+    type: BIGINT
   - name: stopstd
-    type: VARCHAR
+    type: BIGINT
   - name: yieldstd
-    type: VARCHAR
+    type: BIGINT
   - name: advwarn
     type: VARCHAR
   - name: advw10_1
-    type: VARCHAR
+    type: BIGINT
   - name: advw10_2
-    type: VARCHAR
+    type: BIGINT
   - name: advw10_3
-    type: VARCHAR
+    type: BIGINT
   - name: advw10_4
-    type: VARCHAR
+    type: BIGINT
   - name: advw10_11
-    type: VARCHAR
+    type: BIGINT
   - name: advw10_12
-    type: VARCHAR
+    type: BIGINT
   - name: low_grnd
-    type: VARCHAR
+    type: BIGINT
   - name: low_grndsigns
-    type: VARCHAR
+    type: BIGINT
   - name: pavemrkids
     type: VARCHAR
   - name: channel
-    type: VARCHAR
+    type: BIGINT
   - name: exempt
-    type: VARCHAR
+    type: BIGINT
   - name: enssign
-    type: VARCHAR
+    type: BIGINT
   - name: othsgn
-    type: VARCHAR
+    type: BIGINT
   - name: othsgn1
-    type: VARCHAR
+    type: BIGINT
   - name: othdes1
     type: VARCHAR
   - name: othsgn2
-    type: VARCHAR
+    type: BIGINT
   - name: othdes2
     type: VARCHAR
   - name: othsgn3
-    type: VARCHAR
+    type: BIGINT
   - name: othdes3
     type: VARCHAR
   - name: prvxsign
-    type: VARCHAR
+    type: BIGINT
   - name: led
     type: VARCHAR
   - name: gates
-    type: VARCHAR
+    type: BIGINT
   - name: gateped
-    type: VARCHAR
+    type: BIGINT
   - name: gateconf
     type: VARCHAR
   - name: gateconftype
     type: VARCHAR
   - name: flashov
-    type: VARCHAR
+    type: BIGINT
   - name: flashnov
-    type: VARCHAR
+    type: BIGINT
   - name: cflashtype
     type: VARCHAR
   - name: flashpost
-    type: VARCHAR
+    type: BIGINT
   - name: flashposttype
     type: VARCHAR
   - name: bkl_flashpost
-    type: VARCHAR
+    type: BIGINT
   - name: sdl_flashpost
-    type: VARCHAR
+    type: BIGINT
   - name: flashpai
-    type: VARCHAR
+    type: BIGINT
   - name: awdidate
     type: VARCHAR
   - name: awhornchk
-    type: VARCHAR
+    type: BIGINT
   - name: awhornldate
     type: VARCHAR
   - name: hwytrafsignl
-    type: VARCHAR
+    type: BIGINT
   - name: wigwags
-    type: VARCHAR
+    type: BIGINT
   - name: bells
-    type: VARCHAR
+    type: BIGINT
   - name: specpro
-    type: VARCHAR
+    type: BIGINT
   - name: flashoth
-    type: VARCHAR
+    type: BIGINT
   - name: flashothdes
     type: VARCHAR
   - name: hwynrsig
@@ -304,31 +303,31 @@ columns:
   - name: premptype
     type: VARCHAR
   - name: hwtrfpsig
-    type: VARCHAR
+    type: BIGINT
   - name: hwtrfpsigsdis
-    type: VARCHAR
+    type: BIGINT
   - name: hwtrfpsiglndis
-    type: VARCHAR
+    type: BIGINT
   - name: monitordev
     type: VARCHAR
   - name: wdcode
-    type: VARCHAR
+    type: BIGINT
   - name: traficln
     type: VARCHAR
   - name: traflntype
-    type: VARCHAR
+    type: BIGINT
   - name: hwypved
-    type: VARCHAR
+    type: BIGINT
   - name: downst
-    type: VARCHAR
+    type: BIGINT
   - name: illumina
-    type: VARCHAR
+    type: BIGINT
   - name: xsurfdate
     type: VARCHAR
   - name: xsurfwidth
-    type: VARCHAR
+    type: BIGINT
   - name: xsurflength
-    type: VARCHAR
+    type: BIGINT
   - name: xsurfaceids
     type: VARCHAR
   - name: xsurothr
@@ -336,21 +335,21 @@ columns:
   - name: hwynear
     type: VARCHAR
   - name: hwyndist
-    type: VARCHAR
+    type: BIGINT
   - name: xangle
-    type: VARCHAR
+    type: BIGINT
   - name: compower
-    type: VARCHAR
+    type: BIGINT
   - name: hwysys
     type: VARCHAR
   - name: hwyclasscd
-    type: VARCHAR
+    type: BIGINT
   - name: hwyclassrdtpid
-    type: VARCHAR
+    type: BIGINT
   - name: sthwy1
-    type: VARCHAR
+    type: BIGINT
   - name: hwyspeed
-    type: VARCHAR
+    type: BIGINT
   - name: hwyspeedps
     type: VARCHAR
   - name: lrsrouteid
@@ -364,14 +363,14 @@ columns:
   - name: pcttruk
     type: VARCHAR
   - name: schlbuschk
-    type: VARCHAR
+    type: BIGINT
   - name: schlbscnt
-    type: VARCHAR
+    type: BIGINT
   - name: hazmtveh
     type: VARCHAR
   - name: emrgncysrvc
-    type: VARCHAR
+    type: BIGINT
   - name: reportyear
-    type: VARCHAR
+    type: BIGINT
   - name: reporttype
     type: VARCHAR

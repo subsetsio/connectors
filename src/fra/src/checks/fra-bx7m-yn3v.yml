@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fra-bx7m-yn3v`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [incidentkey, incidentnumber, pdf, reportkey, geocode]
+temporal: date
+checks:
+  - kind: unique
+    columns: [incidentkey, incidentnumber, pdf, reportkey, geocode]
+  - kind: not_null
+    col: incidentkey
+  - kind: not_null
+    col: incidentnumber
+  - kind: not_null
+    col: pdf
+  - kind: not_null
+    col: reportkey
+  - kind: not_null
+    col: geocode
+  - kind: row_floor
+    min: 19709
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

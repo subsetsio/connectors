@@ -1,4 +1,7 @@
-# bootstrapped from Socrata metadata; raw CSV writer stores every column as VARCHAR
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-8wvp-gjhh`. Regenerate after model-verify.
+# caution: This six-year view is a windowed view of the operational Form 55 data and should not be added to the full operational tables without de-duplication.
+key: []
 temporal: year
 sort: [year]
 columns:
@@ -9,39 +12,39 @@ columns:
   - name: reportmonth
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: statecode
     type: VARCHAR
   - name: statename
     type: VARCHAR
   - name: countycode
-    type: VARCHAR
+    type: BIGINT
   - name: countyname
     type: VARCHAR
   - name: freighttrainmiles
-    type: VARCHAR
+    type: BIGINT
   - name: passengertrainmiles
-    type: VARCHAR
+    type: BIGINT
   - name: yardswitchingmiles
-    type: VARCHAR
+    type: BIGINT
   - name: othertrainmiles
-    type: VARCHAR
+    type: BIGINT
   - name: totalmiles
-    type: VARCHAR
+    type: BIGINT
   - name: employeemanhours
-    type: VARCHAR
+    type: BIGINT
   - name: passengermiles
-    type: VARCHAR
+    type: BIGINT
   - name: passengerstransported
-    type: VARCHAR
+    type: BIGINT
   - name: locomotivetrainmiles
-    type: VARCHAR
+    type: BIGINT
   - name: motortrainmiles
-    type: VARCHAR
+    type: BIGINT
   - name: railroadtype
     type: VARCHAR
   - name: district
-    type: VARCHAR
+    type: BIGINT
   - name: narrative
     type: VARCHAR
   - name: reporting_railroad_smt_grouping

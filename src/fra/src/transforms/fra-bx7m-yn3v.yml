@@ -1,6 +1,9 @@
-# bootstrapped from Socrata metadata; raw CSV writer stores every column as VARCHAR
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-bx7m-yn3v`. Regenerate after model-verify.
+# caution: This six-year casualty view is a windowed view of the Form 55A casualty data and should not be added to the full casualty tables without de-duplication.
+key: [incidentkey, incidentnumber, pdf, reportkey, geocode]
 temporal: date
-sort: [date]
+sort: [date, incidentkey, incidentnumber, pdf, reportkey, geocode]
 columns:
   - name: railroadcode
     type: VARCHAR
@@ -11,13 +14,13 @@ columns:
   - name: incidentnumber
     type: VARCHAR
   - name: incidentyear
-    type: VARCHAR
+    type: BIGINT
   - name: incidentmonth
     type: VARCHAR
   - name: incidentday
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: time
     type: VARCHAR
   - name: countycode
@@ -37,7 +40,7 @@ columns:
   - name: employeejobdescription
     type: VARCHAR
   - name: ageofperson
-    type: VARCHAR
+    type: BIGINT
   - name: positivealcoholtests
     type: VARCHAR
   - name: positivedrugtests
@@ -81,9 +84,9 @@ columns:
   - name: injurycause
     type: VARCHAR
   - name: daysawayfromwork
-    type: VARCHAR
+    type: BIGINT
   - name: daysrestrictedactivity
-    type: VARCHAR
+    type: BIGINT
   - name: hazmatexposure
     type: VARCHAR
   - name: covereddatacode
@@ -91,15 +94,15 @@ columns:
   - name: covereddatareason
     type: VARCHAR
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: longitude
-    type: VARCHAR
+    type: DOUBLE
   - name: narrative
     type: VARCHAR
   - name: employeesuspension
     type: VARCHAR
   - name: district
-    type: VARCHAR
+    type: BIGINT
   - name: fatality
     type: VARCHAR
   - name: form57filed

@@ -1,4 +1,7 @@
-# bootstrapped from Socrata metadata; raw CSV writer stores every column as VARCHAR
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fra-jm8x-ccxs`. Regenerate after model-verify.
+# caution: This six-year view is a windowed view of the Form 54 accident data and should not be added to full Form 54 tables without de-duplication.
+key: []
 temporal: date
 sort: [date]
 columns:
@@ -7,13 +10,13 @@ columns:
   - name: reportingrailroadname
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: accidentnumber
     type: VARCHAR
   - name: url
     type: VARCHAR
   - name: accidentyear
-    type: VARCHAR
+    type: BIGINT
   - name: accidentmonth
     type: VARCHAR
   - name: otherrailroadcode
@@ -23,7 +26,7 @@ columns:
   - name: otheraccidentnumber
     type: VARCHAR
   - name: otheraccidentyear
-    type: VARCHAR
+    type: BIGINT
   - name: otheraccidentmonth
     type: VARCHAR
   - name: maintenancerailroadcode
@@ -33,7 +36,7 @@ columns:
   - name: maintenanceaccidentnumber
     type: VARCHAR
   - name: maintenanceaccidentyear
-    type: VARCHAR
+    type: BIGINT
   - name: maintenanceaccidentmonth
     type: VARCHAR
   - name: gxid
@@ -41,7 +44,7 @@ columns:
   - name: day
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: time
     type: VARCHAR
   - name: accident_type_code
@@ -49,13 +52,13 @@ columns:
   - name: accidenttype
     type: VARCHAR
   - name: hazmatcars
-    type: VARCHAR
+    type: BIGINT
   - name: hazmatcarsdamaged
-    type: VARCHAR
+    type: BIGINT
   - name: hazmatreleasedcars
-    type: VARCHAR
+    type: BIGINT
   - name: personsevacuated
-    type: VARCHAR
+    type: BIGINT
   - name: subdivision
     type: VARCHAR
   - name: divisioncode
@@ -73,23 +76,23 @@ columns:
   - name: statename
     type: VARCHAR
   - name: countycode
-    type: VARCHAR
+    type: BIGINT
   - name: countyname
     type: VARCHAR
   - name: district
-    type: VARCHAR
+    type: BIGINT
   - name: temperature
-    type: VARCHAR
+    type: DOUBLE
   - name: visibility_code
-    type: VARCHAR
+    type: BIGINT
   - name: visibility
     type: VARCHAR
   - name: weather_condition_code
-    type: VARCHAR
+    type: BIGINT
   - name: weathercondition
     type: VARCHAR
   - name: track_type_code
-    type: VARCHAR
+    type: BIGINT
   - name: tracktype
     type: VARCHAR
   - name: trackname
@@ -111,15 +114,15 @@ columns:
   - name: trainnumber
     type: VARCHAR
   - name: trainspeed
-    type: VARCHAR
+    type: BIGINT
   - name: recordedestimatedspeed
     type: VARCHAR
   - name: maximumspeed
-    type: VARCHAR
+    type: BIGINT
   - name: grosstonnage
-    type: VARCHAR
+    type: BIGINT
   - name: signalization_code
-    type: VARCHAR
+    type: BIGINT
   - name: signalization
     type: VARCHAR
   - name: method_of_operation_code
@@ -147,7 +150,7 @@ columns:
   - name: firstcarnumber
     type: VARCHAR
   - name: firstcarposition
-    type: VARCHAR
+    type: BIGINT
   - name: firstcarloaded
     type: VARCHAR
   - name: causingcarinitials
@@ -155,61 +158,61 @@ columns:
   - name: causingcarnumber
     type: VARCHAR
   - name: causingcarposition
-    type: VARCHAR
+    type: BIGINT
   - name: causingcarloaded
     type: VARCHAR
   - name: positivealcoholtests
-    type: VARCHAR
+    type: BIGINT
   - name: positivedrugtests
-    type: VARCHAR
+    type: BIGINT
   - name: passengerstransported
     type: VARCHAR
   - name: headendlocomotives
-    type: VARCHAR
+    type: BIGINT
   - name: midtrainmanuallocomotives
-    type: VARCHAR
+    type: BIGINT
   - name: midtrainremotelocomotives
-    type: VARCHAR
+    type: BIGINT
   - name: rearendmanuallocomotives
-    type: VARCHAR
+    type: BIGINT
   - name: rearendremotelocomotives
-    type: VARCHAR
+    type: BIGINT
   - name: derailedheadendlocomotives
-    type: VARCHAR
+    type: BIGINT
   - name: derailedmidtrainmanuallo
-    type: VARCHAR
+    type: BIGINT
   - name: derailedmidtrainremotelo
-    type: VARCHAR
+    type: BIGINT
   - name: derailedrearendmanualloc
-    type: VARCHAR
+    type: BIGINT
   - name: derailedrearendremoteloc
-    type: VARCHAR
+    type: BIGINT
   - name: loadedfreightcars
-    type: VARCHAR
+    type: BIGINT
   - name: loadedpassengercars
-    type: VARCHAR
+    type: BIGINT
   - name: emptyfreightcars
-    type: VARCHAR
+    type: BIGINT
   - name: emptypassengercars
-    type: VARCHAR
+    type: BIGINT
   - name: cabooses
-    type: VARCHAR
+    type: BIGINT
   - name: derailedloadedfreightcars
-    type: VARCHAR
+    type: BIGINT
   - name: derailedloadedpassengercars
-    type: VARCHAR
+    type: BIGINT
   - name: derailedemptyfreightcars
-    type: VARCHAR
+    type: BIGINT
   - name: derailedemptypassengercars
-    type: VARCHAR
+    type: BIGINT
   - name: derailedcabooses
-    type: VARCHAR
+    type: BIGINT
   - name: equipmentdamagecost
-    type: VARCHAR
+    type: BIGINT
   - name: trackdamagecost
-    type: VARCHAR
+    type: BIGINT
   - name: totaldamagecost
-    type: VARCHAR
+    type: BIGINT
   - name: primaryaccidentcausecode
     type: VARCHAR
   - name: primaryaccidentcause
@@ -223,53 +226,53 @@ columns:
   - name: accidentcause
     type: VARCHAR
   - name: engineersonduty
-    type: VARCHAR
+    type: BIGINT
   - name: firemenonduty
-    type: VARCHAR
+    type: BIGINT
   - name: conductorsonduty
-    type: VARCHAR
+    type: BIGINT
   - name: brakemenonduty
-    type: VARCHAR
+    type: BIGINT
   - name: hoursengineersonduty
-    type: VARCHAR
+    type: BIGINT
   - name: minutesengineersonduty
-    type: VARCHAR
+    type: BIGINT
   - name: hoursconductorsonduty
-    type: VARCHAR
+    type: BIGINT
   - name: minutesconductorsonduty
-    type: VARCHAR
+    type: BIGINT
   - name: railroademployeeskilled
-    type: VARCHAR
+    type: BIGINT
   - name: railroademployeesinjured
-    type: VARCHAR
+    type: BIGINT
   - name: passengerskilled
-    type: VARCHAR
+    type: BIGINT
   - name: passengersinjured
-    type: VARCHAR
+    type: BIGINT
   - name: otherskilled
-    type: VARCHAR
+    type: BIGINT
   - name: othersinjured
-    type: VARCHAR
+    type: BIGINT
   - name: reportingrailroadfatalitiesfor55a
-    type: VARCHAR
+    type: BIGINT
   - name: reportingrailroadinjuriesfor55a
-    type: VARCHAR
+    type: BIGINT
   - name: totalpersonskilled
-    type: VARCHAR
+    type: BIGINT
   - name: totalpersonsinjured
-    type: VARCHAR
+    type: BIGINT
   - name: totalkilledform54
-    type: VARCHAR
+    type: BIGINT
   - name: totalinjuredform54
-    type: VARCHAR
+    type: BIGINT
   - name: specialstudy1
     type: VARCHAR
   - name: specialstudy2
     type: VARCHAR
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: longitude
-    type: VARCHAR
+    type: DOUBLE
   - name: narrative
     type: VARCHAR
   - name: jointtracktype
@@ -281,7 +284,7 @@ columns:
   - name: class
     type: VARCHAR
   - name: jointcd
-    type: VARCHAR
+    type: BIGINT
   - name: incidentkey
     type: VARCHAR
   - name: reportkey
