@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-ofxkomrn` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `purpose account`, `type of grant` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [municipality, transaction_account, purpose_account, type_of_grant, time]
+temporal: time
+sort: [time, municipality, transaction_account, purpose_account, type_of_grant]
+columns:
+  - name: municipality
+    type: VARCHAR
+    description: "Cube dimension `municipality`; values are the source's English category labels."
+  - name: transaction_account
+    type: VARCHAR
+    description: "Cube dimension `transaction account` (renamed to snake_case); values are the source's English category labels."
+  - name: purpose_account
+    type: VARCHAR
+    description: "Cube dimension `purpose account` (renamed to snake_case); values are the source's English category labels."
+  - name: type_of_grant
+    type: VARCHAR
+    description: "Cube dimension `type of grant` (renamed to snake_case); values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

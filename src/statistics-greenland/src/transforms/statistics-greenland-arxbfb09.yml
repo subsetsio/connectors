@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-arxbfb09` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `branche` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [branche, aarmd]
+temporal: aarmd
+sort: [aarmd, branche]
+columns:
+  - name: branche
+    type: VARCHAR
+    description: "Cube dimension `branche`; values are the source's English category labels."
+  - name: aarmd
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as month code (YYYYMmm)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

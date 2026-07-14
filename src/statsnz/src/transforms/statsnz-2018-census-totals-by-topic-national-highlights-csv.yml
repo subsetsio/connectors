@@ -1,6 +1,161 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statsnz-2018-census-totals-by-topic-national-highlights-csv`. Regenerate after model-verify.
-key: []
+key: [code, row_number, source_file]
+sort: [code, row_number, source_file]
 columns:
-  - name: json
-    type: "MAP(VARCHAR, JSON)"
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: code
+    type: VARCHAR
+  - name: access_to_basic_amenities
+    type: VARCHAR
+  - name: occupied_private_dwellings
+    type: BIGINT
+  - name: access_to_telecommunication_systems
+    type: VARCHAR
+  - name: households_in_occupied_private_dwellings
+    type: BIGINT
+  - name: activity_limitations
+    type: VARCHAR
+  - name: seeing
+    type: BIGINT
+  - name: hearing
+    type: BIGINT
+  - name: walking_or_climbing_steps
+    type: BIGINT
+  - name: remembering_or_concentrating
+    type: BIGINT
+  - name: washing_all_over_or_dressing
+    type: BIGINT
+  - name: communicating
+    type: BIGINT
+  - name: age_single_years
+    type: VARCHAR
+  - name: census_night_population_count
+    type: BIGINT
+  - name: census_usually_resident_population_count
+    type: BIGINT
+  - name: birthplace
+    type: VARCHAR
+  - name: cigarette_smoking_behaviour
+    type: VARCHAR
+  - name: census_usually_resident_population_count_aged_15_years_and_over
+    type: BIGINT
+  - name: dwelling_dampness_indicator
+    type: VARCHAR
+  - name: dwelling_mould_indicator
+    type: VARCHAR
+  - name: dwelling_occupancy_status
+    type: VARCHAR
+  - name: dwellings
+    type: BIGINT
+  - name: dwelling_type
+    type: VARCHAR
+  - name: occupied_private_and_non_private_dwellings
+    type: BIGINT
+  - name: ethnic_group
+    type: VARCHAR
+  - name: fuel_types_used_to_heat_dwellings
+    type: VARCHAR
+  - name: highest_qualification
+    type: VARCHAR
+  - name: highest_secondary_school_qualification
+    type: VARCHAR
+  - name: hours_worked_in_employment_per_week
+    type: VARCHAR
+  - name: employed_census_usually_resident_population_count_aged_15_years_and_over
+    type: BIGINT
+  - name: hours_worked_per_week_in_main_job
+    type: VARCHAR
+  - name: hours_worked_per_week_in_other_jobs
+    type: VARCHAR
+  - name: individual_home_ownership
+    type: VARCHAR
+  - name: industry
+    type: VARCHAR
+  - name: job_search_methods
+    type: VARCHAR
+  - name: unemployed_census_usually_resident_population_count_aged_15_years_and_over
+    type: BIGINT
+  - name: languages_spoken
+    type: VARCHAR
+  - name: legally_registered_relationship_status
+    type: VARCHAR
+  - name: main_means_of_travel_to_education
+    type: VARCHAR
+  - name: study_participation_census_usually_resident_population_count
+    type: BIGINT
+  - name: main_means_of_travel_to_work
+    type: VARCHAR
+  - name: main_types_of_heating
+    type: VARCHAR
+  - name: occupied_private_dwellings_2
+    type: BIGINT
+  - name: maori_descent_indicator
+    type: VARCHAR
+  - name: number_of_bedrooms
+    type: VARCHAR
+  - name: number_of_census_night_occupants
+    type: VARCHAR
+  - name: occupied_dwellings
+    type: BIGINT
+  - name: number_of_children_born
+    type: VARCHAR
+  - name: female_census_usually_resident_population_count_aged_15_years_and_over
+    type: BIGINT
+  - name: number_of_motor_vehicles
+    type: VARCHAR
+  - name: number_of_rooms
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: official_language_indicator_indicator
+    type: VARCHAR
+  - name: partnership_status_in_current_relationship
+    type: VARCHAR
+  - name: post_school_qualification_field_of_study
+    type: VARCHAR
+  - name: post_school_qualification_in_new_zealand_indicator
+    type: VARCHAR
+  - name: post_school_qualification_level_of_attainment
+    type: VARCHAR
+  - name: religious_affiliation
+    type: VARCHAR
+  - name: sector_of_landlord
+    type: VARCHAR
+  - name: households_in_rented_occupied_private_dwellings
+    type: BIGINT
+  - name: sector_of_ownership
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sources_of_personal_income
+    type: VARCHAR
+  - name: status_in_employment
+    type: VARCHAR
+  - name: study_participation
+    type: VARCHAR
+  - name: tenure_of_household
+    type: VARCHAR
+  - name: total_personal_income
+    type: VARCHAR
+  - name: unpaid_activities
+    type: VARCHAR
+  - name: usual_residence_indicator
+    type: VARCHAR
+  - name: weekly_rent_paid_by_household
+    type: VARCHAR
+  - name: households_in_rented_occupied_private_dwellings_2
+    type: BIGINT
+  - name: work_and_labour_force_status
+    type: VARCHAR
+  - name: workplace_address_indicator
+    type: VARCHAR
+  - name: years_at_usual_residence
+    type: VARCHAR
+  - name: years_since_arrival_in_new_zealand
+    type: VARCHAR
+  - name: overseas_born_census_usually_resident_population_count
+    type: BIGINT

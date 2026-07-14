@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-arxled5` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `bybygd`, `sex` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [antal_md_kod, bybygd, sex, aar]
+temporal: aar
+sort: [aar, antal_md_kod, bybygd, sex]
+columns:
+  - name: antal_md_kod
+    type: VARCHAR
+    description: "Cube dimension `antal_md_kod`; values are the source's English category labels."
+  - name: bybygd
+    type: VARCHAR
+    description: "Cube dimension `bybygd`; values are the source's English category labels."
+  - name: sex
+    type: VARCHAR
+    description: "Cube dimension `sex`; values are the source's English category labels."
+  - name: aar
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

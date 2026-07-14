@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-udxlbr` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [alder, beskbrch, sex, tid]
+temporal: tid
+sort: [tid, alder, beskbrch, sex]
+columns:
+  - name: alder
+    type: VARCHAR
+    description: "Cube dimension `alder`; values are the source's English category labels."
+  - name: beskbrch
+    type: VARCHAR
+    description: "Cube dimension `beskbrch`; values are the source's English category labels."
+  - name: sex
+    type: VARCHAR
+    description: "Cube dimension `sex`; values are the source's English category labels."
+  - name: tid
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as month code (YYYYMmm)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

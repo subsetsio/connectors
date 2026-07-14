@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-ofxukn2` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `bosted`, `kon`, `kom` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [bosted, kon, kiin_nr, aar, kom]
+temporal: aar
+sort: [aar, bosted, kon, kiin_nr, kom]
+columns:
+  - name: bosted
+    type: VARCHAR
+    description: "Cube dimension `bosted`; values are the source's English category labels."
+  - name: kon
+    type: VARCHAR
+    description: "Cube dimension `kon`; values are the source's English category labels."
+  - name: kiin_nr
+    type: VARCHAR
+    description: "Cube dimension `kiin_nr`; values are the source's English category labels."
+  - name: aar
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: kom
+    type: VARCHAR
+    description: "Cube dimension `kom`; values are the source's English category labels."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

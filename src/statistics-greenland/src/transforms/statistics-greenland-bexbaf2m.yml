@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-bexbaf2m` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [month, type, municipality_from, place_of_birth, gender, municipality_of_migration, time]
+temporal: time
+sort: [time, month, type, municipality_from, place_of_birth, gender, municipality_of_migration]
+columns:
+  - name: month
+    type: VARCHAR
+    description: "Cube dimension `month`; values are the source's English category labels."
+  - name: type
+    type: VARCHAR
+    description: "Cube dimension `type`; values are the source's English category labels."
+  - name: municipality_from
+    type: VARCHAR
+    description: "Cube dimension `municipality from` (renamed to snake_case); values are the source's English category labels."
+  - name: place_of_birth
+    type: VARCHAR
+    description: "Cube dimension `place of birth` (renamed to snake_case); values are the source's English category labels."
+  - name: gender
+    type: VARCHAR
+    description: "Cube dimension `gender`; values are the source's English category labels."
+  - name: municipality_of_migration
+    type: VARCHAR
+    description: "Cube dimension `municipality of migration` (renamed to snake_case); values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

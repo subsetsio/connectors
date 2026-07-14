@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ine-73846`. Regenerate after model-verify.
+# caution: Each row is one INE time-series observation for a source series; totals, subtotals, rates, indexes, coefficients, and counts can coexist as separate series within the same source table.
+# caution: Use serie_cod or serie_nombre to isolate a statistical series before aggregating valor across dates or categories.
+key: [fecha, serie_cod, serie_nombre]
+temporal: fecha
+sort: [fecha, serie_cod, serie_nombre]
+columns:
+  - name: table_id
+    type: BIGINT
+  - name: serie_cod
+    type: VARCHAR
+  - name: serie_nombre
+    type: VARCHAR
+  - name: fk_unidad
+    type: BIGINT
+  - name: fk_escala
+    type: BIGINT
+  - name: fecha_ms
+    type: BIGINT
+  - name: fecha
+    type: DATE
+  - name: anyo
+    type: BIGINT
+  - name: fk_periodo
+    type: BIGINT
+  - name: fk_tipodato
+    type: BIGINT
+  - name: valor
+    type: DOUBLE
+  - name: secreto
+    type: BOOLEAN

@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-soxape2` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `amount by groups`, `gender` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [amount_by_groups, gender, time]
+temporal: time
+sort: [time, amount_by_groups, gender]
+columns:
+  - name: amount_by_groups
+    type: VARCHAR
+    description: "Cube dimension `amount by groups` (renamed to snake_case); values are the source's English category labels."
+  - name: gender
+    type: VARCHAR
+    description: "Cube dimension `gender`; values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

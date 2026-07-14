@@ -1,0 +1,16 @@
+# Urban population at mid-year by country or area, 2000-2050, in thousands.
+# Reshaped from the source's wide Y2000..Y2050 columns to one row per
+# (area, year). Renamed: Region_subregion_country_or_are -> area.
+key: [area, year]
+temporal: year
+sort: [year, area]
+columns:
+  - name: area
+    type: VARCHAR
+    description: Country, or an M49 region / sub-region aggregate - the source publishes both in this one column (e.g. "Western Asia" sits beside "Armenia"). Filter to the level you want before summing, or regions double-count their own members. Names are the source's own and are not harmonised to ISO codes.
+  - name: year
+    type: BIGINT
+    description: Mid-year of observation, parsed from the source's column name (Y2000 -> 2000). Five-year steps from 2000 to 2050; 2025 onward are projections rather than observations.
+  - name: urban_population_thousands
+    type: BIGINT
+    description: Population living in urban areas at mid-year, in thousands of people. Underlying source is the UN World Urbanization Prospects, 2018 revision.

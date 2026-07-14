@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-naxt5` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: `unit` is a dimension of this cube, not a table-wide constant: rows in the same `obs_value` column are expressed in different units. Filter to one `unit` before aggregating or comparing values.
+key: [first_name, unit, sex, time]
+temporal: time
+sort: [time, first_name, unit, sex]
+columns:
+  - name: first_name
+    type: VARCHAR
+    description: "Cube dimension `first name` (renamed to snake_case); values are the source's English category labels."
+  - name: unit
+    type: VARCHAR
+    description: "Cube dimension `unit`; values are the source's English category labels."
+  - name: sex
+    type: VARCHAR
+    description: "Cube dimension `sex`; values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell. The unit of measure varies by row -- read it from `unit`."

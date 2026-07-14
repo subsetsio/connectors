@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-arxledvar` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `type`, `koen`, `kvar_led` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [type, koen, alderskat, taar_kvar, kvar_led, opg_var]
+temporal: taar_kvar
+sort: [taar_kvar, type, koen, alderskat, kvar_led, opg_var]
+columns:
+  - name: type
+    type: VARCHAR
+    description: "Cube dimension `type`; values are the source's English category labels."
+  - name: koen
+    type: VARCHAR
+    description: "Cube dimension `koen`; values are the source's English category labels."
+  - name: alderskat
+    type: VARCHAR
+    description: "Cube dimension `Alderskat` (renamed to snake_case); values are the source's English category labels."
+  - name: taar_kvar
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as quarter code (YYYYQn)."
+  - name: kvar_led
+    type: VARCHAR
+    description: "Cube dimension `kvar_led`; values are the source's English category labels."
+  - name: opg_var
+    type: VARCHAR
+    description: "Cube dimension `opg_var`; values are the source's English category labels."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-bexcalcrs` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `fsted`, `sex` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [faar, fsted, ttype, sex, omr, taar]
+temporal: taar
+sort: [taar, faar, fsted, ttype, sex, omr]
+columns:
+  - name: faar
+    type: BIGINT
+    description: "Cube dimension `faar`; values are the source's English category labels."
+  - name: fsted
+    type: VARCHAR
+    description: "Cube dimension `fsted`; values are the source's English category labels."
+  - name: ttype
+    type: VARCHAR
+    description: "Cube dimension `ttype`; values are the source's English category labels."
+  - name: sex
+    type: VARCHAR
+    description: "Cube dimension `sex`; values are the source's English category labels."
+  - name: omr
+    type: VARCHAR
+    description: "Cube dimension `omr`; values are the source's English category labels."
+  - name: taar
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-bexbaf2nuk` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `sex` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [type, from_municipality, place_of_birth, to_municipality, age, sex, time]
+temporal: time
+sort: [time, type, from_municipality, place_of_birth, to_municipality, age, sex]
+columns:
+  - name: type
+    type: VARCHAR
+    description: "Cube dimension `type`; values are the source's English category labels."
+  - name: from_municipality
+    type: VARCHAR
+    description: "Cube dimension `from municipality` (renamed to snake_case); values are the source's English category labels."
+  - name: place_of_birth
+    type: VARCHAR
+    description: "Cube dimension `place of birth` (renamed to snake_case); values are the source's English category labels."
+  - name: to_municipality
+    type: VARCHAR
+    description: "Cube dimension `to municipality` (renamed to snake_case); values are the source's English category labels."
+  - name: age
+    type: BIGINT
+    description: "Cube dimension `age`; values are the source's English category labels."
+  - name: sex
+    type: VARCHAR
+    description: "Cube dimension `sex`; values are the source's English category labels."
+  - name: time
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as month code (YYYYMmm)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

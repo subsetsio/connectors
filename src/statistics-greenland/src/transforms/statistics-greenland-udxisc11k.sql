@@ -1,0 +1,12 @@
+-- compiled by `hardened compile-transforms`, then curated at the model stage:
+--   * `obs_time` dropped: the download node writes it as a verbatim copy of
+--     whichever dimension PxWeb tags role=time -- here `slutaar`.
+SELECT
+    "eksalder",
+    "Isced" AS isced,
+    "sex",
+    "skolenr_ny",
+    "uddkode_ny",
+    CAST("slutaar" AS BIGINT) AS slutaar,
+    "obs_value"
+FROM "statistics-greenland-udxisc11k"

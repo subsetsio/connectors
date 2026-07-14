@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-bexfam4` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [number_of_children, age_of_youngest_child, number_of_adults, time]
+temporal: time
+sort: [time, number_of_children, age_of_youngest_child, number_of_adults]
+columns:
+  - name: number_of_children
+    type: VARCHAR
+    description: "Cube dimension `number of children` (renamed to snake_case); values are the source's English category labels."
+  - name: age_of_youngest_child
+    type: VARCHAR
+    description: "Cube dimension `age of youngest child` (renamed to snake_case); values are the source's English category labels."
+  - name: number_of_adults
+    type: VARCHAR
+    description: "Cube dimension `number of adults` (renamed to snake_case); values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

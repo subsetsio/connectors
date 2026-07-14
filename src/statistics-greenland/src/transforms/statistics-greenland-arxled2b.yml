@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-arxled2b` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [taarmd, lok_kode]
+temporal: taarmd
+sort: [taarmd, lok_kode]
+columns:
+  - name: taarmd
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as month code (YYYYMmm)."
+  - name: lok_kode
+    type: VARCHAR
+    description: "Cube dimension `lok_kode`; values are the source's English category labels."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

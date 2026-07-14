@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-nrx01` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [units, account_name, time]
+temporal: time
+sort: [time, units, account_name]
+columns:
+  - name: units
+    type: VARCHAR
+    description: "Cube dimension `units`; values are the source's English category labels."
+  - name: account_name
+    type: VARCHAR
+    description: "Cube dimension `account name` (renamed to snake_case); values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

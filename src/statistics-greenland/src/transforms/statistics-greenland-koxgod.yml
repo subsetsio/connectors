@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-koxgod` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [time, shipping_way, specification_method]
+temporal: time
+sort: [time, shipping_way, specification_method]
+columns:
+  - name: time
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as quarter code (YYYYQn)."
+  - name: shipping_way
+    type: VARCHAR
+    description: "Cube dimension `shipping way` (renamed to snake_case); values are the source's English category labels."
+  - name: specification_method
+    type: VARCHAR
+    description: "Cube dimension `specification method` (renamed to snake_case); values are the source's English category labels."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

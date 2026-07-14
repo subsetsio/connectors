@@ -205,6 +205,21 @@ def _csv_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]
                 yield rows
 
 
+def _chunk_rows(
+    chunk: list[list],
+    columns: list,
+    sheet_title: str,
+    member_path: str | None,
+    number: int,
+) -> tuple[list[dict], int]:
+    return _frame_rows(
+        pd.DataFrame(chunk, columns=columns),
+        sheet_name=str(sheet_title),
+        member_path=member_path,
+        start_number=number,
+    )
+
+
 def _xlsx_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]:
     """Stream an .xlsx sheet-by-sheet, row-by-row. pandas would hold every sheet
     at once, which the 390 MB workbooks in this catalog cannot afford.
@@ -228,27 +243,21 @@ def _xlsx_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]
             width = len(columns)
             number = 1
             chunk: list[list] = []
-
-            def drain(chunk, number):
-                frame = pd.DataFrame(chunk, columns=columns)
-                return _frame_rows(
-                    frame,
-                    sheet_name=str(sheet.title),
-                    member_path=member_path,
-                    start_number=number,
-                )
-
             for record in values:
                 record = list(record[:width])
                 record += [None] * (width - len(record))
                 chunk.append(["" if value is None else value for value in record])
                 if len(chunk) >= BATCH_ROWS:
-                    rows, number = drain(chunk, number)
+                    rows, number = _chunk_rows(
+                        chunk, columns, sheet.title, member_path, number
+                    )
                     if rows:
                         yield rows
                     chunk = []
             if chunk:
-                rows, number = drain(chunk, number)
+                rows, _ = _chunk_rows(
+                    chunk, columns, sheet.title, member_path, number
+                )
                 if rows:
                     yield rows
     finally:

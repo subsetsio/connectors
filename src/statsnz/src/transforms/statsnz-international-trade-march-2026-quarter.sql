@@ -18,5 +18,5 @@ SELECT
     "product_type",
     "value",
     "status",
-    CAST(NULL AS VARCHAR) AS service_label
+    "service_label"
 FROM "statsnz-international-trade-march-2026-quarter"

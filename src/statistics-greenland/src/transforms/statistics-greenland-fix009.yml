@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-fix009` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+key: [ukioq, kvartal_i, suussusaa]
+temporal: ukioq
+sort: [ukioq, kvartal_i, suussusaa]
+columns:
+  - name: ukioq
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: kvartal_i
+    type: VARCHAR
+    description: "Cube dimension `kvartal-i` (renamed to snake_case); values are the source's English category labels."
+  - name: suussusaa
+    type: VARCHAR
+    description: "Cube dimension `suussusaa`; values are the source's English category labels."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

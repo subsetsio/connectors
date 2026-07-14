@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-soxpv001` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `age of the child` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+# caution: `unit` is a dimension of this cube, not a table-wide constant: rows in the same `obs_value` column are expressed in different units. Filter to one `unit` before aggregating or comparing values.
+key: [unit, age_of_the_child, year]
+temporal: year
+sort: [year, unit, age_of_the_child]
+columns:
+  - name: unit
+    type: VARCHAR
+    description: "Cube dimension `unit`; values are the source's English category labels."
+  - name: age_of_the_child
+    type: VARCHAR
+    description: "Cube dimension `age of the child` (renamed to snake_case); values are the source's English category labels."
+  - name: year
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell. The unit of measure varies by row -- read it from `unit`."

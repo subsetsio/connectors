@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-prxbyg2` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `tradearea`, `costtype` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+key: [buildingtype, tradearea, costtype, contenttype, time]
+temporal: time
+sort: [time, buildingtype, tradearea, costtype, contenttype]
+columns:
+  - name: buildingtype
+    type: VARCHAR
+    description: "Cube dimension `buildingtype`; values are the source's English category labels."
+  - name: tradearea
+    type: VARCHAR
+    description: "Cube dimension `tradearea`; values are the source's English category labels."
+  - name: costtype
+    type: VARCHAR
+    description: "Cube dimension `costtype`; values are the source's English category labels."
+  - name: contenttype
+    type: VARCHAR
+    description: "Cube dimension `contenttype`; values are the source's English category labels."
+  - name: time
+    type: VARCHAR
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as half-year code (YYYYHn)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell."

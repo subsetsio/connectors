@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ine-73785`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fecha, serie_nombre, serie_cod]
+temporal: fecha
+checks:
+  - kind: unique
+    columns: [fecha, serie_nombre, serie_cod]
+  - kind: not_null
+    col: fecha
+  - kind: not_null
+    col: serie_nombre
+  - kind: not_null
+    col: serie_cod
+  - kind: row_floor
+    min: 313
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

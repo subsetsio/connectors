@@ -1,14 +1,29 @@
 spec_id: statistics-greenland-udxtkb
 status: active
 tests:
-  - not_null: obs_value
-    reason: the json-stat2 parser writes one raw row per non-null cell, so obs_value is never null in raw
-    certainty: 95
-  - column_type: {col: obs_value, type: float}
-    reason: PxWeb observations are numeric; the parser casts each cell to float
-    certainty: 90
-  - row_count: {min: 1}
-    reason: a published statistical table should have at least one observation; 0 rows means the query plan or json-stat2 parse degraded
-    certainty: 85
-    points_outward: true
-    severity: warn
+- not_null: obs_value
+  reason: the json-stat2 parser writes one raw row per non-null cell, so obs_value is never null in raw
+  certainty: 95
+- column_type:
+    col: obs_value
+    type: float
+  reason: PxWeb observations are numeric; the parser casts each cell to float
+  certainty: 90
+- row_count:
+    min: 1
+  reason: a published statistical table should have at least one observation; 0 rows means the query plan
+    or json-stat2 parse degraded
+  certainty: 85
+  points_outward: true
+  severity: warn
+- freshness:
+    col: time
+    reaches: '2024'
+  reason: '`time` is the dimension PxWeb tags role=time for this cube; ''2024'' is its measured max period
+    in the 2026-07-14 raw. Statistics Greenland publishes no corpus-wide release calendar and PxWeb has
+    no since/modifiedAfter parameter, and this cube''s own cadence is unknown, so this bound is pinned
+    to the period already landed rather than to a date derived from now: it is a REGRESSION floor (a re-fetch
+    that loses the latest period blocks), not a staleness detector. A dynamic bound is not expressible
+    here -- periods are year/period LABELS, and the token grammar has no `current_year() - N` (see harness
+    feedback, area runtime).'
+  certainty: 90

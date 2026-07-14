@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms`, then curated at the model stage.
+# Faithful pass-through of raw asset `statistics-greenland-sox012` (a PxWeb json-stat2 cube
+# flattened to long form: one column per dimension carrying the English
+# category label, plus the cell value).
+# caution: Dimension column(s) `no of children`, `no of adults`, `district` carry source-provided aggregate members (labels such as 'Total' / 'All Greenland') that summarise the other members of the same dimension alongside them. Filter each of those columns to a single level before summing `obs_value`, or the aggregate rows are counted twice.
+# caution: `unit` is a dimension of this cube, not a table-wide constant: rows in the same `obs_value` column are expressed in different units. Filter to one `unit` before aggregating or comparing values.
+key: [no_of_children, no_of_adults, district, unit, time]
+temporal: time
+sort: [time, no_of_children, no_of_adults, district, unit]
+columns:
+  - name: no_of_children
+    type: VARCHAR
+    description: "Cube dimension `no of children` (renamed to snake_case); values are the source's English category labels."
+  - name: no_of_adults
+    type: VARCHAR
+    description: "Cube dimension `no of adults` (renamed to snake_case); values are the source's English category labels."
+  - name: district
+    type: VARCHAR
+    description: "Cube dimension `district`; values are the source's English category labels."
+  - name: unit
+    type: VARCHAR
+    description: "Cube dimension `unit`; values are the source's English category labels."
+  - name: time
+    type: BIGINT
+    description: "Observation period -- the cube dimension Statistics Greenland tags role=time. Encoded as calendar year (YYYY)."
+  - name: obs_value
+    type: DOUBLE
+    description: "Observed value of the cube cell. The unit of measure varies by row -- read it from `unit`."

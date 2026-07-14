@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "The London Datastore publishes no portal-wide release calendar: each of the ~1300 CKAN packages follows its owning organisation's own schedule (GLA, ONS, TfL, London Fire Brigade and ~120 others), and CKAN exposes metadata_modified only after the fact, with no since/modifiedAfter query to drive an incremental pull. Accepted packages range from monthly operational releases (LFB incident/mobilisation records) to one-off historical drops. Weekly is the coarsest cadence that still picks up the monthly packages soon after publication. The cost of a tick is bounded by MAINTAIN_SPECS, not by this number: a package is re-fetched only once its raw parquet ages past MAINTAIN_MAX_AGE_DAYS (7d), so a missed week costs freshness, never data."
 }
