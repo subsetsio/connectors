@@ -21,7 +21,3 @@ SELECT
     )::DATE AS last_update
 FROM "bank-of-japan-values"
 WHERE value IS NOT NULL
-QUALIFY row_number() OVER (
-    PARTITION BY db, series_code, survey_date
-    ORDER BY last_update DESC NULLS LAST
-) = 1

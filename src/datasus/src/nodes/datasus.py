@@ -1,7 +1,7 @@
 import json
 from typing import Any
 
-from constants import ENTITY_IDS, LIMIT_BY_ENTITY, PERIOD_PATHS, SPECIAL_PATHS
+from constants import ENTITY_IDS, SOURCE_PREFIXES, SPECIAL_PATHS
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
@@ -18,7 +18,8 @@ PREFIX = "datasus-"
 DEFAULT_LIMIT = 1000
 TIMEOUT = (10.0, 180.0)
 RAW_EXT = "ndjson.gz"
-PAGINATION_VERSION = 2
+PAGINATION_VERSION = 3
+MAX_PAGES = 100_000
 
 ENTITY_BY_SPEC_ID = {
     f"{PREFIX}{entity_id.lower().replace('_', '-')}": entity_id
@@ -27,10 +28,14 @@ ENTITY_BY_SPEC_ID = {
 
 
 def _paths_for(entity_id: str) -> list[str]:
-    paths = PERIOD_PATHS.get(entity_id)
-    if paths:
-        return paths
-    return [SPECIAL_PATHS.get(entity_id, f"/{entity_id}")]
+    special = SPECIAL_PATHS.get(entity_id)
+    if special:
+        return [special]
+    for prefix in SOURCE_PREFIXES:
+        marker = f"{prefix}-"
+        if entity_id.startswith(marker):
+            return [f"/{prefix}/{entity_id.removeprefix(marker)}"]
+    raise ValueError(f"No DATASUS REST path mapping for {entity_id}")
 
 
 def _records_from_response(payload: Any, path: str) -> list[dict[str, Any]]:
@@ -53,13 +58,14 @@ def _records_from_response(payload: Any, path: str) -> list[dict[str, Any]]:
 
 def fetch_one(spec_id: str) -> None:
     entity_id = ENTITY_BY_SPEC_ID[spec_id]
-    limit = LIMIT_BY_ENTITY.get(entity_id, DEFAULT_LIMIT)
+    limit = DEFAULT_LIMIT
     total = 0
 
     with raw_writer(spec_id, RAW_EXT, mode="wt", compression="gzip") as out:
         for path in _paths_for(entity_id):
             offset = 0
-            while True:
+            pages = 0
+            while pages < MAX_PAGES:
                 response = get(
                     f"{BASE_URL}{path}",
                     params={"limit": limit, "offset": offset},
@@ -67,6 +73,10 @@ def fetch_one(spec_id: str) -> None:
                 )
                 response.raise_for_status()
                 records = _records_from_response(response.json(), path)
+                pages += 1
+
+                if not records:
+                    break
 
                 for record in records:
                     enriched = dict(record)
@@ -76,9 +86,9 @@ def fetch_one(spec_id: str) -> None:
                     out.write("\n")
 
                 total += len(records)
-                if len(records) < limit:
-                    break
                 offset += len(records)
+            else:
+                raise RuntimeError(f"{path} exceeded {MAX_PAGES:,} pages without an empty page")
 
     save_state(spec_id, {"pagination_version": PAGINATION_VERSION})
     print(f"  -> Fetched {total:,} rows for {spec_id}")
