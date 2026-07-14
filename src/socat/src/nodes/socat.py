@@ -135,13 +135,15 @@ def _fetch_fulldata_by_year(node_id: str) -> None:
     fragments; 2008+ is split monthly to keep high-volume responses bounded
     while preserving one logical raw asset through the raw manifest.
     """
+    existing = list_raw_fragments(node_id, "csv.gz")
+    reusable = _fresh_fulldata_fragments(existing)
     done_this_run = {
         fragment
-        for fragment, meta in list_raw_fragments(node_id, "csv.gz").items()
+        for fragment, meta in existing.items()
         if meta.get("run_id") == os.environ.get("RUN_ID", "unknown")
     }
     for fragment, start, end in _fulldata_fragment_windows():
-        if fragment in done_this_run:
+        if fragment in reusable or fragment in done_this_run:
             continue
         constraint = (
             f"&time%3E={quote(start, safe='')}"
@@ -247,16 +249,22 @@ def _fulldata_fragments_fresh(asset_id: str) -> bool:
     if not expected.issubset(fragments):
         return False
 
+    return expected.issubset(_fresh_fulldata_fragments(fragments))
+
+
+def _fresh_fulldata_fragments(fragments: dict[str, dict]) -> set[str]:
+    fresh: set[str] = set()
+
     newest_allowed_age_s = _FULLDATA_MAX_AGE_DAYS * 24 * 60 * 60
     now = datetime.now(timezone.utc)
-    for year in expected:
-        fetched_at = fragments[year].get("fetched_at")
+    for fragment, meta in fragments.items():
+        fetched_at = meta.get("fetched_at")
         if not fetched_at:
-            return False
+            continue
         fetched = datetime.fromisoformat(fetched_at.replace("Z", "+00:00"))
-        if (now - fetched).total_seconds() > newest_allowed_age_s:
-            return False
-    return True
+        if (now - fetched).total_seconds() <= newest_allowed_age_s:
+            fresh.add(fragment)
+    return fresh
 
 
 MAINTAIN_SPECS = [
