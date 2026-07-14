@@ -2,70 +2,97 @@
 
 The portal is CKAN. Each accepted entity is one CKAN package, and each package
 can contain several tabular resources with different local schemas. Fetching
-normalizes every readable CSV/Excel member into NDJSON rows. Provenance columns
-identify the package/resource/file/sheet; source columns are kept as strings.
+normalizes every readable CSV/Excel/JSON member into NDJSON rows. Provenance
+columns identify the package/resource/file/sheet; source columns are kept as
+strings.
+
+Resource bytes never pass through memory whole: every download is streamed to a
+temp file under a hard size cap, and delimited files are parsed in row chunks.
+The portal publishes single resources up to ~1 GB (ArcGIS geojson/kml exports,
+shapefile archives, the CRDC bundles), and reading one of those whole is what
+OOMs the runner.
 """
 
 from __future__ import annotations
 
 import csv
-import io
 import json
+import os
 import re
+import tempfile
 import warnings
 import zipfile
 from collections.abc import Iterable
+from contextlib import contextmanager
 from pathlib import PurePosixPath
 
 import pandas as pd
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, raw_writer
+from subsets_utils import NodeSpec, get, get_client, raw_writer, transient_retry
 
 SLUG = "u-s-department-of-education"
 PREFIX = f"{SLUG}-"
 CKAN = "https://data.ed.gov/api/3/action"
 USER_AGENT = "subsets.io u-s-department-of-education connector"
 
-TABULAR_FORMAT_HINTS = (
-    "csv",
-    "tsv",
-    "xls",
-    "excel",
-    "zip",
-    "dat",
-    "sas",
-    "spss",
-    "sav",
-    "stata",
-    "dta",
-    "txt",
-    "text",
-    "ascii",
-    "mdb",
-    "accdb",
-    "json",
-)
+# Hard ceiling on any single resource we pull down. Bytes are streamed to disk,
+# so this bounds bandwidth/time rather than memory. The fattest resource we
+# actually want is the 2013-14 CRDC bundle (~592 MB).
+MAX_RESOURCE_BYTES = 640 * 1024**2
+# Formats we cannot parse incrementally (Excel, JSON) must be held whole, so
+# they get a much tighter cap.
+MAX_WHOLE_FILE_BYTES = 200 * 1024**2
+# Rows per pandas chunk when parsing delimited text.
+CHUNK_ROWS = 25_000
+DOWNLOAD_CHUNK = 1 << 20
 
-SKIP_FORMAT_HINTS = (
-    "pdf",
-    "doc",
-    "word",
-    "html",
-    "arcgis",
-    "geojson",
-    "kml",
-    "gdb",
-    "gpkg",
+# CKAN `format` values are matched as exact normalized tokens, never as
+# substrings: "dat" is a substring of the "/data/" in almost every ed.gov URL,
+# so substring matching quietly rescues geojson/kml/html into the tabular set.
+TABULAR_FORMATS = {
+    "csv", "tsv", "txt", "text", "dat", "ascii", "json",
+    "xls", "xlsx", "xlsm", "excel", "microsoft excel", "ms excel",
+    "zip", "zipped csv", "zipped tsv", "zipped xls", "zipped xlsx",
+    "zipped txt", "zipped text", "zipped dat", "zipped ascii", "zipped excel",
+}
+# Archives of binary statistical formats: fetchable, but nothing inside is
+# something our readers understand, so skip rather than burn the bytes.
+OPAQUE_FORMATS = {
+    "sas", "sas7bdat", "spss", "sav", "stata", "dta", "mdb", "accdb",
+    "zipped sas", "zipped sas7bdat", "zipped spss", "zipped sav",
+    "zipped stata", "zipped dta", "zipped mdb", "zipped accdb",
+    "zipped binary text",
+}
+SKIP_FORMATS = {
+    "pdf", "doc", "docx", "word", "html", "htm", "xml", "rss", "api",
+    "arcgis", "arcgis geoservices rest api", "geojson", "kml", "kmz",
+    "gdb", "gpkg", "shp", "shapefile", "esri rest", "data explorer",
+    "web page", "webpage", "url", "n/a", "",
+}
+
+# ArcGIS Hub geometry-export endpoints. These are matched on the URL *path*
+# because their declared format lies: the 808 MB `.../featureCollection` export
+# is tagged "txt". Deliberately NOT keyed on query params like `outSR=` — Hub
+# appends those to the plain CSV attribute-table exports too (the ACS-ED
+# school-district tables), and those are real tabular data we want.
+GEO_URL_PATTERNS = (
+    "/geojson", "/kml", "/geopackage", "/shapefile", "featurecollection",
+    "f=geojson", "f=kml",
 )
 
 TEXT_EXTENSIONS = {".csv", ".tsv", ".txt", ".dat", ".asc", ".ascii"}
 EXCEL_EXTENSIONS = {".xls", ".xlsx", ".xlsm"}
 JSON_EXTENSIONS = {".json"}
+PARSEABLE_EXTENSIONS = TEXT_EXTENSIONS | EXCEL_EXTENSIONS | JSON_EXTENSIONS
 
 
 class UnsupportedResourceError(ValueError):
-    pass
+    """Resource is not something we can turn into rows."""
+
+
+class ResourceTooLargeError(ValueError):
+    """Resource exceeds the byte cap for its format."""
 
 
 def _entity_id(node_id: str) -> str:
@@ -88,10 +115,67 @@ def _ckan(action: str, **params) -> dict:
     return data["result"]
 
 
-def _download(url: str) -> bytes:
-    resp = get(url, headers={"User-Agent": USER_AGENT}, timeout=240.0)
-    resp.raise_for_status()
-    return resp.content
+def _normalize_format(value) -> str:
+    return re.sub(r"\s+", " ", str(value or "").strip().lower()).lstrip(".")
+
+
+def _resource_is_tabular(resource: dict) -> bool:
+    """Decide from the declared format, falling back to the URL extension.
+
+    Exact-token matching only — see TABULAR_FORMATS.
+    """
+    url = str(resource.get("url") or "")
+    lowered = url.lower()
+    if any(pattern in lowered for pattern in GEO_URL_PATTERNS):
+        return False
+
+    fmt = _normalize_format(resource.get("format"))
+    if fmt in SKIP_FORMATS or fmt in OPAQUE_FORMATS:
+        return False
+    if fmt in TABULAR_FORMATS:
+        return True
+
+    # Unknown/blank format token: trust the URL's extension, nothing else.
+    suffix = PurePosixPath(lowered.split("?", 1)[0]).suffix
+    return suffix in PARSEABLE_EXTENSIONS | {".zip"}
+
+
+@contextmanager
+def _temp_path(suffix: str = ""):
+    fd, path = tempfile.mkstemp(suffix=suffix)
+    os.close(fd)
+    try:
+        yield path
+    finally:
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
+
+
+@transient_retry()
+def _stream_to_file(url: str, path: str, cap: int) -> int:
+    """Stream `url` into `path`, aborting past `cap` bytes. Returns bytes written."""
+    client = get_client()
+    written = 0
+    with client.stream(
+        "GET",
+        url,
+        headers={"User-Agent": USER_AGENT},
+        timeout=240.0,
+        follow_redirects=True,
+    ) as resp:
+        resp.raise_for_status()
+        declared = resp.headers.get("content-length")
+        if declared and declared.isdigit() and int(declared) > cap:
+            raise ResourceTooLargeError(f"content-length {declared} exceeds cap {cap}")
+        with open(path, "wb") as fh:
+            for chunk in resp.iter_bytes(DOWNLOAD_CHUNK):
+                written += len(chunk)
+                if written > cap:
+                    raise ResourceTooLargeError(f"stream exceeded cap {cap}")
+                fh.write(chunk)
+    return written
 
 
 def _clean_col(value, pos: int) -> str:
@@ -102,68 +186,113 @@ def _clean_col(value, pos: int) -> str:
     return text
 
 
-def _stringify(value):
-    if value is None or (isinstance(value, float) and pd.isna(value)):
-        return None
-    if pd.isna(value):
-        return None
-    return str(value)
-
-
-def _records_from_frame(df: pd.DataFrame, provenance: dict) -> Iterable[dict]:
-    if df.empty:
-        return
-    df = df.dropna(how="all")
-    cols = [_clean_col(c, i) for i, c in enumerate(df.columns)]
-    seen = {}
-    unique_cols = []
+def _unique_columns(columns) -> list[str]:
+    cols = [_clean_col(c, i) for i, c in enumerate(columns)]
+    seen: dict[str, int] = {}
+    unique: list[str] = []
     for col in cols:
         n = seen.get(col, 0) + 1
         seen[col] = n
-        unique_cols.append(col if n == 1 else f"{col}_{n}")
-    df.columns = unique_cols
-    for row_number, row in enumerate(df.itertuples(index=False, name=None), start=1):
+        unique.append(col if n == 1 else f"{col}_{n}")
+    return unique
+
+
+def _stringify(value):
+    if value is None:
+        return None
+    try:
+        if pd.isna(value):
+            return None
+    except (TypeError, ValueError):
+        pass
+    return str(value)
+
+
+def _records_from_frame(df: pd.DataFrame, provenance: dict, start_row: int) -> Iterable[dict]:
+    """Yield one record per row. `start_row` continues numbering across chunks."""
+    if df.empty:
+        return
+    df = df.dropna(how="all")
+    unique_cols = _unique_columns(df.columns)
+    for offset, row in enumerate(df.itertuples(index=False, name=None)):
         out = dict(provenance)
-        out["row_number"] = row_number
+        out["row_number"] = start_row + offset
         out.update({col: _stringify(value) for col, value in zip(unique_cols, row)})
         yield out
 
 
-def _read_delimited(content: bytes, filename: str, provenance: dict) -> Iterable[dict]:
-    sample = content[:8192].decode("utf-8-sig", "replace")
-    delimiter = "\t" if filename.lower().endswith(".tsv") else None
-    if delimiter is None:
-        try:
-            delimiter = csv.Sniffer().sniff(sample, delimiters=",\t|;").delimiter
-        except csv.Error:
-            delimiter = ","
-    text = io.BytesIO(content)
+def _sniff_delimiter(path: str, filename: str) -> str:
+    if filename.lower().endswith(".tsv"):
+        return "\t"
+    with open(path, "rb") as fh:
+        sample = fh.read(8192).decode("utf-8-sig", "replace")
     try:
-        df = pd.read_csv(
-            text,
-            sep=delimiter,
-            dtype=str,
-            engine="python",
-            on_bad_lines="skip",
-            encoding="utf-8-sig",
+        return csv.Sniffer().sniff(sample, delimiters=",\t|;").delimiter
+    except csv.Error:
+        return ","
+
+
+def _read_delimited(path: str, filename: str, provenance: dict) -> Iterable[dict]:
+    """Parse delimited text in chunks: peak memory is one chunk, not one file."""
+    delimiter = _sniff_delimiter(path, filename)
+    for engine in ("c", "python"):
+        try:
+            reader = pd.read_csv(
+                path,
+                sep=delimiter,
+                dtype=str,
+                engine=engine,
+                on_bad_lines="skip",
+                encoding="utf-8-sig",
+                encoding_errors="replace",
+                chunksize=CHUNK_ROWS,
+            )
+            row_number = 1
+            for chunk in reader:
+                for record in _records_from_frame(chunk, provenance, row_number):
+                    yield record
+                    row_number += 1
+            return
+        except (pd.errors.ParserError, pd.errors.EmptyDataError, ValueError, UnicodeDecodeError):
+            # The C engine is strict about ragged rows; retry once on the
+            # tolerant python engine before falling back to raw lines.
+            if engine == "python":
+                break
+            continue
+
+    # Unparseable as a table — keep the raw lines rather than dropping the file.
+    with open(path, encoding="utf-8-sig", errors="replace") as fh:
+        for row_number, line in enumerate(fh, start=1):
+            out = dict(provenance)
+            out["row_number"] = row_number
+            out["line"] = line.rstrip("\n")
+            yield out
+
+
+def _read_excel(path: str, provenance: dict) -> Iterable[dict]:
+    size = os.path.getsize(path)
+    if size > MAX_WHOLE_FILE_BYTES:
+        raise ResourceTooLargeError(
+            f"excel file {size} exceeds whole-file cap {MAX_WHOLE_FILE_BYTES}"
         )
-    except Exception:
-        lines = content.decode("utf-8-sig", "replace").splitlines()
-        df = pd.DataFrame({"line": lines})
-    yield from _records_from_frame(df, provenance)
-
-
-def _read_excel(content: bytes, provenance: dict) -> Iterable[dict]:
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", message="Unknown extension is not supported")
-        sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, dtype=str)
-    for sheet_name, df in sheets.items():
-        sheet_provenance = {**provenance, "sheet_name": str(sheet_name)}
-        yield from _records_from_frame(df, sheet_provenance)
+        # One sheet at a time: sheet_name=None materializes every sheet at once.
+        with pd.ExcelFile(path) as book:
+            for sheet_name in book.sheet_names:
+                df = book.parse(sheet_name, dtype=str)
+                sheet_provenance = {**provenance, "sheet_name": str(sheet_name)}
+                yield from _records_from_frame(df, sheet_provenance, 1)
 
 
-def _read_json(content: bytes, provenance: dict) -> Iterable[dict]:
-    data = json.loads(content.decode("utf-8-sig"))
+def _read_json(path: str, provenance: dict) -> Iterable[dict]:
+    size = os.path.getsize(path)
+    if size > MAX_WHOLE_FILE_BYTES:
+        raise ResourceTooLargeError(
+            f"json file {size} exceeds whole-file cap {MAX_WHOLE_FILE_BYTES}"
+        )
+    with open(path, "rb") as fh:
+        data = json.loads(fh.read().decode("utf-8-sig"))
     if isinstance(data, list):
         iterable = data
     elif isinstance(data, dict):
@@ -178,6 +307,50 @@ def _read_json(content: bytes, provenance: dict) -> Iterable[dict]:
         else:
             out["value"] = _stringify(item)
         yield out
+
+
+def _looks_like_html(path: str) -> bool:
+    with open(path, "rb") as fh:
+        head = fh.read(512).lstrip().lower()
+    return head.startswith(b"<!doctype html") or head.startswith(b"<html")
+
+
+def _read_member(path: str, filename: str, provenance: dict) -> Iterable[dict]:
+    suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
+    if _looks_like_html(path):
+        raise UnsupportedResourceError("resource returned HTML")
+    if suffix in EXCEL_EXTENSIONS:
+        yield from _read_excel(path, provenance)
+    elif suffix in JSON_EXTENSIONS:
+        yield from _read_json(path, provenance)
+    else:
+        yield from _read_delimited(path, filename, provenance)
+
+
+def _read_zip(path: str, provenance: dict) -> Iterable[dict]:
+    """Extract parseable members one at a time; never hold the archive in memory."""
+    with zipfile.ZipFile(path) as zf:
+        for info in zf.infolist():
+            if info.is_dir():
+                continue
+            name = info.filename
+            suffix = PurePosixPath(name).suffix.lower()
+            if suffix not in PARSEABLE_EXTENSIONS:
+                continue
+            if info.file_size > MAX_RESOURCE_BYTES:
+                continue
+            member_provenance = {**provenance, "archive_member": name}
+            with _temp_path(suffix) as member_path:
+                with zf.open(info) as src, open(member_path, "wb") as dst:
+                    while True:
+                        block = src.read(DOWNLOAD_CHUNK)
+                        if not block:
+                            break
+                        dst.write(block)
+                try:
+                    yield from _read_member(member_path, name, member_provenance)
+                except (UnsupportedResourceError, ResourceTooLargeError):
+                    continue
 
 
 def _error_record(package: dict, resource: dict | None, message: str) -> dict:
@@ -210,44 +383,18 @@ def _write_ndjson_row(fh, row: dict) -> None:
     fh.write("\n")
 
 
-def _read_member(content: bytes, filename: str, provenance: dict) -> Iterable[dict]:
+def _resource_rows(url: str, provenance: dict) -> Iterable[dict]:
+    filename = url.rsplit("/", 1)[-1] or str(provenance.get("resource_name") or "resource")
     suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
-    if _looks_like_html(content):
-        raise UnsupportedResourceError("resource returned HTML")
-    if suffix in EXCEL_EXTENSIONS:
-        yield from _read_excel(content, provenance)
-    elif suffix in JSON_EXTENSIONS:
-        yield from _read_json(content, provenance)
-    else:
-        yield from _read_delimited(content, filename, provenance)
-
-
-def _read_zip(content: bytes, provenance: dict) -> Iterable[dict]:
-    with zipfile.ZipFile(io.BytesIO(content)) as zf:
-        for info in zf.infolist():
-            if info.is_dir():
-                continue
-            name = info.filename
-            suffix = PurePosixPath(name).suffix.lower()
-            if suffix not in TEXT_EXTENSIONS | EXCEL_EXTENSIONS | JSON_EXTENSIONS:
-                continue
-            member_provenance = {**provenance, "archive_member": name}
-            with zf.open(info) as fh:
-                yield from _read_member(fh.read(), name, member_provenance)
-
-
-def _looks_like_html(content: bytes) -> bool:
-    head = content[:512].lstrip().lower()
-    return head.startswith(b"<!doctype html") or head.startswith(b"<html")
-
-
-def _resource_is_tabular(resource: dict) -> bool:
-    fmt = str(resource.get("format") or "").lower()
-    name = str(resource.get("name") or resource.get("url") or "").lower()
-    combined = f"{fmt} {name}"
-    if any(hint in combined for hint in SKIP_FORMAT_HINTS):
-        return any(hint in combined for hint in TABULAR_FORMAT_HINTS if hint not in {"json"})
-    return any(hint in combined for hint in TABULAR_FORMAT_HINTS)
+    with _temp_path(suffix) as path:
+        _stream_to_file(url, path, MAX_RESOURCE_BYTES)
+        is_zip = suffix == ".zip" or (
+            suffix not in EXCEL_EXTENSIONS and zipfile.is_zipfile(path)
+        )
+        if is_zip:
+            yield from _read_zip(path, provenance)
+        else:
+            yield from _read_member(path, filename, provenance)
 
 
 def fetch_one(node_id: str) -> None:
@@ -279,19 +426,10 @@ def fetch_one(node_id: str) -> None:
                 "resource_position": resource.get("position"),
             }
             try:
-                content = _download(url)
-                filename = url.rsplit("/", 1)[-1] or str(resource.get("name") or "resource")
-                suffix = PurePosixPath(filename.split("?", 1)[0]).suffix.lower()
-                if suffix == ".zip" or (
-                    suffix not in EXCEL_EXTENSIONS and zipfile.is_zipfile(io.BytesIO(content))
-                ):
-                    row_iter = _read_zip(content, provenance)
-                else:
-                    row_iter = _read_member(content, filename, provenance)
-                for row in row_iter:
+                for row in _resource_rows(url, provenance):
                     _write_ndjson_row(fh, row)
                     rows_written += 1
-            except UnsupportedResourceError:
+            except (UnsupportedResourceError, ResourceTooLargeError):
                 skipped += 1
                 continue
             except Exception as exc:

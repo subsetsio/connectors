@@ -6,8 +6,8 @@ is a `Datapackage` item — one published study, one DOI, one main location CSV.
 
 Strategy: stateless full re-pull, one spec per Datapackage (the rank-active entity
 union). For each item we resolve its DSpace handle to a UUID, walk
-item -> ORIGINAL bundle -> bitstreams, pick the main location CSV (the largest
-non-reference, non-README .csv), and stream-normalize it to a stable core schema
+item -> ORIGINAL bundle -> bitstreams, pick the study's main location CSV series
+(see `_pick_location_series`), and stream-normalize it to a stable core schema
 (event_id, timestamp, longitude, latitude, sensor_type, taxon, individual_id,
 tag_id, study_name). Study-specific extra columns are dropped so every published
 table shares one clean, comparable schema. The HTTP body is streamed straight to
@@ -21,6 +21,7 @@ import csv
 import io
 import json
 import posixpath
+import re
 import tempfile
 import zipfile
 
@@ -69,31 +70,97 @@ def _resolve_item_uuid(handle):
     return item["uuid"]
 
 
-def _is_reference_or_readme(name):
-    low = name.lower()
-    return (
-        low.endswith("-reference-data.csv")
-        or "/reference-data" in low
-        or "readme" in low
-    )
+# A Movebank Datapackage exports one study as `<study title>-<series>.csv[.zip]`,
+# split into per-sensor series. Only some series carry location fixes; the rest
+# (light levels, twilights, barometer, acceleration, ...) share the timestamp/tag
+# columns but have no location-lat/long at all, so folding them into the location
+# table yields rows that are ~all-null on the coordinates. Classify on the TRAILING
+# series token — a substring match reads "gps" out of `...GPS_2003-2021-accessory`
+# and "acc" out of `...-accessory`, and would drop `...-twilights-tracks` (a
+# derived TRACK series). Multi-part exports (`-gps-1of4`, `_part`) are chunks of
+# one series and are concatenated.
+_CSV_EXT = re.compile(r"(?i)\.csv(\.zip)?$")
+_CHUNK = re.compile(r"(?i)[-_ ]?\d+\s*of\s*\d+$")
+_PART = re.compile(r"(?i)[-_ ]?part$")
+_LOCATION_SERIES = re.compile(
+    r"(?i)[-_ ](gps|tracks|argos|argos[- ]tracking|argos[- ]data|"
+    r"fastloc[- ]gps(?:[- ]data)?|locations?)$"
+)
+_OTHER_SERIES = re.compile(
+    r"(?i)[-_ ](reference[- ]data|metadata|light[- ]levels?|levels|twilights?|"
+    r"barometer|bar|acc|acceleration|accessory|mag|magnetometer|messages|"
+    r"transmitter|temperature|activity|output)$"
+)
 
 
-def _movement_priority(name):
-    low = name.lower()
-    if "gps" in low:
-        return 0
-    if "acc" in low or "acceleration" in low:
-        return 2
-    return 1
+def _series_base(name):
+    """The export name minus its extension and any chunk/part markers."""
+    base = _CSV_EXT.sub("", name)
+    prev = None
+    while prev != base:
+        prev = base
+        base = _CHUNK.sub("", base)
+        base = _PART.sub("", base)
+    return base
+
+
+def _series(name):
+    """`location` (publishable), `other` (no coordinates), or `plain` (untagged)."""
+    if "readme" in name.lower():
+        return "other"
+    base = _series_base(name)
+    if _LOCATION_SERIES.search(base):
+        return "location"
+    if _OTHER_SERIES.search(base):
+        return "other"
+    return "plain"
+
+
+def _normalize(text):
+    return re.sub(r"[^a-z0-9]", "", text.lower())
+
+
+def _study_prefixes(names):
+    """Study titles, recovered from each `<title>-reference-data.csv` companion.
+
+    Every export the study itself publishes carries one; the loose analysis CSVs
+    some bundles also archive (model output, weather covariates, morphology) do
+    not, and are the other way a non-location file reaches the location table.
+    Compared punctuation-insensitively: a title is not spelled identically across
+    a bundle's bitstreams (`Scotia, NSW` vs `Scotia NSW`).
+    """
+    prefixes = []
+    for name in names:
+        match = re.match(r"(?i)^(.+?)-reference[- ]data", _CSV_EXT.sub("", name))
+        if match:
+            prefix = _normalize(_series_base(match.group(1)))
+            if prefix:
+                prefixes.append(prefix)
+    return prefixes
+
+
+def _pick_location_series(names):
+    """The subset of `names` that make up the study's main location series."""
+    prefixes = _study_prefixes(names)
+
+    def in_study(name):
+        if not prefixes:
+            return True
+        base = _normalize(_series_base(name))
+        return any(base.startswith(prefix) for prefix in prefixes)
+
+    usable = [n for n in names if _series(n) != "other" and in_study(n)]
+    located = [n for n in usable if _series(n) == "location"]
+    return located or usable
 
 
 def _main_csv_sources(item_uuid):
-    """Return main movement CSV bitstreams from the ORIGINAL bundle.
+    """Return the study's main location CSV bitstreams from the ORIGINAL bundle.
 
     Movebank often stores large exports as one or more ``.csv.zip`` bitstreams.
-    When both GPS/location and acceleration exports are present, publish the GPS
-    series; acceleration-only bundles do not satisfy this connector's location
-    table model.
+    All the bundle's bitstreams are classified together, because the pick is
+    relative: a bundle's location series is only recognisable next to the sensor
+    series and reference data it ships beside.
     """
     bundles = _get_json(f"{API}/core/items/{item_uuid}/bundles")
     orig = next(
@@ -104,45 +171,34 @@ def _main_csv_sources(item_uuid):
         return []
     bs_url = orig["_links"]["bitstreams"]["href"]
 
-    candidates = []
+    bitstreams = []
     page = 0
     while True:
         data = _get_json(f"{bs_url}?size=100&page={page}")
-        bitstreams = data["_embedded"]["bitstreams"]
-        for b in bitstreams:
-            name = (b.get("name") or "")
-            low = name.lower()
-            if _is_reference_or_readme(name):
-                continue
-            if low.endswith(".csv"):
-                zipped = False
-            elif low.endswith(".csv.zip"):
-                zipped = True
-            else:
-                continue
-            candidates.append(
-                {
-                    "name": name,
-                    "priority": _movement_priority(name),
-                    "size": b.get("sizeBytes") or 0,
-                    "url": b["_links"]["content"]["href"],
-                    "zipped": zipped,
-                }
-            )
+        bitstreams.extend(data["_embedded"]["bitstreams"])
         pinfo = data.get("page", {})
         page += 1
         if page >= pinfo.get("totalPages", 1):
             break
-    if not candidates:
-        return []
 
-    best_priority = min(c["priority"] for c in candidates)
-    if best_priority == 2:
-        return []
-    return sorted(
-        (c for c in candidates if c["priority"] == best_priority),
-        key=lambda c: c["name"].lower(),
-    )
+    candidates, seen = {}, set()
+    for b in bitstreams:
+        name = b.get("name") or ""
+        low = name.lower()
+        if not (low.endswith(".csv") or low.endswith(".csv.zip")):
+            continue
+        if low in seen:  # a bundle may list the same bitstream twice
+            continue
+        seen.add(low)
+        candidates[name] = {
+            "name": name,
+            "size": b.get("sizeBytes") or 0,
+            "url": b["_links"]["content"]["href"],
+            "zipped": low.endswith(".csv.zip"),
+        }
+
+    picked = _pick_location_series(list(candidates))
+    return [candidates[n] for n in sorted(picked, key=str.lower)]
 
 
 def _write_csv_rows(reader, out):
@@ -169,6 +225,7 @@ def _write_csv_rows(reader, out):
 
 
 def _zip_csv_members(handle):
+    """The location-series members of a `.csv.zip` export, by the same rules."""
     members = []
     for info in handle.infolist():
         name = info.filename
@@ -181,15 +238,8 @@ def _zip_csv_members(handle):
             or not low.endswith(".csv")
         ):
             continue
-        if _is_reference_or_readme(name):
-            continue
-        members.append((info.filename, _movement_priority(name)))
-    if not members:
-        return []
-    best_priority = min(priority for _, priority in members)
-    if best_priority == 2:
-        return []
-    return sorted(name for name, priority in members if priority == best_priority)
+        members.append(name)
+    return sorted(_pick_location_series(members))
 
 
 @transient_retry()
