@@ -9,15 +9,14 @@ ceiling), and write one long-format raw row per non-null observation.
 Strategy: stateless full re-pull (shape 1). PxWeb exposes no incremental/`since`
 filter, so every refresh re-pulls each table in full and overwrites. Each table
 fits comfortably in memory for all but the largest cubes, which we stream to
-NDJSON batch-by-batch via the raw_writer context manager.
+Parquet batch-by-batch.
 
 Raw shape is heterogeneous across tables (every table has its own dimension
-codes), so raw is NDJSON: each row is a flat dict {<DIM_CODE>: <category label>,
-..., "obs_value": float, "obs_time": <time label or null>}. DuckDB infers each
-table's own column set on read, so the transform is a uniform `SELECT *`.
+codes), so each raw Parquet has a per-table schema: one string column per
+dimension code plus `obs_value` (double) and `obs_time` (string).
 """
 
-import json
+import pyarrow as pa
 
 from ratelimit import limits, sleep_and_retry
 
@@ -27,8 +26,8 @@ from subsets_utils import (
     get,
     post,
     raw_asset_exists,
+    raw_parquet_writer,
     transient_retry,
-    raw_writer,
 )
 from constants import ENTITY_PATHS, ENTITY_IDS
 
@@ -41,6 +40,7 @@ SLUG = "statistics-greenland"
 # that generous (the cell budget is the real constraint).
 MAX_CELLS = 800_000
 MAX_VALUES = 100_000
+FLUSH_ROWS = 50_000
 
 
 # ---- HTTP, rate-limited + retried -----------------------------------------
@@ -224,6 +224,15 @@ def _iter_rows(js):
 
 # ---- fetch -----------------------------------------------------------------
 
+def _schema_for(variables):
+    fields = [(v["code"], pa.string()) for v in variables]
+    fields.extend([
+        ("obs_value", pa.float64()),
+        ("obs_time", pa.string()),
+    ])
+    return pa.schema(fields)
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id
     stem = node_id[len(SLUG) + 1:]          # strip "statistics-greenland-"
@@ -234,8 +243,10 @@ def fetch_one(node_id: str) -> None:
     variables = meta["variables"]
     resolved = _resolve_values(url, variables)
     blocks = _plan_blocks(resolved)
+    schema = _schema_for(variables)
 
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
+    buf = []
+    with raw_parquet_writer(asset, schema) as writer:
         for block in blocks:
             query = {
                 "query": [
@@ -246,8 +257,12 @@ def fetch_one(node_id: str) -> None:
             }
             js = _post_json(url, query)
             for row in _iter_rows(js):
-                fh.write(json.dumps(row, ensure_ascii=False))
-                fh.write("\n")
+                buf.append(row)
+                if len(buf) >= FLUSH_ROWS:
+                    writer.write_table(pa.Table.from_pylist(buf, schema=schema))
+                    buf = []
+        if buf:
+            writer.write_table(pa.Table.from_pylist(buf, schema=schema))
 
 
 # ---- specs -----------------------------------------------------------------
@@ -265,7 +280,7 @@ MAINTAIN_SPECS = [
             "manifest and is under 30 days old (inferred — no per-table "
             "Last-Modified/ETag surfaced by the PxWeb API)."
         ),
-        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson.gz", max_age_days=30),
+        check=lambda asset_id: raw_asset_exists(asset_id, "parquet", max_age_days=30),
     )
     for stem in ENTITY_IDS
 ]
