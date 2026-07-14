@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `steam-spy-app-tags`. Regenerate after model-verify.
+# caution: Rows contain tag vote counts from appdetails; applications without public tags are absent from this table.
+key: [appid, tag]
+sort: [appid, tag]
+columns:
+  - name: appid
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: tag
+    type: VARCHAR
+  - name: votes
+    type: BIGINT

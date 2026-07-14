@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `steam-spy-apps`. Regenerate after model-verify.
+# caution: Steam Spy values are current estimates from a daily-refreshed public snapshot, not immutable historical observations.
+key: [appid]
+sort: [appid]
+columns:
+  - name: appid
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: developer
+    type: VARCHAR
+  - name: publisher
+    type: VARCHAR
+  - name: score_rank
+    type: JSON
+  - name: positive
+    type: BIGINT
+  - name: negative
+    type: BIGINT
+  - name: userscore
+    type: BIGINT
+  - name: owners
+    type: VARCHAR
+  - name: average_forever
+    type: BIGINT
+  - name: average_2weeks
+    type: BIGINT
+  - name: median_forever
+    type: BIGINT
+  - name: median_2weeks
+    type: BIGINT
+  - name: price
+    type: BIGINT
+  - name: initialprice
+    type: BIGINT
+  - name: discount
+    type: BIGINT
+  - name: ccu
+    type: BIGINT
+  - name: source_page
+    type: BIGINT
