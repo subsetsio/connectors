@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `understat-shots`. Regenerate after model-verify.
+key: [id]
+temporal: date
+sort: [date, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: minute
+    type: BIGINT
+  - name: result
+    type: VARCHAR
+  - name: x
+    type: DOUBLE
+  - name: y
+    type: DOUBLE
+  - name: xg
+    type: DOUBLE
+  - name: player
+    type: VARCHAR
+  - name: h_a
+    type: VARCHAR
+  - name: player_id
+    type: BIGINT
+  - name: situation
+    type: VARCHAR
+  - name: season
+    type: BIGINT
+  - name: shottype
+    type: VARCHAR
+  - name: match_id
+    type: BIGINT
+  - name: h_team
+    type: VARCHAR
+  - name: a_team
+    type: VARCHAR
+  - name: h_goals
+    type: BIGINT
+  - name: a_goals
+    type: BIGINT
+  - name: date
+    type: TIMESTAMP
+  - name: player_assisted
+    type: VARCHAR
+  - name: lastaction
+    type: VARCHAR
+  - name: league
+    type: VARCHAR
+  - name: side
+    type: VARCHAR

@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `understat-team-match-stats`. Regenerate after model-verify.
+# caution: Rows are one team within one match; summing match-level outcomes across both teams will double-count matches.
+key: [league, season, team_id, match_index]
+temporal: date
+sort: [date, league, season, team_id, match_index]
+columns:
+  - name: h_a
+    type: VARCHAR
+  - name: xg
+    type: DOUBLE
+  - name: xga
+    type: DOUBLE
+  - name: npxg
+    type: DOUBLE
+  - name: npxga
+    type: DOUBLE
+  - name: ppda
+    type: "STRUCT(att BIGINT, def BIGINT)"
+  - name: ppda_allowed
+    type: "STRUCT(att BIGINT, def BIGINT)"
+  - name: deep
+    type: BIGINT
+  - name: deep_allowed
+    type: BIGINT
+  - name: scored
+    type: BIGINT
+  - name: missed
+    type: BIGINT
+  - name: xpts
+    type: DOUBLE
+  - name: result
+    type: VARCHAR
+  - name: date
+    type: TIMESTAMP
+  - name: wins
+    type: BIGINT
+  - name: draws
+    type: BIGINT
+  - name: loses
+    type: BIGINT
+  - name: pts
+    type: BIGINT
+  - name: npxgd
+    type: DOUBLE
+  - name: league
+    type: VARCHAR
+  - name: season
+    type: BIGINT
+  - name: team_id
+    type: BIGINT
+  - name: team_title
+    type: VARCHAR
+  - name: match_index
+    type: BIGINT

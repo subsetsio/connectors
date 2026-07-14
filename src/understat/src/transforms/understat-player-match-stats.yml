@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `understat-player-match-stats`. Regenerate after model-verify.
+# caution: This table is derived from the roster payload at the same roster_id grain as understat-rosters; do not combine it with roster measures without accounting for overlap.
+key: [roster_id]
+sort: [roster_id]
+columns:
+  - name: xgchain
+    type: DOUBLE
+  - name: key_passes
+    type: BIGINT
+  - name: xgbuildup
+    type: DOUBLE
+  - name: time
+    type: BIGINT
+  - name: yellow_card
+    type: BIGINT
+  - name: position
+    type: VARCHAR
+  - name: team_id
+    type: BIGINT
+  - name: xg
+    type: DOUBLE
+  - name: player
+    type: VARCHAR
+  - name: h_a
+    type: VARCHAR
+  - name: red_card
+    type: BIGINT
+  - name: shots
+    type: BIGINT
+  - name: player_id
+    type: BIGINT
+  - name: assists
+    type: BIGINT
+  - name: own_goals
+    type: BIGINT
+  - name: goals
+    type: BIGINT
+  - name: positionorder
+    type: BIGINT
+  - name: xa
+    type: DOUBLE
+  - name: league
+    type: VARCHAR
+  - name: season
+    type: BIGINT
+  - name: match_id
+    type: BIGINT
+  - name: side
+    type: VARCHAR
+  - name: roster_id
+    type: BIGINT

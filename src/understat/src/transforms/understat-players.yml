@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `understat-players`. Regenerate after model-verify.
+# caution: Rows are league-season player summaries, not one row per player identity; a player can appear in multiple seasons or leagues.
+key: [league, season, id]
+sort: [league, season, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: player_name
+    type: VARCHAR
+  - name: games
+    type: BIGINT
+  - name: time
+    type: BIGINT
+  - name: goals
+    type: BIGINT
+  - name: xg
+    type: DOUBLE
+  - name: assists
+    type: BIGINT
+  - name: xa
+    type: DOUBLE
+  - name: shots
+    type: BIGINT
+  - name: key_passes
+    type: BIGINT
+  - name: yellow_cards
+    type: BIGINT
+  - name: red_cards
+    type: BIGINT
+  - name: position
+    type: VARCHAR
+  - name: team_title
+    type: VARCHAR
+  - name: npg
+    type: BIGINT
+  - name: npxg
+    type: DOUBLE
+  - name: xgchain
+    type: DOUBLE
+  - name: xgbuildup
+    type: DOUBLE
+  - name: league
+    type: VARCHAR
+  - name: season
+    type: BIGINT

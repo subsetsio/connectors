@@ -14,8 +14,8 @@ tests:
   - unique: [league, season, team_id]
     reason: a team appears at most once within a league-season table
     certainty: 90
-  - distinct_count: {col: league, min: 6}
-    reason: a healthy pull covers all six Understat leagues
+  - distinct_count: {col: league, min: 5}
+    reason: Understat currently returns team tables for the active Big Five league coverage; league-season reference rows preserve the broader configured coverage universe
     certainty: 90
   - between: {col: season, lo: 2014, hi: current_year()}
     certainty: 95

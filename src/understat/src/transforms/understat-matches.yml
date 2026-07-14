@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `understat-matches`. Regenerate after model-verify.
+key: [id]
+temporal: datetime
+sort: [datetime, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: isresult
+    type: BOOLEAN
+  - name: h
+    type: "STRUCT(id VARCHAR, title VARCHAR, short_title VARCHAR)"
+  - name: a
+    type: "STRUCT(id VARCHAR, title VARCHAR, short_title VARCHAR)"
+  - name: goals
+    type: "STRUCT(h VARCHAR, a VARCHAR)"
+  - name: xg
+    type: "STRUCT(h VARCHAR, a VARCHAR)"
+  - name: datetime
+    type: TIMESTAMP
+  - name: forecast
+    type: "STRUCT(w VARCHAR, d VARCHAR, l VARCHAR)"
+  - name: league
+    type: VARCHAR
+  - name: season
+    type: BIGINT
