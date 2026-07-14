@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-soxou04`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [inventory_variable, age, number_of_children_and_youth, type_of_family, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [inventory_variable, age, number_of_children_and_youth, type_of_family, year]
+  - kind: not_null
+    col: inventory_variable
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: number_of_children_and_youth
+  - kind: not_null
+    col: type_of_family
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 2520
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

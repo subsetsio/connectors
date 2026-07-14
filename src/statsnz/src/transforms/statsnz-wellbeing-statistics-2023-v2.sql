@@ -10,9 +10,9 @@ SELECT
     "estimate",
     "ASE" AS ase,
     "flag",
-    "sheet_name",
-    "column_1",
-    "column_2",
-    "column_3",
-    "column_4"
+    "sheet_name" ->> '$' AS sheet_name,
+    "column_1" ->> '$' AS column_1,
+    "column_2" ->> '$' AS column_2,
+    "column_3" ->> '$' AS column_3,
+    "column_4" ->> '$' AS column_4
 FROM "statsnz-wellbeing-statistics-2023-v2"

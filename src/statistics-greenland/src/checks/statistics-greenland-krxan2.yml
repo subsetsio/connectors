@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-krxan2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [niv_kode, pkr, anmy]
+temporal: anmy
+checks:
+  - kind: unique
+    columns: [niv_kode, pkr, anmy]
+  - kind: not_null
+    col: niv_kode
+  - kind: not_null
+    col: pkr
+  - kind: not_null
+    col: anmy
+  - kind: row_floor
+    min: 575
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

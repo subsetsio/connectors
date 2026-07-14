@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-bexltall`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [calcbase, nop, pob, sex, age, measure, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [calcbase, nop, pob, sex, age, measure, time]
+  - kind: not_null
+    col: calcbase
+  - kind: not_null
+    col: nop
+  - kind: not_null
+    col: pob
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 276052
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

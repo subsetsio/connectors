@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-bexfam6`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [number_of_children, type_of_child_family, number_of_adults, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [number_of_children, type_of_child_family, number_of_adults, time]
+  - kind: not_null
+    col: number_of_children
+  - kind: not_null
+    col: type_of_child_family
+  - kind: not_null
+    col: number_of_adults
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 1386
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

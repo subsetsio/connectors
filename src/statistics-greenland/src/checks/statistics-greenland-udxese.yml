@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-udxese`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [befo, distrikt, sex, aargang]
+temporal: aargang
+checks:
+  - kind: unique
+    columns: [befo, distrikt, sex, aargang]
+  - kind: not_null
+    col: befo
+  - kind: not_null
+    col: distrikt
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: aargang
+  - kind: row_floor
+    min: 808
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

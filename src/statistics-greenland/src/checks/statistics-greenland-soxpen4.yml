@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-soxpen4`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [residence, gender, payment, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [residence, gender, payment, time]
+  - kind: not_null
+    col: residence
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: payment
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 202
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

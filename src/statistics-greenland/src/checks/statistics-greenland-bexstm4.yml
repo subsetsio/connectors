@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-bexstm4`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age, place_of_birth, locality, gender, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [age, place_of_birth, locality, gender, time]
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: place_of_birth
+  - kind: not_null
+    col: locality
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 573782
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

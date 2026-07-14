@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-inxss101`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [tax_municipality, unit, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [tax_municipality, unit, time]
+  - kind: not_null
+    col: tax_municipality
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 774
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

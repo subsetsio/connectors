@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-udxbd`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [aar, bosted, udd_land, ud_niveau, slutaar]
+temporal: slutaar
+checks:
+  - kind: unique
+    columns: [aar, bosted, udd_land, ud_niveau, slutaar]
+  - kind: not_null
+    col: aar
+  - kind: not_null
+    col: bosted
+  - kind: not_null
+    col: udd_land
+  - kind: not_null
+    col: ud_niveau
+  - kind: not_null
+    col: slutaar
+  - kind: row_floor
+    min: 981
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

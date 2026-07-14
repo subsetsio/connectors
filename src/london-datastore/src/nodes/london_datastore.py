@@ -27,6 +27,7 @@ import httpx
 import openpyxl
 import pandas as pd
 import pyarrow as pa
+from openpyxl.cell.cell import TYPE_ERROR, TYPE_NUMERIC
 
 from constants import ENTITY_IDS
 from subsets_utils import (
@@ -205,6 +206,48 @@ def _csv_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]
                 yield rows
 
 
+def _cell_value(cell):
+    """One cell, converted the way pandas' openpyxl reader converts it.
+
+    Excel error cells (#N/A, #REF!, ...) become NaN — keyed off the cell TYPE,
+    not the text, so a text cell that literally reads "#N/A" is left alone.
+    Integral numerics narrow to int, because Excel stores every number as a
+    double and pandas renders 655.0 as "655", not "655.0"."""
+    if cell.data_type == TYPE_ERROR:
+        return float("nan")
+    value = cell.value
+    if cell.data_type == TYPE_NUMERIC and isinstance(value, float):
+        try:
+            narrowed = int(value)
+        except (OverflowError, ValueError):  # inf / nan
+            return value
+        if narrowed == value:
+            return narrowed
+    return value
+
+
+def _cell_values(cells) -> list:
+    return [_cell_value(cell) for cell in cells]
+
+
+def _mangle_dupes(columns: list) -> list:
+    """pandas' duplicate-header mangling (`_maybe_dedup_names`): a repeated
+    header becomes `Name.1`, `Name.2`, ... Reproduced here because the readers
+    apply it before our own `_dedupe` runs, and the two disagree on the suffix
+    (`back_to_contents_1` vs `back_to_contents_2`) for the same sheet."""
+    counts: dict = {}
+    out = []
+    for col in columns:
+        count = counts.get(col, 0)
+        while count > 0:
+            counts[col] = count + 1
+            col = f"{col}.{count}"
+            count = counts.get(col, 0)
+        out.append(col)
+        counts[col] = count + 1
+    return out
+
+
 def _chunk_rows(
     chunk: list[list],
     columns: list,
@@ -213,7 +256,9 @@ def _chunk_rows(
     number: int,
 ) -> tuple[list[dict], int]:
     return _frame_rows(
-        pd.DataFrame(chunk, columns=columns),
+        # dtype=object or pandas infers one dtype per column and upcasts a
+        # mixed int/float column to float64 — rendering 655 as "655.0".
+        pd.DataFrame(chunk, columns=columns, dtype=object),
         sheet_name=str(sheet_title),
         member_path=member_path,
         start_number=number,
@@ -225,28 +270,36 @@ def _xlsx_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]
     at once, which the 390 MB workbooks in this catalog cannot afford.
 
     Each chunk is handed to _frame_rows as a frame, so this reproduces the
-    pandas read path the .xls/.csv readers use rather than a lookalike of it:
-    blank header cells take pandas' `Unnamed: <i>` name, and empty cells become
-    "" (what `keep_default_na=False` yields) so blank rows still consume a
-    `source_row_number` instead of vanishing."""
+    pandas read path the .xls/.csv readers use rather than a lookalike of it.
+    Matching pandas exactly takes three rules, each verified against workbooks
+    in this catalog:
+      * only an ABSENT header cell becomes `Unnamed: <i>` — a blank-but-present
+        one ("  ") keeps its value and falls back to `col_<i>` downstream;
+      * an Excel error cell (#N/A, #REF!, ...) is NaN, keyed off the cell TYPE
+        so a text cell that literally reads "#N/A" survives as text;
+      * an empty cell is "" (what `keep_default_na=False` yields), so blank rows
+        still consume a `source_row_number` instead of vanishing.
+    """
     workbook = openpyxl.load_workbook(path, read_only=True, data_only=True)
     try:
         for sheet in workbook.worksheets:
-            values = sheet.iter_rows(values_only=True)
-            header = next(values, None)
+            records = sheet.iter_rows()
+            header = next(records, None)
             if header is None:
                 continue
-            columns = [
-                f"Unnamed: {i}" if value is None or not str(value).strip() else value
-                for i, value in enumerate(header)
-            ]
+            columns = _mangle_dupes(
+                [
+                    f"Unnamed: {i}" if pd.isna(value) else value
+                    for i, value in enumerate(_cell_values(header))
+                ]
+            )
             width = len(columns)
             number = 1
             chunk: list[list] = []
-            for record in values:
-                record = list(record[:width])
-                record += [None] * (width - len(record))
-                chunk.append(["" if value is None else value for value in record])
+            for record in records:
+                values = _cell_values(record)[:width]
+                values += [None] * (width - len(values))
+                chunk.append(["" if value is None else value for value in values])
                 if len(chunk) >= BATCH_ROWS:
                     rows, number = _chunk_rows(
                         chunk, columns, sheet.title, member_path, number

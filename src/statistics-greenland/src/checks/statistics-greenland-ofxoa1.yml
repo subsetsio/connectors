@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-ofxoa1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sektor, cofog_hoved, taar, opg_var]
+temporal: taar
+checks:
+  - kind: unique
+    columns: [sektor, cofog_hoved, taar, opg_var]
+  - kind: not_null
+    col: sektor
+  - kind: not_null
+    col: cofog_hoved
+  - kind: not_null
+    col: taar
+  - kind: not_null
+    col: opg_var
+  - kind: row_floor
+    min: 847
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

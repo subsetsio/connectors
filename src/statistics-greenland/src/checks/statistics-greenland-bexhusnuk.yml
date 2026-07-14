@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-bexhusnuk`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [type_of_address, size, type, districts, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [type_of_address, size, type, districts, time]
+  - kind: not_null
+    col: type_of_address
+  - kind: not_null
+    col: size
+  - kind: not_null
+    col: type
+  - kind: not_null
+    col: districts
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 42872
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

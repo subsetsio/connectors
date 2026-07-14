@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-arxbfb05`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [bybygd, sex, komdist, alder_grp, aar, opg_var]
+temporal: aar
+checks:
+  - kind: unique
+    columns: [bybygd, sex, komdist, alder_grp, aar, opg_var]
+  - kind: not_null
+    col: bybygd
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: komdist
+  - kind: not_null
+    col: alder_grp
+  - kind: not_null
+    col: aar
+  - kind: not_null
+    col: opg_var
+  - kind: row_floor
+    min: 55350
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

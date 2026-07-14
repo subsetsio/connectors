@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-udxfds`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [unit, school, subject, grade, type_of_grades, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [unit, school, subject, grade, type_of_grades, time]
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: school
+  - kind: not_null
+    col: subject
+  - kind: not_null
+    col: grade
+  - kind: not_null
+    col: type_of_grades
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 14073
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

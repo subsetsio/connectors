@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-bexcalcr2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [omr, sex, fsted, faar, trekant, ttype, taar]
+temporal: taar
+checks:
+  - kind: unique
+    columns: [omr, sex, fsted, faar, trekant, ttype, taar]
+  - kind: not_null
+    col: omr
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: fsted
+  - kind: not_null
+    col: faar
+  - kind: not_null
+    col: trekant
+  - kind: not_null
+    col: ttype
+  - kind: not_null
+    col: taar
+  - kind: row_floor
+    min: 2228646
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-udxisc11j`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [aktalder, isced, sex, skolenr_ny, uddkode_ny, taar]
+temporal: taar
+checks:
+  - kind: unique
+    columns: [aktalder, isced, sex, skolenr_ny, uddkode_ny, taar]
+  - kind: not_null
+    col: aktalder
+  - kind: not_null
+    col: isced
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: skolenr_ny
+  - kind: not_null
+    col: uddkode_ny
+  - kind: not_null
+    col: taar
+  - kind: row_floor
+    min: 5258
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

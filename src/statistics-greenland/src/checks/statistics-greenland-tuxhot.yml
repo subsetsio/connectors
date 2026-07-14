@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-tuxhot`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [month, nationality, region, unit, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [month, nationality, region, unit, time]
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: nationality
+  - kind: not_null
+    col: region
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 74669
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

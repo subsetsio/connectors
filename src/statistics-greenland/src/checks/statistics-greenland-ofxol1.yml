@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-ofxol1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [for_code, for_sek_code, lonart_mrk, kon, time, lon_type]
+temporal: time
+checks:
+  - kind: unique
+    columns: [for_code, for_sek_code, lonart_mrk, kon, time, lon_type]
+  - kind: not_null
+    col: for_code
+  - kind: not_null
+    col: for_sek_code
+  - kind: not_null
+    col: lonart_mrk
+  - kind: not_null
+    col: kon
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: lon_type
+  - kind: row_floor
+    min: 5400
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-greenland-bexbbiu2a`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [place_of_birth, municipality, month, gender, migration, time]
+temporal: time
+checks:
+  - kind: unique
+    columns: [place_of_birth, municipality, month, gender, migration, time]
+  - kind: not_null
+    col: place_of_birth
+  - kind: not_null
+    col: municipality
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: migration
+  - kind: not_null
+    col: time
+  - kind: row_floor
+    min: 16632
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "Stats NZ publishes no single schedule for the CSV-files-for-download page (https://www.stats.govt.nz/large-datasets/csv-files-for-download/); it aggregates one asset per statistical release, and the 118 accepted assets carry mixed own-cadences \u2014 25 are monthly-dated (electronic card transactions, building consents, employment indicators), 16 quarterly (CPI, labour market, business financial data), 8 annual (year-ended releases), and 69 are one-off or irregular (2018 Census, Te Kupenga, environmental accounts). The soonest a new release can appear is therefore monthly, and individual releases are dated but not pre-announced on this page. Weekly is a deliberate over-poll: it bounds staleness for the monthly series at ~7 days and costs little, because the page is re-parsed in full each run (no incremental API is available \u2014 the SDMX alternative is key-gated, see research_gaps) and per-asset maintain freshness checks skip unchanged downloads pre-spawn."
 }
