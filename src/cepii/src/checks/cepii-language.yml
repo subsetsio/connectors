@@ -3,14 +3,18 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [iso_o, iso_d]
+key: [iso_o, iso_d, country_o, country_d]
 checks:
   - kind: unique
-    columns: [iso_o, iso_d]
+    columns: [iso_o, iso_d, country_o, country_d]
   - kind: not_null
     col: iso_o
   - kind: not_null
     col: iso_d
+  - kind: not_null
+    col: country_o
+  - kind: not_null
+    col: country_d
   - kind: row_floor
     min: 18915
 regression:

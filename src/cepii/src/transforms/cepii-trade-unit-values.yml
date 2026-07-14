@@ -1,7 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [t, r, p, k]
-temporal: t
-sort: [t, r, p, k]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-trade-unit-values`. Regenerate after model-verify.
+# caution: Unit values are price-like measures by reporter, partner, product, and year; do not aggregate them as trade values. This very large table is published keyless because full raw key verification exceeds the harness memory limit.
+key: []
 columns:
   - name: t
     type: BIGINT
@@ -10,6 +10,6 @@ columns:
   - name: p
     type: BIGINT
   - name: k
-    type: VARCHAR
+    type: BIGINT
   - name: uv
     type: DOUBLE

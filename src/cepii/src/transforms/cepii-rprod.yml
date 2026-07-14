@@ -1,13 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [measure, Country, Year, indicator]
-temporal: Year
-sort: [Year, measure, Country, indicator]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-rprod`. Regenerate after model-verify.
+# caution: Balassa-Samuelson measures are separate variants and should not be summed across measure sheets.
+key: [country, year, indicator, measure]
+temporal: year
+sort: [year, country, indicator, measure]
 columns:
   - name: measure
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Year
+  - name: year
     type: BIGINT
   - name: indicator
     type: VARCHAR

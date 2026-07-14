@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [exporter, importer, secgroup, product]
-sort: [exporter, importer, secgroup, product]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-chelem`. Regenerate after model-verify.
+# caution: CHELEM is stored wide by year, so year-specific measures are separate columns rather than one row per year.
+key: [product, exporter, importer, secgroup]
+sort: [product, exporter, importer, secgroup]
 columns:
   - name: exporter
     type: VARCHAR

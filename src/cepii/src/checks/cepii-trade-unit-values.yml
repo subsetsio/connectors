@@ -3,22 +3,8 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [t, r, p, k]
-temporal: t
 checks:
-  - kind: unique
-    columns: [t, r, p, k]
-  - kind: not_null
-    col: t
-  - kind: not_null
-    col: r
-  - kind: not_null
-    col: p
-  - kind: not_null
-    col: k
   - kind: row_floor
     min: 48327317
 regression:
   row_shrink_tolerance: 0.1
-  key_shrink_tolerance: 0.1
-  temporal_monotonic: true

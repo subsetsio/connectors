@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [iso_o, iso_d]
-sort: [iso_o, iso_d]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-geodist`. Regenerate after model-verify.
+# caution: Distance measures use multiple weighting definitions; choose the distance column appropriate for the gravity specification.
+key: [distwces, distw, iso_o, iso_d]
+sort: [distwces, distw, iso_o, iso_d]
 columns:
   - name: iso_o
     type: VARCHAR

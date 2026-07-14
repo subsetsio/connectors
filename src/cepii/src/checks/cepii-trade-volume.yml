@@ -3,13 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [aggregation_level, year, production_stage]
+key: [year, production_stage]
 temporal: year
 checks:
   - kind: unique
-    columns: [aggregation_level, year, production_stage]
-  - kind: not_null
-    col: aggregation_level
+    columns: [year, production_stage]
   - kind: not_null
     col: year
   - kind: not_null

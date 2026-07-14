@@ -1,9 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Values are reconciled trade flows by exporter, importer, HS product, and year; product nomenclature is fixed to the downloaded BACI edition. This very large table is published keyless because full key verification exceeds the harness memory limit.
 SELECT
-    CAST(t AS INTEGER)                        AS year,
-    CAST(i AS INTEGER)                        AS exporter_iso,
-    CAST(j AS INTEGER)                        AS importer_iso,
-    LPAD(CAST(k AS VARCHAR), 6, '0')          AS product_hs92,
-    TRY_CAST(v AS DOUBLE)                     AS value_kusd,
-    TRY_CAST(q AS DOUBLE)                     AS quantity_t
+    "t",
+    "i",
+    "j",
+    "k",
+    "v",
+    "q"
 FROM "cepii-baci"
-WHERE t IS NOT NULL

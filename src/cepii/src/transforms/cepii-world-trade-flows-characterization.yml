@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [t, i, j, k]
-temporal: t
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-world-trade-flows-characterization`. Regenerate after model-verify.
+# caution: Characterization indicators classify bilateral product trade flows; categorical labels should be filtered before aggregation. This very large table is published keyless because full key verification exceeds the harness memory limit.
+key: []
 sort: [t, i, j, k]
 columns:
   - name: t
@@ -10,12 +11,12 @@ columns:
   - name: j
     type: BIGINT
   - name: k
-    type: VARCHAR
+    type: BIGINT
   - name: v
     type: DOUBLE
   - name: uv
-    type: VARCHAR
-  - name: GL
+    type: DOUBLE
+  - name: gl
     type: DOUBLE
   - name: trade_type
     type: VARCHAR

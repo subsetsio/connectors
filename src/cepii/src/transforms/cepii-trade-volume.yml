@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [aggregation_level, year, production_stage]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-trade-volume`. Regenerate after model-verify.
+# caution: Production-stage series include indexed values; compare stages rather than summing index columns.
+key: [year, production_stage]
 temporal: year
-sort: [year, aggregation_level, production_stage]
+sort: [year, production_stage]
 columns:
   - name: aggregation_level
     type: VARCHAR

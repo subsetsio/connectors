@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-tradhist`. Regenerate after model-verify.
+# caution: TRADHIST combines trade flows with historical gravity covariates and source flags; reverse country-pair directions are distinct.
 key: []
 temporal: year
-sort: [year, iso_o, iso_d]
+sort: [year]
 columns:
   - name: iso_o
     type: VARCHAR
@@ -9,123 +11,123 @@ columns:
     type: VARCHAR
   - name: year
     type: BIGINT
-  - name: FLOW
+  - name: flow
     type: DOUBLE
-  - name: FLOW_0
+  - name: flow_0
     type: DOUBLE
-  - name: SOURCE_TF
+  - name: source_tf
     type: VARCHAR
-  - name: GDP_o
+  - name: gdp_o
     type: DOUBLE
-  - name: SOURCE_GDP_o
+  - name: source_gdp_o
     type: VARCHAR
-  - name: GDP_d
+  - name: gdp_d
     type: DOUBLE
-  - name: SOURCE_GDP_d
+  - name: source_gdp_d
     type: VARCHAR
-  - name: SH_PRIM_o
+  - name: sh_prim_o
     type: DOUBLE
-  - name: SOURCE_SH_PRIM_o
+  - name: source_sh_prim_o
     type: VARCHAR
-  - name: SH_SECD_o
+  - name: sh_secd_o
     type: DOUBLE
-  - name: SOURCE_SH_SECD_o
+  - name: source_sh_secd_o
     type: VARCHAR
-  - name: SH_PRIM_d
+  - name: sh_prim_d
     type: DOUBLE
-  - name: SOURCE_SH_PRIM_d
+  - name: source_sh_prim_d
     type: VARCHAR
-  - name: SH_SECD_d
+  - name: sh_secd_d
     type: DOUBLE
-  - name: SOURCE_SH_SECD_d
+  - name: source_sh_secd_d
     type: VARCHAR
-  - name: POP_o
+  - name: pop_o
     type: DOUBLE
-  - name: POP_d
+  - name: pop_d
     type: DOUBLE
-  - name: SOURCE_POP_o
+  - name: source_pop_o
     type: VARCHAR
-  - name: SOURCE_POP_d
+  - name: source_pop_d
     type: VARCHAR
-  - name: IPTOT_o
+  - name: iptot_o
     type: DOUBLE
-  - name: SOURCE_IPTOT_o
+  - name: source_iptot_o
     type: VARCHAR
-  - name: IPTOT_d
+  - name: iptot_d
     type: DOUBLE
-  - name: SOURCE_IPTOT_d
+  - name: source_iptot_d
     type: VARCHAR
-  - name: XPTOT_o
+  - name: xptot_o
     type: DOUBLE
-  - name: SOURCE_XPTOT_o
+  - name: source_xptot_o
     type: VARCHAR
-  - name: XPTOT_d
+  - name: xptot_d
     type: DOUBLE
-  - name: SOURCE_XPTOT_d
+  - name: source_xptot_d
     type: VARCHAR
-  - name: BITARIFF
+  - name: bitariff
     type: DOUBLE
-  - name: TARIFF_o
+  - name: tariff_o
+    type: DOUBLE
+  - name: source_tariff_o
     type: VARCHAR
-  - name: SOURCE_TARIFF_o
+  - name: tariff_d
+    type: DOUBLE
+  - name: source_tariff_d
     type: VARCHAR
-  - name: TARIFF_d
+  - name: distw
     type: DOUBLE
-  - name: SOURCE_TARIFF_d
+  - name: dist_coord
+    type: DOUBLE
+  - name: dist_o
+    type: DOUBLE
+  - name: dist_d
+    type: DOUBLE
+  - name: seadist_shrt
+    type: DOUBLE
+  - name: seadist_2cst
+    type: DOUBLE
+  - name: comlang
+    type: DOUBLE
+  - name: contig
+    type: DOUBLE
+  - name: curcol
+    type: DOUBLE
+  - name: metro
     type: VARCHAR
-  - name: Distw
-    type: DOUBLE
-  - name: Dist_coord
-    type: DOUBLE
-  - name: Dist_o
-    type: DOUBLE
-  - name: Dist_d
-    type: DOUBLE
-  - name: SeaDist_SHRT
-    type: DOUBLE
-  - name: SeaDist_2CST
-    type: DOUBLE
-  - name: Comlang
-    type: DOUBLE
-  - name: Contig
-    type: DOUBLE
-  - name: Curcol
-    type: DOUBLE
-  - name: Metro
+  - name: colo
     type: VARCHAR
-  - name: Colo
+  - name: curcol_o
+    type: DOUBLE
+  - name: curcol_d
+    type: DOUBLE
+  - name: evercol
+    type: DOUBLE
+  - name: xch_rate_o
+    type: DOUBLE
+  - name: source_xch_o
     type: VARCHAR
-  - name: Curcol_o
+  - name: xch_rate_d
     type: DOUBLE
-  - name: Curcol_d
-    type: DOUBLE
-  - name: Evercol
-    type: DOUBLE
-  - name: XCH_RATE_o
-    type: DOUBLE
-  - name: SOURCE_XCH_o
+  - name: source_xch_d
     type: VARCHAR
-  - name: XCH_RATE_d
-    type: DOUBLE
-  - name: SOURCE_XCH_d
+  - name: conti_o
     type: VARCHAR
-  - name: CONTI_o
+  - name: conti_d
     type: VARCHAR
-  - name: CONTI_d
+  - name: regio_o
     type: VARCHAR
-  - name: REGIO_o
+  - name: regio_d
     type: VARCHAR
-  - name: REGIO_d
-    type: VARCHAR
-  - name: OECD_o
+  - name: oecd_o
     type: DOUBLE
-  - name: OECD_d
+  - name: oecd_d
     type: DOUBLE
-  - name: EU_o
+  - name: eu_o
     type: DOUBLE
-  - name: EU_d
+  - name: eu_d
     type: DOUBLE
-  - name: GATT_o
+  - name: gatt_o
     type: DOUBLE
-  - name: GATT_d
+  - name: gatt_d
     type: DOUBLE

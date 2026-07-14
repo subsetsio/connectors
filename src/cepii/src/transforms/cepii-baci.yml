@@ -1,17 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [year, exporter_iso, importer_iso, product_hs92]
-temporal: year
-sort: [year, exporter_iso, importer_iso, product_hs92]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-baci`. Regenerate after model-verify.
+# caution: Values are reconciled trade flows by exporter, importer, HS product, and year; product nomenclature is fixed to the downloaded BACI edition. This very large table is published keyless because full key verification exceeds the harness memory limit.
+key: []
 columns:
-  - name: year
-    type: INTEGER
-  - name: exporter_iso
-    type: INTEGER
-  - name: importer_iso
-    type: INTEGER
-  - name: product_hs92
-    type: VARCHAR
-  - name: value_kusd
+  - name: t
+    type: BIGINT
+  - name: i
+    type: BIGINT
+  - name: j
+    type: BIGINT
+  - name: k
+    type: BIGINT
+  - name: v
     type: DOUBLE
-  - name: quantity_t
+  - name: q
     type: DOUBLE

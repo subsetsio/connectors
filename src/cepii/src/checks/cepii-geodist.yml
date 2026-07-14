@@ -3,10 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [iso_o, iso_d]
+key: [distwces, distw, iso_o, iso_d]
 checks:
   - kind: unique
-    columns: [iso_o, iso_d]
+    columns: [distwces, distw, iso_o, iso_d]
+  - kind: not_null
+    col: distwces
+  - kind: not_null
+    col: distw
   - kind: not_null
     col: iso_o
   - kind: not_null

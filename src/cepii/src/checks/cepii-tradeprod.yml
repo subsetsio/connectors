@@ -3,17 +3,17 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [year, iso3_tp_o, iso3_tp_d, industry]
+key: [iso3_tp_o, iso3_tp_d, year, industry]
 temporal: year
 checks:
   - kind: unique
-    columns: [year, iso3_tp_o, iso3_tp_d, industry]
-  - kind: not_null
-    col: year
+    columns: [iso3_tp_o, iso3_tp_d, year, industry]
   - kind: not_null
     col: iso3_tp_o
   - kind: not_null
     col: iso3_tp_d
+  - kind: not_null
+    col: year
   - kind: not_null
     col: industry
   - kind: row_floor

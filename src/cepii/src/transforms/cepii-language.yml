@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [iso_o, iso_d]
-sort: [iso_o, iso_d]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-language`. Regenerate after model-verify.
+# caution: Rows are directional country pairs even when many language proximity measures are symmetric.
+key: [iso_o, iso_d, country_o, country_d]
+sort: [iso_o, iso_d, country_o, country_d]
 columns:
   - name: iso_o
     type: VARCHAR

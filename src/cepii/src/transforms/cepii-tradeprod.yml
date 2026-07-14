@@ -1,5 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [year, iso3_tp_o, iso3_tp_d, industry]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-tradeprod`. Regenerate after model-verify.
+# caution: Rows combine production, tariff, and bilateral trade fields by industry; only trade-value fields are additive.
+key: [iso3_tp_o, iso3_tp_d, year, industry]
 temporal: year
 sort: [year, iso3_tp_o, iso3_tp_d, industry]
 columns:

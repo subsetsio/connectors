@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [code_wb, year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-econmap`. Regenerate after model-verify.
+# caution: This is the reference projection scenario and mixes historical observations with long-run projections.
+key: [code_wb, name, year]
 temporal: year
-sort: [year, code_wb]
+sort: [year, code_wb, name]
 columns:
   - name: code_wb
     type: VARCHAR

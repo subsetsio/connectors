@@ -3,22 +3,20 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [Date, Actor1CountryCode, Actor2CountryCode, Category]
-temporal: Date
+key: [date, actor1countrycode, actor2countrycode, category]
 checks:
   - kind: unique
-    columns: [Date, Actor1CountryCode, Actor2CountryCode, Category]
+    columns: [date, actor1countrycode, actor2countrycode, category]
   - kind: not_null
-    col: Date
+    col: date
   - kind: not_null
-    col: Actor1CountryCode
+    col: actor1countrycode
   - kind: not_null
-    col: Actor2CountryCode
+    col: actor2countrycode
   - kind: not_null
-    col: Category
+    col: category
   - kind: row_floor
     min: 845520
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
-  temporal_monotonic: true

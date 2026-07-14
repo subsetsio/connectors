@@ -1,7 +1,11 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: REER and NEER are separate series and should not be summed together.
 SELECT
-    series,
-    CAST(year AS INTEGER)    AS year,
-    country,
-    TRY_CAST(value AS DOUBLE) AS index_2010_100
+    "series",
+    "year",
+    "country",
+    "value"
 FROM "cepii-eqchange"
-WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL

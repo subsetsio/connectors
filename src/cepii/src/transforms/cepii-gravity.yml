@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [year, country_id_o, country_id_d]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cepii-gravity`. Regenerate after model-verify.
+# caution: This table combines bilateral trade outcomes with many gravity covariates; do not aggregate covariate columns as trade measures.
+key: [country_id_o, country_id_d, iso3_o, iso3_d, year]
 temporal: year
-sort: [year, country_id_o, country_id_d]
+sort: [year, country_id_o, country_id_d, iso3_o, iso3_d]
 columns:
   - name: year
     type: BIGINT
@@ -46,7 +48,7 @@ columns:
   - name: diplo_disagreement
     type: DOUBLE
   - name: scaled_sci_2021
-    type: BIGINT
+    type: DOUBLE
   - name: comlang_off
     type: BIGINT
   - name: comlang_ethno
@@ -80,9 +82,9 @@ columns:
   - name: col_dep
     type: BIGINT
   - name: col_dep_end_year
-    type: VARCHAR
+    type: BIGINT
   - name: col_dep_end_conflict
-    type: VARCHAR
+    type: BIGINT
   - name: empire
     type: VARCHAR
   - name: sibling_ever
@@ -146,9 +148,9 @@ columns:
   - name: fta_wto_raw
     type: BIGINT
   - name: rta_coverage
-    type: VARCHAR
+    type: BIGINT
   - name: rta_type
-    type: VARCHAR
+    type: BIGINT
   - name: entry_cost_o
     type: DOUBLE
   - name: entry_cost_d
