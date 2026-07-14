@@ -206,9 +206,14 @@ def _csv_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]
 
 
 def _xlsx_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]]:
-    """Stream an .xlsx sheet-by-sheet, row-by-row. pandas would materialize
-    every sheet at once, which the 390 MB workbooks in this catalog cannot
-    afford."""
+    """Stream an .xlsx sheet-by-sheet, row-by-row. pandas would hold every sheet
+    at once, which the 390 MB workbooks in this catalog cannot afford.
+
+    Each chunk is handed to _frame_rows as a frame, so this reproduces the
+    pandas read path the .xls/.csv readers use rather than a lookalike of it:
+    blank header cells take pandas' `Unnamed: <i>` name, and empty cells become
+    "" (what `keep_default_na=False` yields) so blank rows still consume a
+    `source_row_number` instead of vanishing."""
     workbook = openpyxl.load_workbook(path, read_only=True, data_only=True)
     try:
         for sheet in workbook.worksheets:
@@ -216,26 +221,36 @@ def _xlsx_row_batches(path: str, member_path: str | None) -> Iterator[list[dict]
             header = next(values, None)
             if header is None:
                 continue
-            columns = _dedupe(header)
+            columns = [
+                f"Unnamed: {i}" if value is None or not str(value).strip() else value
+                for i, value in enumerate(header)
+            ]
+            width = len(columns)
             number = 1
-            batch: list[dict] = []
+            chunk: list[list] = []
+
+            def drain(chunk, number):
+                frame = pd.DataFrame(chunk, columns=columns)
+                return _frame_rows(
+                    frame,
+                    sheet_name=str(sheet.title),
+                    member_path=member_path,
+                    start_number=number,
+                )
+
             for record in values:
-                if all(value is None for value in record):
-                    continue
-                row = {
-                    col: _stringify(value) for col, value in zip(columns, record)
-                }
-                if any(value is not None for value in row.values()):
-                    row["source_row_number"] = str(number)
-                    row["sheet_name"] = str(sheet.title)
-                    row["member_path"] = member_path
-                    batch.append(row)
-                number += 1
-                if len(batch) >= BATCH_ROWS:
-                    yield batch
-                    batch = []
-            if batch:
-                yield batch
+                record = list(record[:width])
+                record += [None] * (width - len(record))
+                chunk.append(["" if value is None else value for value in record])
+                if len(chunk) >= BATCH_ROWS:
+                    rows, number = drain(chunk, number)
+                    if rows:
+                        yield rows
+                    chunk = []
+            if chunk:
+                rows, number = drain(chunk, number)
+                if rows:
+                    yield rows
     finally:
         workbook.close()
 

@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "Statistics Greenland publishes no corpus-wide release calendar: each Statbank table carries its own 'latest update'/'next update' dates and the accepted cubes update on heterogeneous schedules (most annually, a minority monthly or quarterly). PxWeb exposes no since/modifiedAfter parameter, so there is no cheap way to ask the API what changed. The connector therefore polls weekly instead of tracking per-table dates: the download node re-fetches only stale specs (run 20260714-040520: 405 skipped_fresh, 18 ran), so a 7-day tick is cheap and bounds staleness for the fastest-moving cubes to one week."
 }

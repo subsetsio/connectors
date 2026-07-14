@@ -1,12 +1,19 @@
 # provisional post-publish audit for `danmarks-nationalbank-dnvpdkr2`.
-key: [value, typreal, l_betid3, l_betid2, kupon2, valuta, udsted, invsektor, daekobl, datat, time]
+# No key declared, deliberately: at 569.5M rows this is by far the largest
+# table in the connector, and any key-bearing audit (unique, key_shrink) makes
+# the runtime hash an 11-column VARCHAR tuple per row — ~12GB+ of hash table,
+# which OOMs the 16GB Actions runner and takes the whole job down with it
+# before the DAG can write run.json (runs 20260714-050601 SIGKILL -9,
+# 20260714-173036 SIGTERM -15, both on this node). Same shape as the compiled
+# audit for `dnvpdkf`, the largest table compile-checks did emit: rows and
+# temporal only. Grain here is unprofiled anyway — the provisional key put the
+# `value` measure in the grain, so it asserted nothing worth the runner.
+# Restore a key-bearing audit only once the model settles a real grain AND the
+# runtime can do the distinct count without holding it all in memory.
 temporal: time
 checks:
-  - kind: unique
-    columns: [value, typreal, l_betid3, l_betid2, kupon2, valuta, udsted, invsektor, daekobl, datat, time]
   - kind: row_floor
     min: 10
 regression:
   row_shrink_tolerance: 0.1
-  key_shrink_tolerance: 0.1
   temporal_monotonic: true

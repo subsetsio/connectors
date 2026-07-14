@@ -18,8 +18,8 @@ tests:
   - not_null: date
     reason: the data page reports stop-date coverage for every accepted location
     certainty: 95
-  - matches: {col: date, pattern: '^([0-9]{4}-[0-9]{2}-[0-9]{2}|NA)$'}
-    reason: documented standardized stop date is YYYY-MM-DD; some source rows may carry NA
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: documented standardized stop date is YYYY-MM-DD; the source's NA is decoded to null by the download and nulls are exempt here
     certainty: 85
   - row_count: {min: 1000}
     reason: the smallest collected location has more than 6,000 stops; below 1,000 indicates truncation or parse failure

@@ -245,7 +245,9 @@ def _availability_years(entity_id: str, version: str) -> range:
     return range(start, end + 1)
 
 
-def _availability_values(entity_id: str, version: str, key: str) -> dict[str, list[str]]:
+def _availability_values(
+    entity_id: str, version: str, key: str | None = None
+) -> dict[str, list[str]]:
     """Per-slice allowed values, keyed by dimension id."""
     regions = _availability(entity_id, version, key).get("cubeRegions", [])
     if not regions:
@@ -311,14 +313,19 @@ def _fetch_key_slices(
     SSSU answers 500 for slices that are too large to render, and the size is
     driven by the series count rather than the time range — so a slice that the
     yearly requests can't shrink is split along its own availability instead.
+
+    An all-empty key goes straight to the split: that request is the unsliced one
+    `fetch_one` has already tried.
     """
-    key = ".".join(key_parts)
-    content = _fetch_csv(f"{SDMX_BASE}/data/SSSU,{entity_id},{version}/{key}")
-    if content is not None:
-        if _csv_row_count(content) == 0:
-            return 0
-        _save_sdmx_csv(content, node_id, fragment=_fragment_name(dimensions, key_parts))
-        return 1
+    # Both endpoints want the key omitted entirely rather than left all-empty.
+    key = ".".join(key_parts) if any(key_parts) else None
+    if key is not None:
+        content = _fetch_csv(f"{SDMX_BASE}/data/SSSU,{entity_id},{version}/{key}")
+        if content is not None:
+            if _csv_row_count(content) == 0:
+                return 0
+            _save_sdmx_csv(content, node_id, fragment=_fragment_name(dimensions, key_parts))
+            return 1
 
     if depth >= MAX_SPLIT_DEPTH:
         return 0

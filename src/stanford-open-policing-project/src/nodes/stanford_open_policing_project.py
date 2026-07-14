@@ -7,16 +7,23 @@ then streams CSV rows to a Parquet file with a few provenance columns.
 Transforms type and select columns after profiling the real raw assets.
 
 Raw is Parquet with every source column typed `string`, so the read side does
-no type inference at all. The CSVs are R exports: missing cells carry the
-literal `NA`, which is indistinguishable from data until a value that isn't a
-date/time/number shows up. NDJSON made that fatal — read_json_auto infers from
-a sample of the file head, so a column whose first rows all parse as times is
-bound TIME and the scan then dies on the first `NA` deeper in the file (and no
-SQL cast can help: the failure is in the read, before the cast). Parquet is
-self-describing, so the declared string type IS the read type for every file
-and every future run. `NA` is preserved verbatim rather than nulled — it sits
-alongside genuine empty cells here (mt-statewide has both), and reading it as
-missing is a call for the model, not the download.
+no type inference at all, and the source's `NA` is decoded to null.
+
+Both details are load-bearing. The CSVs are R exports, so a missing cell is the
+literal `NA` — in numeric columns too (`lat`, `subject_age`), where it cannot
+be a value. Under NDJSON that was fatal: read_json_auto infers types from a
+sample of the file head, so a column whose first rows all parse as times was
+bound TIME and the scan then died on the first `NA` deeper in the file (3 such
+rows out of 36845 killed vt-burlington). No SQL cast can help — the failure is
+in the read, before the cast. Parquet is self-describing, so the declared
+string type IS the read type, for every file and every future run.
+
+Decoding `NA` to null then lets the model verify pure casts on the full scan
+(it exempts nulls but not sentinels), which is what recovers real DATE/DOUBLE
+types downstream instead of stranding every column at VARCHAR. Only the exact
+uppercase `NA` is a sentinel: `na` and `N/A` occur as ordinary free text and
+are left alone, as are genuine empty cells, which are distinct from `NA` here
+(mt-statewide carries both).
 """
 
 from __future__ import annotations
@@ -40,6 +47,8 @@ PREFIX = f"{SLUG}-"
 DATA_PAGE = "https://openpolicing.stanford.edu/data/"
 HEADERS = {"User-Agent": "subsets-factory/1.0"}
 _BATCH_ROWS = 50_000
+# R's missing literal, and empty cells. Exact case only — "na"/"N/A" are data.
+_NULL_VALUES = frozenset({"", "NA"})
 
 
 def fetch_one(node_id: str) -> None:
@@ -126,7 +135,7 @@ def _write_rows(reader, writer, schema, fieldnames, entity_id, source_file, memb
         buf["_row_number"].append(row_number)
         for key in fieldnames:
             value = row.get(key)
-            buf[key].append(value if value != "" else None)
+            buf[key].append(None if value in _NULL_VALUES else value)
         written += 1
         if len(buf["_row_number"]) >= _BATCH_ROWS:
             _flush(writer, schema, buf)
