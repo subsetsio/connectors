@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-enqpat-det`. Regenerate after model-verify.
+key: [geo, pcs, quantile, compare_time, quantile_measure, enqpat_measure, time_period, deg_urb_unit, tph, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, pcs, quantile, compare_time, quantile_measure, enqpat_measure, deg_urb_unit, tph, age, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: pcs
+    type: VARCHAR
+  - name: quantile
+    type: VARCHAR
+  - name: compare_time
+    type: VARCHAR
+  - name: quantile_measure
+    type: VARCHAR
+  - name: enqpat_measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: deg_urb_unit
+    type: VARCHAR
+  - name: tph
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

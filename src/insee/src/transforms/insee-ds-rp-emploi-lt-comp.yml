@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-rp-emploi-lt-comp`. Regenerate after model-verify.
+# caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+key: [geo, pcs, emp_activity, sex, empform, freq, time_period, rp_measure, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, pcs, emp_activity, sex, empform, freq, rp_measure, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: pcs
+    type: VARCHAR
+  - name: emp_activity
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: empform
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: rp_measure
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

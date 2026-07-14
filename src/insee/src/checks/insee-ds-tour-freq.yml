@@ -1,0 +1,42 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-tour-freq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, seasonality, equip, tour_measure, hotel_sta, freq, time_period, unit_measure, activity, tour_resid, unit_loc_ranking, obs_measure, obs_status]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, seasonality, equip, tour_measure, hotel_sta, freq, time_period, unit_measure, activity, tour_resid, unit_loc_ranking, obs_measure, obs_status]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: seasonality
+  - kind: not_null
+    col: equip
+  - kind: not_null
+    col: tour_measure
+  - kind: not_null
+    col: hotel_sta
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: tour_resid
+  - kind: not_null
+    col: unit_loc_ranking
+  - kind: not_null
+    col: obs_measure
+  - kind: not_null
+    col: obs_status
+  - kind: row_floor
+    min: 93521
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

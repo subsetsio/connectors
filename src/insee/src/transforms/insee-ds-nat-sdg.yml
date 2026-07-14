@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-nat-sdg`. Regenerate after model-verify.
+key: [geo, type_indicator_sdg, pcs, base_per, sdg, sex, empsta, time_period, indicator_sdg, unit_measure, composite_breakdown, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, type_indicator_sdg, pcs, base_per, sdg, sex, empsta, indicator_sdg, unit_measure, composite_breakdown, age, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: type_indicator_sdg
+    type: VARCHAR
+  - name: pcs
+    type: VARCHAR
+  - name: base_per
+    type: VARCHAR
+  - name: sdg
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: empsta
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: indicator_sdg
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: composite_breakdown
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-ipc-princ`. Regenerate after model-verify.
+key: [geo, seasonal_adjust, base_per, product_group, coicop_2018, idx_type, tph_cpi, freq, time_period, unit_measure, ind_type, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, seasonal_adjust, base_per, product_group, coicop_2018, idx_type, tph_cpi, freq, unit_measure, ind_type, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: seasonal_adjust
+    type: VARCHAR
+  - name: base_per
+    type: BIGINT
+  - name: product_group
+    type: VARCHAR
+  - name: coicop_2018
+    type: VARCHAR
+  - name: idx_type
+    type: VARCHAR
+  - name: tph_cpi
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: ind_type
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

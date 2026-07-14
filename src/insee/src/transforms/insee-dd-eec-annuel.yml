@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-dd-eec-annuel`. Regenerate after model-verify.
+key: [pcs, immi, eec_measure, sex, educ, underemp, empform, unempdur, compohalo, empsta, time_period, wktime, activity, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, pcs, immi, eec_measure, sex, educ, underemp, empform, unempdur, compohalo, empsta, wktime, activity, age, obs_measure, obs_status]
+columns:
+  - name: pcs
+    type: VARCHAR
+  - name: immi
+    type: VARCHAR
+  - name: eec_measure
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: educ
+    type: VARCHAR
+  - name: underemp
+    type: VARCHAR
+  - name: empform
+    type: VARCHAR
+  - name: unempdur
+    type: VARCHAR
+  - name: compohalo
+    type: VARCHAR
+  - name: empsta
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: wktime
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

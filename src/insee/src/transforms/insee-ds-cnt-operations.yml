@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-cnt-operations`. Regenerate after model-verify.
+key: [time_period, activity, sto, ref_sector, prices]
+temporal: time_period
+sort: [time_period, activity, sto, ref_sector, prices]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: seasonal_adjust
+    type: VARCHAR
+  - name: accounting_entry
+    type: VARCHAR
+  - name: prices
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: ref_sector
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: sto
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

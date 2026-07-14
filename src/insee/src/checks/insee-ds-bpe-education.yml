@@ -1,0 +1,44 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-bpe-education`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [facility_sdom, boarding_school, rpi_type, ep, facility_dom, geo, bpe_measure, canteen, cpge, facility_type, school_sector, time_period, unit_measure, obs_measure]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [facility_sdom, boarding_school, rpi_type, ep, facility_dom, geo, bpe_measure, canteen, cpge, facility_type, school_sector, time_period, unit_measure, obs_measure]
+  - kind: not_null
+    col: facility_sdom
+  - kind: not_null
+    col: boarding_school
+  - kind: not_null
+    col: rpi_type
+  - kind: not_null
+    col: ep
+  - kind: not_null
+    col: facility_dom
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: bpe_measure
+  - kind: not_null
+    col: canteen
+  - kind: not_null
+    col: cpge
+  - kind: not_null
+    col: facility_type
+  - kind: not_null
+    col: school_sector
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: obs_measure
+  - kind: row_floor
+    min: 823156
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

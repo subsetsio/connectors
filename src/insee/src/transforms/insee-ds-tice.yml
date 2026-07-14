@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-tice`. Regenerate after model-verify.
+key: [tice_measure, time_period, activity, nb_empl, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, tice_measure, activity, nb_empl, obs_measure, obs_status]
+columns:
+  - name: tice_measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: activity
+    type: VARCHAR
+  - name: nb_empl
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

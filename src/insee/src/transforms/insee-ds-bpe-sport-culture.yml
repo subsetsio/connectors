@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-bpe-sport-culture`. Regenerate after model-verify.
+# caution: Some source dimensions or status fields are nullable in raw data; the declared grain uses only non-null dimensions.
+key: [lighted, sanitary, sanitary_accessibility, facility_sdom, seasonal_opening, free_access, multiplex_cinema, facility_dom, indoor, geo, bpe_measure, locker_room_accessibility, shower, facility_type, practice_area_accessibility, time_period, unit_measure, erp_category, obs_measure]
+temporal: time_period
+sort: [time_period, lighted, sanitary, sanitary_accessibility, facility_sdom, seasonal_opening, free_access, multiplex_cinema, facility_dom, indoor, geo, bpe_measure, locker_room_accessibility, shower, facility_type, practice_area_accessibility, unit_measure, erp_category, obs_measure]
+columns:
+  - name: lighted
+    type: VARCHAR
+  - name: sanitary
+    type: VARCHAR
+  - name: sanitary_accessibility
+    type: VARCHAR
+  - name: facility_sdom
+    type: VARCHAR
+  - name: seasonal_opening
+    type: VARCHAR
+  - name: free_access
+    type: VARCHAR
+  - name: multiplex_cinema
+    type: VARCHAR
+  - name: facility_dom
+    type: VARCHAR
+  - name: indoor
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: bpe_measure
+    type: VARCHAR
+  - name: locker_room_accessibility
+    type: VARCHAR
+  - name: shower
+    type: VARCHAR
+  - name: facility_type
+    type: VARCHAR
+  - name: practice_area_accessibility
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: erp_category
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON

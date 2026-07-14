@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-bpe`. Regenerate after model-verify.
+key: [geo, facility_type, facility_sdom, facility_dom]
+temporal: time_period
+sort: [time_period, geo, facility_type, facility_sdom, facility_dom]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: bpe_measure
+    type: VARCHAR
+  - name: facility_sdom
+    type: VARCHAR
+  - name: facility_type
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: facility_dom
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

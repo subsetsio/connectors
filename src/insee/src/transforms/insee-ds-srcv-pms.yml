@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-srcv-pms`. Regenerate after model-verify.
+key: [geo, pcs, sex, srcv_hlth_sph, srcv_measure, empsta_enq, time_period, quantile_nivvie, tph, educ, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, pcs, sex, srcv_hlth_sph, srcv_measure, empsta_enq, quantile_nivvie, tph, educ, age, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: pcs
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: srcv_hlth_sph
+    type: VARCHAR
+  - name: srcv_measure
+    type: VARCHAR
+  - name: empsta_enq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: quantile_nivvie
+    type: VARCHAR
+  - name: tph
+    type: VARCHAR
+  - name: educ
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

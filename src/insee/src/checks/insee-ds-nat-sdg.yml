@@ -1,0 +1,44 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-nat-sdg`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, type_indicator_sdg, pcs, base_per, sdg, sex, empsta, time_period, indicator_sdg, unit_measure, composite_breakdown, age, obs_measure, obs_status]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, type_indicator_sdg, pcs, base_per, sdg, sex, empsta, time_period, indicator_sdg, unit_measure, composite_breakdown, age, obs_measure, obs_status]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: type_indicator_sdg
+  - kind: not_null
+    col: pcs
+  - kind: not_null
+    col: base_per
+  - kind: not_null
+    col: sdg
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: empsta
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: indicator_sdg
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: composite_breakdown
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: obs_measure
+  - kind: not_null
+    col: obs_status
+  - kind: row_floor
+    min: 3911
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

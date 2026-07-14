@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-estimation-population`. Regenerate after model-verify.
+key: [geo, seasonal_adjust, sex, freq, time_period, unit_measure, ep_measure, ref_period, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, seasonal_adjust, sex, freq, unit_measure, ep_measure, ref_period, age, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: seasonal_adjust
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: ep_measure
+    type: VARCHAR
+  - name: ref_period
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

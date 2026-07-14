@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-ticm-pratiques`. Regenerate after model-verify.
+key: [ticm_measure, sex, freq, empsta, time_period, educ, pcs_ese, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, ticm_measure, sex, freq, empsta, educ, pcs_ese, age, obs_measure, obs_status]
+columns:
+  - name: ticm_measure
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: empsta
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: educ
+    type: VARCHAR
+  - name: pcs_ese
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

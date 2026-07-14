@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-tour-freq`. Regenerate after model-verify.
+key: [geo, seasonality, equip, tour_measure, hotel_sta, freq, time_period, unit_measure, activity, tour_resid, unit_loc_ranking, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, seasonality, equip, tour_measure, hotel_sta, freq, unit_measure, activity, tour_resid, unit_loc_ranking, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: seasonality
+    type: VARCHAR
+  - name: equip
+    type: VARCHAR
+  - name: tour_measure
+    type: VARCHAR
+  - name: hotel_sta
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: tour_resid
+    type: VARCHAR
+  - name: unit_loc_ranking
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

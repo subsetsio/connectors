@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-tour-cap`. Regenerate after model-verify.
+key: [geo, tour_measure, freq, time_period, activity, unit_loc_ranking, l_stay, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, tour_measure, freq, activity, unit_loc_ranking, l_stay, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: tour_measure
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: activity
+    type: VARCHAR
+  - name: unit_loc_ranking
+    type: VARCHAR
+  - name: l_stay
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

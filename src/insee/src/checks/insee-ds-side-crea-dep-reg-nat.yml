@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-side-crea-dep-reg-nat`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, activity, time_period, legal_form, side_measure]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, activity, time_period, legal_form, side_measure]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: legal_form
+  - kind: not_null
+    col: side_measure
+  - kind: row_floor
+    min: 137406
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

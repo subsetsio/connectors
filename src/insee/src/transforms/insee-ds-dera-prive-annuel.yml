@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-dera-prive-annuel`. Regenerate after model-verify.
+# caution: Some source dimensions or status fields are nullable in raw data; the declared grain uses only non-null dimensions.
+key: [geo, number_empl, quantile, sex, freq, time_period, unit_measure, wktime, dera_measure, pcs_ese, activity, age, obs_measure]
+temporal: time_period
+sort: [time_period, geo, number_empl, quantile, sex, freq, unit_measure, wktime, dera_measure, pcs_ese, activity, age, obs_measure]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: number_empl
+    type: VARCHAR
+  - name: quantile
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: wktime
+    type: VARCHAR
+  - name: dera_measure
+    type: VARCHAR
+  - name: pcs_ese
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON

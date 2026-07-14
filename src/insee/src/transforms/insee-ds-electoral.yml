@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-electoral`. Regenerate after model-verify.
+# caution: Some source dimensions or status fields are nullable in raw data; the declared grain uses only non-null dimensions.
+key: [geo, nationality, reu_list_type, reu_reason_reg, sex, reu_reason_rmv, freq, time_period, reu_election_type, reu_measure, age, obs_measure]
+temporal: time_period
+sort: [time_period, geo, nationality, reu_list_type, reu_reason_reg, sex, reu_reason_rmv, freq, reu_election_type, reu_measure, age, obs_measure]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: reu_list_type
+    type: VARCHAR
+  - name: reu_reason_reg
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: reu_reason_rmv
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: reu_election_type
+    type: VARCHAR
+  - name: reu_measure
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON

@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-rp-logement-dom-princ`. Regenerate after model-verify.
+# caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+# caution: Some source dimensions or status fields are nullable in raw data; the declared grain uses only non-null dimensions.
+key: [geo, ww, aircond, elec, bainwc, tdw, wss, freq, time_period, rp_measure, ocs, sobo, obs_measure]
+temporal: time_period
+sort: [time_period, geo, ww, aircond, elec, bainwc, tdw, wss, freq, rp_measure, ocs, sobo, obs_measure]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: ww
+    type: VARCHAR
+  - name: aircond
+    type: VARCHAR
+  - name: elec
+    type: VARCHAR
+  - name: bainwc
+    type: VARCHAR
+  - name: tdw
+    type: VARCHAR
+  - name: wss
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: rp_measure
+    type: VARCHAR
+  - name: ocs
+    type: VARCHAR
+  - name: sobo
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON

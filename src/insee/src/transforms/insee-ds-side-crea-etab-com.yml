@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-side-crea-etab-com`. Regenerate after model-verify.
+# caution: Raw extract contains repeated variable/modality rows and no non-null row key is asserted for the pass-through table.
+key: []
+columns:
+  - name: cod_var
+    type: VARCHAR
+  - name: lib_var
+    type: VARCHAR
+  - name: cod_mod
+    type: VARCHAR
+  - name: lib_mod
+    type: VARCHAR
+  - name: obs_value
+    type: JSON
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_status
+    type: JSON

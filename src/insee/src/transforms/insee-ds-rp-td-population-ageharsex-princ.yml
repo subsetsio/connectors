@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-rp-td-population-ageharsex-princ`. Regenerate after model-verify.
+# caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+key: [age, geo, har, sex]
+temporal: time_period
+sort: [time_period, age, geo, har, sex]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: har
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: rp_measure
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

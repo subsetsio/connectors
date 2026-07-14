@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-ec-deces`. Regenerate after model-verify.
+# caution: Some source dimensions or status fields are nullable in raw data; the declared grain uses only non-null dimensions.
+key: [geo, ec_measure, sex, dth_place, freq, time_period, age, obs_measure]
+temporal: time_period
+sort: [time_period, geo, ec_measure, sex, dth_place, freq, age, obs_measure]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: ec_measure
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: dth_place
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON

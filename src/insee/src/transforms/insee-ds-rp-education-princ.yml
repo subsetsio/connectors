@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-rp-education-princ`. Regenerate after model-verify.
+# caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+key: [geo, age, sex, stud, time_period]
+temporal: time_period
+sort: [time_period, geo, age, sex, stud]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: stud
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: stud_area
+    type: VARCHAR
+  - name: rp_measure
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

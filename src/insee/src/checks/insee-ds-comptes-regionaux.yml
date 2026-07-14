@@ -1,0 +1,42 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-comptes-regionaux`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, ref_area, accounting_entry, prices, freq, time_period, counterpart_area, unit_measure, valuation, activity, sto, obs_measure, obs_status]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, ref_area, accounting_entry, prices, freq, time_period, counterpart_area, unit_measure, valuation, activity, sto, obs_measure, obs_status]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: ref_area
+  - kind: not_null
+    col: accounting_entry
+  - kind: not_null
+    col: prices
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: counterpart_area
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: valuation
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: sto
+  - kind: not_null
+    col: obs_measure
+  - kind: not_null
+    col: obs_status
+  - kind: row_floor
+    min: 98413
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,34 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-side-eqdemo-a21`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, freq, side_measure, time_period, activity, legal_form, company_level, obs_measure, obs_status]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, freq, side_measure, time_period, activity, legal_form, company_level, obs_measure, obs_status]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: side_measure
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: legal_form
+  - kind: not_null
+    col: company_level
+  - kind: not_null
+    col: obs_measure
+  - kind: not_null
+    col: obs_status
+  - kind: row_floor
+    min: 3690
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

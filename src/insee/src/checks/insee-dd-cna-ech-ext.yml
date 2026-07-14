@@ -1,0 +1,40 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-dd-cna-ech-ext`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [transformation, accounting_entry, prices, product, freq, ref_sector, time_period, counterpart_area, unit_measure, sto, obs_measure, obs_status]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [transformation, accounting_entry, prices, product, freq, ref_sector, time_period, counterpart_area, unit_measure, sto, obs_measure, obs_status]
+  - kind: not_null
+    col: transformation
+  - kind: not_null
+    col: accounting_entry
+  - kind: not_null
+    col: prices
+  - kind: not_null
+    col: product
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: ref_sector
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: counterpart_area
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: sto
+  - kind: not_null
+    col: obs_measure
+  - kind: not_null
+    col: obs_status
+  - kind: row_floor
+    min: 37182
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

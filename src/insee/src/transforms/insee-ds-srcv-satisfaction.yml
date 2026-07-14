@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-srcv-satisfaction`. Regenerate after model-verify.
+key: [pcs, decile_nivvie, srcv_nb_diff, sex, srcv_hlth_sph, srcv_measure, srcv_satisfnote, educ, tph, geo, nationality_type, empsta_enq, time_period, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, pcs, decile_nivvie, srcv_nb_diff, sex, srcv_hlth_sph, srcv_measure, srcv_satisfnote, educ, tph, geo, nationality_type, empsta_enq, age, obs_measure, obs_status]
+columns:
+  - name: pcs
+    type: VARCHAR
+  - name: decile_nivvie
+    type: VARCHAR
+  - name: srcv_nb_diff
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: srcv_hlth_sph
+    type: VARCHAR
+  - name: srcv_measure
+    type: VARCHAR
+  - name: srcv_satisfnote
+    type: VARCHAR
+  - name: educ
+    type: VARCHAR
+  - name: tph
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: nationality_type
+    type: VARCHAR
+  - name: empsta_enq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

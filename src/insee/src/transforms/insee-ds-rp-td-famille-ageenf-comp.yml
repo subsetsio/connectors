@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-rp-td-famille-ageenf-comp`. Regenerate after model-verify.
+# caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+key: [geo, civil_status, pcs, fst, nationality_type, time_period, rp_measure, preffn, tfn, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, civil_status, pcs, fst, nationality_type, rp_measure, preffn, tfn, age, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: civil_status
+    type: VARCHAR
+  - name: pcs
+    type: VARCHAR
+  - name: fst
+    type: BIGINT
+  - name: nationality_type
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: rp_measure
+    type: VARCHAR
+  - name: preffn
+    type: VARCHAR
+  - name: tfn
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

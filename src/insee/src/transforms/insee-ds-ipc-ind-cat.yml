@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-ipc-ind-cat`. Regenerate after model-verify.
+key: [pcs, product_group, tsh, tph, geo, seasonal_adjust, base_per, idx_type, freq, time_period, unit_measure, ind_type, quantile_nivvie, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, pcs, product_group, tsh, tph, geo, seasonal_adjust, base_per, idx_type, freq, unit_measure, ind_type, quantile_nivvie, age, obs_measure, obs_status]
+columns:
+  - name: pcs
+    type: VARCHAR
+  - name: product_group
+    type: BIGINT
+  - name: tsh
+    type: VARCHAR
+  - name: tph
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: seasonal_adjust
+    type: VARCHAR
+  - name: base_per
+    type: BIGINT
+  - name: idx_type
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: ind_type
+    type: VARCHAR
+  - name: quantile_nivvie
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

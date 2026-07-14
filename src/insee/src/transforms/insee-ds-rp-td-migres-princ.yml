@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-rp-td-migres-princ`. Regenerate after model-verify.
+# caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+key: [prev_res_area, geo, age, sex, nationality_type]
+temporal: time_period
+sort: [time_period, prev_res_area, geo, age, sex, nationality_type]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: prev_res_area
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: nationality_type
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: rp_measure
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

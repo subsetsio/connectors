@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-enqpat-transm`. Regenerate after model-verify.
+key: [pcs, amount_size, nat_aide, transm_type, geo, quantile, period_aide, quantile_measure, enqpat_measure, time_period, nat_her_don, pers_orig_transm, age, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, pcs, amount_size, nat_aide, transm_type, geo, quantile, period_aide, quantile_measure, enqpat_measure, nat_her_don, pers_orig_transm, age, obs_measure, obs_status]
+columns:
+  - name: pcs
+    type: VARCHAR
+  - name: amount_size
+    type: VARCHAR
+  - name: nat_aide
+    type: VARCHAR
+  - name: transm_type
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: quantile
+    type: VARCHAR
+  - name: period_aide
+    type: VARCHAR
+  - name: quantile_measure
+    type: VARCHAR
+  - name: enqpat_measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: nat_her_don
+    type: VARCHAR
+  - name: pers_orig_transm
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

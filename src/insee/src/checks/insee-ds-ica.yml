@@ -1,0 +1,36 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-ica`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [seasonal_adjust, base_per, idx_type, indicator, freq, time_period, marche, activity, obs_measure, obs_status]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [seasonal_adjust, base_per, idx_type, indicator, freq, time_period, marche, activity, obs_measure, obs_status]
+  - kind: not_null
+    col: seasonal_adjust
+  - kind: not_null
+    col: base_per
+  - kind: not_null
+    col: idx_type
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: marche
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: obs_measure
+  - kind: not_null
+    col: obs_status
+  - kind: row_floor
+    min: 444260
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

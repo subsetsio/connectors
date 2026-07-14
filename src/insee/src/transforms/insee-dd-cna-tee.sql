@@ -1,0 +1,24 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: National accounts datacubes contain multiple accounting concepts, sectors, transformations, price bases, and units in one long table; filter the relevant dimensions before aggregating observations.
+SELECT
+    "TRANSFORMATION" AS transformation,
+    "PRICES" AS prices,
+    "MATURITY" AS maturity,
+    "VALUATION" AS valuation,
+    "STO" AS sto,
+    "CONSOLIDATION" AS consolidation,
+    "ACCOUNTING_ENTRY" AS accounting_entry,
+    "FREQ" AS freq,
+    "REF_SECTOR" AS ref_sector,
+    CAST("TIME_PERIOD" AS BIGINT) AS time_period,
+    "COUNTERPART_AREA" AS counterpart_area,
+    "UNIT_MEASURE" AS unit_measure,
+    "COUNTERPART_SECTOR" AS counterpart_sector,
+    "INSTR_ASSET" AS instr_asset,
+    "OBS_MEASURE" AS obs_measure,
+    "OBS_VALUE" AS obs_value,
+    "OBS_STATUS" AS obs_status
+FROM "insee-dd-cna-tee"

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-filosofi-sage-log-tp-nivvie`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, age_gp, sex, tsh, unit_measure]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, age_gp, sex, tsh, unit_measure]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: age_gp
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: tsh
+  - kind: not_null
+    col: unit_measure
+  - kind: row_floor
+    min: 1344
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

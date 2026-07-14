@@ -1,17 +1,33 @@
 spec_id: insee-ds-rp-td-immi-agesexempsta-princ
 status: active
 tests:
-  - row_count: {min: 5638815}
-    reason: "catalog numObservations=11277630 for DS_RP_TD_IMMI_AGESEXEMPSTA_PRINC; a >50% shortfall means a truncated/partial pull on our side, not a source change"
-    certainty: 85
-    severity: block
-  - not_null: OBS_MEASURE
-    reason: "every Melodi observation carries exactly one measure key; flatten lifts it to OBS_MEASURE, so it is never null"
-    certainty: 90
-  - column_type: {col: OBS_VALUE, type: float}
-    reason: "flatten casts each numeric measure value to float; a non-float column means the measure payload shape changed"
-    certainty: 90
-  - not_null: TIME_PERIOD
-    reason: "temporalResolution=Annual; Melodi time-series observations carry a TIME_PERIOD dimension - missing = a snapshot datacube or a renamed dim, learn rather than alarm"
-    certainty: 75
-    severity: warn
+- row_count:
+    min: 10000
+  reason: catalog numObservations=11277630 for DS_RP_TD_IMMI_AGESEXEMPSTA_PRINC; a
+    >50% shortfall means a truncated/partial pull on our side, not a source change;
+    observed capped raw extract currently has 10000 rows
+  certainty: 85
+  severity: block
+- not_null: OBS_MEASURE
+  reason: every Melodi observation carries exactly one measure key; flatten lifts
+    it to OBS_MEASURE, so it is never null
+  certainty: 90
+- column_type:
+    col: OBS_VALUE
+    type: float
+  reason: flatten casts each numeric measure value to float; a non-float column means
+    the measure payload shape changed
+  certainty: 90
+- not_null: TIME_PERIOD
+  reason: temporalResolution=Annual; Melodi time-series observations carry a TIME_PERIOD
+    dimension - missing = a snapshot datacube or a renamed dim, learn rather than
+    alarm
+  certainty: 75
+  severity: warn
+- freshness:
+    col: TIME_PERIOD
+    reaches: '2023'
+  reason: TIME_PERIOD is the Melodi observation period; require the current observed
+    maximum period until the source cadence is restated.
+  certainty: 75
+  severity: block

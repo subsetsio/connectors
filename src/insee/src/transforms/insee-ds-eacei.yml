@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-eacei`. Regenerate after model-verify.
+key: [geo, compare_time, eacei_measure, time_period, unit_measure, nb_empl, activity, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, compare_time, eacei_measure, unit_measure, nb_empl, activity, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: compare_time
+    type: VARCHAR
+  - name: eacei_measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: nb_empl
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

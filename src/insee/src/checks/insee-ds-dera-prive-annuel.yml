@@ -1,0 +1,42 @@
+# compiled by `hardened compile-checks` — post-publish audit of `insee-ds-dera-prive-annuel`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo, number_empl, quantile, sex, freq, time_period, unit_measure, wktime, dera_measure, pcs_ese, activity, age, obs_measure]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [geo, number_empl, quantile, sex, freq, time_period, unit_measure, wktime, dera_measure, pcs_ese, activity, age, obs_measure]
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: number_empl
+  - kind: not_null
+    col: quantile
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: wktime
+  - kind: not_null
+    col: dera_measure
+  - kind: not_null
+    col: pcs_ese
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: obs_measure
+  - kind: row_floor
+    min: 16743
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

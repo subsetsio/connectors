@@ -1,0 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Census tables can include geographic aggregates and categorical totals together with detailed categories; filter geography and category dimensions before summing observations.
+SELECT
+    "GEO" AS geo,
+    "CIVIL_STATUS" AS civil_status,
+    "PCS" AS pcs,
+    CAST("FST" AS BIGINT) AS fst,
+    "NATIONALITY_TYPE" AS nationality_type,
+    CAST("TIME_PERIOD" AS BIGINT) AS time_period,
+    "RP_MEASURE" AS rp_measure,
+    "PREFFN" AS preffn,
+    "TFN" AS tfn,
+    "AGE" AS age,
+    "OBS_MEASURE" AS obs_measure,
+    "OBS_VALUE" AS obs_value,
+    "OBS_STATUS" AS obs_status
+FROM "insee-ds-rp-td-famille-ageenf-comp"

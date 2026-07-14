@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-dd-cna-sut`. Regenerate after model-verify.
+# caution: National accounts datacubes contain multiple accounting concepts, sectors, transformations, price bases, and units in one long table; filter the relevant dimensions before aggregating observations.
+key: [accounting_entry, prices, product, freq, ref_sector, time_period, counterpart_area, unit_measure, valuation, instr_asset, activity, sto, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, accounting_entry, prices, product, freq, ref_sector, counterpart_area, unit_measure, valuation, instr_asset, activity, sto, obs_measure, obs_status]
+columns:
+  - name: accounting_entry
+    type: VARCHAR
+  - name: prices
+    type: VARCHAR
+  - name: product
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: ref_sector
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: counterpart_area
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: valuation
+    type: VARCHAR
+  - name: instr_asset
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: sto
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-flores-pe`. Regenerate after model-verify.
+key: [geo, activity, obs_status]
+temporal: time_period
+sort: [time_period, geo, activity, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: flores_measure
+    type: VARCHAR
+  - name: legal_form_with_public
+    type: BIGINT
+  - name: time_period
+    type: BIGINT
+  - name: activity
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

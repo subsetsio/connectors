@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-side-crea-dep-reg-nat`. Regenerate after model-verify.
+key: [geo, activity, time_period, legal_form, side_measure]
+temporal: time_period
+sort: [time_period, geo, activity, legal_form, side_measure]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: side_measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: activity
+    type: VARCHAR
+  - name: legal_form
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

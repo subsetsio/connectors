@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-social-economy`. Regenerate after model-verify.
+key: [activity, social_economy_measure, legal_form, time_period, sex]
+temporal: time_period
+sort: [time_period, activity, social_economy_measure, legal_form, sex]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: social_economy_measure
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: legal_form
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

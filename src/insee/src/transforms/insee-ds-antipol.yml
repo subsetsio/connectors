@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-antipol`. Regenerate after model-verify.
+key: [geo, number_empl, compare_time, envt_depinv, envt_domain, time_period, activity, obs_measure, obs_status]
+temporal: time_period
+sort: [time_period, geo, number_empl, compare_time, envt_depinv, envt_domain, activity, obs_measure, obs_status]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: number_empl
+    type: VARCHAR
+  - name: compare_time
+    type: VARCHAR
+  - name: envt_depinv
+    type: BIGINT
+  - name: envt_domain
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: activity
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR

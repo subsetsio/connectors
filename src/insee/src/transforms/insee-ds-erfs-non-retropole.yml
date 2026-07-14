@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `insee-ds-erfs-non-retropole`. Regenerate after model-verify.
+# caution: Some source dimensions or status fields are nullable in raw data; the declared grain uses only non-null dimensions.
+key: [compare_time, pcs, quantile, sex, erfs_measure, empsta_enq, time_period, tph, age, obs_measure]
+temporal: time_period
+sort: [time_period, compare_time, pcs, quantile, sex, erfs_measure, empsta_enq, tph, age, obs_measure]
+columns:
+  - name: compare_time
+    type: VARCHAR
+  - name: pcs
+    type: VARCHAR
+  - name: quantile
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: erfs_measure
+    type: VARCHAR
+  - name: empsta_enq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: tph
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: obs_measure
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON
