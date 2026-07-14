@@ -5,7 +5,7 @@
 SELECT
     CAST("jahr" AS BIGINT) AS jahr,
     "kanton",
-    "betriebsführung_ausbildung_eigentumsverhältnisse_und_weiterführung" AS betriebsf_hrung_ausbildung_eigentumsverh_ltnisse_und_weiterf_hrung,
+    "betriebsführung_ausbildung_eigentumsverhältnisse_und_weiterführung" AS management_training_ownership_succession,
     "beobachtungseinheit",
     "value",
     "cube_id",

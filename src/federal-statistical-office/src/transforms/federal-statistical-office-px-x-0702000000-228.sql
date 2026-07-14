@@ -5,7 +5,7 @@
 SELECT
     CAST("jahr" AS BIGINT) AS jahr,
     "kanton",
-    "motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen",
+    "motorisierte_fahrzeuge_nicht_motorisierte_maschinen_und_hofeinrichtungen" AS vehicles_machinery_facilities,
     "einheit",
     "value",
     "cube_id",

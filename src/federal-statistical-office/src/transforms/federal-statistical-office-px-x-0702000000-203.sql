@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "familienmitglieder",
-    "leitung_betriebseigentum_erwerbstätigkeit_und_soziale_absicherung" AS leitung_betriebseigentum_erwerbst_tigkeit_und_soziale_absicherung,
+    "leitung_betriebseigentum_erwerbstätigkeit_und_soziale_absicherung" AS management_ownership_employment_security,
     "geschlecht",
     "einheit",
     "value",
