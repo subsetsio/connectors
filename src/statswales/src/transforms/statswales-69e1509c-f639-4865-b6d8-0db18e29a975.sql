@@ -5,7 +5,7 @@
 SELECT
     CAST("Data values" AS DOUBLE) AS data_values,
     "Data description" AS data_description,
-    strptime("24 months ending", '%d/%m/%Y')::DATE AS 24_months_ending,
+    strptime("24 months ending", '%d/%m/%Y')::DATE AS "24_months_ending",
     "Area" AS area,
     "Notes" AS notes
 FROM "statswales-69e1509c-f639-4865-b6d8-0db18e29a975"

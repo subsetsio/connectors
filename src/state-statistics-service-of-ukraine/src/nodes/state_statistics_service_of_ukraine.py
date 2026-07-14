@@ -159,6 +159,7 @@ def _normalized_sdmx_csv(content: bytes) -> bytes:
     rows = []
     columns = None
     for row in reader:
+        row = [" ".join(cell.split()) for cell in row]
         if not row or not any(cell.strip() for cell in row):
             continue
         if columns is None:

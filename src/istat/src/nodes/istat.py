@@ -56,11 +56,13 @@ _MAX_REQUESTS_PER_FLOW = 200
 # response. Oversized Istat flows often hold the socket open until our read
 # timeout, so keep that probe short and let the existing time-window bisection
 # do the real download work.
-# GitHub-hosted runners intermittently spend >10s establishing TLS to Istat's
+# GitHub-hosted runners intermittently spend >30s establishing TLS to Istat's
 # SDMX endpoint; keep read caps bounded but give connection setup more room.
-_FULL_PROBE_TIMEOUT = (30.0, 45.0)
-_WINDOW_TIMEOUT = (30.0, 120.0)
-_STRUCTURE_TIMEOUT = (30.0, 180.0)
+_CONNECT_TIMEOUT = 60.0
+_FULL_PROBE_TIMEOUT = (_CONNECT_TIMEOUT, 45.0)
+_WINDOW_TIMEOUT = (_CONNECT_TIMEOUT, 120.0)
+_STRUCTURE_TIMEOUT = (_CONNECT_TIMEOUT, 180.0)
+_CONNECT_ATTEMPTS_WHEN_RETRIES_DISABLED = 2
 
 # Exceptions that mean "the server could not generate this response" -- i.e. the
 # window is too big, so split it. Raised by get() only after its own transient
@@ -136,14 +138,25 @@ def _fetch_csv(
     prior = os.environ.get("HTTP_RETRY_ATTEMPTS")
     if attempts:
         os.environ["HTTP_RETRY_ATTEMPTS"] = str(attempts)
-    _throttle()
+    url = f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/"
+    tries = _CONNECT_ATTEMPTS_WHEN_RETRIES_DISABLED if attempts == 1 else 1
     try:
-        resp = get(
-            f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/",
-            params=params,
-            headers={"Accept": CSV_ACCEPT},
-            timeout=timeout,
-        )
+        for attempt_no in range(1, tries + 1):
+            _throttle()
+            try:
+                resp = get(
+                    url,
+                    params=params,
+                    headers={"Accept": CSV_ACCEPT},
+                    timeout=timeout,
+                )
+                break
+            except httpx.ConnectTimeout:
+                if attempt_no >= tries:
+                    raise
+                print(f"[istat] {flow_id}: connect timed out — retrying once")
+        else:
+            raise RuntimeError(f"{flow_id}: request loop ended without response")
     finally:
         if attempts:
             if prior is None:
@@ -257,14 +270,25 @@ def _fetch_csv_keyed(
     prior = os.environ.get("HTTP_RETRY_ATTEMPTS")
     if attempts:
         os.environ["HTTP_RETRY_ATTEMPTS"] = str(attempts)
-    _throttle()
+    url = f"{BASE}/data/IT1,{flow_id},1.0/{key}/ALL/"
+    tries = _CONNECT_ATTEMPTS_WHEN_RETRIES_DISABLED if attempts == 1 else 1
     try:
-        resp = get(
-            f"{BASE}/data/IT1,{flow_id},1.0/{key}/ALL/",
-            params=params,
-            headers={"Accept": CSV_ACCEPT},
-            timeout=_WINDOW_TIMEOUT,
-        )
+        for attempt_no in range(1, tries + 1):
+            _throttle()
+            try:
+                resp = get(
+                    url,
+                    params=params,
+                    headers={"Accept": CSV_ACCEPT},
+                    timeout=_WINDOW_TIMEOUT,
+                )
+                break
+            except httpx.ConnectTimeout:
+                if attempt_no >= tries:
+                    raise
+                print(f"[istat] {flow_id}: connect timed out for keyed split — retrying once")
+        else:
+            raise RuntimeError(f"{flow_id}: keyed request loop ended without response")
     finally:
         if attempts:
             if prior is None:

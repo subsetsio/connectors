@@ -39,9 +39,8 @@ import subprocess
 import tempfile
 import unicodedata
 import urllib.error
-import urllib.request
 from datetime import date
-from urllib.parse import quote, unquote
+from urllib.parse import quote
 
 import py7zr
 from tenacity import (
@@ -158,15 +157,36 @@ def _ftp_download(url: str, dest: str) -> None:
 
 @_ftp_retry
 def _ftp_exists(url: str) -> bool:
-    """Probe one expected FTP file by listing its parent directory.
+    """Probe one expected FTP file with a tiny ranged read.
 
-    The PDET server sometimes stalls FTP HEAD requests from GitHub Actions.
-    Directory listings use the same FTP path as the eventual download and have
-    proven more reliable for existence checks.
+    Directory listings intermittently hang in GitHub Actions, and FTP HEAD/SIZE
+    is not consistently reliable on this server. A 6-byte ranged transfer reads
+    only the 7z magic bytes when the archive exists and returns curl code 78
+    when the expected path is absent.
     """
-    parent, name = url.rsplit("/", 1)
-    _, files = _ftp_list(parent + "/")
-    return unquote(name) in files
+    proc = subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--silent",
+            "--show-error",
+            *FTP_CURL_FLAGS,
+            "--connect-timeout",
+            "60",
+            "--max-time",
+            "120",
+            "--range",
+            "0-5",
+            url,
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if proc.returncode == 0:
+        return proc.stdout == b"7z\xbc\xaf'\x1c"
+    if proc.returncode == 78:
+        return False
+    raise subprocess.CalledProcessError(proc.returncode, proc.args, output=proc.stdout, stderr=proc.stderr)
 
 
 def _month_ints(start_year: int, start_month: int, end_year: int, end_month: int) -> list[int]:
