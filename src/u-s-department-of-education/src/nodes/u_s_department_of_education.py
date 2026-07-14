@@ -11,6 +11,15 @@ temp file under a hard size cap, and delimited files are parsed in row chunks.
 The portal publishes single resources up to ~1 GB (ArcGIS geojson/kml exports,
 shapefile archives, the CRDC bundles), and reading one of those whole is what
 OOMs the runner.
+
+Every download also carries a total deadline, not just an idle timeout. Some
+upstreams behind these resources (notably nces.ed.gov, which serves the CCD
+zips) throttle to tens of KB/s. An httpx read timeout only fires on a gap
+*between* bytes, so a host that trickles keeps the socket alive indefinitely
+and the spec never returns — which wedges the whole sequential run and gets the
+CI runner killed for "lost communication". A resource that cannot be pulled
+inside MAX_RESOURCE_SECONDS is abandoned and recorded as an error row, so the
+loss is visible in raw and the run moves on.
 """
 
 from __future__ import annotations
@@ -20,6 +29,7 @@ import json
 import os
 import re
 import tempfile
+import time
 import warnings
 import zipfile
 from collections.abc import Iterable
@@ -40,6 +50,18 @@ USER_AGENT = "subsets.io u-s-department-of-education connector"
 # so this bounds bandwidth/time rather than memory. The fattest resource we
 # actually want is the 2013-14 CRDC bundle (~592 MB).
 MAX_RESOURCE_BYTES = 640 * 1024**2
+# Total wall-clock a single resource download may take. This is a safety
+# ceiling on a *throttling upstream*, not a coverage budget: exceeding it
+# raises, and the resource is recorded as an error rather than silently
+# dropped. Sized so the fattest CCD zip (~169 MB) still lands at ~95 KB/s.
+MAX_RESOURCE_SECONDS = 1800
+# A zip member costs no bandwidth — it is already on disk. The only limits that
+# apply are disk (to extract it) and how it parses. Delimited text is read in
+# row chunks, so a fat member is bounded by CHUNK_ROWS, not its own size; the
+# cap here is purely what we are willing to spill onto a 14 GB CI disk. Gating
+# members on MAX_RESOURCE_BYTES (a *bandwidth* ceiling) silently dropped the
+# 2.3 GB / 12M-row CCD school membership file after paying to download it.
+MAX_MEMBER_TEXT_BYTES = 3 * 1024**3
 # Formats we cannot parse incrementally (Excel, JSON) must be held whole, so
 # they get a much tighter cap.
 MAX_WHOLE_FILE_BYTES = 200 * 1024**2
@@ -93,6 +115,15 @@ class UnsupportedResourceError(ValueError):
 
 class ResourceTooLargeError(ValueError):
     """Resource exceeds the byte cap for its format."""
+
+
+class ResourceTooSlowError(RuntimeError):
+    """Resource could not be pulled inside MAX_RESOURCE_SECONDS.
+
+    Deliberately not a ValueError: the too-large/unsupported cases are expected
+    and skipped quietly, but a throttled upstream is a real loss that has to
+    surface as an error row rather than vanish into the skip count.
+    """
 
 
 def _entity_id(node_id: str) -> str:
@@ -155,9 +186,14 @@ def _temp_path(suffix: str = ""):
 
 @transient_retry()
 def _stream_to_file(url: str, path: str, cap: int) -> int:
-    """Stream `url` into `path`, aborting past `cap` bytes. Returns bytes written."""
+    """Stream `url` into `path`, aborting past `cap` bytes. Returns bytes written.
+
+    The httpx timeout below only bounds the gap between two reads. A throttling
+    host never trips it, so the loop also enforces a total deadline.
+    """
     client = get_client()
     written = 0
+    deadline = time.monotonic() + MAX_RESOURCE_SECONDS
     with client.stream(
         "GET",
         url,
@@ -174,6 +210,11 @@ def _stream_to_file(url: str, path: str, cap: int) -> int:
                 written += len(chunk)
                 if written > cap:
                     raise ResourceTooLargeError(f"stream exceeded cap {cap}")
+                if time.monotonic() > deadline:
+                    raise ResourceTooSlowError(
+                        f"still streaming after {MAX_RESOURCE_SECONDS}s "
+                        f"({written} bytes of {declared or 'unknown'}) — upstream is throttling"
+                    )
                 fh.write(chunk)
     return written
 
@@ -236,6 +277,7 @@ def _read_delimited(path: str, filename: str, provenance: dict) -> Iterable[dict
     """Parse delimited text in chunks: peak memory is one chunk, not one file."""
     delimiter = _sniff_delimiter(path, filename)
     for engine in ("c", "python"):
+        emitted = 0
         try:
             reader = pd.read_csv(
                 path,
@@ -251,16 +293,29 @@ def _read_delimited(path: str, filename: str, provenance: dict) -> Iterable[dict
             for chunk in reader:
                 for record in _records_from_frame(chunk, provenance, row_number):
                     yield record
+                    emitted += 1
                     row_number += 1
             return
         except (pd.errors.ParserError, pd.errors.EmptyDataError, ValueError, UnicodeDecodeError):
             # The C engine is strict about ragged rows; retry once on the
-            # tolerant python engine before falling back to raw lines.
-            if engine == "python":
+            # tolerant python engine before falling back to raw lines. Only
+            # while nothing has been emitted, though: a parser that dies deep
+            # into a big file has already yielded those rows to the writer, and
+            # re-reading from the top would duplicate every one of them.
+            if engine == "python" or emitted:
                 break
             continue
 
     # Unparseable as a table — keep the raw lines rather than dropping the file.
+    # Same rule: only safe as a fallback when no rows went out already, so when
+    # rows are already out we keep them and say where the parse stopped.
+    if emitted:
+        yield {
+            **provenance,
+            "_subsets_record_type": "resource_error",
+            "error": f"parser failed after {emitted} rows; rest of file not read",
+        }
+        return
     with open(path, encoding="utf-8-sig", errors="replace") as fh:
         for row_number, line in enumerate(fh, start=1):
             out = dict(provenance)
@@ -337,7 +392,21 @@ def _read_zip(path: str, provenance: dict) -> Iterable[dict]:
             suffix = PurePosixPath(name).suffix.lower()
             if suffix not in PARSEABLE_EXTENSIONS:
                 continue
-            if info.file_size > MAX_RESOURCE_BYTES:
+            # Whole-file formats are bounded by RAM; delimited text is chunked,
+            # so it is bounded only by the disk we spill it to.
+            member_cap = (
+                MAX_WHOLE_FILE_BYTES
+                if suffix in EXCEL_EXTENSIONS | JSON_EXTENSIONS
+                else MAX_MEMBER_TEXT_BYTES
+            )
+            if info.file_size > member_cap:
+                # Say so in the raw rather than shrinking the corpus in silence.
+                yield {
+                    **provenance,
+                    "_subsets_record_type": "resource_error",
+                    "archive_member": name,
+                    "error": f"member is {info.file_size} bytes, over cap {member_cap}",
+                }
                 continue
             member_provenance = {**provenance, "archive_member": name}
             with _temp_path(suffix) as member_path:
