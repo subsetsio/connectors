@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "StatsWales publishes no corpus-wide schedule: each dataset carries its own published_revision.update_frequency, and the ~755 accepted datasets refresh independently (annual, quarterly, monthly and ad-hoc all coexist). That field is too sparse to schedule from — in a 60-dataset sample only 6 declared a fully-formed next-update date (the rest omit the day or the whole date), and ~15% declare update_type 'none' (closed series, no further updates). Weekly is therefore a deliberate floor rather than a source-derived period: a full corpus re-pull is a stateless ~755-CSV refresh that costs minutes, so re-pulling weekly bounds staleness to 7 days for even the fastest-moving series without needing per-dataset cadences. Revisit if the corpus grows enough to make a weekly full re-pull expensive; the per-dataset update_frequency date would be the input to a smarter schedule if the source ever populates it consistently."
 }

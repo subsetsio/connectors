@@ -25,6 +25,11 @@ CSV_HEADERS = {
     "Accept-Language": "en",
 }
 
+# Bounds on the key-slicing fallback: never split a dimension so wide that the
+# splitting costs more requests than the slice, and stop descending eventually.
+MAX_SPLIT_VALUES = 500
+MAX_SPLIT_DEPTH = 4
+
 _SPEC_TO_ENTITY = {
     f"{SLUG}-{entity_id.lower().replace('_', '-')}": entity_id
     for entity_id in ENTITY_IDS
@@ -214,16 +219,20 @@ def _year(value: str) -> int:
     return int(match.group(0))
 
 
-def _availability_years(entity_id: str, version: str) -> range:
-    url = f"{SDMX3_BASE}/availability/dataflow/SSSU/{entity_id}/{version}/all"
+def _availability(entity_id: str, version: str, key: str | None = None) -> dict:
+    path = f"{entity_id}/{version}" if key is None else f"{entity_id}/{version}/{key}"
+    url = f"{SDMX3_BASE}/availability/dataflow/SSSU/{path}/all"
     response = get(url, headers={"Accept": "application/json"}, timeout=(10.0, 120.0))
     response.raise_for_status()
     payload = response.json()
     constraints = payload.get("data", {}).get("dataConstraints", [])
     if not constraints:
         raise ValueError(f"{entity_id}: availability response has no data constraints")
+    return constraints[0]
 
-    annotations = constraints[0].get("annotations", [])
+
+def _availability_years(entity_id: str, version: str) -> range:
+    annotations = _availability(entity_id, version).get("annotations", [])
     metrics = {
         item.get("id"): item.get("title")
         for item in annotations
@@ -236,6 +245,41 @@ def _availability_years(entity_id: str, version: str) -> range:
     return range(start, end + 1)
 
 
+def _availability_values(entity_id: str, version: str, key: str) -> dict[str, list[str]]:
+    """Per-slice allowed values, keyed by dimension id."""
+    regions = _availability(entity_id, version, key).get("cubeRegions", [])
+    if not regions:
+        return {}
+    return {
+        component["id"]: [value["value"] for value in component.get("values", [])]
+        for component in regions[0].get("components", [])
+    }
+
+
+def _dimension_order(entity_id: str, version: str) -> list[str]:
+    """Key dimension ids in DSD position order (the dotted key's slot order)."""
+    url = f"{SDMX_BASE}/dataflow/SSSU/{entity_id}/{version}"
+    response = get(url, headers={"Accept": "application/json"}, timeout=(10.0, 120.0))
+    response.raise_for_status()
+    dataflows = response.json().get("data", {}).get("dataflows", [])
+    if not dataflows:
+        raise ValueError(f"{entity_id}: dataflow {version} not found upstream")
+
+    match = re.search(r"DataStructure=([^:]+):([^(]+)\(([^)]+)\)", dataflows[0]["structure"])
+    if not match:
+        raise ValueError(f"{entity_id}: cannot read DSD from {dataflows[0]['structure']!r}")
+    agency, dsd_id, dsd_version = match.groups()
+
+    dsd_url = f"{SDMX_BASE}/datastructure/{agency}/{dsd_id}/{dsd_version}?references=none"
+    dsd_response = get(dsd_url, headers={"Accept": "application/json"}, timeout=(10.0, 120.0))
+    dsd_response.raise_for_status()
+    structures = dsd_response.json().get("data", {}).get("dataStructures", [])
+    if not structures:
+        raise ValueError(f"{entity_id}: DSD {dsd_id} {dsd_version} not found upstream")
+    dimensions = structures[0]["dataStructureComponents"]["dimensionList"]["dimensions"]
+    return [item["id"] for item in sorted(dimensions, key=lambda item: item["position"])]
+
+
 def _fetch_csv(url: str) -> bytes | None:
     response = get(url, headers=CSV_HEADERS, timeout=(10.0, 900.0))
     if response.status_code >= 400:
@@ -244,6 +288,60 @@ def _fetch_csv(url: str) -> bytes | None:
     if not _looks_like_sdmx_csv(content):
         return None
     return content
+
+
+def _fragment_name(dimensions: list[str], key_parts: list[str]) -> str:
+    return "__".join(
+        f"{dimension.lower()}-{re.sub(r'[^0-9A-Za-z_]+', '-', value)}"
+        for dimension, value in zip(dimensions, key_parts)
+        if value
+    )
+
+
+def _fetch_key_slices(
+    entity_id: str,
+    version: str,
+    node_id: str,
+    dimensions: list[str],
+    key_parts: list[str],
+    depth: int,
+) -> int:
+    """Fetch one key slice, splitting on a dimension when the server can't build it.
+
+    SSSU answers 500 for slices that are too large to render, and the size is
+    driven by the series count rather than the time range — so a slice that the
+    yearly requests can't shrink is split along its own availability instead.
+    """
+    key = ".".join(key_parts)
+    content = _fetch_csv(f"{SDMX_BASE}/data/SSSU,{entity_id},{version}/{key}")
+    if content is not None:
+        if _csv_row_count(content) == 0:
+            return 0
+        _save_sdmx_csv(content, node_id, fragment=_fragment_name(dimensions, key_parts))
+        return 1
+
+    if depth >= MAX_SPLIT_DEPTH:
+        return 0
+
+    available = _availability_values(entity_id, version, key)
+    for index, dimension in enumerate(dimensions):
+        if key_parts[index]:
+            continue
+        values = available.get(dimension, [])
+        # A single-valued dimension doesn't shrink the slice; a huge one (goods
+        # codes) would cost more requests than the split can repay.
+        if not 1 < len(values) <= MAX_SPLIT_VALUES:
+            continue
+        saved = 0
+        for value in values:
+            child = list(key_parts)
+            child[index] = value
+            saved += _fetch_key_slices(
+                entity_id, version, node_id, dimensions, child, depth + 1
+            )
+        return saved
+
+    return 0
 
 
 def fetch_one(node_id: str) -> None:
@@ -263,9 +361,17 @@ def fetch_one(node_id: str) -> None:
             continue
         _save_sdmx_csv(part, node_id, fragment=str(year))
         saved += 1
+    if saved:
+        return
 
+    dimensions = _dimension_order(entity_id, version)
+    saved = _fetch_key_slices(
+        entity_id, version, node_id, dimensions, [""] * len(dimensions), 0
+    )
     if saved == 0:
-        raise ValueError(f"{entity_id}: no SDMX-CSV rows returned by full or yearly requests")
+        raise ValueError(
+            f"{entity_id}: no SDMX-CSV rows returned by full, yearly or key-sliced requests"
+        )
 
 
 DOWNLOAD_SPECS = [
