@@ -35,7 +35,7 @@ SELECT
     "XPTOT_d" AS xptot_d,
     "SOURCE_XPTOT_d" AS source_xptot_d,
     "BITARIFF" AS bitariff,
-    "TARIFF_o" AS tariff_o,
+    TRY_CAST("TARIFF_o" AS DOUBLE) AS tariff_o,
     "SOURCE_TARIFF_o" AS source_tariff_o,
     "TARIFF_d" AS tariff_d,
     "SOURCE_TARIFF_d" AS source_tariff_d,

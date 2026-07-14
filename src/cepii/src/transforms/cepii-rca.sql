@@ -10,5 +10,5 @@ SELECT
     "hs4",
     "RCA" AS rca,
     "source_file",
-    "hs2"
+    TRY_CAST("hs2" AS BIGINT) AS hs2
 FROM "cepii-rca"
