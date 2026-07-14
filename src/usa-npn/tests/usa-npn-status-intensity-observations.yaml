@@ -1,2 +1,12 @@
 spec_id: usa-npn-status-intensity-observations
-status: deferred
+status: active
+tests:
+  - not_null: observation_date
+  - column_type: {col: observation_date, type: date}
+  - row_count: {min: 1000000}
+    reason: USA-NPN status/intensity observations are an active multi-decade event feed; a small pull indicates pagination or filtering loss
+    certainty: 90
+  - freshness: {col: observation_date, reaches: today - 14d}
+    reason: Nature's Notebook observations are active and maintenance is weekly, but recent submissions can lag by several days
+    certainty: 85
+    points_outward: true

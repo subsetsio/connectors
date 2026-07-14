@@ -13,6 +13,7 @@ Authoring order is download → maintain. Before maintain has run, there are
 no MaintainSpecs and every NodeSpec executes. That's the right default for
 the first crawl.
 """
+import os
 import sys
 from pathlib import Path
 
@@ -23,6 +24,14 @@ from subsets_utils import load_nodes, validate_environment
 
 
 def main():
+    # PubMed baseline files are large enough that a child can still be parsing
+    # when the default DAG deadline hits. Use an earlier connector deadline so
+    # the runner has room to finalize a clean continuation before GitHub's hard
+    # timeout.
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        current_budget = float(os.environ.get("DAG_TIME_BUDGET", "20700") or "20700")
+        os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 18_000)))
+        os.environ.setdefault("DAG_DRAIN_TIMEOUT_S", "1800")
     validate_environment()
     workflow = load_nodes()
     workflow.run()

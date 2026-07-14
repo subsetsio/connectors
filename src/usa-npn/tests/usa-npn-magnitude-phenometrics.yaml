@@ -1,2 +1,12 @@
 spec_id: usa-npn-magnitude-phenometrics
-status: deferred
+status: active
+tests:
+  - not_null: start_date
+  - column_type: {col: start_date, type: date}
+  - row_count: {min: 100000}
+    reason: USA-NPN magnitude phenometrics is a long-running historical endpoint; a much smaller pull indicates truncation or an API shape change
+    certainty: 85
+  - freshness: {col: start_date, reaches: today - 60d}
+    reason: magnitude phenometrics summarize period starts and the current feed reaches the recent monthly period, not necessarily yesterday's observations
+    certainty: 80
+    points_outward: true

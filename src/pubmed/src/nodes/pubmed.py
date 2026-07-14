@@ -21,6 +21,7 @@ import re
 import time
 import xml.etree.ElementTree as ET
 
+import psutil
 import pyarrow as pa
 
 from subsets_utils import (
@@ -40,12 +41,24 @@ FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 # returns True until the shared time budget is exhausted, so this is a commit
 # granularity, not a whole GitHub job cap. Keep it small enough that the final
 # watchdog interrupt discards at most a modest amount of work.
-FILES_PER_RUN = 20
+FILES_PER_RUN = 10
 
 # Additional wall-clock cap for one child process. Runtime continuation still
 # owns the overall job budget; this just commits raw fragments regularly even
 # when a few large XML files parse slowly.
-MAX_NODE_SECONDS = 45 * 60
+MAX_NODE_SECONDS = 90 * 60
+
+# Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value set in
+# src/main.py. The node uses the parent process age to avoid starting a new
+# expensive file too close to the supervisor deadline.
+DEFAULT_TIME_BUDGET_S = 18_000.0
+
+# Do not begin another gzipped XML file unless the parent DAG has this much
+# budget left. A large PubMed baseline file can take tens of minutes to fetch,
+# decompress, parse, and write; starting one at the end of the DAG budget causes
+# the watchdog to kill the child and leaves the run pending instead of cleanly
+# continuing.
+MIN_PARENT_REMAINING_S = 75 * 60
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
@@ -95,6 +108,39 @@ def _discover_baseline() -> tuple[str, list[int]]:
     prefix = prefixes.pop()
     nums = sorted(int(s[-4:]) for s in stems)
     return prefix, nums
+
+
+def _parent_remaining_seconds() -> float | None:
+    """Approximate remaining supervisor budget from the parent process age."""
+    try:
+        budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
+    except ValueError:
+        budget = DEFAULT_TIME_BUDGET_S
+    try:
+        parent_started = psutil.Process(os.getppid()).create_time()
+    except Exception:
+        return None
+    return budget - max(0.0, time.time() - parent_started)
+
+
+def _defer_until_parent_deadline(remaining: float) -> bool:
+    """Return True after letting the parent cross its DAG deadline cleanly.
+
+    If a node returns True while the parent still has budget, the orchestrator
+    may immediately spawn the same node again. Near the deadline that next child
+    is likely to be interrupted. Waiting out the last short slice lets the
+    already-committed fragments stand and causes the parent to finalize a
+    needs_continuation handoff without killing an in-flight parser.
+    """
+    if remaining <= 0:
+        return True
+    sleep_s = min(remaining + 1.0, MIN_PARENT_REMAINING_S)
+    print(
+        f"parent DAG budget has only {remaining:.0f}s left; "
+        f"holding {sleep_s:.0f}s, then requesting continuation"
+    )
+    time.sleep(sleep_s)
+    return True
 
 
 def _parse_date(date_elem) -> str | None:
@@ -238,6 +284,10 @@ def fetch_citations(node_id: str):
     )
 
     for i, n in enumerate(batch):
+        parent_remaining = _parent_remaining_seconds()
+        if parent_remaining is not None and parent_remaining < MIN_PARENT_REMAINING_S:
+            return _defer_until_parent_deadline(parent_remaining)
+
         if i > 0 and time.monotonic() >= deadline:
             print(
                 f"node time cap reached after {i} files; "
