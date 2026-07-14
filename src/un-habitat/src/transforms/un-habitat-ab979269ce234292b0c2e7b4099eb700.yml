@@ -1,50 +1,16 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `un-habitat-ab979269ce234292b0c2e7b4099eb700`. Regenerate after model-verify.
-# caution: Wide table: one column per five-year period from Y2000 to Y2050, so the observation period is a column name rather than a value.
-# caution: Values from 2025 onward are projections, not observations - the underlying source is the UN World Urbanization Prospects 2018 revision.
-# caution: The area column mixes M49 regional aggregates with individual countries. Filter before averaging or regions are weighted alongside their own members.
-# caution: The last rows of the table are the source's own spreadsheet footer (a Metadata marker, the table title and a citation) carrying no area and no values.
-# caution: Values are a percentage of each area's total population, so they cannot be summed across areas.
-key: [objectid]
-sort: [objectid]
+# Share of population living in urban areas at mid-year, by country or area,
+# 2000-2050. Reshaped from the source's wide Y2000..Y2050 columns to one row
+# per (area, year). Renamed: Region__subregion__country_or_a -> area.
+key: [area, year]
+temporal: year
+sort: [year, area]
 columns:
-  - name: source_item_id
+  - name: area
     type: VARCHAR
-  - name: source_title
-    type: VARCHAR
-  - name: source_type
-    type: VARCHAR
-  - name: source_kind
-    type: VARCHAR
-  - name: source_name
-    type: VARCHAR
-  - name: source_row_number
+    description: Country, or an M49 region / sub-region aggregate - the source publishes both in this one column (e.g. "Western Asia" sits beside "Armenia"). Filter to the level you want before averaging, or regions are weighted alongside their own members. Names are the source's own and are not harmonised to ISO codes.
+  - name: year
     type: BIGINT
-  - name: region_subregion_country_or_a
-    type: VARCHAR
-  - name: data_units
-    type: VARCHAR
-  - name: y2000
+    description: Mid-year of observation, parsed from the source's column name (Y2000 -> 2000). Five-year steps from 2000 to 2050; 2025 onward are projections rather than observations.
+  - name: urban_population_percent
     type: DOUBLE
-  - name: y2005
-    type: DOUBLE
-  - name: y2010
-    type: DOUBLE
-  - name: y2015
-    type: DOUBLE
-  - name: y2020
-    type: DOUBLE
-  - name: y2025
-    type: DOUBLE
-  - name: y2030
-    type: DOUBLE
-  - name: y2035
-    type: DOUBLE
-  - name: y2040
-    type: DOUBLE
-  - name: y2045
-    type: DOUBLE
-  - name: y2050
-    type: DOUBLE
-  - name: objectid
-    type: BIGINT
+    description: Percentage of the area's total population residing in urban areas at mid-year. A share of each area's own population, so values cannot be summed across areas. Underlying source is the UN World Urbanization Prospects, 2018 revision.

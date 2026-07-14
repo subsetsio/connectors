@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `un-habitat-5755782d19584514a5a8c65df908a0ca`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [city, country, area_of_interest]
+checks:
+  - kind: unique
+    columns: [city, country, area_of_interest]
+  - kind: not_null
+    col: city
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: area_of_interest
+  - kind: row_floor
+    min: 90
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
