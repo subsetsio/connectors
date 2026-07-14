@@ -75,6 +75,10 @@ BASE = "https://euvdservices.enisa.europa.eu/api"
 PAGE_SIZE = 100  # server caps `size` at 100 regardless of what is requested
 PAGES_PER_FRAGMENT = 500  # ~50k records per flush; bounds both RSS and rework on interrupt
 MAX_PAGES = 20_000  # safety ceiling (~5x today's corpus). Raises; never truncates.
+# Hand the crawl off after this much wall clock. A full walk is ~5.5h at the paced
+# 1 req/s, past the 6h job ceiling; yielding at 3.5h splits it over two jobs and
+# still leaves room for the sibling crawl, the transforms and the checks.
+CRAWL_YIELD_S = 3.5 * 3600
 # Per-node so a stale continuation watermark can be invalidated for one crawl
 # without forcing the other long /api/search asset to restart.
 STATE_VERSION = {
@@ -197,14 +201,18 @@ def _fragment_name(page: int) -> str:
     return f"{lo:05d}-{lo + PAGES_PER_FRAGMENT - 1:05d}"
 
 
-def _crawl_search(node_id: str, schema: pa.Schema, to_rows) -> None:
+def _crawl_search(node_id: str, schema: pa.Schema, to_rows) -> bool:
     """Walk /api/search from the saved page watermark, flushing one parquet fragment
     per PAGES_PER_FRAGMENT pages. `to_rows(record)` maps one API record to 0..n rows.
+
+    Returns True when it stopped early on the yield timer and wants a continuation,
+    False when the corpus drained.
 
     Raw is written before state advances: an interrupt between the two costs a
     re-fetch of one fragment, never a silent hole.
     """
     configure_http(headers={"User-Agent": USER_AGENT})
+    started = time.monotonic()
 
     state = load_state(node_id)
     state_version = STATE_VERSION.get(node_id, 1)
@@ -235,7 +243,7 @@ def _crawl_search(node_id: str, schema: pa.Schema, to_rows) -> None:
         if not items:
             # Drained. Flush the tail, then rewind so the next refresh re-pulls in full.
             flush(fragment, 0)
-            return
+            return False
 
         for record in items:
             rows.extend(to_rows(record))
@@ -244,6 +252,12 @@ def _crawl_search(node_id: str, schema: pa.Schema, to_rows) -> None:
         if page % PAGES_PER_FRAGMENT == 0:
             flush(fragment, page)
             fragment = _fragment_name(page)
+            # Only ever hand off on a fragment boundary: `rows` is empty and the
+            # watermark now names the next unread page, so the continuation picks
+            # up with nothing buffered and nothing to redo.
+            if time.monotonic() - started >= CRAWL_YIELD_S:
+                print(f"[{node_id}] yielding at page {page} — continuation will resume here")
+                return True
 
     raise RuntimeError(
         f"{node_id}: /api/search exceeded the {MAX_PAGES}-page safety ceiling — the "
@@ -280,14 +294,14 @@ def _affected_product_rows(record: dict):
         }
 
 
-def fetch_vulnerabilities(node_id: str) -> None:
+def fetch_vulnerabilities(node_id: str) -> bool:
     """One row per EUVD identifier — the scalar fields of each search record."""
-    _crawl_search(node_id, VULNERABILITY_SCHEMA, _vulnerability_rows)
+    return _crawl_search(node_id, VULNERABILITY_SCHEMA, _vulnerability_rows)
 
 
-def fetch_affected_products(node_id: str) -> None:
+def fetch_affected_products(node_id: str) -> bool:
     """One row per (vulnerability, product, version), exploded from enisaIdProduct[]."""
-    _crawl_search(node_id, AFFECTED_PRODUCT_SCHEMA, _affected_product_rows)
+    return _crawl_search(node_id, AFFECTED_PRODUCT_SCHEMA, _affected_product_rows)
 
 
 def fetch_known_exploited(node_id: str) -> None:
