@@ -1,0 +1,79 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usa-npn-magnitude-phenometrics`. Regenerate after model-verify.
+# caution: Rows are magnitude summaries over configured periods and frequencies, not raw observation events; filter by the period/frequency fields before comparing or summing magnitudes.
+key: []
+temporal: start_date
+sort: [start_date]
+columns:
+  - name: species_id
+    type: BIGINT
+  - name: class_id
+    type: BIGINT
+  - name: order_id
+    type: BIGINT
+  - name: family_id
+    type: BIGINT
+  - name: genus_id
+    type: BIGINT
+  - name: genus
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: kingdom
+    type: VARCHAR
+  - name: phenophase_id
+    type: BIGINT
+  - name: phenophase_description
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: status_records_sample_size
+    type: BIGINT
+  - name: individuals_sample_size
+    type: BIGINT
+  - name: sites_sample_size
+    type: BIGINT
+  - name: num_yes_records
+    type: BIGINT
+  - name: numindividuals_with_yes_record
+    type: BIGINT
+  - name: numsites_with_yes_record
+    type: BIGINT
+  - name: proportion_yes_records
+    type: BIGINT
+  - name: proportion_individuals_with_yes_record
+    type: BIGINT
+  - name: proportion_sites_with_yes_record
+    type: BIGINT
+  - name: in_phase_sites_sample_size
+    type: BIGINT
+  - name: in_phase_site_visits_sample_size
+    type: BIGINT
+  - name: total_numanimals_in_phase
+    type: BIGINT
+  - name: mean_numanimals_in_phase
+    type: BIGINT
+  - name: se_numanimals_in_phase
+    type: BIGINT
+  - name: in_phase_per_hr_sites_sample_size
+    type: BIGINT
+  - name: in_phase_per_hr_site_visits_sample_size
+    type: BIGINT
+  - name: mean_numanimals_in_phase_per_hr
+    type: BIGINT
+  - name: se_numanimals_in_phase_per_hr
+    type: BIGINT
+  - name: in_phase_per_hr_per_acre_sites_sample_size
+    type: BIGINT
+  - name: in_phase_per_hr_per_acre_site_visits_sample_size
+    type: BIGINT
+  - name: mean_numanimals_in_phase_per_hr_per_acre
+    type: BIGINT
+  - name: se_numanimals_in_phase_per_hr_per_acre
+    type: BIGINT

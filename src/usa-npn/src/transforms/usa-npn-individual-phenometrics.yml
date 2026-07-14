@@ -1,0 +1,63 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usa-npn-individual-phenometrics`. Regenerate after model-verify.
+# caution: Rows are summarized phenometric events at the individual organism level and carry denormalized species, genus, and phenophase labels; do not aggregate together with site-level or raw status/intensity observations as if they share one grain.
+key: []
+columns:
+  - name: site_id
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: elevation_in_meters
+    type: HUGEINT
+  - name: state
+    type: VARCHAR
+  - name: species_id
+    type: BIGINT
+  - name: class_id
+    type: BIGINT
+  - name: order_id
+    type: BIGINT
+  - name: family_id
+    type: BIGINT
+  - name: genus_id
+    type: BIGINT
+  - name: genus
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: kingdom
+    type: VARCHAR
+  - name: individual_id
+    type: BIGINT
+  - name: phenophase_id
+    type: BIGINT
+  - name: phenophase_description
+    type: VARCHAR
+  - name: first_yes_year
+    type: BIGINT
+  - name: first_yes_month
+    type: BIGINT
+  - name: first_yes_day
+    type: BIGINT
+  - name: first_yes_doy
+    type: BIGINT
+  - name: first_yes_julian_date
+    type: BIGINT
+  - name: numdays_since_prior_no
+    type: BIGINT
+  - name: last_yes_year
+    type: BIGINT
+  - name: last_yes_month
+    type: BIGINT
+  - name: last_yes_day
+    type: BIGINT
+  - name: last_yes_doy
+    type: BIGINT
+  - name: last_yes_julian_date
+    type: BIGINT
+  - name: numdays_until_next_no
+    type: BIGINT

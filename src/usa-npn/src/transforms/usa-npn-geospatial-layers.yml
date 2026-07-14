@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usa-npn-geospatial-layers`. Regenerate after model-verify.
+# caution: Layer records describe GeoServer products, not station observations; dimension_values may encode available time steps or bands for a layer.
+key: [title, name, abstract]
+sort: [title, name, abstract]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: abstract
+    type: VARCHAR
+  - name: dimension_name
+    type: VARCHAR
+  - name: dimension_values
+    type: VARCHAR

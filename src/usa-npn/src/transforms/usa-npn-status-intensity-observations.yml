@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usa-npn-status-intensity-observations`. Regenerate after model-verify.
+# caution: Rows are status/intensity observation events; repeated observer, site, species, phenophase, and date combinations can occur and should not be treated as one unique observation without considering the source's status/intensity fields.
+key: []
+temporal: observation_date
+sort: [observation_date]
+columns:
+  - name: observation_id
+    type: BIGINT
+  - name: update_datetime
+    type: JSON
+  - name: site_id
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: elevation_in_meters
+    type: HUGEINT
+  - name: state
+    type: VARCHAR
+  - name: species_id
+    type: BIGINT
+  - name: genus
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: common_name
+    type: VARCHAR
+  - name: kingdom
+    type: VARCHAR
+  - name: individual_id
+    type: BIGINT
+  - name: phenophase_id
+    type: BIGINT
+  - name: phenophase_description
+    type: VARCHAR
+  - name: observation_date
+    type: DATE
+  - name: day_of_year
+    type: BIGINT
+  - name: phenophase_status
+    type: HUGEINT
+  - name: intensity_category_id
+    type: HUGEINT
+  - name: intensity_value
+    type: JSON
+  - name: abundance_value
+    type: BIGINT

@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usa-npn-species`. Regenerate after model-verify.
+key: [species_id]
+sort: [species_id]
+columns:
+  - name: species_id
+    type: BIGINT
+  - name: common_name
+    type: VARCHAR
+  - name: genus
+    type: VARCHAR
+  - name: genus_id
+    type: BIGINT
+  - name: genus_common_name
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: kingdom
+    type: VARCHAR
+  - name: itis_taxonomic_sn
+    type: BIGINT
+  - name: functional_type
+    type: VARCHAR
+  - name: class_id
+    type: BIGINT
+  - name: class_common_name
+    type: VARCHAR
+  - name: class_name
+    type: VARCHAR
+  - name: order_id
+    type: BIGINT
+  - name: order_common_name
+    type: VARCHAR
+  - name: order_name
+    type: VARCHAR
+  - name: family_id
+    type: BIGINT
+  - name: family_name
+    type: VARCHAR
+  - name: family_common_name
+    type: VARCHAR
+  - name: species_type
+    type: "STRUCT(Species_Type_ID BIGINT, Species_Type VARCHAR, \"Comment\" JSON, User_Display BIGINT, Kingdom VARCHAR, Image_Path VARCHAR)[]"
