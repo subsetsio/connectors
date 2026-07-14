@@ -11,6 +11,7 @@ import csv as _csv
 import io as _io
 import os
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
 import pyarrow as pa
@@ -35,6 +36,8 @@ _RESOLUTION_SCHEMA = pa.schema([
     ("market_share", pa.float64()),
 ])
 
+_MAX_WORKERS = int(os.environ.get("STATCOUNTER_FETCH_WORKERS", "6"))
+
 
 def _parse_resolution_csv(text: str) -> list[tuple[str, float]]:
     """Aggregate CSV ['Screen Resolution','Market Share Perc. (...)'] -> long
@@ -58,6 +61,27 @@ def _parse_resolution_csv(text: str) -> list[tuple[str, float]]:
     return out
 
 
+def _fetch_resolution_rows(
+    code: str,
+    device: str,
+    multi: bool,
+    item: tuple[str, str, str, int],
+) -> tuple[str, str, str, int, list[tuple[str, float]]]:
+    region_code, region_name, region_type, year = item
+    params = {
+        "statType_hidden": code,
+        "region_hidden": region_code,
+        "granularity": "yearly",
+        "csv": "1",
+        "device_hidden": device,
+        "multi-device": "true" if multi else "false",
+        "fromYear": str(year),
+        "toYear": str(year),
+    }
+    text = _get_text(BASE_URL, params)
+    return region_code, region_name, region_type, year, _parse_resolution_csv(text)
+
+
 def fetch_resolution(node_id: str) -> None:
     """Screen resolution: aggregate-only at source, so fetch one aggregate per
     (region, year) to reconstruct a yearly series. Scoped to worldwide +
@@ -79,30 +103,28 @@ def fetch_resolution(node_id: str) -> None:
     attempts = 0
     total_rows = 0
 
+    pending_items = []
     for region_code, region_name, region_type in regions:
         for year in years:
             fragment = f"{region_code}-{year}"
             if fragment in done_fragments:
                 continue
-            attempts += 1
-            params = {
-                "statType_hidden": code,
-                "region_hidden": region_code,
-                "granularity": "yearly",
-                "csv": "1",
-                "device_hidden": device,
-                "multi-device": "true" if multi else "false",
-                "fromYear": str(year),
-                "toYear": str(year),
-            }
+            pending_items.append((region_code, region_name, region_type, year))
+
+    attempts = len(pending_items)
+    with ThreadPoolExecutor(max_workers=_MAX_WORKERS) as executor:
+        futures = {
+            executor.submit(_fetch_resolution_rows, code, device, multi, item): f"{item[0]}/{item[3]}"
+            for item in pending_items
+        }
+        for future in as_completed(futures):
             try:
-                text = _get_text(BASE_URL, params)
+                region_code, region_name, region_type, year, pairs = future.result()
             except Exception as exc:  # noqa: BLE001
-                print(f"  {asset}: {region_code}/{year} fetch failed: {type(exc).__name__}: {exc}")
+                print(f"  {asset}: {futures[future]} fetch failed: {type(exc).__name__}: {exc}")
                 failed += 1
                 continue
 
-            pairs = _parse_resolution_csv(text)
             if not pairs:
                 continue
             batch = {
@@ -113,10 +135,11 @@ def fetch_resolution(node_id: str) -> None:
                 "resolution": [res for res, _ in pairs],
                 "market_share": [v for _, v in pairs],
             }
+            fragment = f"{region_code}-{year}"
             with raw_parquet_writer(asset, _RESOLUTION_SCHEMA, fragment=fragment) as writer:
                 writer.write_table(pa.table(batch, schema=_RESOLUTION_SCHEMA))
             total_rows += len(pairs)
-            time.sleep(0.2)
+            time.sleep(0.05)
 
     if attempts and failed > attempts * 0.25:
         raise RuntimeError(f"{asset}: {failed}/{attempts} (region,year) fetches failed (>25%); aborting")

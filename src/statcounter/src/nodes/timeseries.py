@@ -23,6 +23,7 @@ import csv as _csv
 import io as _io
 import os
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import pyarrow as pa
 
@@ -61,6 +62,8 @@ _TIMESERIES_SCHEMA = pa.schema([
     ("market_share", pa.float64()),
 ])
 
+_MAX_WORKERS = int(os.environ.get("STATCOUNTER_FETCH_WORKERS", "6"))
+
 
 def _parse_timeseries_csv(text: str) -> list[tuple[str, str, float]]:
     """Wide CSV -> long [(date, category, market_share), ...]. Skips the leading
@@ -93,6 +96,28 @@ def _parse_timeseries_csv(text: str) -> list[tuple[str, str, float]]:
     return out
 
 
+def _fetch_region_rows(
+    code: str,
+    device: str,
+    multi: bool,
+    to_month: str,
+    region: tuple[str, str, str],
+) -> tuple[str, str, str, list[tuple[str, str, float]]]:
+    region_code, region_name, region_type = region
+    params = {
+        "statType_hidden": code,
+        "region_hidden": region_code,
+        "granularity": "monthly",
+        "csv": "1",
+        "device_hidden": device,
+        "multi-device": "true" if multi else "false",
+        "fromMonthYear": SOURCE_MIN_MONTH,
+        "toMonthYear": to_month,
+    }
+    text = _get_text(BASE_URL, params)
+    return region_code, region_name, region_type, _parse_timeseries_csv(text)
+
+
 def fetch_statistic(node_id: str) -> None:
     """Time-series statistics: fetch the full monthly history for every region
     and stream a long-format parquet (one row per date x region x category)."""
@@ -114,46 +139,45 @@ def fetch_statistic(node_id: str) -> None:
     regions_written = 0
     total_rows = 0
 
+    pending_regions = []
     for region_code, region_name, region_type in regions:
         if region_code in done_fragments:
             regions_written += 1
             continue
-        params = {
-            "statType_hidden": code,
-            "region_hidden": region_code,
-            "granularity": "monthly",
-            "csv": "1",
-            "device_hidden": device,
-            "multi-device": "true" if multi else "false",
-            "fromMonthYear": SOURCE_MIN_MONTH,
-            "toMonthYear": to_month,
-        }
-        try:
-            text = _get_text(BASE_URL, params)
-        except Exception as exc:  # noqa: BLE001 - logged + classified below
-            if _permanent_4xx(exc):
-                print(f"  {asset}: region {region_code} permanent {exc}; skipping")
-            else:
-                print(f"  {asset}: region {region_code} fetch failed: {type(exc).__name__}: {exc}")
-            failed.append(region_code)
-            continue
+        pending_regions.append((region_code, region_name, region_type))
 
-        long_rows = _parse_timeseries_csv(text)
-        if not long_rows:
-            continue
-        batch = {
-            "date": [d for d, _, _ in long_rows],
-            "region_code": [region_code] * len(long_rows),
-            "region_name": [region_name] * len(long_rows),
-            "region_type": [region_type] * len(long_rows),
-            "category": [c for _, c, _ in long_rows],
-            "market_share": [v for _, _, v in long_rows],
+    with ThreadPoolExecutor(max_workers=_MAX_WORKERS) as executor:
+        futures = {
+            executor.submit(_fetch_region_rows, code, device, multi, to_month, region): region[0]
+            for region in pending_regions
         }
-        with raw_parquet_writer(asset, _TIMESERIES_SCHEMA, fragment=region_code) as writer:
-            writer.write_table(pa.table(batch, schema=_TIMESERIES_SCHEMA))
-        regions_written += 1
-        total_rows += len(long_rows)
-        time.sleep(0.2)  # politeness; no documented rate limit
+        for future in as_completed(futures):
+            region_code = futures[future]
+            try:
+                region_code, region_name, region_type, long_rows = future.result()
+            except Exception as exc:  # noqa: BLE001 - logged + classified below
+                if _permanent_4xx(exc):
+                    print(f"  {asset}: region {region_code} permanent {exc}; skipping")
+                else:
+                    print(f"  {asset}: region {region_code} fetch failed: {type(exc).__name__}: {exc}")
+                failed.append(region_code)
+                continue
+
+            if not long_rows:
+                continue
+            batch = {
+                "date": [d for d, _, _ in long_rows],
+                "region_code": [region_code] * len(long_rows),
+                "region_name": [region_name] * len(long_rows),
+                "region_type": [region_type] * len(long_rows),
+                "category": [c for _, c, _ in long_rows],
+                "market_share": [v for _, _, v in long_rows],
+            }
+            with raw_parquet_writer(asset, _TIMESERIES_SCHEMA, fragment=region_code) as writer:
+                writer.write_table(pa.table(batch, schema=_TIMESERIES_SCHEMA))
+            regions_written += 1
+            total_rows += len(long_rows)
+            time.sleep(0.05)  # light pacing for manifest writes and source politeness
 
     # Integrity guards: worldwide must succeed, and a systemic failure
     # (many regions down) must not quietly publish a gutted table.

@@ -27,7 +27,7 @@ _MONTH_RE = _re.compile(r"^\d{4}-\d{2}$")
 
 
 def _get_text(url: str, params: dict | None = None) -> str:
-    resp = get(url, params=params, timeout=(10.0, 120.0))
+    resp = get(url, params=params, timeout=(10.0, 45.0))
     resp.raise_for_status()
     # Responses are served as application/octet-stream but are plain CSV/HTML.
     return resp.content.decode("utf-8-sig", errors="replace")
