@@ -1,5 +1,4 @@
 ENTITY_IDS = [
-    "amning",
     "dodsorsaker",
     "graviditeterforlossningarochnyfodda",
     "lakemedel",
@@ -9,7 +8,6 @@ ENTITY_IDS = [
 
 
 SUBJECT_NAMES = {
-    "amning": "Amning, arsuppgifter",
     "dodsorsaker": "Dodsorsaker, arsuppgifter",
     "graviditeterforlossningarochnyfodda": "Graviditeter, forlossningar och nyfodda, arsuppgifter",
     "lakemedel": "Lakemedel, arsuppgifter",
