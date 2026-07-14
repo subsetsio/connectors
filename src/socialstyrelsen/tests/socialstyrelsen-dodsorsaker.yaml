@@ -3,7 +3,6 @@ status: active
 tests:
   - row_count: {min: 1}
   - not_null: subject_id
-  - not_null: varde
   - column_type: {col: ar, type: integer}
   - freshness: {col: ar, reaches: 2023}
     points_outward: true

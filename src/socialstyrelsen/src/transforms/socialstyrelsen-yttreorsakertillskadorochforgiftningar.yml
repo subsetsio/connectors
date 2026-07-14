@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `socialstyrelsen-yttreorsakertillskadorochforgiftningar`. Regenerate after model-verify.
+# caution: Contains totals alongside detailed external-cause, age, sex, care-form and regional breakdowns; filter the desired aggregation level before summing values.
+key: [source_file, vardform, ar, region, kon, matt, yttre_orsak, alder]
+temporal: ar
+sort: [ar, source_file, vardform, region, kon, matt, yttre_orsak, alder]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: vardform
+    type: VARCHAR
+  - name: ar
+    type: BIGINT
+  - name: region
+    type: BIGINT
+  - name: kon
+    type: BIGINT
+  - name: matt
+    type: BIGINT
+  - name: yttre_orsak
+    type: VARCHAR
+  - name: alder
+    type: BIGINT
+  - name: varde
+    type: VARCHAR
+  - name: subject_id
+    type: VARCHAR
+  - name: subject_name
+    type: VARCHAR
+  - name: fetched_at
+    type: TIMESTAMP

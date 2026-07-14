@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `socialstyrelsen-graviditeterforlossningarochnyfodda`. Regenerate after model-verify.
+# caution: Contains multiple measures and demographic breakdowns in one grid; filter `matt`, `variabel`, `paritet`, `alder` and `region` before summing values.
+key: [source_file, matt, ar, region, variabel, paritet, alder]
+temporal: ar
+sort: [ar, source_file, matt, region, variabel, paritet, alder]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: matt
+    type: BIGINT
+  - name: ar
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: variabel
+    type: VARCHAR
+  - name: paritet
+    type: BIGINT
+  - name: alder
+    type: BIGINT
+  - name: varde
+    type: VARCHAR
+  - name: subject_id
+    type: VARCHAR
+  - name: subject_name
+    type: VARCHAR
+  - name: fetched_at
+    type: TIMESTAMP

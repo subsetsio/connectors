@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `socialstyrelsen-dodsorsaker`. Regenerate after model-verify.
+# caution: The bulk export contains exact duplicate grid rows under the observed dimensions, and many death-cause combinations are present with no reported value; aggregate only after choosing the measure and dimension filters needed for the query.
+key: []
+temporal: ar
+sort: [ar]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: matt
+    type: BIGINT
+  - name: ar
+    type: BIGINT
+  - name: region
+    type: BIGINT
+  - name: diagnos
+    type: VARCHAR
+  - name: kon
+    type: BIGINT
+  - name: alder
+    type: BIGINT
+  - name: varde
+    type: VARCHAR
+  - name: subject_id
+    type: VARCHAR
+  - name: subject_name
+    type: VARCHAR
+  - name: fetched_at
+    type: TIMESTAMP
