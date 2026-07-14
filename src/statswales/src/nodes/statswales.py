@@ -29,6 +29,26 @@ request header does not help; the CDN ignores it. A unique query parameter is
 the only lever that reaches the origin, so every fetch carries one (verified
 payload-neutral: the origin ignores the extra param and returns byte-identical
 CSV). Datasets are pulled once per run, so bypassing a 60s cache costs nothing.
+
+Fallback: cache-busting cleared 12 of those 17, but 5 stayed short across all 4
+(now origin-reaching) attempts. The cut is not size-driven — the largest dataset
+in the corpus is a 473MB / 3.35M-row CSV that transfers whole, while the stragglers
+were 5-10MB and cut at inconsistent fractions (29%-56%) — and it does not
+reproduce outside CI, so it is a property of the runner's path to the CDN edge
+that no retry schedule here can steer. The lever that does work is asking for a
+different representation: ``/download/xlsx`` is the same table, zip-compressed to
+a fourth of the bytes, and — being a zip — a cut arrives as a parse error rather
+than a plausible short read. So CSV stays the fast primary path (proven for 749
+specs, and far cheaper to parse) and xlsx is the fallback once CSV is exhausted.
+Verified frame-identical to the CSV, ``Notes`` column and null semantics included,
+on every straggler. (The paginated ``/view`` endpoint is *not* an option: it
+renders suppressed cells as a literal " [c]" inside ``Data values`` where the CSV
+emits NULL plus ``Notes='Confidential'``, so it would change measure semantics.)
+
+Above 1,048,575 rows the API spills the xlsx across multiple sheets and repeats
+no header, so the fallback stitches sheets positionally — a plain ``read_excel``
+would silently keep only the first. The row-count guard is what makes either path
+safe; it runs against whichever representation answered.
 """
 
 import time
