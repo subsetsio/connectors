@@ -1,10 +1,15 @@
+import csv
+import io
 import json
+import re
 from itertools import product
 
+import httpx
 import pyarrow as pa
 
 from constants import ENTITY_IDS
 from subsets_utils import (
+    TRANSIENT_EXC,
     MaintainSpec,
     NodeSpec,
     configure_http,
@@ -21,6 +26,16 @@ PREFIX = f"{SLUG}-"
 BASE_URL = "https://pxweb.stat.si/SiStatData/api/v1/en/Data"
 MAINTAIN_MAX_AGE_DAYS = 7
 MAX_CELLS_PER_REQUEST = 75_000
+
+# SURS's JSON-stat serializer stalls server-side on some large tables (0701060S:
+# every JSON-stat query, down to a single cell, is dropped after ~60s), while the
+# same selection in csv3 returns in seconds. csv3 is the fallback: long format,
+# one row per observation, dimension CODES in the metadata's variable order and
+# the value in the last column. It carries no dataset-level label/source/updated
+# and no status markers, so it is a fallback, not the default. Its cells are
+# cheaper server-side, hence the larger per-request budget.
+CSV3_MAX_CELLS_PER_REQUEST = 250_000
+PERIOD_RE = re.compile(r"^\d{4}([A-Z]\d{1,2})?$")
 MAINTAIN_DESCRIPTION = (
     f"Full re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. SURS PxWeb "
     "does not expose a table-level since/modifiedAfter query parameter, so due "
@@ -89,28 +104,43 @@ def _selection_query(metadata: dict, chunk_code: str | None, chunk_values: list[
     return {"query": query, "response": {"format": "JSON-stat"}}
 
 
-def _chunked_queries(metadata: dict) -> list[tuple[str | None, dict]]:
+def _chunk_specs(metadata: dict, max_cells: int) -> list[tuple[str, str | None, list[str]]]:
+    """Split a table into `(label, chunk_code, chunk_values)` requests along its
+    widest variable, so no single request exceeds `max_cells`. `chunk_code` is
+    None for a table that fits in one request (label "full")."""
     variables = metadata["variables"]
     sizes = [max(1, len(_variable_values(variable))) for variable in variables]
     total_cells = 1
     for size in sizes:
         total_cells *= size
-    if total_cells <= MAX_CELLS_PER_REQUEST:
-        return [("full", _all_values_query(metadata))]
+    if total_cells <= max_cells:
+        return [("full", None, [])]
 
     chunk_index = max(range(len(variables)), key=lambda index: sizes[index])
     chunk_variable = variables[chunk_index]
     chunk_code = chunk_variable["code"]
     other_cells = max(1, total_cells // sizes[chunk_index])
-    chunk_size = max(1, MAX_CELLS_PER_REQUEST // other_cells)
+    chunk_size = max(1, max_cells // other_cells)
     values = _variable_values(chunk_variable)
 
     chunks = []
     for start in range(0, len(values), chunk_size):
         stop = min(start + chunk_size, len(values))
         label = f"chunk-{chunk_index:02d}-{start:05d}-{stop - 1:05d}"
-        chunks.append((label, _selection_query(metadata, chunk_code, values[start:stop])))
+        chunks.append((label, chunk_code, values[start:stop]))
     return chunks
+
+
+def _chunked_queries(metadata: dict) -> list[tuple[str | None, dict]]:
+    return [
+        (
+            label,
+            _all_values_query(metadata)
+            if chunk_code is None
+            else _selection_query(metadata, chunk_code, chunk_values),
+        )
+        for label, chunk_code, chunk_values in _chunk_specs(metadata, MAX_CELLS_PER_REQUEST)
+    ]
 
 
 def _ordered_category_ids(dimension: dict) -> list[str]:
@@ -189,21 +219,73 @@ def _flatten_jsonstat(table_id: str, dataset: dict) -> list[dict]:
     return rows
 
 
-def fetch_table(node_id: str) -> None:
-    configure_http(timeout=120.0)
-    entity_id = _entity_from_node_id(node_id)
-    table_id = _source_table_id(entity_id)
-    url = f"{BASE_URL}/{table_id}"
+def _time_variable_code(metadata: dict) -> str | None:
+    """The period variable, by shape of its values (2024, 2024M03, 2024Q1) —
+    the metadata endpoint carries no time role, only JSON-stat does."""
+    for variable in metadata["variables"]:
+        values = _variable_values(variable)
+        if values and all(PERIOD_RE.match(value) for value in values):
+            return variable["code"]
+    return None
 
-    metadata_response = get(url)
-    metadata_response.raise_for_status()
-    metadata = metadata_response.json()
 
+def _flatten_csv3(table_id: str, metadata: dict, text: str) -> list[dict]:
+    variables = metadata["variables"]
+    codes = [variable["code"] for variable in variables]
+    label_maps = [
+        dict(zip(_variable_values(v), [str(t) for t in v.get("valueTexts", [])]))
+        for v in variables
+    ]
+    time_code = _time_variable_code(metadata)
+    table_label = metadata.get("title")
+
+    rows = []
+    reader = csv.reader(io.StringIO(text))
+    next(reader, None)  # header: dimension columns then the value column
+    for obs_index, record in enumerate(reader):
+        if len(record) < len(codes) + 1:
+            continue
+        cells = [cell.strip() for cell in record[: len(codes)]]
+        raw_value = record[len(codes)].strip()
+        if not raw_value:
+            continue
+        code_map = dict(zip(codes, cells))
+        label_map = {
+            code: label_maps[index].get(cells[index], cells[index])
+            for index, code in enumerate(codes)
+        }
+        try:
+            value = float(raw_value)
+            value_text = None
+        except ValueError:
+            value = None
+            value_text = raw_value
+        period = code_map.get(time_code) if time_code else None
+        rows.append(
+            {
+                "table_id": table_id,
+                "table_label": table_label,
+                "source": None,
+                "updated": None,
+                "period": period,
+                "period_label": label_map.get(time_code) if time_code else None,
+                "dimension_codes": json.dumps(code_map, ensure_ascii=False, sort_keys=True),
+                "dimension_labels": json.dumps(label_map, ensure_ascii=False, sort_keys=True),
+                "value": value,
+                "value_text": value_text,
+                "status": None,
+                "observation_index": obs_index,
+            }
+        )
+    return rows
+
+
+def _fetch_jsonstat(node_id: str, url: str, table_id: str, metadata: dict) -> int:
     chunks = _chunked_queries(metadata)
-    wrote_rows = 0
     if len(chunks) > 1:
         delete_raw_file(node_id, "parquet")
 
+    wrote_rows = 0
     for chunk_label, query in chunks:
         data_response = post(url, json=query, timeout=180.0)
         data_response.raise_for_status()
@@ -215,9 +297,61 @@ def fetch_table(node_id: str) -> None:
         fragment = None if chunk_label == "full" else chunk_label
         save_raw_parquet(pa.Table.from_pylist(rows, schema=RAW_SCHEMA), node_id, fragment=fragment)
         wrote_rows += len(rows)
+    return wrote_rows
+
+
+def _fetch_csv3(node_id: str, url: str, table_id: str, metadata: dict) -> int:
+    delete_raw_file(node_id, "parquet")  # drop whatever the JSON-stat leg wrote
+    wrote_rows = 0
+    for chunk_label, chunk_code, chunk_values in _chunk_specs(
+        metadata, CSV3_MAX_CELLS_PER_REQUEST
+    ):
+        query = (
+            _all_values_query(metadata)
+            if chunk_code is None
+            else _selection_query(metadata, chunk_code, chunk_values)
+        )
+        query["response"] = {"format": "csv3"}
+        data_response = post(url, json=query, timeout=300.0)
+        data_response.raise_for_status()
+        rows = _flatten_csv3(table_id, metadata, data_response.text)
+        if not rows:
+            continue
+        fragment = None if chunk_label == "full" else chunk_label
+        save_raw_parquet(pa.Table.from_pylist(rows, schema=RAW_SCHEMA), node_id, fragment=fragment)
+        wrote_rows += len(rows)
+    return wrote_rows
+
+
+def _is_server_side(exc: Exception) -> bool:
+    if isinstance(exc, TRANSIENT_EXC):
+        return True
+    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code >= 500
+
+
+def fetch_table(node_id: str) -> None:
+    configure_http(timeout=120.0)
+    entity_id = _entity_from_node_id(node_id)
+    table_id = _source_table_id(entity_id)
+    url = f"{BASE_URL}/{table_id}"
+
+    metadata_response = get(url)
+    metadata_response.raise_for_status()
+    metadata = metadata_response.json()
+
+    try:
+        wrote_rows = _fetch_jsonstat(node_id, url, table_id, metadata)
+    except Exception as exc:
+        if not _is_server_side(exc):
+            raise
+        print(
+            f"[{node_id}] JSON-stat leg failed ({type(exc).__name__}: {exc}) — "
+            f"refetching the whole table as csv3"
+        )
+        wrote_rows = _fetch_csv3(node_id, url, table_id, metadata)
 
     if not wrote_rows:
-        raise ValueError(f"{node_id}: JSON-stat response produced no rows")
+        raise ValueError(f"{node_id}: response produced no rows")
 
 
 DOWNLOAD_SPECS = [
