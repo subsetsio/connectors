@@ -14,7 +14,7 @@ import pyarrow as pa
 import pyarrow.csv as pacsv
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, delete_raw_file, get, save_raw_parquet
 
 SLUG = "state-statistics-service-of-ukraine"
 SDMX_BASE = "https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/2.1"
@@ -35,122 +35,42 @@ _SPEC_TO_ENTITY = {
     for entity_id in ENTITY_IDS
 }
 
-_ENTITY_VERSION = {
-    # Versions come from the accepted collect catalog. The v2.1 data endpoint
-    # needs the comma-separated flowRef form: SSSU,{ID},{VERSION}.
-    'DF_ACCOUNT_COSTS_ENV_PROTECTION': '7.0.0',
-    'DF_ACCOUNT_OF_EMISSIONS_INTO_ATMOSPHERIC_AIR': '7.0.0',
-    'DF_AGRICULTURAL_ACTIVITY_RURAL_AREAS': '13.0.0',
-    'DF_AGRICULTURAL_PRODUCTS_AT_CONSTANT_PRICES': '16.0.0',
-    'DF_AGR_MACHINERY_AVAILABILITY': '9.0.0',
-    'DF_AIR_EMS_AGGR_PORTAL': '2.0.0',
-    'DF_ANNUAL_NATIONAL_ACCOUNTS': '7.0.0',
-    'DF_AREA_HARVESTS_CROP_YIELD_A': '2.0.0',
-    'DF_AREA_HARVESTS_CROP_YIELD_M': '3.0.0',
-    'DF_ARRIVAL_AGR_ANIMALS_PROCESSING_ENTERPRISE': '13.0.0',
-    'DF_ARRIVAL_GRAPES_WINE_MATERIALS': '10.0.0',
-    'DF_ASSETS_EQUITY_LIABILITIES_FINANCIAL_RESULTS_B_A': '3.0.0',
-    'DF_ASSETS_EQUITY_LIABILITIES_FINANCIAL_RESULTS_B_Q': '3.0.0',
-    'DF_ASSETS_EQUITY_LIABILITIES_FINANCIAL_RESULTS_FR_A': '8.0.0',
-    'DF_ASSETS_EQUITY_LIABILITIES_FINANCIAL_RESULTS_FR_Q': '3.0.0',
-    'DF_AVAILABILITY_OF_GRAIN_AT_ENTERPRISES': '8.0.0',
-    'DF_AVAIL_MOVEMENT_NONCURR_ASSETS_DEPRECIATION': '12.0.0',
-    'DF_AVIA_TRANSPORT_ENTRP_ACTIVITY_A': '3.0.0',
-    'DF_AVIA_TRANSPORT_ENTRP_ACTIVITY_M': '3.0.0',
-    'DF_BEGINING_COMPLETION_CONSTRUCTION': '26.0.0',
-    'DF_BUSINESS_ACTIVITY_STATE_ENTERPRISE': '19.0.0',
-    'DF_CAPITAL_INVESTMENTS_A': '3.0.1',
-    'DF_CAPITAL_INVESTMENTS_Q': '4.0.0',
-    'DF_COLLECTIVE_ACCOM_FACILITIES': '8.0.0',
-    'DF_COMMUNAL_SERVICES': '14.0.0',
-    'DF_CONSUMER_PRICES_FOR_NATURAL_GAS_AND_ELECTRICITY': '7.0.0',
-    'DF_COSTS_OF_ENVIRONMENTAL_PROTECTION': '7.0.0',
-    'DF_COST_AGR_PRODUCT': '16.0.0',
-    'DF_DELIVERY_DAIRY_MATERIALS_PROC_MILK_PROD_A': '1.0.0',
-    'DF_DELIVERY_DAIRY_MATERIALS_PROC_MILK_PROD_M': '3.0.0',
-    'DF_DELIVERY_MILK_PROCESSING_ENTERPRISE': '11.0.0',
-    'DF_DEMOGRAPHICS_OF_ENTERPRISES': '8.0.0',
-    'DF_ECONOMIC_ACCOUNTS_AGRICULTURE': '8.0.0',
-    'DF_ECONOMIC_ACTIVITY_OF_NON_FINANCIAL_SERVICES_ENTERPRISES': '6.0.0',
-    'DF_ECONOMY_STRUCTURAL_CHANGES_BUSINESS_ENTITY': '10.0.1',
-    'DF_ECONOMY_STRUCTURAL_CHANGES_ENTERPRISE': '11.0.0',
-    'DF_ECONOM_INDC_SHORT-TERM_CONSTRUCTION_STAT': '16.0.0',
-    'DF_EDUCATIONAL_INSTITUTIONS': '36.0.0',
-    'DF_ENERGY_BALANCE': '4.0.0',
-    'DF_ENTERPRISE_LABOR_STATISTICS': '23.0.0',
-    'DF_EXPENSES_OF_ENTERPRISES_FOR_WORKFORCE_MAINTENANCE': '9.0.0',
-    'DF_EXTERNAL_TRADE_OF_GOODS': '5.0.0',
-    'DF_EXTERNAL_TRADE_OF_GOODS_BY_CLASSIFICATIONS': '3.0.0',
-    'DF_EXTERNAL_TRADE_OF_GOODS_BY_PARTNER_COUNTRIES': '4.0.0',
-    'DF_EXTERNAL_TRADE_OF_GOODS_BY_RAW_PRODUCT': '4.0.0',
-    'DF_EXTERNAL_TRADE_OF_GOODS_M': '2.0.0',
-    'DF_EXTERNAL_TRADE_OF_GOODS_M_Q': '4.0.0',
-    'DF_FISHING_ACTIVITY': '9.0.0',
-    'DF_FOREIGN_TRADE_SERVICES': '12.0.0',
-    'DF_FOREIGN_TRADE_SERVICES_Q': '2.0.0',
-    'DF_FORESTRY_ACTIVITY': '22.0.0',
-    'DF_FUEL_USAGE_AND_RESERVES_A': '2.0.0',
-    'DF_FUEL_USAGE_AND_RESERVES_M': '2.0.0',
-    'DF_GROUND_TRANSPORT_A': '3.0.0',
-    'DF_GROUND_TRANSPORT_M': '6.0.0',
-    'DF_GROUND_TRANSPORT_Q': '3.0.0',
-    'DF_HOUSEHOLD_ACCOUNT_OBJECT': '7.0.0',
-    'DF_INDX_EXPENDITURE_AGR_PRODUCT': '2.0.0',
-    'DF_IND_SHORT_STAT_INDUSTR_PROD': '20.0.0',
-    'DF_IND_SHORT_STAT_INDUSTR_STAT': '14.0.0',
-    'DF_INFORM_COMMUN_TECH_ENTRP': '9.0.0',
-    'DF_INNOVATION_ENTERPRISE_ACTIVITY': '14.0.0',
-    'DF_INTEGRATED_INDICATORS_OF_TRANSPORT_STATISTICS': '6.0.0',
-    'DF_LABOR_FORCE_A': '2.0.1',
-    'DF_LABOR_FORCE_Q': '2.0.1',
-    'DF_MAIN_PRODUCTS_OF_AGRICULTURAL_PRODUCTION': '9.0.0',
-    'DF_MANAGEMENT_OF_HUNTING': '7.0.0',
-    'DF_PIPELINE_ENTRP_ACTIVITY': '14.0.0',
-    'DF_POLLUTANTS_GASES_EMISSIONS': '16.0.0',
-    'DF_POPULATION_BIRTH': '5.0.0',
-    'DF_POPULATION_DEATH_CAUSE': '3.0.0',
-    'DF_POPULATION_MARRIAGE_DIVORCE': '6.0.0',
-    'DF_POPULATION_MIGRATION': '2.0.0',
-    'DF_POPULATION_MORTALITY': '5.0.0',
-    'DF_POPULATION_STRUCTURE': '8.0.0',
-    'DF_PRICE_CHANGES_IMPORT': '1.0.0',
-    'DF_PRICE_CHANGES_OF_SERVICE_PRODUCERS': '11.0.0',
-    'DF_PRICE_CHANGE_CONSTRUCTION': '15.0.0',
-    'DF_PRICE_CHANGE_CONSUMER_GOODS_SERVICE': '27.0.0',
-    'DF_PRICE_CHANGE_HOUSING_MARKET': '16.0.0',
-    'DF_PRICE_CHANGE_MANUFACTURER_INDUSTRIAL_PRODUCT': '21.0.0',
-    'DF_PROD_SOLD_INDUSTRIAL_PRODUCTS_TYPE': '6.0.0',
-    'DF_PURCHASE_MATERIAL_TECH_RESOURCE': '2.0.0',
-    'DF_QUARTERLY_NATIONAL_ACCOUNTS': '14.0.0',
-    'DF_REGIONAL_ACCOUNTS': '8.0.0',
-    'DF_SALARY_LEVEL_OF_EMPLOYEES': '6.0.0',
-    'DF_SALARY_PAYMENT_STATUS': '4.0.2',
-    'DF_SALE_AGR_PROD_BY_ENTRPRS_HSHLD': '11.0.2',
-    'DF_SALE_AND_STOCKS_OF_GOODS_RETAIL_A_Q': '5.0.0',
-    'DF_SALE_AND_STOCKS_OF_GOODS_RETAIL_M': '4.0.0',
-    'DF_SALE_AND_STOCKS_OF_GOODS_WHOLESALE_M': '3.0.0',
-    'DF_SALE_AND_STOCKS_OF_GOODS_WHOLESALE_Q': '2.0.0',
-    'DF_SATELLITE_ACCOUNT_OF_EDUCATION': '7.0.0',
-    'DF_SATELLITE_HEALTHCARE_ACCOUNT': '6.0.0',
-    'DF_SCIENTIFIC_RESEARCH_DEVELOPMENT': '30.0.1',
-    'DF_SOCIAL_PROTECTION_SATELLITE_ACCOUNTS': '7.0.0',
-    'DF_STATISTICAL_BUSINESS_REGISTER_A': '2.0.0',
-    'DF_STATISTICAL_BUSINESS_REGISTER_Q_M': '2.0.1',
-    'DF_STATISTICAL_INDICATORS_DEMOGRAPHY_ENTERPRISES': '6.0.0',
-    'DF_STOCKBREEDING_FODDER_A': '5.0.2',
-    'DF_STOCKBREEDING_FODDER_M': '6.0.0',
-    'DF_SUPPLY_USE_ENERGY': '15.0.0',
-    'DF_SURVEY_LIVING_CONDITIONS_HOUSEHOLDS_A': '2.0.0',
-    'DF_SURVEY_LIVING_CONDITIONS_HOUSEHOLDS_Q': '3.0.0',
-    'DF_USE_FERTILIZERS_PESTICIDES_HARVEST_AGR_CROPS': '12.0.0',
-    'DF_WASTE_GENERATION_MANAGEMENT_AGGREGATED_INDICATORS': '13.0.0',
-    'DF_WASTE_GENERATION_MANAGEMENT_TREATMENT_FACILITIES': '5.0.0',
-    'DF_WATER_TRANSPORT_ENTRP_ACTIVITY_A': '3.0.0',
-    'DF_WATER_TRANSPORT_ENTRP_ACTIVITY_M': '6.0.0',
-    'DF_WATER_TRANSPORT_ENTRP_ACTIVITY_Q': '3.0.0',
-    'DF_WORKING_CONDITIONS_ENTERPRISES': '7.0.0',
-    'DF_WORKPLACE_TRAUMATISM': '7.0.0',
+_LATEST_VERSIONS: dict[str, str] = {}
+
+_RETIRED_HINT = {
+    # Folded into DF_EXTERNAL_TRADE_OF_GOODS_M_Q, which carries both frequencies.
+    "DF_EXTERNAL_TRADE_OF_GOODS_M": "DF_EXTERNAL_TRADE_OF_GOODS_M_Q",
 }
+
+
+def _latest_version(entity_id: str) -> str:
+    """The dataflow's current version, resolved from the registry per run.
+
+    SSSU publishes every revision as a NEW dataflow version and freezes the old
+    one rather than updating it in place, so a pinned version silently decays
+    into a snapshot: v6 of DF_PROD_SOLD_INDUSTRIAL_PRODUCTS_TYPE still answers,
+    but stops a year short of the live v12. Retired flows disappear outright.
+    Bare `dataflow/SSSU` returns exactly one entry per id — the latest.
+    """
+    if not _LATEST_VERSIONS:
+        response = get(
+            f"{SDMX_BASE}/dataflow/SSSU",
+            headers={"Accept": "application/json"},
+            timeout=(10.0, 120.0),
+        )
+        response.raise_for_status()
+        dataflows = response.json().get("data", {}).get("dataflows", [])
+        if not dataflows:
+            raise ValueError("SSSU dataflow registry returned no dataflows")
+        _LATEST_VERSIONS.update({item["id"]: item["version"] for item in dataflows})
+
+    if entity_id not in _LATEST_VERSIONS:
+        hint = _RETIRED_HINT.get(entity_id)
+        succeeded_by = f"; superseded by {hint}" if hint else ""
+        raise ValueError(
+            f"{entity_id}: retired upstream - absent from the SSSU dataflow registry{succeeded_by}"
+        )
+    return _LATEST_VERSIONS[entity_id]
 
 
 def _looks_like_sdmx_csv(content: bytes) -> bool:
@@ -353,7 +273,17 @@ def _fetch_key_slices(
 
 def fetch_one(node_id: str) -> None:
     entity_id = _SPEC_TO_ENTITY[node_id]
-    version = _ENTITY_VERSION[entity_id]
+    version = _latest_version(entity_id)
+
+    # Which of the three paths below answers - and, for the sliced ones, what
+    # the fragments are named - depends on the version's shape, so a new version
+    # can leave fragments of the old one unreferenced-but-live in the manifest
+    # (a named-fragment write only replaces its own key). Drop the whole entry
+    # first so this fetch defines the asset's complete fragment set. The staged
+    # delete only commits if this node succeeds, and the objects it orphans are
+    # gc-raw's to collect.
+    delete_raw_file(node_id, "parquet")
+
     url = f"{SDMX_BASE}/data/SSSU,{entity_id},{version}"
     content = _fetch_csv(url)
     if content is not None:

@@ -18,11 +18,31 @@ every refresh re-fetches the full series and overwrites. (Maintain-step freshnes
 gating is authored separately.)
 
 LARGE FLOWS -- the endpoint generates the whole response before sending a byte,
-and for the biggest dataflows (millions of observations) it gives up and closes
-the connection. There is no server-side paging, so the only lever is to shrink
-the result set: TIME_PERIOD is the one dimension every flow has, so a flow that
-fails whole is re-fetched as a union of time windows, bisected until each window
-is small enough to serve (_iter_rows).
+and for the biggest dataflows it never finishes at all (111_263: 0 bytes after
+400s). There is no server-side paging, so the only lever is to shrink the result
+set: TIME_PERIOD is the one dimension every flow has, so a flow that fails whole
+is re-fetched as a union of time windows, subdivided until each window is small
+enough to serve (_iter_rows).
+
+THE WEDGE -- the second design constraint, and the one that killed run
+20260714-180631 (three legs, each: 15 flows fetched fine at ~1.7 req/min, then
+EVERY request failed for the rest of the leg). Abandoning an oversized query
+does not stop Istat generating it: the endpoint keeps the work queued and stops
+serving this IP until it drains. Measured directly -- a request that returned
+2.4MB in 14s returned 0 bytes in 90s immediately after we walked away from a
+monster, and recovered ~5 min later. So:
+
+  * every request issued while wedged fails AND deepens the wedge, which is why
+    the old top-down bisection was fatal: split_years(1861, 2060) re-requested
+    the SAME monster it had just abandoned, then bisected into more monsters,
+    stacking stuck jobs until the leg died. We now split DOWN from decades and
+    never re-request the full range (_iter_rows).
+  * after abandoning an oversized query we sleep _WEDGE_RECOVERY_S before
+    touching the endpoint again (_wedge_backoff), instead of burning the next
+    N specs into a wall and tripping the DAG's consecutive-failure halt.
+  * the full-flow probe gets a generous read timeout: a wedge costs ~5 min, so
+    waiting a few extra seconds to avoid misclassifying a merely-slow flow as a
+    monster is always the cheaper trade.
 """
 import csv
 from functools import lru_cache
@@ -35,8 +55,10 @@ import xml.etree.ElementTree as ET
 import httpx
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get,
+    raw_asset_exists,
     save_raw_ndjson,
 )
 
@@ -47,22 +69,34 @@ CSV_ACCEPT = "application/vnd.sdmx.data+csv;version=1.0.0"
 # projections reach. The bisection universe, not a claim about any one flow.
 _YEAR_MIN = 1861
 _YEAR_MAX = 2060
+# Decade grid the too-big split enters on, aligned below _YEAR_MIN. An empty
+# decade costs one cheap 404 (NoRecordsFound), so scanning the dead 19th-century
+# ones is far cheaper than one more monster-sized request.
+_DECADE_FLOOR = 1860
 
 # A flow that needs more windows than this is pathological -- fail loudly rather
 # than grind through the rate limiter for hours.
 _MAX_REQUESTS_PER_FLOW = 200
 
 # Full-flow probes exist only to learn whether a dataflow can be served in one
-# response. Oversized Istat flows often hold the socket open until our read
-# timeout, so keep that probe short and let the existing time-window bisection
-# do the real download work.
+# response. Read timeouts here are the time Istat spends GENERATING before the
+# first byte (once bytes flow the clock resets), and giving up early is not free
+# -- an abandoned query wedges the endpoint for this IP (see THE WEDGE above).
+# So the probe waits well past the slowest flow we have observed serving whole
+# (101_1015: 775,727 records, first byte well inside a minute) rather than
+# risk paying ~5 min of wedge to save ~1 min of probe.
 # GitHub-hosted runners intermittently spend >30s establishing TLS to Istat's
 # SDMX endpoint; keep read caps bounded but give connection setup more room.
 _CONNECT_TIMEOUT = 60.0
-_FULL_PROBE_TIMEOUT = (_CONNECT_TIMEOUT, 45.0)
-_WINDOW_TIMEOUT = (_CONNECT_TIMEOUT, 120.0)
+_FULL_PROBE_TIMEOUT = (_CONNECT_TIMEOUT, 150.0)
+_WINDOW_TIMEOUT = (_CONNECT_TIMEOUT, 150.0)
 _STRUCTURE_TIMEOUT = (_CONNECT_TIMEOUT, 180.0)
 _CONNECT_ATTEMPTS_WHEN_RETRIES_DISABLED = 2
+
+# How long Istat needs to drain an abandoned oversized query before it serves
+# this IP again. Measured at ~5 min (wedged at +3.5 min, recovered by +5.5 min);
+# padded, because under-waiting costs another full wedge rather than a retry.
+_WEDGE_RECOVERY_S = float(os.environ.get("ISTAT_WEDGE_RECOVERY_S", "360"))
 
 # Exceptions that mean "the server could not generate this response" -- i.e. the
 # window is too big, so split it. Raised by get() only after its own transient
@@ -105,6 +139,45 @@ def _throttle() -> None:
     finally:
         fcntl.flock(fd, fcntl.LOCK_UN)
         os.close(fd)
+
+
+class _WedgeBudgetExhausted(RuntimeError):
+    """This flow abandoned so many oversized queries that it is spending the
+    leg asleep. Bail out and let the leg spend its budget on flows that work --
+    the continuation retries this one, and a flow that keeps landing here is a
+    waive-spec candidate, not something to grind on."""
+
+
+# Each wedge costs _WEDGE_RECOVERY_S of doing nothing, so an unbounded number of
+# them on one pathological flow would burn a whole leg (200 requests x 6 min =
+# 20h) while every other flow waits. Bound the blast radius per flow instead.
+_MAX_WEDGES_PER_FLOW = 6
+_wedges = [0]
+
+
+def _drain_wedge(flow_id: str, why: str) -> None:
+    """Wait out the wedge left by an oversized query we walked away from.
+
+    Istat keeps generating an abandoned query and refuses to serve this IP until
+    it drains, so the next request is not merely likely to fail -- it extends the
+    outage. Sleeping here is what keeps a single monster flow from taking the
+    rest of the leg down with it.
+    """
+    print(f"[istat] {flow_id}: {why} — pausing {_WEDGE_RECOVERY_S:.0f}s for Istat "
+          f"to drain the abandoned query before the next request")
+    time.sleep(_WEDGE_RECOVERY_S)
+
+
+def _wedge_backoff(flow_id: str, why: str) -> None:
+    """Drain the wedge, but only while this flow still has budget for it."""
+    _wedges[0] += 1
+    if _wedges[0] > _MAX_WEDGES_PER_FLOW:
+        raise _WedgeBudgetExhausted(
+            f"{flow_id}: abandoned {_wedges[0]} oversized queries "
+            f"(limit {_MAX_WEDGES_PER_FLOW}) — giving the leg back to flows that "
+            f"can actually be served"
+        )
+    _drain_wedge(flow_id, f"{why} (wedge {_wedges[0]}/{_MAX_WEDGES_PER_FLOW})")
 
 
 class _DeadFlow(RuntimeError):
@@ -321,6 +394,7 @@ def _iter_rows(flow_id: str):
         try:
             text = window(str(lo), str(hi))
         except _TOO_BIG:
+            _wedge_backoff(flow_id, f"{lo}..{hi} too large to serve")
             if lo < hi:
                 mid = (lo + hi) // 2
                 yield from split_years(lo, mid)
@@ -360,6 +434,8 @@ def _iter_rows(flow_id: str):
                 try:
                     text = _fetch_csv_keyed(flow_id, key, start, end)
                 except _TOO_BIG:
+                    _wedge_backoff(
+                        flow_id, f"{dim['id']}={code} over {start}..{end} too large to serve")
                     seen = 0
                     break
                 if text is None:
@@ -382,6 +458,7 @@ def _iter_rows(flow_id: str):
             try:
                 text = window(start, start)
             except _TOO_BIG:
+                _wedge_backoff(flow_id, f"{start} too large to serve")
                 yielded = yield from split_compact_dims(start, start)
                 if yielded:
                     seen += 1
@@ -403,8 +480,14 @@ def _iter_rows(flow_id: str):
     try:
         text = _fetch_csv(flow_id, attempts=1, timeout=_FULL_PROBE_TIMEOUT)
     except _TOO_BIG:
-        print(f"[istat] {flow_id}: too large to serve whole — splitting by time window")
-        yield from split_years(_YEAR_MIN, _YEAR_MAX)
+        # Enter the split ONE LEVEL DOWN, at decades. split_years(_YEAR_MIN,
+        # _YEAR_MAX) would re-request the exact monster we just abandoned --
+        # that request is guaranteed to fail, and each such failure extends the
+        # wedge, which is how one bad flow used to take the whole leg with it.
+        print(f"[istat] {flow_id}: too large to serve whole — splitting by decade")
+        _wedge_backoff(flow_id, "full-flow probe abandoned")
+        for lo in range(_DECADE_FLOOR, _YEAR_MAX + 1, 10):
+            yield from split_years(lo, min(lo + 9, _YEAR_MAX))
         return
     if text is not None:
         yield from _rows(text)
@@ -448,6 +531,7 @@ def _rows(text, *, start: str | None = None, end: str | None = None):
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name the runtime writes
     flow_id = ENTITY_BY_NODE[node_id]
+    _wedges[0] = 0  # per-flow budget (specs run serially — DAG_PARALLELISM=1)
 
     # Detect an empty payload loudly rather than publishing a 0-row table that
     # would fail the downstream transform with a more opaque error.
@@ -458,7 +542,22 @@ def fetch_one(node_id: str) -> None:
             n[0] += 1
             yield r
 
-    save_raw_ndjson(counting(), asset)
+    # save_raw_ndjson buffers the whole flow and only writes once the generator
+    # drains, so a raised fetch leaves NO raw object behind -- which is what lets
+    # the maintain gate below treat "raw present" as "flow complete".
+    try:
+        save_raw_ndjson(counting(), asset)
+    except (httpx.ConnectTimeout, httpx.ConnectError):
+        # Not this flow's fault: we are behind someone else's abandoned monster
+        # (or our own, from an earlier spec) and Istat is refusing this IP. Left
+        # alone the DAG would march the next specs into the same wall at ~2 min
+        # each and halt the leg on 10 consecutive failures. Pay the drain once
+        # so the next spec starts clean; this spec is still recorded failed and
+        # the continuation retries it.
+        # Unbudgeted on purpose: this drain is for the NEXT spec's benefit, not
+        # this flow's, so it must happen even once this flow is over budget.
+        _drain_wedge(flow_id, "Istat refused the connection (wedged)")
+        raise
     if n[0] == 0:
         raise AssertionError(f"{asset}: dataflow {flow_id} returned 0 observations")
 
@@ -472,6 +571,38 @@ DOWNLOAD_SPECS = [
         id=f"istat-{eid.lower().replace('_', '-')}",
         fn=fetch_one,
         kind="download",
+    )
+    for eid in ENTITY_IDS
+]
+
+# Freshness gate -- the other half of what killed run 20260714-180631. A plain
+# download node re-runs on every leg (only a MaintainSpec yields skipped_fresh),
+# so all three legs re-fetched the same first 15 flows, grew no raw, and the
+# chain guard correctly stopped a chain that could never advance. 1096 flows at
+# ~36s each cannot fit one leg's budget, so the chain MUST resume where it left
+# off, not restart.
+#
+# The check is deliberately local: raw_asset_exists reads the raw manifest (and
+# falls back to this run's raw dir, which continuation legs share via run_id) --
+# no HTTP, because maintain checks run once per asset in the parent process and
+# 1096 HEADs would themselves blow the 5 req/min budget before a single flow was
+# fetched. That rules out the usual source_unchanged/ETag wiring here.
+#
+# _FRESH_DAYS sits just under maintenance.json's cadence_days=7 so a weekly
+# production run still re-pulls every flow, while the legs of one backfill
+# (~11-24h end to end) skip what their predecessors already landed.
+# FORCE_REFRESH=1 bypasses this entirely.
+_FRESH_DAYS = 6
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=f"istat-{eid.lower().replace('_', '-')}",
+        description=(
+            f"Dataflow {eid} re-pulled in full at most every {_FRESH_DAYS}d "
+            f"(maintenance.json cadence 7d); raw already landed => skip. Istat "
+            f"offers no per-flow validator worth a request under the 5/min cap."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=_FRESH_DAYS),
     )
     for eid in ENTITY_IDS
 ]
