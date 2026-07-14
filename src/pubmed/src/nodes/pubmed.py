@@ -37,11 +37,12 @@ STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 
-# Files fetched per node invocation. The DAG continues scheduling a node that
-# returns True until the shared time budget is exhausted, so this is a commit
-# granularity, not a whole GitHub job cap. Keep it small enough that the final
-# watchdog interrupt discards at most a modest amount of work.
-FILES_PER_RUN = 10
+# Files fetched per node invocation. Continuation chains are capped by the
+# shared runner guard, so the 1,334-file baseline must drain in fewer than the
+# default 16 legs. Cloud timings are ~10 files/minute for the current baseline;
+# 125 files is comfortably under one leg's budget while leaving enough headroom
+# for slower tail files and the final publish checks.
+FILES_PER_RUN = 125
 
 # Additional wall-clock cap for one child process. Runtime continuation still
 # owns the overall job budget; this just commits raw fragments regularly even
