@@ -2,11 +2,14 @@ import csv
 import json
 import os
 import re
+import shutil
 import tempfile
 import unicodedata
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
+
+import duckdb
 
 from subsets_utils import (
     MaintainSpec,
@@ -26,7 +29,8 @@ from constants import ENTITY_IDS, SUBJECT_NAMES
 BASE_URL = "https://sdb.socialstyrelsen.se/api/v1/sv"
 PAGE_SIZE = 5000
 SLUG = "socialstyrelsen"
-EXT = "ndjson.gz"
+BULK_EXT = "parquet"
+REST_EXT = "ndjson.gz"
 ZIP_TIMEOUT_S = 1800.0
 
 BULK_URLS = {
@@ -184,7 +188,11 @@ def _coerce_value(key: str, value: str | None):
     return text
 
 
-def _iter_zip_rows(path: Path):
+def _sql_str(value: str) -> str:
+    return "'" + value.replace("'", "''") + "'"
+
+
+def _iter_zip_csvs(path: Path):
     with zipfile.ZipFile(path) as zf:
         for info in zf.infolist():
             name = info.filename
@@ -203,11 +211,77 @@ def _iter_zip_rows(path: Path):
                     seen = key_counts.get(key, 0)
                     key_counts[key] = seen + 1
                     keys.append(key if seen == 0 else f"{key}_{seen + 1}")
-                for row in reader:
-                    out = {"source_file": name}
-                    for original, key in zip(reader.fieldnames, keys, strict=False):
-                        out[key] = _coerce_value(key, row.get(original))
-                    yield out
+                yield name, reader.fieldnames, keys, reader
+
+
+def _write_clean_csvs(path: Path, directory: Path) -> tuple[int, list[str]]:
+    rows_written = 0
+    columns = ["source_file"]
+    seen_columns = set(columns)
+
+    for index, (name, fieldnames, keys, reader) in enumerate(_iter_zip_csvs(path)):
+        for key in keys:
+            if key not in seen_columns:
+                columns.append(key)
+                seen_columns.add(key)
+
+        out_path = directory / f"part-{index:05d}.csv"
+        with out_path.open("w", encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=["source_file", *keys], extrasaction="ignore")
+            writer.writeheader()
+            for row in reader:
+                out_row = {"source_file": name}
+                for original, key in zip(fieldnames, keys, strict=False):
+                    out_row[key] = _coerce_value(key, row.get(original))
+                writer.writerow(out_row)
+                rows_written += 1
+
+    return rows_written, columns
+
+
+def _clean_csvs_to_parquet(
+    directory: Path,
+    parquet_path: Path,
+    *,
+    columns: list[str],
+    entity_id: str,
+    subject_name: str,
+    fetched_at: str,
+) -> None:
+    select_exprs = []
+    for column in columns:
+        quoted = '"' + column.replace('"', '""') + '"'
+        if column == "ar":
+            select_exprs.append(f"TRY_CAST({quoted} AS BIGINT) AS {quoted}")
+        else:
+            select_exprs.append(f"CAST({quoted} AS VARCHAR) AS {quoted}")
+    select_exprs.extend(
+        [
+            f"{_sql_str(entity_id)} AS subject_id",
+            f"{_sql_str(subject_name)} AS subject_name",
+            f"{_sql_str(fetched_at)} AS fetched_at",
+        ]
+    )
+
+    con = duckdb.connect()
+    try:
+        con.execute(
+            f"""
+            COPY (
+                SELECT {", ".join(select_exprs)}
+                FROM read_csv_auto(
+                    {_sql_str(str(directory / "*.csv"))},
+                    header=true,
+                    all_varchar=true,
+                    union_by_name=true,
+                    sample_size=-1
+                )
+            )
+            TO {_sql_str(str(parquet_path))} (FORMAT PARQUET, COMPRESSION ZSTD)
+            """
+        )
+    finally:
+        con.close()
 
 
 def _write_json_line(out, row: dict) -> None:
@@ -221,7 +295,7 @@ def _fetch_rest_subject(node_id: str, entity_id: str, subject_name: str) -> int:
     fetched_at = _fetched_at()
     rows_written = 0
 
-    with raw_writer(node_id, EXT, mode="wt", compression="gzip") as out:
+    with raw_writer(node_id, REST_EXT, mode="wt", compression="gzip") as out:
         for metric_id in _metric_ids(label_maps):
             url = _result_url(entity_id, metric_id)
             first = _get_json(url, params={"per_sida": PAGE_SIZE, "sida": 1})
@@ -256,17 +330,27 @@ def _fetch_rest_subject(node_id: str, entity_id: str, subject_name: str) -> int:
 def _fetch_bulk_subject(node_id: str, entity_id: str, subject_name: str, url: str) -> int:
     fetched_at = _fetched_at()
     path, response = _download_zip(url)
-    rows_written = 0
+    tmpdir = Path(tempfile.mkdtemp(prefix=f"{node_id}-"))
     try:
-        with raw_writer(node_id, EXT, mode="wt", compression="gzip") as out:
-            for row in _iter_zip_rows(path):
-                row["subject_id"] = entity_id
-                row["subject_name"] = subject_name
-                row["fetched_at"] = fetched_at
-                _write_json_line(out, row)
-                rows_written += 1
+        csv_dir = tmpdir / "csv"
+        csv_dir.mkdir()
+        parquet_path = tmpdir / "data.parquet"
+        rows_written, columns = _write_clean_csvs(path, csv_dir)
+        if rows_written == 0:
+            raise AssertionError(f"{node_id}: fetched zero result rows from bulk ZIP")
+        _clean_csvs_to_parquet(
+            csv_dir,
+            parquet_path,
+            columns=columns,
+            entity_id=entity_id,
+            subject_name=subject_name,
+            fetched_at=fetched_at,
+        )
+        with parquet_path.open("rb") as src, raw_writer(node_id, BULK_EXT, mode="wb") as out:
+            shutil.copyfileobj(src, out, length=1024 * 1024)
         record_source_signature(node_id, url, response=response)
     finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
         path.unlink(missing_ok=True)
     return rows_written
 
@@ -300,7 +384,7 @@ MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=f"{SLUG}-{entity_id.lower().replace('_', '-')}",
         description="Bulk CSV ZIP updated by Socialstyrelsen developer exports; checked via Last-Modified",
-        check=lambda asset_id, url=url: source_unchanged(asset_id, url) and raw_asset_exists(asset_id, EXT),
+        check=lambda asset_id, url=url: source_unchanged(asset_id, url) and raw_asset_exists(asset_id, BULK_EXT),
     )
     for entity_id, url in BULK_URLS.items()
 ]
