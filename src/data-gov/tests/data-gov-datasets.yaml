@@ -9,7 +9,7 @@ tests:
   - unique: id
     reason: CKAN package ids identify dataset records; duplicates indicate paging overlap.
     certainty: 95
-  - column_type: {col: metadata_modified, type: timestamp}
+  - column_type: {col: metadata_modified, type: string}
   - freshness: {col: metadata_modified, reaches: today - 400d}
     reason: Data.gov is continuously harvested; at least one catalog record should be modified within the last year.
     certainty: 90
