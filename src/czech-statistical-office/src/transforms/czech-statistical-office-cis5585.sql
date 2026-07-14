@@ -12,5 +12,8 @@ SELECT
     strptime("admplod", '%Y-%m-%d')::DATE AS admplod,
     strptime("admnepo", '%Y-%m-%d')::DATE AS admnepo,
     "vykhmot",
-    "predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce" AS predchudce_predchudce_predchudce_predchudce_predchudce_predchudce_predchudce_predchudce_predchudce_predchudce_predchudce_predchudce
+    regexp_extract(
+        "predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce""predchudce",
+        '^[^"]+'
+    ) AS predecessor_code
 FROM "czech-statistical-office-cis5585"
