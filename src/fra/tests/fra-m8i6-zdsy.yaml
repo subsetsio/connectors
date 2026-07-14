@@ -7,3 +7,7 @@ tests:
   - nullable: {col: railroadcode, max_null_frac: 0.001}
     reason: Source data has a tiny number of legacy operational rows without railroadcode; a larger null share would indicate truncation or column shift.
     certainty: 90
+  - freshness: {col: year, reaches: current_year()}
+    reason: FRA Form 55 operational data is reported monthly and should include records for the current reporting year.
+    certainty: 80
+    points_outward: true

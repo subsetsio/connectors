@@ -4,3 +4,7 @@ tests:
   - row_count: {min: 350000}
     reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
     certainty: 90
+  - freshness: {col: revisiondate, reaches: today - 400d}
+    reason: Current Form 71 inventory receives ongoing revisions; revisiondate should show recent source maintenance allowing annual reporting lag.
+    certainty: 80
+    points_outward: true

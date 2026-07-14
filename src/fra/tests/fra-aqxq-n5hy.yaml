@@ -7,3 +7,7 @@ tests:
   - not_null: iyr
     reason: Column iyr is a primary identifier present on every submitted record; nulls indicate a parse or column-shift bug.
     certainty: 90
+  - freshness: {col: year4, reaches: current_year()}
+    reason: FRA rail equipment source data is reported monthly and should include records for the current reporting year.
+    certainty: 80
+    points_outward: true

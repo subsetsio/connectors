@@ -4,3 +4,7 @@ tests:
   - row_count: {min: 200000}
     reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
     certainty: 90
+  - freshness: {col: year4, reaches: current_year()}
+    reason: FRA crossing incident source data is reported monthly and should include records for the current reporting year.
+    certainty: 80
+    points_outward: true

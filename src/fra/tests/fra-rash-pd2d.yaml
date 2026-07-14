@@ -7,3 +7,7 @@ tests:
   - not_null: railroadcode
     reason: Column railroadcode is a primary identifier present on every submitted record; nulls indicate a parse or column-shift bug.
     certainty: 90
+  - freshness: {col: date, reaches: today - 400d}
+    reason: FRA Form 55A casualty data is reported monthly; the full export should contain recent incident dates allowing annual reporting lag.
+    certainty: 80
+    points_outward: true

@@ -7,3 +7,7 @@ tests:
   - not_null: reportingrailroadcode
     reason: Column reportingrailroadcode is a primary identifier present on every submitted record; nulls indicate a parse or column-shift bug.
     certainty: 90
+  - freshness: {col: date, reaches: today - 400d}
+    reason: FRA unique train accident data is reported monthly; the full export should contain recent accident dates allowing annual reporting lag.
+    certainty: 80
+    points_outward: true
