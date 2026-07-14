@@ -7,19 +7,26 @@ skips fresh local raw assets and the fetch function remains an unconditional
 full snapshot when invoked.
 """
 
+import os
 import time
 
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     get,
+    list_raw_fragments,
+    load_state,
     raw_asset_exists,
     save_raw_ndjson,
+    save_state,
 )
 
 BASE_URL = "https://steamspy.com/api.php"
 PAGE_SLEEP_SECONDS = 61
 DETAIL_SLEEP_SECONDS = 1.1
+TAG_BATCH_SIZE = int(os.environ.get("STEAM_SPY_TAG_BATCH_SIZE", "250"))
+TAG_LEG_SECONDS = int(os.environ.get("STEAM_SPY_TAG_LEG_SECONDS", str(5 * 60 * 60)))
+STATE_VERSION = 2
 
 
 def _get_all_page(page: int) -> dict:
@@ -83,28 +90,105 @@ def _get_app_details(appid: int) -> dict:
     return payload
 
 
-def fetch_app_tags(node_id: str) -> None:
-    rows = []
+def _appid_universe(node_id: str, run_id: str) -> list[int]:
+    state = load_state(node_id)
+    if (
+        state.get("schema_version") == STATE_VERSION
+        and state.get("run_id") == run_id
+        and isinstance(state.get("appids"), list)
+    ):
+        return [int(appid) for appid in state["appids"]]
+
     apps = _iter_all_apps()
+    appids = [int(app["appid"]) for app in apps]
+    save_state(
+        node_id,
+        {
+            "schema_version": STATE_VERSION,
+            "run_id": run_id,
+            "total_apps": len(appids),
+            "appids": appids,
+        },
+    )
+    return appids
 
-    for index, app in enumerate(apps):
-        if index:
-            time.sleep(DETAIL_SLEEP_SECONDS)
-        details = _get_app_details(app["appid"])
-        tags = details.get("tags") or {}
-        if not isinstance(tags, dict):
+
+def _completed_tag_batches(node_id: str, run_id: str) -> set[int]:
+    completed = set()
+    for fragment, meta in list_raw_fragments(node_id, "ndjson.zst").items():
+        if meta.get("run_id") != run_id or not fragment.startswith("batch-"):
             continue
-        for tag, votes in tags.items():
-            rows.append(
-                {
-                    "appid": int(app["appid"]),
-                    "name": str(details.get("name") or app.get("name") or ""),
-                    "tag": str(tag),
-                    "votes": int(votes or 0),
-                }
-            )
+        try:
+            completed.add(int(fragment.removeprefix("batch-")))
+        except ValueError:
+            continue
+    return completed
 
-    save_raw_ndjson(rows, node_id)
+
+def _tag_rows_for_app(appid: int) -> list[dict]:
+    details = _get_app_details(appid)
+    tags = details.get("tags") or {}
+    if not isinstance(tags, dict):
+        return []
+    name = str(details.get("name") or "")
+    rows = []
+    for tag, votes in tags.items():
+        rows.append(
+            {
+                "appid": int(appid),
+                "name": name,
+                "tag": str(tag),
+                "votes": int(votes or 0),
+            }
+        )
+    return rows
+
+
+def fetch_app_tags(node_id: str):
+    run_id = os.environ.get("RUN_ID", "unknown")
+    deadline = time.monotonic() + TAG_LEG_SECONDS
+    appids = _appid_universe(node_id, run_id)
+    completed = _completed_tag_batches(node_id, run_id)
+    total_batches = (len(appids) + TAG_BATCH_SIZE - 1) // TAG_BATCH_SIZE
+
+    for batch_index in range(total_batches):
+        if batch_index in completed:
+            continue
+        if time.monotonic() >= deadline:
+            print(
+                f"{node_id}: leg budget spent with "
+                f"{len(completed)}/{total_batches} batches complete; requesting continuation"
+            )
+            return True
+
+        start = batch_index * TAG_BATCH_SIZE
+        batch_appids = appids[start:start + TAG_BATCH_SIZE]
+        rows = []
+        for offset, appid in enumerate(batch_appids):
+            if offset:
+                time.sleep(DETAIL_SLEEP_SECONDS)
+            rows.extend(_tag_rows_for_app(appid))
+
+        fragment = f"batch-{batch_index:05d}"
+        save_raw_ndjson(rows, node_id, fragment=fragment)
+        completed.add(batch_index)
+        save_state(
+            node_id,
+            {
+                "schema_version": STATE_VERSION,
+                "run_id": run_id,
+                "total_apps": len(appids),
+                "total_batches": total_batches,
+                "completed_batches": len(completed),
+                "appids": appids,
+            },
+        )
+        print(
+            f"{node_id}: wrote {len(rows)} tag rows for "
+            f"batch {batch_index + 1}/{total_batches}"
+        )
+
+    print(f"{node_id}: all {total_batches} tag batches complete")
 
 
 DOWNLOAD_SPECS = [
