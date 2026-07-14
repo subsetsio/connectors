@@ -1,5 +1,5 @@
 {
-  "cadence_days": 7,
+  "cadence_days": 30,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "OFM's headline series is the April 1 official population estimates, which RCW 43.62.030 requires annually: OFM prepares them as of April 1 and releases them between April 1 and the first week of June (https://ofm.wa.gov/washington-data-research/population-demographics/population-estimates/april-1-official-population-estimates/april-1-population-estimates-program-information). Much of the rest of the corpus is frozen by construction - the 2002/2007/2012 Input-Output models, the Census 2010 redistricting tables and the 2023 'Comparing the states' map data never advance, and all 9 temporal published tables are declared coverage.frozen at download. The moving parts are the annual estimates/forecasts plus the data.wa.gov Socrata mirrors (WA-APCD quality and cost, UCR crime), which restate on their own irregular schedules. Research found no incremental query support, so every run is a full-corpus refresh of all 104 specs; 30 days picks up the annual June release within a month and catches Socrata restatements, without re-pulling a largely frozen corpus weekly."
 }

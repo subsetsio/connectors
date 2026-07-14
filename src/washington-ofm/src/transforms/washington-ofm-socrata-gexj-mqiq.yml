@@ -1,90 +1,133 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `washington-ofm-socrata-gexj-mqiq`. Regenerate after model-verify.
-# caution: Wide 2010 Census (PL 94-171) redistricting cross-tab: one row per congressional_district, and every other column is a population count whose NAME encodes the category — a race group, optionally narrowed to `not_hispanic_or_latino`, and optionally to `over_18`. The count columns are overlapping subtotals, not a partition: `total_population_2010` equals the six `*_alone_2010` race columns plus `population_of_two_or_more_races_2010`, and separately equals `hispanic_or_latino_of_any_race_2010` plus `not_hispanic_or_latino_2010` (verified on the data). Summing across columns counts the same people two or three times — pick the single column matching the category you want.
+# Hand-curated from the compiled pass-through: the source's category column names run
+# up to 83 characters, so they are renamed to standard Census short forms here and the
+# full label moved into each column's description (rendered next to the schema).
+# caution: Wide 2010 Census (PL 94-171) redistricting cross-tab: one row per congressional_district, and every other column is a population count for a race/Hispanic-origin category, optionally narrowed to not-Hispanic (`_not_hispanic`) and/or to adults (`_18plus`). The count columns are overlapping subtotals, not a partition: `total_population_2010` equals the six `*_alone_2010` race columns plus `two_or_more_races_2010`, and separately equals `hispanic_any_race_2010` plus `not_hispanic_2010` (verified on the data). Hispanic origin is collected separately from race, so Hispanic residents also appear inside the race columns. Summing across columns counts the same people two or three times - pick the single column matching the category you want.
 key: [congressional_district]
 sort: [congressional_district]
 columns:
   - name: entity_id
     type: VARCHAR
+    description: "connector entity id for this Socrata dataset."
   - name: source_type
     type: VARCHAR
+    description: "provenance marker; constant 'socrata'."
   - name: socrata_dataset_id
     type: VARCHAR
+    description: "data.wa.gov dataset id this row came from."
   - name: congressional_district
     type: VARCHAR
+    description: "Washington congressional district code, zero-padded."
   - name: total_population_2010
     type: BIGINT
-  - name: population_of_one_race_2010
+    description: "Total population: 2010 Census count."
+  - name: one_race_2010
     type: BIGINT
+    description: "Population of one race: 2010 Census count."
   - name: white_alone_2010
     type: BIGINT
-  - name: black_or_african_american_alone_2010
+    description: "White alone: 2010 Census count."
+  - name: black_alone_2010
     type: BIGINT
-  - name: american_indian_and_alaska_native_alone_2010
+    description: "Black or African American alone: 2010 Census count."
+  - name: aian_alone_2010
     type: BIGINT
+    description: "American Indian and Alaska Native alone: 2010 Census count."
   - name: asian_alone_2010
     type: BIGINT
-  - name: native_hawaiian_and_other_pacific_islander_alone_2010
+    description: "Asian alone: 2010 Census count."
+  - name: nhpi_alone_2010
     type: BIGINT
-  - name: some_other_race_alone_2010
+    description: "Native Hawaiian and Other Pacific Islander alone: 2010 Census count."
+  - name: other_race_alone_2010
     type: BIGINT
-  - name: population_of_two_or_more_races_2010
+    description: "Some other race alone: 2010 Census count."
+  - name: two_or_more_races_2010
     type: BIGINT
-  - name: hispanic_or_latino_of_any_race_2010
+    description: "Population of two or more races: 2010 Census count."
+  - name: hispanic_any_race_2010
     type: BIGINT
-  - name: not_hispanic_or_latino_2010
+    description: "Hispanic or Latino of any race: 2010 Census count."
+  - name: not_hispanic_2010
     type: BIGINT
-  - name: population_of_one_race_not_hispanic_or_latino_2010
+    description: "Not Hispanic or Latino: 2010 Census count."
+  - name: one_race_not_hispanic_2010
     type: BIGINT
-  - name: white_alone_not_hispanic_or_latino_2010
+    description: "Population of one race, not Hispanic or Latino: 2010 Census count."
+  - name: white_alone_not_hispanic_2010
     type: BIGINT
-  - name: black_or_african_american_alone_not_hispanic_or_latino_2010
+    description: "White alone, not Hispanic or Latino: 2010 Census count."
+  - name: black_alone_not_hispanic_2010
     type: BIGINT
-  - name: american_indian_and_alaska_native_alone_not_hispanic_or_latino_2010
+    description: "Black or African American alone, not Hispanic or Latino: 2010 Census count."
+  - name: aian_alone_not_hispanic_2010
     type: BIGINT
-  - name: asian_alone_not_hispanic_or_latino_2010
+    description: "American Indian and Alaska Native alone, not Hispanic or Latino: 2010 Census count."
+  - name: asian_alone_not_hispanic_2010
     type: BIGINT
-  - name: native_hawaiian_and_other_pacific_islander_alone_not_hispanic_or_latino_2010
+    description: "Asian alone, not Hispanic or Latino: 2010 Census count."
+  - name: nhpi_alone_not_hispanic_2010
     type: BIGINT
-  - name: some_other_race_alone_not_hispanic_or_latino_2010
+    description: "Native Hawaiian and Other Pacific Islander alone, not Hispanic or Latino: 2010 Census count."
+  - name: other_race_alone_not_hispanic_2010
     type: BIGINT
-  - name: population_of_two_or_more_races_not_hispanic_or_latino_2010
+    description: "Some other race alone, not Hispanic or Latino: 2010 Census count."
+  - name: two_or_more_races_not_hispanic_2010
     type: BIGINT
-  - name: total_population_over_18_2010
+    description: "Population of two or more races, not Hispanic or Latino: 2010 Census count."
+  - name: total_population_18plus_2010
     type: BIGINT
-  - name: population_of_one_race_over_18_2010
+    description: "Total population, age 18 and over: 2010 Census count."
+  - name: one_race_18plus_2010
     type: BIGINT
-  - name: white_alone_over_18_2010
+    description: "Population of one race, age 18 and over: 2010 Census count."
+  - name: white_alone_18plus_2010
     type: BIGINT
-  - name: black_or_african_american_alone_over_18_2010
+    description: "White alone, age 18 and over: 2010 Census count."
+  - name: black_alone_18plus_2010
     type: BIGINT
-  - name: american_indian_and_alaska_native_alone_over_18_2010
+    description: "Black or African American alone, age 18 and over: 2010 Census count."
+  - name: aian_alone_18plus_2010
     type: BIGINT
-  - name: asian_alone_over_18_2010
+    description: "American Indian and Alaska Native alone, age 18 and over: 2010 Census count."
+  - name: asian_alone_18plus_2010
     type: BIGINT
-  - name: native_hawaiian_and_other_pacific_islander_alone_over_18_2010
+    description: "Asian alone, age 18 and over: 2010 Census count."
+  - name: nhpi_alone_18plus_2010
     type: BIGINT
-  - name: some_other_race_alone_over_18_2010
+    description: "Native Hawaiian and Other Pacific Islander alone, age 18 and over: 2010 Census count."
+  - name: other_race_alone_18plus_2010
     type: BIGINT
-  - name: population_of_two_or_more_races_over_18_2010
+    description: "Some other race alone, age 18 and over: 2010 Census count."
+  - name: two_or_more_races_18plus_2010
     type: BIGINT
-  - name: hispanic_or_latino_of_any_race_over_18_2010
+    description: "Population of two or more races, age 18 and over: 2010 Census count."
+  - name: hispanic_any_race_18plus_2010
     type: BIGINT
-  - name: not_hispanic_or_latino_over_18_2010
+    description: "Hispanic or Latino of any race, age 18 and over: 2010 Census count."
+  - name: not_hispanic_18plus_2010
     type: BIGINT
-  - name: population_of_one_race_not_hispanic_or_latino_over_18_2010
+    description: "Not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: one_race_not_hispanic_18plus_2010
     type: BIGINT
-  - name: white_alone_not_hispanic_or_latino_over_18_2010
+    description: "Population of one race, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: white_alone_not_hispanic_18plus_2010
     type: BIGINT
-  - name: black_or_african_american_alone_not_hispanic_or_latino_over_18_2010
+    description: "White alone, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: black_alone_not_hispanic_18plus_2010
     type: BIGINT
-  - name: american_indian_and_alaska_native_alone_not_hispanic_or_latino_over_18_2010
+    description: "Black or African American alone, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: aian_alone_not_hispanic_18plus_2010
     type: BIGINT
-  - name: asian_alone_not_hispanic_or_latino_over_18_2010
+    description: "American Indian and Alaska Native alone, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: asian_alone_not_hispanic_18plus_2010
     type: BIGINT
-  - name: native_hawaiian_and_other_pacific_islander_alone_not_hispanic_or_latino_over_18_2010
+    description: "Asian alone, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: nhpi_alone_not_hispanic_18plus_2010
     type: BIGINT
-  - name: some_other_race_alone_not_hispanic_or_latino_over_18_2010
+    description: "Native Hawaiian and Other Pacific Islander alone, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: other_race_alone_not_hispanic_18plus_2010
     type: BIGINT
-  - name: population_of_two_or_more_races_not_hispanic_or_latino_over_18_2010
+    description: "Some other race alone, not Hispanic or Latino, age 18 and over: 2010 Census count."
+  - name: two_or_more_races_not_hispanic_18plus_2010
     type: BIGINT
+    description: "Population of two or more races, not Hispanic or Latino, age 18 and over: 2010 Census count."

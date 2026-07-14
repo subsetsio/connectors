@@ -19,6 +19,7 @@ import os
 import re
 import shutil
 import tempfile
+import time
 import zipfile
 from collections.abc import Iterable, Iterator
 from pathlib import PurePosixPath
@@ -61,6 +62,10 @@ BASE_COLUMNS = [
 # Rows per parquet batch. The cap on resident rows, so it bounds peak memory
 # across every resource shape below.
 BATCH_ROWS = 20_000
+# The portal rate-limits (429) despite documenting no limit; a DAG walking
+# 2500+ resources trips it, so downloads back off rather than tear.
+DOWNLOAD_ATTEMPTS = 6
+MAX_BACKOFF_S = 60.0
 RAW_SCHEMA = pa.schema([(col, pa.string()) for col in BASE_COLUMNS])
 
 
@@ -73,26 +78,42 @@ def _api(action: str, **params):
     return body["result"]
 
 
+def _retry_after(resp: httpx.Response, fallback: float) -> float:
+    raw = (resp.headers.get("Retry-After") or "").strip()
+    if raw.isdigit():
+        return min(float(raw), MAX_BACKOFF_S)
+    return fallback
+
+
 def _stream_to_file(url: str, dest: str) -> None:
     """Stream a resource to disk. Multi-hundred-MB resources are routine here,
-    so the body never becomes a bytes object. get_client() is the raw httpx
-    client — unlike get(), it carries no retry, hence the explicit attempts."""
-    last: Exception | None = None
-    for attempt in range(3):
+    so the body never becomes a bytes object.
+
+    get_client() is the raw httpx client: unlike get(), it carries NO retry, so
+    the backoff below is ours to own. The portal does rate-limit (429) despite
+    publishing no documented limit, and a DAG walking 2500+ resources trips it
+    readily — without this, a 429 would surface as a torn resource."""
+    for attempt in range(DOWNLOAD_ATTEMPTS):
+        last = attempt == DOWNLOAD_ATTEMPTS - 1
+        backoff = min(2.0 ** attempt, MAX_BACKOFF_S)
         try:
             with get_client().stream(
                 "GET", url, timeout=httpx.Timeout(300.0, connect=10.0)
             ) as resp:
+                if resp.status_code == 429 or resp.status_code >= 500:
+                    if last:
+                        resp.raise_for_status()
+                    time.sleep(_retry_after(resp, backoff))
+                    continue
                 resp.raise_for_status()
                 with open(dest, "wb") as handle:
                     for chunk in resp.iter_bytes(1 << 20):
                         handle.write(chunk)
             return
-        except Exception as exc:  # noqa: BLE001 - retried, then surfaced
-            last = exc
-            if attempt == 2:
-                break
-    raise last  # type: ignore[misc]
+        except (httpx.TransportError, httpx.TimeoutException):
+            if last:
+                raise
+            time.sleep(backoff)
 
 
 def _extension(url_or_name: str) -> str:
@@ -381,22 +402,12 @@ def _zip_row_batches(path: str, tmpdir: str) -> Iterator[list[dict]]:
                     os.remove(dest)
 
 
-def _resource_batches(resource: dict, tmpdir: str) -> Iterator[list[dict]]:
-    url = resource.get("url")
-    if not url:
-        return
-    is_zip = _resource_format(resource) == "zip" or _extension(url) == ".zip"
-    ext = ".zip" if is_zip else _extension(url)
-    dest = os.path.join(tmpdir, f"resource{ext}")
-    _stream_to_file(url, dest)
-    try:
-        if is_zip:
-            yield from _zip_row_batches(dest, tmpdir)
-        else:
-            yield from _file_row_batches(dest, url)
-    finally:
-        if os.path.exists(dest):
-            os.remove(dest)
+def _parse_resource(resource: dict, path: str, tmpdir: str) -> Iterator[list[dict]]:
+    url = str(resource.get("url") or "")
+    if _resource_format(resource) == "zip" or _extension(url) == ".zip":
+        yield from _zip_row_batches(path, tmpdir)
+    else:
+        yield from _file_row_batches(path, url)
 
 
 def _metadata_row(status: str, message: str) -> dict:
@@ -441,6 +452,76 @@ def _write_rows(writer, rows: list[dict], package: dict, resource: dict) -> None
     writer.write_table(_table_from_rows(rows))
 
 
+def _write_resource(writer, resource: dict, identity: dict, tmpdir: str) -> None:
+    """Fetch + parse one resource, emitting at least one row for it.
+
+    Raises only on a transient fetch failure, which fails the whole spec by
+    design; anything permanent about the resource is recorded as a row."""
+    url = str(resource.get("url") or "")
+    if not url:
+        _write_rows(
+            writer,
+            [_metadata_row("metadata_only", "resource has no url")],
+            identity,
+            resource,
+        )
+        return
+
+    is_zip = _resource_format(resource) == "zip" or _extension(url) == ".zip"
+    dest = os.path.join(tmpdir, f"resource{'.zip' if is_zip else _extension(url)}")
+    try:
+        _stream_to_file(url, dest)
+    except httpx.HTTPStatusError as exc:
+        # A dead link (404/403/410) is a fact about the package, so it becomes a
+        # row like any other unusable resource. A 429/5xx that outlived the
+        # backoff is NOT: recording it would bake a temporary outage into the
+        # published table for the whole maintain window, so let it fail the spec
+        # and leave the package to retry-failed-specs.
+        if exc.response.status_code == 429 or exc.response.status_code >= 500:
+            raise
+        _write_rows(
+            writer,
+            [_metadata_row("resource_error", f"{type(exc).__name__}: {exc}")],
+            identity,
+            resource,
+        )
+        return
+
+    wrote = False
+    try:
+        for batch in _parse_resource(resource, dest, tmpdir):
+            _write_rows(writer, batch, identity, resource)
+            wrote = True
+    except Exception as exc:  # noqa: BLE001 - a real, per-resource defect
+        # Only parse failures land here: the resource is malformed for us, which
+        # is a fact about the data, not about the run. Batches already written
+        # stay — partial rows plus an explicit error row beat discarding what the
+        # resource did yield.
+        _write_rows(
+            writer,
+            [_metadata_row("resource_error", f"{type(exc).__name__}: {exc}")],
+            identity,
+            resource,
+        )
+        return
+    finally:
+        if os.path.exists(dest):
+            os.remove(dest)
+
+    if not wrote:
+        _write_rows(
+            writer,
+            [
+                _metadata_row(
+                    "metadata_only",
+                    "supported resource contained no CSV/XLS/XLSX/JSON rows",
+                )
+            ],
+            identity,
+            resource,
+        )
+
+
 def fetch_one(node_id: str) -> None:
     entity_id = node_id[len(PREFIX):]
     package = _api("package_show", id=entity_id)
@@ -454,40 +535,13 @@ def fetch_one(node_id: str) -> None:
         "package_title": str(package.get("title") or ""),
     }
 
-    wrote_any = False
     with tempfile.TemporaryDirectory() as tmpdir:
         with raw_parquet_writer(node_id, RAW_SCHEMA) as writer:
             for resource in resources:
-                wrote_resource = False
-                try:
-                    for batch in _resource_batches(resource, tmpdir):
-                        _write_rows(writer, batch, identity, resource)
-                        wrote_resource = True
-                except Exception as exc:  # noqa: BLE001 - recorded as a data row
-                    # Batches already written stay: partial rows plus an explicit
-                    # error row beat discarding what the resource did yield.
-                    _write_rows(
-                        writer,
-                        [_metadata_row("resource_error", f"{type(exc).__name__}: {exc}")],
-                        identity,
-                        resource,
-                    )
-                    wrote_resource = True
-                if not wrote_resource:
-                    _write_rows(
-                        writer,
-                        [
-                            _metadata_row(
-                                "metadata_only",
-                                "supported resource contained no CSV/XLS/XLSX/JSON rows",
-                            )
-                        ],
-                        identity,
-                        resource,
-                    )
-                wrote_any = True
-
-            if not wrote_any:
+                _write_resource(writer, resource, identity, tmpdir)
+            # Every resource above emits at least one row, so an empty table can
+            # only mean the package had nothing supported to begin with.
+            if not resources:
                 writer.write_table(
                     _table_from_rows(
                         [
