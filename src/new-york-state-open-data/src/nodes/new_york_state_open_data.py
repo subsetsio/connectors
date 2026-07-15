@@ -23,9 +23,11 @@ import time
 import httpx
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get_client,
     load_state,
+    raw_asset_exists,
     raw_writer,
     save_state,
     transient_retry,
@@ -97,4 +99,18 @@ def _node_id(entity_id: str) -> str:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "data.ny.gov datasets update on source-specific schedules; skip "
+            "raw CSV snapshots fetched in the last 30 days so long catalog "
+            "crawls can continue across GitHub run legs without refetching "
+            "completed datasets."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "csv.gz", max_age_days=30),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
