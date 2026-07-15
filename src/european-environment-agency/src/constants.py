@@ -155,7 +155,7 @@ ENTITIES = [
     ('EUNIS.Habitat_Redlist_Threats', 'EUNIS', 'Habitat_Redlist_Threats', 'https://dis2datalake.blob.core.windows.net/discodata/eunis/v1r3/habitat_redlist_threats.zip'),
     ('EUNIS.Habitat_Redlist_photos', 'EUNIS', 'Habitat_Redlist_photos', 'https://dis2datalake.blob.core.windows.net/discodata/eunis/v1r9/habitat_redlist_photos.zip'),
     ('EUNIS.Natda_designated_site', 'EUNIS', 'Natda_designated_site', 'https://dis2datalake.blob.core.windows.net/discodata/eunis/v1r9/natda_designated_site.zip'),
-    ('EUNIS.Natda_designation_type', 'EUNIS', 'Natda_designation_type', ''),
+    ('EUNIS.Natda_designation_type', 'EUNIS', 'Natda_designation_type', 'https://dis2datalake.blob.core.windows.net/discodata/eunis/v1r9/natda_designation_type.zip'),
     ('EUNIS.Official_reference', 'EUNIS', 'Official_reference', 'https://dis2datalake.blob.core.windows.net/discodata/eunis/v1r8/official_reference.zip'),
     ('EUNIS.ProtectedAreas_Stats', 'EUNIS', 'ProtectedAreas_Stats', ''),
     ('EUNIS.ProtectedAreas_Stats2020', 'EUNIS', 'ProtectedAreas_Stats2020', ''),
