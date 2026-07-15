@@ -17,7 +17,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import shutil
 import tempfile
 import time
 import zipfile
@@ -388,11 +387,16 @@ def _zip_row_batches(path: str, tmpdir: str) -> Iterator[list[dict]]:
             ext = _extension(member.filename)
             if member.is_dir() or ext not in SUPPORTED_EXTENSIONS:
                 continue
-            # Spill the member to disk rather than read() it: members reach
-            # multi-GB, and .xlsx needs a seekable file anyway.
+            if ext == ".csv":
+                with archive.open(member) as src:
+                    yield from _csv_row_batches(src, member_path=member.filename)
+                continue
+            # Excel readers need a seekable file; JSON resources are small
+            # enough here that keeping the existing file parser is fine.
             dest = os.path.join(tmpdir, f"member{ext}")
             with archive.open(member) as src, open(dest, "wb") as out:
-                shutil.copyfileobj(src, out, 1 << 20)
+                for chunk in iter(lambda: src.read(1 << 20), b""):
+                    out.write(chunk)
             try:
                 yield from _file_row_batches(
                     dest, member.filename, member_path=member.filename
