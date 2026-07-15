@@ -2,15 +2,26 @@ from __future__ import annotations
 
 import json
 from io import BytesIO
+import os
 import re
 from urllib.parse import urljoin
 from zipfile import ZipFile
 
 import pandas as pd
-from subsets_utils import NodeSpec, get, raw_writer, record_source_signature
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    list_raw_fragments,
+    raw_asset_exists,
+    raw_writer,
+    record_source_signature,
+)
 
 
 SLUG = "tuna-rfmo-catch"
+RAW_EXT = "ndjson.gz"
+MAINTAIN_MAX_AGE_DAYS = 7
 
 
 ENTITY_SOURCES = {
@@ -255,6 +266,14 @@ def _iter_rows_from_response(content: bytes, *, entity: str, rfmo: str, source_u
     yield from _iter_member_rows(content, filename, entity=entity, rfmo=rfmo, source_url=source_url)
 
 
+def _fragment_name(index: int, url: str) -> str:
+    filename = url.rsplit("/", 1)[-1].split("?", 1)[0]
+    stem = re.sub(r"[^0-9A-Za-z]+", "-", filename).strip("-").lower()
+    if len(stem) > 80:
+        stem = stem[:80].rstrip("-")
+    return f"{index:03d}-{stem or 'source'}"
+
+
 def fetch_one(spec_id: str) -> None:
     entity = _entity_from_spec_id(spec_id)
     config = ENTITY_SOURCES[entity]
@@ -263,12 +282,26 @@ def fetch_one(spec_id: str) -> None:
     urls.extend(_resolve_landing_url(url) for url in config.get("landing_urls", ()))
 
     row_count = 0
-    responses = []
-    with raw_writer(spec_id, "ndjson.gz", mode="wt", compression="gzip") as out:
-        for url in urls:
-            response = get(url, timeout=(10.0, 240.0))
-            response.raise_for_status()
-            source_url = str(response.url)
+    skipped = 0
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done = {
+        fragment
+        for fragment, meta in list_raw_fragments(spec_id, RAW_EXT).items()
+        if meta.get("run_id") == run_id
+    }
+
+    for index, url in enumerate(urls, start=1):
+        fragment = _fragment_name(index, url)
+        if fragment in done:
+            print(f"  -> Skip committed fragment {fragment}")
+            skipped += 1
+            continue
+
+        response = get(url, timeout=(10.0, 240.0))
+        response.raise_for_status()
+        source_url = str(response.url)
+        fragment_rows = 0
+        with raw_writer(spec_id, RAW_EXT, mode="wt", compression="gzip", fragment=fragment) as out:
             for row in _iter_rows_from_response(
                 response.content,
                 entity=entity,
@@ -277,17 +310,30 @@ def fetch_one(spec_id: str) -> None:
             ):
                 out.write(json.dumps(row, separators=(",", ":")) + "\n")
                 row_count += 1
-            responses.append((url, response))
-
-    for url, response in responses:
+                fragment_rows += 1
         record_source_signature(spec_id, url, response=response)
+        print(f"  -> Wrote {fragment_rows:,} records from {source_url}")
 
-    if row_count == 0:
+    if row_count == 0 and skipped == 0:
         raise ValueError(f"{entity}: no tabular rows parsed from {len(urls)} URL(s)")
-    print(f"  -> Wrote {row_count:,} records")
+    print(f"  -> Wrote {row_count:,} records across {len(urls) - skipped} fetched fragment(s)")
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{entity_id}", fn=fetch_one)
     for entity_id in sorted(ENTITY_SOURCES)
+]
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "RFMO public catch datasets are refreshed at source-specific cadences; "
+            "production maintenance checks for an existing raw NDJSON asset and "
+            "re-fetches at least every 7 days (inferred from weekly connector cadence)."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, RAW_EXT, max_age_days=MAINTAIN_MAX_AGE_DAYS),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
