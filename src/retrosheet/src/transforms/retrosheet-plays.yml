@@ -1,9 +1,26 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `retrosheet-plays`. Regenerate after model-verify.
 # caution: Suspended games can resume at a different site or date, so play-level site and date should be used when analyzing individual events.
+#
+# HAND-EDIT — do not let a recompile put `sort` back (compile-transforms emits
+# `sort: [date, gid, pn]` mechanically from the temporal axis; it has no knob
+# for a table this size).
+#
+# At 16.5M rows x ~180 columns, ORDER BY is what kills this node: measured on
+# the real raw at runner-equivalent limits (memory_limit 12.8GB = 80% of the
+# ubuntu-latest 16GB, threads 4), the sort peaks at 11.94GB RSS and spills
+# 11.87GB — breaching BOTH the 16GB RAM (alongside pyarrow, delta-rs and the
+# runner agent) and the 14GB SSD. That is the "hosted runner lost communication
+# with the server" failure that killed runs 20260715-021710/-031321/-040840.
+# Unsorted, the same node streams at 4.68GB RSS with zero spill in 28s.
+#
+# The cost is ~nil: Retrosheet ships plays.csv chronologically, so the
+# published table is already date-ordered but for 182 inversions in 16,538,512
+# rows (0.001%) — the suspended-game resumptions the caution above describes.
+# Range-skip stats on `date` survive; `temporal_monotonic` in checks/ compares
+# the run-over-run temporal MAX, not physical row order, so it is unaffected.
 key: [gid, pn]
 temporal: date
-sort: [date, gid, pn]
 columns:
   - name: gid
     type: VARCHAR

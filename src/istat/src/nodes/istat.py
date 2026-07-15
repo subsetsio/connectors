@@ -219,6 +219,35 @@ class _DeadFlow(RuntimeError):
     Permanent upstream defect -- waive the spec, don't retry it."""
 
 
+def _classify_csv(resp, flow_id: str) -> str | None:
+    """Map one SDMX-CSV response to text / None (empty window) / a typed error.
+
+    The ORDER of these tests is the whole point, and getting it wrong cost run
+    20260715-041757 its 164_305 spec. Istat reports "Unable to generate SQL" --
+    its way of saying "this result set is too big for me to build" -- under the
+    same error status it uses for a structurally broken dataflow. Classify on
+    the status first and an oversized window is indistinguishable from a
+    permanent defect: it raises _DeadFlow, which is deliberately NOT in _TOO_BIG,
+    so the splitter never sees it, never subdivides, and the spec fails hard with
+    a message that reads like an upstream defect and invites a bogus waiver.
+
+    So the BODY is the authority on "too big"; the status only classifies what
+    the body leaves unexplained. Shared by the unkeyed and keyed fetchers, which
+    previously carried two subtly different copies of this ladder.
+    """
+    body = resp.text[:1000]
+    if resp.status_code == 413 or "Unable to generate SQL" in body:
+        raise _OversizedQuery(f"{flow_id}: {resp.text[:400].strip()}")
+    # 404/422 are overloaded: an empty time window and a dataflow with no data
+    # behind it at all come back the same way, distinguished only by the body.
+    if resp.status_code in (404, 422):
+        if "NoRecordsFound" in body[:400]:
+            return None
+        raise _DeadFlow(f"{flow_id}: {resp.text[:400].strip()}")
+    resp.raise_for_status()
+    return resp.text
+
+
 def _fetch_csv(
     flow_id: str,
     start: str = "",
@@ -270,19 +299,7 @@ def _fetch_csv(
             else:
                 os.environ["HTTP_RETRY_ATTEMPTS"] = prior
 
-    # 404 is overloaded: an empty time window and a dataflow with no data behind
-    # it at all come back the same way, distinguished only by the body.
-    if resp.status_code == 404:
-        body = resp.text[:400]
-        if "NoRecordsFound" in body:
-            return None
-        raise _DeadFlow(f"{flow_id}: {body.strip()}")
-    if resp.status_code == 422:
-        raise _DeadFlow(f"{flow_id}: {resp.text[:400].strip()}")
-    if resp.status_code == 413 or "Unable to generate SQL" in resp.text[:1000]:
-        raise _OversizedQuery(f"{flow_id}: {resp.text[:400].strip()}")
-    resp.raise_for_status()
-    return resp.text
+    return _classify_csv(resp, flow_id)
 
 
 def _lname(tag: str) -> str:
@@ -401,17 +418,7 @@ def _fetch_csv_keyed(
                 os.environ.pop("HTTP_RETRY_ATTEMPTS", None)
             else:
                 os.environ["HTTP_RETRY_ATTEMPTS"] = prior
-    if resp.status_code == 404 and "NoRecordsFound" in resp.text[:400]:
-        return None
-    if resp.status_code == 422:
-        body = resp.text[:400]
-        if "NoRecordsFound" in body:
-            return None
-        raise _DeadFlow(f"{flow_id}: {body.strip()}")
-    if resp.status_code == 413 or "Unable to generate SQL" in resp.text[:1000]:
-        raise _OversizedQuery(f"{flow_id}: {resp.text[:400].strip()}")
-    resp.raise_for_status()
-    return resp.text
+    return _classify_csv(resp, flow_id)
 
 
 def _iter_rows(flow_id: str):

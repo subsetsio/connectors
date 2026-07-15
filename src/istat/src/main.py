@@ -25,6 +25,26 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 # throttle lock and trip per-node watchdogs.
 os.environ["DAG_PARALLELISM"] = "1"
 
+# Istat lists ~8 dataflows in its structure registry that no data sits behind
+# (no mapping set, or a DSD referencing an unresolvable concept). They are
+# waived at the harness, but the runtime has no waiver concept: it schedules
+# them and they fail on every run, forever.
+#
+# That deadlocked run 20260715-041757. Those flows sit inside the first 188 of
+# 1096 specs in declaration order; once their neighbours had landed raw and were
+# maintain-skipped as fresh, the dead flows were the only nodes left for the
+# scheduler to actually RUN. They failed back-to-back, hit the default limit of
+# 10 exactly, and halted the leg with 903 specs pending — and since maintain
+# skips don't count as progress, the run finalized failed with no retrigger. The
+# connector could never reach spec 189, however often it was dispatched.
+#
+# So the ceiling has to clear the count of known-dead flows with room for a few
+# transient failures alongside them. It is not a blanket "ignore failures": one
+# flow that serves resets the counter, so a healthy leg never approaches 25,
+# while a genuine source-wide outage (every request failing) still halts as
+# intended — only ~15 requests later than before.
+os.environ.setdefault("DAG_MAX_CONSECUTIVE_FAILURES", "25")
+
 from subsets_utils import load_nodes, validate_environment, run_health_tests
 
 
