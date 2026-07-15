@@ -83,7 +83,7 @@ CRAWL_YIELD_S = 3.5 * 3600
 # without forcing the other long /api/search asset to restart.
 STATE_VERSION = {
     "enisa-vulnerabilities": 1,
-    "enisa-affected-products": 4,
+    "enisa-affected-products": 5,
 }
 TS_FORMAT = "%b %d, %Y, %I:%M:%S %p"
 
