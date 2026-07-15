@@ -3,21 +3,19 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [row_number, raw_row_number, date, time, reason_for_search]
+key: [row_number, raw_row_number, service_area, search_conducted]
 temporal: date
 checks:
   - kind: unique
-    columns: [row_number, raw_row_number, date, time, reason_for_search]
+    columns: [row_number, raw_row_number, service_area, search_conducted]
   - kind: not_null
     col: row_number
   - kind: not_null
     col: raw_row_number
   - kind: not_null
-    col: date
+    col: service_area
   - kind: not_null
-    col: time
-  - kind: not_null
-    col: reason_for_search
+    col: search_conducted
   - kind: row_floor
     min: 191513
 regression:

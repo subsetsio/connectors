@@ -4,7 +4,7 @@
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
 key: [raw_row_number]
-temporal: time
+temporal: date
 checks:
   - kind: unique
     columns: [raw_row_number]

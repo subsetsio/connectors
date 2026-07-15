@@ -3,11 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [row_number, raw_row_number, location, lat, lng]
+key: [row_number, raw_row_number, location, officer_id_hash, reason_for_stop]
 temporal: date
 checks:
   - kind: unique
-    columns: [row_number, raw_row_number, location, lat, lng]
+    columns: [row_number, raw_row_number, location, officer_id_hash, reason_for_stop]
   - kind: not_null
     col: row_number
   - kind: not_null
@@ -15,9 +15,9 @@ checks:
   - kind: not_null
     col: location
   - kind: not_null
-    col: lat
+    col: officer_id_hash
   - kind: not_null
-    col: lng
+    col: reason_for_stop
   - kind: row_floor
     min: 9219
 regression:
