@@ -125,6 +125,11 @@ _oecd_retry = retry(
 # Only DATAFLOW is a pure envelope column we drop; TIME_PERIOD/OBS_VALUE are
 # renamed; everything else (dimensions + attributes) is kept as a column.
 _DROP_COLS = {"DATAFLOW", "TIME_PERIOD", "OBS_VALUE"}
+_TEXT_VALUE_DATAFLOWS = {
+    "DSD_QDD_GOV_DGI_2025@DF_GOV_DGI_2025",
+    "DSD_QDD_GOV_OGD_2025@DF_GOV_OGD_2025",
+    "DSD_QDD_GOV_PUBPRO_2024@DF_GOV_PUBPRO_2024",
+}
 
 
 def _to_value(raw: str):
@@ -184,7 +189,11 @@ def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
                 row = {name: parts[i] for i, name in keep_idx if i < len(parts)}
                 if tp_i is not None:
                     row["time_period"] = parts[tp_i]
-                row["value"] = _to_value(parts[val_i])
+                row["value"] = (
+                    (parts[val_i] or "").strip() or None
+                    if dataflow in _TEXT_VALUE_DATAFLOWS
+                    else _to_value(parts[val_i])
+                )
                 fh.write(_json.dumps(row, ensure_ascii=False))
                 fh.write("\n")
                 n += 1
@@ -229,7 +238,10 @@ MAINTAIN_SPECS = [
             "using the committed raw manifest (inferred from "
             "https://sdmx.oecd.org/public/rest/dataflow/all/all/latest)."
         ),
-        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=30),
+        check=lambda aid: (
+            _SPEC_TO_ENTITY[aid].partition(":")[2] not in _TEXT_VALUE_DATAFLOWS
+            and raw_asset_exists(aid, "ndjson.gz", max_age_days=30)
+        ),
     )
     for s in DOWNLOAD_SPECS
 ]
