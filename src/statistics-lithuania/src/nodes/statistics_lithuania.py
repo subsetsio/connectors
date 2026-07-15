@@ -1,12 +1,36 @@
 import json
+import os
+import time
+from datetime import datetime
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, list_raw_fragments, load_state, save_raw_ndjson, save_state
 
 
 SLUG = "statistics-lithuania"
 PREFIX = f"{SLUG}-"
 JSON_DATA_BASE = "https://osp-rs.stat.gov.lt/rest_json/data"
+NDJSON_EXT = "ndjson.zst"
+WINDOW_START_YEAR = 1990
+WINDOW_END_YEAR = datetime.utcnow().year + 1
+WINDOW_NODE_BUDGET_S = 45
+
+WINDOWED_FLOW_IDS = {
+    "S1R042_M8020431",
+    "S1R058_M8010705",
+    "S3R0256_M3010103",
+    "S3R143_M3110113_1",
+    "S3R143_M3110123",
+    "S3R147_M3150610_1",
+    "S3R147_M3150610_2",
+    "S3R147_M3150610_3",
+    "S3R147_M3150610_4",
+    "S3R147_M3150610_5",
+    "S3R147_M3150611",
+    "S3R149_M3150605",
+    "S3R149_M3150605_2",
+    "S3R149_M3150605_3",
+}
 
 
 def _spec_id(entity_id: str) -> str:
@@ -93,6 +117,9 @@ def _rows_from_sdmx_json(flow_id: str, payload: dict):
 
 def fetch_one(asset_id: str) -> None:
     flow_id = _entity_id_from_spec(asset_id)
+    if flow_id in WINDOWED_FLOW_IDS:
+        return _fetch_one_windowed(asset_id, flow_id)
+
     url = f"{JSON_DATA_BASE}/{flow_id}"
     response = get(
         url,
@@ -105,6 +132,46 @@ def fetch_one(asset_id: str) -> None:
     if not rows:
         raise ValueError(f"{flow_id}: SDMX response contained no observations")
     save_raw_ndjson(rows, asset_id)
+
+
+def _fetch_one_windowed(asset_id: str, flow_id: str) -> bool | None:
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done = {
+        fragment
+        for fragment, meta in list_raw_fragments(asset_id, NDJSON_EXT).items()
+        if meta.get("run_id") == run_id
+    }
+    years = [str(year) for year in range(WINDOW_START_YEAR, WINDOW_END_YEAR + 1)]
+    remaining = [year for year in years if year not in done]
+    if not remaining:
+        return None
+
+    state = load_state(asset_id)
+    if state.get("run_id") != run_id:
+        state = {"run_id": run_id, "windowed_row_count": 0}
+
+    deadline = time.monotonic() + WINDOW_NODE_BUDGET_S
+    for year in remaining:
+        if time.monotonic() >= deadline:
+            return True
+
+        url = f"{JSON_DATA_BASE}/{flow_id}"
+        response = get(
+            url,
+            params={"startPeriod": year, "endPeriod": year},
+            headers={"Accept": "application/vnd.sdmx.data+json, application/json"},
+            timeout=(10.0, 120.0),
+        )
+        response.raise_for_status()
+        rows = list(_rows_from_sdmx_json(flow_id, response.json()))
+        if rows:
+            state["windowed_row_count"] = int(state.get("windowed_row_count") or 0) + len(rows)
+            save_state(asset_id, state)
+        save_raw_ndjson(rows, asset_id, fragment=year)
+
+    if int(state.get("windowed_row_count") or 0) == 0:
+        raise ValueError(f"{flow_id}: SDMX period windows contained no observations")
+    return None
 
 
 DOWNLOAD_SPECS = [
