@@ -49,6 +49,19 @@ monster, and recovered ~5 min later. So:
     waiting a few extra seconds to avoid misclassifying a merely-slow flow as a
     monster is always the cheaper trade.
 
+A WEDGE IS INFERRED, NOT OBSERVED -- and the inference is only available once
+Istat has served this runner. Istat fronts the endpoint with a filter
+(esploradati.istat.it -> 01a-filtro.istat.it) that silently drops packets from
+an IP it dislikes; that looks like a connect TIMEOUT, not a refusal, which is
+indistinguishable from a wedge if you only look at one request. Run
+20260715-084715 blackholed on its first request, called it a wedge, and charged
+all 25 specs 60s + 60s + a 360s drain: 3.5h wall clock, 2.5h asleep, zero
+recoveries, 888 specs never attempted. So the drain must be earned
+(_endpoint_state): before the leg's first response there is nothing we could
+have wedged, and a drain that has failed _MAX_DRAINED_CONNECT_FAILURES times
+running has disproved itself. Both cases raise _EndpointUnreachable -- external
+and source-wide, never a waiver candidate.
+
 WHICH "TOO BIG" IS IT -- the body, not the status. Istat answers "Unable to
 generate SQL" under the same HTTP status it uses for a structurally broken
 dataflow, so the response body has to be read before the status is trusted
@@ -146,6 +159,21 @@ _PREFERRED_SPLIT_DIMS = (
     "DESTINATION_WINEGRAPES",
 )
 
+# A split dim only shrinks the result if the flow actually spreads data across
+# its codes -- and a CODELIST does not say which codes are populated. 183_1163
+# advertises 8 FREQ codes but is annual, so the top-ranked split, FREQ=A, asks
+# for the whole flow again: the same monster the probe just abandoned, at 150s
+# + a 6-min wedge, to learn nothing. It then does it once per wedge until the
+# budget is gone, which is why this flow has failed every run so far.
+#
+# Knowing which codes are populated would need an availableconstraint request
+# per flow, and 1096 of those do not fit the 5/min cap. So a flow whose split
+# dim has been OBSERVED useless declares it here (verified against the live DSD:
+# 183_1163's remaining candidates are PERS_EMPL_SIZE_CLASS/44 then DATA_TYPE/260,
+# with REF_AREA/12471 and ECON_ACTIVITY_NACE_2007/2061 over _MAX_SPLIT_CODES).
+# Do not add FREQ for 164_305 -- there it is what makes the flow serve (FREQ+SEX).
+_SKIP_SPLIT_DIMS = {"183_1163": frozenset({"FREQ"})}
+
 # These municipal population flows are known to time out before the generic
 # splitter gets useful signal: the full-flow probe wedges Istat, then the
 # required recovery sleep consumes the node timeout. Their published titles
@@ -184,6 +212,87 @@ def _throttle() -> None:
     finally:
         fcntl.flock(fd, fcntl.LOCK_UN)
         os.close(fd)
+
+
+# ---------------------------------------------------------------------------
+# ENDPOINT REACHABILITY -- distinct from THE WEDGE, and the two must not be
+# conflated (run 20260715-084715 died of exactly that).
+#
+# A wedge is inferred, never observed: we abandon a query, the next request
+# fails, and we blame the query we walked away from. That inference is only
+# available once Istat has actually served this runner. Before the first
+# response of a leg there is nothing we could have wedged -- so a connect
+# failure there is Istat's filter (esploradati.istat.it -> 01a-filtro.istat.it)
+# blackholing this runner, and a drain cannot fix what we did not cause.
+#
+# The distinction is not academic. 20260715-084715 connect-timed-out on its
+# FIRST request and charged every one of 25 specs 60s + 60s + a 360s drain:
+# 3.5h of wall clock, 2.5h of it asleep, zero recoveries, leg halted with 888
+# specs unrun. A drain that has failed twice running has disproved itself; keep
+# probing (the outage is external and may lift) but stop paying for it.
+#
+# Node specs run as separate subprocesses, so this state lives in a file beside
+# the throttle -- same lifetime, one runner, one leg.
+_ENDPOINT_PATH = os.path.join(tempfile.gettempdir(), "istat_endpoint_health")
+
+# Consecutive node-level connect failures still worth a drain. Past this the
+# drain has demonstrably not helped, so it is pure cost.
+_MAX_DRAINED_CONNECT_FAILURES = 2
+
+
+class _EndpointUnreachable(RuntimeError):
+    """Istat is not completing TCP/TLS for this runner at all.
+
+    Source-wide and external: not this flow's defect, so never a waive
+    candidate. Fail fast and cheap -- the leg's consecutive-failure halt will
+    stop the run in minutes instead of hours, and the next dispatch (from a
+    different runner IP) starts clean."""
+
+
+def _endpoint_state(record: str | None = None) -> tuple[bool, int]:
+    """Read, and optionally update, the shared endpoint-health record.
+
+    record=None reads; "served" marks the endpoint as having answered this leg
+    and clears the failure streak; "connect_failure" extends the streak.
+    Returns (served_this_leg, consecutive_connect_failures).
+    """
+    import fcntl
+    fd = os.open(_ENDPOINT_PATH, os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        os.lseek(fd, 0, os.SEEK_SET)
+        raw = os.read(fd, 256).decode("ascii", "ignore").strip()
+        try:
+            served, streak = raw.split(",", 1)
+            state = (served == "1", int(streak))
+        except ValueError:
+            state = (False, 0)
+
+        if record == "served":
+            state = (True, 0)
+        elif record == "connect_failure":
+            state = (state[0], state[1] + 1)
+
+        if record:
+            os.lseek(fd, 0, os.SEEK_SET)
+            os.ftruncate(fd, 0)
+            os.write(fd, f"{'1' if state[0] else '0'},{state[1]}".encode("ascii"))
+        return state
+    finally:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+        os.close(fd)
+
+
+def _get(url: str, **kwargs):
+    """get(), plus the reachability bookkeeping every response feeds.
+
+    Any response proves the endpoint is answering -- a 404 for a dead flow says
+    as much about the network as a 200 does -- so this records "served" on
+    status, not on success.
+    """
+    resp = get(url, **kwargs)
+    _endpoint_state("served")
+    return resp
 
 
 class _WedgeBudgetExhausted(RuntimeError):
@@ -316,11 +425,21 @@ def _fetch_csv(
         os.environ["HTTP_RETRY_ATTEMPTS"] = str(attempts)
     url = f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/"
     tries = _CONNECT_ATTEMPTS_WHEN_RETRIES_DISABLED if attempts == 1 else 1
+    if tries > 1:
+        # The connect retry buys a second chance at a slow TLS handshake. Once a
+        # previous spec has failed to connect and NOTHING has been served this
+        # leg, that is a blackhole, and the retry only spends another
+        # _CONNECT_TIMEOUT re-confirming it. Probe once and let the leg fail out
+        # quickly. The first spec keeps its retry: with no streak yet, a slow
+        # handshake is still the likelier story.
+        served, streak = _endpoint_state()
+        if streak and not served:
+            tries = 1
     try:
         for attempt_no in range(1, tries + 1):
             _throttle()
             try:
-                resp = get(
+                resp = _get(
                     url,
                     params=params,
                     headers={"Accept": CSV_ACCEPT},
@@ -351,7 +470,7 @@ def _lname(tag: str) -> str:
 def _flow_structure(flow_id: str) -> tuple[dict, ...]:
     """Return non-time dimensions with their codelist values for one flow."""
     _throttle()
-    df_resp = get(
+    df_resp = _get(
         f"{BASE}/dataflow/IT1/{flow_id}/1.0",
         headers={"Accept": "application/xml"},
         timeout=_STRUCTURE_TIMEOUT,
@@ -367,7 +486,7 @@ def _flow_structure(flow_id: str) -> tuple[dict, ...]:
         raise RuntimeError(f"{flow_id}: dataflow did not expose a DSD reference")
 
     _throttle()
-    dsd_resp = get(
+    dsd_resp = _get(
         f"{BASE}/datastructure/IT1/{dsd['id']}/{dsd.get('version') or '1.0'}",
         params={"references": "all"},
         headers={"Accept": "application/xml"},
@@ -402,9 +521,11 @@ def _flow_structure(flow_id: str) -> tuple[dict, ...]:
 
 def _split_dimensions(flow_id: str) -> list[dict]:
     dims = list(_flow_structure(flow_id))
+    skip = _SKIP_SPLIT_DIMS.get(flow_id, frozenset())
     candidates = [
         d for d in dims
         if d["codes"] and 1 < len(d["codes"]) <= _MAX_SPLIT_CODES
+        and d["id"] not in skip
     ]
     rank = {name: i for i, name in enumerate(_PREFERRED_SPLIT_DIMS)}
     candidates.sort(key=lambda d: (rank.get(d["id"], 99), len(d["codes"])))
@@ -440,7 +561,7 @@ def _fetch_csv_keyed(
         for attempt_no in range(1, tries + 1):
             _throttle()
             try:
-                resp = get(
+                resp = _get(
                     url,
                     params=params,
                     headers={"Accept": CSV_ACCEPT},
@@ -653,15 +774,36 @@ def fetch_one(node_id: str) -> None:
     # the maintain gate below treat "raw present" as "flow complete".
     try:
         save_raw_ndjson(counting(), asset)
-    except (httpx.ConnectTimeout, httpx.ConnectError):
-        # Not this flow's fault: we are behind someone else's abandoned monster
-        # (or our own, from an earlier spec) and Istat is refusing this IP. Left
-        # alone the DAG would march the next specs into the same wall at ~2 min
-        # each and halt the leg on 10 consecutive failures. Pay the drain once
-        # so the next spec starts clean; this spec is still recorded failed and
-        # the continuation retries it.
-        # Unbudgeted on purpose: this drain is for the NEXT spec's benefit, not
-        # this flow's, so it must happen even once this flow is over budget.
+    except (httpx.ConnectTimeout, httpx.ConnectError) as exc:
+        # A connect failure is either OUR wedge draining or Istat blackholing
+        # this runner, and only the endpoint-health record can tell them apart.
+        # Guessing "wedge" and draining is what turned 20260715-084715 into 3.5h
+        # of sleep for nothing, so the drain now has to earn its 6 minutes.
+        served, streak = _endpoint_state("connect_failure")
+        if not served:
+            # Istat has not answered this runner once. There is no abandoned
+            # query of ours behind this, so there is nothing to drain.
+            raise _EndpointUnreachable(
+                f"{flow_id}: no TCP/TLS to {BASE} and Istat has not served this "
+                f"runner once this leg ({streak} consecutive connect failures) "
+                f"— the endpoint is blackholing this IP, not wedged by us. "
+                f"Source-wide and external: do NOT waive this flow. Re-dispatch "
+                f"later; a fresh runner draws a different egress IP."
+            ) from exc
+        if streak > _MAX_DRAINED_CONNECT_FAILURES:
+            # We were served earlier, so a wedge was plausible -- but a drain
+            # that has already failed this many times running has disproved
+            # itself. Keep failing fast (and keep probing: the next spec still
+            # tries, so a lifting outage is picked up automatically).
+            raise _EndpointUnreachable(
+                f"{flow_id}: {streak} consecutive specs could not connect to "
+                f"{BASE} despite draining — this outlasts any wedge drain "
+                f"({_WEDGE_RECOVERY_S:.0f}s). Failing fast instead of sleeping "
+                f"the leg away; do NOT waive this flow."
+            ) from exc
+        # Plausibly our own wedge, and the drain has not been disproved yet.
+        # Unbudgeted on purpose: it is for the NEXT spec's benefit, not this
+        # flow's, so it must happen even once this flow is over budget.
         _drain_wedge(flow_id, "Istat refused the connection (wedged)")
         raise
     if n[0] == 0:
