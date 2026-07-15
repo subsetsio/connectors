@@ -4,3 +4,17 @@ tests:
   - row_count: {min: 1000}
     reason: coaches0.csv should include many team-season coach records.
     certainty: 80
+  - freshness: {col: year, reaches: 2025}
+    reason: >-
+      Retrosheet publishes two semi-annual releases a year; the season-adding one
+      lands each November, about a month after the season ends (the 11/27/2025
+      release added the 2025 season), so the corpus reaches the last completed
+      season. The bound we want is "last completed year", but the token grammar
+      has no such form: `current_year()` resolves to 2026 and would block for the
+      eleven months before the November release, and `current_year() - 1` is not
+      in the grammar (it degrades to a string literal and never passes). So this
+      asserts the 2025-season floor as a literal instead — it catches a download
+      that truncates away recent seasons, but it will not notice a skipped
+      release, and it wants a bump once the 2026 season lands.
+    certainty: 80
+    points_outward: true

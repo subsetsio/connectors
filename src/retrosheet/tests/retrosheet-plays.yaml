@@ -4,3 +4,18 @@ tests:
   - row_count: {min: 10000000}
     reason: Retrosheet states the parsed play-by-play file contains over 16 million play rows.
     certainty: 95
+  - freshness: {col: date, reaches: 20250101}
+    reason: >-
+      Asserts the corpus reaches the 2025 season. Retrosheet publishes two
+      semi-annual releases a year; the season-adding one lands each November,
+      about a month after the season ends (the 11/27/2025 release added 2025),
+      so max date sits at the last completed season's final game (now 20251101).
+      NOTE the bound is an integer, not a `today - Nd` token: raw `date` is a
+      YYYYMMDD integer (the transform does strptime(date,'%Y%m%d')), and a
+      dynamic token resolves to an ISO string that the engine's comparison
+      coerces to text — '20251101' >= '2025-12-01' is lexically true because a
+      digit outranks '-', so any same-year bound passes vacuously. An integer
+      literal compares numerically and actually means what it says; the cost is
+      that it does not advance on its own.
+    certainty: 80
+    points_outward: true

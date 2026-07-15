@@ -4,3 +4,13 @@ tests:
   - row_count: {min: 400000}
     reason: teamstats.csv should have approximately two team rows per game across the Retrosheet corpus.
     certainty: 90
+  - freshness: {col: date, reaches: 20250101}
+    reason: >-
+      Asserts the corpus reaches the 2025 season, same season-batched cadence as
+      plays: max date holds at the last completed season's final game (now
+      20251101) until Retrosheet's November release adds the finished season
+      (11/27/2025 added 2025). Integer bound rather than a `today - Nd` token
+      because raw `date` is a YYYYMMDD integer and a dynamic token would resolve
+      to an ISO string that only compares as text — see retrosheet-plays.yaml.
+    certainty: 80
+    points_outward: true
