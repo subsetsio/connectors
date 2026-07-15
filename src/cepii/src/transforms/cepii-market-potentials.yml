@@ -3,5 +3,39 @@
 # caution: Market-potential source files carry different access concepts; filter by source_file before comparing values.
 key: []
 columns:
-  - name: source_file_iso_year_rmp_rv_fmp_rv_rmp_hm_fmp_hm_rmp_iv1_rmp_iv2_gdpcap_avgyrs_lrmp_rv_lfmp_rv_lrmp_hm_lfmp_hm_lrmp_iv1_lrmp_iv2_lgcap
+  - name: source_file
     type: VARCHAR
+  - name: iso
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: rmp_rv
+    type: DOUBLE
+  - name: fmp_rv
+    type: DOUBLE
+  - name: rmp_hm
+    type: DOUBLE
+  - name: fmp_hm
+    type: DOUBLE
+  - name: rmp_iv1
+    type: DOUBLE
+  - name: rmp_iv2
+    type: DOUBLE
+  - name: gdp_cap
+    type: DOUBLE
+  - name: avgyrs
+    type: DOUBLE
+  - name: lrmp_rv
+    type: DOUBLE
+  - name: lfmp_rv
+    type: DOUBLE
+  - name: lrmp_hm
+    type: DOUBLE
+  - name: lfmp_hm
+    type: DOUBLE
+  - name: lrmp_iv1
+    type: DOUBLE
+  - name: lrmp_iv2
+    type: DOUBLE
+  - name: lgcap
+    type: DOUBLE

@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: The long macro series asset combines many legacy workbooks and sheets with different subjects and frequencies; filter by source_file and source_sheet.
 SELECT
-    "Unnamed: 0" AS unnamed_0,
+    "Unnamed: 0" AS series_name,
     "1890",
     "1891",
     "1892",
@@ -938,7 +938,7 @@ SELECT
     "LIPIND38" AS lipind38,
     "LIPIND41" AS lipind41,
     "LIPIND46" AS lipind46,
-    "col_0",
+    "col_0" AS source_column_0,
     "1949:1" AS "1949_1",
     "1949:2" AS "1949_2",
     "1949:3" AS "1949_3",

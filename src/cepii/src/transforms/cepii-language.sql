@@ -8,7 +8,7 @@ SELECT
     "country_o",
     "iso_d",
     "country_d",
-    "col",
+    "col" AS colonial_link,
     "csl",
     "cnl",
     "prox1",

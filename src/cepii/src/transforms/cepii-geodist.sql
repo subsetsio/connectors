@@ -12,7 +12,7 @@ SELECT
     "colony",
     "comcol",
     "curcol",
-    "col45",
+    "col45" AS post_1945_colonial_link,
     "smctry",
     "dist",
     "distcap",

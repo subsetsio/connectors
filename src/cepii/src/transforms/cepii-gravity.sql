@@ -29,7 +29,7 @@ SELECT
     "comlang_off",
     "comlang_ethno",
     "comcol",
-    "col45",
+    "col45" AS post_1945_colonial_link,
     "legal_old_o",
     "legal_old_d",
     "legal_new_o",
