@@ -20,8 +20,12 @@ tests:
     reason: USGS parameter codes are 5-digit zero-padded (e.g. 72019 water level).
     certainty: 80
     severity: warn
-  - row_count: {min: 50000}
-    reason: decades of discrete field readings across the network are numerous; a tiny count signals a partial crawl.
-    certainty: 60
+  - row_count: {min: 1000}
+    reason: the connector intentionally fetches a recent rolling window because the national historical collection exceeds the cloud-run deadline under OGC throttling.
+    certainty: 70
     points_outward: true
     severity: warn
+  - freshness: {col: time, reaches: today - 10d}
+    reason: field measurements are fetched with a seven-day datetime window; the raw asset should stay near the live edge.
+    certainty: 90
+    points_outward: true

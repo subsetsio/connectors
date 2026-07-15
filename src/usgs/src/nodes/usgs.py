@@ -77,11 +77,13 @@ PAGE_LIMIT = 5000
 WINDOW_DAYS = {
     "continuous": 0.125,
     "daily": 14,
+    "field-measurements": 7,
 }
 
 ROLLING_ENTITY_IDS = {
     "continuous",
     "daily",
+    "field-measurements",
     "latest-continuous",
     "latest-daily",
     "latest-field-measurements",
