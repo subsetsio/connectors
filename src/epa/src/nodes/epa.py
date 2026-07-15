@@ -140,6 +140,11 @@ LEG_FRACTION = 0.30
 # Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value.
 DEFAULT_TIME_BUDGET_S = 20_700.0
 
+# Do not start another Envirofacts window unless this much time remains before
+# the parent DAG deadline. A single wide-table request can run for minutes, and
+# colliding with the parent watchdog loses the node result even after raw writes.
+WINDOW_DEADLINE_MARGIN_S = 15 * 60
+
 
 def _leg_seconds() -> float:
     """Wall-clock this node may spend before committing and continuing."""
@@ -152,7 +157,7 @@ def _leg_seconds() -> float:
         parent_started = psutil.Process(os.getppid()).create_time()
     except Exception:
         return nominal
-    remaining = budget - max(0.0, time.time() - parent_started)
+    remaining = budget - max(0.0, time.time() - parent_started) - WINDOW_DEADLINE_MARGIN_S
     return max(0.0, min(nominal, remaining))
 
 
