@@ -13,7 +13,9 @@ from constants import ENTITY_IDS
 BASE_URL = "https://data.statistics.sk/api/v2"
 SLUG = "statistics-slovakia"
 MAX_CELLS = 9000
+MAX_SLOW_CELLS = 900
 MAX_URL_LEN = 1800
+REQUEST_TIMEOUT = 25
 
 RAW_SCHEMA = pa.schema(
     [
@@ -31,8 +33,8 @@ RAW_SCHEMA = pa.schema(
 
 
 def _json_get(url: str) -> dict:
-    configure_http(verify=False, timeout=60)
-    resp = get(url, timeout=60)
+    configure_http(verify=False, timeout=REQUEST_TIMEOUT)
+    resp = get(url, timeout=REQUEST_TIMEOUT)
     resp.raise_for_status()
     data = resp.json()
     if isinstance(data, dict) and data.get("status") and data.get("status") != 200:
@@ -87,7 +89,8 @@ def _product(selection: dict[str, tuple[str, ...]]) -> int:
 
 def _split_selection(table_code: str, dim_codes: list[str], selection: dict[str, tuple[str, ...]]):
     url = _dataset_url(table_code, dim_codes, selection)
-    if _product(selection) <= MAX_CELLS and len(url) <= MAX_URL_LEN:
+    max_cells = MAX_SLOW_CELLS if table_code.startswith("cr38") else MAX_CELLS
+    if _product(selection) <= max_cells and len(url) <= MAX_URL_LEN:
         yield selection
         return
 
