@@ -18,7 +18,7 @@ import pyarrow as pa
 import xlrd
 from openpyxl.utils import get_column_letter
 
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_parquet
 
 from constants import ENTITY_IDS
 
@@ -26,6 +26,7 @@ CKAN_PACKAGE_SHOW = "https://opendata.schleswig-holstein.de/api/3/action/package
 PREFIX = "statistik-nord-"
 
 PREFERRED_FORMATS = ("xlsx", "xls", "csv")
+MAINTAIN_MAX_AGE_DAYS = 27
 
 SCHEMA = pa.schema(
     [
@@ -206,4 +207,19 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{entity_id.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for entity_id in ENTITY_IDS
+]
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            f"Full CKAN package re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. "
+            "Statistik Nord exposes no incremental CKAN query for workbook contents; "
+            "raw presence is also the resume marker for large catalog backfills. "
+            "Monthly cadence is documented in maintenance.json."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
