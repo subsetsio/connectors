@@ -33,10 +33,13 @@ from constants import ENTITY_IDS
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
+    delete_raw_file,
     get,
     get_client,
+    list_raw_fragments,
     raw_asset_exists,
     raw_parquet_writer,
+    save_raw_json,
 )
 
 SLUG = "london-datastore"
@@ -66,6 +69,8 @@ BATCH_ROWS = 20_000
 DOWNLOAD_ATTEMPTS = 6
 MAX_BACKOFF_S = 60.0
 RAW_SCHEMA = pa.schema([(col, pa.string()) for col in BASE_COLUMNS])
+NODE_BUDGET_S = 2700
+COMPLETE_EXT = "json"
 
 
 def _api(action: str, **params):
@@ -526,7 +531,27 @@ def _write_resource(writer, resource: dict, identity: dict, tmpdir: str) -> None
         )
 
 
-def fetch_one(node_id: str) -> None:
+def _fragment_name(resource: dict, index: int) -> str:
+    raw = str(resource.get("id") or "") or f"resource-{index + 1}"
+    return _safe_name(raw, f"resource_{index + 1}")
+
+
+def _complete_marker_id(node_id: str) -> str:
+    return f"{node_id}-complete"
+
+
+def _asset_complete(node_id: str) -> bool:
+    frags = list_raw_fragments(node_id, "parquet")
+    if frags and "full" not in frags:
+        return raw_asset_exists(
+            _complete_marker_id(node_id),
+            COMPLETE_EXT,
+            max_age_days=MAINTAIN_MAX_AGE_DAYS,
+        )
+    return raw_asset_exists(node_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+
+
+def fetch_one(node_id: str) -> bool | None:
     entity_id = node_id[len(PREFIX):]
     package = _api("package_show", id=entity_id)
     resources = [
@@ -539,13 +564,41 @@ def fetch_one(node_id: str) -> None:
         "package_title": str(package.get("title") or ""),
     }
 
+    fragments = list_raw_fragments(node_id, "parquet")
+    if "full" in fragments:
+        # Older runs wrote each package as one all-or-nothing parquet. Once this
+        # node switches to resource fragments, drop that full fragment so the
+        # transform cannot read old whole-package rows alongside fresh fragments.
+        delete_raw_file(node_id, "parquet")
+        fragments = {}
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done = {
+        fragment
+        for fragment, meta in fragments.items()
+        if meta.get("run_id") == run_id
+    }
+    resource_fragments = [
+        (_fragment_name(resource, i), resource)
+        for i, resource in enumerate(resources)
+    ]
+    pending = [
+        (fragment, resource)
+        for fragment, resource in resource_fragments
+        if fragment not in done
+    ]
+    t0 = time.monotonic()
     with tempfile.TemporaryDirectory() as tmpdir:
-        with raw_parquet_writer(node_id, RAW_SCHEMA) as writer:
-            for resource in resources:
+        for i, (fragment, resource) in enumerate(pending):
+            with raw_parquet_writer(node_id, RAW_SCHEMA, fragment=fragment) as writer:
                 _write_resource(writer, resource, identity, tmpdir)
-            # Every resource above emits at least one row, so an empty table can
-            # only mean the package had nothing supported to begin with.
-            if not resources:
+            if i < len(pending) - 1 and time.monotonic() - t0 > NODE_BUDGET_S:
+                print(f"{node_id}: checkpoint after {i + 1}/{len(pending)} resources")
+                return True
+
+        # Every resource above emits at least one row, so an empty table can
+        # only mean the package had nothing supported to begin with.
+        if not resources and "metadata" not in done:
+            with raw_parquet_writer(node_id, RAW_SCHEMA, fragment="metadata") as writer:
                 writer.write_table(
                     _table_from_rows(
                         [
@@ -558,6 +611,16 @@ def fetch_one(node_id: str) -> None:
                         ]
                     )
                 )
+        save_raw_json(
+            {
+                "package_id": identity["package_id"],
+                "resource_count": len(resources),
+                "fragments": [fragment for fragment, _ in resource_fragments]
+                or ["metadata"],
+            },
+            _complete_marker_id(node_id),
+        )
+    return None
 
 
 DOWNLOAD_SPECS = [
@@ -588,7 +651,7 @@ MAINTAIN_SPECS = [
             f"reuse raw parquet for up to {MAINTAIN_MAX_AGE_DAYS} days (inferred weekly "
             "factory cadence, source portal https://data.london.gov.uk/). Resumable backfill."
         ),
-        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS),
+        check=_asset_complete,
     )
     for spec in DOWNLOAD_SPECS
 ]
