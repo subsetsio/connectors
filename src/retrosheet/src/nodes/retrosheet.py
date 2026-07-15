@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import os
 import tempfile
+import time
 import zipfile
 
 import pyarrow as pa
@@ -39,6 +40,8 @@ _CSV_DOWNLOADS_PAGE = "https://www.retrosheet.org/downloads/csvdownloads.html"
 # CSV parse block size. Bigger blocks mean fewer, better-sized Parquet row
 # groups; this bounds the parser's working set rather than the file's size.
 _BLOCK_SIZE = 32 << 20
+_PLAY_BLOCK_SIZE = 16 << 20
+_PROGRESS_EVERY_BYTES = 64 << 20
 
 _FEEDS: dict[str, dict[str, str]] = {
     "allplayers": {
@@ -123,20 +126,68 @@ def _stream_zip_to_disk(url: str, dest: str):
     """
     with get_client().stream("GET", url, timeout=(10.0, 1800.0)) as response:
         response.raise_for_status()
+        total = int(response.headers.get("content-length") or 0)
+        downloaded = 0
+        next_progress = _PROGRESS_EVERY_BYTES
         with open(dest, "wb") as fh:
             for chunk in response.iter_bytes(chunk_size=1 << 20):
+                if not chunk:
+                    continue
                 fh.write(chunk)
+                downloaded += len(chunk)
+                if downloaded >= next_progress:
+                    if total:
+                        pct = downloaded / total * 100
+                        print(
+                            f"  -> downloaded {downloaded / (1 << 20):,.0f} MiB "
+                            f"of {total / (1 << 20):,.0f} MiB ({pct:.1f}%)",
+                            flush=True,
+                        )
+                    else:
+                        print(
+                            f"  -> downloaded {downloaded / (1 << 20):,.0f} MiB",
+                            flush=True,
+                        )
+                    next_progress += _PROGRESS_EVERY_BYTES
         return response
 
 
-def _header_names(zf: zipfile.ZipFile, member: str) -> list[str]:
-    """Column names from the member's first line, without parsing the body."""
-    with zf.open(member) as src:
-        head = pacsv.open_csv(
-            src,
-            read_options=pacsv.ReadOptions(block_size=1 << 20),
-        )
-        return list(head.schema.names)
+def _extract_member_to_disk(zf: zipfile.ZipFile, member: str, dest: str, asset: str) -> None:
+    """Extract one ZIP member to a normal file so Arrow can parse it efficiently."""
+    info = zf.getinfo(member)
+    extracted = 0
+    next_progress = _PROGRESS_EVERY_BYTES
+    started = time.monotonic()
+    with zf.open(member) as src, open(dest, "wb") as out:
+        while True:
+            chunk = src.read(1 << 20)
+            if not chunk:
+                break
+            out.write(chunk)
+            extracted += len(chunk)
+            if extracted >= next_progress:
+                pct = extracted / info.file_size * 100 if info.file_size else 0
+                print(
+                    f"  -> {asset}: extracted {extracted / (1 << 20):,.0f} MiB "
+                    f"of {info.file_size / (1 << 20):,.0f} MiB ({pct:.1f}%)",
+                    flush=True,
+                )
+                next_progress += _PROGRESS_EVERY_BYTES
+    elapsed = max(time.monotonic() - started, 0.001)
+    print(
+        f"  -> {asset}: extracted {extracted / (1 << 20):,.0f} MiB "
+        f"in {elapsed:.1f}s",
+        flush=True,
+    )
+
+
+def _header_names(csv_path: str) -> list[str]:
+    """Column names from the CSV header, without parsing the body."""
+    head = pacsv.open_csv(
+        csv_path,
+        read_options=pacsv.ReadOptions(block_size=1 << 20),
+    )
+    return list(head.schema.names)
 
 
 def fetch_one(node_id: str) -> None:
@@ -149,33 +200,43 @@ def fetch_one(node_id: str) -> None:
 
         with zipfile.ZipFile(archive) as zf:
             member = _find_member(zf, cfg["member"])
-            names = _header_names(zf, member)
+            csv_path = os.path.join(tmp, "feed.csv")
+            _extract_member_to_disk(zf, member, csv_path, asset)
+
+            names = _header_names(csv_path)
             schema = pa.schema([(name, pa.string()) for name in names])
             convert = pacsv.ConvertOptions(
                 column_types={name: pa.string() for name in names}
             )
+            block_size = _PLAY_BLOCK_SIZE if asset == "retrosheet-plays" else _BLOCK_SIZE
 
             rows = 0
-            with zf.open(member) as src:
-                reader = pacsv.open_csv(
-                    src,
-                    read_options=pacsv.ReadOptions(block_size=_BLOCK_SIZE),
-                    convert_options=convert,
-                )
-                with raw_parquet_writer(asset, schema) as writer:
-                    for batch in reader:
-                        if batch.num_rows == 0:
-                            continue
-                        writer.write_batch(batch)
-                        rows += batch.num_rows
-
-                    # Inside the writer block on purpose: raising here aborts
-                    # before the raw manifest is staged, so an empty extract
-                    # fails the node instead of publishing an empty asset.
-                    if rows < 1:
-                        raise AssertionError(
-                            f"{asset}: extracted zero data rows from {cfg['member']}"
+            last_reported_rows = 0
+            reader = pacsv.open_csv(
+                csv_path,
+                read_options=pacsv.ReadOptions(block_size=block_size),
+                convert_options=convert,
+            )
+            with raw_parquet_writer(asset, schema) as writer:
+                for batch in reader:
+                    if batch.num_rows == 0:
+                        continue
+                    writer.write_batch(batch)
+                    rows += batch.num_rows
+                    if rows - last_reported_rows >= 1_000_000:
+                        print(
+                            f"  -> {asset}: parsed {rows:,} rows",
+                            flush=True,
                         )
+                        last_reported_rows = rows
+
+                # Inside the writer block on purpose: raising here aborts
+                # before the raw manifest is staged, so an empty extract
+                # fails the node instead of publishing an empty asset.
+                if rows < 1:
+                    raise AssertionError(
+                        f"{asset}: extracted zero data rows from {cfg['member']}"
+                    )
 
     print(f"  -> {asset}: {rows:,} rows")
     record_source_signature(asset, cfg["url"], response=response)
