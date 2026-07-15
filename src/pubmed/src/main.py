@@ -32,6 +32,10 @@ def main():
         current_budget = float(os.environ.get("DAG_TIME_BUDGET", "20700") or "20700")
         os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 18_000)))
         os.environ.setdefault("DAG_DRAIN_TIMEOUT_S", "1800")
+        # PubMed's annual baseline is 1,300+ large XML shards. With deliberately
+        # short download legs, the first full crawl needs more continuation
+        # hops than the runtime's general runaway guard allows by default.
+        os.environ.setdefault("DAG_MAX_LEGS", "32")
     validate_environment()
     workflow = load_nodes()
     workflow.run()
