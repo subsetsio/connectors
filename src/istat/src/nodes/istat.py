@@ -40,9 +40,21 @@ monster, and recovered ~5 min later. So:
   * after abandoning an oversized query we sleep _WEDGE_RECOVERY_S before
     touching the endpoint again (_wedge_backoff), instead of burning the next
     N specs into a wall and tripping the DAG's consecutive-failure halt.
+  * but ONLY when we actually abandoned one. A "too big" that Istat RETURNS
+    ("Unable to generate SQL") left nothing generating and owes no drain --
+    charging it 6 min of sleep, and one of the 6 per-flow wedges, is how a
+    splittable flow runs out of budget before it runs out of splits to try
+    (_too_big_backoff).
   * the full-flow probe gets a generous read timeout: a wedge costs ~5 min, so
     waiting a few extra seconds to avoid misclassifying a merely-slow flow as a
     monster is always the cheaper trade.
+
+WHICH "TOO BIG" IS IT -- the body, not the status. Istat answers "Unable to
+generate SQL" under the same HTTP status it uses for a structurally broken
+dataflow, so the response body has to be read before the status is trusted
+(_classify_csv). Read the other way round, an oversized window is misfiled as a
+permanent _DeadFlow: the splitter never sees it, the spec fails hard, and the
+error message invites a waiver for a flow that is merely large (164_305).
 """
 import csv
 from functools import lru_cache
@@ -211,6 +223,35 @@ def _wedge_backoff(flow_id: str, why: str) -> None:
             f"can actually be served"
         )
     _drain_wedge(flow_id, f"{why} (wedge {_wedges[0]}/{_MAX_WEDGES_PER_FLOW})")
+
+
+# Not every "too big" leaves a wedge behind, and treating them alike is expensive.
+# _OversizedQuery is a response Istat RETURNED: it looked at the query, decided it
+# could not build the SQL, and answered (~45s for 164_305). Nothing is queued,
+# nothing is draining, and the next request may go out as soon as the throttle
+# allows. A read/protocol failure is the opposite -- WE walked away from a query
+# Istat is still generating, and it refuses this IP until that drains (THE WEDGE).
+#
+# Conflating them charges every returned "too big" a 6-minute sleep it does not
+# owe, and spends one of the 6 per-flow wedges on it. A flow that answers "Unable
+# to generate SQL" quickly and needs to try several splits to find one Istat will
+# serve would exhaust its wedge budget long before it ran out of splits to try --
+# which is exactly the wall 164_305 is up against.
+_ABANDONED_MIDFLIGHT = (
+    httpx.ReadTimeout,
+    httpx.WriteTimeout,
+    httpx.RemoteProtocolError,
+)
+
+
+def _too_big_backoff(flow_id: str, exc: BaseException, why: str) -> None:
+    """Pay the wedge drain only when the failure actually left a query behind."""
+    if isinstance(exc, _ABANDONED_MIDFLIGHT):
+        _wedge_backoff(flow_id, why)
+        return
+    # Server-declined (_OversizedQuery / 413): nothing to drain, split on.
+    print(f"[istat] {flow_id}: {why} — Istat declined to build it (no query left "
+          f"generating, so no drain owed); splitting further")
 
 
 class _DeadFlow(RuntimeError):
@@ -435,8 +476,8 @@ def _iter_rows(flow_id: str):
     def split_years(lo: int, hi: int):
         try:
             text = window(str(lo), str(hi))
-        except _TOO_BIG:
-            _wedge_backoff(flow_id, f"{lo}..{hi} too large to serve")
+        except _TOO_BIG as exc:
+            _too_big_backoff(flow_id, exc, f"{lo}..{hi} too large to serve")
             if lo < hi:
                 mid = (lo + hi) // 2
                 yield from split_years(lo, mid)
@@ -483,9 +524,10 @@ def _iter_rows(flow_id: str):
                 key = _key_for_assignments(all_dims, next_assignments)
                 try:
                     text = _fetch_csv_keyed(flow_id, key, start, end)
-                except _TOO_BIG:
-                    _wedge_backoff(
-                        flow_id, f"{dim['id']}={code} over {start}..{end} too large to serve")
+                except _TOO_BIG as exc:
+                    _too_big_backoff(
+                        flow_id, exc,
+                        f"{dim['id']}={code} over {start}..{end} too large to serve")
                     yielded = yield from split_compact_dims(start, end, next_assignments)
                     if yielded:
                         seen += 1
@@ -510,8 +552,8 @@ def _iter_rows(flow_id: str):
             start = f"{year}-{month:02d}"
             try:
                 text = window(start, start)
-            except _TOO_BIG:
-                _wedge_backoff(flow_id, f"{start} too large to serve")
+            except _TOO_BIG as exc:
+                _too_big_backoff(flow_id, exc, f"{start} too large to serve")
                 yielded = yield from split_compact_dims(start, start)
                 if yielded:
                     seen += 1
@@ -543,13 +585,13 @@ def _iter_rows(flow_id: str):
 
     try:
         text = _fetch_csv(flow_id, attempts=1, timeout=_FULL_PROBE_TIMEOUT)
-    except _TOO_BIG:
+    except _TOO_BIG as exc:
         # Enter the split ONE LEVEL DOWN, at decades. split_years(_YEAR_MIN,
         # _YEAR_MAX) would re-request the exact monster we just abandoned --
         # that request is guaranteed to fail, and each such failure extends the
         # wedge, which is how one bad flow used to take the whole leg with it.
         print(f"[istat] {flow_id}: too large to serve whole — splitting by decade")
-        _wedge_backoff(flow_id, "full-flow probe abandoned")
+        _too_big_backoff(flow_id, exc, "full-flow probe abandoned")
         for lo in range(_DECADE_FLOOR, _YEAR_MAX + 1, 10):
             yield from split_years(lo, min(lo + 9, _YEAR_MAX))
         return
