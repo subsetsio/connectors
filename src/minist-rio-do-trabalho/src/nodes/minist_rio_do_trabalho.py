@@ -253,12 +253,12 @@ def _iter_rows(path: str, encoding: str, extra: dict):
             yield row
 
 
-def _txt_paths(root_dir: str) -> list[str]:
+def _delimited_paths(root_dir: str) -> list[str]:
     return [
         os.path.join(root, f)
         for root, _, files in os.walk(root_dir)
         for f in files
-        if f.lower().endswith(".txt")
+        if f.lower().endswith((".txt", ".csv", ".tsv"))
     ]
 
 
@@ -267,10 +267,10 @@ def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
         with py7zr.SevenZipFile(z7_path) as z:
             z.extractall(path=out_dir)
     except Exception as py_error:
-        txts = _txt_paths(out_dir)
-        if txts:
-            print(f"  [warn] {file_url}: py7zr reported {type(py_error).__name__}, using extracted TXT(s)", flush=True)
-            return txts
+        paths = _delimited_paths(out_dir)
+        if paths:
+            print(f"  [warn] {file_url}: py7zr reported {type(py_error).__name__}, using extracted delimited file(s)", flush=True)
+            return paths
 
         fallback_output = ""
         for name in ("7z", "7zz", "7za", "bsdtar"):
@@ -283,21 +283,21 @@ def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
                 args = [exe, "x", "-y", f"-o{out_dir}", z7_path]
             proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
             fallback_output = proc.stdout[-2000:]
-            txts = _txt_paths(out_dir)
-            if txts:
+            paths = _delimited_paths(out_dir)
+            if paths:
                 if proc.returncode != 0:
-                    print(f"  [warn] {file_url}: {name} exited {proc.returncode} but produced TXT(s)", flush=True)
-                return txts
+                    print(f"  [warn] {file_url}: {name} exited {proc.returncode} but produced delimited file(s)", flush=True)
+                return paths
 
         raise RuntimeError(
             f"{file_url}: failed to extract 7z archive with py7zr and system fallbacks; "
             f"py7zr={type(py_error).__name__}: {py_error}; fallback_tail={fallback_output!r}"
         ) from py_error
 
-    txts = _txt_paths(out_dir)
-    if not txts:
-        raise RuntimeError(f"{file_url}: extracted archive contains no TXT files")
-    return txts
+    paths = _delimited_paths(out_dir)
+    if not paths:
+        raise RuntimeError(f"{file_url}: extracted archive contains no delimited TXT/CSV/TSV files")
+    return paths
 
 
 def _process_archive(file_url: str, asset: str, fragment: str, extra: dict) -> int:
