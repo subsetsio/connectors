@@ -1,5 +1,8 @@
 spec_id: sg-data-d-9e4153e796680cf2d79b4ea7a9098c6b
 status: deferred
+coverage:
+  frozen: true
+  reason: Data.gov.sg catalog mirror contains historical/statistical snapshots with heterogeneous release cadences; no per-dataset freshness SLA is asserted for this bulk connector.
 # Heterogeneous data.gov.sg dataset: column schema is unknown until
 # first pull (wide SingStat tables, long series, and listings all differ).
 # Tests are authored from the first materialized chunk; deferred per schema.

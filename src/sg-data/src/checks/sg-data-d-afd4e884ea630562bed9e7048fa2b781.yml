@@ -1,0 +1,12 @@
+# compiled by `hardened compile-checks` — post-publish audit of `sg-data-d-afd4e884ea630562bed9e7048fa2b781`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+temporal: year
+checks:
+  - kind: row_floor
+    min: 522
+regression:
+  row_shrink_tolerance: 0.1
+  temporal_monotonic: true
