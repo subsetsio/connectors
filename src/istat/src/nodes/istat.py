@@ -124,8 +124,15 @@ _STR_NS = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"
 
 # Avoid splitting on geographic codelists unless there is no other choice: some
 # Istat territory lists have >10k codes and would take days under the rate cap.
-_MAX_SPLIT_CODES = 300
-_PREFERRED_SPLIT_DIMS = ("FREQ", "DATA_TYPE", "DESTINATION_WINEGRAPES")
+_MAX_SPLIT_CODES = 500
+_PREFERRED_SPLIT_DIMS = (
+    "FREQ",
+    "SEX",
+    "PERS_EMPL_SIZE_CLASS",
+    "DATA_TYPE",
+    "AGE",
+    "DESTINATION_WINEGRAPES",
+)
 
 # These municipal population flows are known to time out before the generic
 # splitter gets useful signal: the full-flow probe wedges Istat, then the
@@ -136,12 +143,13 @@ _ANNUAL_FIRST_RANGES = {
     "164_346": (1952, 1971),  # Estimated resident population - Years 1952-1971
     "164_347": (1972, 1981),  # Estimated resident population - Years 1972-1981
     "165_1245": (2024, 2050),  # Municipal population projections - Years 2024-2050
+    "183_1163": (2019, 2022),  # Enterprises by municipality - latest structural years
 }
 
 # This flow still makes Istat fail SQL generation for a single unkeyed year.
 # Enter through compact dimensions immediately instead of paying one doomed
 # unkeyed request, plus a wedge drain, for each annual window.
-_DIMENSION_FIRST_ANNUAL_FLOWS = {"164_305"}
+_DIMENSION_FIRST_ANNUAL_FLOWS = {"164_305", "183_1163"}
 
 
 def _throttle() -> None:
@@ -345,12 +353,10 @@ def _split_dimensions(flow_id: str) -> list[dict]:
     return candidates
 
 
-def _key_for_dim(dims: list[dict], dim_id: str, code: str) -> str:
+def _key_for_assignments(dims: list[dict], assignments: dict[str, str]) -> str:
     parts = ["" for _ in dims]
     for i, dim in enumerate(dims):
-        if dim["id"] == dim_id:
-            parts[i] = code
-            break
+        parts[i] = assignments.get(dim["id"], "")
     return ".".join(parts)
 
 
@@ -436,36 +442,47 @@ def _iter_rows(flow_id: str):
         if text is not None:
             yield from _rows(text, start=str(lo), end=str(hi))
 
-    def split_compact_dims(start: str, end: str):
+    def split_compact_dims(
+        start: str,
+        end: str,
+        assignments: dict[str, str] | None = None,
+    ):
         """Split an otherwise-too-large time window by a compact DSD dimension.
 
         This is mainly for annual dataflows where TIME_PERIOD cannot be divided
         further. It also avoids the municipal REF_AREA fan-out unless no compact
         dimensions exist.
         """
+        assignments = assignments or {}
         try:
-            dims = _split_dimensions(flow_id)
+            all_dims = list(_flow_structure(flow_id))
+            dims = [d for d in _split_dimensions(flow_id) if d["id"] not in assignments]
         except Exception as exc:
             print(f"[istat] {flow_id}: could not inspect DSD for dimension split: {exc}")
             return False
 
         for dim in dims:
             seen = 0
+            prefix = ",".join(f"{k}={v}" for k, v in assignments.items()) or "all"
             print(
-                f"[istat] {flow_id}: splitting {start}..{end} by {dim['id']} "
-                f"({len(dim['codes'])} codes)"
+                f"[istat] {flow_id}: splitting {start}..{end} {prefix} by "
+                f"{dim['id']} ({len(dim['codes'])} codes)"
             )
             for code in dim["codes"]:
                 if budget[0] <= 0:
                     raise RuntimeError(f"{flow_id}: exceeded {_MAX_REQUESTS_PER_FLOW} requests")
                 budget[0] -= 1
-                key = _key_for_dim(list(_flow_structure(flow_id)), dim["id"], code)
+                next_assignments = {**assignments, dim["id"]: code}
+                key = _key_for_assignments(all_dims, next_assignments)
                 try:
                     text = _fetch_csv_keyed(flow_id, key, start, end)
                 except _TOO_BIG:
                     _wedge_backoff(
                         flow_id, f"{dim['id']}={code} over {start}..{end} too large to serve")
-                    seen = 0
+                    yielded = yield from split_compact_dims(start, end, next_assignments)
+                    if yielded:
+                        seen += 1
+                        continue
                     break
                 if text is None:
                     continue
