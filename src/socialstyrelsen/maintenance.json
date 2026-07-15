@@ -1,5 +1,5 @@
 {
-  "cadence_days": 7,
-  "paused": true,
-  "cadence_note": "PAUSED 2026-07-09: diagnoserioppenvard streams one monolithic file that cannot finish inside a 6h GHA leg \u2014 same thrash pattern as smhi (7 orphaned multipart attempts at ~6h spacing). Unpause after chunking the fetch into named fragments."
+  "cadence_days": 30,
+  "paused": false,
+  "cadence_note": "Unpaused 2026-07-15: the pause cited diagnoserioppenvard, which is no longer part of this connector (not in the accepted set; the 5 download specs are dodsorsaker, graviditeterforlossningarochnyfodda, lakemedel, yttreorsakertillskadorochforgiftningar and -barn). Run 20260715-005937 finalized clean in 810s across all 10 specs, well inside a GHA leg. Socialstyrelsen publishes no schedule for the developer-page ZIP exports, so this cadence is inferred, not cited: the subjects are annual (arsuppgifter) and the ZIPs are full snapshots with no incremental query support, so every run re-fetches the whole ~600M-row corpus. 30 days catches the annual release and later revisions (dodsorsaker ZIP Last-Modified 2025-11-26) without re-pulling everything weekly."
 }
