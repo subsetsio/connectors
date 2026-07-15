@@ -1,7 +1,6 @@
-# Entity union (accept-accepted datasets), copied verbatim from
-# data/sources/new-york-state-open-data/work/entity_union.json
-# 899 datasets. The 10 domain-taxonomy 'category' entities and 23 >=50M-row
-# transaction-log firehoses were deferred at accept, so they are absent here.
+# Entity union (accept-accepted datasets), generated from current accept asset.
+# 891 datasets. Domain taxonomy, discontinued/stale datasets, and high-volume
+# full-snapshot operational firehoses deferred by accept are absent here.
 ENTITY_IDS = [
     '23fs-vfbd',
     '23v4-2ycs',
@@ -68,7 +67,6 @@ ENTITY_IDS = [
     '47km-hhvs',
     '487n-fp4r',
     '48yz-n8mx',
-    '4a2x-yp8g',
     '4b3h-h7me',
     '4cm6-mt65',
     '4fnn-qsea',
@@ -98,7 +96,6 @@ ENTITY_IDS = [
     '55zc-sp6m',
     '5754-yujh',
     '58ew-qhce',
-    '58t6-89vi',
     '5bb2-yb85',
     '5e2x-mz3d',
     '5f5g-n3cz',
@@ -112,7 +109,6 @@ ENTITY_IDS = [
     '5qpa-id23',
     '5sdk-z637',
     '5vqm-4rpf',
-    '5wq4-mkjj',
     '5wzh-jq4n',
     '5xaw-6ayf',
     '5zxz-z3ci',
@@ -251,7 +247,6 @@ ENTITY_IDS = [
     'ajgp-mddq',
     'ak4z-sape',
     'akrs-38uc',
-    'assk-vu73',
     'astg-28hp',
     'atwy-2trf',
     'atzh-qh32',
@@ -378,7 +373,6 @@ ENTITY_IDS = [
     'e7ig-ybbx',
     'e8ky-4vqe',
     'e9ss-239a',
-    'ebfx-2m7v',
     'ebua-hcfg',
     'eda3-in2f',
     'ef6i-49uj',
@@ -560,7 +554,6 @@ ENTITY_IDS = [
     'kpkx-452i',
     'krt9-ym2k',
     'ku8b-uzf5',
-    'kufs-yh3x',
     'kvh8-m9d4',
     'kvw9-79kv',
     'kwxv-fwze',
@@ -676,7 +669,6 @@ ENTITY_IDS = [
     'qve8-dj3u',
     'qwti-3ybe',
     'qxyx-rrz9',
-    'qzve-kjga',
     'r4sv-k333',
     'r4tg-z3mz',
     'r6db-kkzj',
@@ -702,7 +694,6 @@ ENTITY_IDS = [
     'rrw8-ncwn',
     'rsxa-xf6b',
     'rt8x-r6c8',
-    'rtih-nq26',
     'rube-svnv',
     'rwaz-qcc2',
     'rwbv-mz6z',
