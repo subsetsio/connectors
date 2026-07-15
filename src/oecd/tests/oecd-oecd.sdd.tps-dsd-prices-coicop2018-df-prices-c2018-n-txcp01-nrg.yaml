@@ -1,0 +1,4 @@
+spec_id: oecd-oecd.sdd.tps-dsd-prices-coicop2018-df-prices-c2018-n-txcp01-nrg
+status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

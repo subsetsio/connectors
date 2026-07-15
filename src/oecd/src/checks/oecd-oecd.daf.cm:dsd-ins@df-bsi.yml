@@ -1,9 +1,0 @@
-# compiled by `hardened compile-checks` — post-publish audit of `oecd-oecd.daf.cm:dsd-ins@df-bsi`.
-# Grain/temporal from the transform contract, row floor from the measured
-# profile. Regenerate after model-verify or a transform contract change.
-# Not compiled (deliberate): enums (await an authored closed domain),
-# absolute freshness (awaits the maintenance contract).
-temporal: time_period
-regression:
-  row_shrink_tolerance: 0.1
-  temporal_monotonic: true

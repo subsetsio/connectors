@@ -8,8 +8,9 @@ fetched in full from its stable per-dataset SDMX-CSV data endpoint:
 
 The version segment is omitted so the server returns the latest published
 version of each dataflow (robust to version churn between collect and run).
-The collect entity id is "{agency}:{dataflow_id}"; both coordinates are
-recovered by splitting on the first ':'.
+The collect entity id is a signable "{agency}-{dataflow_id}" slug. The original
+OECD agency and dataflow coordinates are generated into constants.py and used
+for the actual SDMX request.
 
 Scope: accept includes the full SDMX dataflow catalog collected by the harness.
 Some dataflows are very large or are external references; the fetch path is
@@ -202,22 +203,23 @@ def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # spec id IS the asset name
-    entity_id = _SPEC_TO_ENTITY[node_id]
-    agency, _, dataflow = entity_id.partition(":")
+    coords = _SPEC_TO_ENTITY[node_id]
+    agency = coords["agency_id"]
+    dataflow = coords["dataflow_id"]
 
     result = _stream_to_ndjson(agency, dataflow, asset)
     if result is _SKIP_404:
-        print(f"[oecd] {entity_id}: 404 not available; skipping")
+        print(f"[oecd] {agency}:{dataflow}: 404 not available; skipping")
         return
-    print(f"[oecd] {entity_id}: wrote {result} observations")
+    print(f"[oecd] {agency}:{dataflow}: wrote {result} observations")
 
 
-from constants import ENTITY_IDS
+from constants import ENTITY_COORDS, ENTITY_IDS
 
 # spec id -> original collect entity id (recovers agency+dataflow, which are
-# lost to lower-casing / '_'->'-' in the spec id).
+# generated into the public, signable spec id).
 _SPEC_TO_ENTITY = {
-    f"oecd-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS
+    f"oecd-{eid.lower().replace('_', '-')}": coords for eid, coords in ENTITY_COORDS.items()
 }
 
 DOWNLOAD_SPECS = [

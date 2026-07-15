@@ -1,0 +1,4 @@
+spec_id: oecd-oecd.edu.imep-dsd-eag-sal-trend-df-eag-sal-trend-all
+status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}

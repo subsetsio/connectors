@@ -1,0 +1,4 @@
+spec_id: oecd-oecd.dev.emea-dsd-afdd-stat-annex-df-historic
+status: deferred
+tests:
+  - freshness: {col: time_period, reaches: current_year() - 10}
