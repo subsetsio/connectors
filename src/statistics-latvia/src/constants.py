@@ -1388,7 +1388,7 @@ ENTITY_IDS = [
     'ZIS050',
     'ZMA020',
     'ZMA020m',
-    'ZMA030 ',
+    'ZMA030',
     'ZMA040',
     'ZPR010',
     'ZPR020',

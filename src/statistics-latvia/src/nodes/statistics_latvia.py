@@ -20,8 +20,27 @@ MAX_CELLS = 10_000
 V1_MAX_CELLS = 100_000
 MAX_CODES_PER_PARAM = 500
 PREFIX = "statistics-latvia-"
+OVERSIZED_ENTITY_IDS = {
+    "ATD040m",
+    "ATD060",
+    "ATD060m",
+    "ATD080",
+    "ATD080m",
+    "MEP061",
+    "NPV011",
+    "NPV013",
+    "NPV021",
+    "NPV023",
+    "NPV030",
+    "NPV031",
+    "NPV032",
+    "NPV033",
+}
+UNPUBLISHABLE_ENTITY_IDS = set()
+EXCLUDED_ENTITY_IDS = OVERSIZED_ENTITY_IDS | UNPUBLISHABLE_ENTITY_IDS
 SPEC_ENTITY_IDS = {
     entity_id.lower().replace("_", "-").strip(): entity_id for entity_id in ENTITY_IDS
+    if entity_id not in EXCLUDED_ENTITY_IDS
 }
 
 
@@ -204,6 +223,7 @@ def fetch_table(spec_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{entity_id.lower().replace('_', '-')}", fn=fetch_table)
     for entity_id in ENTITY_IDS
+    if entity_id not in EXCLUDED_ENTITY_IDS
 ]
 
 MAINTAIN_SPECS = [
