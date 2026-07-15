@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [data_values, domain, area_code, area_name, deprivation_group]
+key: [data_description, domain, area_code, area_name, deprivation_group]
 checks:
   - kind: unique
-    columns: [data_values, domain, area_code, area_name, deprivation_group]
+    columns: [data_description, domain, area_code, area_name, deprivation_group]
   - kind: not_null
-    col: data_values
+    col: data_description
   - kind: not_null
     col: domain
   - kind: not_null
