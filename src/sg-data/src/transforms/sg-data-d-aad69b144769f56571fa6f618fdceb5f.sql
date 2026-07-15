@@ -1,0 +1,44 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Wide source table with many measured attributes or category columns; avoid summing across columns without checking the upstream definition.
+SELECT
+    "Number" AS number,
+    "Total_Total" AS total_total,
+    "Total_PreviousIndustry_GoodsProducingIndustries_Total" AS total_previousindustry_goodsproducingindustries_total,
+    "Total_PreviousIndustry_GoodsProducingIndustries_Manufacturing" AS total_previousindustry_goodsproducingindustries_manufacturing,
+    "Total_PreviousIndustry_GoodsProducingIndustries_Construction" AS total_previousindustry_goodsproducingindustries_construction,
+    "Total_PreviousIndustry_GoodsProducingIndustries_OtherGoodsIndus" AS total_previousindustry_goodsproducingindustries_othergoodsindus,
+    "Total_PreviousIndustry_ServicesProducingIndustries_Total" AS total_previousindustry_servicesproducingindustries_total,
+    "Total_PreviousIndustry_ServicesProducingIndustries_Wholesaleand" AS total_previousindustry_servicesproducingindustries_wholesaleand,
+    "Total_PreviousIndustry_ServicesProducingIndustries_HotelsandRes" AS total_previousindustry_servicesproducingindustries_hotelsandres,
+    "Total_PreviousIndustry_ServicesProducingIndustries_Transportand" AS total_previousindustry_servicesproducingindustries_transportand,
+    "Total_PreviousIndustry_ServicesProducingIndustries_FinancialSer" AS total_previousindustry_servicesproducingindustries_financialser,
+    "Total_PreviousIndustry_ServicesProducingIndustries_BusinessServ" AS total_previousindustry_servicesproducingindustries_businessserv,
+    "Total_PreviousIndustry_ServicesProducingIndustries_OtherService" AS total_previousindustry_servicesproducingindustries_otherservice,
+    "Males_Total" AS males_total,
+    "Males_PreviousIndustry_GoodsProducingIndustries_Total" AS males_previousindustry_goodsproducingindustries_total,
+    "Males_PreviousIndustry_GoodsProducingIndustries_Manufacturing" AS males_previousindustry_goodsproducingindustries_manufacturing,
+    "Males_PreviousIndustry_GoodsProducingIndustries_Construction" AS males_previousindustry_goodsproducingindustries_construction,
+    "Males_PreviousIndustry_GoodsProducingIndustries_OtherGoodsIndus" AS males_previousindustry_goodsproducingindustries_othergoodsindus,
+    "Males_PreviousIndustry_ServicesProducingIndustries_Total" AS males_previousindustry_servicesproducingindustries_total,
+    "Males_PreviousIndustry_ServicesProducingIndustries_Wholesaleand" AS males_previousindustry_servicesproducingindustries_wholesaleand,
+    "Males_PreviousIndustry_ServicesProducingIndustries_HotelsandRes" AS males_previousindustry_servicesproducingindustries_hotelsandres,
+    "Males_PreviousIndustry_ServicesProducingIndustries_Transportand" AS males_previousindustry_servicesproducingindustries_transportand,
+    "Males_PreviousIndustry_ServicesProducingIndustries_FinancialSer" AS males_previousindustry_servicesproducingindustries_financialser,
+    "Males_PreviousIndustry_ServicesProducingIndustries_BusinessServ" AS males_previousindustry_servicesproducingindustries_businessserv,
+    "Males_PreviousIndustry_ServicesProducingIndustries_OtherService" AS males_previousindustry_servicesproducingindustries_otherservice,
+    "Females_Total" AS females_total,
+    "Females_PreviousIndustry_GoodsProducingIndustries_Total" AS females_previousindustry_goodsproducingindustries_total,
+    "Females_PreviousIndustry_GoodsProducingIndustries_Manufacturing" AS females_previousindustry_goodsproducingindustries_manufacturing,
+    "Females_PreviousIndustry_GoodsProducingIndustries_Construction" AS females_previousindustry_goodsproducingindustries_construction,
+    "Females_PreviousIndustry_GoodsProducingIndustries_OtherGoodsInd" AS females_previousindustry_goodsproducingindustries_othergoodsind,
+    "Females_PreviousIndustry_ServicesProducingIndustries_Total" AS females_previousindustry_servicesproducingindustries_total,
+    "Females_PreviousIndustry_ServicesProducingIndustries_Wholesalea" AS females_previousindustry_servicesproducingindustries_wholesalea,
+    "Females_PreviousIndustry_ServicesProducingIndustries_HotelsandR" AS females_previousindustry_servicesproducingindustries_hotelsandr,
+    "Females_PreviousIndustry_ServicesProducingIndustries_Transporta" AS females_previousindustry_servicesproducingindustries_transporta,
+    "Females_PreviousIndustry_ServicesProducingIndustries_FinancialS" AS females_previousindustry_servicesproducingindustries_financials,
+    "Females_PreviousIndustry_ServicesProducingIndustries_BusinessSe" AS females_previousindustry_servicesproducingindustries_businessse,
+    "Females_PreviousIndustry_ServicesProducingIndustries_OtherServi" AS females_previousindustry_servicesproducingindustries_otherservi
+FROM "sg-data-d-aad69b144769f56571fa6f618fdceb5f"

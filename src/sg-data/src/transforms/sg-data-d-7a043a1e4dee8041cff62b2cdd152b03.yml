@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-7a043a1e4dee8041cff62b2cdd152b03`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: date_of_award
+sort: [date_of_award]
+columns:
+  - name: date_of_launch
+    type: VARCHAR
+  - name: date_of_tender_closing_or_auction
+    type: VARCHAR
+  - name: date_of_award
+    type: DATE
+  - name: location
+    type: VARCHAR
+  - name: type_of_development_allowed
+    type: VARCHAR
+  - name: site_area
+    type: DOUBLE
+  - name: gross_floor_area
+    type: VARCHAR
+  - name: gross_plot_ratio
+    type: VARCHAR
+  - name: name_of_successful_tenderer_or_bidder
+    type: VARCHAR
+  - name: successful_tender_or_auction_price
+    type: DOUBLE
+  - name: remark
+    type: VARCHAR

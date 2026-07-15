@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-03bb2eb67ad645d0188342fa74ad7066`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: station
+    type: VARCHAR
+  - name: daily_rainfall_total
+    type: VARCHAR
+  - name: highest_30_min_rainfall
+    type: VARCHAR
+  - name: highest_60_min_rainfall
+    type: VARCHAR
+  - name: highest_120_min_rainfall
+    type: VARCHAR
+  - name: mean_temperature
+    type: VARCHAR
+  - name: maximum_temperature
+    type: VARCHAR
+  - name: minimum_temperature
+    type: VARCHAR
+  - name: mean_wind_speed
+    type: VARCHAR
+  - name: max_wind_speed
+    type: VARCHAR

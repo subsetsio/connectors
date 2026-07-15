@@ -1,0 +1,9 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "quarter",
+    "occupation",
+    "retrench_permanent"
+FROM "sg-data-d-554647914a6f42266cd45c29250d8d85"

@@ -1,0 +1,10 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "year",
+    "ethnic_group",
+    "infant_deaths",
+    "infant_mortality_rate"
+FROM "sg-data-d-f1d48318a55053833d9558cf215ffa39"

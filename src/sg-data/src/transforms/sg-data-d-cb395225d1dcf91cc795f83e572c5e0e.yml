@@ -1,0 +1,63 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-cb395225d1dcf91cc795f83e572c5e0e`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: filingdate
+sort: [filingdate]
+columns:
+  - name: applicationnumber
+    type: VARCHAR
+  - name: applicationstatus
+    type: VARCHAR
+  - name: applicationtype
+    type: VARCHAR
+  - name: filingdate
+    type: DATE
+  - name: lodgementdate
+    type: DATE
+  - name: titleofinvention
+    type: VARCHAR
+  - name: ipc
+    type: VARCHAR
+  - name: dateofpublication
+    type: DATE
+  - name: publicationpatentnumforoldapplication
+    type: BIGINT
+  - name: lastmodifieddate
+    type: DATE
+  - name: inventors_json
+    type: VARCHAR
+  - name: applicants_json
+    type: VARCHAR
+  - name: currentapplicants_json
+    type: VARCHAR
+  - name: agents_json
+    type: VARCHAR
+  - name: priorities_json
+    type: VARCHAR
+  - name: registerdetails_json
+    type: VARCHAR
+  - name: pctpriorityclaimed_json
+    type: VARCHAR
+  - name: pctapplications_json
+    type: VARCHAR
+  - name: hmgstatus_json
+    type: VARCHAR
+  - name: licenses_json
+    type: VARCHAR
+  - name: grantorparticulars_json
+    type: VARCHAR
+  - name: granteeparticulars_json
+    type: VARCHAR
+  - name: securityinterests_json
+    type: VARCHAR
+  - name: transferofownerships_json
+    type: VARCHAR
+  - name: rupka_json
+    type: VARCHAR
+  - name: documents_json
+    type: VARCHAR
+  - name: otherentries_json
+    type: VARCHAR
+  - name: divisionalapplications_json
+    type: VARCHAR

@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Wide source table with many measured attributes or category columns; avoid summing across columns without checking the upstream definition.
+SELECT
+    "Number" AS number,
+    "Total_Total" AS total_total,
+    "Total_Males" AS total_males,
+    "Total_Females" AS total_females,
+    "English_Total" AS english_total,
+    "English_Males" AS english_males,
+    "English_Females" AS english_females,
+    "Malay_Total" AS malay_total,
+    "Malay_Males" AS malay_males,
+    "Malay_Females" AS malay_females,
+    "Mandarin_Total" AS mandarin_total,
+    "Mandarin_Males" AS mandarin_males,
+    "Mandarin_Females" AS mandarin_females,
+    "ChineseDialects_Total_Total" AS chinesedialects_total_total,
+    "ChineseDialects_Total_Males" AS chinesedialects_total_males,
+    "ChineseDialects_Total_Females" AS chinesedialects_total_females,
+    "ChineseDialects_Hokkien_Total" AS chinesedialects_hokkien_total,
+    "ChineseDialects_Hokkien_Males" AS chinesedialects_hokkien_males,
+    "ChineseDialects_Hokkien_Females" AS chinesedialects_hokkien_females,
+    "ChineseDialects_Teochew_Total" AS chinesedialects_teochew_total,
+    "ChineseDialects_Teochew_Males" AS chinesedialects_teochew_males,
+    "ChineseDialects_Teochew_Females" AS chinesedialects_teochew_females,
+    "ChineseDialects_Cantonese_Total" AS chinesedialects_cantonese_total,
+    "ChineseDialects_Cantonese_Males" AS chinesedialects_cantonese_males,
+    "ChineseDialects_Cantonese_Females" AS chinesedialects_cantonese_females,
+    "ChineseDialects_OtherChineseDialects_Total" AS chinesedialects_otherchinesedialects_total,
+    "ChineseDialects_OtherChineseDialects_Males" AS chinesedialects_otherchinesedialects_males,
+    "ChineseDialects_OtherChineseDialects_Females" AS chinesedialects_otherchinesedialects_females,
+    "IndianLanguages_Total_Total" AS indianlanguages_total_total,
+    "IndianLanguages_Total_Males" AS indianlanguages_total_males,
+    "IndianLanguages_Total_Females" AS indianlanguages_total_females,
+    "IndianLanguages_Tamil_Total" AS indianlanguages_tamil_total,
+    "IndianLanguages_Tamil_Males" AS indianlanguages_tamil_males,
+    "IndianLanguages_Tamil_Females" AS indianlanguages_tamil_females,
+    "IndianLanguages_OtherIndianLanguages_Total" AS indianlanguages_otherindianlanguages_total,
+    "IndianLanguages_OtherIndianLanguages_Males" AS indianlanguages_otherindianlanguages_males,
+    "IndianLanguages_OtherIndianLanguages_Females" AS indianlanguages_otherindianlanguages_females,
+    "Others_Total" AS others_total,
+    "Others_Males" AS others_males,
+    "Others_Females" AS others_females
+FROM "sg-data-d-a3d9c945c12ff94e379299b1f855480a"

@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-e225b635fbe3ecf5b378447e4b517939`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: date_of_launch
+sort: [date_of_launch]
+columns:
+  - name: date_of_launch
+    type: DATE
+  - name: date_of_tender_closing
+    type: DATE
+  - name: date_of_award
+    type: DATE
+  - name: location
+    type: VARCHAR
+  - name: type_of_devt_allowed
+    type: VARCHAR
+  - name: lease
+    type: BIGINT
+  - name: type_of_devt_code
+    type: VARCHAR
+  - name: site_area
+    type: DOUBLE
+  - name: gross_plot_ratio
+    type: VARCHAR
+  - name: gross_floor_area
+    type: VARCHAR
+  - name: no_of_bids
+    type: BIGINT
+  - name: successful_tenderer_name
+    type: VARCHAR
+  - name: successful_tender_price
+    type: DOUBLE
+  - name: psm_per_gpr_or_gfa
+    type: VARCHAR
+  - name: planning_area
+    type: VARCHAR

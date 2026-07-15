@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-21359ecc93954aea7b8c0d48157b11d9`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: start_date
+sort: [start_date]
+columns:
+  - name: course_id
+    type: VARCHAR
+  - name: course_title
+    type: VARCHAR
+  - name: event_url
+    type: VARCHAR
+  - name: course_organiser
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: category
+    type: VARCHAR
+  - name: branch
+    type: VARCHAR
+  - name: pdu
+    type: BIGINT

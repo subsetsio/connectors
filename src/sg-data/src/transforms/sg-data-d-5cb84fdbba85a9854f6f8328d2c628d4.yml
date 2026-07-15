@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-5cb84fdbba85a9854f6f8328d2c628d4`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: filingdate
+sort: [filingdate]
+columns:
+  - name: applicationnumber
+    type: VARCHAR
+  - name: filingdate
+    type: DATE
+  - name: classsubclass
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: approveddate
+    type: DATE
+  - name: ukdesignnum
+    type: VARCHAR
+  - name: ukregistrationdate
+    type: DATE
+  - name: internationalregistrationnum
+    type: VARCHAR
+  - name: internationalregistrationdate
+    type: DATE
+  - name: renewalduedate
+    type: DATE
+  - name: expirydate
+    type: DATE
+  - name: lodgementdate
+    type: DATE
+  - name: lastmodifieddate
+    type: DATE
+  - name: articledetails_json
+    type: VARCHAR
+  - name: applicantdetails_json
+    type: VARCHAR
+  - name: applicanttypedetails_json
+    type: VARCHAR
+  - name: prioritydetails_json
+    type: VARCHAR
+  - name: agentdetails_json
+    type: VARCHAR
+  - name: journaldetails_json
+    type: VARCHAR
+  - name: licenseinfo_json
+    type: VARCHAR
+  - name: otherentries_json
+    type: VARCHAR
+  - name: documents_json
+    type: VARCHAR

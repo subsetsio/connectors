@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-d3fc278691129cdc73a191cb2575a495`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: created_at
+sort: [created_at]
+columns:
+  - name: id
+    type: BIGINT
+  - name: institution_id
+    type: BIGINT
+  - name: offering_id
+    type: BIGINT
+  - name: created_at
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: updated_at
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: metadata
+    type: VARCHAR
+  - name: is_active
+    type: BOOLEAN
+  - name: lead_time_hours
+    type: BIGINT
+  - name: price_in_cents
+    type: VARCHAR

@@ -1,0 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "column0",
+    "column1",
+    "column2",
+    "column3",
+    "column4",
+    "column5"
+FROM "sg-data-d-e260cd8c50925d10e8f0ee8183cafc1d"

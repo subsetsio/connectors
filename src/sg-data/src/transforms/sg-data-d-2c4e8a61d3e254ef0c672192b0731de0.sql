@@ -1,0 +1,21 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Number" AS number,
+    "Couple_BasedHouseholds_HeadAgedBelow35Years_NoChildreninHouseho" AS couple_basedhouseholds_headagedbelow35years_nochildreninhouseho,
+    "Couple_BasedHouseholds_HeadAgedBelow35Years_WithChildreninHouse" AS couple_basedhouseholds_headagedbelow35years_withchildreninhouse,
+    "Couple_BasedHouseholds_HeadAged35_49Years_NoChildreninHousehold" AS couple_basedhouseholds_headaged35_49years_nochildreninhousehold,
+    "Couple_BasedHouseholds_HeadAged35_49Years_WithYoungestChildBelo" AS couple_basedhouseholds_headaged35_49years_withyoungestchildbelo,
+    "Couple_BasedHouseholds_HeadAged35_49Years_WithYoungestChildAged" AS couple_basedhouseholds_headaged35_49years_withyoungestchildaged,
+    "Couple_BasedHouseholds_HeadAged35_49Years_WithYoungestChildAged_1" AS couple_basedhouseholds_headaged35_49years_withyoungestchildaged_1,
+    "Couple_BasedHouseholds_HeadAged50_64Years_NoChildreninHousehold" AS couple_basedhouseholds_headaged50_64years_nochildreninhousehold,
+    "Couple_BasedHouseholds_HeadAged50_64Years_WithYoungestChildBelo" AS couple_basedhouseholds_headaged50_64years_withyoungestchildbelo,
+    "Couple_BasedHouseholds_HeadAged50_64Years_WithYoungestChildAged" AS couple_basedhouseholds_headaged50_64years_withyoungestchildaged,
+    "Couple_BasedHouseholds_HeadAged50_64Years_WithYoungestChildAged_1" AS couple_basedhouseholds_headaged50_64years_withyoungestchildaged_1,
+    "Couple_BasedHouseholds_HeadAged65YearsandOver_NoChildreninHouse" AS couple_basedhouseholds_headaged65yearsandover_nochildreninhouse,
+    "Couple_BasedHouseholds_HeadAged65YearsandOver_WithChildreninHou" AS couple_basedhouseholds_headaged65yearsandover_withchildreninhou,
+    "OtherHouseholds_OtherHouseholds_One_Person" AS otherhouseholds_otherhouseholds_one_person,
+    "OtherHouseholds_OtherHouseholds_Others" AS otherhouseholds_otherhouseholds_others
+FROM "sg-data-d-2c4e8a61d3e254ef0c672192b0731de0"

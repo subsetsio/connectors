@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-dcda79be4aded5f9e769b8e23ff69b47`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: expiry_date
+sort: [expiry_date]
+columns:
+  - name: company_name
+    type: VARCHAR
+  - name: uen_no
+    type: VARCHAR
+  - name: workhead
+    type: VARCHAR
+  - name: grade
+    type: VARCHAR
+  - name: additional_info
+    type: VARCHAR
+  - name: expiry_date
+    type: DATE
+  - name: building_no
+    type: VARCHAR
+  - name: street_name
+    type: VARCHAR
+  - name: unit_no
+    type: VARCHAR
+  - name: building_name
+    type: VARCHAR
+  - name: postal_code
+    type: VARCHAR
+  - name: tel_no
+    type: BIGINT

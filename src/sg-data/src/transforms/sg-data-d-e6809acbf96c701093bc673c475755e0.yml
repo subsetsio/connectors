@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-e6809acbf96c701093bc673c475755e0`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: day
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: start_time
+    type: TIME
+  - name: end_time
+    type: TIME
+  - name: academic_level
+    type: VARCHAR
+  - name: subject_code
+    type: VARCHAR
+  - name: paper_no
+    type: BIGINT
+  - name: subject_name
+    type: VARCHAR
+  - name: moa
+    type: VARCHAR
+  - name: duration
+    type: TIME

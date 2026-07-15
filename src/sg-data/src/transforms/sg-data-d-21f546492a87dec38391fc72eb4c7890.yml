@@ -1,0 +1,63 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-21f546492a87dec38391fc72eb4c7890`. Regenerate after model-verify.
+# caution: Wide source table with many measured attributes or category columns; avoid summing across columns without checking the upstream definition.
+key: []
+columns:
+  - name: number
+    type: VARCHAR
+  - name: total
+    type: BIGINT
+  - name: english_total
+    type: BIGINT
+  - name: english_englishonly
+    type: BIGINT
+  - name: english_englishandmandarin
+    type: BIGINT
+  - name: english_englishandchinesedialect
+    type: BIGINT
+  - name: english_englishandmalay
+    type: BIGINT
+  - name: english_englishandtamil
+    type: BIGINT
+  - name: english_englishandotherindianlanguage
+    type: BIGINT
+  - name: english_englishandotherlanguage
+    type: BIGINT
+  - name: mandarin_total1
+    type: BIGINT
+  - name: mandarin_mandarinonly
+    type: BIGINT
+  - name: mandarin_mandarinandenglish
+    type: BIGINT
+  - name: mandarin_mandarinandchinesedialect
+    type: BIGINT
+  - name: chinesedialects_total1
+    type: BIGINT
+  - name: chinesedialects_chinesedialectonly
+    type: BIGINT
+  - name: chinesedialects_chinesedialectandenglish
+    type: BIGINT
+  - name: chinesedialects_chinesedialectandmandarin
+    type: BIGINT
+  - name: malay_total1
+    type: BIGINT
+  - name: malay_malayonly
+    type: VARCHAR
+  - name: malay_malayandenglish
+    type: BIGINT
+  - name: indianlanguages_total
+    type: BIGINT
+  - name: indianlanguages_tamil_total1
+    type: VARCHAR
+  - name: indianlanguages_tamil_tamilonly
+    type: VARCHAR
+  - name: indianlanguages_tamil_tamilandenglish
+    type: VARCHAR
+  - name: indianlanguages_otherindianlanguages_total1
+    type: BIGINT
+  - name: indianlanguages_otherindianlanguages_otherindianlanguageandengl
+    type: BIGINT
+  - name: otherlanguages_total1
+    type: BIGINT
+  - name: otherlanguages_otherlanguageandenglish
+    type: BIGINT

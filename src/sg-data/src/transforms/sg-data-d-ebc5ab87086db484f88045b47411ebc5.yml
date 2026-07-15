@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-ebc5ab87086db484f88045b47411ebc5`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: VARCHAR
+  - name: town
+    type: VARCHAR
+  - name: flat_type
+    type: VARCHAR
+  - name: block
+    type: VARCHAR
+  - name: street_name
+    type: VARCHAR
+  - name: storey_range
+    type: VARCHAR
+  - name: floor_area_sqm
+    type: DOUBLE
+  - name: flat_model
+    type: VARCHAR
+  - name: lease_commence_date
+    type: BIGINT
+  - name: resale_price
+    type: BIGINT

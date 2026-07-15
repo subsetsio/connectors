@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-79532f897cd4489d1f2f98b9fda25b4e`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: issue_date
+sort: [issue_date]
+columns:
+  - name: newspaper_title
+    type: VARCHAR
+  - name: issue_id
+    type: VARCHAR
+  - name: issue_date
+    type: DATE
+  - name: edition
+    type: BIGINT
+  - name: page_id
+    type: VARCHAR
+  - name: page_number
+    type: VARCHAR
+  - name: article_id
+    type: VARCHAR
+  - name: article_title
+    type: VARCHAR
+  - name: article_text_1st50words
+    type: VARCHAR
+  - name: contributor
+    type: VARCHAR

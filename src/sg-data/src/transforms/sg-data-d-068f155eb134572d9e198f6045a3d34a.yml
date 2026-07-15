@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sg-data-d-068f155eb134572d9e198f6045a3d34a`. Regenerate after model-verify.
+# caution: Temporal series table; confirm aggregation dimensions before summing across categories.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: mean
+    type: DOUBLE
+  - name: standard_error_of_mean
+    type: DOUBLE
+  - name: "5th_percentile"
+    type: DOUBLE
+  - name: "10th_percentile"
+    type: DOUBLE
+  - name: "25th_percentile"
+    type: DOUBLE
+  - name: "50th_percentile"
+    type: DOUBLE
+  - name: "75th_percentile"
+    type: DOUBLE
+  - name: "90th_percentile"
+    type: DOUBLE
+  - name: "95th_percentile"
+    type: DOUBLE
