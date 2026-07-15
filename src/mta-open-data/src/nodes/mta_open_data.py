@@ -23,7 +23,14 @@ one published Delta table per dataset from the profiled raw.
 
 import os
 
-from subsets_utils import NodeSpec, get_client, raw_writer, transient_retry
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get_client,
+    raw_asset_exists,
+    raw_writer,
+    transient_retry,
+)
 
 from constants import ENTITY_IDS
 
@@ -33,6 +40,7 @@ RESOURCE_BASE = "https://data.ny.gov/resource"
 # response when the limit covers every row (no server-side pagination).
 EXPORT_LIMIT = 1_000_000_000
 CHUNK = 1 << 20  # 1 MiB
+FRESH_DAYS = 7
 
 
 def _resource_id(node_id: str) -> str:
@@ -76,4 +84,20 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "MTA Socrata datasets are refreshed as full CSV snapshots; reuse a "
+            "raw csv.gz snapshot for up to 7 days, then repull the full dataset."
+        ),
+        check=lambda asset_id: raw_asset_exists(
+            asset_id,
+            "csv.gz",
+            max_age_days=FRESH_DAYS,
+        ),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
