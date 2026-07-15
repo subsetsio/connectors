@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `stanford-open-policing-project-fl-tampa`. Regenerate after model-verify.
 # caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
-key: [row_number, raw_row_number, violation, date, department_name]
+key: [row_number]
 temporal: date
-sort: [date, row_number, raw_row_number, violation, department_name]
+sort: [date, row_number]
 columns:
   - name: source_entity_id
     type: VARCHAR
@@ -16,9 +16,9 @@ columns:
   - name: raw_row_number
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex

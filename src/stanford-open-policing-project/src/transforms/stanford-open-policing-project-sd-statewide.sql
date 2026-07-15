@@ -9,7 +9,7 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     CAST("raw_row_number" AS BIGINT) AS raw_row_number,
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "time",
     "location",
     "county_name",
@@ -23,5 +23,5 @@ SELECT
     "vehicle_make",
     "vehicle_model",
     "vehicle_registration_state",
-    "vehicle_year"
+    CAST("vehicle_year" AS BIGINT) AS vehicle_year
 FROM "stanford-open-policing-project-sd-statewide"

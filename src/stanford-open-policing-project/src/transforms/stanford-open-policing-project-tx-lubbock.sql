@@ -9,13 +9,13 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     CAST("raw_row_number" AS BIGINT) AS raw_row_number,
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "location",
-    "lat",
-    "lng",
+    CAST("lat" AS DOUBLE) AS lat,
+    CAST("lng" AS DOUBLE) AS lng,
     "type",
     "disposition",
-    "citation_issued",
-    "warning_issued",
+    CAST("citation_issued" AS BOOLEAN) AS citation_issued,
+    CAST("warning_issued" AS BOOLEAN) AS warning_issued,
     "outcome"
 FROM "stanford-open-policing-project-tx-lubbock"

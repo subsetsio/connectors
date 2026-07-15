@@ -18,21 +18,21 @@ columns:
   - name: date
     type: DATE
   - name: time
-    type: TIME
+    type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: geocode_source
     type: VARCHAR
   - name: district
-    type: VARCHAR
+    type: BIGINT
   - name: sector
-    type: VARCHAR
+    type: BIGINT
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -48,9 +48,9 @@ columns:
   - name: outcome
     type: VARCHAR
   - name: speed
-    type: VARCHAR
+    type: BIGINT
   - name: posted_speed
-    type: VARCHAR
+    type: BIGINT
   - name: vehicle_color
     type: VARCHAR
   - name: vehicle_make
@@ -60,6 +60,6 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_race
     type: VARCHAR

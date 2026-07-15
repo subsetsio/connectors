@@ -16,15 +16,15 @@ columns:
   - name: raw_row_number
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: time
     type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: county_name
     type: VARCHAR
   - name: subject_race
@@ -32,7 +32,7 @@ columns:
   - name: subject_sex
     type: VARCHAR
   - name: department_id
-    type: VARCHAR
+    type: BIGINT
   - name: department_name
     type: VARCHAR
   - name: type
@@ -40,23 +40,23 @@ columns:
   - name: violation
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_weapons
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_alcohol
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_other
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_person
@@ -76,7 +76,7 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_onhighwaydirection
     type: VARCHAR
   - name: raw_onhighwayname

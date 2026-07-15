@@ -18,13 +18,13 @@ columns:
   - name: date
     type: DATE
   - name: time
-    type: TIME
+    type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: county_name
     type: VARCHAR
   - name: subject_race
@@ -46,9 +46,9 @@ columns:
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_basis

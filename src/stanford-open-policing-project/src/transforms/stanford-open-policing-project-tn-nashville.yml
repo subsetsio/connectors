@@ -22,17 +22,17 @@ columns:
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: precinct
     type: VARCHAR
   - name: reporting_area
-    type: VARCHAR
+    type: BIGINT
   - name: zone
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -44,27 +44,27 @@ columns:
   - name: violation
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_weapons
-    type: VARCHAR
+    type: BOOLEAN
   - name: frisk_performed
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_person
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_vehicle
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_basis
     type: VARCHAR
   - name: reason_for_stop
@@ -74,26 +74,26 @@ columns:
   - name: notes
     type: VARCHAR
   - name: raw_verbal_warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_written_warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_traffic_citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_misd_state_citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_suspect_ethnicity
     type: VARCHAR
   - name: raw_driver_searched
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_passenger_searched
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_search_consent
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_search_arrest
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_search_warrant
     type: BOOLEAN
   - name: raw_search_inventory
-    type: VARCHAR
+    type: BOOLEAN
   - name: raw_search_plain_view
-    type: VARCHAR
+    type: BOOLEAN

@@ -18,19 +18,19 @@ columns:
   - name: date
     type: DATE
   - name: time
-    type: TIME
+    type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: district
     type: VARCHAR
   - name: service_area
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -42,7 +42,7 @@ columns:
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: frisk_performed
     type: BOOLEAN
   - name: search_conducted

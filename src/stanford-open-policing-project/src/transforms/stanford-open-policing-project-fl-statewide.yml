@@ -18,13 +18,13 @@ columns:
   - name: date
     type: DATE
   - name: time
-    type: TIME
+    type: VARCHAR
   - name: location
     type: VARCHAR
   - name: county_name
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -32,13 +32,13 @@ columns:
   - name: officer_id_hash
     type: VARCHAR
   - name: officer_age
-    type: VARCHAR
+    type: BIGINT
   - name: officer_race
     type: VARCHAR
   - name: officer_sex
     type: VARCHAR
   - name: officer_years_of_service
-    type: VARCHAR
+    type: BIGINT
   - name: department_name
     type: VARCHAR
   - name: unit
@@ -48,17 +48,17 @@ columns:
   - name: violation
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: frisk_performed
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_basis
     type: VARCHAR
   - name: reason_for_search

@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `stanford-open-policing-project-ct-hartford`. Regenerate after model-verify.
 # caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
-key: [row_number, raw_row_number, location, lat, lng]
+key: [row_number, raw_row_number, location, officer_id_hash, reason_for_stop]
 temporal: date
-sort: [date, row_number, raw_row_number, location, lat, lng]
+sort: [date, row_number, raw_row_number, location, officer_id_hash, reason_for_stop]
 columns:
   - name: source_entity_id
     type: VARCHAR
@@ -16,19 +16,19 @@ columns:
   - name: raw_row_number
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: time
     type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: district
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -40,7 +40,7 @@ columns:
   - name: type
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
     type: BOOLEAN
   - name: warning_issued
@@ -48,11 +48,11 @@ columns:
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_vehicle
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_basis
     type: VARCHAR
   - name: reason_for_stop

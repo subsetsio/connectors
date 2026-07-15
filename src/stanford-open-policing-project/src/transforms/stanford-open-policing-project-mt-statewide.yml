@@ -16,19 +16,19 @@ columns:
   - name: raw_row_number
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: time
     type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: county_name
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -48,7 +48,7 @@ columns:
   - name: outcome
     type: VARCHAR
   - name: frisk_performed
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_basis
@@ -64,7 +64,7 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_race
     type: VARCHAR
   - name: raw_ethnicity

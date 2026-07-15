@@ -24,7 +24,7 @@ columns:
   - name: county_name
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -38,9 +38,9 @@ columns:
   - name: violation
     type: VARCHAR
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: vehicle_color
@@ -52,4 +52,4 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT

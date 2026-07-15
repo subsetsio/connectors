@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `stanford-open-policing-project-ca-san-diego`. Regenerate after model-verify.
 # caution: Stop-level records for a single published jurisdiction; available fields, raw_* columns, and local coding systems vary by jurisdiction, so compare like columns carefully across tables.
-key: [row_number, raw_row_number, date, time, reason_for_search]
+key: [row_number, raw_row_number, service_area, search_conducted]
 temporal: date
-sort: [date, row_number, raw_row_number, time, reason_for_search]
+sort: [date, row_number, raw_row_number, service_area, search_conducted]
 columns:
   - name: source_entity_id
     type: VARCHAR
@@ -16,13 +16,13 @@ columns:
   - name: raw_row_number
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: time
     type: VARCHAR
   - name: service_area
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -30,21 +30,21 @@ columns:
   - name: type
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_person
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_vehicle
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_basis
     type: VARCHAR
   - name: reason_for_search

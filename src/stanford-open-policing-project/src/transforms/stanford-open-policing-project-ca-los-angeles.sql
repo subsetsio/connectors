@@ -9,7 +9,7 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     "raw_row_number",
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "time",
     "district",
     "region",

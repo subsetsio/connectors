@@ -24,7 +24,7 @@ columns:
   - name: beat
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -44,17 +44,17 @@ columns:
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_weapons
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_person
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_vehicle
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_basis
     type: VARCHAR
   - name: reason_for_stop
@@ -62,7 +62,7 @@ columns:
   - name: vehicle_make
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_driverrace
     type: BIGINT
   - name: raw_reasonforstop

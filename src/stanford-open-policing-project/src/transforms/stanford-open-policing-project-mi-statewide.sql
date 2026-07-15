@@ -9,7 +9,7 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     "raw_row_number",
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "time",
     "location",
     "county_name",
@@ -24,8 +24,8 @@ SELECT
     CAST("warning_issued" AS BOOLEAN) AS warning_issued,
     "outcome",
     "reason_for_stop",
-    "speed",
-    "posted_speed",
-    "charged_speed",
+    CAST("speed" AS BIGINT) AS speed,
+    CAST("posted_speed" AS BIGINT) AS posted_speed,
+    CAST("charged_speed" AS BIGINT) AS charged_speed,
     "raw_Race" AS raw_race
 FROM "stanford-open-policing-project-mi-statewide"

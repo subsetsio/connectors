@@ -20,19 +20,19 @@ columns:
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: beat
-    type: VARCHAR
+    type: BIGINT
   - name: district
     type: VARCHAR
   - name: subdistrict
-    type: VARCHAR
+    type: BIGINT
   - name: division
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -40,7 +40,7 @@ columns:
   - name: officer_id_hash
     type: VARCHAR
   - name: officer_age
-    type: VARCHAR
+    type: BIGINT
   - name: officer_race
     type: VARCHAR
   - name: officer_sex
@@ -60,7 +60,7 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_race
     type: VARCHAR
   - name: raw_sex

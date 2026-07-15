@@ -18,7 +18,7 @@ columns:
   - name: date
     type: DATE
   - name: time
-    type: TIME
+    type: VARCHAR
   - name: location
     type: VARCHAR
   - name: subject_race
@@ -34,19 +34,19 @@ columns:
   - name: violation
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: warning_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: frisk_performed
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
-    type: VARCHAR
+    type: BOOLEAN
   - name: vehicle_color
     type: VARCHAR
   - name: vehicle_make

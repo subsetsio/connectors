@@ -18,13 +18,13 @@ columns:
   - name: date
     type: DATE
   - name: time
-    type: TIME
+    type: VARCHAR
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: geocode_source
     type: VARCHAR
   - name: beat
@@ -32,7 +32,7 @@ columns:
   - name: district
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -40,13 +40,13 @@ columns:
   - name: officer_id_hash
     type: VARCHAR
   - name: officer_age
-    type: VARCHAR
+    type: BIGINT
   - name: officer_race
     type: VARCHAR
   - name: officer_sex
     type: VARCHAR
   - name: officer_years_of_service
-    type: VARCHAR
+    type: BIGINT
   - name: unit
     type: VARCHAR
   - name: type
@@ -54,21 +54,21 @@ columns:
   - name: violation
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_weapons
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_alcohol
     type: BOOLEAN
   - name: contraband_other
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_person

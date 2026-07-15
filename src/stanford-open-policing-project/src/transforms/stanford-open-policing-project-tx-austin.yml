@@ -18,7 +18,7 @@ columns:
   - name: date
     type: DATE
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -28,11 +28,11 @@ columns:
   - name: type
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_weapons
-    type: VARCHAR
+    type: BOOLEAN
   - name: frisk_performed
     type: BOOLEAN
   - name: search_conducted
@@ -52,7 +52,7 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_ethnicity
     type: VARCHAR
   - name: raw_person_search_search_based_on

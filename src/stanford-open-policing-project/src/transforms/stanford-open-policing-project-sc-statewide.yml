@@ -16,17 +16,17 @@ columns:
   - name: raw_row_number
     type: BIGINT
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: county_name
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -34,7 +34,7 @@ columns:
   - name: officer_id_hash
     type: VARCHAR
   - name: officer_age
-    type: VARCHAR
+    type: BIGINT
   - name: officer_race
     type: VARCHAR
   - name: department_id
@@ -44,21 +44,21 @@ columns:
   - name: violation
     type: VARCHAR
   - name: arrest_made
-    type: VARCHAR
+    type: BOOLEAN
   - name: citation_issued
-    type: VARCHAR
+    type: BOOLEAN
   - name: outcome
     type: VARCHAR
   - name: contraband_found
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_drugs
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_weapons
-    type: VARCHAR
+    type: BOOLEAN
   - name: contraband_alcohol
     type: VARCHAR
   - name: contraband_other
-    type: VARCHAR
+    type: BOOLEAN
   - name: search_conducted
     type: BOOLEAN
   - name: search_person

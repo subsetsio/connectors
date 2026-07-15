@@ -9,12 +9,12 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     CAST("raw_row_number" AS BIGINT) AS raw_row_number,
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "time",
     "location",
-    "lat",
-    "lng",
-    "district",
+    CAST("lat" AS DOUBLE) AS lat,
+    CAST("lng" AS DOUBLE) AS lng,
+    CAST("district" AS BIGINT) AS district,
     "officer_id_hash",
     "type"
 FROM "stanford-open-policing-project-fl-saint-petersburg"

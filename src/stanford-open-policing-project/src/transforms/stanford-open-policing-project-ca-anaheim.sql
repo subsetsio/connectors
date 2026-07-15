@@ -9,7 +9,7 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     CAST("raw_row_number" AS BIGINT) AS raw_row_number,
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "type",
     "reason_for_stop"
 FROM "stanford-open-policing-project-ca-anaheim"

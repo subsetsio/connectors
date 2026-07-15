@@ -9,12 +9,12 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     CAST("raw_row_number" AS BIGINT) AS raw_row_number,
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "location",
     "subject_race",
     "department_name",
     "type",
-    "contraband_found",
+    CAST("contraband_found" AS BOOLEAN) AS contraband_found,
     CAST("search_conducted" AS BOOLEAN) AS search_conducted,
     "raw_race"
 FROM "stanford-open-policing-project-mo-statewide"

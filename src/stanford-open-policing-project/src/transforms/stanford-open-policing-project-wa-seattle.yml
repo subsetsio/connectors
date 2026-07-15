@@ -22,9 +22,9 @@ columns:
   - name: location
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: lng
-    type: VARCHAR
+    type: DOUBLE
   - name: beat
     type: VARCHAR
   - name: precinct
@@ -32,7 +32,7 @@ columns:
   - name: sector
     type: VARCHAR
   - name: subject_age
-    type: VARCHAR
+    type: BIGINT
   - name: subject_race
     type: VARCHAR
   - name: subject_sex
@@ -62,7 +62,7 @@ columns:
   - name: vehicle_registration_state
     type: VARCHAR
   - name: vehicle_year
-    type: VARCHAR
+    type: BIGINT
   - name: raw_type_description
     type: VARCHAR
   - name: raw_vehicle_description

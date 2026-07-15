@@ -9,11 +9,11 @@ SELECT
     "_source_member" AS source_member,
     "_row_number" AS row_number,
     "raw_row_number",
-    "date",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
     "time",
     "location",
-    "lat",
-    "lng",
+    CAST("lat" AS DOUBLE) AS lat,
+    CAST("lng" AS DOUBLE) AS lng,
     "county_name",
     "subject_race",
     "subject_sex",
@@ -25,6 +25,6 @@ SELECT
     "vehicle_color",
     "vehicle_make",
     "vehicle_model",
-    "vehicle_year",
+    CAST("vehicle_year" AS BIGINT) AS vehicle_year,
     "raw_race"
 FROM "stanford-open-policing-project-ga-statewide"
