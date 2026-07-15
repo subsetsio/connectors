@@ -26,8 +26,8 @@ _CONTINENT_CODES = {"af", "an", "as", "eu", "na", "oc", "sa"}
 _MONTH_RE = _re.compile(r"^\d{4}-\d{2}$")
 
 
-def _get_text(url: str, params: dict | None = None) -> str:
-    resp = get(url, params=params, timeout=(10.0, 45.0))
+def _get_text(url: str, params: dict | None = None, timeout: tuple[float, float] = (10.0, 45.0)) -> str:
+    resp = get(url, params=params, timeout=timeout)
     resp.raise_for_status()
     # Responses are served as application/octet-stream but are plain CSV/HTML.
     return resp.content.decode("utf-8-sig", errors="replace")

@@ -65,6 +65,17 @@ _TIMESERIES_SCHEMA = pa.schema([
 _MAX_WORKERS = int(os.environ.get("STATCOUNTER_FETCH_WORKERS", "6"))
 
 
+def _year_ranges(to_month: str) -> list[tuple[str, str]]:
+    end_year = int(to_month[:4])
+    end_month = int(to_month[5:7])
+    ranges = []
+    for year in range(int(SOURCE_MIN_MONTH[:4]), end_year + 1):
+        start = SOURCE_MIN_MONTH if year == int(SOURCE_MIN_MONTH[:4]) else f"{year}-01"
+        end = f"{year}-{end_month:02d}" if year == end_year else f"{year}-12"
+        ranges.append((start, end))
+    return ranges
+
+
 def _parse_timeseries_csv(text: str) -> list[tuple[str, str, float]]:
     """Wide CSV -> long [(date, category, market_share), ...]. Skips the leading
     Date column, blank cells and any row whose first cell isn't YYYY-MM (guards
@@ -114,8 +125,40 @@ def _fetch_region_rows(
         "fromMonthYear": SOURCE_MIN_MONTH,
         "toMonthYear": to_month,
     }
-    text = _get_text(BASE_URL, params)
-    return region_code, region_name, region_type, _parse_timeseries_csv(text)
+    if code != "search_engine_host":
+        text = _get_text(BASE_URL, params)
+        return region_code, region_name, region_type, _parse_timeseries_csv(text)
+
+    long_rows: list[tuple[str, str, float]] = []
+    for start_month, end_month in _year_ranges(to_month):
+        params["fromMonthYear"] = start_month
+        params["toMonthYear"] = end_month
+        text = _get_text(BASE_URL, params, timeout=(10.0, 25.0))
+        long_rows.extend(_parse_timeseries_csv(text))
+        time.sleep(0.05)
+    return region_code, region_name, region_type, long_rows
+
+
+def _write_region(
+    asset: str,
+    region_code: str,
+    region_name: str,
+    region_type: str,
+    long_rows: list[tuple[str, str, float]],
+) -> int:
+    if not long_rows:
+        return 0
+    batch = {
+        "date": [d for d, _, _ in long_rows],
+        "region_code": [region_code] * len(long_rows),
+        "region_name": [region_name] * len(long_rows),
+        "region_type": [region_type] * len(long_rows),
+        "category": [c for _, c, _ in long_rows],
+        "market_share": [v for _, _, v in long_rows],
+    }
+    with raw_parquet_writer(asset, _TIMESERIES_SCHEMA, fragment=region_code) as writer:
+        writer.write_table(pa.table(batch, schema=_TIMESERIES_SCHEMA))
+    return len(long_rows)
 
 
 def fetch_statistic(node_id: str) -> None:
@@ -146,6 +189,23 @@ def fetch_statistic(node_id: str) -> None:
             continue
         pending_regions.append((region_code, region_name, region_type))
 
+    for region in list(pending_regions):
+        if region[0] != "ww":
+            continue
+        try:
+            region_code, region_name, region_type, long_rows = _fetch_region_rows(
+                code, device, multi, to_month, region
+            )
+        except Exception as exc:  # noqa: BLE001
+            raise RuntimeError(f"{asset}: worldwide (ww) fetch failed; aborting node") from exc
+        row_count = _write_region(asset, region_code, region_name, region_type, long_rows)
+        if row_count == 0:
+            raise RuntimeError(f"{asset}: worldwide (ww) produced 0 rows; source format likely changed")
+        regions_written += 1
+        total_rows += row_count
+        pending_regions.remove(region)
+        break
+
     with ThreadPoolExecutor(max_workers=_MAX_WORKERS) as executor:
         futures = {
             executor.submit(_fetch_region_rows, code, device, multi, to_month, region): region[0]
@@ -165,18 +225,9 @@ def fetch_statistic(node_id: str) -> None:
 
             if not long_rows:
                 continue
-            batch = {
-                "date": [d for d, _, _ in long_rows],
-                "region_code": [region_code] * len(long_rows),
-                "region_name": [region_name] * len(long_rows),
-                "region_type": [region_type] * len(long_rows),
-                "category": [c for _, c, _ in long_rows],
-                "market_share": [v for _, _, v in long_rows],
-            }
-            with raw_parquet_writer(asset, _TIMESERIES_SCHEMA, fragment=region_code) as writer:
-                writer.write_table(pa.table(batch, schema=_TIMESERIES_SCHEMA))
+            row_count = _write_region(asset, region_code, region_name, region_type, long_rows)
             regions_written += 1
-            total_rows += len(long_rows)
+            total_rows += row_count
             time.sleep(0.05)  # light pacing for manifest writes and source politeness
 
     # Integrity guards: worldwide must succeed, and a systemic failure
