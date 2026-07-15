@@ -18,7 +18,7 @@ PREFIX = "datasus-"
 DEFAULT_LIMIT = 1000
 TIMEOUT = (10.0, 180.0)
 RAW_EXT = "ndjson.gz"
-PAGINATION_VERSION = 3
+PAGINATION_VERSION = 4
 MAX_PAGES = 100_000
 
 ENTITY_BY_SPEC_ID = {
@@ -65,6 +65,7 @@ def fetch_one(spec_id: str) -> None:
         for path in _paths_for(entity_id):
             offset = 0
             pages = 0
+            seen_page_keys: set[str] = set()
             while pages < MAX_PAGES:
                 response = get(
                     f"{BASE_URL}{path}",
@@ -78,6 +79,11 @@ def fetch_one(spec_id: str) -> None:
                 if not records:
                     break
 
+                page_key = json.dumps(records, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+                if page_key in seen_page_keys:
+                    break
+                seen_page_keys.add(page_key)
+
                 for record in records:
                     enriched = dict(record)
                     enriched["_datasus_entity_id"] = entity_id
@@ -87,6 +93,8 @@ def fetch_one(spec_id: str) -> None:
 
                 total += len(records)
                 offset += len(records)
+                if len(records) < limit:
+                    break
             else:
                 raise RuntimeError(f"{path} exceeded {MAX_PAGES:,} pages without an empty page")
 
