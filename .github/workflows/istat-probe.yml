@@ -1,0 +1,40 @@
+name: Istat Connectivity Probe
+run-name: "istat connectivity probe"
+
+# TEMPORARY diagnostic. Answers one question: can a GitHub-hosted runner reach
+# Istat's SDMX endpoint at all? Delete once the answer is recorded.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Runner egress IP
+        run: curl -s --max-time 20 https://api.ipify.org || echo "(ipify unreachable)"
+
+      - name: DNS
+        run: |
+          getent hosts esploradati.istat.it || echo "(no getent result)"
+          dig +short esploradati.istat.it A || true
+          dig +short esploradati.istat.it AAAA || true
+
+      - name: Raw TCP connect to 193.204.90.13:443 (15s cap)
+        run: |
+          time timeout 20 bash -c 'cat < /dev/null > /dev/tcp/193.204.90.13/443' \
+            && echo "TCP_CONNECT=OK" || echo "TCP_CONNECT=FAIL(exit=$?)"
+
+      - name: TLS + HTTP to the exact 404-flow URL (60s cap)
+        run: |
+          curl -sS -o /dev/null --max-time 60 \
+            -w 'HTTP=%{http_code} ip=%{remote_ip} connect=%{time_connect}s tls=%{time_appconnect}s total=%{time_total}s\n' \
+            -H 'Accept: application/vnd.sdmx.data+csv;version=1.0.0' \
+            'https://esploradati.istat.it/SDMXWS/rest/data/IT1,115_362,1.0/all/ALL/?detail=dataonly&dimensionAtObservation=TIME_PERIOD' \
+            || echo "CURL_FAILED exit=$?"
+
+      - name: Control — reach an unrelated public host
+        run: |
+          curl -s -o /dev/null --max-time 20 -w 'example.com HTTP=%{http_code} total=%{time_total}s\n' https://example.com \
+            || echo "CONTROL_FAILED exit=$?"
