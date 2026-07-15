@@ -39,15 +39,15 @@ FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 
 # Files fetched per node invocation. Continuation chains are capped by the
 # shared runner guard, so the 1,334-file baseline must drain in fewer than the
-# default 16 legs. Cloud timings are ~10 files/minute for the current baseline;
-# 125 files is comfortably under one leg's budget while leaving enough headroom
-# for slower tail files and the final publish checks.
-FILES_PER_RUN = 125
+# default 16 legs. The first cloud leg processed 125 files in about 5.5h and
+# collided with the DAG deadline; 100 files keeps the chain under the leg cap
+# while leaving supervisor time to finalize and retrigger cleanly.
+FILES_PER_RUN = 100
 
 # Additional wall-clock cap for one child process. Runtime continuation still
 # owns the overall job budget; this just commits raw fragments regularly even
 # when a few large XML files parse slowly.
-MAX_NODE_SECONDS = 90 * 60
+MAX_NODE_SECONDS = 270 * 60
 
 # Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value set in
 # src/main.py. The node uses the parent process age to avoid starting a new
@@ -59,7 +59,7 @@ DEFAULT_TIME_BUDGET_S = 18_000.0
 # decompress, parse, and write; starting one at the end of the DAG budget causes
 # the watchdog to kill the child and leaves the run pending instead of cleanly
 # continuing.
-MIN_PARENT_REMAINING_S = 75 * 60
+MIN_PARENT_REMAINING_S = 45 * 60
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
@@ -124,23 +124,18 @@ def _parent_remaining_seconds() -> float | None:
     return budget - max(0.0, time.time() - parent_started)
 
 
-def _defer_until_parent_deadline(remaining: float) -> bool:
-    """Return True after letting the parent cross its DAG deadline cleanly.
+def _continue_before_parent_deadline(remaining: float) -> bool:
+    """Return True while there is still time for the parent to collect us.
 
-    If a node returns True while the parent still has budget, the orchestrator
-    may immediately spawn the same node again. Near the deadline that next child
-    is likely to be interrupted. Waiting out the last short slice lets the
-    already-committed fragments stand and causes the parent to finalize a
-    needs_continuation handoff without killing an in-flight parser.
+    The orchestrator turns a True return into a committed raw-manifest update
+    and a needs_continuation handoff. Sleeping near the deadline is unsafe: the
+    parent watchdog sees the child as still in-flight and can kill it before it
+    reports the successful continuation result.
     """
-    if remaining <= 0:
-        return True
-    sleep_s = min(remaining + 1.0, MIN_PARENT_REMAINING_S)
     print(
-        f"parent DAG budget has only {remaining:.0f}s left; "
-        f"holding {sleep_s:.0f}s, then requesting continuation"
+        f"parent DAG budget has only {max(0.0, remaining):.0f}s left; "
+        "requesting continuation before starting another PubMed file"
     )
-    time.sleep(sleep_s)
     return True
 
 
@@ -287,7 +282,7 @@ def fetch_citations(node_id: str):
     for i, n in enumerate(batch):
         parent_remaining = _parent_remaining_seconds()
         if parent_remaining is not None and parent_remaining < MIN_PARENT_REMAINING_S:
-            return _defer_until_parent_deadline(parent_remaining)
+            return _continue_before_parent_deadline(parent_remaining)
 
         if i > 0 and time.monotonic() >= deadline:
             print(
