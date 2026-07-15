@@ -36,7 +36,7 @@ from subsets_utils import (
 
 from utils import BASE, dedupe, get_json
 
-STATE_VERSION = 1
+STATE_VERSION = 2
 
 
 # ---------------------------------------------------------------------------
@@ -179,8 +179,8 @@ def _parse_series_csv(content: bytes) -> list[dict]:
 def fetch_values(node_id: str) -> None:
     """Crawl every series' observations, one NDJSON batch per series.
 
-    node_id == "united-nations-values"; batches are written as
-    f"{node_id}-{series_code}" and glob-unioned by the transform's view.
+    node_id == "united-nations-values"; batches are written as fragments of
+    that logical raw asset, one fragment per series code.
     """
     series_list = get_json("Series/List")
     if not isinstance(series_list, list) or not series_list:
@@ -217,7 +217,7 @@ def fetch_values(node_id: str) -> None:
             save_state(node_id, {"schema_version": STATE_VERSION, "release": release, "watermark": watermark})
             continue
         if rows:
-            save_raw_ndjson(rows, f"{node_id}-{code}")  # raw FIRST
+            save_raw_ndjson(rows, node_id, fragment=code)  # raw FIRST
         watermark = code
         save_state(node_id, {"schema_version": STATE_VERSION, "release": release, "watermark": watermark})
 
