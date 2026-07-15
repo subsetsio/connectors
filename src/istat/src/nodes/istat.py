@@ -101,7 +101,16 @@ _WEDGE_RECOVERY_S = float(os.environ.get("ISTAT_WEDGE_RECOVERY_S", "360"))
 # Exceptions that mean "the server could not generate this response" -- i.e. the
 # window is too big, so split it. Raised by get() only after its own transient
 # retries are exhausted.
-_TOO_BIG = (httpx.RemoteProtocolError, httpx.ReadTimeout, httpx.WriteTimeout)
+class _OversizedQuery(RuntimeError):
+    """Istat understood the request but could not generate the result."""
+
+
+_TOO_BIG = (
+    _OversizedQuery,
+    httpx.RemoteProtocolError,
+    httpx.ReadTimeout,
+    httpx.WriteTimeout,
+)
 
 # Cross-process global rate limiter. 13s spacing => ~4.6 req/min, under the
 # hard 5/min IP cap. src/main.py also forces DAG_PARALLELISM=1 because queued
@@ -128,6 +137,11 @@ _ANNUAL_FIRST_RANGES = {
     "164_347": (1972, 1981),  # Estimated resident population - Years 1972-1981
     "165_1245": (2024, 2050),  # Municipal population projections - Years 2024-2050
 }
+
+# This flow still makes Istat fail SQL generation for a single unkeyed year.
+# Enter through compact dimensions immediately instead of paying one doomed
+# unkeyed request, plus a wedge drain, for each annual window.
+_DIMENSION_FIRST_ANNUAL_FLOWS = {"164_305"}
 
 
 def _throttle() -> None:
@@ -257,6 +271,8 @@ def _fetch_csv(
         raise _DeadFlow(f"{flow_id}: {body.strip()}")
     if resp.status_code == 422:
         raise _DeadFlow(f"{flow_id}: {resp.text[:400].strip()}")
+    if resp.status_code == 413 or "Unable to generate SQL" in resp.text[:1000]:
+        raise _OversizedQuery(f"{flow_id}: {resp.text[:400].strip()}")
     resp.raise_for_status()
     return resp.text
 
@@ -386,6 +402,8 @@ def _fetch_csv_keyed(
         if "NoRecordsFound" in body:
             return None
         raise _DeadFlow(f"{flow_id}: {body.strip()}")
+    if resp.status_code == 413 or "Unable to generate SQL" in resp.text[:1000]:
+        raise _OversizedQuery(f"{flow_id}: {resp.text[:400].strip()}")
     resp.raise_for_status()
     return resp.text
 
@@ -492,6 +510,10 @@ def _iter_rows(flow_id: str):
         lo, hi = _ANNUAL_FIRST_RANGES[flow_id]
         print(f"[istat] {flow_id}: known large annual flow — fetching {lo}..{hi} by year")
         for year in range(lo, hi + 1):
+            if flow_id in _DIMENSION_FIRST_ANNUAL_FLOWS:
+                yielded = yield from split_compact_dims(str(year), str(year))
+                if yielded:
+                    continue
             yield from split_years(year, year)
         return
 
