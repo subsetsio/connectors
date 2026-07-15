@@ -2,8 +2,8 @@
 # of raw asset `socialstyrelsen-graviditeterforlossningarochnyfodda`. Regenerate after model-verify.
 # caution: Contains multiple measures and demographic breakdowns in one grid; filter `matt`, `variabel`, `paritet`, `alder` and `region` before summing values.
 key: [source_file, matt, ar, region, variabel, paritet, alder]
-temporal: ar
-sort: [ar, source_file, matt, region, variabel, paritet, alder]
+temporal: fetched_at
+sort: [fetched_at, source_file, matt, ar, region, variabel, paritet, alder]
 columns:
   - name: source_file
     type: VARCHAR

@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `socialstyrelsen-lakemedel`. Regenerate after model-verify.
 # caution: Contains totals alongside detailed ATC, age, sex and regional breakdowns; filter the desired aggregation level before summing values.
-key: [source_file, matt, ar, region, atc_kod, kon, alder]
-temporal: ar
-sort: [ar, source_file, matt, region, atc_kod, kon, alder]
+key: []
+temporal: fetched_at
+sort: [fetched_at]
 columns:
   - name: source_file
     type: VARCHAR

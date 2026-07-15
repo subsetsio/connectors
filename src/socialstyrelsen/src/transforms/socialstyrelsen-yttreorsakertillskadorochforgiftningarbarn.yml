@@ -2,8 +2,8 @@
 # of raw asset `socialstyrelsen-yttreorsakertillskadorochforgiftningarbarn`. Regenerate after model-verify.
 # caution: Contains totals alongside detailed external-cause, age, sex, care-form and regional breakdowns for children; filter the desired aggregation level before summing values.
 key: [source_file, vardform, ar, region, kon, matt, yttre_orsak, alder]
-temporal: ar
-sort: [ar, source_file, vardform, region, kon, matt, yttre_orsak, alder]
+temporal: fetched_at
+sort: [fetched_at, source_file, vardform, ar, region, kon, matt, yttre_orsak, alder]
 columns:
   - name: source_file
     type: VARCHAR
