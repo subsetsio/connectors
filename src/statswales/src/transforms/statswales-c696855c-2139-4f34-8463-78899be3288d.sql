@@ -6,7 +6,7 @@ SELECT
     CAST("Data values" AS DOUBLE) AS data_values,
     "Data description" AS data_description,
     "Row" AS row,
-    "Column" AS column,
+    "Column" AS financial_category,
     "Year" AS year,
     "Authority" AS authority,
     "Notes" AS notes

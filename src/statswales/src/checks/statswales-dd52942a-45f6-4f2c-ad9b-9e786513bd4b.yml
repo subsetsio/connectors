@@ -3,11 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [data_values, school_sector_authority, year, column]
+key: [data_values, school_sector_authority, year, financial_category]
 temporal: year
 checks:
   - kind: unique
-    columns: [data_values, school_sector_authority, year, column]
+    columns: [data_values, school_sector_authority, year, financial_category]
   - kind: not_null
     col: data_values
   - kind: not_null
@@ -15,7 +15,7 @@ checks:
   - kind: not_null
     col: year
   - kind: not_null
-    col: column
+    col: financial_category
   - kind: row_floor
     min: 108584
 regression:

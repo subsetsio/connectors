@@ -1,8 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statswales-475612f0-9e2f-4966-9fcd-b790b5a81b1f`. Regenerate after model-verify.
-key: [row, authority, year, column]
+key: [row, authority, year, financial_category]
 temporal: year
-sort: [year, row, authority, column]
+sort: [year, row, authority, financial_category]
 columns:
   - name: data_values
     type: DOUBLE
@@ -12,7 +12,7 @@ columns:
     type: VARCHAR
   - name: row
     type: VARCHAR
-  - name: column
+  - name: financial_category
     type: VARCHAR
   - name: authority
     type: VARCHAR

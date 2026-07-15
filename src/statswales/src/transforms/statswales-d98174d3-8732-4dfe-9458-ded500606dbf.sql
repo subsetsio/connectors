@@ -7,7 +7,7 @@ SELECT
     "Data description" AS data_description,
     "Year" AS year,
     "Service" AS service,
-    "Column" AS column,
+    "Column" AS financial_category,
     "Authority" AS authority,
     "Notes" AS notes
 FROM "statswales-d98174d3-8732-4dfe-9458-ded500606dbf"

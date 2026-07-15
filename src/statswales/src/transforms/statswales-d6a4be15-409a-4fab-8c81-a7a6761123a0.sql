@@ -6,7 +6,7 @@ SELECT
     CAST("Data values" AS BIGINT) AS data_values,
     "Data description" AS data_description,
     "Service" AS service,
-    "Column" AS column,
+    "Column" AS financial_category,
     "Year" AS year,
     "Authority" AS authority,
     "Notes" AS notes

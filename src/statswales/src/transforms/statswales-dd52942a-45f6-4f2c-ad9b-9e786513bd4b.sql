@@ -7,6 +7,6 @@ SELECT
     "Data description" AS data_description,
     "Year" AS year,
     "School - Sector - Authority" AS school_sector_authority,
-    "Column" AS column,
+    "Column" AS financial_category,
     "Notes" AS notes
 FROM "statswales-dd52942a-45f6-4f2c-ad9b-9e786513bd4b"
