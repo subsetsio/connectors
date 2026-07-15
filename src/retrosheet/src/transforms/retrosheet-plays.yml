@@ -1,0 +1,361 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `retrosheet-plays`. Regenerate after model-verify.
+# caution: Suspended games can resume at a different site or date, so play-level site and date should be used when analyzing individual events.
+key: [gid, pn]
+temporal: date
+sort: [date, gid, pn]
+columns:
+  - name: gid
+    type: VARCHAR
+  - name: event
+    type: VARCHAR
+  - name: inning
+    type: VARCHAR
+  - name: top_bot
+    type: BIGINT
+  - name: vis_home
+    type: BIGINT
+  - name: site
+    type: VARCHAR
+  - name: batteam
+    type: VARCHAR
+  - name: pitteam
+    type: VARCHAR
+  - name: score_v
+    type: BIGINT
+  - name: score_h
+    type: BIGINT
+  - name: batter
+    type: VARCHAR
+  - name: pitcher
+    type: VARCHAR
+  - name: lp
+    type: VARCHAR
+  - name: bat_f
+    type: VARCHAR
+  - name: bathand
+    type: VARCHAR
+  - name: pithand
+    type: VARCHAR
+  - name: balls
+    type: VARCHAR
+  - name: strikes
+    type: VARCHAR
+  - name: count
+    type: VARCHAR
+  - name: pitches
+    type: VARCHAR
+  - name: nump
+    type: VARCHAR
+  - name: pa
+    type: BIGINT
+  - name: ab
+    type: BIGINT
+  - name: single
+    type: BIGINT
+  - name: double
+    type: BIGINT
+  - name: triple
+    type: BIGINT
+  - name: hr
+    type: BIGINT
+  - name: sh
+    type: BIGINT
+  - name: sf
+    type: BIGINT
+  - name: hbp
+    type: BIGINT
+  - name: walk
+    type: BIGINT
+  - name: k
+    type: BIGINT
+  - name: xi
+    type: BIGINT
+  - name: roe
+    type: BIGINT
+  - name: fc
+    type: BIGINT
+  - name: othout
+    type: BIGINT
+  - name: noout
+    type: BIGINT
+  - name: oth
+    type: BIGINT
+  - name: bip
+    type: BIGINT
+  - name: bunt
+    type: BIGINT
+  - name: ground
+    type: BIGINT
+  - name: fly
+    type: BIGINT
+  - name: line
+    type: BIGINT
+  - name: iw
+    type: BIGINT
+  - name: gdp
+    type: BIGINT
+  - name: othdp
+    type: BIGINT
+  - name: tp
+    type: BIGINT
+  - name: fle
+    type: BIGINT
+  - name: wp
+    type: BIGINT
+  - name: pb
+    type: BIGINT
+  - name: bk
+    type: BIGINT
+  - name: oa
+    type: BIGINT
+  - name: di
+    type: BIGINT
+  - name: sb2
+    type: BIGINT
+  - name: sb3
+    type: BIGINT
+  - name: sbh
+    type: BIGINT
+  - name: cs2
+    type: BIGINT
+  - name: cs3
+    type: BIGINT
+  - name: csh
+    type: BIGINT
+  - name: pko1
+    type: BIGINT
+  - name: pko2
+    type: BIGINT
+  - name: pko3
+    type: BIGINT
+  - name: k_safe
+    type: BIGINT
+  - name: e1
+    type: BIGINT
+  - name: e2
+    type: BIGINT
+  - name: e3
+    type: BIGINT
+  - name: e4
+    type: BIGINT
+  - name: e5
+    type: BIGINT
+  - name: e6
+    type: BIGINT
+  - name: e7
+    type: BIGINT
+  - name: e8
+    type: BIGINT
+  - name: e9
+    type: BIGINT
+  - name: outs_pre
+    type: BIGINT
+  - name: outs_post
+    type: BIGINT
+  - name: br1_pre
+    type: VARCHAR
+  - name: br2_pre
+    type: VARCHAR
+  - name: br3_pre
+    type: VARCHAR
+  - name: br1_post
+    type: VARCHAR
+  - name: br2_post
+    type: VARCHAR
+  - name: br3_post
+    type: VARCHAR
+  - name: lob_id1
+    type: VARCHAR
+  - name: lob_id2
+    type: VARCHAR
+  - name: lob_id3
+    type: VARCHAR
+  - name: pr1_pre
+    type: VARCHAR
+  - name: pr2_pre
+    type: VARCHAR
+  - name: pr3_pre
+    type: VARCHAR
+  - name: pr1_post
+    type: VARCHAR
+  - name: pr2_post
+    type: VARCHAR
+  - name: pr3_post
+    type: VARCHAR
+  - name: run_b
+    type: VARCHAR
+  - name: run1
+    type: VARCHAR
+  - name: run2
+    type: VARCHAR
+  - name: run3
+    type: VARCHAR
+  - name: prun_b
+    type: VARCHAR
+  - name: prun1
+    type: VARCHAR
+  - name: prun2
+    type: VARCHAR
+  - name: prun3
+    type: VARCHAR
+  - name: ur_b
+    type: BIGINT
+  - name: ur1
+    type: BIGINT
+  - name: ur2
+    type: BIGINT
+  - name: ur3
+    type: BIGINT
+  - name: rbi_b
+    type: BIGINT
+  - name: rbi1
+    type: BIGINT
+  - name: rbi2
+    type: BIGINT
+  - name: rbi3
+    type: BIGINT
+  - name: runs
+    type: BIGINT
+  - name: rbi
+    type: BIGINT
+  - name: er
+    type: BIGINT
+  - name: tur
+    type: BIGINT
+  - name: l1
+    type: VARCHAR
+  - name: l2
+    type: VARCHAR
+  - name: l3
+    type: VARCHAR
+  - name: l4
+    type: VARCHAR
+  - name: l5
+    type: VARCHAR
+  - name: l6
+    type: VARCHAR
+  - name: l7
+    type: VARCHAR
+  - name: l8
+    type: VARCHAR
+  - name: l9
+    type: VARCHAR
+  - name: lf1
+    type: BIGINT
+  - name: lf2
+    type: BIGINT
+  - name: lf3
+    type: BIGINT
+  - name: lf4
+    type: BIGINT
+  - name: lf5
+    type: BIGINT
+  - name: lf6
+    type: BIGINT
+  - name: lf7
+    type: BIGINT
+  - name: lf8
+    type: BIGINT
+  - name: lf9
+    type: BIGINT
+  - name: f2
+    type: VARCHAR
+  - name: f3
+    type: VARCHAR
+  - name: f4
+    type: VARCHAR
+  - name: f5
+    type: VARCHAR
+  - name: f6
+    type: VARCHAR
+  - name: f7
+    type: VARCHAR
+  - name: f8
+    type: VARCHAR
+  - name: f9
+    type: VARCHAR
+  - name: po0
+    type: BIGINT
+  - name: po1
+    type: BIGINT
+  - name: po2
+    type: BIGINT
+  - name: po3
+    type: BIGINT
+  - name: po4
+    type: BIGINT
+  - name: po5
+    type: BIGINT
+  - name: po6
+    type: BIGINT
+  - name: po7
+    type: BIGINT
+  - name: po8
+    type: BIGINT
+  - name: po9
+    type: BIGINT
+  - name: a1
+    type: BIGINT
+  - name: a2
+    type: BIGINT
+  - name: a3
+    type: BIGINT
+  - name: a4
+    type: BIGINT
+  - name: a5
+    type: BIGINT
+  - name: a6
+    type: BIGINT
+  - name: a7
+    type: BIGINT
+  - name: a8
+    type: BIGINT
+  - name: a9
+    type: BIGINT
+  - name: fseq
+    type: VARCHAR
+  - name: batout1
+    type: VARCHAR
+  - name: batout2
+    type: BIGINT
+  - name: batout3
+    type: BIGINT
+  - name: brout_b
+    type: BIGINT
+  - name: brout1
+    type: BIGINT
+  - name: brout2
+    type: BIGINT
+  - name: brout3
+    type: BIGINT
+  - name: firstf
+    type: BIGINT
+  - name: loc
+    type: VARCHAR
+  - name: hittype
+    type: VARCHAR
+  - name: dpopp
+    type: BIGINT
+  - name: pivot
+    type: VARCHAR
+  - name: pn
+    type: BIGINT
+  - name: umphome
+    type: VARCHAR
+  - name: ump1b
+    type: VARCHAR
+  - name: ump2b
+    type: VARCHAR
+  - name: ump3b
+    type: VARCHAR
+  - name: umplf
+    type: VARCHAR
+  - name: umprf
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: gametype
+    type: VARCHAR
+  - name: pbp
+    type: VARCHAR

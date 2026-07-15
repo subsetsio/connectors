@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `retrosheet-coaches`. Regenerate after model-verify.
+key: [id, year, team, role, first_g, last_g]
+temporal: year
+sort: [year, id, team, role, first_g, last_g]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: team
+    type: VARCHAR
+  - name: role
+    type: VARCHAR
+  - name: first_g
+    type: BIGINT
+  - name: last_g
+    type: BIGINT

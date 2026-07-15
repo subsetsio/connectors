@@ -1,0 +1,50 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows can include Retrosheet value, official, lower-bound and upper-bound stattype records; filter stattype before aggregating player-game pitching totals.
+-- caution: The source does not provide a non-null stable row key for every player-game pitching row; some historical rows have blank pitcher sequence values.
+SELECT
+    "gid",
+    "id",
+    "team",
+    "p_seq",
+    "stattype",
+    "p_ipouts",
+    "p_noout",
+    "p_bfp",
+    "p_h",
+    "p_d",
+    "p_t",
+    "p_hr",
+    "p_r",
+    "p_er",
+    "p_w",
+    "p_iw",
+    "p_k",
+    "p_hbp",
+    "p_wp",
+    "p_bk",
+    "p_sh",
+    "p_sf",
+    "p_sb",
+    "p_cs",
+    "p_pb",
+    "wp",
+    "lp",
+    "save",
+    "p_gs",
+    "p_gf",
+    "p_cg",
+    "date",
+    "number",
+    "site",
+    "vishome",
+    "opp",
+    "win",
+    "loss",
+    "tie",
+    "gametype",
+    "box",
+    "pbp"
+FROM "retrosheet-pitching"

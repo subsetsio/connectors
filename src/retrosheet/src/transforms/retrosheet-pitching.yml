@@ -1,0 +1,90 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `retrosheet-pitching`. Regenerate after model-verify.
+# caution: Rows can include Retrosheet value, official, lower-bound and upper-bound stattype records; filter stattype before aggregating player-game pitching totals.
+# caution: The source does not provide a non-null stable row key for every player-game pitching row; some historical rows have blank pitcher sequence values.
+key: []
+columns:
+  - name: gid
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: p_seq
+    type: BIGINT
+  - name: stattype
+    type: VARCHAR
+  - name: p_ipouts
+    type: BIGINT
+  - name: p_noout
+    type: BIGINT
+  - name: p_bfp
+    type: BIGINT
+  - name: p_h
+    type: BIGINT
+  - name: p_d
+    type: BIGINT
+  - name: p_t
+    type: BIGINT
+  - name: p_hr
+    type: BIGINT
+  - name: p_r
+    type: BIGINT
+  - name: p_er
+    type: BIGINT
+  - name: p_w
+    type: BIGINT
+  - name: p_iw
+    type: BIGINT
+  - name: p_k
+    type: BIGINT
+  - name: p_hbp
+    type: BIGINT
+  - name: p_wp
+    type: BIGINT
+  - name: p_bk
+    type: BIGINT
+  - name: p_sh
+    type: BIGINT
+  - name: p_sf
+    type: BIGINT
+  - name: p_sb
+    type: BIGINT
+  - name: p_cs
+    type: BIGINT
+  - name: p_pb
+    type: BIGINT
+  - name: wp
+    type: BIGINT
+  - name: lp
+    type: BIGINT
+  - name: save
+    type: BIGINT
+  - name: p_gs
+    type: BIGINT
+  - name: p_gf
+    type: BIGINT
+  - name: p_cg
+    type: BIGINT
+  - name: date
+    type: BIGINT
+  - name: number
+    type: BIGINT
+  - name: site
+    type: VARCHAR
+  - name: vishome
+    type: VARCHAR
+  - name: opp
+    type: VARCHAR
+  - name: win
+    type: BIGINT
+  - name: loss
+    type: BIGINT
+  - name: tie
+    type: BIGINT
+  - name: gametype
+    type: VARCHAR
+  - name: box
+    type: VARCHAR
+  - name: pbp
+    type: VARCHAR

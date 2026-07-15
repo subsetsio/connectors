@@ -1,0 +1,229 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `retrosheet-teamstats`. Regenerate after model-verify.
+# caution: Rows can include Retrosheet value, official, lower-bound and upper-bound stattype records; filter stattype before aggregating team-game totals.
+key: [gid, team, stattype]
+temporal: date
+sort: [date, gid, team, stattype]
+columns:
+  - name: gid
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: inn1
+    type: VARCHAR
+  - name: inn2
+    type: VARCHAR
+  - name: inn3
+    type: VARCHAR
+  - name: inn4
+    type: VARCHAR
+  - name: inn5
+    type: VARCHAR
+  - name: inn6
+    type: VARCHAR
+  - name: inn7
+    type: VARCHAR
+  - name: inn8
+    type: VARCHAR
+  - name: inn9
+    type: VARCHAR
+  - name: inn10
+    type: VARCHAR
+  - name: inn11
+    type: VARCHAR
+  - name: inn12
+    type: VARCHAR
+  - name: inn13
+    type: VARCHAR
+  - name: inn14
+    type: VARCHAR
+  - name: inn15
+    type: VARCHAR
+  - name: inn16
+    type: VARCHAR
+  - name: inn17
+    type: VARCHAR
+  - name: inn18
+    type: VARCHAR
+  - name: inn19
+    type: VARCHAR
+  - name: inn20
+    type: VARCHAR
+  - name: inn21
+    type: VARCHAR
+  - name: inn22
+    type: VARCHAR
+  - name: inn23
+    type: VARCHAR
+  - name: inn24
+    type: VARCHAR
+  - name: inn25
+    type: VARCHAR
+  - name: inn26
+    type: VARCHAR
+  - name: inn27
+    type: VARCHAR
+  - name: inn28
+    type: VARCHAR
+  - name: lob
+    type: VARCHAR
+  - name: mgr
+    type: VARCHAR
+  - name: stattype
+    type: VARCHAR
+  - name: b_pa
+    type: VARCHAR
+  - name: b_ab
+    type: VARCHAR
+  - name: b_r
+    type: VARCHAR
+  - name: b_h
+    type: VARCHAR
+  - name: b_d
+    type: VARCHAR
+  - name: b_t
+    type: VARCHAR
+  - name: b_hr
+    type: VARCHAR
+  - name: b_rbi
+    type: VARCHAR
+  - name: b_sh
+    type: VARCHAR
+  - name: b_sf
+    type: VARCHAR
+  - name: b_hbp
+    type: VARCHAR
+  - name: b_w
+    type: VARCHAR
+  - name: b_iw
+    type: VARCHAR
+  - name: b_k
+    type: VARCHAR
+  - name: b_sb
+    type: VARCHAR
+  - name: b_cs
+    type: VARCHAR
+  - name: b_gdp
+    type: VARCHAR
+  - name: b_xi
+    type: VARCHAR
+  - name: b_roe
+    type: VARCHAR
+  - name: p_ipouts
+    type: VARCHAR
+  - name: p_noout
+    type: VARCHAR
+  - name: p_bfp
+    type: VARCHAR
+  - name: p_h
+    type: VARCHAR
+  - name: p_d
+    type: VARCHAR
+  - name: p_t
+    type: VARCHAR
+  - name: p_hr
+    type: VARCHAR
+  - name: p_r
+    type: VARCHAR
+  - name: p_er
+    type: VARCHAR
+  - name: p_w
+    type: VARCHAR
+  - name: p_iw
+    type: VARCHAR
+  - name: p_k
+    type: VARCHAR
+  - name: p_hbp
+    type: VARCHAR
+  - name: p_wp
+    type: VARCHAR
+  - name: p_bk
+    type: VARCHAR
+  - name: p_sh
+    type: VARCHAR
+  - name: p_sf
+    type: VARCHAR
+  - name: p_sb
+    type: VARCHAR
+  - name: p_cs
+    type: VARCHAR
+  - name: p_pb
+    type: VARCHAR
+  - name: d_po
+    type: VARCHAR
+  - name: d_a
+    type: VARCHAR
+  - name: d_e
+    type: VARCHAR
+  - name: d_dp
+    type: VARCHAR
+  - name: d_tp
+    type: VARCHAR
+  - name: d_pb
+    type: VARCHAR
+  - name: d_wp
+    type: VARCHAR
+  - name: d_sb
+    type: VARCHAR
+  - name: d_cs
+    type: VARCHAR
+  - name: start_l1
+    type: VARCHAR
+  - name: start_l2
+    type: VARCHAR
+  - name: start_l3
+    type: VARCHAR
+  - name: start_l4
+    type: VARCHAR
+  - name: start_l5
+    type: VARCHAR
+  - name: start_l6
+    type: VARCHAR
+  - name: start_l7
+    type: VARCHAR
+  - name: start_l8
+    type: VARCHAR
+  - name: start_l9
+    type: VARCHAR
+  - name: start_f1
+    type: VARCHAR
+  - name: start_f2
+    type: VARCHAR
+  - name: start_f3
+    type: VARCHAR
+  - name: start_f4
+    type: VARCHAR
+  - name: start_f5
+    type: VARCHAR
+  - name: start_f6
+    type: VARCHAR
+  - name: start_f7
+    type: VARCHAR
+  - name: start_f8
+    type: VARCHAR
+  - name: start_f9
+    type: VARCHAR
+  - name: start_f10
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: number
+    type: VARCHAR
+  - name: site
+    type: VARCHAR
+  - name: vishome
+    type: VARCHAR
+  - name: opp
+    type: VARCHAR
+  - name: win
+    type: BIGINT
+  - name: loss
+    type: BIGINT
+  - name: tie
+    type: BIGINT
+  - name: gametype
+    type: VARCHAR
+  - name: box
+    type: VARCHAR
+  - name: pbp
+    type: VARCHAR

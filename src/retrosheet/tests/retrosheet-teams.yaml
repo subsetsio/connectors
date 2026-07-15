@@ -1,6 +1,6 @@
 spec_id: retrosheet-teams
 status: active
 tests:
-  - row_count: {min: 1000}
-    reason: teams0.csv should include historical team records across seasons and leagues.
+  - row_count: {min: 100}
+    reason: teams0.csv contains one row per Retrosheet team, with first and last covered game dates.
     certainty: 85

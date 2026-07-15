@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `retrosheet-fielding`. Regenerate after model-verify.
+# caution: Rows can include Retrosheet value, official, lower-bound and upper-bound stattype records; filter stattype before aggregating player-game-position fielding totals.
+# caution: The source does not provide a non-null stable row key for every player-game-position fielding row; some historical rows have blank fielding sequence values.
+key: []
+columns:
+  - name: gid
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: d_seq
+    type: BIGINT
+  - name: d_pos
+    type: VARCHAR
+  - name: stattype
+    type: VARCHAR
+  - name: d_ifouts
+    type: BIGINT
+  - name: d_po
+    type: BIGINT
+  - name: d_a
+    type: BIGINT
+  - name: d_e
+    type: BIGINT
+  - name: d_dp
+    type: BIGINT
+  - name: d_tp
+    type: BIGINT
+  - name: d_pb
+    type: BIGINT
+  - name: d_wp
+    type: BIGINT
+  - name: d_sb
+    type: BIGINT
+  - name: d_cs
+    type: BIGINT
+  - name: d_gs
+    type: BIGINT
+  - name: date
+    type: BIGINT
+  - name: number
+    type: BIGINT
+  - name: site
+    type: VARCHAR
+  - name: vishome
+    type: VARCHAR
+  - name: opp
+    type: VARCHAR
+  - name: win
+    type: BIGINT
+  - name: loss
+    type: BIGINT
+  - name: tie
+    type: BIGINT
+  - name: gametype
+    type: VARCHAR
+  - name: box
+    type: VARCHAR
+  - name: pbp
+    type: VARCHAR

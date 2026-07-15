@@ -1,0 +1,84 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `retrosheet-batting`. Regenerate after model-verify.
+# caution: Rows can include Retrosheet value, official, lower-bound and upper-bound stattype records; filter stattype before aggregating player-game batting totals.
+# caution: The source does not provide a non-null stable row key for every player-game batting row; some historical rows have blank lineup sequence values and a few exact duplicate rows.
+key: []
+columns:
+  - name: gid
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: b_lp
+    type: BIGINT
+  - name: b_seq
+    type: BIGINT
+  - name: stattype
+    type: VARCHAR
+  - name: b_pa
+    type: BIGINT
+  - name: b_ab
+    type: BIGINT
+  - name: b_r
+    type: BIGINT
+  - name: b_h
+    type: BIGINT
+  - name: b_d
+    type: BIGINT
+  - name: b_t
+    type: BIGINT
+  - name: b_hr
+    type: BIGINT
+  - name: b_rbi
+    type: BIGINT
+  - name: b_sh
+    type: BIGINT
+  - name: b_sf
+    type: BIGINT
+  - name: b_hbp
+    type: BIGINT
+  - name: b_w
+    type: BIGINT
+  - name: b_iw
+    type: BIGINT
+  - name: b_k
+    type: BIGINT
+  - name: b_sb
+    type: BIGINT
+  - name: b_cs
+    type: BIGINT
+  - name: b_gdp
+    type: BIGINT
+  - name: b_xi
+    type: BIGINT
+  - name: b_roe
+    type: BIGINT
+  - name: dh
+    type: BIGINT
+  - name: ph
+    type: BIGINT
+  - name: pr
+    type: BIGINT
+  - name: date
+    type: BIGINT
+  - name: number
+    type: BIGINT
+  - name: site
+    type: VARCHAR
+  - name: vishome
+    type: VARCHAR
+  - name: opp
+    type: VARCHAR
+  - name: win
+    type: BIGINT
+  - name: loss
+    type: BIGINT
+  - name: tie
+    type: BIGINT
+  - name: gametype
+    type: VARCHAR
+  - name: box
+    type: VARCHAR
+  - name: pbp
+    type: VARCHAR

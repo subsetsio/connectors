@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `retrosheet-teamstats`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [gid, team, stattype]
+temporal: date
+checks:
+  - kind: unique
+    columns: [gid, team, stattype]
+  - kind: not_null
+    col: gid
+  - kind: not_null
+    col: team
+  - kind: not_null
+    col: stattype
+  - kind: row_floor
+    min: 250899
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
