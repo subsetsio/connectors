@@ -3,7 +3,6 @@ ENTITY_IDS = [
     "assistencia-a-saude-registro-de-ocupacao-hospitalar-covid-19",
     "assistencia-a-saude-unidade-basicas-de-saude",
     "atencao-primaria-cadastro-vinculado-programa-previne-brasil",
-    "atencao-primaria-enani-2019",
     "atencao-primaria-indicador-desempenho-programa-previne-brasil",
     "atencao-primaria-pmmb",
     "atencao-primaria-pmmb-profissionais-ativos",
@@ -67,4 +66,3 @@ SOURCE_PREFIXES = [
 SPECIAL_PATHS = {
     "prevencao-e-promocao-distribuicao-epi-insumo": "/prevencao-e-promocao/distribuicao_epi_insumo",
 }
-
