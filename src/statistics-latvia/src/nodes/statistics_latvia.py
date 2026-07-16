@@ -182,9 +182,23 @@ def _fetch_v1_chunks(entity_id: str, metadata: dict, spec_id: str) -> None:
 def _fetch_v2_chunks(entity_id: str, metadata: dict, spec_id: str) -> None:
     selections = _build_selections(metadata)
     for index, selection in enumerate(selections):
-        data_resp = get(
+        body = {
+            "selection": [
+                {
+                    "variableCode": dim,
+                    "valueCodes": (
+                        _dimension_values(metadata, dim)
+                        if value == "*"
+                        else value.split(",")
+                    ),
+                }
+                for dim, value in selection.items()
+            ]
+        }
+        data_resp = post(
             f"{BASE_URL}/tables/{entity_id}/data",
-            params=_params(selection),
+            params={"lang": "en", "outputFormat": "json-stat2"},
+            json=body,
             timeout=(10.0, 240.0),
         )
         data_resp.raise_for_status()
@@ -212,12 +226,7 @@ def fetch_table(spec_id: str) -> None:
     metadata_resp.raise_for_status()
     metadata = metadata_resp.json()
 
-    sizes = _dimension_sizes(metadata)
-    cell_count = prod(sizes.values()) if sizes else 0
-    if cell_count > MAX_CELLS:
-        _fetch_v1_chunks(entity_id, metadata, spec_id)
-    else:
-        _fetch_v2_chunks(entity_id, metadata, spec_id)
+    _fetch_v2_chunks(entity_id, metadata, spec_id)
 
 
 DOWNLOAD_SPECS = [
