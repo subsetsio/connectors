@@ -1,5 +1,13 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `statsnz-annual-enterprise-survey-2025-financial-year-provisional-size-bands`. Regenerate after model-verify.
+# hand-curated from the compiled draft — do not regenerate blindly.
+# of raw asset `statsnz-annual-enterprise-survey-2025-financial-year-provisional-size-bands`.
+# The source CSV header has 9 trailing blank cells (column_8..column_16).
+# column_8/column_9 are empty across all 23220 rows and are dropped here.
+# For exactly 43 rows the published source file spills a SECOND COMPLETE
+# observation onto the same physical line, pasted side-by-side into fields
+# 10-16; those mirror the 7 named data columns (year, industry_code_ANZSIC,
+# industry_name_ANZSIC, rme_size_grp, variable, value, unit). They are exposed
+# as the `extra_*` columns below and are empty for every other row. This is a
+# defect in the source file, not in the extraction.
 key: [row_number, value, industry_code_anzsic, industry_name_anzsic, year]
 temporal: year
 sort: [year, row_number, value, industry_code_anzsic, industry_name_anzsic]
@@ -22,21 +30,38 @@ columns:
     type: VARCHAR
   - name: unit
     type: VARCHAR
-  - name: column_8
+  - name: extra_year
     type: VARCHAR
-  - name: column_9
+    description: >-
+      `year` of a second observation that the source file spills onto the same
+      physical line for 43 rows. Empty for every other row.
+  - name: extra_industry_code_anzsic
     type: VARCHAR
-  - name: column_10
+    description: >-
+      `industry_code_ANZSIC` of a second observation that the source file spills
+      onto the same physical line for 43 rows. Empty for every other row.
+  - name: extra_industry_name_anzsic
     type: VARCHAR
-  - name: column_11
+    description: >-
+      `industry_name_ANZSIC` of a second observation that the source file spills
+      onto the same physical line for 43 rows. Empty for every other row.
+  - name: extra_rme_size_grp
     type: VARCHAR
-  - name: column_12
+    description: >-
+      `rme_size_grp` of a second observation that the source file spills onto the
+      same physical line for 43 rows. Empty for every other row.
+  - name: extra_variable
     type: VARCHAR
-  - name: column_13
+    description: >-
+      `variable` of a second observation that the source file spills onto the
+      same physical line for 43 rows. Empty for every other row.
+  - name: extra_value
     type: VARCHAR
-  - name: column_14
+    description: >-
+      `value` of a second observation that the source file spills onto the same
+      physical line for 43 rows. Empty for every other row.
+  - name: extra_unit
     type: VARCHAR
-  - name: column_15
-    type: VARCHAR
-  - name: column_16
-    type: VARCHAR
+    description: >-
+      `unit` of a second observation that the source file spills onto the same
+      physical line for 43 rows. Empty for every other row.

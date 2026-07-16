@@ -1,5 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statsnz-te-pa-harakeke-data-from-2018-census-csv`. Regenerate after model-verify.
+# NOTE: the codebook/metadata passthrough columns below were named by hand (this file
+# was a compiled draft that emitted positional `column_N` names).
 key: []
 columns:
   - name: source_file
@@ -8,18 +10,30 @@ columns:
     type: VARCHAR
   - name: row_number
     type: BIGINT
-  - name: column_1
+  - name: codebook_identifier
     type: VARCHAR
-  - name: column_2
+    description: >-
+      Column 1 of the companion codebook workbook bundled in the source zip (sheet given by `sheet_name`): the identifier — column name or table name. Populated only on codebook rows; null on data rows.
+  - name: codebook_variable
     type: VARCHAR
-  - name: column_3
+    description: >-
+      Column 2 of the companion codebook workbook (sheet given by `sheet_name`): the variable or description text. Populated only on codebook rows; null on data rows.
+  - name: codebook_category
     type: VARCHAR
-  - name: column_4
+    description: >-
+      Column 3 of the companion codebook workbook (sheet given by `sheet_name`): the value or category. Populated only on codebook rows; null on data rows.
+  - name: codebook_explanation
     type: VARCHAR
-  - name: column_5
+    description: >-
+      Column 4 of the companion codebook workbook (sheet given by `sheet_name`): the explanation or notes. Populated only on codebook rows; null on data rows.
+  - name: codebook_note_2
     type: VARCHAR
-  - name: column_6
+    description: >-
+      Column 5 of the companion codebook workbook (sheet given by `sheet_name`): an additional note cell present on a few sheets only. Populated only on codebook rows; null on data rows.
+  - name: codebook_note_3
     type: VARCHAR
+    description: >-
+      Column 6 of the companion codebook workbook (sheet given by `sheet_name`): a further note cell present on a few sheets only. Populated only on codebook rows; null on data rows.
   - name: cacode
     type: VARCHAR
   - name: vacode

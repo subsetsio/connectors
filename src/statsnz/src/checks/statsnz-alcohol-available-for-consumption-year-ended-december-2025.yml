@@ -3,11 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [row_number, series_reference, period, column_1, series_title_1]
+key: [row_number, series_reference, period, period_year, series_title_1]
 temporal: period
 checks:
   - kind: unique
-    columns: [row_number, series_reference, period, column_1, series_title_1]
+    columns: [row_number, series_reference, period, period_year, series_title_1]
   - kind: not_null
     col: row_number
   - kind: not_null
@@ -15,7 +15,7 @@ checks:
   - kind: not_null
     col: period
   - kind: not_null
-    col: column_1
+    col: period_year
   - kind: not_null
     col: series_title_1
   - kind: row_floor

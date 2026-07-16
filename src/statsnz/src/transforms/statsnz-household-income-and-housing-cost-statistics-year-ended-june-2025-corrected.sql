@@ -13,9 +13,6 @@ SELECT
     "LowerCIB" AS lowercib,
     "UpperCIB" AS uppercib,
     "Flag" AS flag,
-    "column_9",
-    "column_10",
-    "column_11",
     "PerCode" AS percode,
     "DwCode" AS dwcode,
     CAST("Year_1" AS BIGINT) AS year_1,
@@ -28,8 +25,8 @@ SELECT
     "PdCode" AS pdcode,
     "ExpCode" AS expcode,
     "sheet_name",
-    "column_1",
-    "column_2",
-    "column_3",
-    "column_4"
+    "column_1" AS codebook_identifier,
+    "column_2" AS codebook_variable,
+    "column_3" AS codebook_category,
+    "column_4" AS codebook_explanation
 FROM "statsnz-household-income-and-housing-cost-statistics-year-ended-june-2025-corrected"

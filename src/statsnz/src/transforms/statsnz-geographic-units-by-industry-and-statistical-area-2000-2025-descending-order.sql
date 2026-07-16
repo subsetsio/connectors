@@ -11,7 +11,7 @@ SELECT
     CAST("geo_count" AS BIGINT) AS geo_count,
     CAST("ec_count" AS BIGINT) AS ec_count,
     "sheet_name" ->> '$' AS sheet_name,
-    "column_1" ->> '$' AS column_1,
-    "column_2" ->> '$' AS column_2,
-    "column_3" ->> '$' AS column_3
+    "column_1" ->> '$' AS metadata_identifier,
+    "column_2" ->> '$' AS metadata_variable,
+    "column_3" ->> '$' AS metadata_description
 FROM "statsnz-geographic-units-by-industry-and-statistical-area-2000-2025-descending-order"

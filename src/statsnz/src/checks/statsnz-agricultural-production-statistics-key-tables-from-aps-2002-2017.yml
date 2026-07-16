@@ -3,20 +3,18 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [column_2, column_1, row_number, sheet_name, source_file]
+key: [source_file, sheet_name, row_number, column_index]
 checks:
   - kind: unique
-    columns: [column_2, column_1, row_number, sheet_name, source_file]
+    columns: [source_file, sheet_name, row_number, column_index]
   - kind: not_null
-    col: column_2
-  - kind: not_null
-    col: column_1
-  - kind: not_null
-    col: row_number
+    col: source_file
   - kind: not_null
     col: sheet_name
   - kind: not_null
-    col: source_file
+    col: row_number
+  - kind: not_null
+    col: column_index
   - kind: row_floor
     min: 2401
 regression:

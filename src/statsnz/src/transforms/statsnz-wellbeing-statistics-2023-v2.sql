@@ -11,8 +11,8 @@ SELECT
     "ASE" AS ase,
     "flag",
     "sheet_name" ->> '$' AS sheet_name,
-    "column_1" ->> '$' AS column_1,
-    "column_2" ->> '$' AS column_2,
-    "column_3" ->> '$' AS column_3,
-    "column_4" ->> '$' AS column_4
+    "column_1" ->> '$' AS codebook_identifier,
+    "column_2" ->> '$' AS codebook_variable,
+    "column_3" ->> '$' AS codebook_category,
+    "column_4" ->> '$' AS codebook_explanation
 FROM "statsnz-wellbeing-statistics-2023-v2"

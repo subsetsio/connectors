@@ -53,7 +53,7 @@ SELECT
     "Abbreviation" ->> '$' AS abbreviation,
     "Description" ->> '$' AS description,
     "species" ->> '$' AS species,
-    "Nine key species detected from the NMHRSS programme. Arcutula senhousia, Charybdis japonica, Eudistoma elongatum, Metapeneaus bennettae, Sabella spallanzann, Styela clava, Symplegma brakenhielmi, Theora lubrica, Undaria pinnatifida" ->> '$' AS nine_key_species_detected_from_the_nmhrss_programme_arcutula_senhousia_charybdis_japonica_eudistoma_elongatum_metapeneaus_bennettae_sabella_spallanzann_styela_clava_symplegma_brakenhielmi_theora_lubrica_undaria_pinnatifida,
+    "Nine key species detected from the NMHRSS programme. Arcutula senhousia, Charybdis japonica, Eudistoma elongatum, Metapeneaus bennettae, Sabella spallanzann, Styela clava, Symplegma brakenhielmi, Theora lubrica, Undaria pinnatifida" ->> '$' AS nine_key_species_detected_from_nmhrss_programme,
     CAST("lat_min" ->> '$' AS DOUBLE) AS lat_min,
     CAST("long_min" ->> '$' AS DOUBLE) AS long_min,
     CAST("lat_max" ->> '$' AS DOUBLE) AS lat_max,

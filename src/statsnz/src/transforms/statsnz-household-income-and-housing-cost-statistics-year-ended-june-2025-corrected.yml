@@ -1,5 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statsnz-household-income-and-housing-cost-statistics-year-ended-june-2025-corrected`. Regenerate after model-verify.
+# NOTE: the codebook/metadata passthrough columns below were named by hand (this file
+# was a compiled draft that emitted positional `column_N` names).
 key: []
 temporal: year
 sort: [year]
@@ -23,12 +25,6 @@ columns:
   - name: uppercib
     type: VARCHAR
   - name: flag
-    type: VARCHAR
-  - name: column_9
-    type: VARCHAR
-  - name: column_10
-    type: VARCHAR
-  - name: column_11
     type: VARCHAR
   - name: percode
     type: VARCHAR
@@ -54,11 +50,19 @@ columns:
     type: VARCHAR
   - name: sheet_name
     type: VARCHAR
-  - name: column_1
+  - name: codebook_identifier
     type: VARCHAR
-  - name: column_2
+    description: >-
+      Column 1 of the companion codebook workbook bundled in the source zip (sheet given by `sheet_name`): the identifier — column name or table name. Populated only on codebook rows; null on data rows.
+  - name: codebook_variable
     type: VARCHAR
-  - name: column_3
+    description: >-
+      Column 2 of the companion codebook workbook (sheet given by `sheet_name`): the variable or description text. Populated only on codebook rows; null on data rows.
+  - name: codebook_category
     type: VARCHAR
-  - name: column_4
+    description: >-
+      Column 3 of the companion codebook workbook (sheet given by `sheet_name`): the value or category. Populated only on codebook rows; null on data rows.
+  - name: codebook_explanation
     type: VARCHAR
+    description: >-
+      Column 4 of the companion codebook workbook (sheet given by `sheet_name`): the explanation or notes. Populated only on codebook rows; null on data rows.

@@ -1,5 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statsnz-2018-census-totals-by-topic-national-highlights-csv`. Regenerate after model-verify.
+# note: column names below were hand-shortened from the compiled draft to fit the
+# 64-char published-name limit; the full original wording is kept in each `description:`.
 key: [code, row_number, source_file]
 sort: [code, row_number, source_file]
 columns:
@@ -41,7 +43,7 @@ columns:
     type: VARCHAR
   - name: cigarette_smoking_behaviour
     type: VARCHAR
-  - name: census_usually_resident_population_count_aged_15_years_and_over
+  - name: census_usually_resident_pop_count_aged_15_plus
     type: BIGINT
   - name: dwelling_dampness_indicator
     type: VARCHAR
@@ -65,8 +67,9 @@ columns:
     type: VARCHAR
   - name: hours_worked_in_employment_per_week
     type: VARCHAR
-  - name: employed_census_usually_resident_population_count_aged_15_years_and_over
+  - name: employed_census_usually_resident_pop_count_aged_15_plus
     type: BIGINT
+    description: "Employed census usually resident population count aged 15 years and over."
   - name: hours_worked_per_week_in_main_job
     type: VARCHAR
   - name: hours_worked_per_week_in_other_jobs
@@ -77,8 +80,9 @@ columns:
     type: VARCHAR
   - name: job_search_methods
     type: VARCHAR
-  - name: unemployed_census_usually_resident_population_count_aged_15_years_and_over
+  - name: unemployed_census_usually_resident_pop_count_aged_15_plus
     type: BIGINT
+    description: "Unemployed census usually resident population count aged 15 years and over."
   - name: languages_spoken
     type: VARCHAR
   - name: legally_registered_relationship_status
@@ -103,8 +107,9 @@ columns:
     type: BIGINT
   - name: number_of_children_born
     type: VARCHAR
-  - name: female_census_usually_resident_population_count_aged_15_years_and_over
+  - name: female_census_usually_resident_pop_count_aged_15_plus
     type: BIGINT
+    description: "Female census usually resident population count aged 15 years and over."
   - name: number_of_motor_vehicles
     type: VARCHAR
   - name: number_of_rooms

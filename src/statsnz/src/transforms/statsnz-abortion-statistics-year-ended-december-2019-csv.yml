@@ -1,5 +1,8 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `statsnz-abortion-statistics-year-ended-december-2019-csv`. Regenerate after model-verify.
+# hand-curated from the compiled draft — do not regenerate blindly.
+# of raw asset `statsnz-abortion-statistics-year-ended-december-2019-csv`.
+# 'as-dec19-abortions-by-age-of-woman.csv' has 10 trailing blank header cells,
+# which the node named column_4..column_13. They are empty in 100% of all 400
+# rows and carry no information, so they are dropped here.
 key: [row_number, period, source_file]
 temporal: period
 sort: [period, row_number, source_file]
@@ -18,23 +21,3 @@ columns:
     type: VARCHAR
   - name: abortion_rate
     type: DOUBLE
-  - name: column_4
-    type: VARCHAR
-  - name: column_5
-    type: VARCHAR
-  - name: column_6
-    type: VARCHAR
-  - name: column_7
-    type: VARCHAR
-  - name: column_8
-    type: VARCHAR
-  - name: column_9
-    type: VARCHAR
-  - name: column_10
-    type: VARCHAR
-  - name: column_11
-    type: VARCHAR
-  - name: column_12
-    type: VARCHAR
-  - name: column_13
-    type: VARCHAR

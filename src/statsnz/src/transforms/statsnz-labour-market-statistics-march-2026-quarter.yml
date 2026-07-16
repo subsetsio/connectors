@@ -1,5 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statsnz-labour-market-statistics-march-2026-quarter`. Regenerate after model-verify.
+# note: column names below were hand-shortened from the compiled draft to fit the
+# 64-char published-name limit; the full original wording is kept in each `description:`.
 key: []
 temporal: period
 sort: [period]
@@ -80,18 +82,22 @@ columns:
     type: VARCHAR
   - name: occupation_anzsco_level_1
     type: VARCHAR
-  - name: percentage_change_from_previous_period_and_same_period_previous_year
+  - name: percentage_change_from_previous_period_and_year_ago
     type: VARCHAR
+    description: "Percentage change from previous period and same period previous year."
   - name: persons_employed_by_job_security
     type: VARCHAR
-  - name: persons_employed_by_reason_working_fewer_hours_main_job_or_away_from_work_all_jobs
+  - name: persons_employed_by_reason_for_fewer_hours_or_absence
     type: VARCHAR
-  - name: persons_employed_by_relationship_between_actual_and_usual_hours_worked
+    description: "Persons employed by reason working fewer hours (main job) or away from work (all jobs)."
+  - name: persons_employed_by_actual_vs_usual_hours_worked
     type: VARCHAR
+    description: "Persons employed by relationship between actual and usual hours worked."
   - name: persons_employed_by_work_location
     type: VARCHAR
-  - name: persons_employed_unemployed_not_in_labour_force_for_current_quarter
+  - name: persons_employed_unemployed_nilf_current_quarter
     type: VARCHAR
+    description: "Persons Employed, Unemployed, Not in Labour Force (for current quarter). NILF = not in labour force."
   - name: reason_for_leaving_last_job
     type: VARCHAR
   - name: reason_not_seeking_work

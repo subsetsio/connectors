@@ -12,13 +12,11 @@ SELECT
     "variable",
     "value",
     "unit",
-    "column_8",
-    "column_9",
-    "column_10",
-    "column_11",
-    "column_12",
-    "column_13",
-    "column_14",
-    "column_15",
-    "column_16"
+    "column_10" AS extra_year,
+    "column_11" AS extra_industry_code_anzsic,
+    "column_12" AS extra_industry_name_anzsic,
+    "column_13" AS extra_rme_size_grp,
+    "column_14" AS extra_variable,
+    "column_15" AS extra_value,
+    "column_16" AS extra_unit
 FROM "statsnz-annual-enterprise-survey-2025-financial-year-provisional-size-bands"

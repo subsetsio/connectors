@@ -3,6 +3,8 @@
 # caution: Not one table: the flattened union of 13 CSVs shipped in one ZIP, distinguished only by `source_file`. Filter it before any aggregation. Seven are data tables at different grains (NZ-grid-all-species 968,553 rows; NMHRSS-search-effort 77,941; porthole 57,879; NMHRSS-key-species 35,453; timeseries 428; north-south-spread 122; m-codes 25) and six are `*-dictionary.csv` data dictionaries whose rows describe COLUMNS, not observations — a dictionary row carries a field name where a data row carries a value (e.g. oid='siteid'). Summing across source_file mixes unrelated datasets with metadata.
 # caution: Columns are sparse because each source_file has its own schema: m_code is non-null in 135,820 of 1,140,456 rows, the lat/long bounds in only 122. A NULL means the column does not apply to that row's source_file, not a missing measurement.
 # caution: The string 'NA' is used as the missing-value sentinel in the pres_* and cum_* presence columns (pres_2009: 952,828 of 968,553 non-null values are 'NA'), so they are VARCHAR, not numeric flags.
+# note: column names below were hand-shortened from the compiled draft to fit the
+# 64-char published-name limit; the full original wording is kept in each `description:`.
 key: [row_number, source_file]
 temporal: year
 sort: [year, row_number, source_file]
@@ -101,8 +103,9 @@ columns:
     type: VARCHAR
   - name: species
     type: VARCHAR
-  - name: nine_key_species_detected_from_the_nmhrss_programme_arcutula_senhousia_charybdis_japonica_eudistoma_elongatum_metapeneaus_bennettae_sabella_spallanzann_styela_clava_symplegma_brakenhielmi_theora_lubrica_undaria_pinnatifida
+  - name: nine_key_species_detected_from_nmhrss_programme
     type: VARCHAR
+    description: "Nine key species detected from the NMHRSS programme. Arcutula senhousia, Charybdis japonica, Eudistoma elongatum, Metapeneaus bennettae, Sabella spallanzann, Styela clava, Symplegma brakenhielmi, Theora lubrica, Undaria pinnatifida. (Species spellings verbatim from the source header; the accepted forms are Arcuatula senhousia, Metapenaeus bennettae, Sabella spallanzanii.)"
   - name: lat_min
     type: DOUBLE
   - name: long_min

@@ -9,15 +9,5 @@ SELECT
     CAST("General_abortion_rate" AS DOUBLE) AS general_abortion_rate,
     "Induced_abortions" AS induced_abortions,
     "Age_of_woman" AS age_of_woman,
-    CAST("Abortion_rate" AS DOUBLE) AS abortion_rate,
-    "column_4",
-    "column_5",
-    "column_6",
-    "column_7",
-    "column_8",
-    "column_9",
-    "column_10",
-    "column_11",
-    "column_12",
-    "column_13"
+    CAST("Abortion_rate" AS DOUBLE) AS abortion_rate
 FROM "statsnz-abortion-statistics-year-ended-december-2019-csv"

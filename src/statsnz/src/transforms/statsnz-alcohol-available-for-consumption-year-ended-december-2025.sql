@@ -5,8 +5,8 @@
 SELECT
     "source_file",
     "row_number",
-    CAST("column_1" AS BIGINT) AS column_1,
-    "column_2",
+    CAST("column_1" AS BIGINT) AS period_year,
+    "column_2" AS period_month,
     "Series_reference" AS series_reference,
     CAST("Period" AS DOUBLE) AS period,
     "Data_value" AS data_value,

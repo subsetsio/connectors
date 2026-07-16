@@ -12,8 +12,8 @@ SELECT
     "Flag" AS flag,
     "ASE" AS ase,
     "sheet_name",
-    "column_1",
-    "column_2",
-    "column_3",
-    "column_4"
+    "column_1" AS codebook_identifier,
+    "column_2" AS codebook_variable,
+    "column_3" AS codebook_category,
+    "column_4" AS codebook_explanation
 FROM "statsnz-te-kupenga-2018-final-english-csv"

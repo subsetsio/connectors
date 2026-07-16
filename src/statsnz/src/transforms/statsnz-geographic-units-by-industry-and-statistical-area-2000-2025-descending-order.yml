@@ -1,5 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statsnz-geographic-units-by-industry-and-statistical-area-2000-2025-descending-order`. Regenerate after model-verify.
+# NOTE: the codebook/metadata passthrough columns below were named by hand (this file
+# was a compiled draft that emitted positional `column_N` names).
 key: []
 temporal: year
 sort: [year]
@@ -20,9 +22,15 @@ columns:
     type: BIGINT
   - name: sheet_name
     type: VARCHAR
-  - name: column_1
+  - name: metadata_identifier
     type: VARCHAR
-  - name: column_2
+    description: >-
+      Column 1 of the companion metadata workbook bundled in the source zip (sheet given by `sheet_name`): the table name on 'Business demography', or the lookup code on 'LookupAREA'/'LookupANZSIC06'. Populated only on metadata rows; null on data rows.
+  - name: metadata_variable
     type: VARCHAR
-  - name: column_3
+    description: >-
+      Column 2 of the companion metadata workbook (sheet given by `sheet_name`): the variable name on 'Business demography', or the looked-up name on 'LookupAREA'/'LookupANZSIC06'. Populated only on metadata rows; null on data rows.
+  - name: metadata_description
     type: VARCHAR
+    description: >-
+      Column 3 of the companion metadata workbook (sheet given by `sheet_name`): the description text. Populated only on metadata rows; null on data rows.
