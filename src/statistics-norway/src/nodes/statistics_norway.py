@@ -8,7 +8,7 @@ from subsets_utils import NodeSpec, get, post, save_raw_ndjson
 
 BASE_URL = "https://data.ssb.no/api/pxwebapi/v2"
 PREFIX = "statistics-norway-"
-MAX_CELLS_PER_REQUEST = 750_000
+MAX_CELLS_PER_REQUEST = 250_000
 
 
 def _table_id_from_asset(asset_id: str) -> str:
