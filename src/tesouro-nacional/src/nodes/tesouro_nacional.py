@@ -209,25 +209,42 @@ def _download_to_temp(url: str) -> Path:
     raise RuntimeError(f"could not download {url}: {last_error}") from last_error
 
 
-def _sniff(sample: bytes, source_file: str | None) -> tuple[str, str]:
-    """Encoding + delimiter from the header line. Tesouro publishes latin-1
-    semicolon CSVs, but not uniformly — read it off the bytes rather than
-    guessing, so the fast C parser can be used with an explicit `sep`."""
-    try:
-        text = sample.decode("utf-8-sig")
-        encoding = "utf-8-sig"
-    except UnicodeDecodeError:
-        text = sample.decode("latin1")
-        encoding = "latin1"
+def _sniff(sample: bytes, source_file: str | None) -> tuple[str, str, int]:
+    """Encoding, delimiter, and header offset from a sample.
+
+    Tesouro publishes latin-1 semicolon CSVs, UTF-8 CSVs, and UTF-16 report
+    exports with title/filter preambles. Detect the real header line so those
+    report exports do not parse as a one-column title followed by skipped rows.
+    """
+    if sample.startswith((b"\xff\xfe", b"\xfe\xff")):
+        text = sample.decode("utf-16")
+        encoding = "utf-16"
+    else:
+        try:
+            text = sample.decode("utf-8-sig")
+            encoding = "utf-8-sig"
+        except UnicodeDecodeError:
+            text = sample.decode("latin1")
+            encoding = "latin1"
 
     if source_file and source_file.lower().endswith(".tsv"):
-        return encoding, "\t"
+        return encoding, "\t", 0
 
-    header = next((line for line in text.splitlines() if line.strip()), "")
-    separator = max((";", ",", "\t", "|"), key=header.count)
+    lines = text.splitlines()
+    candidates = [(idx, line) for idx, line in enumerate(lines) if line.strip()]
+    if not candidates:
+        return encoding, ",", 0
+
+    separators = (";", ",", "\t", "|")
+    header_idx, header = max(
+        candidates,
+        key=lambda item: (max(item[1].count(sep) for sep in separators), -item[0]),
+    )
+    separator = max(separators, key=header.count)
     if header.count(separator) == 0:
         separator = ","
-    return encoding, separator
+        header_idx = 0
+    return encoding, separator, header_idx
 
 
 def _iter_csv_stream(
@@ -239,14 +256,16 @@ def _iter_csv_stream(
         sample = probe.read(65536)
     if not sample.strip():
         return
-    encoding, separator = _sniff(sample, source_file)
+    encoding, separator, skiprows = _sniff(sample, source_file)
 
     with open_binary() as reader:
         frames = pd.read_csv(
             reader,
             dtype=str,
             encoding=encoding,
+            encoding_errors="replace",
             sep=separator,
+            skiprows=skiprows,
             chunksize=CHUNK_ROWS,
             on_bad_lines="skip",
             low_memory=False,
