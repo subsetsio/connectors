@@ -3,9 +3,10 @@
 The catalog is served keyless and unthrottled at catalog-old.data.gov (the
 api.gsa.gov gateway requires an api.data.gov key we don't have). `_action`
 wraps the CKAN action API with transient retry and success-flag checking;
-`_crawl_packages` pages the full package corpus once, writing one ndjson batch
-per page so peak memory stays at a single page. Shared by the datasets and
-resources download nodes (both crawl the same package payload).
+`_crawl_packages` pages the full package corpus once, writing typed parquet
+fragments so transform/profile reads avoid JSON schema inference. Shared by
+the datasets and resources download nodes (both crawl the same package
+payload).
 """
 
 from __future__ import annotations
@@ -14,13 +15,15 @@ import math
 import os
 import time
 
-from subsets_utils import get, list_raw_fragments, load_state, save_raw_ndjson, save_state, transient_retry
+import pyarrow as pa
+
+from subsets_utils import get, list_raw_fragments, load_state, save_raw_parquet, save_state, transient_retry
 
 BASE = "https://catalog-old.data.gov/api/3"
 PAGE_SIZE = 1000          # CKAN/Solr caps rows at 1000 (verified)
 SORT = "metadata_created asc"  # stable-ish order for start/rows deep paging
 MAX_PAGES = 2000          # safety ceiling (~403 expected); raises if exceeded
-EXT = "ndjson.zst"
+EXT = "parquet"
 STATE_VERSION = 1
 
 # Leave enough wall-clock for the supervisor to commit manifest entries, upload
@@ -32,6 +35,47 @@ MAX_PACKAGE_LEG_S = 4_800.0
 LEG_FRACTION = 0.20
 DEFAULT_PAGES_PER_LEG = 80
 DEFAULT_PAGES_PER_FRAGMENT = 10
+
+DATASET_SCHEMA = pa.schema([
+    ("id", pa.string()),
+    ("name", pa.string()),
+    ("title", pa.string()),
+    ("notes", pa.string()),
+    ("organization", pa.string()),
+    ("owner_org", pa.string()),
+    ("license_id", pa.string()),
+    ("license_title", pa.string()),
+    ("metadata_created", pa.string()),
+    ("metadata_modified", pa.string()),
+    ("num_resources", pa.int64()),
+    ("num_tags", pa.int64()),
+    ("type", pa.string()),
+    ("state", pa.string()),
+    ("maintainer", pa.string()),
+    ("author", pa.string()),
+    ("version", pa.string()),
+    ("url", pa.string()),
+    ("tags", pa.string()),
+    ("groups", pa.string()),
+])
+
+RESOURCE_SCHEMA = pa.schema([
+    ("id", pa.string()),
+    ("package_id", pa.string()),
+    ("dataset_name", pa.string()),
+    ("organization", pa.string()),
+    ("name", pa.string()),
+    ("description", pa.string()),
+    ("format", pa.string()),
+    ("mimetype", pa.string()),
+    ("size", pa.int64()),
+    ("created", pa.string()),
+    ("last_modified", pa.string()),
+    ("state", pa.string()),
+    ("resource_type", pa.string()),
+    ("url_type", pa.string()),
+    ("url", pa.string()),
+])
 
 
 @transient_retry(attempts=8, min_wait=8, max_wait=180)
@@ -106,8 +150,25 @@ def _fragment_pages(fragment: str, total_pages: int) -> set[int]:
         return set()
 
 
-def _crawl_packages(node_id: str, row_builder) -> bool | None:
-    """Page the full package corpus, writing one ndjson batch per page.
+def as_int(value) -> int | None:
+    if value is None or value == "":
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def as_str(value) -> str | None:
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    return str(value)
+
+
+def _crawl_packages(node_id: str, row_builder, schema: pa.Schema) -> bool | None:
+    """Page the full package corpus, writing one parquet batch per fragment.
 
     row_builder(pkg) -> list[dict] (resources) or [dict] (datasets).
 
@@ -188,7 +249,7 @@ def _crawl_packages(node_id: str, row_builder) -> bool | None:
             pages_this_leg += 1
 
         if batch:
-            save_raw_ndjson(batch, node_id, fragment=fragment)
+            save_raw_parquet(pa.Table.from_pylist(batch, schema=schema), node_id, fragment=fragment)
             rows_this_leg += len(batch)
 
     _finish(node_id, run_id, count, total_pages)
