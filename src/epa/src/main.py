@@ -15,6 +15,7 @@ the first crawl.
 """
 import sys
 import os
+import time
 from pathlib import Path
 
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
@@ -24,6 +25,7 @@ from subsets_utils import load_nodes, validate_environment
 
 
 def main():
+    os.environ.setdefault("EPA_RUN_STARTED_AT", str(time.time()))
     # EPA pulls very large Envirofacts tables through slow row windows. The
     # default cloud budget leaves too little room for one in-flight request to
     # drain cleanly after the parent DAG deadline, so use an earlier connector
@@ -31,6 +33,7 @@ def main():
     if os.environ.get("GITHUB_ACTIONS") == "true":
         current_budget = float(os.environ.get("DAG_TIME_BUDGET", "20700") or "20700")
         os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 16_200)))
+        os.environ.setdefault("DAG_DRAIN_TIMEOUT_S", "120")
     validate_environment()
     workflow = load_nodes()
     workflow.run()

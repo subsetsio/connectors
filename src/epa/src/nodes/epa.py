@@ -145,6 +145,11 @@ DEFAULT_TIME_BUDGET_S = 20_700.0
 # colliding with the parent watchdog loses the node result even after raw writes.
 WINDOW_DEADLINE_MARGIN_S = 45 * 60
 
+# Set by src/main.py before load_nodes(). Forked children can see this, unlike
+# the orchestrator's monotonic deadline, so long pulls can stop before the
+# parent watchdog interrupts them.
+RUN_STARTED_AT_ENV = "EPA_RUN_STARTED_AT"
+
 
 def _leg_seconds() -> float:
     """Wall-clock this node may spend before committing and continuing."""
@@ -153,6 +158,13 @@ def _leg_seconds() -> float:
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
     nominal = budget * LEG_FRACTION
+    try:
+        run_started = float(os.environ.get(RUN_STARTED_AT_ENV, ""))
+    except ValueError:
+        run_started = 0.0
+    if run_started > 0:
+        remaining = budget - max(0.0, time.time() - run_started) - WINDOW_DEADLINE_MARGIN_S
+        return max(0.0, min(nominal, remaining))
     try:
         parent_started = psutil.Process(os.getppid()).create_time()
     except Exception:
@@ -278,8 +290,10 @@ def fetch_one(node_id: str) -> bool | None:
         if fragment in committed:
             continue
 
-        # Checked only before a window we would actually fetch, so a node always
-        # makes at least one window of progress per leg (page 0 cannot be late).
+        # Checked only before a window we would actually fetch. If the parent
+        # DAG is inside the safety margin, return the continuation handshake
+        # instead of starting a request that the watchdog will kill before the
+        # child result is collected.
         if time.monotonic() >= deadline:
             print(
                 f"  -> {table}: leg budget spent at window {page} "
