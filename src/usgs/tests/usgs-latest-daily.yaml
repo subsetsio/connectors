@@ -1,2 +1,8 @@
 spec_id: usgs-latest-daily
 status: deferred
+tests:
+  - freshness: {col: time, reaches: today - 16d}
+    reason: latest daily values should reach the recent daily reporting window.
+    certainty: 70
+    points_outward: true
+    severity: warn

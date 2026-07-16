@@ -26,6 +26,11 @@ tests:
     reason: peaks are discharge (00060) or gage height (00065), both 5-digit parameter codes.
     certainty: 75
     severity: warn
+  - freshness: {col: last_modified, reaches: today - 400d}
+    reason: peak records are revised after annual processing and quality review; a very old latest modification suggests a stale crawl.
+    certainty: 60
+    points_outward: true
+    severity: warn
   - row_count: {min: 200000}
     reason: roughly a century of annual peaks across thousands of gauges; far fewer signals a truncated crawl.
     certainty: 65

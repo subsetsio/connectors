@@ -9,18 +9,25 @@ tests:
   - unique: id
     reason: one row per time series; a dupe means a paging overlap leaked into raw.
     certainty: 80
-  - not_null: parameter_code
-    reason: a time series is defined by the parameter it measures.
+  - nullable: {col: parameter_code, max_null_frac: 0.001}
+    reason: almost every time series is defined by a parameter; a tiny number of upstream metadata rows omit it.
     certainty: 85
+    severity: warn
   - matches: {col: parameter_code, pattern: '^\d{5}$'}
     reason: USGS parameter codes are 5-digit zero-padded (e.g. 00010 water temperature).
     certainty: 80
-  - not_null: statistic_id
-    reason: a time series carries the statistic it summarizes (e.g. mean, max).
+  - nullable: {col: statistic_id, max_null_frac: 0.35}
+    reason: instantaneous and non-statistical time series may omit a statistic id; summarized series carry one.
     certainty: 80
+    severity: warn
   - matches: {col: statistic_id, pattern: '^\d{5}$'}
     reason: USGS statistic ids are 5-digit zero-padded (e.g. 00003 mean).
     certainty: 75
+    severity: warn
+  - freshness: {col: last_modified, reaches: today - 400d}
+    reason: the time-series catalog is updated as station/parameter metadata changes; a very old latest modification suggests a stale crawl.
+    certainty: 60
+    points_outward: true
     severity: warn
   - row_count: {min: 100000}
     reason: the catalog of distinct time series across the network is large; a tiny count signals a partial crawl.

@@ -28,3 +28,8 @@ tests:
     reason: most locations carry point geometry, but some legacy sites lack coordinates.
     certainty: 55
     severity: warn
+  - freshness: {col: revision_created, reaches: today - 400d}
+    reason: the national monitoring-location registry changes as sites are added or revised; a very old latest revision suggests a stale crawl.
+    certainty: 55
+    points_outward: true
+    severity: warn

@@ -13,8 +13,8 @@ tests:
   - not_null: monitoring_location_id
     reason: every value is attributed to a monitoring location.
     certainty: 90
-  - unique: [time_series_id, time]
-    reason: one summarized value per series per day; a dupe means a page overlap DISTINCT had to clean.
+  - unique: id
+    reason: each daily OGC feature id is unique; series/date pairs can repeat when upstream distinguishes revised or qualified daily values.
     certainty: 80
   - matches: {col: time, pattern: '^\d{4}-\d{2}-\d{2}'}
     reason: daily 'time' is an ISO date (YYYY-MM-DD), not a full timestamp.

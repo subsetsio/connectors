@@ -19,6 +19,11 @@ tests:
     reason: location ids are "USGS-<siteno>".
     certainty: 75
     severity: warn
+  - freshness: {col: time, reaches: today - 400d}
+    reason: channel measurements are historical field-visit records, but the national corpus should include recent visits within a broad annual window.
+    certainty: 55
+    points_outward: true
+    severity: warn
   - row_count: {min: 10000}
     reason: channel measurements accumulate across decades of gauging visits; a tiny count signals a partial crawl.
     certainty: 55

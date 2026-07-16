@@ -20,6 +20,11 @@ tests:
     reason: most rows describe a specific measured parameter; a few location-only rows may omit it.
     certainty: 55
     severity: warn
+  - freshness: {col: last_modified, reaches: today - 400d}
+    reason: combined site/time-series metadata is revised as locations and series change; a very old latest modification suggests a stale crawl.
+    certainty: 60
+    points_outward: true
+    severity: warn
   - row_count: {min: 50000}
     reason: combined metadata fans location x parameter x statistic, so it is large; a tiny count signals a partial crawl.
     certainty: 60

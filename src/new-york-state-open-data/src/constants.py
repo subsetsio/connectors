@@ -152,7 +152,6 @@ ENTITY_IDS = [
     '7sw8-sdsd',
     '7tfn-twae',
     '7ttn-4nwr',
-    '7vem-aaz7',
     '7weg-jxwm',
     '7whc-b5e4',
     '7wmq-pqff',
