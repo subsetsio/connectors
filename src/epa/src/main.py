@@ -27,11 +27,10 @@ def main():
     # EPA pulls very large Envirofacts tables through slow row windows. The
     # default cloud budget leaves too little room for one in-flight request to
     # drain cleanly after the parent DAG deadline, so use an earlier connector
-    # deadline and a longer drain window within GitHub's 6h hard cap.
+    # deadline within GitHub's 6h hard cap.
     if os.environ.get("GITHUB_ACTIONS") == "true":
         current_budget = float(os.environ.get("DAG_TIME_BUDGET", "20700") or "20700")
-        os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 18_000)))
-        os.environ.setdefault("DAG_DRAIN_TIMEOUT_S", "2400")
+        os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 16_200)))
     validate_environment()
     workflow = load_nodes()
     workflow.run()

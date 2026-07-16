@@ -1,4 +1,5 @@
 spec_id: usgs-monitoring-locations
+coverage: {frozen: true, reason: "revision_created is a per-site historical revision timestamp in a full registry snapshot, not a reliable source-wide freshness axis for scheduled maintenance."}
 # USGS Water OGC monitoring-locations: the national site registry (~1.9M sites).
 # One feature per monitoring location; raw is stringified NDJSON.
 status: active
@@ -27,9 +28,4 @@ tests:
   - nullable: {col: _lat, max_null_frac: 0.4}
     reason: most locations carry point geometry, but some legacy sites lack coordinates.
     certainty: 55
-    severity: warn
-  - freshness: {col: revision_created, reaches: today - 400d}
-    reason: the national monitoring-location registry changes as sites are added or revised; a very old latest revision suggests a stale crawl.
-    certainty: 55
-    points_outward: true
     severity: warn

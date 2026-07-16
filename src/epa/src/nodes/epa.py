@@ -143,7 +143,7 @@ DEFAULT_TIME_BUDGET_S = 20_700.0
 # Do not start another Envirofacts window unless this much time remains before
 # the parent DAG deadline. A single wide-table request can run for minutes, and
 # colliding with the parent watchdog loses the node result even after raw writes.
-WINDOW_DEADLINE_MARGIN_S = 15 * 60
+WINDOW_DEADLINE_MARGIN_S = 45 * 60
 
 
 def _leg_seconds() -> float:
@@ -324,6 +324,13 @@ def fetch_one(node_id: str) -> bool | None:
         if window.num_rows == 0:
             _finish(asset, run_id, 1)
             break
+
+        if time.monotonic() >= deadline:
+            print(
+                f"  -> {table}: leg budget spent after window {page} "
+                f"({fetched:,} rows this leg); committing and continuing next link"
+            )
+            return True
     else:
         raise RuntimeError(
             f"{table}: hit MAX_PAGES={MAX_PAGES} ({fetched:,} rows fetched this leg) "
