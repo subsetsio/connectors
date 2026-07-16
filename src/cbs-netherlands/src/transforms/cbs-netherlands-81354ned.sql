@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Perioden" AS perioden,
+    "TotaalBedrijfsopbrengsten_1" AS totaalbedrijfsopbrengsten_1,
+    "TotaalNettoOmzet_2" AS totaalnettoomzet_2,
+    "Trombosedienst_3" AS trombosedienst_3,
+    "MedischLaboratorium_4" AS medischlaboratorium_4,
+    "OverigeActiviteiten_5" AS overigeactiviteiten_5,
+    "TotaalOverigeBedrijfsopbrengsten_6" AS totaaloverigebedrijfsopbrengsten_6,
+    "Subsidies_7" AS subsidies_7,
+    "NietEerderGenoemdeBedrijfsopbrengsten_8" AS nieteerdergenoemdebedrijfsopbrengsten_8,
+    "TotaalBedrijfskosten_9" AS totaalbedrijfskosten_9,
+    "TotaalArbeidskosten_10" AS totaalarbeidskosten_10,
+    "LonenEnSalarissen_11" AS lonenensalarissen_11,
+    "Pensioenlasten_12" AS pensioenlasten_12,
+    "SocialeLasten_13" AS socialelasten_13,
+    "AfschrijvingenOpVasteActiva_14" AS afschrijvingenopvasteactiva_14,
+    "TotaalOverigeBedrijfskosten_15" AS totaaloverigebedrijfskosten_15,
+    "TotaalOverigePersoneelskosten_16" AS totaaloverigepersoneelskosten_16,
+    "KostenUitzendkrachtenEnOverigeInleen_17" AS kostenuitzendkrachtenenoverigeinleen_17,
+    "NietEerderGenoemdePersoneelskosten_18" AS nieteerdergenoemdepersoneelskosten_18,
+    "NietEerderGenoemdeBedrijfskosten_19" AS nieteerdergenoemdebedrijfskosten_19,
+    "Bedrijfsresultaat_20" AS bedrijfsresultaat_20,
+    "SaldoBijzWaardevermeerderingVermind_21" AS saldobijzwaardevermeerderingvermind_21,
+    "FinancieelResultaat_22" AS financieelresultaat_22,
+    "VrijvalVoorzieningen_23" AS vrijvalvoorzieningen_23,
+    "ToevoegingenVoorzieningen_24" AS toevoegingenvoorzieningen_24,
+    "SaldoVoorzieningen_25" AS saldovoorzieningen_25,
+    "IncidenteelResultaat_26" AS incidenteelresultaat_26,
+    "ResultaatVoorBelastingen_27" AS resultaatvoorbelastingen_27,
+    "TotaalWerkzamePersonen_28" AS totaalwerkzamepersonen_28,
+    "Werknemers_29" AS werknemers_29,
+    "OverigeWerkzamePersonen_30" AS overigewerkzamepersonen_30,
+    "TotaalArbeidsjarenWerkzamePersonen_31" AS totaalarbeidsjarenwerkzamepersonen_31,
+    "ArbeidsjarenWerknemers_32" AS arbeidsjarenwerknemers_32,
+    "ArbeidsjarenOverigeWerkzamePersonen_33" AS arbeidsjarenoverigewerkzamepersonen_33,
+    "Perioden_label" AS perioden_label
+FROM "cbs-netherlands-81354ned"
