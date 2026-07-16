@@ -4,6 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Raw crawl fragments can overlap when continuation runs resume; downstream consumers should use the published transform, which deduplicates rows after normalizing missing product versions.
 -- caution: Rows are exploded from EUVD's nested product list, so one vulnerability can appear many times across affected vendors, products, and product versions.
+-- row reshape: DISTINCT deduplicates overlapping crawl fragments; unnest-equivalent cardinality change is intentional.
 SELECT DISTINCT
     "euvd_id",
     "product_name",

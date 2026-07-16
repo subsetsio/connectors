@@ -4,6 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Raw crawl fragments can overlap when continuation runs resume; downstream consumers should use the published transform, which deduplicates the corpus on EUVD `id`.
 -- caution: The `aliases` and `references` fields are newline-joined lists; use `enisa-cve-mapping` when a normalized EUVD-to-CVE crosswalk is needed.
+-- row reshape: ROW_NUMBER keeps the newest copy of each EUVD id; unnest-equivalent cardinality change is intentional.
 WITH ranked AS (
     SELECT
         "id",
