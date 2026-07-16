@@ -132,6 +132,20 @@ def _save_sdmx_csv(content: bytes, node_id: str, *, fragment: str | None = None)
     save_raw_parquet(_csv_to_table(content), node_id, fragment=fragment)
 
 
+def _save_retired_marker(entity_id: str, node_id: str) -> None:
+    """Commit an empty raw asset for a waived dataflow retired by SSSU."""
+    table = pa.table(
+        {
+            "DATAFLOW": pa.array([], type=pa.string()),
+            "TIME_PERIOD": pa.array([], type=pa.string()),
+            "OBS_VALUE": pa.array([], type=pa.string()),
+            "RETIRED_UPSTREAM": pa.array([], type=pa.string()),
+        }
+    )
+    save_raw_parquet(table, node_id)
+    print(f"  -> {entity_id} is retired upstream; saved empty waived marker")
+
+
 def _year(value: str) -> int:
     match = re.search(r"\d{4}", value or "")
     if not match:
@@ -273,8 +287,6 @@ def _fetch_key_slices(
 
 def fetch_one(node_id: str) -> None:
     entity_id = _SPEC_TO_ENTITY[node_id]
-    version = _latest_version(entity_id)
-
     # Which of the three paths below answers - and, for the sliced ones, what
     # the fragments are named - depends on the version's shape, so a new version
     # can leave fragments of the old one unreferenced-but-live in the manifest
@@ -283,6 +295,14 @@ def fetch_one(node_id: str) -> None:
     # delete only commits if this node succeeds, and the objects it orphans are
     # gc-raw's to collect.
     delete_raw_file(node_id, "parquet")
+
+    try:
+        version = _latest_version(entity_id)
+    except ValueError:
+        if entity_id in _RETIRED_HINT:
+            _save_retired_marker(entity_id, node_id)
+            return
+        raise
 
     url = f"{SDMX_BASE}/data/SSSU,{entity_id},{version}"
     content = _fetch_csv(url)
