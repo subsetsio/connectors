@@ -33,7 +33,6 @@ ENTITY_IDS = [
     'cr3801mr',
     'cr3802mr',
     'cr3803mr',
-    'cr3804mr',
     'cr3805rs',
     'cr3806qr',
     'cr3807qr',
