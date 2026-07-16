@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-426z-f5nc`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: facility_id
+    type: VARCHAR
+  - name: facility_name
+    type: VARCHAR
+  - name: incidents
+    type: BIGINT
+  - name: average_response_time_seconds
+    type: DOUBLE
+  - name: average_response_time
+    type: VARCHAR

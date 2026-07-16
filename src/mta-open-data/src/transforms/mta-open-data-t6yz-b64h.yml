@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-t6yz-b64h`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: toll_date
+sort: [toll_date]
+columns:
+  - name: toll_date
+    type: TIMESTAMP
+  - name: toll_hour
+    type: TIMESTAMP
+  - name: toll_10_minute_block
+    type: TIMESTAMP
+  - name: minute_of_hour
+    type: BIGINT
+  - name: hour_of_day
+    type: BIGINT
+  - name: day_of_week_int
+    type: BIGINT
+  - name: day_of_week
+    type: VARCHAR
+  - name: toll_week
+    type: TIMESTAMP
+  - name: time_period
+    type: VARCHAR
+  - name: vehicle_class
+    type: VARCHAR
+  - name: detection_group
+    type: VARCHAR
+  - name: detection_region
+    type: VARCHAR
+  - name: crz_entries
+    type: BIGINT
+  - name: excluded_roadway_entries
+    type: BIGINT

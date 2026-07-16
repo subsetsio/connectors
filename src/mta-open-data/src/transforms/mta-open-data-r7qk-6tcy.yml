@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-r7qk-6tcy`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: division
+    type: VARCHAR
+  - name: line
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: num_passengers
+    type: DOUBLE
+  - name: additional_platform_time
+    type: DOUBLE
+  - name: additional_train_time
+    type: DOUBLE
+  - name: total_apt
+    type: DOUBLE
+  - name: total_att
+    type: DOUBLE
+  - name: over_five_mins
+    type: DOUBLE
+  - name: over_five_mins_perc
+    type: DOUBLE
+  - name: customer_journey_time
+    type: DOUBLE

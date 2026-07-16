@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-rube-svnv`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: TIMESTAMP
+  - name: hour_of_promise_time
+    type: BIGINT
+  - name: provider_type
+    type: VARCHAR
+  - name: standard
+    type: VARCHAR
+  - name: on_time_performance
+    type: VARCHAR
+  - name: pickup_location
+    type: VARCHAR
+  - name: total_pickups
+    type: BIGINT
+  - name: pickups_within_standards
+    type: BIGINT

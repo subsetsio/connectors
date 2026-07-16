@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-4qd6-ptxx`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: fleet_type
+    type: VARCHAR
+  - name: mdbf_value
+    type: DOUBLE
+  - name: fleet_owned
+    type: BIGINT
+  - name: no_of_primary_failures
+    type: BIGINT
+  - name: mdbf_goal
+    type: BIGINT
+  - name: no_of_primary_failures_goal
+    type: BIGINT

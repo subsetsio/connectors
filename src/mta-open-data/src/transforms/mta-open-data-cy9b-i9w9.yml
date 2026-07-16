@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-cy9b-i9w9`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: indicator_sequence
+    type: BIGINT
+  - name: parent_sequence
+    type: BIGINT
+  - name: agency_name
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: desired_change
+    type: VARCHAR
+  - name: indicator_unit
+    type: VARCHAR
+  - name: decimal_places
+    type: BIGINT
+  - name: period_year
+    type: BIGINT
+  - name: period_month
+    type: BIGINT
+  - name: ytd_target
+    type: DOUBLE
+  - name: ytd_actual
+    type: DOUBLE
+  - name: monthly_target
+    type: DOUBLE
+  - name: monthly_actual
+    type: DOUBLE
+  - name: period
+    type: VARCHAR

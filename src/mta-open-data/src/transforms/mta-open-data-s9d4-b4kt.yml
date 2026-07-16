@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-s9d4-b4kt`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: agency
+    type: VARCHAR
+  - name: job_group_description
+    type: VARCHAR
+  - name: eeo_job_category
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: race_ethnicity
+    type: VARCHAR
+  - name: employee_count
+    type: BIGINT
+  - name: new_hires
+    type: BIGINT
+  - name: separations
+    type: BIGINT

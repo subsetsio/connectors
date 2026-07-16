@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-w9xt-anps`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: trip_date
+sort: [trip_date]
+columns:
+  - name: trip_date
+    type: TIMESTAMP
+  - name: peak_hour
+    type: VARCHAR
+  - name: provider_type
+    type: VARCHAR
+  - name: origin
+    type: VARCHAR
+  - name: destination
+    type: VARCHAR
+  - name: distance
+    type: VARCHAR
+  - name: percent_of_scheduled_ride_time_category
+    type: VARCHAR
+  - name: within_max_ride_time
+    type: BOOLEAN
+  - name: total_trips
+    type: BIGINT
+  - name: total_ride_time_min
+    type: BIGINT

@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-s3yp-8c47`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: TIMESTAMP
+  - name: event_description
+    type: VARCHAR
+  - name: am_peak_late
+    type: DOUBLE
+  - name: am_peak_canceled
+    type: DOUBLE
+  - name: am_peak_terminated
+    type: DOUBLE
+  - name: pm_peak_late
+    type: DOUBLE
+  - name: pm_peak_canceled
+    type: DOUBLE
+  - name: pm_peak_terminated
+    type: DOUBLE
+  - name: off_peak_late
+    type: BIGINT
+  - name: off_peak_canceled
+    type: BIGINT
+  - name: off_peak_terminated
+    type: BIGINT

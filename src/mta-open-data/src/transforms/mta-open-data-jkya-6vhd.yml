@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-jkya-6vhd`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: agency
+    type: VARCHAR
+  - name: department
+    type: VARCHAR
+  - name: rc
+    type: VARCHAR
+  - name: rc_name
+    type: VARCHAR
+  - name: job_group_description
+    type: VARCHAR
+  - name: scheduled_overtime
+    type: DOUBLE
+  - name: unscheduled_overtime
+    type: DOUBLE
+  - name: total_overtime
+    type: DOUBLE
+  - name: regular_time
+    type: DOUBLE

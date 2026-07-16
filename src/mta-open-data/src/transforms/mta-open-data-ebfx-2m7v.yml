@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-ebfx-2m7v`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: transit_timestamp
+sort: [transit_timestamp]
+columns:
+  - name: transit_timestamp
+    type: TIMESTAMP
+  - name: date
+    type: TIMESTAMP
+  - name: hour
+    type: BIGINT
+  - name: facility_id
+    type: BIGINT
+  - name: facility
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: payment_method
+    type: VARCHAR
+  - name: vehicle_class
+    type: BIGINT
+  - name: vehicle_class_description
+    type: VARCHAR
+  - name: vehicle_class_category
+    type: VARCHAR
+  - name: traffic_count
+    type: BIGINT

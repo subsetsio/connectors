@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-s666-h6b7`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: division
+    type: VARCHAR
+  - name: line
+    type: VARCHAR
+  - name: day_type
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: num_timepoints_passing_wait_assessment
+    type: BIGINT
+  - name: num_sched_timepoints
+    type: BIGINT
+  - name: wait_assessment
+    type: DOUBLE

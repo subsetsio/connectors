@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-5754-yujh`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: time_period
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: bus_type
+    type: VARCHAR
+  - name: question_text
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: score_grain
+    type: VARCHAR
+  - name: score_type
+    type: VARCHAR
+  - name: score
+    type: DOUBLE
+  - name: sample_size
+    type: BIGINT

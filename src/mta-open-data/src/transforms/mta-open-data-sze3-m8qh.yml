@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-sze3-m8qh`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: bpa_sale_date
+sort: [bpa_sale_date]
+columns:
+  - name: type_of_credit
+    type: VARCHAR
+  - name: bond_series
+    type: VARCHAR
+  - name: ratings
+    type: VARCHAR
+  - name: bpa_sale_date
+    type: TIMESTAMP
+  - name: series_original_final_maturity
+    type: TIMESTAMP
+  - name: principal_amount_at_issuance
+    type: DOUBLE
+  - name: outstanding_fixed_rate_par
+    type: DOUBLE
+  - name: outstanding_variable_rate_par
+    type: DOUBLE
+  - name: outstanding_synthetic_fixed_par
+    type: DOUBLE
+  - name: total_outstanding_par
+    type: DOUBLE
+  - name: tic
+    type: DOUBLE
+  - name: posted_date
+    type: TIMESTAMP

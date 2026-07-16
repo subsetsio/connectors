@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-tgiq-jafi`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: service_date
+sort: [service_date]
+columns:
+  - name: service_date
+    type: TIMESTAMP
+  - name: train
+    type: VARCHAR
+  - name: branch
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: depart_station
+    type: VARCHAR
+  - name: depart_time
+    type: TIMESTAMP
+  - name: arrive_station
+    type: VARCHAR
+  - name: arrive_time
+    type: TIMESTAMP
+  - name: period
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: minutes_late
+    type: BIGINT
+  - name: delay_category
+    type: VARCHAR

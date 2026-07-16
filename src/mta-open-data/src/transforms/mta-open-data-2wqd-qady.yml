@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-2wqd-qady`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: facility_id
+    type: VARCHAR
+  - name: facility_name
+    type: VARCHAR
+  - name: collisions
+    type: BIGINT
+  - name: collisions_with_injuries
+    type: BIGINT
+  - name: crossings
+    type: BIGINT
+  - name: collisions_per_million
+    type: DOUBLE
+  - name: collisions_with_injuries_per_million_crossings
+    type: DOUBLE

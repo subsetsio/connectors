@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-b5mc-nrji`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: borough
+    type: VARCHAR
+  - name: monthly_miles
+    type: BIGINT
+  - name: monthly_road_call_count
+    type: BIGINT
+  - name: monthly_mdbsi
+    type: BIGINT

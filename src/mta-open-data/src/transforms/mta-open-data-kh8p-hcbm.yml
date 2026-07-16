@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-kh8p-hcbm`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: first_occurrence
+sort: [first_occurrence]
+columns:
+  - name: violation_id
+    type: BIGINT
+  - name: vehicle_id
+    type: VARCHAR
+  - name: first_occurrence
+    type: TIMESTAMP
+  - name: last_occurrence
+    type: TIMESTAMP
+  - name: violation_status
+    type: VARCHAR
+  - name: violation_type
+    type: VARCHAR
+  - name: bus_route_id
+    type: VARCHAR
+  - name: violation_latitude
+    type: DOUBLE
+  - name: violation_longitude
+    type: DOUBLE
+  - name: stop_id
+    type: BIGINT
+  - name: stop_name
+    type: VARCHAR
+  - name: bus_stop_latitude
+    type: DOUBLE
+  - name: bus_stop_longitude
+    type: DOUBLE
+  - name: violation_georeference
+    type: VARCHAR
+  - name: bus_stop_georeference
+    type: VARCHAR

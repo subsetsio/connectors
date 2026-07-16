@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-kag2-r3f3`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: date_ny
+sort: [date_ny]
+columns:
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: physical_asset
+    type: VARCHAR
+  - name: app
+    type: BIGINT
+  - name: app_name
+    type: VARCHAR
+  - name: locale
+    type: VARCHAR
+  - name: language
+    type: VARCHAR
+  - name: date_ny
+    type: TIMESTAMP
+  - name: bus_box_id
+    type: VARCHAR
+  - name: bus_stop_name
+    type: VARCHAR
+  - name: bus_stop_type
+    type: VARCHAR
+  - name: subway_id
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: train_car_type
+    type: VARCHAR

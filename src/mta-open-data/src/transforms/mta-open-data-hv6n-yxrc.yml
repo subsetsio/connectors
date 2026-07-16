@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-hv6n-yxrc`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: peak_offpeak
+    type: VARCHAR
+  - name: branch_id
+    type: VARCHAR
+  - name: number_scheduled_trips
+    type: BIGINT
+  - name: number_trains_on_time
+    type: BIGINT
+  - name: percent_trains_on_time
+    type: DOUBLE
+  - name: number_trains_3_to_6_min
+    type: BIGINT
+  - name: percent_trains_3_to_6_min
+    type: DOUBLE
+  - name: number_trains_6_plus_min
+    type: BIGINT
+  - name: percent_trains_6_plus_min
+    type: DOUBLE

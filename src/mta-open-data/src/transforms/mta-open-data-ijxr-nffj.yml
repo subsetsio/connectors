@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-ijxr-nffj`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: survey_period_start_date
+sort: [survey_period_start_date]
+columns:
+  - name: survey_period_start_date
+    type: TIMESTAMP
+  - name: survey_period_end_date
+    type: TIMESTAMP
+  - name: mode
+    type: VARCHAR
+  - name: no_of_observations
+    type: BIGINT
+  - name: mask_worn_correctly
+    type: DOUBLE
+  - name: mask_worn_incorrectly
+    type: DOUBLE
+  - name: no_mask
+    type: DOUBLE
+  - name: total_wearing_a_mask
+    type: DOUBLE

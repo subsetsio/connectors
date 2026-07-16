@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-ak4z-sape`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: station_complex_id
+    type: BIGINT
+  - name: station_complex
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: ridership
+    type: DOUBLE
+  - name: transfers
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: georeference
+    type: VARCHAR

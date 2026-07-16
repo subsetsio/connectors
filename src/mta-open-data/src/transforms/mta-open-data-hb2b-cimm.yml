@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-hb2b-cimm`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: service_date
+sort: [service_date]
+columns:
+  - name: unique_trip
+    type: BIGINT
+  - name: service_date
+    type: TIMESTAMP
+  - name: trip_id
+    type: VARCHAR
+  - name: trip_id_numeric
+    type: BIGINT
+  - name: direction
+    type: BIGINT
+  - name: stop_code
+    type: VARCHAR
+  - name: stop_name
+    type: VARCHAR
+  - name: stop_order
+    type: BIGINT
+  - name: passengers_by_car
+    type: VARCHAR
+  - name: total_passengers
+    type: BIGINT
+  - name: train_occupancy
+    type: DOUBLE
+  - name: car_count
+    type: BIGINT
+  - name: car_capacities
+    type: VARCHAR
+  - name: train_capacity
+    type: BIGINT
+  - name: scheduled_time
+    type: TIMESTAMP
+  - name: model
+    type: VARCHAR
+  - name: missing_load_data
+    type: BIGINT
+  - name: trip_origin_station
+    type: VARCHAR
+  - name: trip_destination_station
+    type: VARCHAR
+  - name: trip_origin_station_name
+    type: VARCHAR
+  - name: trip_destination_station_1
+    type: VARCHAR
+  - name: branch_id
+    type: VARCHAR
+  - name: branch_name
+    type: VARCHAR
+  - name: pattern_name
+    type: VARCHAR

@@ -1,0 +1,95 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-94fv-bak7`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: original_installation_date
+sort: [original_installation_date]
+columns:
+  - name: equipment_code
+    type: VARCHAR
+  - name: elevator_or_escalator
+    type: VARCHAR
+  - name: asset_class
+    type: VARCHAR
+  - name: station_mrn
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: station_description
+    type: VARCHAR
+  - name: station_complex_mrn
+    type: BIGINT
+  - name: station_complex_description
+    type: VARCHAR
+  - name: subway_line
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: x_coordinate
+    type: DOUBLE
+  - name: y_coordinate
+    type: DOUBLE
+  - name: original_installation_date
+    type: TIMESTAMP
+  - name: latest_installation_date
+    type: TIMESTAMP
+  - name: service_status_code
+    type: VARCHAR
+  - name: service_status
+    type: VARCHAR
+  - name: service_life
+    type: DOUBLE
+  - name: nyct_owned
+    type: BOOLEAN
+  - name: maintained_by
+    type: VARCHAR
+  - name: installer
+    type: VARCHAR
+  - name: revenue_machine
+    type: BOOLEAN
+  - name: ada_compliant
+    type: BOOLEAN
+  - name: street_access
+    type: BOOLEAN
+  - name: exposed_to_weather
+    type: BOOLEAN
+  - name: escalator_rise
+    type: VARCHAR
+  - name: elevator_rise
+    type: VARCHAR
+  - name: elevator_capacity
+    type: VARCHAR
+  - name: elevator_loading_class
+    type: VARCHAR
+  - name: elevator_number_of_landings
+    type: VARCHAR
+  - name: escalator_number_of_steps
+    type: BIGINT
+  - name: escalator_step_width
+    type: VARCHAR
+  - name: elevator_direction_serviced
+    type: VARCHAR
+  - name: elevator_order
+    type: BIGINT
+  - name: elevator_mezzanine_1_access
+    type: VARCHAR
+  - name: elevator_mezzanine_2_access
+    type: VARCHAR
+  - name: elevator_platform_access
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: redundant_elevator
+    type: VARCHAR
+  - name: redundant_elevator_street
+    type: VARCHAR
+  - name: redundant_elevator_mezzanine
+    type: VARCHAR
+  - name: redundant_elevator_access
+    type: VARCHAR
+  - name: redundant_elevator_platform
+    type: VARCHAR
+  - name: alternative_route
+    type: VARCHAR
+  - name: georeference
+    type: VARCHAR

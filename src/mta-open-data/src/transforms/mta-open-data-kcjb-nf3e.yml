@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-kcjb-nf3e`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: start_date
+sort: [start_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: working_agency
+    type: VARCHAR
+  - name: start_date
+    type: TIMESTAMP
+  - name: separation_date
+    type: TIMESTAMP
+  - name: title
+    type: VARCHAR
+  - name: department
+    type: VARCHAR
+  - name: pay_basis
+    type: VARCHAR
+  - name: hourly_rate
+    type: DOUBLE
+  - name: regular_pay
+    type: DOUBLE
+  - name: overtime_pay
+    type: DOUBLE
+  - name: cash_outs
+    type: DOUBLE
+  - name: retro_pay
+    type: DOUBLE
+  - name: other_pay
+    type: DOUBLE
+  - name: total_earnings
+    type: DOUBLE
+  - name: updated_at
+    type: TIMESTAMP

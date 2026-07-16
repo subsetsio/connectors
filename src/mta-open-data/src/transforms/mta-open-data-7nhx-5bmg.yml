@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-7nhx-5bmg`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: am_pm
+    type: VARCHAR
+  - name: company
+    type: VARCHAR
+  - name: scheduled_buses
+    type: BIGINT
+  - name: operating_buses
+    type: BIGINT
+  - name: monthly_pull_out
+    type: DOUBLE

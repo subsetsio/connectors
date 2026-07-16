@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-nswv-d6bz`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: phase_est_actual_start_date
+sort: [phase_est_actual_start_date]
+columns:
+  - name: project_id
+    type: BIGINT
+  - name: phase
+    type: VARCHAR
+  - name: phase_sequence
+    type: BIGINT
+  - name: phase_state
+    type: VARCHAR
+  - name: phase_est_actual_start_date
+    type: TIMESTAMP
+  - name: phase_est_actual_end_date
+    type: TIMESTAMP
+  - name: activity_title
+    type: VARCHAR
+  - name: activity_description
+    type: VARCHAR
+  - name: activity_date
+    type: TIMESTAMP
+  - name: activity_flag
+    type: BIGINT
+  - name: url
+    type: VARCHAR
+  - name: update_date
+    type: TIMESTAMP

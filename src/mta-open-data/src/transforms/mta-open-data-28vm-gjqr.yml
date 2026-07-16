@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-28vm-gjqr`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: timestamp
+sort: [timestamp]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day_of_week
+    type: VARCHAR
+  - name: hour_of_day
+    type: BIGINT
+  - name: timestamp
+    type: TIMESTAMP
+  - name: origin_station_complex_id
+    type: BIGINT
+  - name: origin_station_complex_name
+    type: VARCHAR
+  - name: origin_latitude
+    type: DOUBLE
+  - name: origin_longitude
+    type: DOUBLE
+  - name: destination_station_complex_id
+    type: BIGINT
+  - name: destination_station_complex_name
+    type: VARCHAR
+  - name: destination_latitude
+    type: DOUBLE
+  - name: destination_longitude
+    type: DOUBLE
+  - name: estimated_average_ridership
+    type: DOUBLE
+  - name: origin_point
+    type: VARCHAR
+  - name: destination_point
+    type: VARCHAR

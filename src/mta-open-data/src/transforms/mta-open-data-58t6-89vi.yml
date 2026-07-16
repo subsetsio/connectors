@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-58t6-89vi`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: timestamp
+sort: [timestamp]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: timestamp
+    type: TIMESTAMP
+  - name: day_of_week
+    type: VARCHAR
+  - name: hour_of_day
+    type: BIGINT
+  - name: route_id
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: route_type
+    type: VARCHAR
+  - name: stop_order
+    type: BIGINT
+  - name: timepoint_stop_id
+    type: BIGINT
+  - name: timepoint_stop_name
+    type: VARCHAR
+  - name: timepoint_stop_latitude
+    type: DOUBLE
+  - name: timepoint_stop_longitude
+    type: DOUBLE
+  - name: next_timepoint_stop_id
+    type: BIGINT
+  - name: next_timepoint_stop_name
+    type: VARCHAR
+  - name: next_timepoint_stop_latitude
+    type: DOUBLE
+  - name: next_timepoint_stop_longitude
+    type: DOUBLE
+  - name: road_distance
+    type: DOUBLE
+  - name: average_travel_time
+    type: DOUBLE
+  - name: average_road_speed
+    type: DOUBLE
+  - name: bus_trip_count
+    type: BIGINT
+  - name: timepoint_stop_georeference
+    type: VARCHAR
+  - name: next_timepoint_stop_georeference
+    type: VARCHAR

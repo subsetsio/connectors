@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-6yjv-fk7g`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: amenity_id
+    type: BIGINT
+  - name: amenity_type
+    type: VARCHAR
+  - name: station_mrn
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: lines
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: division
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: original_install_date
+    type: TIMESTAMP
+  - name: georeference
+    type: VARCHAR

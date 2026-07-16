@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-6fc5-5xk2`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: servicedate
+sort: [servicedate]
+columns:
+  - name: servicedate
+    type: TIMESTAMP
+  - name: conductornotseen
+    type: BIGINT
+  - name: farenotcollected
+    type: BIGINT
+  - name: collectionfailurepercentage
+    type: DOUBLE
+  - name: collectionsuccesspercentage
+    type: DOUBLE
+  - name: incorrectfarecollected
+    type: BIGINT
+  - name: incorrectfailurepercentage
+    type: DOUBLE
+  - name: incorrectsuccesspercentage
+    type: DOUBLE

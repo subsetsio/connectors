@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-r6db-kkzj`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: day_type
+    type: VARCHAR
+  - name: hour_of_day
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: route_type
+    type: VARCHAR
+  - name: route_id
+    type: VARCHAR
+  - name: cbd_relation
+    type: VARCHAR
+  - name: sum_mileage
+    type: DOUBLE
+  - name: sum_time
+    type: DOUBLE
+  - name: average_road_speed
+    type: DOUBLE

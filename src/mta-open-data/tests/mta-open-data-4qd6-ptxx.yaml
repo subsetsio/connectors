@@ -1,6 +1,14 @@
 spec_id: mta-open-data-4qd6-ptxx
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: this MTA dataset was accepted for publish because it carries data; a full Socrata CSV export should yield at least one row, so an empty table means the resource id is wrong or the dataset was withdrawn upstream
-    certainty: 90
+- row_count:
+    min: 1
+  reason: this MTA dataset was accepted for publish because it carries data; a full Socrata CSV export should yield at least
+    one row, so an empty table means the resource id is wrong or the dataset was withdrawn upstream
+  certainty: 90
+- freshness:
+    col: month
+    reaches: today - 3650d
+  reason: temporal MTA Socrata snapshot should include observations within a broad ten-year window; this guards against accidentally
+    publishing only stale historical fragments while allowing archived series
+  certainty: 70

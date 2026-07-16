@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-e2qc-xgxs`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: division
+    type: VARCHAR
+  - name: car_class
+    type: VARCHAR
+  - name: total_miles
+    type: DOUBLE
+  - name: number_of_failures
+    type: BIGINT
+  - name: number_of_cars
+    type: BIGINT
+  - name: mdbf
+    type: DOUBLE
+  - name: "12_month_average_mdbf"
+    type: DOUBLE

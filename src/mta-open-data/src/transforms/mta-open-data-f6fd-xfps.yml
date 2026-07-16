@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-f6fd-xfps`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: update_date
+sort: [update_date]
+columns:
+  - name: update_date
+    type: TIMESTAMP
+  - name: project_id
+    type: BIGINT
+  - name: acep
+    type: VARCHAR
+  - name: current_budget
+    type: BIGINT
+  - name: baseline_budget
+    type: BIGINT
+  - name: expenditures
+    type: BIGINT
+  - name: task
+    type: VARCHAR
+  - name: annotations
+    type: VARCHAR

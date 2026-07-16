@@ -1,0 +1,53 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-y63v-kht3`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: service_date
+sort: [service_date]
+columns:
+  - name: service_date
+    type: TIMESTAMP
+  - name: service_code
+    type: BIGINT
+  - name: train_id
+    type: VARCHAR
+  - name: line
+    type: VARCHAR
+  - name: trip_line
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: stop_order
+    type: BIGINT
+  - name: gtfs_stop_id
+    type: VARCHAR
+  - name: arrival_time
+    type: TIMESTAMP
+  - name: departure_time
+    type: TIMESTAMP
+  - name: date_difference
+    type: BIGINT
+  - name: track
+    type: VARCHAR
+  - name: division
+    type: VARCHAR
+  - name: revenue_service
+    type: BIGINT
+  - name: timepoint
+    type: BIGINT
+  - name: trip_type
+    type: VARCHAR
+  - name: path_id
+    type: VARCHAR
+  - name: next_trip_type
+    type: VARCHAR
+  - name: next_trip_time
+    type: TIMESTAMP
+  - name: supplement_schedule_number
+    type: VARCHAR
+  - name: schedule_file_number
+    type: VARCHAR
+  - name: origin_gtfs_stop_id
+    type: VARCHAR
+  - name: destination_gtfs_stop_id
+    type: VARCHAR

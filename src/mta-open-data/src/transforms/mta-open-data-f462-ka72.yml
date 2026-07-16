@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-f462-ka72`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: dataset_created_at
+sort: [dataset_created_at]
+columns:
+  - name: open_dataset_id
+    type: VARCHAR
+  - name: dataset_title
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: posting_frequency
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: dataset_created_at
+    type: TIMESTAMP
+  - name: plan_submission_date
+    type: VARCHAR
+  - name: nys_url
+    type: VARCHAR
+  - name: plan_submission_date_notes
+    type: VARCHAR

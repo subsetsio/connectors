@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-cudb-vcni`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: borough
+    type: VARCHAR
+  - name: day_type
+    type: BIGINT
+  - name: trip_type
+    type: VARCHAR
+  - name: route_id
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: total_operating_time
+    type: DOUBLE
+  - name: total_mileage
+    type: DOUBLE
+  - name: average_speed
+    type: DOUBLE

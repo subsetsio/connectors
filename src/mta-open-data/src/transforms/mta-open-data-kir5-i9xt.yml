@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-kir5-i9xt`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: in_service_date
+sort: [in_service_date]
+columns:
+  - name: car_number
+    type: VARCHAR
+  - name: car_class
+    type: VARCHAR
+  - name: object_description
+    type: VARCHAR
+  - name: controller
+    type: VARCHAR
+  - name: division
+    type: VARCHAR
+  - name: in_service_date
+    type: TIMESTAMP
+  - name: retirement_date
+    type: VARCHAR
+  - name: object_year_built
+    type: DOUBLE

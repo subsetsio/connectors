@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-qzve-kjga`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: plaza_id
+    type: BIGINT
+  - name: date
+    type: TIMESTAMP
+  - name: hour
+    type: BIGINT
+  - name: direction
+    type: VARCHAR
+  - name: vehicles_e_zpass
+    type: BIGINT
+  - name: vehicles_vtoll
+    type: BIGINT

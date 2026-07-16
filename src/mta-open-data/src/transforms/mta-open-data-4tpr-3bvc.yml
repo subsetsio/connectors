@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-4tpr-3bvc`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: week
+sort: [week]
+columns:
+  - name: week
+    type: TIMESTAMP
+  - name: day_type
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: route
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: hour
+    type: BIGINT
+  - name: load_percentage
+    type: DOUBLE
+  - name: trips_with_apc
+    type: BIGINT

@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-jbxx-kxff`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: TIMESTAMP
+  - name: area
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: daily_vmt_agps
+    type: DOUBLE
+  - name: daily_vmt_cvd
+    type: DOUBLE
+  - name: indexed_average_vmt
+    type: DOUBLE

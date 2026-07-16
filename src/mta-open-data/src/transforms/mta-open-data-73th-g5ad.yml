@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-73th-g5ad`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: service_date
+sort: [service_date]
+columns:
+  - name: unique_trip
+    type: BIGINT
+  - name: service_date
+    type: TIMESTAMP
+  - name: trip_id
+    type: VARCHAR
+  - name: trip_id_numeric
+    type: BIGINT
+  - name: direction
+    type: BIGINT
+  - name: scheduled_time_start
+    type: TIMESTAMP
+  - name: scheduled_time_arrive
+    type: TIMESTAMP
+  - name: trip_origin_station_name
+    type: VARCHAR
+  - name: trip_destination_station
+    type: VARCHAR
+  - name: max_passengers
+    type: BIGINT
+  - name: max_occupancy
+    type: DOUBLE
+  - name: car_count
+    type: BIGINT
+  - name: train_capacity
+    type: BIGINT
+  - name: max_stop_name
+    type: VARCHAR
+  - name: model
+    type: VARCHAR
+  - name: branch_id
+    type: VARCHAR
+  - name: branch_name
+    type: VARCHAR
+  - name: pattern_name
+    type: VARCHAR

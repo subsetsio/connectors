@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-jt9p-47ua`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: service_territory
+    type: VARCHAR
+  - name: line
+    type: VARCHAR
+  - name: actual
+    type: BIGINT
+  - name: scheduled
+    type: BIGINT
+  - name: cancelled
+    type: BIGINT
+  - name: terminated
+    type: BIGINT

@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-yeek-jhmu`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: agency
+    type: VARCHAR
+  - name: police_force
+    type: VARCHAR
+  - name: felony_type
+    type: VARCHAR
+  - name: felony_count
+    type: BIGINT
+  - name: crimes_per_million_riders
+    type: DOUBLE

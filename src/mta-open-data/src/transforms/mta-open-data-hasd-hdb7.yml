@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-hasd-hdb7`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: day
+sort: [day]
+columns:
+  - name: day
+    type: TIMESTAMP
+  - name: hour_of_promise_time
+    type: BIGINT
+  - name: provider_type
+    type: VARCHAR
+  - name: pickup_borough
+    type: VARCHAR
+  - name: trips
+    type: BIGINT
+  - name: ridership
+    type: BIGINT

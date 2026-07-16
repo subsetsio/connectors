@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-fccm-griq`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: day_time
+    type: VARCHAR
+  - name: delayed_trains
+    type: BIGINT
+  - name: on_time_trips
+    type: BIGINT
+  - name: on_time_performance
+    type: DOUBLE
+  - name: delayed_trains_with_boat
+    type: BIGINT
+  - name: on_time_trips_with_boat
+    type: BIGINT
+  - name: on_time_performance_with
+    type: DOUBLE
+  - name: scheduled_trips
+    type: BIGINT
+  - name: incomplete_trips
+    type: VARCHAR
+  - name: trip_complete_percentage
+    type: VARCHAR

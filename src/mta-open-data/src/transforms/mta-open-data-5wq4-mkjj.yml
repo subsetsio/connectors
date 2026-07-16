@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-5wq4-mkjj`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: transit_timestamp
+sort: [transit_timestamp]
+columns:
+  - name: transit_timestamp
+    type: TIMESTAMP
+  - name: transit_mode
+    type: VARCHAR
+  - name: station_complex_id
+    type: BIGINT
+  - name: station_complex
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: payment_method
+    type: VARCHAR
+  - name: fare_class_category
+    type: VARCHAR
+  - name: ridership
+    type: DOUBLE
+  - name: transfers
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: georeference
+    type: VARCHAR

@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-2ucp-7wg5`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: valid_from
+sort: [valid_from]
+columns:
+  - name: valid_from
+    type: TIMESTAMP
+  - name: valid_to
+    type: TIMESTAMP
+  - name: in_effect
+    type: BOOLEAN
+  - name: route_id
+    type: VARCHAR
+  - name: route_short_name
+    type: VARCHAR
+  - name: route_long_name
+    type: VARCHAR
+  - name: route_description
+    type: VARCHAR
+  - name: route_color
+    type: VARCHAR
+  - name: stop_id
+    type: BIGINT
+  - name: stop_name
+    type: VARCHAR
+  - name: direction_id
+    type: BIGINT
+  - name: direction
+    type: VARCHAR
+  - name: revenue_stop
+    type: BIGINT
+  - name: timepoint
+    type: BIGINT
+  - name: boarding
+    type: BIGINT
+  - name: alighting
+    type: BIGINT
+  - name: is_cbd
+    type: BOOLEAN
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: bundle
+    type: VARCHAR
+  - name: georeference
+    type: VARCHAR

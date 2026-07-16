@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-6r5t-chrj`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: call_type
+    type: VARCHAR
+  - name: number_of_calls_received
+    type: BIGINT
+  - name: number_of_calls_picked_up
+    type: BIGINT
+  - name: calls_answered
+    type: VARCHAR
+  - name: average_answer_speed
+    type: BIGINT

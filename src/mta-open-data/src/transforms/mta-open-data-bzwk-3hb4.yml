@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-bzwk-3hb4`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: valid_from
+sort: [valid_from]
+columns:
+  - name: valid_from
+    type: TIMESTAMP
+  - name: valid_to
+    type: TIMESTAMP
+  - name: in_effect
+    type: BOOLEAN
+  - name: route_id
+    type: VARCHAR
+  - name: route_short_name
+    type: VARCHAR
+  - name: route_long_name
+    type: VARCHAR
+  - name: route_description
+    type: VARCHAR
+  - name: trip_type
+    type: BIGINT
+  - name: route_type
+    type: VARCHAR
+  - name: bundle
+    type: VARCHAR
+  - name: route_color
+    type: VARCHAR
+  - name: direction_id
+    type: BIGINT
+  - name: direction
+    type: VARCHAR
+  - name: shape_id
+    type: VARCHAR
+  - name: vertices
+    type: BIGINT
+  - name: shape_length
+    type: DOUBLE
+  - name: min_longitude
+    type: DOUBLE
+  - name: min_latitude
+    type: DOUBLE
+  - name: max_longitude
+    type: DOUBLE
+  - name: max_latitude
+    type: DOUBLE
+  - name: geometry
+    type: VARCHAR

@@ -1,0 +1,71 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-twsw-2mqa`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: fiscal_year_end_date
+sort: [fiscal_year_end_date]
+columns:
+  - name: fiscal_year_end_date
+    type: TIMESTAMP
+  - name: vendor_name
+    type: VARCHAR
+  - name: transaction_number
+    type: VARCHAR
+  - name: procurement_description
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: type_of_procurement
+    type: VARCHAR
+  - name: award_process
+    type: VARCHAR
+  - name: award_date
+    type: TIMESTAMP
+  - name: begin_date
+    type: TIMESTAMP
+  - name: renewal_date
+    type: TIMESTAMP
+  - name: end_date
+    type: TIMESTAMP
+  - name: contract_amount
+    type: DOUBLE
+  - name: amount_expended_for_fiscal_year
+    type: DOUBLE
+  - name: amount_expended_to_date
+    type: DOUBLE
+  - name: current_or_outstanding_balance
+    type: DOUBLE
+  - name: number_of_bids_or_proposals_received
+    type: BIGINT
+  - name: vendor_is_nys_or_fbe
+    type: VARCHAR
+  - name: vendor_is_a_mwbe
+    type: VARCHAR
+  - name: solicited_mwbe
+    type: VARCHAR
+  - name: number_of_mwbe_proposals
+    type: BIGINT
+  - name: exempt_from_article_4c
+    type: VARCHAR
+  - name: basis_for_exemption
+    type: VARCHAR
+  - name: fair_market_value
+    type: DOUBLE
+  - name: fair_market_value_explanation
+    type: VARCHAR
+  - name: address_line_1
+    type: VARCHAR
+  - name: address_line_2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postal_code
+    type: VARCHAR
+  - name: zip_code_plus_4
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: country
+    type: VARCHAR

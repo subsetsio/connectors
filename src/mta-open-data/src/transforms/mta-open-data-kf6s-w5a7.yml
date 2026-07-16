@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mta-open-data-kf6s-w5a7`. Regenerate after model-verify.
+# caution: Published as a full Socrata snapshot table; no stable row key was asserted during schema-only profiling.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: month
+    type: TIMESTAMP
+  - name: company
+    type: VARCHAR
+  - name: fleet_age
+    type: DOUBLE
+  - name: total_of_buses
+    type: BIGINT
+  - name: of_buses_over_12_years
+    type: BIGINT
