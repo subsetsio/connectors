@@ -1,11 +1,13 @@
 import csv
+import json
 import io
 import re
 import zipfile
 from html import unescape
+from pathlib import Path
 from urllib.parse import urljoin
 
-from constants import ENTITY_IDS
+from constants import ENTITY_IDS, PACKAGE_INDEX_SHA256
 from subsets_utils import NodeSpec, get, post, save_raw_ndjson
 
 
@@ -14,10 +16,20 @@ SPEC_PREFIX = f"{SLUG}-"
 CKAN_ACTION = "https://catalog.data.metro.tokyo.lg.jp/api/3/action/package_show"
 API_SPEC_SEARCH = "https://spec.api.metro.tokyo.lg.jp/spec/search"
 API_BASE = "https://service.api.metro.tokyo.lg.jp"
+PACKAGE_INDEX_PATH = Path(__file__).resolve().parents[1] / "package_index.json"
+_PACKAGE_INDEX = None
 
 
 def _entity_to_spec_id(entity_id: str) -> str:
     return f"{SPEC_PREFIX}{entity_id.lower().replace('_', '-')}"
+
+
+def _package_index() -> dict:
+    global _PACKAGE_INDEX
+    if _PACKAGE_INDEX is None:
+        _ = PACKAGE_INDEX_SHA256
+        _PACKAGE_INDEX = json.loads(PACKAGE_INDEX_PATH.read_text())
+    return _PACKAGE_INDEX
 
 
 def _decode_csv(content: bytes) -> str:
@@ -176,9 +188,11 @@ def fetch_one(node_id: str) -> None:
         raise ValueError(f"unexpected node id: {node_id}")
     entity_id = node_id.removeprefix(SPEC_PREFIX)
 
-    package_resp = get(CKAN_ACTION, params={"id": entity_id}, timeout=(10.0, 60.0))
-    package_resp.raise_for_status()
-    package = package_resp.json()["result"]
+    package = _package_index().get(entity_id)
+    if package is None:
+        package_resp = get(CKAN_ACTION, params={"id": entity_id}, timeout=(10.0, 60.0))
+        package_resp.raise_for_status()
+        package = package_resp.json()["result"]
     resources = [
         resource
         for resource in package.get("resources", [])
