@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-geh`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: manufacture_year
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: serial_number
+    type: VARCHAR
+  - name: tail_number
+    type: VARCHAR
+  - name: aircraft_status
+    type: VARCHAR
+  - name: operating_status
+    type: VARCHAR
+  - name: number_of_seats
+    type: VARCHAR
+  - name: manufacturer
+    type: VARCHAR
+  - name: aircraft_type
+    type: VARCHAR
+  - name: model
+    type: VARCHAR
+  - name: capacity_in_pounds
+    type: VARCHAR
+  - name: acquisition_date
+    type: VARCHAR
+  - name: airline_id
+    type: VARCHAR
+  - name: unique_carrier
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: JSON

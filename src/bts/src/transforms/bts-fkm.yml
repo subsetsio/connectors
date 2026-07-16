@@ -1,0 +1,170 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fkm`. Regenerate after model-verify.
+key: [notes_acc_rec_net]
+temporal: obs_date
+sort: [obs_date, notes_acc_rec_net]
+columns:
+  - name: cash
+    type: VARCHAR
+  - name: short_term_inv
+    type: VARCHAR
+  - name: notes_receivable
+    type: VARCHAR
+  - name: accts_receivable
+    type: VARCHAR
+  - name: accts_not_collect
+    type: VARCHAR
+  - name: notes_acc_rec_net
+    type: VARCHAR
+  - name: parts_supplies_net
+    type: VARCHAR
+  - name: prepaid_items
+    type: VARCHAR
+  - name: curr_assets_oth
+    type: VARCHAR
+  - name: curr_assets
+    type: DOUBLE
+  - name: invest_assoc_comp
+    type: VARCHAR
+  - name: invest_rec_oth
+    type: VARCHAR
+  - name: special_funds
+    type: VARCHAR
+  - name: invest_spec_funds
+    type: VARCHAR
+  - name: flight_equip
+    type: DOUBLE
+  - name: prop_equip_ground
+    type: DOUBLE
+  - name: depr_pr_eq_ground
+    type: DOUBLE
+  - name: prop_equip_net
+    type: DOUBLE
+  - name: land
+    type: VARCHAR
+  - name: equip_dep_adv_pay
+    type: VARCHAR
+  - name: construction
+    type: VARCHAR
+  - name: leased_prop_cap
+    type: VARCHAR
+  - name: leased_prop_acc
+    type: VARCHAR
+  - name: prop_equip
+    type: DOUBLE
+  - name: prop_equip_non_op
+    type: VARCHAR
+  - name: depr_pr_eq_non_op
+    type: VARCHAR
+  - name: prop_equip_no_tot
+    type: VARCHAR
+  - name: pre_pay_long_term
+    type: VARCHAR
+  - name: non_amort_dev
+    type: VARCHAR
+  - name: assets_oth_def
+    type: DOUBLE
+  - name: assets_other
+    type: DOUBLE
+  - name: assets
+    type: DOUBLE
+  - name: long_debt_cur_mat
+    type: VARCHAR
+  - name: notes_pay_banks
+    type: VARCHAR
+  - name: notes_pay_other
+    type: VARCHAR
+  - name: accts_pay_trade
+    type: DOUBLE
+  - name: accts_pay_other
+    type: VARCHAR
+  - name: curr_ob_cap_lease
+    type: VARCHAR
+  - name: accr_salaries
+    type: VARCHAR
+  - name: accr_vacation
+    type: VARCHAR
+  - name: accr_interest
+    type: VARCHAR
+  - name: accr_taxes
+    type: DOUBLE
+  - name: dividends
+    type: VARCHAR
+  - name: liab_air_traffic
+    type: VARCHAR
+  - name: curr_liab_oth
+    type: DOUBLE
+  - name: curr_liabilities
+    type: DOUBLE
+  - name: long_term_debt
+    type: VARCHAR
+  - name: adv_assoc_comp
+    type: VARCHAR
+  - name: pension_liab
+    type: VARCHAR
+  - name: non_rec_ob_cap_ls
+    type: VARCHAR
+  - name: non_rec_liab_oth
+    type: VARCHAR
+  - name: non_rec_liab
+    type: VARCHAR
+  - name: def_taxes
+    type: VARCHAR
+  - name: def_tax_credits
+    type: VARCHAR
+  - name: def_credits_oth
+    type: VARCHAR
+  - name: def_credits
+    type: VARCHAR
+  - name: pf_shares
+    type: VARCHAR
+  - name: pf_shares_num
+    type: VARCHAR
+  - name: com_shares
+    type: VARCHAR
+  - name: unissued_stock
+    type: VARCHAR
+  - name: capital_stock
+    type: VARCHAR
+  - name: add_capital_inv
+    type: VARCHAR
+  - name: paid_in_capital
+    type: DOUBLE
+  - name: ret_earnings
+    type: DOUBLE
+  - name: sh_hld_equity
+    type: DOUBLE
+  - name: treas_stock_num
+    type: VARCHAR
+  - name: sh_hld_equit_net
+    type: DOUBLE
+  - name: liab_sh_hld_equity
+    type: DOUBLE
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: carrier_group_new
+    type: BIGINT
+  - name: carrier_group
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

@@ -1,0 +1,74 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fih`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: carrier_region
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_group
+    type: BIGINT
+  - name: carrier_group_new
+    type: BIGINT
+  - name: aircraft_group
+    type: BIGINT
+  - name: aircraft_type
+    type: VARCHAR
+  - name: aircraft_config
+    type: BIGINT
+  - name: service_class
+    type: VARCHAR
+  - name: avl_seat_miles_320
+    type: DOUBLE
+  - name: rev_pax_miles_140
+    type: DOUBLE
+  - name: rev_ton_miles_240
+    type: DOUBLE
+  - name: rev_ton_miles_freight_247
+    type: DOUBLE
+  - name: rev_ton_miles_mail_249
+    type: DOUBLE
+  - name: avl_ton_miles_280
+    type: DOUBLE
+  - name: rev_acrft_miles_flown_410
+    type: DOUBLE
+  - name: rev_acrft_dep_perf_510
+    type: DOUBLE
+  - name: rev_acrft_hrs_airborne_610
+    type: DOUBLE
+  - name: non_rev_acrft_hrs_airborne_620
+    type: VARCHAR
+  - name: acrft_hrs_ramptoramp_630
+    type: DOUBLE
+  - name: hours_airborne_650
+    type: VARCHAR
+  - name: air_days_equip_810
+    type: VARCHAR
+  - name: air_days_route_820
+    type: VARCHAR
+  - name: aircraft_fuels_921
+    type: VARCHAR
+  - name: num_months
+    type: BIGINT
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

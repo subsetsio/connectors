@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("YEAR" AS BIGINT) AS year,
+    CAST("QUARTER" AS BIGINT) AS quarter,
+    CAST("AIRLINE_ID" AS BIGINT) AS airline_id,
+    "UNIQUE_CARRIER" AS unique_carrier,
+    "UNIQUE_CARRIER_NAME" AS unique_carrier_name,
+    "UNIQUE_CARRIER_ENTITY" AS unique_carrier_entity,
+    "CARRIER_REGION" AS carrier_region,
+    "CARRIER" AS carrier,
+    "CARRIER_NAME" AS carrier_name,
+    CAST("CARRIER_GROUP" AS BIGINT) AS carrier_group,
+    CAST("CARRIER_GROUP_NEW" AS BIGINT) AS carrier_group_new,
+    CAST("AIRCRAFT_GROUP" AS BIGINT) AS aircraft_group,
+    "AIRCRAFT_TYPE" AS aircraft_type,
+    CAST("AIRCRAFT_CONFIG" AS BIGINT) AS aircraft_config,
+    "SERVICE_CLASS" AS service_class,
+    CAST("AVL_SEAT_MILES_320" AS DOUBLE) AS avl_seat_miles_320,
+    CAST("REV_PAX_MILES_140" AS DOUBLE) AS rev_pax_miles_140,
+    CAST("REV_TON_MILES_240" AS DOUBLE) AS rev_ton_miles_240,
+    CAST("REV_TON_MILES_FREIGHT_247" AS DOUBLE) AS rev_ton_miles_freight_247,
+    CAST("REV_TON_MILES_MAIL_249" AS DOUBLE) AS rev_ton_miles_mail_249,
+    CAST("AVL_TON_MILES_280" AS DOUBLE) AS avl_ton_miles_280,
+    CAST("REV_ACRFT_MILES_FLOWN_410" AS DOUBLE) AS rev_acrft_miles_flown_410,
+    CAST("REV_ACRFT_DEP_PERF_510" AS DOUBLE) AS rev_acrft_dep_perf_510,
+    CAST("REV_ACRFT_HRS_AIRBORNE_610" AS DOUBLE) AS rev_acrft_hrs_airborne_610,
+    "NON_REV_ACRFT_HRS_AIRBORNE_620" AS non_rev_acrft_hrs_airborne_620,
+    CAST("ACRFT_HRS_RAMPTORAMP_630" AS DOUBLE) AS acrft_hrs_ramptoramp_630,
+    "HOURS_AIRBORNE_650" AS hours_airborne_650,
+    "AIR_DAYS_EQUIP_810" AS air_days_equip_810,
+    "AIR_DAYS_ROUTE_820" AS air_days_route_820,
+    "AIRCRAFT_FUELS_921" AS aircraft_fuels_921,
+    CAST("NUM_MONTHS" AS BIGINT) AS num_months,
+    "obs_date",
+    "obs_year",
+    "obs_period"
+FROM "bts-fih"

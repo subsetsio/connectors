@@ -1,0 +1,64 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fkj`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: origin
+    type: VARCHAR
+  - name: origin_city_name
+    type: VARCHAR
+  - name: origin_city_num
+    type: BIGINT
+  - name: origin_country_name
+    type: VARCHAR
+  - name: origin_state_abr
+    type: VARCHAR
+  - name: origin_state_fips
+    type: VARCHAR
+  - name: origin_state_nm
+    type: VARCHAR
+  - name: origin_wac
+    type: BIGINT
+  - name: dest
+    type: VARCHAR
+  - name: dest_city_name
+    type: VARCHAR
+  - name: dest_city_num
+    type: BIGINT
+  - name: dest_state_nm
+    type: VARCHAR
+  - name: dest_state_abr
+    type: VARCHAR
+  - name: dest_state_fips
+    type: VARCHAR
+  - name: dest_country_name
+    type: VARCHAR
+  - name: dest_wac
+    type: BIGINT
+  - name: domestic
+    type: DOUBLE
+  - name: distance
+    type: DOUBLE
+  - name: distance_group
+    type: BIGINT
+  - name: passengers
+    type: DOUBLE
+  - name: freight
+    type: DOUBLE
+  - name: mail
+    type: DOUBLE
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

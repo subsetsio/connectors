@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-gef`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_group
+    type: BIGINT
+  - name: carrier_group_new
+    type: BIGINT
+  - name: empfull
+    type: BIGINT
+  - name: emppart
+    type: BIGINT
+  - name: emptotal
+    type: BIGINT
+  - name: empfte
+    type: BIGINT
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

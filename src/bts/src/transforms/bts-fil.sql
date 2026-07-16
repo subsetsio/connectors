@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: T-100 market rows mix carrier, market, aircraft, service class, and period dimensions; filter the dimensions before aggregating measures.
+SELECT
+    CAST("PASSENGERS" AS DOUBLE) AS passengers,
+    CAST("FREIGHT" AS DOUBLE) AS freight,
+    CAST("MAIL" AS DOUBLE) AS mail,
+    CAST("DISTANCE" AS DOUBLE) AS distance,
+    "UNIQUE_CARRIER" AS unique_carrier,
+    CAST("AIRLINE_ID" AS BIGINT) AS airline_id,
+    "UNIQUE_CARRIER_NAME" AS unique_carrier_name,
+    "UNIQUE_CARRIER_ENTITY" AS unique_carrier_entity,
+    "REGION" AS region,
+    "CARRIER" AS carrier,
+    "CARRIER_NAME" AS carrier_name,
+    CAST("CARRIER_GROUP" AS BIGINT) AS carrier_group,
+    CAST("CARRIER_GROUP_NEW" AS BIGINT) AS carrier_group_new,
+    CAST("ORIGIN_AIRPORT_ID" AS BIGINT) AS origin_airport_id,
+    CAST("ORIGIN_AIRPORT_SEQ_ID" AS BIGINT) AS origin_airport_seq_id,
+    CAST("ORIGIN_CITY_MARKET_ID" AS BIGINT) AS origin_city_market_id,
+    "ORIGIN" AS origin,
+    "ORIGIN_CITY_NAME" AS origin_city_name,
+    "ORIGIN_STATE_ABR" AS origin_state_abr,
+    "ORIGIN_STATE_FIPS" AS origin_state_fips,
+    "ORIGIN_STATE_NM" AS origin_state_nm,
+    CAST("ORIGIN_WAC" AS BIGINT) AS origin_wac,
+    CAST("DEST_AIRPORT_ID" AS BIGINT) AS dest_airport_id,
+    CAST("DEST_AIRPORT_SEQ_ID" AS BIGINT) AS dest_airport_seq_id,
+    CAST("DEST_CITY_MARKET_ID" AS BIGINT) AS dest_city_market_id,
+    "DEST" AS dest,
+    "DEST_CITY_NAME" AS dest_city_name,
+    "DEST_STATE_ABR" AS dest_state_abr,
+    "DEST_STATE_FIPS" AS dest_state_fips,
+    "DEST_STATE_NM" AS dest_state_nm,
+    CAST("DEST_WAC" AS BIGINT) AS dest_wac,
+    CAST("YEAR" AS BIGINT) AS year,
+    CAST("QUARTER" AS BIGINT) AS quarter,
+    CAST("MONTH" AS BIGINT) AS month,
+    CAST("DISTANCE_GROUP" AS BIGINT) AS distance_group,
+    "CLASS" AS class,
+    "obs_date",
+    "obs_year",
+    "obs_period"
+FROM "bts-fil"

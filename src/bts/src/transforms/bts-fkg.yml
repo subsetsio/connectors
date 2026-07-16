@@ -1,0 +1,70 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fkg`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_group
+    type: BIGINT
+  - name: carrier_group_new
+    type: BIGINT
+  - name: airport_type
+    type: VARCHAR
+  - name: origin_airport_id
+    type: BIGINT
+  - name: origin_airport_seq_id
+    type: BIGINT
+  - name: origin_city_market_id
+    type: BIGINT
+  - name: origin
+    type: VARCHAR
+  - name: origin_city_name
+    type: VARCHAR
+  - name: origin_country_name
+    type: VARCHAR
+  - name: origin_state_nm
+    type: VARCHAR
+  - name: origin_state_fips
+    type: VARCHAR
+  - name: origin_state_abr
+    type: VARCHAR
+  - name: origin_wac
+    type: BIGINT
+  - name: service_class
+    type: VARCHAR
+  - name: rev_acrft_dep_sch_520
+    type: VARCHAR
+  - name: rev_acrft_dep_perf_510
+    type: VARCHAR
+  - name: rev_pax_enp_110
+    type: VARCHAR
+  - name: rev_enp_freight_217
+    type: VARCHAR
+  - name: rev_enp_mail_219
+    type: VARCHAR
+  - name: num_months
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

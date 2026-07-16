@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fki`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_entity
+    type: VARCHAR
+  - name: sch_departures
+    type: DOUBLE
+  - name: dep_performed
+    type: DOUBLE
+  - name: comp_departures
+    type: DOUBLE
+  - name: avail_ton_miles
+    type: DOUBLE
+  - name: avail_seat_miles
+    type: DOUBLE
+  - name: rev_pax_miles
+    type: DOUBLE
+  - name: rev_ton_miles
+    type: DOUBLE
+  - name: aircraft_miles
+    type: DOUBLE
+  - name: aircraft_hours
+    type: DOUBLE
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-gfe`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_entity
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: op_revenue
+    type: VARCHAR
+  - name: op_expense
+    type: VARCHAR
+  - name: net_income
+    type: VARCHAR
+  - name: sch_pax_revenue
+    type: VARCHAR
+  - name: pfc_begin
+    type: DOUBLE
+  - name: pfc_collect
+    type: DOUBLE
+  - name: pfc_remit
+    type: DOUBLE
+  - name: pfc_adjust
+    type: DOUBLE
+  - name: pfc_end
+    type: DOUBLE
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

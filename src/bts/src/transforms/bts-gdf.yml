@@ -1,0 +1,58 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-gdf`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: airline_id
+    type: VARCHAR
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: entity
+    type: VARCHAR
+  - name: general_manage
+    type: BIGINT
+  - name: pilots_copilots
+    type: BIGINT
+  - name: other_flt_pers
+    type: BIGINT
+  - name: pass_gen_svc_admin
+    type: BIGINT
+  - name: maintenance
+    type: BIGINT
+  - name: arcft_traf_handling_grp1
+    type: BIGINT
+  - name: gen_arcft_traf_handling
+    type: BIGINT
+  - name: aircraft_control
+    type: BIGINT
+  - name: passenger_handling
+    type: BIGINT
+  - name: cargo_handling
+    type: BIGINT
+  - name: trainees_intructor
+    type: BIGINT
+  - name: statistical
+    type: BIGINT
+  - name: traffic_soliciters
+    type: BIGINT
+  - name: other
+    type: BIGINT
+  - name: transport_related
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: JSON

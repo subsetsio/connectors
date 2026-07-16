@@ -1,0 +1,233 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fgj`. Regenerate after model-verify.
+# caution: On-time performance rows are flight-operation observations; multiple carrier, airport, cancellation, diversion, and delay dimensions must be filtered before aggregation.
+key: []
+temporal: flightdate
+sort: [flightdate]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: dayofmonth
+    type: BIGINT
+  - name: dayofweek
+    type: BIGINT
+  - name: flightdate
+    type: DATE
+  - name: reporting_airline
+    type: VARCHAR
+  - name: dot_id_reporting_airline
+    type: BIGINT
+  - name: iata_code_reporting_airline
+    type: VARCHAR
+  - name: tail_number
+    type: VARCHAR
+  - name: flight_number_reporting_airline
+    type: VARCHAR
+  - name: originairportid
+    type: BIGINT
+  - name: originairportseqid
+    type: BIGINT
+  - name: origincitymarketid
+    type: BIGINT
+  - name: origin
+    type: VARCHAR
+  - name: origincityname
+    type: VARCHAR
+  - name: originstate
+    type: VARCHAR
+  - name: originstatefips
+    type: VARCHAR
+  - name: originstatename
+    type: VARCHAR
+  - name: originwac
+    type: BIGINT
+  - name: destairportid
+    type: BIGINT
+  - name: destairportseqid
+    type: BIGINT
+  - name: destcitymarketid
+    type: BIGINT
+  - name: dest
+    type: VARCHAR
+  - name: destcityname
+    type: VARCHAR
+  - name: deststate
+    type: VARCHAR
+  - name: deststatefips
+    type: VARCHAR
+  - name: deststatename
+    type: VARCHAR
+  - name: destwac
+    type: BIGINT
+  - name: crsdeptime
+    type: VARCHAR
+  - name: deptime
+    type: VARCHAR
+  - name: depdelay
+    type: VARCHAR
+  - name: depdelayminutes
+    type: VARCHAR
+  - name: depdel15
+    type: VARCHAR
+  - name: departuredelaygroups
+    type: VARCHAR
+  - name: deptimeblk
+    type: VARCHAR
+  - name: taxiout
+    type: VARCHAR
+  - name: wheelsoff
+    type: VARCHAR
+  - name: wheelson
+    type: VARCHAR
+  - name: taxiin
+    type: VARCHAR
+  - name: crsarrtime
+    type: VARCHAR
+  - name: arrtime
+    type: VARCHAR
+  - name: arrdelay
+    type: VARCHAR
+  - name: arrdelayminutes
+    type: VARCHAR
+  - name: arrdel15
+    type: VARCHAR
+  - name: arrivaldelaygroups
+    type: VARCHAR
+  - name: arrtimeblk
+    type: VARCHAR
+  - name: cancelled
+    type: DOUBLE
+  - name: cancellationcode
+    type: VARCHAR
+  - name: diverted
+    type: DOUBLE
+  - name: crselapsedtime
+    type: VARCHAR
+  - name: actualelapsedtime
+    type: VARCHAR
+  - name: airtime
+    type: VARCHAR
+  - name: flights
+    type: DOUBLE
+  - name: distance
+    type: DOUBLE
+  - name: distancegroup
+    type: BIGINT
+  - name: carrierdelay
+    type: VARCHAR
+  - name: weatherdelay
+    type: VARCHAR
+  - name: nasdelay
+    type: VARCHAR
+  - name: securitydelay
+    type: VARCHAR
+  - name: lateaircraftdelay
+    type: VARCHAR
+  - name: firstdeptime
+    type: VARCHAR
+  - name: totaladdgtime
+    type: VARCHAR
+  - name: longestaddgtime
+    type: VARCHAR
+  - name: divairportlandings
+    type: VARCHAR
+  - name: divreacheddest
+    type: VARCHAR
+  - name: divactualelapsedtime
+    type: VARCHAR
+  - name: divarrdelay
+    type: VARCHAR
+  - name: divdistance
+    type: VARCHAR
+  - name: div1airport
+    type: VARCHAR
+  - name: div1airportid
+    type: VARCHAR
+  - name: div1airportseqid
+    type: VARCHAR
+  - name: div1wheelson
+    type: VARCHAR
+  - name: div1totalgtime
+    type: VARCHAR
+  - name: div1longestgtime
+    type: VARCHAR
+  - name: div1wheelsoff
+    type: VARCHAR
+  - name: div1tailnum
+    type: VARCHAR
+  - name: div2airport
+    type: VARCHAR
+  - name: div2airportid
+    type: VARCHAR
+  - name: div2airportseqid
+    type: VARCHAR
+  - name: div2wheelson
+    type: VARCHAR
+  - name: div2totalgtime
+    type: VARCHAR
+  - name: div2longestgtime
+    type: VARCHAR
+  - name: div2wheelsoff
+    type: VARCHAR
+  - name: div2tailnum
+    type: VARCHAR
+  - name: div3airport
+    type: VARCHAR
+  - name: div3airportid
+    type: VARCHAR
+  - name: div3airportseqid
+    type: VARCHAR
+  - name: div3wheelson
+    type: VARCHAR
+  - name: div3totalgtime
+    type: VARCHAR
+  - name: div3longestgtime
+    type: VARCHAR
+  - name: div3wheelsoff
+    type: VARCHAR
+  - name: div3tailnum
+    type: VARCHAR
+  - name: div4airport
+    type: VARCHAR
+  - name: div4airportid
+    type: VARCHAR
+  - name: div4airportseqid
+    type: VARCHAR
+  - name: div4wheelson
+    type: VARCHAR
+  - name: div4totalgtime
+    type: VARCHAR
+  - name: div4longestgtime
+    type: VARCHAR
+  - name: div4wheelsoff
+    type: VARCHAR
+  - name: div4tailnum
+    type: VARCHAR
+  - name: div5airport
+    type: VARCHAR
+  - name: div5airportid
+    type: VARCHAR
+  - name: div5airportseqid
+    type: VARCHAR
+  - name: div5wheelson
+    type: VARCHAR
+  - name: div5totalgtime
+    type: VARCHAR
+  - name: div5longestgtime
+    type: VARCHAR
+  - name: div5wheelsoff
+    type: VARCHAR
+  - name: div5tailnum
+    type: VARCHAR
+  - name: c109
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

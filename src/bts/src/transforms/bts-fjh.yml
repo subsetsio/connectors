@@ -1,0 +1,86 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fjh`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_group
+    type: BIGINT
+  - name: carrier_group_new
+    type: BIGINT
+  - name: service_class
+    type: VARCHAR
+  - name: rev_pax_enp_110
+    type: VARCHAR
+  - name: rev_pax_miles_140
+    type: VARCHAR
+  - name: rev_pax_miles_coach
+    type: VARCHAR
+  - name: rev_pax_miles_first
+    type: VARCHAR
+  - name: non_rev_pax_miles
+    type: VARCHAR
+  - name: rev_ton_miles_240
+    type: VARCHAR
+  - name: rev_ton_miles_freight_247
+    type: VARCHAR
+  - name: rev_ton_miles_pax_241
+    type: VARCHAR
+  - name: rev_ton_miles_uspr_mail
+    type: VARCHAR
+  - name: rev_ton_miles_usnonpr_mail
+    type: VARCHAR
+  - name: rev_ton_miles_mail_249
+    type: VARCHAR
+  - name: rev_ton_miles_foreign_mail
+    type: VARCHAR
+  - name: rev_ton_miles_express_mail
+    type: VARCHAR
+  - name: non_rev_ton_miles
+    type: VARCHAR
+  - name: avl_ton_miles_280
+    type: VARCHAR
+  - name: avl_seat_miles_320
+    type: VARCHAR
+  - name: avl_seat_miles_first
+    type: VARCHAR
+  - name: avl_seat_miles_coach
+    type: VARCHAR
+  - name: rev_acrft_miles_flown_410
+    type: VARCHAR
+  - name: rev_acrft_miles_sch_430
+    type: VARCHAR
+  - name: rev_acrft_miles_sch_completed
+    type: VARCHAR
+  - name: rev_acrft_dep_perf_510
+    type: VARCHAR
+  - name: rev_acrft_hrs_airborne_610
+    type: VARCHAR
+  - name: acrft_hrs_ramptoramp_630
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

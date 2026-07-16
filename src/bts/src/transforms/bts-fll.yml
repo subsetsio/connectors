@@ -1,0 +1,69 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fll`. Regenerate after model-verify.
+key: [airport_seq_id, longitude, latitude, display_airport_name, airport_id]
+sort: [airport_seq_id, longitude, latitude, display_airport_name, airport_id]
+columns:
+  - name: airport_seq_id
+    type: BIGINT
+  - name: airport_id
+    type: BIGINT
+  - name: airport
+    type: VARCHAR
+  - name: display_airport_name
+    type: VARCHAR
+  - name: display_airport_city_name_full
+    type: VARCHAR
+  - name: airport_wac_seq_id2
+    type: BIGINT
+  - name: airport_wac
+    type: BIGINT
+  - name: airport_country_name
+    type: VARCHAR
+  - name: airport_country_code_iso
+    type: VARCHAR
+  - name: airport_state_name
+    type: VARCHAR
+  - name: airport_state_code
+    type: VARCHAR
+  - name: airport_state_fips
+    type: VARCHAR
+  - name: city_market_seq_id
+    type: BIGINT
+  - name: city_market_id
+    type: BIGINT
+  - name: display_city_market_name_full
+    type: VARCHAR
+  - name: city_market_wac_seq_id2
+    type: BIGINT
+  - name: city_market_wac
+    type: BIGINT
+  - name: lat_degrees
+    type: VARCHAR
+  - name: lat_hemisphere
+    type: VARCHAR
+  - name: lat_minutes
+    type: VARCHAR
+  - name: lat_seconds
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: lon_degrees
+    type: VARCHAR
+  - name: lon_hemisphere
+    type: VARCHAR
+  - name: lon_minutes
+    type: VARCHAR
+  - name: lon_seconds
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: utc_local_time_variation
+    type: VARCHAR
+  - name: airport_start_date
+    type: VARCHAR
+  - name: airport_thru_date
+    type: VARCHAR
+  - name: airport_is_closed
+    type: BIGINT
+  - name: airport_is_latest
+    type: BIGINT

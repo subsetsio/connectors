@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-ggd`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: passengers
+    type: VARCHAR
+  - name: mishandled_baggage
+    type: BIGINT
+  - name: enplaned_baggage
+    type: BIGINT
+  - name: mishandled_wchr_sctr
+    type: BIGINT
+  - name: enplaned_wchr_sctr
+    type: BIGINT
+  - name: form_type
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

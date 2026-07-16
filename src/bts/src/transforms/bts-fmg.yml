@@ -1,0 +1,113 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fmg`. Regenerate after model-verify.
+# caution: T-100 segment rows mix carrier, segment, aircraft, service class, and period dimensions; filter the dimensions before aggregating measures.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: departures_scheduled
+    type: DOUBLE
+  - name: departures_performed
+    type: DOUBLE
+  - name: payload
+    type: DOUBLE
+  - name: seats
+    type: DOUBLE
+  - name: passengers
+    type: DOUBLE
+  - name: freight
+    type: DOUBLE
+  - name: mail
+    type: DOUBLE
+  - name: distance
+    type: DOUBLE
+  - name: ramp_to_ramp
+    type: DOUBLE
+  - name: air_time
+    type: DOUBLE
+  - name: unique_carrier
+    type: VARCHAR
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_group
+    type: BIGINT
+  - name: carrier_group_new
+    type: BIGINT
+  - name: origin_airport_id
+    type: BIGINT
+  - name: origin_airport_seq_id
+    type: BIGINT
+  - name: origin_city_market_id
+    type: BIGINT
+  - name: origin
+    type: VARCHAR
+  - name: origin_city_name
+    type: VARCHAR
+  - name: origin_state_abr
+    type: VARCHAR
+  - name: origin_state_fips
+    type: VARCHAR
+  - name: origin_state_nm
+    type: VARCHAR
+  - name: origin_country
+    type: VARCHAR
+  - name: origin_country_name
+    type: VARCHAR
+  - name: origin_wac
+    type: BIGINT
+  - name: dest_airport_id
+    type: BIGINT
+  - name: dest_airport_seq_id
+    type: BIGINT
+  - name: dest_city_market_id
+    type: BIGINT
+  - name: dest
+    type: VARCHAR
+  - name: dest_city_name
+    type: VARCHAR
+  - name: dest_state_abr
+    type: VARCHAR
+  - name: dest_state_fips
+    type: VARCHAR
+  - name: dest_state_nm
+    type: VARCHAR
+  - name: dest_country
+    type: VARCHAR
+  - name: dest_country_name
+    type: VARCHAR
+  - name: dest_wac
+    type: BIGINT
+  - name: aircraft_group
+    type: BIGINT
+  - name: aircraft_type
+    type: VARCHAR
+  - name: aircraft_config
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: distance_group
+    type: BIGINT
+  - name: class
+    type: VARCHAR
+  - name: data_source
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

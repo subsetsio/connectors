@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fkk`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: origin
+    type: VARCHAR
+  - name: origin_city_num
+    type: VARCHAR
+  - name: origin_city_name
+    type: VARCHAR
+  - name: origin_country_name
+    type: VARCHAR
+  - name: origin_state_abr
+    type: VARCHAR
+  - name: origin_state_fips
+    type: VARCHAR
+  - name: origin_state_nm
+    type: VARCHAR
+  - name: origin_wac
+    type: VARCHAR
+  - name: passengers
+    type: DOUBLE
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

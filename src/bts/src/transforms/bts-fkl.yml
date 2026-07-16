@@ -1,0 +1,94 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fkl`. Regenerate after model-verify.
+key: [air_op_expense]
+temporal: obs_date
+sort: [obs_date, air_op_expense]
+columns:
+  - name: air_op_expense
+    type: DOUBLE
+  - name: fl_att_expense
+    type: VARCHAR
+  - name: food_expense
+    type: VARCHAR
+  - name: oth_in_fl_expense
+    type: VARCHAR
+  - name: pax_svc_expense
+    type: VARCHAR
+  - name: line_svc_expense
+    type: VARCHAR
+  - name: control_expense
+    type: DOUBLE
+  - name: landing_fees
+    type: DOUBLE
+  - name: air_svc_expense
+    type: DOUBLE
+  - name: traffic_exp_pax
+    type: VARCHAR
+  - name: traffic_exp_cargo
+    type: DOUBLE
+  - name: traffic_exp_oth
+    type: VARCHAR
+  - name: traffic_expense
+    type: DOUBLE
+  - name: res_exp_pax
+    type: VARCHAR
+  - name: res_exp_cargo
+    type: DOUBLE
+  - name: res_exp_oth
+    type: VARCHAR
+  - name: res_expense
+    type: DOUBLE
+  - name: ad_exp_pax
+    type: VARCHAR
+  - name: ad_exp_cargo
+    type: VARCHAR
+  - name: ad_exp_inst
+    type: VARCHAR
+  - name: ad_expense
+    type: DOUBLE
+  - name: admin_expense
+    type: DOUBLE
+  - name: depr_exp_maint
+    type: VARCHAR
+  - name: amortization
+    type: VARCHAR
+  - name: transport_exp
+    type: DOUBLE
+  - name: total_op_expense
+    type: DOUBLE
+  - name: maint_prop_equip
+    type: DOUBLE
+  - name: depr_prop_equip
+    type: DOUBLE
+  - name: maint_depr
+    type: DOUBLE
+  - name: svc_sales_op_exp
+    type: DOUBLE
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: carrier_group_new
+    type: BIGINT
+  - name: carrier_group
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

@@ -1,0 +1,72 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-fmd`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: net_income
+    type: DOUBLE
+  - name: op_profit
+    type: VARCHAR
+  - name: op_revenue_sch_pax
+    type: VARCHAR
+  - name: op_revenue_sch_oth
+    type: VARCHAR
+  - name: op_revenue_non_sch
+    type: VARCHAR
+  - name: op_revenue_pub_svc
+    type: VARCHAR
+  - name: op_revenue_other
+    type: VARCHAR
+  - name: op_revenue
+    type: VARCHAR
+  - name: op_expense_flying
+    type: VARCHAR
+  - name: op_expense_maint
+    type: VARCHAR
+  - name: op_expense_admin
+    type: VARCHAR
+  - name: depr_pr_eq_owned
+    type: VARCHAR
+  - name: depr_pr_eq_leased
+    type: VARCHAR
+  - name: trans_expense
+    type: VARCHAR
+  - name: op_expense
+    type: VARCHAR
+  - name: non_op_int_exp
+    type: VARCHAR
+  - name: non_op_exp_oth
+    type: VARCHAR
+  - name: tax
+    type: VARCHAR
+  - name: extra_items
+    type: VARCHAR
+  - name: airline_id
+    type: VARCHAR
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: carrier_group_new
+    type: VARCHAR
+  - name: carrier_group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: JSON

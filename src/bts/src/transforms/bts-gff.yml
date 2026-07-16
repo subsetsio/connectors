@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-gff`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_entity
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: expense_type
+    type: VARCHAR
+  - name: aircraft_type
+    type: VARCHAR
+  - name: aircraft_config
+    type: BIGINT
+  - name: exp_pilot_copilot
+    type: DOUBLE
+  - name: exp_fuel_oil
+    type: DOUBLE
+  - name: exp_hull_ins
+    type: DOUBLE
+  - name: exp_third_party_liab_ins
+    type: DOUBLE
+  - name: exp_pax_liab_ins
+    type: DOUBLE
+  - name: exp_maintenance
+    type: DOUBLE
+  - name: exp_depreciation
+    type: DOUBLE
+  - name: fuel_issued
+    type: DOUBLE
+  - name: blk_hours
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT

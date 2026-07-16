@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bts-gde`. Regenerate after model-verify.
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: unique_carrier_entity
+    type: VARCHAR
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: carrier_group
+    type: BIGINT
+  - name: k110_rev_pax_enplaned
+    type: DOUBLE
+  - name: v110_rev_pax_enplaned
+    type: DOUBLE
+  - name: z140_rev_pax_miles
+    type: DOUBLE
+  - name: z320_avail_seat_miles
+    type: DOUBLE
+  - name: z510_rad_performed
+    type: DOUBLE
+  - name: z520_rad_scheduled
+    type: DOUBLE
+  - name: data_source
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: obs_year
+    type: BIGINT
+  - name: obs_period
+    type: BIGINT
