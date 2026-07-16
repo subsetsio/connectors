@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-import hashlib
 import time
 from itertools import product
 from urllib.parse import quote
 
 from constants import ENTITY_METADATA
-from subsets_utils import NodeSpec, get, post, save_raw_ndjson
+from subsets_utils import MaintainSpec, NodeSpec, get, post, raw_asset_exists, save_raw_ndjson
 
 
 BASE_URL = "https://web.dzs.hr/PxWeb/api/v1/en"
@@ -16,6 +15,7 @@ SPEC_PREFIX = "statistics-croatia-"
 MAX_CELLS_PER_POST = 50_000
 MAX_VALUES_PER_POST = 50
 POST_THROTTLE_SECONDS = 0.2
+FRESH_RAW_MAX_AGE_DAYS = 14
 
 
 def _table_url(meta: dict) -> str:
@@ -202,9 +202,6 @@ def _chunked_datasets(url: str, metadata: dict) -> list[dict]:
 
 
 def fetch_one(spec_id: str) -> None:
-    jitter = int(hashlib.sha256(spec_id.encode("utf-8")).hexdigest()[:4], 16) / 65535
-    time.sleep(jitter * 8)
-
     entity_id = _entity_id_from_spec(spec_id)
     source_meta = ENTITY_METADATA[entity_id]
     url = _table_url(source_meta)
@@ -238,4 +235,22 @@ def fetch_one(spec_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SPEC_PREFIX}{entity_id.lower().replace('_', '-')}", fn=fetch_one)
     for entity_id in ENTITY_METADATA
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "PxWeb tables are refreshed on the DZS statistical database; reuse a "
+            f"successful raw pull for up to {FRESH_RAW_MAX_AGE_DAYS} days because "
+            "the 885-table corpus exceeds one GitHub Actions chain when fully "
+            "refetched."
+        ),
+        check=lambda asset_id: raw_asset_exists(
+            asset_id,
+            "ndjson.zst",
+            max_age_days=FRESH_RAW_MAX_AGE_DAYS,
+        ),
+    )
+    for spec in DOWNLOAD_SPECS
 ]

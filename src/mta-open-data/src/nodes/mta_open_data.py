@@ -22,7 +22,10 @@ one published Delta table per dataset from the profiled raw.
 """
 
 import os
+import tempfile
+from pathlib import Path
 
+import duckdb
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
@@ -41,6 +44,14 @@ RESOURCE_BASE = "https://data.ny.gov/resource"
 EXPORT_LIMIT = 1_000_000_000
 CHUNK = 1 << 20  # 1 MiB
 FRESH_DAYS = 7
+PARQUET_ASSETS = {
+    # DuckDB's default CSV sample infers these identifier columns as BIGINT,
+    # but later rows contain route/station codes such as A and TRAM1.
+    "mta-open-data-5wq4-mkjj",
+    "mta-open-data-7pnn-mafy",
+    "mta-open-data-g8es-h7gb",
+    "mta-open-data-q9nv-uegs",
+}
 
 
 def _resource_id(node_id: str) -> str:
@@ -72,9 +83,52 @@ def _stream_export(resource_id: str, asset: str) -> None:
                 out.write(chunk)
 
 
+@transient_retry()
+def _stream_export_parquet(resource_id: str, asset: str) -> None:
+    """Stream a Socrata CSV export through DuckDB into typed raw Parquet."""
+    url = f"{RESOURCE_BASE}/{resource_id}.csv"
+    params = {"$limit": EXPORT_LIMIT}
+    headers = {}
+    token = os.environ.get("SOCRATA_APP_TOKEN")
+    if token:
+        headers["X-App-Token"] = token
+
+    client = get_client()
+    with (
+        tempfile.NamedTemporaryFile(suffix=f".{asset}.csv") as csv_tmp,
+        tempfile.NamedTemporaryFile(suffix=f".{asset}.parquet") as parquet_tmp,
+    ):
+        with client.stream(
+            "GET", url, params=params, headers=headers, timeout=(10.0, 300.0)
+        ) as resp:
+            resp.raise_for_status()
+            for chunk in resp.iter_bytes(chunk_size=CHUNK):
+                csv_tmp.write(chunk)
+        csv_tmp.flush()
+
+        csv_path = str(Path(csv_tmp.name))
+        parquet_path = str(Path(parquet_tmp.name))
+        duckdb.sql(
+            "COPY (SELECT * FROM read_csv_auto(?, sample_size=-1)) "
+            "TO ? (FORMAT PARQUET, COMPRESSION ZSTD)",
+            params=[csv_path, parquet_path],
+        )
+
+        parquet_tmp.seek(0)
+        with raw_writer(asset, extension="parquet", mode="wb") as out:
+            while True:
+                chunk = parquet_tmp.read(CHUNK)
+                if not chunk:
+                    break
+                out.write(chunk)
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
-    _stream_export(_resource_id(node_id), asset)
+    if asset in PARQUET_ASSETS:
+        _stream_export_parquet(_resource_id(node_id), asset)
+    else:
+        _stream_export(_resource_id(node_id), asset)
 
 
 DOWNLOAD_SPECS = [
@@ -95,7 +149,7 @@ MAINTAIN_SPECS = [
         ),
         check=lambda asset_id: raw_asset_exists(
             asset_id,
-            "csv.gz",
+            "parquet" if asset_id in PARQUET_ASSETS else "csv.gz",
             max_age_days=FRESH_DAYS,
         ),
     )

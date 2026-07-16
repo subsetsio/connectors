@@ -7,7 +7,7 @@ SELECT
     "month",
     "service_territory",
     "majorincidents",
-    "_4mto6mtraindelays" AS 4mto6mtraindelays,
+    "_4mto6mtraindelays" AS "4mto6mtraindelays",
     "avgdelayperlatetrain",
     "nooftrainsover15minslate",
     "noofshorttrains"

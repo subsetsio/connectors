@@ -8,5 +8,5 @@ SELECT
     "total_miles",
     "number_of_failures",
     "mdbf",
-    "_12_month_average_mdbf" AS 12_month_average_mdbf
+    "_12_month_average_mdbf" AS "12_month_average_mdbf"
 FROM "mta-open-data-n2pf-h43s"

@@ -8,7 +8,7 @@ SELECT
     "hour_of_promise_time",
     "provider_type",
     "arrival_time",
-    "_30minearlyto1late" AS 30minearlyto1late,
+    "_30minearlyto1late" AS "30minearlyto1late",
     "pickup_location",
     "total_appointment_trips",
     "trips_within_arrival_time"

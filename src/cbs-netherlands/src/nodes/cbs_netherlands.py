@@ -1,14 +1,15 @@
 """CBS (Netherlands) — StatLine open data connector.
 
-Source: Statistics Netherlands (CBS) StatLine, exposed as OData v3.
+Source: Statistics Netherlands (CBS) StatLine, exposed as OData v3 plus the
+CBS datasets bulk distributions.
 
 Access strategy (per research): the catalog at
 ``https://opendata.cbs.nl/ODataCatalog/Tables`` enumerates every StatLine
-table; each table's data is fetched per-table from the OData **Feed**
-(``https://opendata.cbs.nl/ODataFeed/odata/{id}/TypedDataSet``). The Feed has
-no per-call cell cap (unlike the standard ODataApi) but it does apply
-server-driven paging at 10000 rows via an ``odata.nextLink``, which we follow
-to completion.
+table. For the data payload, prefer the newer CBS datasets CSV distribution
+(``https://datasets.cbs.nl/csv/CBS/nl/{id}``) when present: large tables that
+time out through JSON paging are served there as compact zip files. Fall back to
+the OData **Feed** (``https://opendata.cbs.nl/ODataFeed/odata/{id}/TypedDataSet``)
+only for tables without a bulk CSV distribution.
 
 Fetch shape — **stateless full re-pull** (implement-prompt shape 1). CBS tables
 are revised in place (provisional → revised → definite), so we never trust a
@@ -26,9 +27,10 @@ invoked, it fetches), while ``MAINTAIN_SPECS`` at the bottom of this module owns
 manifest. That split is what lets a ~19h corpus finish inside repeated ~5h45m
 invocations; see the comment there, it is load-bearing.
 
-Raw format — **NDJSON**. Every table has its own column set (each StatLine
+Raw format — **CSV.GZ**. Every table has its own column set (each StatLine
 table is a distinct dimension/topic schema), so a single shared parquet schema
-is impossible; NDJSON re-types per table on read. One raw asset per table.
+is impossible; compressed CSV lets DuckDB infer each table independently while
+matching the source's own bulk distribution. One raw asset per table.
 
 Rows are the source's own wide ``TypedDataSet`` records, with two normalisations
 applied in the fetch fn because raw is the contract and neither fact is
@@ -41,8 +43,10 @@ recoverable downstream:
   ``WijkenEnBuurten = "GM1680"`` and nothing else.
 """
 
-import json
+import csv
+import io
 import socket
+import zipfile
 
 from constants import ENTITY_IDS
 from subsets_utils import (
@@ -60,12 +64,13 @@ from subsets_utils import (
 
 FEED_BASE = "https://opendata.cbs.nl/ODataFeed/odata"
 CATALOG_BASE = "https://opendata.cbs.nl/ODataCatalog"
+DATASETS_BASE = "https://datasets.cbs.nl/odata/v1/CBS"
 MAX_PAGES = 200_000        # safety ceiling (~2e9 rows); raises, never silent
 
 # One constant for the raw extension: the raw manifest addresses an asset by
 # (id, ext) with an EXACT string match, so a writer/skip-check drift here would
 # silently make every MaintainSpec check return False and re-crawl the corpus.
-RAW_EXT = "ndjson.gz"
+RAW_EXT = "csv.gz"
 
 # Refresh window for the maintain skip — matches maintenance.json cadence_days.
 REFRESH_DAYS = 7
@@ -161,21 +166,57 @@ def _dimension_labels(entity_id: str) -> dict[str, dict[str, str]]:
     return labels
 
 
-# ---------------------------------------------------------------------------
-# Download — one stateless full snapshot per StatLine table
-# ---------------------------------------------------------------------------
+def _csv_download_url(entity_id: str) -> tuple[str, str] | None:
+    """Return (download_url, source_identifier) for the datasets bulk CSV.
 
-def fetch_one(node_id: str) -> None:
-    """Stream a StatLine table's full TypedDataSet to one gzipped NDJSON asset.
-
-    Stateless: re-fetches from the first page every run and overwrites, so
-    in-place revisions are always picked up. Follows ``odata.nextLink`` until
-    the Feed stops paging.
+    The datasets.cbs.nl v1 catalog currently exposes Dutch distributions. For
+    English StatLine twins that are absent there, use the matching NED bulk
+    file when the identifier convention is exact (85428ENG -> 85428NED). The
+    values are the same statistical observations; the language-specific labels
+    remain a known limitation of the bulk surface.
     """
-    _force_ipv4()
-    asset = node_id
-    entity_id = _EID_BY_NODE[node_id]
+    candidates = [entity_id]
+    upper = entity_id.upper()
+    if upper.endswith("ENG"):
+        candidates.append(entity_id[:-3] + "NED")
 
+    for candidate in candidates:
+        payload = _fetch_page(
+            f"{DATASETS_BASE}/Datasets",
+            {"$format": "json", "$filter": f"Identifier eq '{candidate.upper()}'"},
+        )
+        for row in payload.get("value", []):
+            for dist in row.get("Distributions", []):
+                if str(dist.get("Format", "")).lower() == "csv" and dist.get("DownloadUrl"):
+                    return dist["DownloadUrl"], row.get("Identifier") or candidate
+    return None
+
+
+def _write_observations_csv_from_zip(node_id: str, download_url: str) -> int:
+    """Download a CBS bulk zip and save its Observations.csv as raw CSV.GZ."""
+    resp = get(download_url, timeout=(10.0, 240.0))
+    resp.raise_for_status()
+
+    with zipfile.ZipFile(io.BytesIO(resp.content)) as zf:
+        name = next((n for n in zf.namelist() if n.endswith("Observations.csv")), None)
+        if name is None:
+            raise RuntimeError(f"{node_id}: CBS bulk zip has no Observations.csv")
+
+        rows_written = 0
+        with zf.open(name) as src, raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip") as out:
+            text = io.TextIOWrapper(src, encoding="utf-8-sig", newline="")
+            reader = csv.reader(text, delimiter=";")
+            writer = csv.writer(out)
+            for row in reader:
+                writer.writerow([_strip(v) for v in row])
+                rows_written += 1
+
+    # rows_written includes the header.
+    return max(0, rows_written - 1)
+
+
+def _write_typed_dataset_csv(node_id: str, entity_id: str) -> int:
+    """Fallback path: stream the OData TypedDataSet as CSV.GZ."""
     labels = _dimension_labels(entity_id)
 
     url = f"{FEED_BASE}/{entity_id}/TypedDataSet"
@@ -183,32 +224,66 @@ def fetch_one(node_id: str) -> None:
 
     pages = 0
     rows_written = 0
-    with raw_writer(asset, RAW_EXT, mode="wt", compression="gzip") as fh:
+    fieldnames: list[str] | None = None
+    with raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip") as fh:
+        writer = None
         while url is not None:
             if pages >= MAX_PAGES:
                 raise RuntimeError(
-                    f"{asset}: exceeded MAX_PAGES={MAX_PAGES} (source grew "
-                    f"past expectations) — investigate before raising the cap"
+                    f"{node_id}: exceeded MAX_PAGES={MAX_PAGES} (source grew "
+                    f"past expectations) - investigate before raising the cap"
                 )
             payload = _fetch_page(url, params)
             params = None  # nextLink already carries $skip/$format
-            for row in payload.get("value", []):
+            rows = payload.get("value", [])
+            if rows and fieldnames is None:
+                first = {k: _strip(v) for k, v in rows[0].items() if k != ROW_ID_COLUMN}
+                for key in labels:
+                    first[f"{key}_label"] = None
+                fieldnames = list(first)
+                writer = csv.DictWriter(fh, fieldnames=fieldnames)
+                writer.writeheader()
+
+            for row in rows:
                 record = {k: _strip(v) for k, v in row.items() if k != ROW_ID_COLUMN}
                 for key, lookup in labels.items():
                     record[f"{key}_label"] = lookup.get(record.get(key))
-                fh.write(json.dumps(record, ensure_ascii=False))
-                fh.write("\n")
+                writer.writerow({k: record.get(k) for k in fieldnames})
                 rows_written += 1
             pages += 1
             url = payload.get("odata.nextLink") or payload.get("@odata.nextLink")
+    return rows_written
+
+
+# ---------------------------------------------------------------------------
+# Download — one stateless full snapshot per StatLine table
+# ---------------------------------------------------------------------------
+
+def fetch_one(node_id: str) -> None:
+    """Write a StatLine table's full observations to one gzipped CSV asset.
+
+    Stateless: re-fetches from the first page every run and overwrites, so
+    in-place revisions are always picked up.
+    """
+    _force_ipv4()
+    entity_id = _EID_BY_NODE[node_id]
+
+    bulk = _csv_download_url(entity_id)
+    if bulk is not None:
+        download_url, source_identifier = bulk
+        rows_written = _write_observations_csv_from_zip(node_id, download_url)
+        source = f"bulk csv {source_identifier}"
+    else:
+        rows_written = _write_typed_dataset_csv(node_id, entity_id)
+        source = "OData TypedDataSet fallback"
 
     if rows_written == 0:
         raise RuntimeError(
-            f"{asset}: TypedDataSet served no rows — the catalog lists this table "
+            f"{node_id}: source served no rows — the catalog lists this table "
             "as live, so an empty response is a source fault, not an empty table"
         )
 
-    print(f"  {asset}: wrote {rows_written} rows across {pages} page(s)")
+    print(f"  {node_id}: wrote {rows_written} rows from {source}")
 
 
 def fetch_themes(node_id: str) -> None:
@@ -225,12 +300,16 @@ def fetch_themes(node_id: str) -> None:
 
     rows_written = 0
     with raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip") as fh:
+        writer = None
         while url is not None:
             payload = _fetch_page(url, params)
             params = None
             for row in payload.get("value", []):
-                fh.write(json.dumps({k: _strip(v) for k, v in row.items()}, ensure_ascii=False))
-                fh.write("\n")
+                record = {k: _strip(v) for k, v in row.items()}
+                if writer is None:
+                    writer = csv.DictWriter(fh, fieldnames=list(record))
+                    writer.writeheader()
+                writer.writerow(record)
                 rows_written += 1
             url = payload.get("odata.nextLink") or payload.get("@odata.nextLink")
 

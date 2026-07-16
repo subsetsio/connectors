@@ -11,5 +11,5 @@ SELECT
     "number_of_failures",
     "number_of_cars",
     "mdbf",
-    "_12_month_average_mdbf" AS 12_month_average_mdbf
+    "_12_month_average_mdbf" AS "12_month_average_mdbf"
 FROM "mta-open-data-e2qc-xgxs"
