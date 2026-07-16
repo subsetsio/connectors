@@ -1,9 +1,8 @@
 # Entity union (accept-accepted datasets), generated from current accept asset.
-# 865 datasets. Domain taxonomy, discontinued/stale datasets, and high-volume
+# 859 datasets. Domain taxonomy, discontinued/stale datasets, and high-volume
 # full-snapshot operational firehoses deferred by accept are absent here.
 ENTITY_IDS = [
     '23fs-vfbd',
-    '23v4-2ycs',
     '26ei-n4eb',
     '27dc-dsd2',
     '28gk-bu58',
@@ -117,7 +116,6 @@ ENTITY_IDS = [
     '6fc5-5xk2',
     '6gke-uhe4',
     '6ifx-7aaq',
-    '6ivk-p4gh',
     '6k74-dgkb',
     '6kj3-ijvb',
     '6kq9-5ikh',
@@ -451,7 +449,6 @@ ENTITY_IDS = [
     'hzc5-dr9b',
     'i4jv-zkey',
     'i574-v3dp',
-    'i57x-udiw',
     'i67p-6ac2',
     'i77z-w4nh',
     'i7nm-ih89',
@@ -533,7 +530,6 @@ ENTITY_IDS = [
     'kmkz-x3aa',
     'kpkx-452i',
     'krt9-ym2k',
-    'ku8b-uzf5',
     'kvh8-m9d4',
     'kwxv-fwze',
     'kym4-b5dg',
@@ -647,12 +643,10 @@ ENTITY_IDS = [
     'qwti-3ybe',
     'qxyx-rrz9',
     'r4sv-k333',
-    'r4tg-z3mz',
     'r6db-kkzj',
     'r6tx-ax9t',
     'r7qk-6tcy',
     'r7v3-sp8n',
-    'r8tn-bjyq',
     'r9fr-48vu',
     'rb9h-9fit',
     'rbnu-dzp6',
