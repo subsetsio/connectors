@@ -1,5 +1,8 @@
 spec_id: data-gov-organizations
 status: active
+coverage:
+  frozen: true
+  reason: The created column is organization metadata, not an observation period; organization coverage is governed by catalog membership tests rather than a time-series freshness window.
 tests:
   - row_count: {min: 100}
     reason: Data.gov lists federal and non-federal publishing organizations.

@@ -11,3 +11,7 @@ tests:
     certainty: 90
   - column_type: {col: created, type: string}
     certainty: 80
+  - freshness: {col: created, reaches: today - 400d}
+    reason: Data.gov is continuously harvested; at least one resource record should have been created within the last year plus slack.
+    certainty: 85
+    points_outward: true

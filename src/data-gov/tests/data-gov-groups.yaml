@@ -1,5 +1,8 @@
 spec_id: data-gov-groups
 status: active
+coverage:
+  frozen: true
+  reason: The created column is group metadata, not an observation period; the topical taxonomy is a small reference list rather than a recurring time series.
 tests:
   - row_count: {min: 5}
     reason: Data.gov exposes a small fixed set of topical groups.
