@@ -7,6 +7,8 @@ from html import unescape
 from pathlib import Path
 from urllib.parse import urljoin
 
+import pandas as pd
+
 from constants import ENTITY_IDS, PACKAGE_INDEX_SHA256
 from subsets_utils import NodeSpec, get, post, save_raw_ndjson
 
@@ -84,6 +86,59 @@ def _csv_rows(text: str) -> list[dict]:
     return parsed
 
 
+def _json_cell(value):
+    if pd.isna(value):
+        return None
+    if hasattr(value, "isoformat"):
+        return value.isoformat()
+    if hasattr(value, "item"):
+        return value.item()
+    return value
+
+
+def _excel_records(package: dict, resource: dict, url: str, content: bytes) -> list[dict]:
+    fmt = _resource_format(resource)
+    engine = "xlrd" if fmt == "XLS" else "openpyxl"
+    workbook = pd.read_excel(
+        io.BytesIO(content),
+        sheet_name=None,
+        header=None,
+        dtype=object,
+        engine=engine,
+    )
+    records = []
+    row_number = 1
+    for sheet_name, frame in workbook.items():
+        frame = frame.dropna(how="all").dropna(how="all", axis=1)
+        if frame.empty:
+            continue
+        for _, row in frame.iterrows():
+            values = {
+                f"column_{index + 1}": _json_cell(value)
+                for index, value in enumerate(row.tolist())
+                if not pd.isna(value)
+            }
+            if not values:
+                continue
+            records.append(
+                {
+                    "entity_id": package.get("name"),
+                    "package_id": package.get("id"),
+                    "package_name": package.get("name"),
+                    "package_title": package.get("title"),
+                    "resource_id": resource.get("id"),
+                    "resource_name": resource.get("name"),
+                    "resource_position": resource.get("position"),
+                    "resource_url_basename": re.sub(r"[^A-Za-z0-9_.-]+", "_", url.rsplit("/", 1)[-1]),
+                    "sheet_name": str(sheet_name),
+                    "row_number": row_number,
+                    "values": values,
+                }
+            )
+            row_number += 1
+    return records
+
+
 def _resource_format(resource: dict) -> str:
     return str(resource.get("format") or "").strip().upper()
 
@@ -114,13 +169,22 @@ def _zip_records(package: dict, resource: dict, url: str, content: bytes) -> lis
     records = []
     with zipfile.ZipFile(io.BytesIO(content)) as archive:
         for member in sorted(archive.namelist()):
-            if member.endswith("/") or not member.lower().endswith(".csv"):
+            if member.endswith("/"):
                 continue
             member_url = f"{url}#{member}"
             with archive.open(member) as file:
-                for record in _csv_records(package, resource, member_url, file.read()):
-                    record["archive_member"] = member
-                    records.append(record)
+                member_content = file.read()
+            if member.lower().endswith(".csv"):
+                member_records = _csv_records(package, resource, member_url, member_content)
+            elif member.lower().endswith((".xls", ".xlsx")):
+                member_resource = dict(resource)
+                member_resource["format"] = "XLSX" if member.lower().endswith(".xlsx") else "XLS"
+                member_records = _excel_records(package, member_resource, member_url, member_content)
+            else:
+                continue
+            for record in member_records:
+                record["archive_member"] = member
+                records.append(record)
     return records
 
 
@@ -196,10 +260,10 @@ def fetch_one(node_id: str) -> None:
     resources = [
         resource
         for resource in package.get("resources", [])
-        if _resource_format(resource) in {"CSV", "ZIP"} and resource.get("url")
+        if _resource_format(resource) in {"CSV", "ZIP", "XLS", "XLSX"} and resource.get("url")
     ]
     if not resources:
-        raise ValueError(f"{entity_id}: package has no CSV or ZIP resources")
+        raise ValueError(f"{entity_id}: package has no CSV, ZIP, XLS, or XLSX resources")
 
     records = []
     errors = []
@@ -212,8 +276,11 @@ def fetch_one(node_id: str) -> None:
             errors.append(f"{url}: {exc}")
             continue
 
-        if _resource_format(resource) == "ZIP":
+        fmt = _resource_format(resource)
+        if fmt == "ZIP":
             records.extend(_zip_records(package, resource, url, resource_resp.content))
+        elif fmt in {"XLS", "XLSX"}:
+            records.extend(_excel_records(package, resource, url, resource_resp.content))
         else:
             records.extend(_csv_records(package, resource, url, resource_resp.content))
 
