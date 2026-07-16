@@ -2,8 +2,8 @@
 # of raw asset `usgs-latest-field-measurements`. Regenerate after model-verify.
 # caution: This table is a latest-field-measurement snapshot; include last_modified when distinguishing revised rows.
 key: [last_modified, id]
-temporal: time
-sort: [time, last_modified, id]
+temporal: last_modified
+sort: [last_modified, id]
 columns:
   - name: field_measurements_series_id
     type: UUID
