@@ -63,13 +63,17 @@ here. The transform re-types the value column to DOUBLE.
 """
 
 import json
+import os
+import time
 from datetime import datetime, timezone
 
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
+    delete_raw_file,
     get,
     get_client,
+    list_raw_fragments,
     raw_asset_exists,
     raw_manifest,
     transient_retry,
@@ -89,6 +93,15 @@ TARGET_ROWS = 200_000
 MAX_PERIODS_PER_CHUNK = 2_000
 # Max recursive bisections in the reactive splitter before giving up.
 MAX_SPLIT_DEPTH = 32
+# Long StatBank securities tables can exceed one GitHub leg. Commit period
+# fragments and checkpoint well before the runner deadline so the next leg
+# resumes from the manifest instead of re-streaming the same data.
+NODE_BUDGET_S = 1_200
+COMPLETE_FRAGMENT = "_complete"
+
+
+class PartialFetchError(RuntimeError):
+    """A streamed response failed after rows were emitted to the current file."""
 
 
 def _table_id(node_id: str) -> str:
@@ -119,29 +132,36 @@ def _column_keys(header: str, time_codes: set) -> list:
     return keys
 
 
-@transient_retry()
-def _fetch_slice(body: dict, time_codes: set) -> list:
-    """Fetch one slice as a list of record dicts. Bounded by TARGET_ROWS, so it
-    fits comfortably in memory; retried cleanly as a whole on transient errors
-    (no partial writes leak — the caller writes only on success)."""
-    rows = []
-    with get_client().stream("POST", f"{API}/data", json=body, timeout=(10.0, 600.0)) as resp:
-        resp.raise_for_status()
-        lines = resp.iter_lines()
-        header = next(lines, None)
-        if header is None:
-            return rows
-        keys = _column_keys(header, time_codes)
-        ncols = len(keys)
-        for line in lines:
-            if not line:
-                continue
-            parts = line.split(";")
-            if len(parts) != ncols:
-                # Defensive: a stray embedded ';' would desync the row; skip it
-                # rather than silently mis-key columns.
-                continue
-            rows.append({keys[i]: parts[i] for i in range(ncols)})
+def _fetch_slice(body: dict, time_codes: set, emit) -> int:
+    """Fetch one slice and stream parsed records to `emit`.
+
+    The caller writes each committed slice as a raw fragment, so a failed slice
+    leaks no partial data and successful slices stay bounded in memory.
+    """
+    rows = 0
+    try:
+        with get_client().stream("POST", f"{API}/data", json=body, timeout=(10.0, 600.0)) as resp:
+            resp.raise_for_status()
+            lines = resp.iter_lines()
+            header = next(lines, None)
+            if header is None:
+                return rows
+            keys = _column_keys(header, time_codes)
+            ncols = len(keys)
+            for line in lines:
+                if not line:
+                    continue
+                parts = line.split(";")
+                if len(parts) != ncols:
+                    # Defensive: a stray embedded ';' would desync the row; skip it
+                    # rather than silently mis-key columns.
+                    continue
+                emit({keys[i]: parts[i] for i in range(ncols)})
+                rows += 1
+    except Exception as exc:
+        if rows:
+            raise PartialFetchError(f"stream failed after {rows} emitted row(s)") from exc
+        raise
     return rows
 
 
@@ -173,7 +193,9 @@ def _emit_box(
     progress no matter how wrong the up-front size estimate was."""
     body = {"table": table_id, "lang": "en", "format": "BULK", "variables": var_specs}
     try:
-        rows = _fetch_slice(body, time_codes)
+        rows = _fetch_slice(body, time_codes, emit)
+    except PartialFetchError:
+        raise
     except Exception:
         var_specs = _expanded_specs(var_specs, values_by_code)
         widest = max(range(len(var_specs)), key=lambda i: len(var_specs[i]["values"]))
@@ -186,7 +208,44 @@ def _emit_box(
             sub[widest] = {"code": var_specs[widest]["code"], "values": half}
             _emit_box(table_id, sub, time_codes, emit, depth + 1, values_by_code)
         return
-    emit(rows)
+    return rows
+
+
+def _fragment_name(periods: list[str]) -> str:
+    if len(periods) == 1:
+        return periods[0]
+    return f"{periods[0]}--{periods[-1]}"
+
+
+def _write_fragment(asset: str, fragment: str, fetch) -> int:
+    written = 0
+    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip", fragment=fragment) as f:
+        def emit(rec):
+            nonlocal written
+            f.write(json.dumps(rec, separators=(",", ":")))
+            f.write("\n")
+            written += 1
+
+        fetch(emit)
+    return written
+
+
+def _current_run_fragments(asset: str) -> set[str]:
+    run_id = os.environ.get("RUN_ID", "unknown")
+    return {
+        frag
+        for frag, meta in list_raw_fragments(asset, "ndjson.gz").items()
+        if meta.get("run_id") == run_id
+    }
+
+
+def _start_fragment_run(asset: str, done: set[str]) -> None:
+    # A fresh run must replace any previous full or fragmented extract. During
+    # continuation legs, current-run fragments are present and must be kept.
+    if done:
+        return
+    if list_raw_fragments(asset, "ndjson.gz"):
+        delete_raw_file(asset, "ndjson.gz")
 
 
 def fetch_one(node_id: str) -> None:
@@ -209,49 +268,73 @@ def fetch_one(node_id: str) -> None:
         for v in variables if not v.get("time")
     ]
 
-    written = 0
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
-        def emit(rows):
-            nonlocal written
-            for rec in rows:
+    if time_var is None:
+        written = 0
+        with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
+            def emit(rec):
+                nonlocal written
                 f.write(json.dumps(rec, separators=(",", ":")))
                 f.write("\n")
                 written += 1
 
-        if time_var is None:
-            # No time dimension: a single full extract (these are small).
             _emit_box(table_id, nt_specs, time_codes, emit, values_by_code=values_by_code)
+    else:
+        done = _current_run_fragments(asset)
+        if COMPLETE_FRAGMENT in done:
+            return False
+        _start_fragment_run(asset, done)
+
+        time_code = time_var["id"]
+        periods = [val["id"] for val in time_var["values"]]
+
+        t0 = time.monotonic()
+        written = 0
+
+        # Probe the most-recent period unless a continuation leg already wrote
+        # it. The probe is itself the period fragment; no duplicate request.
+        recent = periods[-1]
+        if recent not in done:
+            written += _write_fragment(
+                asset,
+                recent,
+                lambda emit: _emit_box(
+                    table_id,
+                    nt_specs + [{"code": time_code, "values": [recent]}],
+                    time_codes,
+                    emit,
+                    values_by_code=values_by_code,
+                ),
+            )
+            done.add(recent)
+        rows_recent = max(1, written) if written else TARGET_ROWS + 1
+
+        remaining = periods[:-1]
+        if rows_recent <= TARGET_ROWS:
+            per_chunk = min(MAX_PERIODS_PER_CHUNK, max(1, TARGET_ROWS // rows_recent))
+            chunks = [remaining[i:i + per_chunk] for i in range(0, len(remaining), per_chunk)]
         else:
-            time_code = time_var["id"]
-            periods = [val["id"] for val in time_var["values"]]
+            chunks = [[p] for p in remaining]
 
-            # Probe the most-recent (largest) period to learn actual rows/period.
-            recent = periods[-1]
-            before = written
-            _emit_box(table_id, nt_specs + [{"code": time_code, "values": [recent]}],
-                      time_codes, emit, values_by_code=values_by_code)
-            rows_recent = max(1, written - before)
-            remaining = periods[:-1]
-
-            if rows_recent <= TARGET_ROWS:
-                # Small enough to pack several periods into one request.
-                per_chunk = min(MAX_PERIODS_PER_CHUNK, max(1, TARGET_ROWS // rows_recent))
-                for i in range(0, len(remaining), per_chunk):
-                    chunk = remaining[i:i + per_chunk]
-                    _emit_box(table_id, nt_specs + [{"code": time_code, "values": chunk}],
-                              time_codes, emit, values_by_code=values_by_code)
-            else:
-                # A single period already exceeds the target: pull one period at
-                # a time. Keep the sparse wildcard fast path; if a period still
-                # drops, _emit_box expands to explicit values and bisects.
-                for p in remaining:
-                    _emit_box(
+        for chunk in reversed(chunks):  # newest first for useful partial progress
+            fragment = _fragment_name(chunk)
+            if fragment in done:
+                continue
+            written += _write_fragment(
+                asset,
+                fragment,
+                lambda emit, chunk=chunk: _emit_box(
                         table_id,
-                        nt_specs + [{"code": time_code, "values": [p]}],
+                        nt_specs + [{"code": time_code, "values": chunk}],
                         time_codes,
                         emit,
                         values_by_code=values_by_code,
-                    )
+                ),
+            )
+            done.add(fragment)
+            if time.monotonic() - t0 > NODE_BUDGET_S:
+                return True
+
+        _write_fragment(asset, COMPLETE_FRAGMENT, lambda emit: None)
 
     if written == 0:
         # An active table that yields no rows means the BULK contract changed.
@@ -288,6 +371,9 @@ def _raw_is_current(asset_id: str) -> bool:
         return False
     entry = raw_manifest.asset_entry(asset_id, "ndjson.gz")
     if entry is None:
+        return False
+    fragments = entry.get("fragments") or {}
+    if "full" not in fragments and COMPLETE_FRAGMENT not in fragments:
         return False
     fetched = raw_manifest.newest_fetched_at(entry)
     # Unknown fetch time — refetch rather than trust a pre-fix extract.
