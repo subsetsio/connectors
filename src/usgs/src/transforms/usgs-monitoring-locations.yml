@@ -1,0 +1,96 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-monitoring-locations`. Regenerate after model-verify.
+key: [id]
+temporal: revision_created
+sort: [revision_created, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: agency_code
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: monitoring_location_number
+    type: VARCHAR
+  - name: monitoring_location_name
+    type: VARCHAR
+  - name: district_code
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: minor_civil_division_code
+    type: VARCHAR
+  - name: site_type_code
+    type: VARCHAR
+  - name: site_type
+    type: VARCHAR
+  - name: hydrologic_unit_code
+    type: VARCHAR
+  - name: basin_code
+    type: VARCHAR
+  - name: altitude
+    type: DOUBLE
+  - name: altitude_accuracy
+    type: DOUBLE
+  - name: altitude_method_code
+    type: VARCHAR
+  - name: altitude_method_name
+    type: VARCHAR
+  - name: vertical_datum
+    type: VARCHAR
+  - name: vertical_datum_name
+    type: VARCHAR
+  - name: horizontal_positional_accuracy_code
+    type: VARCHAR
+  - name: horizontal_positional_accuracy
+    type: VARCHAR
+  - name: horizontal_position_method_code
+    type: VARCHAR
+  - name: horizontal_position_method_name
+    type: VARCHAR
+  - name: original_horizontal_datum
+    type: VARCHAR
+  - name: original_horizontal_datum_name
+    type: VARCHAR
+  - name: drainage_area
+    type: DOUBLE
+  - name: contributing_drainage_area
+    type: DOUBLE
+  - name: time_zone_abbreviation
+    type: VARCHAR
+  - name: uses_daylight_savings
+    type: VARCHAR
+  - name: construction_date
+    type: VARCHAR
+  - name: aquifer_code
+    type: VARCHAR
+  - name: national_aquifer_code
+    type: VARCHAR
+  - name: aquifer_type_code
+    type: VARCHAR
+  - name: well_constructed_depth
+    type: DOUBLE
+  - name: hole_constructed_depth
+    type: DOUBLE
+  - name: depth_source_code
+    type: VARCHAR
+  - name: revision_note
+    type: VARCHAR
+  - name: revision_created
+    type: TIMESTAMP
+  - name: revision_modified
+    type: TIMESTAMP
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE

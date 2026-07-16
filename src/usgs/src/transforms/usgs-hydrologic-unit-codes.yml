@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-hydrologic-unit-codes`. Regenerate after model-verify.
+key: [id, hydrologic_unit_name, hydrologic_unit_classification_code]
+sort: [id, hydrologic_unit_name, hydrologic_unit_classification_code]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: hydrologic_unit_name
+    type: VARCHAR
+  - name: hydrologic_unit_classification_code
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

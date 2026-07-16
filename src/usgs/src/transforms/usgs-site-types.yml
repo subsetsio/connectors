@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-site-types`. Regenerate after model-verify.
+key: [site_type_name]
+sort: [site_type_name]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: site_type_primary_flag
+    type: VARCHAR
+  - name: site_type_name
+    type: VARCHAR
+  - name: site_type_description
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

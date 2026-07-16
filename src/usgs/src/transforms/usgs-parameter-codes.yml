@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-parameter-codes`. Regenerate after model-verify.
+key: [parameter_description, id, parameter_name, unit_of_measure, parameter_group_code]
+sort: [parameter_description, id, parameter_name, unit_of_measure, parameter_group_code]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: parameter_name
+    type: VARCHAR
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: parameter_group_code
+    type: VARCHAR
+  - name: parameter_description
+    type: VARCHAR
+  - name: medium
+    type: VARCHAR
+  - name: statistical_basis
+    type: VARCHAR
+  - name: time_basis
+    type: VARCHAR
+  - name: weight_basis
+    type: VARCHAR
+  - name: particle_size_basis
+    type: VARCHAR
+  - name: sample_fraction
+    type: VARCHAR
+  - name: temperature_basis
+    type: VARCHAR
+  - name: epa_equivalence
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

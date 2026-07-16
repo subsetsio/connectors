@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-statistic-codes`. Regenerate after model-verify.
+key: [statistic_description, id, statistic_name]
+sort: [statistic_description, id, statistic_name]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: statistic_name
+    type: VARCHAR
+  - name: statistic_description
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-field-measurements`. Regenerate after model-verify.
+key: [id]
+temporal: time
+sort: [time, id]
+columns:
+  - name: field_measurements_series_id
+    type: UUID
+  - name: reading_type
+    type: VARCHAR
+  - name: field_visit_id
+    type: UUID
+  - name: parameter_code
+    type: VARCHAR
+  - name: monitoring_location_id
+    type: VARCHAR
+  - name: observing_procedure_code
+    type: VARCHAR
+  - name: observing_procedure
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: time
+    type: TIMESTAMP
+  - name: qualifier
+    type: VARCHAR
+  - name: vertical_datum
+    type: VARCHAR
+  - name: approval_status
+    type: VARCHAR
+  - name: measuring_agency
+    type: VARCHAR
+  - name: last_modified
+    type: TIMESTAMP
+  - name: control_condition
+    type: VARCHAR
+  - name: measurement_rated
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: time_of_day
+    type: VARCHAR
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: id
+    type: UUID

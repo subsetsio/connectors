@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-channel-measurements`. Regenerate after model-verify.
+key: [id]
+temporal: time
+sort: [time, id]
+columns:
+  - name: id
+    type: UUID
+  - name: monitoring_location_id
+    type: VARCHAR
+  - name: field_visit_id
+    type: UUID
+  - name: measurement_number
+    type: VARCHAR
+  - name: time
+    type: TIMESTAMP
+  - name: channel_name
+    type: VARCHAR
+  - name: channel_flow
+    type: DOUBLE
+  - name: channel_flow_unit
+    type: VARCHAR
+  - name: channel_width
+    type: VARCHAR
+  - name: channel_width_unit
+    type: VARCHAR
+  - name: channel_area
+    type: VARCHAR
+  - name: channel_area_unit
+    type: VARCHAR
+  - name: channel_velocity
+    type: VARCHAR
+  - name: channel_velocity_unit
+    type: VARCHAR
+  - name: channel_location_distance
+    type: VARCHAR
+  - name: channel_location_distance_unit
+    type: VARCHAR
+  - name: channel_stability
+    type: VARCHAR
+  - name: channel_material
+    type: VARCHAR
+  - name: channel_evenness
+    type: VARCHAR
+  - name: horizontal_velocity_description
+    type: VARCHAR
+  - name: vertical_velocity_description
+    type: VARCHAR
+  - name: longitudinal_velocity_description
+    type: VARCHAR
+  - name: measurement_type
+    type: VARCHAR
+  - name: last_modified
+    type: TIMESTAMP
+  - name: channel_measurement_type
+    type: VARCHAR
+  - name: channel_location_direction
+    type: VARCHAR
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE

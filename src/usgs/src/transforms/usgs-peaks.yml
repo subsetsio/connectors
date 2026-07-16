@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-peaks`. Regenerate after model-verify.
+# caution: Peak rows are versioned by last_modified; include it when distinguishing revised peak records.
+key: [last_modified, id]
+temporal: last_modified
+sort: [last_modified, id]
+columns:
+  - name: time_series_id
+    type: VARCHAR
+  - name: monitoring_location_id
+    type: VARCHAR
+  - name: parameter_code
+    type: VARCHAR
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: last_modified
+    type: TIMESTAMP
+  - name: time
+    type: DATE
+  - name: water_year
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: time_of_day
+    type: VARCHAR
+  - name: peak_since
+    type: BIGINT
+  - name: qualifier
+    type: VARCHAR
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: id
+    type: UUID

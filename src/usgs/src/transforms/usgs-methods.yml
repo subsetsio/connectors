@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-methods`. Regenerate after model-verify.
+key: [id, method_name, method_type, method_category]
+sort: [id, method_name, method_type, method_category]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: method_type
+    type: VARCHAR
+  - name: method_category
+    type: VARCHAR
+  - name: method_name
+    type: VARCHAR
+  - name: method_description
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

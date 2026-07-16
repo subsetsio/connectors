@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-counties`. Regenerate after model-verify.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: state_fips_code
+    type: VARCHAR
+  - name: county_fips_code
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

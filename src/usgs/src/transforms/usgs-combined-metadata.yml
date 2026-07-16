@@ -1,0 +1,127 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-combined-metadata`. Regenerate after model-verify.
+# caution: A site identifier can appear in multiple versions; include last_modified when selecting the current or historical metadata state.
+key: [last_modified, id]
+temporal: last_modified
+sort: [last_modified, id]
+columns:
+  - name: monitoring_location_id
+    type: VARCHAR
+  - name: agency_code
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: monitoring_location_number
+    type: VARCHAR
+  - name: monitoring_location_name
+    type: VARCHAR
+  - name: district_code
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: minor_civil_division_code
+    type: VARCHAR
+  - name: site_type_code
+    type: VARCHAR
+  - name: site_type
+    type: VARCHAR
+  - name: hydrologic_unit_code
+    type: VARCHAR
+  - name: basin_code
+    type: VARCHAR
+  - name: altitude
+    type: DOUBLE
+  - name: altitude_accuracy
+    type: DOUBLE
+  - name: altitude_method_code
+    type: VARCHAR
+  - name: altitude_method_name
+    type: VARCHAR
+  - name: vertical_datum
+    type: VARCHAR
+  - name: vertical_datum_name
+    type: VARCHAR
+  - name: horizontal_positional_accuracy_code
+    type: VARCHAR
+  - name: horizontal_positional_accuracy
+    type: VARCHAR
+  - name: horizontal_position_method_code
+    type: VARCHAR
+  - name: horizontal_position_method_name
+    type: VARCHAR
+  - name: original_horizontal_datum
+    type: VARCHAR
+  - name: original_horizontal_datum_name
+    type: VARCHAR
+  - name: drainage_area
+    type: DOUBLE
+  - name: contributing_drainage_area
+    type: DOUBLE
+  - name: time_zone_abbreviation
+    type: VARCHAR
+  - name: uses_daylight_savings
+    type: VARCHAR
+  - name: construction_date
+    type: VARCHAR
+  - name: aquifer_code
+    type: VARCHAR
+  - name: national_aquifer_code
+    type: VARCHAR
+  - name: aquifer_type_code
+    type: VARCHAR
+  - name: well_constructed_depth
+    type: DOUBLE
+  - name: hole_constructed_depth
+    type: DOUBLE
+  - name: depth_source_code
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: parameter_name
+    type: VARCHAR
+  - name: parameter_code
+    type: VARCHAR
+  - name: statistic_id
+    type: VARCHAR
+  - name: last_modified
+    type: TIMESTAMP
+  - name: begin
+    type: TIMESTAMP
+  - name: end
+    type: TIMESTAMP
+  - name: data_type
+    type: VARCHAR
+  - name: computation_identifier
+    type: VARCHAR
+  - name: thresholds
+    type: VARCHAR
+  - name: sublocation_identifier
+    type: VARCHAR
+  - name: primary
+    type: VARCHAR
+  - name: web_description
+    type: VARCHAR
+  - name: parameter_description
+    type: VARCHAR
+  - name: parent_time_series_id
+    type: VARCHAR
+  - name: data_gap_interval
+    type: VARCHAR
+  - name: reading_type
+    type: VARCHAR
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE

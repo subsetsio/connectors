@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-medium-codes`. Regenerate after model-verify.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: medium_name
+    type: VARCHAR
+  - name: medium_description
+    type: VARCHAR
+  - name: legacy_medium_code
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

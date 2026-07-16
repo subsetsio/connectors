@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-field-measurements-metadata`. Regenerate after model-verify.
+# caution: A field measurement series identifier can appear in multiple metadata versions; include last_modified when selecting the current or historical metadata state.
+key: [last_modified, id]
+temporal: last_modified
+sort: [last_modified, id]
+columns:
+  - name: id
+    type: UUID
+  - name: reading_type
+    type: VARCHAR
+  - name: monitoring_location_id
+    type: VARCHAR
+  - name: parameter_code
+    type: VARCHAR
+  - name: parameter_name
+    type: VARCHAR
+  - name: parameter_description
+    type: VARCHAR
+  - name: begin
+    type: TIMESTAMP
+  - name: end
+    type: TIMESTAMP
+  - name: last_modified
+    type: TIMESTAMP
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE

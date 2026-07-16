@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-latest-daily`. Regenerate after model-verify.
+# caution: This table is a latest-value snapshot, not a complete daily history.
+key: [id]
+temporal: time
+sort: [time, id]
+columns:
+  - name: time_series_id
+    type: VARCHAR
+  - name: monitoring_location_id
+    type: VARCHAR
+  - name: parameter_code
+    type: VARCHAR
+  - name: statistic_id
+    type: VARCHAR
+  - name: time
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: approval_status
+    type: VARCHAR
+  - name: qualifier
+    type: VARCHAR
+  - name: last_modified
+    type: TIMESTAMP
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: id
+    type: UUID

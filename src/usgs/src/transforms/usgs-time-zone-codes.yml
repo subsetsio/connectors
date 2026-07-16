@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-time-zone-codes`. Regenerate after model-verify.
+key: [time_zone_name, id, time_zone_description, time_zone_utc_offset]
+sort: [time_zone_name, id, time_zone_description, time_zone_utc_offset]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: time_zone_name
+    type: VARCHAR
+  - name: time_zone_description
+    type: VARCHAR
+  - name: time_zone_utc_offset
+    type: VARCHAR
+  - name: time_zone_daylight_savings_time_code
+    type: VARCHAR
+  - name: time_zone_daylight_savings_time_name
+    type: VARCHAR
+  - name: time_zone_daylight_savings_utc_offset
+    type: VARCHAR
+  - name: lon
+    type: JSON
+  - name: lat
+    type: JSON

@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `usgs-earthquakes`. Regenerate after model-verify.
+key: [id]
+temporal: time
+sort: [time, id]
+columns:
+  - name: time
+    type: TIMESTAMP
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: depth
+    type: VARCHAR
+  - name: mag
+    type: VARCHAR
+  - name: magtype
+    type: VARCHAR
+  - name: nst
+    type: VARCHAR
+  - name: gap
+    type: VARCHAR
+  - name: dmin
+    type: VARCHAR
+  - name: rms
+    type: VARCHAR
+  - name: net
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: updated
+    type: TIMESTAMP
+  - name: place
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: horizontalerror
+    type: VARCHAR
+  - name: deptherror
+    type: VARCHAR
+  - name: magerror
+    type: VARCHAR
+  - name: magnst
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: locationsource
+    type: VARCHAR
+  - name: magsource
+    type: VARCHAR
