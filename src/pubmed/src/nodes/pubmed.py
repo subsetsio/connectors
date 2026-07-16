@@ -37,16 +37,16 @@ STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 
-# Files fetched per node invocation. The last 100-file cloud leg took long
-# enough that the supervisor deadline interrupted it before the continuation
-# result was collected. Keep each leg comfortably shorter and let main.py raise
-# this connector's chain cap for the annual full-baseline backfill.
-FILES_PER_RUN = 60
+# Files fetched per node invocation. PubMed's largest baseline shards can make a
+# 60-file leg run past the supervisor deadline before the continuation result is
+# collected. Keep legs short and let main.py raise this connector's chain cap
+# for the annual full-baseline backfill.
+FILES_PER_RUN = 30
 
 # Additional wall-clock cap for one child process. Runtime continuation still
 # owns the overall job budget; this just commits raw fragments regularly even
 # when a few large XML files parse slowly.
-MAX_NODE_SECONDS = 210 * 60
+MAX_NODE_SECONDS = 120 * 60
 
 # Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value set in
 # src/main.py. The node uses the parent process age to avoid starting a new
@@ -55,10 +55,10 @@ DEFAULT_TIME_BUDGET_S = 18_000.0
 
 # Do not begin another gzipped XML file unless the parent DAG has this much
 # budget left. A large PubMed baseline file can take tens of minutes to fetch,
-# decompress, parse, and write; starting one at the end of the DAG budget causes
-# the watchdog to kill the child and leaves the run pending instead of cleanly
-# continuing.
-MIN_PARENT_REMAINING_S = 90 * 60
+# decompress, parse, upload, and commit; starting one at the end of the DAG
+# budget causes the watchdog to kill the child and leaves the run pending
+# instead of cleanly continuing.
+MIN_PARENT_REMAINING_S = 180 * 60
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
