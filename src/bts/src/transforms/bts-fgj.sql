@@ -113,7 +113,6 @@ SELECT
     "Div5LongestGTime" AS div5longestgtime,
     "Div5WheelsOff" AS div5wheelsoff,
     "Div5TailNum" AS div5tailnum,
-    "C109" AS c109,
     "obs_date",
     "obs_year",
     "obs_period"

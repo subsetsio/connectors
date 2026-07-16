@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `bts-fll`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [airport_seq_id, longitude, latitude, display_airport_name, airport_id]
+checks:
+  - kind: unique
+    columns: [airport_seq_id, longitude, latitude, display_airport_name, airport_id]
+  - kind: not_null
+    col: airport_seq_id
+  - kind: not_null
+    col: longitude
+  - kind: not_null
+    col: latitude
+  - kind: not_null
+    col: display_airport_name
+  - kind: not_null
+    col: airport_id
+  - kind: row_floor
+    min: 10133
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

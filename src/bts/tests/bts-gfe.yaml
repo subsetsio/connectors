@@ -2,7 +2,7 @@ spec_id: bts-gfe
 status: active
 coverage:
   frozen: true
-  reason: TranStats stopped publishing this table after 2021; the year selector ends at 2021 and the corpus does not advance, so there is no freshness to assert
+  reason: TranStats stopped publishing this table after 2022; the year selector ends at 2022 and the corpus does not advance, so there is no freshness to assert
 tests:
   - row_count: {min: 1}
     reason: every fetched period writes at least one record; an empty raw asset means the download surface broke or the table code is wrong
@@ -16,6 +16,6 @@ tests:
   - column_type: {col: obs_year, type: integer}
     reason: obs_year is injected as a Python int and serialized as a JSON number
     certainty: 95
-  - between: {col: obs_year, lo: 2011, hi: 2021}
-    reason: the DL_SelectFields year selector for this table spans 2011..2021
+  - between: {col: obs_year, lo: 2011, hi: 2022}
+    reason: the DL_SelectFields year selector for this table spans 2011..2022
     certainty: 88
