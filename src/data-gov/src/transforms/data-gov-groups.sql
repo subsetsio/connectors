@@ -1,5 +1,5 @@
 SELECT
-    id,
+    CAST(id AS VARCHAR) AS id,
     name,
     title,
     display_name,
