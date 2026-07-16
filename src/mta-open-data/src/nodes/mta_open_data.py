@@ -108,19 +108,20 @@ def _stream_export_parquet(resource_id: str, asset: str) -> None:
 
         csv_path = str(Path(csv_tmp.name))
         parquet_path = str(Path(parquet_tmp.name))
-        duckdb.sql(
+        parquet_sql = parquet_path.replace("'", "''")
+        duckdb.execute(
             "COPY (SELECT * FROM read_csv_auto(?, sample_size=-1)) "
-            "TO ? (FORMAT PARQUET, COMPRESSION ZSTD)",
-            params=[csv_path, parquet_path],
+            f"TO '{parquet_sql}' (FORMAT PARQUET, COMPRESSION ZSTD)",
+            [csv_path],
         )
 
-        parquet_tmp.seek(0)
         with raw_writer(asset, extension="parquet", mode="wb") as out:
-            while True:
-                chunk = parquet_tmp.read(CHUNK)
-                if not chunk:
-                    break
-                out.write(chunk)
+            with Path(parquet_tmp.name).open("rb") as parquet_in:
+                while True:
+                    chunk = parquet_in.read(CHUNK)
+                    if not chunk:
+                        break
+                    out.write(chunk)
 
 
 def fetch_one(node_id: str) -> None:
