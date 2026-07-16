@@ -1,7 +1,10 @@
 # provisional fixed-schema pass-through; regenerate after model-verify with hardened compile-transforms
 key: []
 write_mode: overwrite
-sort: [package_id, resource_id, member_path, sheet_name, source_row_number]
+# sort omitted: this package's raw is 22.4 GB uncompressed. ORDER BY makes
+# DuckDB materialize the whole result (measured: 26.7 GB spilled for emxjy at a
+# 12.8 GB memory_limit), which exhausts the GitHub runner's disk and kills the VM
+# outright -- 'runner lost communication', no run record. Unsorted, the node streams.
 columns:
   - name: package_id
     type: VARCHAR
