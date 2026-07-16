@@ -356,7 +356,6 @@ ENTITY_IDS = [
     'e6z5-r6zp',
     'e7ig-ybbx',
     'e8ky-4vqe',
-    'e9ss-239a',
     'ebua-hcfg',
     'eda3-in2f',
     'ehig-g5x3',
