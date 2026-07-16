@@ -118,6 +118,7 @@ REFERENCE_ENTITY_IDS = {
 
 EQ_SOURCE_MIN = "1900-01-01T00:00:00Z"
 EQ_PAGE_LIMIT = 20_000
+EQ_INITIAL_WINDOW_DAYS = 366
 
 
 def _stringify(value) -> str | None:
@@ -128,6 +129,12 @@ def _stringify(value) -> str | None:
     if isinstance(value, (list, dict)):
         return json.dumps(value, separators=(",", ":"))
     return str(value)
+
+
+def _format_z(dt: datetime) -> str:
+    return dt.astimezone(timezone.utc).replace(microsecond=0).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
 
 
 def _feature_row(feature: dict) -> dict:
@@ -154,9 +161,9 @@ def fetch_water(node_id: str) -> None:
 
     window = WINDOW_DAYS.get(collection)
     if window is not None:
-        now = datetime.now(tz=timezone.utc)
+        now = datetime.now(tz=timezone.utc).replace(microsecond=0)
         start = now - timedelta(days=window)
-        params["datetime"] = f"{start.isoformat()}/{now.isoformat()}"
+        params["datetime"] = f"{_format_z(start)}/{_format_z(now)}"
 
     url = f"{WATER_BASE}/collections/{collection}/items"
     pages = 0
@@ -222,54 +229,114 @@ def fetch_fdsn_list(node_id: str) -> None:
     print(f"  {asset}: {len(rows)} rows")
 
 
+def _parse_z(value: str) -> datetime:
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def _count_earthquakes(start: datetime, end: datetime) -> int:
+    text = get_text(
+        f"{FDSN_BASE}/count",
+        {
+            "format": "text",
+            "starttime": _format_z(start),
+            "endtime": _format_z(end),
+        },
+    ).strip()
+    return int(text or "0")
+
+
+def _earthquake_windows(start: datetime, end: datetime):
+    stack = [(start, end)]
+    while stack:
+        window_start, window_end = stack.pop()
+        if window_start >= window_end:
+            continue
+        count = _count_earthquakes(window_start, window_end)
+        if count == 0:
+            continue
+        if count <= EQ_PAGE_LIMIT:
+            yield window_start, window_end, count
+            continue
+        midpoint = window_start + (window_end - window_start) / 2
+        if midpoint <= window_start or midpoint >= window_end:
+            raise RuntimeError(
+                "usgs-earthquakes: cannot split dense FDSN window "
+                f"{_format_z(window_start)}/{_format_z(window_end)} "
+                f"with {count} events"
+            )
+        stack.append((midpoint, window_end))
+        stack.append((window_start, midpoint))
+
+
 def fetch_earthquakes(node_id: str) -> None:
     asset = node_id
-    watermark = EQ_SOURCE_MIN
     pages = 0
     total = 0
     url = f"{FDSN_BASE}/query"
+    cursor = _parse_z(EQ_SOURCE_MIN)
+    stop = datetime.now(tz=timezone.utc).replace(microsecond=0)
 
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
-        while True:
-            params = {
-                "format": "csv",
-                "orderby": "time-asc",
-                "starttime": watermark,
-                "limit": EQ_PAGE_LIMIT,
-            }
+        while cursor < stop:
+            next_cursor = min(cursor + timedelta(days=EQ_INITIAL_WINDOW_DAYS), stop)
             try:
-                text = get_text(url, params)
+                windows = list(_earthquake_windows(cursor, next_cursor))
             except (httpx.HTTPStatusError, httpx.RequestError) as exc:
                 if total == 0:
                     raise
                 print(
-                    f"  WARNING {asset}: window from {watermark} failed after "
-                    f"retries ({type(exc).__name__}: {exc}); finalizing partial "
-                    f"catalog with {total} events from {pages} page(s)"
+                    f"  WARNING {asset}: count window {_format_z(cursor)}/"
+                    f"{_format_z(next_cursor)} failed after retries "
+                    f"({type(exc).__name__}: {exc}); finalizing partial catalog "
+                    f"with {total} events from {pages} page(s)"
                 )
                 break
 
-            rows = list(csv.DictReader(io.StringIO(text)))
-            if not rows:
-                break
-            for row in rows:
-                fh.write(json.dumps(row, separators=(",", ":")) + "\n")
-            total += len(rows)
-            pages += 1
+            for start, end, expected in windows:
+                params = {
+                    "format": "csv",
+                    "orderby": "time-asc",
+                    "starttime": _format_z(start),
+                    "endtime": _format_z(end),
+                    "limit": EQ_PAGE_LIMIT,
+                }
+                try:
+                    text = get_text(url, params)
+                except (httpx.HTTPStatusError, httpx.RequestError) as exc:
+                    if total == 0:
+                        raise
+                    print(
+                        f"  WARNING {asset}: query window {_format_z(start)}/"
+                        f"{_format_z(end)} failed after retries "
+                        f"({type(exc).__name__}: {exc}); finalizing partial "
+                        f"catalog with {total} events from {pages} page(s)"
+                    )
+                    return
 
-            last_time = rows[-1].get("time")
-            if not last_time:
-                raise RuntimeError(f"{asset}: page {pages} row missing time")
-            if len(rows) < EQ_PAGE_LIMIT:
-                break
-            if last_time == watermark:
-                raise RuntimeError(f"{asset}: cursor stuck at {watermark}")
-            watermark = last_time
-            if pages >= MAX_PAGES:
-                raise RuntimeError(
-                    f"{asset}: hit MAX_PAGES={MAX_PAGES} at {watermark} "
-                    f"({total} rows)"
-                )
+                rows = list(csv.DictReader(io.StringIO(text)))
+                if len(rows) > expected:
+                    raise RuntimeError(
+                        f"{asset}: query returned {len(rows)} rows for "
+                        f"{expected}-event window {_format_z(start)}/"
+                        f"{_format_z(end)}"
+                    )
+                for row in rows:
+                    # FDSN appears to treat endtime inclusively. Keeping windows
+                    # logically half-open prevents boundary duplicates.
+                    row_time = row.get("time")
+                    if row_time and _parse_z(row_time) >= end and end < stop:
+                        continue
+                    fh.write(json.dumps(row, separators=(",", ":")) + "\n")
+                total += len(rows)
+                pages += 1
+
+                if pages >= MAX_PAGES:
+                    raise RuntimeError(
+                        f"{asset}: hit MAX_PAGES={MAX_PAGES} at {_format_z(end)} "
+                        f"({total} rows)"
+                    )
+
+            cursor = next_cursor
 
     print(f"  {asset}: {total} events over {pages} page(s)")
 
