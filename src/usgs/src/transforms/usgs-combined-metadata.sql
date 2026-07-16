@@ -49,7 +49,7 @@ SELECT
     "parameter_name",
     "parameter_code",
     "statistic_id",
-    "last_modified",
+    CAST("last_modified" AS TIMESTAMP) AS last_modified,
     CAST("begin" AS TIMESTAMP) AS begin,
     CAST("end" AS TIMESTAMP) AS end,
     "data_type",

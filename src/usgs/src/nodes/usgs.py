@@ -18,8 +18,9 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
 import httpx
+import pyarrow as pa
 
-from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists, raw_parquet_writer, raw_writer
 from utils import MAX_PAGES, get_json, get_text
 
 WATER_BASE = "https://api.waterdata.usgs.gov/ogcapi/v0"
@@ -116,6 +117,61 @@ REFERENCE_ENTITY_IDS = {
     *FDSN_LIST_ENDPOINTS,
 }
 
+PARQUET_WATER_ENTITY_IDS = {
+    "combined-metadata",
+    "latest-field-measurements",
+    "monitoring-locations",
+}
+
+PARQUET_COLUMNS = {
+    "combined-metadata": [
+        "monitoring_location_id", "agency_code", "agency_name",
+        "monitoring_location_number", "monitoring_location_name", "district_code",
+        "country_code", "country_name", "state_code", "state_name", "county_code",
+        "county_name", "minor_civil_division_code", "site_type_code", "site_type",
+        "hydrologic_unit_code", "basin_code", "altitude", "altitude_accuracy",
+        "altitude_method_code", "altitude_method_name", "vertical_datum",
+        "vertical_datum_name", "horizontal_positional_accuracy_code",
+        "horizontal_positional_accuracy", "horizontal_position_method_code",
+        "horizontal_position_method_name", "original_horizontal_datum",
+        "original_horizontal_datum_name", "drainage_area",
+        "contributing_drainage_area", "time_zone_abbreviation",
+        "uses_daylight_savings", "construction_date", "aquifer_code",
+        "national_aquifer_code", "aquifer_type_code", "well_constructed_depth",
+        "hole_constructed_depth", "depth_source_code", "id", "unit_of_measure",
+        "parameter_name", "parameter_code", "statistic_id", "last_modified",
+        "begin", "end", "data_type", "computation_identifier", "thresholds",
+        "sublocation_identifier", "primary", "web_description",
+        "parameter_description", "parent_time_series_id", "data_gap_interval",
+        "reading_type", "_lon", "_lat",
+    ],
+    "latest-field-measurements": [
+        "field_measurements_series_id", "field_visit_id", "parameter_code",
+        "monitoring_location_id", "observing_procedure_code",
+        "observing_procedure", "value", "unit_of_measure", "time", "qualifier",
+        "vertical_datum", "approval_status", "measuring_agency", "last_modified",
+        "control_condition", "measurement_rated", "year", "month", "day",
+        "time_of_day", "_lon", "_lat", "id",
+    ],
+    "monitoring-locations": [
+        "id", "agency_code", "agency_name", "monitoring_location_number",
+        "monitoring_location_name", "district_code", "country_code",
+        "country_name", "state_code", "state_name", "county_code", "county_name",
+        "minor_civil_division_code", "site_type_code", "site_type",
+        "hydrologic_unit_code", "basin_code", "altitude", "altitude_accuracy",
+        "altitude_method_code", "altitude_method_name", "vertical_datum",
+        "vertical_datum_name", "horizontal_positional_accuracy_code",
+        "horizontal_positional_accuracy", "horizontal_position_method_code",
+        "horizontal_position_method_name", "original_horizontal_datum",
+        "original_horizontal_datum_name", "drainage_area",
+        "contributing_drainage_area", "time_zone_abbreviation",
+        "uses_daylight_savings", "construction_date", "aquifer_code",
+        "national_aquifer_code", "aquifer_type_code", "well_constructed_depth",
+        "hole_constructed_depth", "depth_source_code", "revision_note",
+        "revision_created", "revision_modified", "_lon", "_lat",
+    ],
+}
+
 EQ_SOURCE_MIN = "1900-01-01T00:00:00Z"
 EQ_PAGE_LIMIT = 20_000
 EQ_INITIAL_WINDOW_DAYS = 366
@@ -154,6 +210,21 @@ def _feature_row(feature: dict) -> dict:
     return row
 
 
+def _parquet_schema(collection: str) -> pa.Schema:
+    return pa.schema([pa.field(name, pa.string()) for name in PARQUET_COLUMNS[collection]])
+
+
+def _next_href(payload: dict) -> str | None:
+    return next(
+        (
+            link["href"]
+            for link in payload.get("links", [])
+            if link.get("rel") == "next"
+        ),
+        None,
+    )
+
+
 def fetch_water(node_id: str) -> None:
     asset = node_id
     collection = node_id.removeprefix("usgs-")
@@ -169,43 +240,71 @@ def fetch_water(node_id: str) -> None:
     pages = 0
     total = 0
 
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
-        while True:
-            try:
-                payload = get_json(url, params)
-            except (httpx.HTTPStatusError, httpx.RequestError) as exc:
-                if total == 0:
-                    raise
-                print(
-                    f"  WARNING {asset}: page {pages + 1} failed after retries "
-                    f"({type(exc).__name__}: {exc}); finalizing partial crawl "
-                    f"with {total} rows from {pages} page(s)"
-                )
-                break
+    if collection in PARQUET_WATER_ENTITY_IDS:
+        with raw_parquet_writer(asset, _parquet_schema(collection)) as writer:
+            while True:
+                try:
+                    payload = get_json(url, params)
+                except (httpx.HTTPStatusError, httpx.RequestError) as exc:
+                    if total == 0:
+                        raise
+                    print(
+                        f"  WARNING {asset}: page {pages + 1} failed after retries "
+                        f"({type(exc).__name__}: {exc}); finalizing partial crawl "
+                        f"with {total} rows from {pages} page(s)"
+                    )
+                    break
 
-            features = payload.get("features") or []
-            for feature in features:
-                fh.write(json.dumps(_feature_row(feature), separators=(",", ":")) + "\n")
-            total += len(features)
-            pages += 1
+                features = payload.get("features") or []
+                rows = [_feature_row(feature) for feature in features]
+                if rows:
+                    table = pa.Table.from_pylist(rows, schema=writer.schema)
+                    writer.write_table(table)
+                total += len(features)
+                pages += 1
 
-            next_href = next(
-                (
-                    link["href"]
-                    for link in payload.get("links", [])
-                    if link.get("rel") == "next"
-                ),
-                None,
-            )
-            if not next_href or not features:
-                break
-            if pages >= MAX_PAGES:
-                raise RuntimeError(
-                    f"{asset}: hit MAX_PAGES={MAX_PAGES} without draining "
-                    f"({total} rows so far)"
-                )
-            url = next_href
-            params = None
+                next_href = _next_href(payload)
+                if not next_href or not features:
+                    break
+                if pages >= MAX_PAGES:
+                    raise RuntimeError(
+                        f"{asset}: hit MAX_PAGES={MAX_PAGES} without draining "
+                        f"({total} rows so far)"
+                    )
+                url = next_href
+                params = None
+    else:
+        with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
+            while True:
+                try:
+                    payload = get_json(url, params)
+                except (httpx.HTTPStatusError, httpx.RequestError) as exc:
+                    if total == 0:
+                        raise
+                    print(
+                        f"  WARNING {asset}: page {pages + 1} failed after retries "
+                        f"({type(exc).__name__}: {exc}); finalizing partial crawl "
+                        f"with {total} rows from {pages} page(s)"
+                    )
+                    break
+
+                features = payload.get("features") or []
+                for feature in features:
+                    row = _feature_row(feature)
+                    fh.write(json.dumps(row, separators=(",", ":")) + "\n")
+                total += len(features)
+                pages += 1
+
+                next_href = _next_href(payload)
+                if not next_href or not features:
+                    break
+                if pages >= MAX_PAGES:
+                    raise RuntimeError(
+                        f"{asset}: hit MAX_PAGES={MAX_PAGES} without draining "
+                        f"({total} rows so far)"
+                    )
+                url = next_href
+                params = None
 
     print(f"  {asset}: {total} rows over {pages} page(s)")
 
@@ -356,7 +455,11 @@ MAINTAIN_SPECS = [
                 "live/rolling collections update continuously or daily "
                 "(https://api.waterdata.usgs.gov/ogcapi/v0)."
             ),
-            check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=1),
+            check=lambda aid: raw_asset_exists(
+                aid,
+                "parquet" if aid.removeprefix("usgs-") in PARQUET_WATER_ENTITY_IDS else "ndjson.gz",
+                max_age_days=1,
+            ),
         )
         for entity_id in sorted(ROLLING_ENTITY_IDS)
     ),
@@ -381,7 +484,11 @@ MAINTAIN_SPECS = [
                 "large observational collections are refreshed on the connector "
                 "weekly cadence (https://api.waterdata.usgs.gov/ogcapi/v0)."
             ),
-            check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+            check=lambda aid: raw_asset_exists(
+                aid,
+                "parquet" if aid.removeprefix("usgs-") in PARQUET_WATER_ENTITY_IDS else "ndjson.gz",
+                max_age_days=7,
+            ),
         )
         for entity_id in sorted(
             set(WATER_ENTITY_IDS)

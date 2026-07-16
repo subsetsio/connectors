@@ -4,8 +4,8 @@
 -- durable edits belong in the model stage, not here.
 -- caution: This table is a latest-field-measurement snapshot; include last_modified when distinguishing revised rows.
 SELECT
-    "field_measurements_series_id",
-    "field_visit_id",
+    CAST("field_measurements_series_id" AS UUID) AS field_measurements_series_id,
+    CAST("field_visit_id" AS UUID) AS field_visit_id,
     "parameter_code",
     "monitoring_location_id",
     "observing_procedure_code",
@@ -17,7 +17,7 @@ SELECT
     "vertical_datum",
     "approval_status",
     "measuring_agency",
-    "last_modified",
+    CAST("last_modified" AS TIMESTAMP) AS last_modified,
     "control_condition",
     "measurement_rated",
     CAST("year" AS BIGINT) AS year,
@@ -26,5 +26,5 @@ SELECT
     "time_of_day",
     CAST("_lon" AS DOUBLE) AS lon,
     CAST("_lat" AS DOUBLE) AS lat,
-    "id"
+    CAST("id" AS UUID) AS id
 FROM "usgs-latest-field-measurements"
