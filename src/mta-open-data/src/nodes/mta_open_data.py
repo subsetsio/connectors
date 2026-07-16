@@ -30,6 +30,7 @@ from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     get_client,
+    list_raw_fragments,
     raw_asset_exists,
     raw_writer,
     transient_retry,
@@ -44,6 +45,7 @@ RESOURCE_BASE = "https://data.ny.gov/resource"
 EXPORT_LIMIT = 1_000_000_000
 CHUNK = 1 << 20  # 1 MiB
 FRESH_DAYS = 7
+MIN_PARQUET_BYTES = 128
 PARQUET_ASSETS = {
     # DuckDB's default CSV sample infers these identifier columns as BIGINT,
     # but later rows contain route/station codes such as A and TRAM1.
@@ -105,6 +107,8 @@ def _stream_export_parquet(resource_id: str, asset: str) -> None:
             for chunk in resp.iter_bytes(chunk_size=CHUNK):
                 csv_tmp.write(chunk)
         csv_tmp.flush()
+        if csv_tmp.tell() == 0:
+            raise ValueError(f"{asset}: Socrata CSV export was empty")
 
         csv_path = str(Path(csv_tmp.name))
         parquet_path = str(Path(parquet_tmp.name))
@@ -114,6 +118,12 @@ def _stream_export_parquet(resource_id: str, asset: str) -> None:
             f"TO '{parquet_sql}' (FORMAT PARQUET, COMPRESSION ZSTD)",
             [csv_path],
         )
+        parquet_size = Path(parquet_tmp.name).stat().st_size
+        if parquet_size < MIN_PARQUET_BYTES:
+            raise ValueError(
+                f"{asset}: generated Parquet is too small ({parquet_size} bytes)"
+            )
+        duckdb.execute("DESCRIBE SELECT * FROM read_parquet(?)", [parquet_path])
 
         with raw_writer(asset, extension="parquet", mode="wb") as out:
             with Path(parquet_tmp.name).open("rb") as parquet_in:
@@ -132,6 +142,24 @@ def fetch_one(node_id: str) -> None:
         _stream_export(_resource_id(node_id), asset)
 
 
+def _raw_parquet_fresh(asset_id: str) -> bool:
+    if not raw_asset_exists(asset_id, "parquet", max_age_days=FRESH_DAYS):
+        return False
+    fragments = list_raw_fragments(asset_id, "parquet")
+    if not fragments:
+        return False
+    return all(
+        int(fragment.get("size") or 0) >= MIN_PARQUET_BYTES
+        for fragment in fragments.values()
+    )
+
+
+def _raw_asset_fresh(asset_id: str) -> bool:
+    if asset_id in PARQUET_ASSETS:
+        return _raw_parquet_fresh(asset_id)
+    return raw_asset_exists(asset_id, "csv.gz", max_age_days=FRESH_DAYS)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id=f"mta-open-data-{eid.lower().replace('_', '-')}",
@@ -146,13 +174,10 @@ MAINTAIN_SPECS = [
         asset_id=spec.id,
         description=(
             "MTA Socrata datasets are refreshed as full CSV snapshots; reuse a "
-            "raw csv.gz snapshot for up to 7 days, then repull the full dataset."
+            "raw csv.gz or typed Parquet snapshot for up to 7 days, then repull "
+            "the full dataset."
         ),
-        check=lambda asset_id: raw_asset_exists(
-            asset_id,
-            "parquet" if asset_id in PARQUET_ASSETS else "csv.gz",
-            max_age_days=FRESH_DAYS,
-        ),
+        check=_raw_asset_fresh,
     )
     for spec in DOWNLOAD_SPECS
 ]
