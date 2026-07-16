@@ -1,2 +1,15 @@
 spec_id: fcc-xqgr-24et
-status: deferred
+status: active
+tests:
+  - freshness: {col: issued_date, reaches: today - 400d}
+    reason: >-
+      Pirate radio enforcement actions are episodic -- 185 actions over 2020-06 to
+      2025-11, roughly 37/year -- and issued_date is the date the FCC issued the action,
+      so the column only advances when enforcement happens. Latest issued_date is
+      2025-11-21 (237d before the 2026-07-16 observation), so a 400d bound holds today
+      with ~5 months of headroom and still catches an abandoned feed.
+    certainty: 65
+    points_outward: true
+  - row_count: {min: 150}
+    reason: 185 enforcement actions as of 2026-07-16; the database is append-only and does not purge.
+    certainty: 80

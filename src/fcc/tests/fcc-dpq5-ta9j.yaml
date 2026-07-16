@@ -1,2 +1,9 @@
 spec_id: fcc-dpq5-ta9j
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    The FCC stopped advancing this registry on 2017-10-10 (Socrata rowsUpdatedAt,
+    observed 2026-07-16 -- 8.8 years). The Commission never retired the dataset but has
+    not written a row since; date_last_modified therefore tops out in 2017 permanently.
+    Treated as a de facto closed corpus: a freshness assertion on it could never pass.

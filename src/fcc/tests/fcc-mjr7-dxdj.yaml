@@ -1,2 +1,9 @@
 spec_id: fcc-mjr7-dxdj
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    Last row write 2021-03-23 (Socrata rowsUpdatedAt, observed 2026-07-16 -- 5.3
+    years). Despite the "Active and Pending" title the table is a fixed 2021 snapshot:
+    submissiondate stops in 2021 and expirationdate is forward-looking (when an OMB
+    control number lapses), so neither tracks publication. De facto closed.

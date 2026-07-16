@@ -1,2 +1,10 @@
 spec_id: fcc-qqhe-xtyw
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    Form 477 Provider Table fixed release for the December 2017 filing period. The FCC publishes each
+    Form 477 filing period as its own immutable dataset rather than appending to a
+    running table, so this corpus stopped advancing when the December 2017 release was
+    finalised and carries no freshness assertion by design; a later period arrives
+    as a new dataset id, which collect surfaces as a new entity.

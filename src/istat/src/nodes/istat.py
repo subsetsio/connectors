@@ -191,6 +191,34 @@ _ANNUAL_FIRST_RANGES = {
 # unkeyed request, plus a wedge drain, for each annual window.
 _DIMENSION_FIRST_ANNUAL_FLOWS = {"164_305", "183_1163"}
 
+# Flows dimensioned by CL_ITTER107 (12,471 municipalities). They are not dead
+# and not wedging us -- they are simply enormous, and the damage they do is to
+# the specs BEHIND them.
+#
+# What run 20260715-131758 actually proved (R2 http_requests.csv, not
+# inference). Istat was healthy for the first 90s: the 8 known-dead flows
+# answered 404/422 in ~1.5s each. Then 164_305 ran, and every dimension it can
+# split on except REF_AREA still leaves the full municipal fan-out in the
+# request, so its only servable shape is a whole-year query. Istat DID serve
+# those -- and got monotonically slower doing it: 481s, then 833s, then 905s,
+# then read timeouts, and then it stopped answering this IP at all. The last
+# 54 min of that leg were 60s connect timeouts, one pair per spec, and the
+# endpoint never came back.
+#
+# So the "blackhole" the previous sessions read as an external Istat outage is
+# self-inflicted: generating ~10 min of result per request is what sheds us.
+# (Confirmed from the other side: Istat answers this dev machine in 3.9s.)
+# The cost was not the 2h these flows burned, it was the 903 never-run specs
+# that died behind them having never issued a single request.
+#
+# Nothing here fixes 164_305 -- 12,471 REF_AREA x 471 DATA_TYPE x 343 AGE has
+# no split that is both small enough for Istat to generate and few enough
+# requests to fit the 5/min IP cap (pinning FREQ+SEX+AGE is ~1,029 requests per
+# year, ~41h for the flow). This ORDERS them last instead, so a leg banks every
+# cheap flow before any monster gets a chance to spoil the endpoint, and their
+# failure is contained to themselves.
+_HEAVY_FLOWS = frozenset(_ANNUAL_FIRST_RANGES)
+
 
 def _throttle() -> None:
     import fcntl  # POSIX (CI is ubuntu, dev is macOS) -- both have fcntl
@@ -814,13 +842,15 @@ from constants import ENTITY_IDS
 
 ENTITY_BY_NODE = {f"istat-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS}
 
+# Heavy flows last -- see _HEAVY_FLOWS. The orchestrator breaks ties between
+# ready specs by declaration index, so this list's order IS the leg's order.
 DOWNLOAD_SPECS = [
     NodeSpec(
         id=f"istat-{eid.lower().replace('_', '-')}",
         fn=fetch_one,
         kind="download",
     )
-    for eid in ENTITY_IDS
+    for eid in sorted(ENTITY_IDS, key=lambda e: (e in _HEAVY_FLOWS, e))
 ]
 
 # Freshness gate -- the other half of what killed run 20260714-180631. A plain

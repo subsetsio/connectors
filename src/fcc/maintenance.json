@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "The FCC publishes no portal-wide refresh schedule, so cadence is set from the per-dataset rowsUpdatedAt reported by the Socrata metadata API (https://opendata.fcc.gov/api/views/<id>.json), observed 2026-07-16 across all 56 datasets. Only one dataset advances daily: CGB - Consumer Complaints Data (3xyp-aqkj), which the FCC updates every business day and which alone sets this 7-day cadence. Three others advance irregularly: Intermediate Provider Registry (a6ec-cry4, ~2 weeks), Protected FSS Earth Station Registration (acbv-jbb4, ~1 month) and Pirate Radio Broadcasting Database (xqgr-24et, ~6 months). The remaining 52 are static: 36 are period-stamped Form 477 releases (Fixed Broadband Deployment / Provider Table / Area Table, Dec2015-Jun2021), each an immutable per-filing-period dataset that never advances -- a new period arrives as a new dataset id, which collect surfaces as a new entity -- and 16 more are de facto closed (last row write 3.6 to 9.4 years ago; e.g. 911 Master PSAP Registry dpq5-ta9j last advanced 2017-10-10). Weekly is therefore driven entirely by 3xyp-aqkj; the corpus is otherwise inert, and a new Form 477 period is caught by re-collect rather than by this cadence."
 }

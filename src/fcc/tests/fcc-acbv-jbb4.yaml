@@ -1,2 +1,15 @@
 spec_id: fcc-acbv-jbb4
-status: deferred
+status: active
+tests:
+  - freshness: {col: sys_updated_on, reaches: today - 400d}
+    reason: >-
+      Protected FSS Earth Station registrations trickle in irregularly -- 469 rows over
+      2018-11 to 2026-06, roughly 60/year -- so there is no fixed publication schedule to
+      pin. sys_updated_on is the FCC's "Registration Last Updated" stamp (last advanced
+      2026-06-22). A 400d bound catches the registry being retired or the feed breaking
+      without failing on an ordinary multi-month lull between registrations.
+    certainty: 70
+    points_outward: true
+  - row_count: {min: 400}
+    reason: 469 registrations as of 2026-07-16; the registry is append-mostly and does not purge.
+    certainty: 80

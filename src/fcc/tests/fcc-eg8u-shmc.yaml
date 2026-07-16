@@ -1,2 +1,9 @@
 spec_id: fcc-eg8u-shmc
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    Last row write 2020-05-02 (Socrata rowsUpdatedAt, observed 2026-07-16 -- 6.2
+    years). The companion registration table (acbv-jbb4) is still live and does carry a
+    freshness assertion, but this attachments sidecar stopped advancing in 2020 and
+    sys_created_on tops out there. De facto closed.

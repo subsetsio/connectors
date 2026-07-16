@@ -1,2 +1,18 @@
 spec_id: fcc-3xyp-aqkj
-status: deferred
+status: active
+tests:
+  - freshness: {col: ticket_created, reaches: today - 7d}
+    reason: >-
+      CGB consumer complaints is the only dataset on opendata.fcc.gov that advances
+      daily (Socrata rowsUpdatedAt observed same-day on 2026-07-16). ticket_created is
+      the FCC's own record-creation stamp, populated on every row (3,576,429 of
+      3,576,429), so a 7d bound tracks the publisher's business-day cadence with slack
+      for holidays. Deliberately NOT issue_date, which is consumer-entered and carries
+      sentinels (min 0001-01-01, max 9999-12-15) on only 54% of rows.
+    certainty: 90
+    points_outward: true
+  - row_count: {min: 3000000}
+    reason: >-
+      3.58M complaints as of 2026-07-16, growing since 2014-10-31 and never
+      retracted; a load materially under 3M means a truncated fetch, not a real shrink.
+    certainty: 85

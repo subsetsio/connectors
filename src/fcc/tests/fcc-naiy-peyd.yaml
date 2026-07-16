@@ -1,2 +1,8 @@
 spec_id: fcc-naiy-peyd
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    Last row write 2018-12-19 (Socrata rowsUpdatedAt, observed 2026-07-16 -- 7.6
+    years). The only date column is expiration_date, which is forward-looking (when a
+    firm's listing lapses) and so does not track publication anyway. De facto closed.
