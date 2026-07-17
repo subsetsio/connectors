@@ -108,7 +108,7 @@ def fetch_one(node_id: str) -> None:
             total = int(payload.get("total") or 0)
         batch = payload.get("records") or []
         save_raw_ndjson(batch, asset, fragment=f"{offset:012d}")
-        offset += _PAGE
+        offset += len(batch)
         pages += 1
         state.update({
             "next_offset": offset,
