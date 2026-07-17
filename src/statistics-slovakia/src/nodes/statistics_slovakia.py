@@ -1,6 +1,7 @@
 import itertools
 import json
 import math
+import os
 from functools import lru_cache
 
 import httpx
@@ -16,6 +17,9 @@ MAX_CELLS = 9000
 MAX_SLOW_CELLS = 900
 MAX_URL_LEN = 1800
 REQUEST_TIMEOUT = 25
+ADAPTIVE_SPLIT_CELLS = 100
+SLOW_TABLES = {"om3003tr"}
+SLOW_PREFIXES = ("cr38",)
 
 RAW_SCHEMA = pa.schema(
     [
@@ -32,9 +36,19 @@ RAW_SCHEMA = pa.schema(
 )
 
 
-def _json_get(url: str) -> dict:
+def _json_get(url: str, *, retry_attempts: int | None = None) -> dict:
     configure_http(verify=False, timeout=REQUEST_TIMEOUT)
-    resp = get(url, timeout=REQUEST_TIMEOUT)
+    previous_attempts = os.environ.get("HTTP_RETRY_ATTEMPTS")
+    if retry_attempts is not None:
+        os.environ["HTTP_RETRY_ATTEMPTS"] = str(retry_attempts)
+    try:
+        resp = get(url, timeout=REQUEST_TIMEOUT)
+    finally:
+        if retry_attempts is not None:
+            if previous_attempts is None:
+                os.environ.pop("HTTP_RETRY_ATTEMPTS", None)
+            else:
+                os.environ["HTTP_RETRY_ATTEMPTS"] = previous_attempts
     resp.raise_for_status()
     data = resp.json()
     if isinstance(data, dict) and data.get("status") and data.get("status") != 200:
@@ -89,12 +103,16 @@ def _product(selection: dict[str, tuple[str, ...]]) -> int:
 
 def _split_selection(table_code: str, dim_codes: list[str], selection: dict[str, tuple[str, ...]]):
     url = _dataset_url(table_code, dim_codes, selection)
-    max_cells = MAX_SLOW_CELLS if table_code.startswith("cr38") else MAX_CELLS
+    max_cells = MAX_SLOW_CELLS if _is_slow_table(table_code) else MAX_CELLS
     if _product(selection) <= max_cells and len(url) <= MAX_URL_LEN:
         yield selection
         return
 
     yield from _split_once(table_code, dim_codes, selection)
+
+
+def _is_slow_table(table_code: str) -> bool:
+    return table_code in SLOW_TABLES or table_code.startswith(SLOW_PREFIXES)
 
 
 def _split_once(table_code: str, dim_codes: list[str], selection: dict[str, tuple[str, ...]]):
@@ -114,7 +132,12 @@ def _split_once(table_code: str, dim_codes: list[str], selection: dict[str, tupl
 def _iter_datasets(table_code: str, dim_codes: list[str], selection: dict[str, tuple[str, ...]]):
     url = _dataset_url(table_code, dim_codes, selection)
     try:
-        yield _json_get(url)
+        retry_attempts = (
+            1
+            if _product(selection) > ADAPTIVE_SPLIT_CELLS and any(len(selection[dim]) > 1 for dim in dim_codes)
+            else None
+        )
+        yield _json_get(url, retry_attempts=retry_attempts)
         return
     except httpx.ReadTimeout as exc:
         caught_exc = exc

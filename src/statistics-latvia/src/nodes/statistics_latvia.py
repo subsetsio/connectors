@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from math import prod
 
 from constants import ENTITY_IDS
@@ -8,9 +9,12 @@ from subsets_utils import (
     NodeSpec,
     configure_http,
     get,
+    list_raw_fragments,
+    load_state,
     post,
     raw_asset_exists,
     save_raw_ndjson,
+    save_state,
 )
 
 
@@ -181,7 +185,16 @@ def _fetch_v1_chunks(entity_id: str, metadata: dict, spec_id: str) -> None:
 
 def _fetch_v2_chunks(entity_id: str, metadata: dict, spec_id: str) -> None:
     selections = _build_selections(metadata)
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done_fragments = {
+        fragment
+        for fragment, info in list_raw_fragments(spec_id, "ndjson.zst").items()
+        if info.get("run_id") == run_id
+    }
     for index, selection in enumerate(selections):
+        fragment = f"{index:04d}"
+        if fragment in done_fragments:
+            continue
         body = {
             "selection": [
                 {
@@ -214,8 +227,16 @@ def _fetch_v2_chunks(entity_id: str, metadata: dict, spec_id: str) -> None:
                 }
             ],
             spec_id,
-            fragment=f"{index:04d}",
+            fragment=fragment,
         )
+    save_state(
+        spec_id,
+        {
+            "complete": True,
+            "table_id": entity_id,
+            "chunk_count": len(selections),
+        },
+    )
 
 
 def fetch_table(spec_id: str) -> None:
@@ -227,6 +248,15 @@ def fetch_table(spec_id: str) -> None:
     metadata = metadata_resp.json()
 
     _fetch_v2_chunks(entity_id, metadata, spec_id)
+
+
+def is_complete_and_fresh(asset_id: str) -> bool:
+    state = load_state(asset_id)
+    return (
+        state.get("complete") is True
+        and isinstance(state.get("chunk_count"), int)
+        and raw_asset_exists(asset_id, "ndjson.zst", max_age_days=7)
+    )
 
 
 DOWNLOAD_SPECS = [
@@ -242,7 +272,7 @@ MAINTAIN_SPECS = [
             "Statistics Latvia tables carry table-specific updated timestamps; "
             "the connector refreshes accepted tables at least weekly."
         ),
-        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson.zst", max_age_days=7),
+        check=is_complete_and_fresh,
     )
     for spec in DOWNLOAD_SPECS
 ]
