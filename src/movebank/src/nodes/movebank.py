@@ -18,6 +18,7 @@ re-fetched in full; the maintain step decides whether a node runs.
 """
 
 import csv
+import codecs
 import io
 import json
 import posixpath
@@ -55,6 +56,8 @@ CORE_COLUMNS = {
 OUTPUT_FIELDS = list(CORE_COLUMNS.values())
 
 _TIMEOUT = (10.0, 300.0)
+_RANGE_CHUNK_BYTES = 64 * 1024 * 1024
+_RANGE_MIN_BYTES = 256 * 1024 * 1024
 
 
 @transient_retry()
@@ -224,6 +227,47 @@ def _write_csv_rows(reader, out):
     return row_count
 
 
+@transient_retry()
+def _get_range_bytes(url, start, end):
+    resp = get(
+        url,
+        timeout=_TIMEOUT,
+        headers={"Range": f"bytes={start}-{end}"},
+    )
+    resp.raise_for_status()
+    if resp.status_code != 206:
+        raise ValueError(f"range request returned HTTP {resp.status_code}")
+    expected = end - start + 1
+    if len(resp.content) != expected:
+        raise ValueError(
+            f"range request returned {len(resp.content)} bytes, expected {expected}"
+        )
+    return resp.content
+
+
+def _iter_ranged_lines(url, size):
+    decoder = codecs.getincrementaldecoder("utf-8-sig")(errors="replace")
+    pending = ""
+    start = 0
+    while start < size:
+        end = min(start + _RANGE_CHUNK_BYTES - 1, size - 1)
+        text = decoder.decode(_get_range_bytes(url, start, end), final=False)
+        lines = (pending + text).splitlines(keepends=True)
+        if lines and not (lines[-1].endswith("\n") or lines[-1].endswith("\r")):
+            pending = lines.pop()
+        else:
+            pending = ""
+        for line in lines:
+            yield line
+        start = end + 1
+
+    tail = decoder.decode(b"", final=True)
+    if tail:
+        pending += tail
+    if pending:
+        yield pending
+
+
 def _zip_csv_members(handle):
     """The location-series members of a `.csv.zip` export, by the same rules."""
     members = []
@@ -254,6 +298,13 @@ def _stream_normalize(sources, asset):
     total_rows = 0
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
         for source in sources:
+            if not source["zipped"] and source.get("size", 0) >= _RANGE_MIN_BYTES:
+                total_rows += _write_csv_rows(
+                    csv.reader(_iter_ranged_lines(source["url"], source["size"])),
+                    out,
+                )
+                continue
+
             with client.stream("GET", source["url"], timeout=_TIMEOUT) as resp:
                 resp.raise_for_status()
                 if not source["zipped"]:
