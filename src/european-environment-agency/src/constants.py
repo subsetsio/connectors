@@ -130,7 +130,6 @@ ENTITIES = [
     ('CO2Emission.co2vans_2023Fv24', 'CO2Emission', 'co2vans_2023Fv24', 'https://dis2datalake.blob.core.windows.net/discodata/co2emission/v7r2/co2vans_2023fv24.zip'),
     ('CO2Emission.co2vans_2023Pv23', 'CO2Emission', 'co2vans_2023Pv23', 'https://dis2datalake.blob.core.windows.net/discodata/co2emission/v7r1/co2vans_2023pv23.zip'),
     ('CO2Emission.co2vans_2024Pv25', 'CO2Emission', 'co2vans_2024Pv25', 'https://dis2datalake.blob.core.windows.net/discodata/co2emission/v7r2/co2vans_2024pv25.zip'),
-    ('CataloguePolicyEvaluations.catalogue_evaluations', 'CataloguePolicyEvaluations', 'catalogue_evaluations', ''),
     ('DigitalWater.CP_AllFigures', 'DigitalWater', 'CP_AllFigures', 'https://dis2datalake.blob.core.windows.net/discodata/digitalwater/v1r1/cp_allfigures.zip'),
     ('DigitalWater.CP_WaterResources', 'DigitalWater', 'CP_WaterResources', 'https://dis2datalake.blob.core.windows.net/discodata/digitalwater/v1r1/cp_waterresources.zip'),
     ('EUNIS.A1_metadata', 'EUNIS', 'A1_metadata', 'https://dis2datalake.blob.core.windows.net/discodata/eunis/v1r3/a1_metadata.zip'),

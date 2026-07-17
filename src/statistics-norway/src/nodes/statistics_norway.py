@@ -3,12 +3,18 @@ from __future__ import annotations
 from itertools import product
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, post, save_raw_ndjson
+from subsets_utils import MaintainSpec, NodeSpec, get, post, raw_asset_exists, save_raw_ndjson
 
 
 BASE_URL = "https://data.ssb.no/api/pxwebapi/v2"
 PREFIX = "statistics-norway-"
-MAX_CELLS_PER_REQUEST = 250_000
+MAX_CELLS_PER_REQUEST = 750_000
+MAINTAIN_MAX_AGE_DAYS = 7
+RAW_EXT = "ndjson.zst"
+CADENCE = (
+    "Refreshed weekly by age-based raw cache; Statistics Norway table data is "
+    "queried per table through https://data.ssb.no/api/pxwebapi/v2."
+)
 
 
 def _table_id_from_asset(asset_id: str) -> str:
@@ -192,4 +198,13 @@ def fetch_table(asset_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{entity_id.lower().replace('_', '-')}", fn=fetch_table)
     for entity_id in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=CADENCE,
+        check=lambda asset_id: raw_asset_exists(asset_id, RAW_EXT, max_age_days=MAINTAIN_MAX_AGE_DAYS),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
