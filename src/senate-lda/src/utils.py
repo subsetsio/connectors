@@ -13,16 +13,16 @@ import os
 import time
 from datetime import date, datetime, timezone
 
-
 from subsets_utils import (
     get,
+    list_raw_fragments,
     save_raw_ndjson,
     load_state,
     save_state,
 )
 
 API_BASE = "https://lda.senate.gov/api/v1"
-STATE_VERSION = 2
+STATE_VERSION = 3
 
 # Earliest posting year per endpoint (filings from 1999, LD-203 from 2008).
 MIN_YEAR = {"filings": 1999, "contributions": 2008}
@@ -32,7 +32,11 @@ MIN_YEAR = {"filings": 1999, "contributions": 2008}
 MAX_PAGES_PER_MONTH = 4000     # ~100k filings in one posting-month
 MAX_PAGES_ABS = 100000         # reference-entity full crawl guard
 
-REF_BATCH_ROWS = 5000          # rows buffered per reference-entity raw batch
+REF_BATCH_PAGES = 200          # 5k rows per reference-entity raw batch
+
+# Leave enough room for the DAG parent to commit raw manifests and retrigger
+# before GitHub's runner deadline. Override only for local probing.
+LEG_SECONDS = int(os.environ.get("LDA_LEG_SECONDS", str(4 * 60 * 60)))
 
 # ---------------------------------------------------------------------------
 # HTTP: per-process rate limiting + retry
@@ -85,29 +89,82 @@ def _next_month(y: int, m: int) -> tuple[int, int]:
     return (y + 1, 1) if m == 12 else (y, m + 1)
 
 
-def _crawl_dated(asset: str, endpoint: str, flatten) -> None:
+def _month_range(start_year: int) -> list[tuple[int, int]]:
+    today = datetime.now(timezone.utc).date()
+    out = []
+    y, m = start_year, 1
+    while (y, m) <= (today.year, today.month):
+        out.append((y, m))
+        y, m = _next_month(y, m)
+    return out
+
+
+def dated_complete(asset: str, endpoint: str, *, max_age_days: int = 7) -> bool:
+    """True when every historical month exists and the live month is fresh."""
+    fragments = list_raw_fragments(asset, "ndjson.zst")
+    expected = {f"{y:04d}-{m:02d}" for y, m in _month_range(MIN_YEAR[endpoint])}
+    if not expected.issubset(fragments):
+        return False
+    current = fragments.get(max(expected))
+    fetched_at = (current or {}).get("fetched_at")
+    if not fetched_at:
+        return False
+    try:
+        then = datetime.fromisoformat(fetched_at.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return (datetime.now(timezone.utc) - then).days <= max_age_days
+
+
+def reference_complete(asset: str, *, max_age_days: int = 30) -> bool:
+    """True when a reference crawl has reached its final page recently enough."""
+    state = load_state(asset)
+    if state.get("schema_version") != STATE_VERSION or not state.get("complete"):
+        return False
+    fragments = list_raw_fragments(asset, "ndjson.zst")
+    if not fragments:
+        return False
+    latest = max(
+        (meta.get("fetched_at") for meta in fragments.values() if meta.get("fetched_at")),
+        default=None,
+    )
+    if not latest:
+        return False
+    try:
+        then = datetime.fromisoformat(latest.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return (datetime.now(timezone.utc) - then).days <= max_age_days
+
+
+def _crawl_dated(asset: str, endpoint: str, flatten) -> bool | None:
     """Crawl /filings/ or /contributions/ windowed by dt_posted month.
 
-    One immutable raw batch per posting-month (`<asset>-YYYY-MM`). State tracks
-    the next month to (re)process; the current month is re-pulled every run to
-    pick up newly posted records and amendments.
+    One raw fragment per posting-month (`<asset>-YYYY-MM`). Historical months
+    are skipped once committed in the raw manifest; the current month is always
+    re-pulled to pick up newly posted records. Continuation resume is manifest
+    based, so an interrupted child cannot advance state past uncommitted raw.
     """
     headers = _auth_headers()
+    run_id = os.environ.get("RUN_ID", "unknown")
+    deadline = time.monotonic() + LEG_SECONDS
 
-    state = load_state(asset)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {}
-    resume = state.get("resume_month")
-    if resume:
-        ry, rm = int(resume[:4]), int(resume[5:7])
-    else:
-        ry, rm = MIN_YEAR[endpoint], 1
+    months = _month_range(MIN_YEAR[endpoint])
+    cur = months[-1]
+    committed = list_raw_fragments(asset, "ndjson.zst")
+    done = {
+        frag for frag, meta in committed.items()
+        if meta.get("run_id") == run_id or frag != f"{cur[0]:04d}-{cur[1]:02d}"
+    }
 
-    today = datetime.now(timezone.utc).date()
-    cur = (today.year, today.month)
+    for i, (y, m) in enumerate(months, 1):
+        frag = f"{y:04d}-{m:02d}"
+        if frag in done:
+            continue
+        if time.monotonic() >= deadline:
+            print(f"{asset}: leg budget spent at {i - 1}/{len(months)} months")
+            return True
 
-    y, m = ry, rm
-    while (y, m) <= cur:
         after = date(y, m, 1).isoformat()
         ny, nm = _next_month(y, m)
         before = date(ny, nm, 1).isoformat()
@@ -133,50 +190,70 @@ def _crawl_dated(asset: str, endpoint: str, flatten) -> None:
                     f"{MAX_PAGES_PER_MONTH} pages — source grew unexpectedly"
                 )
 
-        # Write raw FIRST, then advance state (a crash between loses only rework).
         if rows:
-            save_raw_ndjson(rows, asset, fragment=f"{y:04d}-{m:02d}")
+            save_raw_ndjson(rows, asset, fragment=frag)
+        print(f"{asset}: {frag} {len(rows):,} rows ({i}/{len(months)})")
 
-        if (y, m) != cur:
-            # Past month complete and immutable — advance the resume pointer.
-            save_state(asset, {
-                "schema_version": STATE_VERSION,
-                "resume_month": f"{ny:04d}-{nm:02d}",
-            })
-        y, m = ny, nm
+    return None
 
 
-def _crawl_paged(asset: str, endpoint: str, flatten) -> None:
+def _crawl_paged(asset: str, endpoint: str, flatten) -> bool | None:
     """Full crawl of a reference endpoint, ordered by id ascending.
 
-    No working incremental filter exists, so we resume by page number — safe
-    here because rows are append-mostly and id-ordered (new rows land on later
-    pages without shifting earlier ones). State tracks the next page to fetch;
-    raw is flushed in row-count-bounded batches (`<asset>-pNNNNN-pMMMMM`).
+    No working incremental filter exists, so we crawl id-ordered pages and store
+    fixed page-range fragments. Existing committed fragments are skipped; a
+    completion marker is written only after the endpoint reports no next page.
     """
     headers = _auth_headers()
+    deadline = time.monotonic() + LEG_SECONDS
 
     state = load_state(asset)
     if state.get("schema_version") != STATE_VERSION:
         state = {}
-    page = state.get("next_page", 1)
+
+    done = set(list_raw_fragments(asset, "ndjson.zst"))
+    done_ranges = []
+    for frag in done:
+        if not frag.startswith("p"):
+            continue
+        try:
+            start, end = frag.split("-p", 1)
+            done_ranges.append((int(start[1:]), int(end)))
+        except ValueError:
+            continue
+
+    page = 1
 
     buf: list[dict] = []
     batch_start = page
     while True:
+        covered = next(((lo, hi) for lo, hi in done_ranges if lo <= page <= hi), None)
+        if covered:
+            page = covered[1] + 1
+            batch_start = page
+            continue
+
+        if time.monotonic() >= deadline:
+            print(f"{asset}: leg budget spent before page {page}")
+            return True
+
         data = _fetch(f"{API_BASE}/{endpoint}/", {"ordering": "id", "page": page}, headers)
         for r in (data.get("results") or []):
             buf.append(flatten(r))
         has_next = bool(data.get("next"))
 
-        if buf and (len(buf) >= REF_BATCH_ROWS or not has_next):
-            save_raw_ndjson(buf, asset, fragment=f"p{batch_start:05d}-p{page:05d}")
+        if buf and ((page - batch_start + 1) >= REF_BATCH_PAGES or not has_next):
+            frag = f"p{batch_start:05d}-p{page:05d}"
+            save_raw_ndjson(buf, asset, fragment=frag)
+            print(f"{asset}: wrote {frag} ({len(buf):,} rows)")
             buf = []
-            save_state(asset, {"schema_version": STATE_VERSION, "next_page": page + 1})
             batch_start = page + 1
         elif not has_next:
-            # No rows this run (already caught up); still record progress.
-            save_state(asset, {"schema_version": STATE_VERSION, "next_page": page + 1})
+            save_state(asset, {
+                "schema_version": STATE_VERSION,
+                "complete": True,
+                "last_page": page,
+            })
 
         if not has_next:
             break
@@ -185,3 +262,5 @@ def _crawl_paged(asset: str, endpoint: str, flatten) -> None:
             raise RuntimeError(
                 f"{asset}: exceeded {MAX_PAGES_ABS} pages — source grew unexpectedly"
             )
+
+    return None

@@ -1,7 +1,16 @@
 """Download specs for the U.S. Senate Lobbying Disclosure Act REST API."""
 
-from subsets_utils import NodeSpec, save_raw_ndjson
-from utils import API_BASE, _auth_headers, _crawl_dated, _crawl_paged, _fetch, _name
+from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists, save_raw_ndjson
+from utils import (
+    API_BASE,
+    _auth_headers,
+    _crawl_dated,
+    _crawl_paged,
+    _fetch,
+    _name,
+    dated_complete,
+    reference_complete,
+)
 
 
 def _flat_filing(f: dict) -> list[dict]:
@@ -135,32 +144,32 @@ def _flat_lobbyist(lobbyist: dict) -> dict:
     return data
 
 
-def fetch_filings(node_id: str) -> None:
-    _crawl_dated(node_id, "filings", _flat_filing)
+def fetch_filings(node_id: str) -> bool | None:
+    return _crawl_dated(node_id, "filings", _flat_filing)
 
 
-def fetch_lobbying_activities(node_id: str) -> None:
-    _crawl_dated(node_id, "filings", _explode_activities)
+def fetch_lobbying_activities(node_id: str) -> bool | None:
+    return _crawl_dated(node_id, "filings", _explode_activities)
 
 
-def fetch_contributions(node_id: str) -> None:
-    _crawl_dated(node_id, "contributions", _flat_contribution)
+def fetch_contributions(node_id: str) -> bool | None:
+    return _crawl_dated(node_id, "contributions", _flat_contribution)
 
 
-def fetch_contribution_items(node_id: str) -> None:
-    _crawl_dated(node_id, "contributions", _explode_items)
+def fetch_contribution_items(node_id: str) -> bool | None:
+    return _crawl_dated(node_id, "contributions", _explode_items)
 
 
-def fetch_registrants(node_id: str) -> None:
-    _crawl_paged(node_id, "registrants", _flat_registrant)
+def fetch_registrants(node_id: str) -> bool | None:
+    return _crawl_paged(node_id, "registrants", _flat_registrant)
 
 
-def fetch_clients(node_id: str) -> None:
-    _crawl_paged(node_id, "clients", _flat_client)
+def fetch_clients(node_id: str) -> bool | None:
+    return _crawl_paged(node_id, "clients", _flat_client)
 
 
-def fetch_lobbyists(node_id: str) -> None:
-    _crawl_paged(node_id, "lobbyists", _flat_lobbyist)
+def fetch_lobbyists(node_id: str) -> bool | None:
+    return _crawl_paged(node_id, "lobbyists", _flat_lobbyist)
 
 
 CONSTANT_ENDPOINTS = {
@@ -193,4 +202,84 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="senate-lda-lobbying-issue-codes", fn=fetch_constant_table, kind="download"),
     NodeSpec(id="senate-lda-government-entities", fn=fetch_constant_table, kind="download"),
     NodeSpec(id="senate-lda-contribution-item-types", fn=fetch_constant_table, kind="download"),
+]
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="senate-lda-filings",
+        description=(
+            "LDA filings are posted continuously per https://lda.senate.gov/api/; "
+            "skip only when all monthly fragments exist and the current month is <=7 days old."
+        ),
+        check=lambda aid: dated_complete(aid, "filings", max_age_days=7),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-lobbying-activities",
+        description=(
+            "LDA filing activity rows inherit the continuously posted filings cadence; "
+            "skip only when all monthly fragments exist and the current month is <=7 days old."
+        ),
+        check=lambda aid: dated_complete(aid, "filings", max_age_days=7),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-contributions",
+        description=(
+            "LD-203 contribution reports are posted through the LDA API; skip only "
+            "when all monthly fragments since 2008 exist and the current month is <=30 days old."
+        ),
+        check=lambda aid: dated_complete(aid, "contributions", max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-contribution-items",
+        description=(
+            "LD-203 contribution item rows inherit contribution report posting cadence; "
+            "skip only when all monthly fragments since 2008 exist and the current month is <=30 days old."
+        ),
+        check=lambda aid: dated_complete(aid, "contributions", max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-registrants",
+        description=(
+            "Registrant directory has no published bulk export or validator; "
+            "skip completed raw crawls younger than 30 days."
+        ),
+        check=lambda aid: reference_complete(aid, max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-clients",
+        description=(
+            "Client directory has no published bulk export or validator; "
+            "skip completed raw crawls younger than 30 days."
+        ),
+        check=lambda aid: reference_complete(aid, max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-lobbyists",
+        description=(
+            "Lobbyist directory has no published bulk export or validator; "
+            "skip completed raw crawls younger than 30 days."
+        ),
+        check=lambda aid: reference_complete(aid, max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-filing-types",
+        description="LDA filing type constants are small reference data; skip raw assets younger than 30 days.",
+        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-lobbying-issue-codes",
+        description="LDA lobbying issue constants are small reference data; skip raw assets younger than 30 days.",
+        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-government-entities",
+        description="LDA government entity constants are small reference data; skip raw assets younger than 30 days.",
+        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+    ),
+    MaintainSpec(
+        asset_id="senate-lda-contribution-item-types",
+        description="LDA contribution item type constants are small reference data; skip raw assets younger than 30 days.",
+        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+    ),
 ]
