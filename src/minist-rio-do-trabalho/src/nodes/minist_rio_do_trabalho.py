@@ -263,41 +263,45 @@ def _delimited_paths(root_dir: str) -> list[str]:
 
 
 def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
+    py_error: Exception | None = None
     try:
         with py7zr.SevenZipFile(z7_path) as z:
             z.extractall(path=out_dir)
-    except Exception as py_error:
+    except Exception as exc:
+        py_error = exc
         paths = _delimited_paths(out_dir)
         if paths:
-            print(f"  [warn] {file_url}: py7zr reported {type(py_error).__name__}, using extracted delimited file(s)", flush=True)
+            print(f"  [warn] {file_url}: py7zr reported {type(exc).__name__}, using extracted delimited file(s)", flush=True)
             return paths
 
-        fallback_output = ""
-        for name in ("7z", "7zz", "7za", "bsdtar"):
-            exe = shutil.which(name)
-            if not exe:
-                continue
-            if name == "bsdtar":
-                args = [exe, "-xf", z7_path, "-C", out_dir]
-            else:
-                args = [exe, "x", "-y", f"-o{out_dir}", z7_path]
-            proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-            fallback_output = proc.stdout[-2000:]
-            paths = _delimited_paths(out_dir)
-            if paths:
-                if proc.returncode != 0:
-                    print(f"  [warn] {file_url}: {name} exited {proc.returncode} but produced delimited file(s)", flush=True)
-                return paths
-
-        raise RuntimeError(
-            f"{file_url}: failed to extract 7z archive with py7zr and system fallbacks; "
-            f"py7zr={type(py_error).__name__}: {py_error}; fallback_tail={fallback_output!r}"
-        ) from py_error
-
     paths = _delimited_paths(out_dir)
-    if not paths:
-        raise RuntimeError(f"{file_url}: extracted archive contains no delimited TXT/CSV/TSV files")
-    return paths
+    if paths:
+        return paths
+
+    fallback_output = ""
+    for name in ("7z", "7zz", "7za", "bsdtar"):
+        exe = shutil.which(name)
+        if not exe:
+            continue
+        if name == "bsdtar":
+            args = [exe, "-xf", z7_path, "-C", out_dir]
+        else:
+            args = [exe, "x", "-y", f"-o{out_dir}", z7_path]
+        proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        fallback_output = proc.stdout[-2000:]
+        paths = _delimited_paths(out_dir)
+        if paths:
+            if py_error is None:
+                print(f"  [warn] {file_url}: py7zr produced no delimited files, using {name} extraction", flush=True)
+            elif proc.returncode != 0:
+                print(f"  [warn] {file_url}: {name} exited {proc.returncode} but produced delimited file(s)", flush=True)
+            return paths
+
+    py_summary = "no error" if py_error is None else f"{type(py_error).__name__}: {py_error}"
+    raise RuntimeError(
+        f"{file_url}: failed to extract delimited TXT/CSV/TSV files with py7zr and system fallbacks; "
+        f"py7zr={py_summary}; fallback_tail={fallback_output!r}"
+    ) from py_error
 
 
 def _process_archive(file_url: str, asset: str, fragment: str, extra: dict) -> int:
