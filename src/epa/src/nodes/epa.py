@@ -145,6 +145,12 @@ DEFAULT_TIME_BUDGET_S = 20_700.0
 # colliding with the parent watchdog loses the node result even after raw writes.
 WINDOW_DEADLINE_MARGIN_S = 45 * 60
 
+# Do not start another Envirofacts window near this node's own continuation
+# deadline. The final empty-window probe is still a full API request; if it
+# crosses the leg deadline the child can print "drained" but be killed before
+# the parent records the result.
+WINDOW_REQUEST_MARGIN_S = 20 * 60
+
 # Set by src/main.py before load_nodes(). Forked children can see this, unlike
 # the orchestrator's monotonic deadline, so long pulls can stop before the
 # parent watchdog interrupts them.
@@ -294,7 +300,7 @@ def fetch_one(node_id: str) -> bool | None:
         # DAG is inside the safety margin, return the continuation handshake
         # instead of starting a request that the watchdog will kill before the
         # child result is collected.
-        if time.monotonic() >= deadline:
+        if time.monotonic() + WINDOW_REQUEST_MARGIN_S >= deadline:
             print(
                 f"  -> {table}: leg budget spent at window {page} "
                 f"({fetched:,} rows this leg); committing and continuing next link"
