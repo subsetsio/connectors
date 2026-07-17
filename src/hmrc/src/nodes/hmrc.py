@@ -67,10 +67,10 @@ from subsets_utils import (
 )
 
 BASE = "https://api.uktradeinfo.com"
-NODE_BUDGET_S = 1200     # ~20 min of fetching per fact node per leg, then checkpoint
-                         # (returns needs_continuation). Keep this well below the
-                         # runner deadline so staged manifest fragments commit
-                         # before the deadline watchdog can kill the child.
+NODE_BUDGET_S = 780      # ~13 min of fetching per fact node per leg, then checkpoint
+                         # (returns needs_continuation). Keep this comfortably
+                         # below the DAG deadline so staged manifest fragments
+                         # commit before the watchdog can kill the child.
 PAGE_SIZE = 30000        # live OTS probes cap $top at 30k even when 40k is requested
 MAX_PAGES_PER_INVOCATION = 300
 PAGE_SIZE_MARKER = f"_page-size-{PAGE_SIZE}"
