@@ -34,6 +34,10 @@ ROOT = "https://andmed.stat.ee/api/v1/en/stat"
 SLUG = "statistics-estonia"
 # Safety headroom under the documented 1,000,000-values-per-call cap.
 CELL_LIMIT = 500_000
+RETIRED_TABLES = {
+    "rr306.px": "Upstream PxWeb table RR306.PX is no longer listed and its metadata endpoint returns HTTP 400.",
+    "sk23.px": "Upstream PxWeb table SK23.px is no longer listed and its metadata endpoint returns HTTP 400.",
+}
 
 
 def _table_url(path: str) -> str:
@@ -166,6 +170,13 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity_key = node_id[len(SLUG) + 1:]  # strip "statistics-estonia-"
     path = ENTITY_PATHS[entity_key]
+    if entity_key in RETIRED_TABLES:
+        save_raw_ndjson([{
+            "source_path": path,
+            "retired_upstream": True,
+            "note": RETIRED_TABLES[entity_key],
+        }], asset)
+        return
     url = _table_url(path)
     meta = _get_meta(url)
     rows = _fetch_table(url, meta)
