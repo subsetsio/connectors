@@ -12,5 +12,5 @@ SELECT
     CAST("taxon" AS JSON) AS taxon,
     CAST("individual_id" AS JSON) AS individual_id,
     CAST("tag_id" AS JSON) AS tag_id,
-    "study_name"
+    CAST("study_name" AS JSON) AS study_name
 FROM "movebank-move-1469"
