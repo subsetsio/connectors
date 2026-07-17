@@ -50,6 +50,16 @@ def _clean_key(value: str | None, fallback: str) -> str:
     return fallback
 
 
+def _unique_headers(headers: list[str]) -> list[str]:
+    seen: dict[str, int] = {}
+    unique = []
+    for header in headers:
+        count = seen.get(header, 0) + 1
+        seen[header] = count
+        unique.append(header if count == 1 else f"{header}_{count}")
+    return unique
+
+
 def _csv_rows(text: str) -> list[dict]:
     sample = text[:4096]
     try:
@@ -68,10 +78,10 @@ def _csv_rows(text: str) -> list[dict]:
             header_index = index
             break
 
-    headers = [
+    headers = _unique_headers([
         _clean_key(cell, f"column_{i + 1}")
         for i, cell in enumerate(rows[header_index])
-    ]
+    ])
     parsed = []
     for row_number, row in enumerate(rows[header_index + 1 :], start=1):
         if not any(str(cell).strip() for cell in row):
