@@ -28,10 +28,12 @@ from pathlib import Path
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get,
     post,
     raw_parquet_writer,
+    raw_asset_exists,
 )
 from constants import ENTITY_PATHS
 
@@ -140,6 +142,43 @@ def _variables(meta: dict) -> list:
     return out
 
 
+def _codes_and_labels_from_dimension(js: dict, code: str) -> tuple[list, list]:
+    cat = js["dimension"][code]["category"]
+    index = cat["index"]
+    labels = cat.get("label", {}) or {}
+    if isinstance(index, dict):
+        pos2code = {p: c for c, p in index.items()}
+        codes = [pos2code[p] for p in range(len(pos2code))]
+    else:
+        codes = list(index)
+    return codes, [labels.get(c, c) for c in codes]
+
+
+def _hydrate_missing_values(url: str, variables: list) -> list:
+    missing = [i for i, (_, codes, _) in enumerate(variables) if not codes]
+    if not missing:
+        return variables
+
+    query = {
+        "query": [
+            {
+                "code": code,
+                "selection": {"filter": "item", "values": [codes[0]]},
+            }
+            for code, codes, _ in variables
+            if codes
+        ],
+        "response": {"format": "json-stat2"},
+    }
+    js = _post_json(url, query)
+    hydrated = list(variables)
+    for i in missing:
+        code, _, _ = hydrated[i]
+        codes, labels = _codes_and_labels_from_dimension(js, code)
+        hydrated[i] = (code, codes, labels)
+    return hydrated
+
+
 def _chunks(variables: list):
     """Partition the full cartesian selection into blocks of <= CHUNK_CELLS
     cells by binary-splitting the largest dimension. Yields lists of selected
@@ -217,7 +256,7 @@ def fetch_one(node_id: str) -> None:
     url = BASE + path
 
     meta = _get_json(url)
-    variables = _variables(meta)
+    variables = _hydrate_missing_values(url, _variables(meta))
 
     used = set()
     code_to_col = {code: _colname(code, used) for code, _, _ in variables}
@@ -245,5 +284,17 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
+    for eid in ENTITY_PATHS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=f"{SLUG}-{eid}",
+        description=(
+            "PSA OpenSTAT weekly refresh; skip raw parquet fetched in the last "
+            "7 days (inferred from connector maintenance cadence)."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=7),
+    )
     for eid in ENTITY_PATHS
 ]
