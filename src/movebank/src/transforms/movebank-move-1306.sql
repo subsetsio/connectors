@@ -6,8 +6,8 @@
 SELECT
     CAST("event_id" AS BIGINT) AS event_id,
     "timestamp",
-    "longitude",
-    "latitude",
+    CAST("longitude" AS JSON) AS longitude,
+    CAST("latitude" AS JSON) AS latitude,
     "sensor_type",
     "taxon",
     "individual_id",
