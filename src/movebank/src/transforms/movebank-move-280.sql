@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Rows are raw Movebank location or sensor events for one study and may mix individuals, tags, sensor types, and taxa; filter those dimensions before aggregating movement records.
 SELECT
-    "event_id",
+    CAST("event_id" AS JSON) AS event_id,
     "timestamp",
     CAST("longitude" AS DOUBLE) AS longitude,
     CAST("latitude" AS DOUBLE) AS latitude,
