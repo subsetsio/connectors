@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistik-nord-verbraucherpreisindex-schleswig-holstein-juni-2026`. Regenerate after model-verify.
+# caution: Raw Statistik Nord table preserved as an independent source publication; consumers should inspect column meanings and aggregation levels before combining across tables.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: release_title
+    type: VARCHAR
+  - name: source_package_id
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: year
+    type: SMALLINT
+  - name: month
+    type: TINYINT
+  - name: value
+    type: DOUBLE

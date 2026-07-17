@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistik-nord-betriebe-im-verarbeitenden-gewerbe-nach-wirtschaftsabteilungen-in-ascheffel`. Regenerate after model-verify.
+# caution: Raw Statistik Nord table preserved as an independent source publication; consumers should inspect column meanings and aggregation levels before combining across tables.
+key: []
+temporal: value_date
+sort: [value_date]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: VARCHAR
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_url
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_number
+    type: INTEGER
+  - name: column_number
+    type: INTEGER
+  - name: column_label
+    type: VARCHAR
+  - name: value_text
+    type: VARCHAR
+  - name: value_number
+    type: DOUBLE
+  - name: value_date
+    type: DATE
+  - name: value_bool
+    type: BOOLEAN

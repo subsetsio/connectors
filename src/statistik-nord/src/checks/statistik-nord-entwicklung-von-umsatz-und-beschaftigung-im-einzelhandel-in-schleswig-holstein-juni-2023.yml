@@ -1,0 +1,9 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistik-nord-entwicklung-von-umsatz-und-beschaftigung-im-einzelhandel-in-schleswig-holstein-juni-2023`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+temporal: value_date
+regression:
+  row_shrink_tolerance: 0.1
+  temporal_monotonic: true
