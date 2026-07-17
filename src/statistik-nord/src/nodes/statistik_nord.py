@@ -10,12 +10,14 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import io
+import zipfile
 from decimal import Decimal
 from urllib.parse import urlparse
 
 import openpyxl
 import pyarrow as pa
 import xlrd
+from lxml import etree
 from openpyxl.utils import get_column_letter
 
 from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_parquet
@@ -25,7 +27,7 @@ from constants import ENTITY_IDS
 CKAN_PACKAGE_SHOW = "https://opendata.schleswig-holstein.de/api/3/action/package_show"
 PREFIX = "statistik-nord-"
 
-PREFERRED_FORMATS = ("xlsx", "xls", "csv")
+PREFERRED_FORMATS = ("xlsx", "xls", "csv", "gml", "shp")
 MAINTAIN_MAX_AGE_DAYS = 27
 
 SCHEMA = pa.schema(
@@ -68,6 +70,8 @@ def _resource_format(resource: dict) -> str:
     if fmt:
         return fmt.lstrip(".")
     suffix = urlparse(str(resource.get("url") or "")).path.rsplit(".", 1)[-1].lower()
+    if suffix == "zip" and str(resource.get("name") or "").lower().endswith(".zip"):
+        return "shp"
     return suffix if suffix in PREFERRED_FORMATS else ""
 
 
@@ -78,13 +82,31 @@ def _machine_resource(package: dict) -> dict:
             if _resource_format(resource) == fmt:
                 return resource
     formats = sorted({_resource_format(r) or str(r.get("format") or "") for r in resources})
-    raise RuntimeError(f"{package.get('name')}: no supported XLSX/XLS/CSV resource; formats={formats!r}")
+    raise RuntimeError(f"{package.get('name')}: no supported XLSX/XLS/CSV/GML/SHP resource; formats={formats!r}")
 
 
-def _download_resource(resource: dict) -> bytes:
+def _fallback_url(url: str) -> str | None:
+    if "statistik-nord.de/fileadmin/Dokumente/" not in url:
+        return None
+    if not url.lower().endswith(".xlsx"):
+        return None
+    stem = url[:-5]
+    if stem.endswith("-endg"):
+        return None
+    return f"{stem}-endg.xlsx"
+
+
+def _download_resource(resource: dict) -> tuple[dict, bytes]:
     resp = get(resource["url"], timeout=(10.0, 240.0))
+    if resp.status_code == 404:
+        fallback = _fallback_url(resource["url"])
+        if fallback:
+            fallback_resp = get(fallback, timeout=(10.0, 240.0))
+            if fallback_resp.status_code < 400:
+                updated = {**resource, "url": fallback}
+                return updated, fallback_resp.content
     resp.raise_for_status()
-    return resp.content
+    return resource, resp.content
 
 
 def _base_row(entity_id: str, package: dict, resource: dict) -> dict:
@@ -182,11 +204,59 @@ def _rows_from_csv(content: bytes, base: dict) -> list[dict]:
     return rows
 
 
+def _local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1] if "}" in tag else tag
+
+
+def _rows_from_gml(content: bytes, base: dict) -> list[dict]:
+    root = etree.fromstring(content)
+    rows: list[dict] = []
+    row_num = 0
+    for element in root.iter():
+        if not isinstance(element.tag, str):
+            continue
+        children = [child for child in element if isinstance(child.tag, str)]
+        text = (element.text or "").strip()
+        if children or not text:
+            continue
+        row_num += 1
+        path_parts = [_local_name(ancestor.tag) for ancestor in element.iterancestors() if isinstance(ancestor.tag, str)]
+        path = "/".join([*reversed(path_parts), _local_name(element.tag)])
+        _append_cell(rows, base, "gml", row_num, 1, path)
+        _append_cell(rows, base, "gml", row_num, 2, text)
+    return rows
+
+
+def _rows_from_shp_zip(content: bytes, base: dict) -> list[dict]:
+    import shapefile
+
+    with zipfile.ZipFile(io.BytesIO(content)) as archive:
+        names = archive.namelist()
+        shp_name = next((name for name in names if name.lower().endswith(".shp")), None)
+        shx_name = next((name for name in names if name.lower().endswith(".shx")), None)
+        dbf_name = next((name for name in names if name.lower().endswith(".dbf")), None)
+        if not shp_name or not dbf_name:
+            raise RuntimeError(f"{base['entity_id']}: SHP archive lacks .shp/.dbf members")
+        reader = shapefile.Reader(
+            shp=io.BytesIO(archive.read(shp_name)),
+            shx=io.BytesIO(archive.read(shx_name)) if shx_name else None,
+            dbf=io.BytesIO(archive.read(dbf_name)),
+        )
+        field_names = [field[0] for field in reader.fields[1:]]
+        rows: list[dict] = []
+        for row_num, shape_record in enumerate(reader.iterShapeRecords(), start=1):
+            record = shape_record.record.as_dict()
+            for col_num, field_name in enumerate(field_names, start=1):
+                _append_cell(rows, base, "shp", row_num, col_num, record.get(field_name))
+            _append_cell(rows, base, "shp", row_num, len(field_names) + 1, shape_record.shape.shapeTypeName)
+        return rows
+
+
 def fetch_one(node_id: str) -> None:
     entity_id = _entity_from_node_id(node_id)
     package = _package_show(entity_id)
     resource = _machine_resource(package)
-    content = _download_resource(resource)
+    resource, content = _download_resource(resource)
     base = _base_row(entity_id, package, resource)
     fmt = base["resource_format"]
 
@@ -196,6 +266,10 @@ def fetch_one(node_id: str) -> None:
         rows = _rows_from_xls(content, base)
     elif fmt == "csv":
         rows = _rows_from_csv(content, base)
+    elif fmt == "gml":
+        rows = _rows_from_gml(content, base)
+    elif fmt == "shp":
+        rows = _rows_from_shp_zip(content, base)
     else:
         raise RuntimeError(f"{entity_id}: unsupported resource format {fmt!r}")
 
