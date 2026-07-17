@@ -10,7 +10,7 @@ from urllib.parse import urljoin
 import pandas as pd
 
 from constants import ENTITY_IDS, PACKAGE_INDEX_SHA256
-from subsets_utils import NodeSpec, get, post, save_raw_ndjson
+from subsets_utils import MaintainSpec, NodeSpec, get, post, raw_asset_exists, save_raw_ndjson
 
 
 SLUG = "tokyo-metropolitan-government-statistics"
@@ -300,4 +300,16 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_entity_to_spec_id(entity_id), fn=fetch_one)
     for entity_id in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Weekly refresh per Tokyo Metropolitan Government statistics maintenance "
+            "policy; raw assets younger than 7 days are treated as fresh."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson.zst", max_age_days=7),
+    )
+    for spec in DOWNLOAD_SPECS
 ]

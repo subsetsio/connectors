@@ -37,7 +37,7 @@ from typing import IO, Any
 
 import pandas as pd
 
-from subsets_utils import NodeSpec, get, get_client, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, get, get_client, raw_asset_exists, raw_writer
 
 try:
     from constants import ENTITY_IDS
@@ -55,6 +55,8 @@ MAX_SHEETS_PER_WORKBOOK = 50
 CHUNK_ROWS = 50_000
 DOWNLOAD_CHUNK_BYTES = 1 << 20
 DOWNLOAD_ATTEMPTS = 3
+RAW_EXT = "ndjson.gz"
+MAINTAIN_MAX_AGE_DAYS = 7
 
 ARCHIVE_EXTS = (".zip", ".gz")
 PLAIN_EXTS = (".csv", ".tsv", ".txt")
@@ -378,7 +380,7 @@ def fetch_one(node_id: str) -> None:
     failures: list[str] = []
     rows_written = 0
 
-    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as handle:
+    with raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip") as handle:
         for resource in resources:
             resource_id = resource.get("id")
             name = _filename(resource)
@@ -422,4 +424,19 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{entity_id}", fn=fetch_one, kind="download")
     for entity_id in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Tesouro Transparente CKAN packages refresh at dataset-specific cadences; "
+            "production maintenance checks for an existing raw NDJSON asset and "
+            "re-fetches at least every 7 days per connector maintenance cadence."
+        ),
+        check=lambda asset_id: raw_asset_exists(
+            asset_id, RAW_EXT, max_age_days=MAINTAIN_MAX_AGE_DAYS
+        ),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
