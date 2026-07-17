@@ -98,7 +98,9 @@ def _json_cell(value):
 
 def _excel_records(package: dict, resource: dict, url: str, content: bytes) -> list[dict]:
     fmt = _resource_format(resource)
-    engine = "xlrd" if fmt == "XLS" else "openpyxl"
+    lower_url = url.lower().split("#", 1)[0]
+    is_xlsx = lower_url.endswith(".xlsx") or content.startswith(b"PK\x03\x04")
+    engine = "openpyxl" if is_xlsx or fmt == "XLSX" else "xlrd"
     workbook = pd.read_excel(
         io.BytesIO(content),
         sheet_name=None,
