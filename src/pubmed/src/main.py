@@ -15,6 +15,7 @@ the first crawl.
 """
 import os
 import sys
+import time
 from pathlib import Path
 
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
@@ -24,6 +25,7 @@ from subsets_utils import load_nodes, validate_environment
 
 
 def main():
+    os.environ.setdefault("PUBMED_INVOCATION_STARTED_AT", str(time.time()))
     # PubMed baseline files are large enough that a child can still be parsing
     # when the default DAG deadline hits. Use an earlier connector deadline so
     # the runner has room to finalize a clean continuation before GitHub's hard
@@ -32,10 +34,10 @@ def main():
         current_budget = float(os.environ.get("DAG_TIME_BUDGET", "20700") or "20700")
         os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 18_000)))
         os.environ.setdefault("DAG_DRAIN_TIMEOUT_S", "1800")
-        # PubMed's annual baseline is 1,300+ large XML shards. With deliberately
-        # short download legs, the first full crawl needs more continuation
-        # hops than the runtime's general runaway guard allows by default.
-        os.environ.setdefault("DAG_MAX_LEGS", "128")
+        # PubMed's annual baseline is 1,300+ large XML shards. Deliberately
+        # short download legs avoid deadline kills, so the first full crawl
+        # needs far more continuation hops than the general runaway guard.
+        os.environ.setdefault("DAG_MAX_LEGS", "512")
     validate_environment()
     workflow = load_nodes()
     workflow.run()

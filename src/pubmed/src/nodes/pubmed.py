@@ -37,28 +37,32 @@ STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 
-# Files fetched per node invocation. PubMed's largest baseline shards plus R2
-# fragment commits can keep the child alive near the supervisor deadline even
-# after it has printed its continuation message. Keep legs short and let
-# main.py raise this connector's chain cap for the annual full-baseline backfill.
-FILES_PER_RUN = 20
+# Files fetched per node invocation. PubMed's largest baseline shards plus XML
+# parsing and R2 fragment commits can keep the child alive near the supervisor
+# deadline. Keep legs short and let main.py raise this connector's chain cap
+# for the annual full-baseline backfill.
+FILES_PER_RUN = 4
 
 # Additional wall-clock cap for one child process. Runtime continuation still
 # owns the overall job budget; this just commits raw fragments regularly even
 # when a few large XML files parse slowly.
-MAX_NODE_SECONDS = 90 * 60
+MAX_NODE_SECONDS = 75 * 60
 
 # Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value set in
 # src/main.py. The node uses the parent process age to avoid starting a new
 # expensive file too close to the supervisor deadline.
 DEFAULT_TIME_BUDGET_S = 18_000.0
 
-# Do not begin another gzipped XML file unless the parent DAG has this much
-# budget left. A large PubMed baseline file can take tens of minutes to fetch,
-# decompress, parse, upload, and commit; starting one at the end of the DAG
-# budget causes the watchdog to kill the child and leaves the run pending
+# Set by src/main.py before load_nodes(). Forked children can see this
+# invocation timestamp, unlike the orchestrator's monotonic deadline.
+RUN_STARTED_AT_ENV = "PUBMED_INVOCATION_STARTED_AT"
+
+# Do not begin another gzipped XML file unless the current invocation has this
+# much budget left. A large PubMed baseline file can take tens of minutes to
+# fetch, decompress, parse, upload, and commit; starting one at the end of the
+# DAG budget causes the watchdog to kill the child and leaves the run pending
 # instead of cleanly continuing.
-MIN_PARENT_REMAINING_S = 180 * 60
+MIN_INVOCATION_REMAINING_S = 90 * 60
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
@@ -110,12 +114,18 @@ def _discover_baseline() -> tuple[str, list[int]]:
     return prefix, nums
 
 
-def _parent_remaining_seconds() -> float | None:
-    """Approximate remaining supervisor budget from the parent process age."""
+def _invocation_remaining_seconds() -> float | None:
+    """Approximate remaining supervisor budget for this workflow invocation."""
     try:
         budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
     except ValueError:
         budget = DEFAULT_TIME_BUDGET_S
+    try:
+        started = float(os.environ.get(RUN_STARTED_AT_ENV, ""))
+    except ValueError:
+        started = 0.0
+    if started > 0:
+        return budget - max(0.0, time.time() - started)
     try:
         parent_started = psutil.Process(os.getppid()).create_time()
     except Exception:
@@ -123,7 +133,7 @@ def _parent_remaining_seconds() -> float | None:
     return budget - max(0.0, time.time() - parent_started)
 
 
-def _continue_before_parent_deadline(remaining: float) -> bool:
+def _continue_before_invocation_deadline(remaining: float) -> bool:
     """Return True while there is still time for the parent to collect us.
 
     The orchestrator turns a True return into a committed raw-manifest update
@@ -132,7 +142,7 @@ def _continue_before_parent_deadline(remaining: float) -> bool:
     reports the successful continuation result.
     """
     print(
-        f"parent DAG budget has only {max(0.0, remaining):.0f}s left; "
+        f"DAG budget has only {max(0.0, remaining):.0f}s left; "
         "requesting continuation before starting another PubMed file"
     )
     return True
@@ -279,9 +289,12 @@ def fetch_citations(node_id: str):
     )
 
     for i, n in enumerate(batch):
-        parent_remaining = _parent_remaining_seconds()
-        if parent_remaining is not None and parent_remaining < MIN_PARENT_REMAINING_S:
-            return _continue_before_parent_deadline(parent_remaining)
+        invocation_remaining = _invocation_remaining_seconds()
+        if (
+            invocation_remaining is not None
+            and invocation_remaining < MIN_INVOCATION_REMAINING_S
+        ):
+            return _continue_before_invocation_deadline(invocation_remaining)
 
         if i > 0 and time.monotonic() >= deadline:
             print(
