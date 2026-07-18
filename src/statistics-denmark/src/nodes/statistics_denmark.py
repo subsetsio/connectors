@@ -15,14 +15,7 @@ import os
 import pyarrow as pa
 import pyarrow.csv as pacsv
 
-from subsets_utils import (
-    NodeSpec,
-    get,
-    list_raw_fragments,
-    post,
-    raw_parquet_writer,
-    save_raw_parquet,
-)
+from subsets_utils import NodeSpec, get, list_raw_fragments, post, save_raw_parquet
 from constants import ENTITY_IDS
 
 SLUG = "statistics-denmark"
@@ -81,6 +74,15 @@ def _already_complete(asset: str) -> bool:
     """
     frag = list_raw_fragments(asset, "parquet").get("full")
     return bool(frag) and frag.get("run_id") == os.environ.get("RUN_ID", "unknown")
+
+
+def _current_run_fragments(asset: str) -> set[str]:
+    run_id = os.environ.get("RUN_ID", "unknown")
+    return {
+        key
+        for key, meta in list_raw_fragments(asset, "parquet").items()
+        if meta.get("run_id") == run_id
+    }
 
 
 def _flatten_subjects(subjects: list[dict]) -> list[dict]:
@@ -159,35 +161,35 @@ def fetch_one(node_id: str) -> None:
     else:
         slices = [chunk_values[i:i + per_req] for i in range(0, len(chunk_values), per_req)]
 
+    expected_fragments = {f"part-{idx:05d}" for idx in range(len(slices))}
+    done_fragments = _current_run_fragments(asset)
+    if expected_fragments and expected_fragments <= done_fragments:
+        return
+
     schema = None
     total = 0
-    writer_cm = None
-    writer = None
-    try:
-        for sel in slices:
-            body = {
-                "table": table_id,
-                "format": "BULK",
-                "lang": "en",
-                "variables": [{"code": chunk_var["id"], "values": sel}]
-                + [{"code": v["id"], "values": ["*"]} for v in others],
-            }
-            table = _fetch_bulk(body)
-            if table.num_rows == 0:
-                continue
-            if schema is None:
-                schema = pa.schema([(n, pa.string()) for n in table.column_names])
-                writer_cm = raw_parquet_writer(asset, schema)
-                writer = writer_cm.__enter__()
-            else:
-                table = table.select(schema.names)
-            writer.write_table(table.cast(schema))
-            total += table.num_rows
-    finally:
-        if writer_cm is not None:
-            writer_cm.__exit__(None, None, None)
+    for idx, sel in enumerate(slices):
+        fragment = f"part-{idx:05d}"
+        if fragment in done_fragments:
+            continue
+        body = {
+            "table": table_id,
+            "format": "BULK",
+            "lang": "en",
+            "variables": [{"code": chunk_var["id"], "values": sel}]
+            + [{"code": v["id"], "values": ["*"]} for v in others],
+        }
+        table = _fetch_bulk(body)
+        if table.num_rows == 0:
+            continue
+        if schema is None:
+            schema = pa.schema([(n, pa.string()) for n in table.column_names])
+        else:
+            table = table.select(schema.names)
+        save_raw_parquet(table.cast(schema), asset, fragment=fragment)
+        total += table.num_rows
 
-    if total == 0:
+    if total == 0 and not (expected_fragments & done_fragments):
         raise ValueError(f"{table_id}: BULK returned 0 data rows across all chunks")
 
 
