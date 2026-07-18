@@ -17,6 +17,7 @@ from subsets_utils import (
     get,
     post,
     raw_asset_exists,
+    save_raw_file,
     save_raw_parquet,
 )
 
@@ -25,7 +26,7 @@ SLUG = "statistics-slovenia"
 PREFIX = f"{SLUG}-"
 BASE_URL = "https://pxweb.stat.si/SiStatData/api/v1/en/Data"
 MAINTAIN_MAX_AGE_DAYS = 7
-MAX_CELLS_PER_REQUEST = 75_000
+MAX_CELLS_PER_REQUEST = 750_000
 
 # SURS's JSON-stat serializer stalls server-side on some large tables (0701060S:
 # every JSON-stat query, down to a single cell, is dropped after ~60s), while the
@@ -34,7 +35,8 @@ MAX_CELLS_PER_REQUEST = 75_000
 # the value in the last column. It carries no dataset-level label/source/updated
 # and no status markers, so it is a fallback, not the default. Its cells are
 # cheaper server-side, hence the larger per-request budget.
-CSV3_MAX_CELLS_PER_REQUEST = 250_000
+CSV3_MAX_CELLS_PER_REQUEST = 1_500_000
+COMPLETE_EXT = "complete.json"
 PERIOD_RE = re.compile(r"^\d{4}([A-Z]\d{1,2})?$")
 MAINTAIN_DESCRIPTION = (
     f"Full re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. SURS PxWeb "
@@ -284,6 +286,7 @@ def _fetch_jsonstat(node_id: str, url: str, table_id: str, metadata: dict) -> in
     chunks = _chunked_queries(metadata)
     if len(chunks) > 1:
         delete_raw_file(node_id, "parquet")
+    delete_raw_file(node_id, COMPLETE_EXT)
 
     wrote_rows = 0
     for chunk_label, query in chunks:
@@ -302,6 +305,7 @@ def _fetch_jsonstat(node_id: str, url: str, table_id: str, metadata: dict) -> in
 
 def _fetch_csv3(node_id: str, url: str, table_id: str, metadata: dict) -> int:
     delete_raw_file(node_id, "parquet")  # drop whatever the JSON-stat leg wrote
+    delete_raw_file(node_id, COMPLETE_EXT)
     wrote_rows = 0
     for chunk_label, chunk_code, chunk_values in _chunk_specs(
         metadata, CSV3_MAX_CELLS_PER_REQUEST
@@ -352,6 +356,11 @@ def fetch_table(node_id: str) -> None:
 
     if not wrote_rows:
         raise ValueError(f"{node_id}: response produced no rows")
+    save_raw_file(
+        json.dumps({"table_id": table_id, "rows": wrote_rows}, sort_keys=True),
+        node_id,
+        COMPLETE_EXT,
+    )
 
 
 DOWNLOAD_SPECS = [
@@ -361,7 +370,7 @@ DOWNLOAD_SPECS = [
 
 
 def _is_fresh(asset_id: str) -> bool:
-    return raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+    return raw_asset_exists(asset_id, COMPLETE_EXT, max_age_days=MAINTAIN_MAX_AGE_DAYS)
 
 
 MAINTAIN_SPECS = [
