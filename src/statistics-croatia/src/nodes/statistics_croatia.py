@@ -16,6 +16,11 @@ MAX_CELLS_PER_POST = 50_000
 MAX_VALUES_PER_POST = 50
 POST_THROTTLE_SECONDS = 0.2
 FRESH_RAW_MAX_AGE_DAYS = 14
+UNAVAILABLE_ENTITY_IDS = {
+    "robna-razmjena-s-inozemstvom-od-2010-do-2012-godine-fld-country2-eng",
+    "robna-razmjena-s-inozemstvom-od-2010-do-2012-godine-fld-country4-eng",
+}
+UNAVAILABLE_SPEC_IDS = {f"{SPEC_PREFIX}{entity_id}" for entity_id in UNAVAILABLE_ENTITY_IDS}
 
 
 def _table_url(meta: dict) -> str:
@@ -244,13 +249,12 @@ MAINTAIN_SPECS = [
             "PxWeb tables are refreshed on the DZS statistical database; reuse a "
             f"successful raw pull for up to {FRESH_RAW_MAX_AGE_DAYS} days because "
             "the 885-table corpus exceeds one GitHub Actions chain when fully "
-            "refetched."
+            "refetched. Two legacy 2010-2012 foreign-trade tables are permanently "
+            "unavailable via PxWeb despite live metadata and are covered by spec "
+            "waivers."
         ),
-        check=lambda asset_id: raw_asset_exists(
-            asset_id,
-            "ndjson.zst",
-            max_age_days=FRESH_RAW_MAX_AGE_DAYS,
-        ),
+        check=lambda asset_id: asset_id in UNAVAILABLE_SPEC_IDS
+        or raw_asset_exists(asset_id, "ndjson.zst", max_age_days=FRESH_RAW_MAX_AGE_DAYS),
     )
     for spec in DOWNLOAD_SPECS
 ]

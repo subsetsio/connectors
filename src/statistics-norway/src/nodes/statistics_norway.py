@@ -1,9 +1,18 @@
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
 from itertools import product
 
 from constants import ENTITY_IDS
-from subsets_utils import MaintainSpec, NodeSpec, get, post, raw_asset_exists, save_raw_ndjson
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    list_raw_fragments,
+    post,
+    raw_asset_exists,
+    save_raw_ndjson,
+)
 
 
 BASE_URL = "https://data.ssb.no/api/pxwebapi/v2"
@@ -69,6 +78,22 @@ def _split_selection(
         chunk[dimension_id] = codes[start : start + chunk_size]
         chunks.extend(_split_selection(chunk, max_cells))
     return chunks
+
+
+def _fresh_fragment_keys(asset_id: str) -> set[str]:
+    cutoff = datetime.now(timezone.utc) - timedelta(days=MAINTAIN_MAX_AGE_DAYS)
+    fresh = set()
+    for fragment, metadata in list_raw_fragments(asset_id, RAW_EXT).items():
+        fetched_at = metadata.get("fetched_at")
+        if not fetched_at:
+            continue
+        try:
+            fetched = datetime.fromisoformat(str(fetched_at).replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if fetched >= cutoff:
+            fresh.add(fragment)
+    return fresh
 
 
 def _period_start(period: str | None) -> str | None:
@@ -178,7 +203,12 @@ def fetch_table(asset_id: str) -> None:
 
     total_rows = 0
     chunks = _split_selection(selection)
+    fresh_fragments = _fresh_fragment_keys(asset_id)
     for idx, chunk in enumerate(chunks):
+        fragment = f"{idx:04d}"
+        if fragment in fresh_fragments:
+            continue
+
         params = {"lang": "en", "outputFormat": "json-stat2"}
         body = {
             "selection": [
@@ -189,9 +219,9 @@ def fetch_table(asset_id: str) -> None:
         dataset = _post_json(data_url, params=params, body=body)
         rows = _flatten_dataset(table_id, dataset)
         total_rows += len(rows)
-        save_raw_ndjson(rows, asset_id, fragment=f"{idx:04d}")
+        save_raw_ndjson(rows, asset_id, fragment=fragment)
 
-    if total_rows == 0:
+    if total_rows == 0 and len(fresh_fragments) < len(chunks):
         raise RuntimeError(f"{asset_id}: fetched zero rows")
 
 
