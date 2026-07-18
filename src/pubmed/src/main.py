@@ -35,7 +35,7 @@ def main():
         # PubMed's annual baseline is 1,300+ large XML shards. With deliberately
         # short download legs, the first full crawl needs more continuation
         # hops than the runtime's general runaway guard allows by default.
-        os.environ.setdefault("DAG_MAX_LEGS", "64")
+        os.environ.setdefault("DAG_MAX_LEGS", "128")
     validate_environment()
     workflow = load_nodes()
     workflow.run()

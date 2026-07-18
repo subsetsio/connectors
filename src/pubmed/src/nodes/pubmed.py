@@ -37,16 +37,16 @@ STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
 
-# Files fetched per node invocation. PubMed's largest baseline shards can make a
-# 60-file leg run past the supervisor deadline before the continuation result is
-# collected. Keep legs short and let main.py raise this connector's chain cap
-# for the annual full-baseline backfill.
-FILES_PER_RUN = 30
+# Files fetched per node invocation. PubMed's largest baseline shards plus R2
+# fragment commits can keep the child alive near the supervisor deadline even
+# after it has printed its continuation message. Keep legs short and let
+# main.py raise this connector's chain cap for the annual full-baseline backfill.
+FILES_PER_RUN = 20
 
 # Additional wall-clock cap for one child process. Runtime continuation still
 # owns the overall job budget; this just commits raw fragments regularly even
 # when a few large XML files parse slowly.
-MAX_NODE_SECONDS = 120 * 60
+MAX_NODE_SECONDS = 90 * 60
 
 # Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value set in
 # src/main.py. The node uses the parent process age to avoid starting a new
