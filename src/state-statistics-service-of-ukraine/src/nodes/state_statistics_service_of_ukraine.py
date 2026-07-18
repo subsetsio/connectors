@@ -9,13 +9,21 @@ from datetime import datetime
 import csv
 import gzip
 import io
+import os
 import re
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, delete_raw_file, get, save_raw_file, save_raw_parquet
+from subsets_utils import (
+    NodeSpec,
+    delete_raw_file,
+    get,
+    list_raw_fragments,
+    save_raw_file,
+    save_raw_parquet,
+)
 
 SLUG = "state-statistics-service-of-ukraine"
 SDMX_BASE = "https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/2.1"
@@ -86,7 +94,7 @@ def _looks_like_sdmx_csv(content: bytes) -> bool:
     return "DATAFLOW" in head and "TIME_PERIOD" in head and "OBS_VALUE" in head and "\n" in head
 
 
-def _normalized_sdmx_csv(content: bytes) -> bytes:
+def _normalized_sdmx_csv(content: bytes) -> tuple[bytes, int]:
     text = content.decode("utf-8-sig", "replace")
     reader = csv.reader(io.StringIO(text))
     rows = []
@@ -103,25 +111,20 @@ def _normalized_sdmx_csv(content: bytes) -> bytes:
             rows.append(row)
 
     if columns is None:
-        return b""
+        return b"", 0
 
     output = io.StringIO()
     writer = csv.writer(output, lineterminator="\n")
     writer.writerows(rows)
-    return output.getvalue().encode("utf-8")
+    return output.getvalue().encode("utf-8"), max(len(rows) - 1, 0)
 
 
 def _csv_row_count(content: bytes) -> int:
-    normalized = _normalized_sdmx_csv(content)
-    if not normalized:
-        return 0
-    text = normalized.decode("utf-8")
-    lines = [line for line in text.splitlines() if line.strip()]
-    return max(len(lines) - 1, 0)
+    _, row_count = _normalized_sdmx_csv(content)
+    return row_count
 
 
-def _csv_to_table(content: bytes) -> pa.Table:
-    normalized = _normalized_sdmx_csv(content)
+def _csv_to_table(normalized: bytes) -> pa.Table:
     if not normalized:
         raise ValueError("SDMX-CSV response had no header")
     header = normalized.splitlines()[0].decode("utf-8")
@@ -142,19 +145,20 @@ def _save_sdmx_csv(
     *,
     fragment: str | None = None,
     csv_gzip: bool = False,
-) -> None:
+) -> int:
+    normalized, row_count = _normalized_sdmx_csv(content)
+    if row_count == 0:
+        return 0
     if csv_gzip:
-        normalized = _normalized_sdmx_csv(content)
-        if not normalized:
-            raise ValueError("SDMX-CSV response had no header")
         save_raw_file(
-            gzip.compress(normalized, compresslevel=3),
+            gzip.compress(normalized, compresslevel=1),
             node_id,
             "csv.gz",
             fragment=fragment,
         )
-        return
-    save_raw_parquet(_csv_to_table(content), node_id, fragment=fragment)
+        return row_count
+    save_raw_parquet(_csv_to_table(normalized), node_id, fragment=fragment)
+    return row_count
 
 
 def _save_retired_marker(entity_id: str, node_id: str) -> None:
@@ -267,6 +271,7 @@ def _fetch_key_slices(
     key_parts: list[str],
     depth: int,
     csv_gzip: bool = False,
+    done_fragments: set[str] | None = None,
 ) -> int:
     """Fetch one key slice, splitting on a dimension when the server can't build it.
 
@@ -280,17 +285,22 @@ def _fetch_key_slices(
     # Both endpoints want the key omitted entirely rather than left all-empty.
     key = ".".join(key_parts) if any(key_parts) else None
     if key is not None:
+        fragment = _fragment_name(dimensions, key_parts)
+        if done_fragments is not None and fragment in done_fragments:
+            return 1
         content = _fetch_csv(f"{SDMX_BASE}/data/SSSU,{entity_id},{version}/{key}")
         if content is not None:
-            if _csv_row_count(content) == 0:
-                return 0
-            _save_sdmx_csv(
+            row_count = _save_sdmx_csv(
                 content,
                 node_id,
-                fragment=_fragment_name(dimensions, key_parts),
+                fragment=fragment,
                 csv_gzip=csv_gzip,
             )
-            return 1
+            if row_count:
+                if done_fragments is not None:
+                    done_fragments.add(fragment)
+                return 1
+            return 0
 
     if depth >= MAX_SPLIT_DEPTH:
         return 0
@@ -309,7 +319,14 @@ def _fetch_key_slices(
             child = list(key_parts)
             child[index] = value
             saved += _fetch_key_slices(
-                entity_id, version, node_id, dimensions, child, depth + 1, csv_gzip
+                entity_id,
+                version,
+                node_id,
+                dimensions,
+                child,
+                depth + 1,
+                csv_gzip,
+                done_fragments,
             )
         return saved
 
@@ -326,8 +343,18 @@ def fetch_one(node_id: str) -> None:
     # delete only commits if this node succeeds, and the objects it orphans are
     # gc-raw's to collect.
     csv_gzip = entity_id in _CSV_GZIP_RAW
-    delete_raw_file(node_id, "parquet")
-    delete_raw_file(node_id, "csv.gz")
+    extension = "csv.gz" if csv_gzip else "parquet"
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done_fragments = {
+        fragment
+        for fragment, meta in list_raw_fragments(node_id, extension).items()
+        if meta.get("run_id") == run_id
+    }
+    if done_fragments:
+        print(f"  -> Resuming {entity_id}: {len(done_fragments):,} fragments already committed")
+    else:
+        delete_raw_file(node_id, "parquet")
+        delete_raw_file(node_id, "csv.gz")
 
     try:
         version = _latest_version(entity_id)
@@ -340,23 +367,35 @@ def fetch_one(node_id: str) -> None:
     url = f"{SDMX_BASE}/data/SSSU,{entity_id},{version}"
     content = _fetch_csv(url)
     if content is not None:
-        _save_sdmx_csv(content, node_id, csv_gzip=csv_gzip)
-        return
+        if _save_sdmx_csv(content, node_id, csv_gzip=csv_gzip):
+            return
 
     saved = 0
     for year in _availability_years(entity_id, version):
+        if str(year) in done_fragments:
+            saved += 1
+            continue
         part_url = f"{url}?startPeriod={year}&endPeriod={year}"
         part = _fetch_csv(part_url)
-        if part is None or _csv_row_count(part) == 0:
+        if part is None:
             continue
-        _save_sdmx_csv(part, node_id, fragment=str(year), csv_gzip=csv_gzip)
-        saved += 1
+        row_count = _save_sdmx_csv(part, node_id, fragment=str(year), csv_gzip=csv_gzip)
+        if row_count:
+            done_fragments.add(str(year))
+            saved += 1
     if saved:
         return
 
     dimensions = _dimension_order(entity_id, version)
     saved = _fetch_key_slices(
-        entity_id, version, node_id, dimensions, [""] * len(dimensions), 0, csv_gzip
+        entity_id,
+        version,
+        node_id,
+        dimensions,
+        [""] * len(dimensions),
+        0,
+        csv_gzip,
+        done_fragments,
     )
     if saved == 0:
         raise ValueError(
