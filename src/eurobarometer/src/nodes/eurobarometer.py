@@ -31,10 +31,17 @@ from __future__ import annotations
 
 import datetime as dt
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, list_raw_fragments, save_raw_parquet
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    list_raw_fragments,
+    raw_asset_exists,
+    save_raw_parquet,
+)
 
 from utils import (
     dataset_notes,
@@ -101,6 +108,8 @@ MAX_ENRICHMENT_MISS_FRACTION = 0.35
 # microdata dressed as Volume A. This is the catastrophe guard, not the coverage
 # check — the tests/ spec pins the real floor at 600 distinct surveys.
 MAX_EMPTY_FRACTION = 0.40
+RESPONSE_WORKERS = int(os.environ.get("EUROBAROMETER_RESPONSE_WORKERS", "8"))
+MAINTAIN_MAX_AGE_DAYS = 30
 
 
 def _survey_type(reference, title):
@@ -190,6 +199,25 @@ def fetch_surveys(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=SURVEYS_SCHEMA), node_id)
 
 
+def _fetch_response_rows(dataset_id: str, resources: list[tuple[str, str]]) -> tuple[str, list[dict], int]:
+    rows = []
+    failed = 0
+    for title, url in resources:
+        try:
+            payload = download(url)
+        except Exception as exc:
+            # A dead distribution link is the source's problem, not a bug:
+            # isolate it so one 404 cannot sink the whole crawl.
+            print(f"[responses] {dataset_id}: download failed {title!r} "
+                  f"{type(exc).__name__}: {exc}")
+            failed += 1
+            continue
+        for row in parse_volume_a(payload, title):
+            row["survey_id"] = dataset_id
+            rows.append(row)
+    return dataset_id, rows, failed
+
+
 def fetch_responses(node_id: str) -> None:
     """Parse every Volume-A workbook into long format, one fragment per dataset."""
     datasets = enumerate_commu_datasets()
@@ -207,30 +235,27 @@ def fetch_responses(node_id: str) -> None:
     print(f"[responses] {len(targets)} of {len(datasets)} datasets ship a Volume A")
 
     written = resumed = failed = empty = 0
+    pending = []
     for dataset_id, resources in targets.items():
         if dataset_id in committed:
             resumed += 1
             continue
-        rows = []
-        for title, url in resources:
-            try:
-                payload = download(url)
-            except Exception as exc:
-                # A dead distribution link is the source's problem, not a bug:
-                # isolate it so one 404 cannot sink the whole crawl.
-                print(f"[responses] {dataset_id}: download failed {title!r} "
-                      f"{type(exc).__name__}: {exc}")
-                failed += 1
+        pending.append((dataset_id, resources))
+
+    workers = min(RESPONSE_WORKERS, max(1, len(pending)))
+    print(f"[responses] parsing {len(pending)} pending datasets with {workers} workers")
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(_fetch_response_rows, dataset_id, resources)
+                   for dataset_id, resources in pending]
+        for future in as_completed(futures):
+            dataset_id, rows, failures = future.result()
+            failed += failures
+            if not rows:
+                empty += 1
                 continue
-            for row in parse_volume_a(payload, title):
-                row["survey_id"] = dataset_id
-                rows.append(row)
-        if not rows:
-            empty += 1
-            continue
-        save_raw_parquet(pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA),
-                         node_id, fragment=dataset_id)
-        written += 1
+            save_raw_parquet(pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA),
+                             node_id, fragment=dataset_id)
+            written += 1
 
     print(f"[responses] done: {written} fragments written, {resumed} resumed, "
           f"{empty} parsed to nothing, {failed} downloads failed")
@@ -246,4 +271,25 @@ def fetch_responses(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="eurobarometer-surveys", fn=fetch_surveys, kind="download"),
     NodeSpec(id="eurobarometer-responses", fn=fetch_responses, kind="download"),
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="eurobarometer-surveys",
+        description=(
+            "Eurobarometer catalog and survey metadata are re-observed monthly; "
+            "skip when the raw survey snapshot is under 30 days old, matching "
+            "maintenance.json's inferred cadence."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS),
+    ),
+    MaintainSpec(
+        asset_id="eurobarometer-responses",
+        description=(
+            "Volume-A workbooks are historical with no delta endpoint; re-pull "
+            "monthly to catch newly published waves while skipping a fresh full "
+            "response corpus."
+        ),
+        check=lambda asset_id: raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS),
+    ),
 ]
