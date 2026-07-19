@@ -345,11 +345,18 @@ def fetch_one(node_id: str) -> None:
     csv_gzip = entity_id in _CSV_GZIP_RAW
     extension = "csv.gz" if csv_gzip else "parquet"
     run_id = os.environ.get("RUN_ID", "unknown")
-    done_fragments = {
-        fragment
-        for fragment, meta in list_raw_fragments(node_id, extension).items()
-        if meta.get("run_id") == run_id
-    }
+    live_fragments = list_raw_fragments(node_id, extension)
+    if csv_gzip:
+        # The oversized external-trade flow is an incremental fragment set in
+        # practice: a GitHub leg can time out after committing hundreds of
+        # country slices. Resume from the committed manifest across run ids.
+        done_fragments = set(live_fragments)
+    else:
+        done_fragments = {
+            fragment
+            for fragment, meta in live_fragments.items()
+            if meta.get("run_id") == run_id
+        }
     if done_fragments:
         print(f"  -> Resuming {entity_id}: {len(done_fragments):,} fragments already committed")
     else:
