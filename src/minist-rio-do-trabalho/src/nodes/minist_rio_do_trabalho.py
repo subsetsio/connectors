@@ -253,13 +253,36 @@ def _iter_rows(path: str, encoding: str, extra: dict):
             yield row
 
 
+def _looks_delimited(path: str) -> bool:
+    """Some PDET archives contain extensionless text members."""
+    if os.path.basename(path).lower().endswith((".7z", ".zip", ".rar", ".gz")):
+        return False
+    try:
+        with open(path, "rb") as fh:
+            for _ in range(20):
+                line = fh.readline(1 << 16)
+                if not line:
+                    return False
+                line = line.strip()
+                if not line:
+                    continue
+                return line.count(b";") >= 2 and b"\x00" not in line
+    except OSError:
+        return False
+    return False
+
+
 def _delimited_paths(root_dir: str) -> list[str]:
-    return [
-        os.path.join(root, f)
-        for root, _, files in os.walk(root_dir)
-        for f in files
-        if f.lower().endswith((".txt", ".csv", ".tsv"))
-    ]
+    explicit: list[str] = []
+    extensionless: list[str] = []
+    for root, _, files in os.walk(root_dir):
+        for f in files:
+            path = os.path.join(root, f)
+            if f.lower().endswith((".txt", ".csv", ".tsv")):
+                explicit.append(path)
+            elif _looks_delimited(path):
+                extensionless.append(path)
+    return explicit or extensionless
 
 
 def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
