@@ -23,6 +23,7 @@ Fetch strategy per product family:
 
 import json
 import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 
 import httpx
@@ -40,6 +41,11 @@ SLUG = "norwegian-meteorological-institute"
 
 # sunrise is astronomy: how many days ahead to enumerate per location.
 SUNRISE_WINDOW_DAYS = 10
+
+# MET Norway asks clients to contact them above 20 requests/second. Keep the
+# initial iceberg archive backfill comfortably below that while avoiding a
+# multi-hour sequential request loop.
+ICEBERG_MAX_WORKERS = 6
 
 
 def _fetched_at() -> str:
@@ -396,39 +402,46 @@ def _iceberg_available_dates() -> list[str]:
     return sorted(set(dates))
 
 
+def _fetch_iceberg_rows(date: str) -> list[dict]:
+    fetched_at = _fetched_at()
+    doc, _ = _get_json(f"{BASE}/iceberg/0.1/?date={date}")
+    rows = []
+    for feature in doc.get("features") or []:
+        geom = feature.get("geometry") or {}
+        coords = geom.get("coordinates") or [None, None]
+        props = feature.get("properties") or {}
+        rows.append(
+            {
+                "date": date,
+                "instant": (feature.get("when") or {}).get("instant"),
+                "lon": coords[0] if len(coords) > 0 else None,
+                "lat": coords[1] if len(coords) > 1 else None,
+                "brgare": props.get("BRGARE"),
+                "ia_bcn": props.get("IA_BCN"),
+                "ia_bln": props.get("IA_BLN"),
+                "ais_chk": props.get("ais_chk"),
+                "title": props.get("title"),
+                "fetched_at": fetched_at,
+            }
+        )
+    return rows
+
+
 def fetch_iceberg(node_id: str) -> None:
     done = set(list_raw_fragments(node_id, "ndjson.zst").keys())
-    for date in _iceberg_available_dates():
-        fragment = date.replace("-", "")
-        if fragment in done:
-            continue  # already committed on a prior run — immutable, skip
-        fetched_at = _fetched_at()
-        try:
-            doc, _ = _get_json(f"{BASE}/iceberg/0.1/?date={date}")
-        except httpx.HTTPStatusError as err:
-            if _is_permanent_4xx(err):
-                continue
-            raise
-        rows = []
-        for feature in doc.get("features") or []:
-            geom = feature.get("geometry") or {}
-            coords = geom.get("coordinates") or [None, None]
-            props = feature.get("properties") or {}
-            rows.append(
-                {
-                    "date": date,
-                    "instant": (feature.get("when") or {}).get("instant"),
-                    "lon": coords[0] if len(coords) > 0 else None,
-                    "lat": coords[1] if len(coords) > 1 else None,
-                    "brgare": props.get("BRGARE"),
-                    "ia_bcn": props.get("IA_BCN"),
-                    "ia_bln": props.get("IA_BLN"),
-                    "ais_chk": props.get("ais_chk"),
-                    "title": props.get("title"),
-                    "fetched_at": fetched_at,
-                }
-            )
-        save_raw_ndjson(rows, node_id, fragment=fragment)
+    pending = [date for date in _iceberg_available_dates() if date.replace("-", "") not in done]
+
+    with ThreadPoolExecutor(max_workers=ICEBERG_MAX_WORKERS) as pool:
+        futures = {pool.submit(_fetch_iceberg_rows, date): date for date in pending}
+        for fut in as_completed(futures):
+            date = futures[fut]
+            try:
+                rows = fut.result()
+            except httpx.HTTPStatusError as err:
+                if _is_permanent_4xx(err):
+                    continue
+                raise
+            save_raw_ndjson(rows, node_id, fragment=date.replace("-", ""))
 
 
 DOWNLOAD_SPECS = [
