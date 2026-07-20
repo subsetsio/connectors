@@ -46,6 +46,7 @@ response raises instead of committing a short fragment.
 from __future__ import annotations
 
 import csv
+import contextvars
 import json
 import os
 import re
@@ -97,6 +98,12 @@ _CHUNK_BYTES = 1024 * 1024
 # The throttle is per-connection, so concurrency multiplies aggregate throughput.
 # Held low enough that `_CONCURRENCY` in-flight files stay inside runner RAM.
 _CONCURRENCY = 8
+
+
+def _submit_with_context(executor: ThreadPoolExecutor, fn, *args):
+    """Run a worker with the current node ContextVar propagated."""
+    ctx = contextvars.copy_context()
+    return executor.submit(ctx.run, fn, *args)
 
 
 # --------------------------------------------------------------------------- #
@@ -449,7 +456,8 @@ def _header_union(node_id: str, urls: list[str], run_id: str) -> list[str]:
         return state["columns"]
 
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
-        per_file = list(ex.map(_fetch_header, urls))
+        futures = [_submit_with_context(ex, _fetch_header, url) for url in urls]
+        per_file = [fut.result() for fut in futures]
     columns: list[str] = []
     seen: set[str] = set()
     for cols in per_file:
@@ -534,7 +542,7 @@ def fetch_one(node_id: str) -> None:
 
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
         futures = [
-            ex.submit(_fetch_fragment, node_id, desc, url, columns)
+            _submit_with_context(ex, _fetch_fragment, node_id, desc, url, columns)
             for url in pending
         ]
         for fut in futures:
