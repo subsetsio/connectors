@@ -10,7 +10,7 @@ SELECT
     CAST("latitude" AS DOUBLE) AS latitude,
     "sensor_type",
     "taxon",
-    CAST("individual_id" AS BIGINT) AS individual_id,
+    "individual_id",
     CAST("tag_id" AS BIGINT) AS tag_id,
     "study_name"
 FROM "movebank-move-1083"

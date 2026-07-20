@@ -5,7 +5,7 @@
 -- caution: Rows are raw Movebank location or sensor events for one study and may mix individuals, tags, sensor types, and taxa; filter those dimensions before aggregating movement records.
 SELECT
     CAST("event_id" AS BIGINT) AS event_id,
-    "timestamp",
+    CAST("timestamp" AS VARCHAR) AS timestamp,
     CAST("longitude" AS DOUBLE) AS longitude,
     CAST("latitude" AS DOUBLE) AS latitude,
     "sensor_type",
