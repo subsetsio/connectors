@@ -1,39 +1,22 @@
-"""GDELT 2.0 Events — daily country x event-root x quad-class activity panel.
+"""GDELT 2.0 Events — recent daily country x event-root x quad-class panel.
 
 GDELT publishes the full firehose of CAMEO-coded world news events as one
 tab-delimited CSV.zip "export" file per 15-minute interval (~96/day), listed in
-masterfilelist.txt, from 2015-02-18 onward. The full row-level corpus is ~600M
-rows / ~390k files — too large to publish at row grain, so we AGGREGATE on the
-fly: for each complete past UTC day we fetch that day's export files, roll the
-events up to (event_day x action-location country x CAMEO event-root x quad class)
-with event counts and mention/article/Goldstein/tone measures, and write ONE
-small parquet batch per file-date. The published subset `gdelt-events` is the
-glob-union of those batches, re-aggregated in SQL into a clean
-conflict/cooperation time series. The aggregate is tiny: ~3.5k groups/day x ~4150
-days ≈ 14M rows for the whole 11-year history — a few hundred MB of parquet.
+masterfilelist.txt, from 2015-02-18 onward. The full row-level corpus is too
+large to publish at row grain, so we AGGREGATE on the fly: for each complete
+past UTC day in the rolling lookback window we fetch that day's export files,
+roll the events up to (event_day x action-location country x CAMEO event-root x
+quad class) with event counts and mention/article/Goldstein/tone measures, and
+write ONE small parquet batch per file-date. The published subset
+`gdelt-events` is the glob-union of those batches, re-aggregated in SQL into a
+clean conflict/cooperation time series.
 
-DESIGN — stateless full re-pull (NO connector-scoped watermark). This is
-deliberate and load-bearing. In this harness raw is *run-scoped*
-(`runs/<run_id>/raw/`) while state is *connector-scoped*, and the SQL transform
-rebuilds the table with overwrite() from the glob-union of THIS run's raw only.
-A shared watermark that skipped file-dates fetched by a *prior* run — whose
-batches live in that prior run's raw dir, invisible to this run's transform —
-would silently publish a partial table (exactly the failure mode an earlier
-watermarked version hit: the backfill split across two run_ids and the published
-table covered only the second run's slice). So every run re-fetches the whole
-history into its own raw dir and the transform sees all of it. At ~2.7s/file-date
-the full backfill is ~11k s of fetch, inside the cloud DAG_TIME_BUDGET (~5.75h),
-so a single run materializes the complete table; revisions are picked up for free
-because no high-water mark is ever trusted.
-
-Resume is per-run and idempotent, NOT stateful: on a supervisor interrupt ->
-continuation (same run_id, same raw dir) the loop skips file-dates whose batch is
-already present in this run's raw, so it picks up where it left off without
-re-fetching. There is no self-imposed run budget — the loop runs until caught up
-to the live edge (yesterday UTC; today's 15-minute files are still accumulating)
-and the supervisor caps wall-clock. The cost is that a *fresh* run_id re-fetches
-the corpus from scratch; that is the price of a guaranteed-complete table under
-run-scoped raw, and it is what makes the connector robust to run fragmentation.
+DESIGN — stateless rolling re-pull. A full 2015-present backfill now exceeds
+the cloud job budget, so each run republishes the latest two years of complete
+UTC days. That still captures current global event dynamics and source
+revisions inside the window while keeping every fresh run independently
+complete; no cross-run watermark is needed and no previous raw directory has to
+be trusted for the published overwrite table.
 
 Why event_day (not file-date) is the grain: a 15-minute export file mostly
 contains events dated that day, but carries a few late-detected stragglers dated
@@ -52,7 +35,7 @@ import io
 import os
 import zipfile
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import httpx
@@ -66,9 +49,11 @@ from subsets_utils import (
 )
 
 # GDELT 2.0 begins 2015-02-18; v1 (1979-2015) uses an incompatible schema/cadence
-# and is intentionally excluded.
+# and is intentionally excluded. We publish a rolling two-year slice so a fresh
+# run completes inside the cloud budget.
 SOURCE_MIN_DATE = datetime(2015, 2, 18).date()
 _SOURCE_MIN_DAY8 = "20150218"  # same bound as YYYYMMDD for lexical event-day filtering
+_LOOKBACK_DAYS = 730
 
 _MASTER_FILE_LIST_URL = "http://data.gdeltproject.org/gdeltv2/masterfilelist.txt"
 _CAMEO_EVENTCODES_URL = "https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt"
@@ -305,11 +290,9 @@ def _build_batch(agg: dict) -> "pa.Table":
 
 
 def fetch_events(node_id: str) -> None:
-    """Stateless full re-pull (see module docstring). Re-materialize every
-    complete GDELT file-date from 2015-02-18 to yesterday UTC as one parquet
-    fragment each, skipping fragments this run already COMMITTED to the raw
-    manifest so a continuation resumes cheaply. No watermark, no run budget."""
+    """Re-materialize the rolling two-year GDELT event aggregate."""
     today_utc = datetime.now(tz=timezone.utc).date()
+    min_date = max(SOURCE_MIN_DATE, today_utc - timedelta(days=_LOOKBACK_DAYS))
 
     # File-dates already committed in THIS run: each completed leg commits its
     # fragments (stamped with our RUN_ID), so the set is empty on a fresh
@@ -326,7 +309,7 @@ def fetch_events(node_id: str) -> None:
     # Only COMPLETE past days (never today), in order, minus what's already done.
     pending = sorted(
         d for d in by_date
-        if SOURCE_MIN_DATE <= datetime.strptime(d, "%Y%m%d").date() < today_utc
+        if min_date <= datetime.strptime(d, "%Y%m%d").date() < today_utc
         and f"{d[:4]}-{d[4:6]}-{d[6:8]}" not in done
     )
     if not pending:
