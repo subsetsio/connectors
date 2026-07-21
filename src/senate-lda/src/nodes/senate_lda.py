@@ -1,6 +1,8 @@
 """Download specs for the U.S. Senate Lobbying Disclosure Act REST API."""
 
-from subsets_utils import MaintainSpec, NodeSpec, raw_asset_exists, save_raw_ndjson
+import pyarrow as pa
+
+from subsets_utils import MaintainSpec, NodeSpec, save_raw_parquet
 from utils import (
     API_BASE,
     _auth_headers,
@@ -180,6 +182,26 @@ CONSTANT_ENDPOINTS = {
 }
 
 
+CONSTANT_SCHEMAS = {
+    "senate-lda-filing-types": pa.schema([
+        ("filing_type", pa.string()),
+        ("filing_type_display", pa.string()),
+    ]),
+    "senate-lda-lobbying-issue-codes": pa.schema([
+        ("code", pa.string()),
+        ("description", pa.string()),
+    ]),
+    "senate-lda-government-entities": pa.schema([
+        ("id", pa.int64()),
+        ("name", pa.string()),
+    ]),
+    "senate-lda-contribution-item-types": pa.schema([
+        ("contribution_type", pa.string()),
+        ("contribution_type_display", pa.string()),
+    ]),
+}
+
+
 def fetch_constant_table(node_id: str) -> None:
     endpoint = CONSTANT_ENDPOINTS[node_id]
     data = _fetch(f"{API_BASE}/{endpoint}", {}, _auth_headers())
@@ -187,7 +209,7 @@ def fetch_constant_table(node_id: str) -> None:
         rows = data.get("results") or []
     else:
         rows = data
-    save_raw_ndjson(rows, node_id)
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=CONSTANT_SCHEMAS[node_id]), node_id)
 
 
 DOWNLOAD_SPECS = [

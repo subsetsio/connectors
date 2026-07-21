@@ -13,16 +13,18 @@ import os
 import time
 from datetime import date, datetime, timezone
 
+import pyarrow as pa
+
 from subsets_utils import (
     get,
     list_raw_fragments,
-    save_raw_ndjson,
     load_state,
+    save_raw_parquet,
     save_state,
 )
 
 API_BASE = "https://lda.senate.gov/api/v1"
-STATE_VERSION = 3
+STATE_VERSION = 4
 
 # Earliest posting year per endpoint (filings from 1999, LD-203 from 2008).
 MIN_YEAR = {"filings": 1999, "contributions": 2008}
@@ -101,7 +103,7 @@ def _month_range(start_year: int) -> list[tuple[int, int]]:
 
 def dated_complete(asset: str, endpoint: str, *, max_age_days: int = 7) -> bool:
     """True when every historical month exists and the live month is fresh."""
-    fragments = list_raw_fragments(asset, "ndjson.zst")
+    fragments = list_raw_fragments(asset, "parquet")
     expected = {f"{y:04d}-{m:02d}" for y, m in _month_range(MIN_YEAR[endpoint])}
     if not expected.issubset(fragments):
         return False
@@ -121,7 +123,7 @@ def reference_complete(asset: str, *, max_age_days: int = 30) -> bool:
     state = load_state(asset)
     if state.get("schema_version") != STATE_VERSION or not state.get("complete"):
         return False
-    fragments = list_raw_fragments(asset, "ndjson.zst")
+    fragments = list_raw_fragments(asset, "parquet")
     if not fragments:
         return False
     latest = max(
@@ -151,7 +153,7 @@ def _crawl_dated(asset: str, endpoint: str, flatten) -> bool | None:
 
     months = _month_range(MIN_YEAR[endpoint])
     cur = months[-1]
-    committed = list_raw_fragments(asset, "ndjson.zst")
+    committed = list_raw_fragments(asset, "parquet")
     done = {
         frag for frag, meta in committed.items()
         if meta.get("run_id") == run_id or frag != f"{cur[0]:04d}-{cur[1]:02d}"
@@ -191,7 +193,7 @@ def _crawl_dated(asset: str, endpoint: str, flatten) -> bool | None:
                 )
 
         if rows:
-            save_raw_ndjson(rows, asset, fragment=frag)
+            _save_rows(rows, asset, fragment=frag)
         print(f"{asset}: {frag} {len(rows):,} rows ({i}/{len(months)})")
 
     return None
@@ -211,7 +213,7 @@ def _crawl_paged(asset: str, endpoint: str, flatten) -> bool | None:
     if state.get("schema_version") != STATE_VERSION:
         state = {}
 
-    done = set(list_raw_fragments(asset, "ndjson.zst"))
+    done = set(list_raw_fragments(asset, "parquet"))
     done_ranges = []
     for frag in done:
         if not frag.startswith("p"):
@@ -244,7 +246,7 @@ def _crawl_paged(asset: str, endpoint: str, flatten) -> bool | None:
 
         if buf and ((page - batch_start + 1) >= REF_BATCH_PAGES or not has_next):
             frag = f"p{batch_start:05d}-p{page:05d}"
-            save_raw_ndjson(buf, asset, fragment=frag)
+            _save_rows(buf, asset, fragment=frag)
             print(f"{asset}: wrote {frag} ({len(buf):,} rows)")
             buf = []
             batch_start = page + 1
@@ -264,3 +266,117 @@ def _crawl_paged(asset: str, endpoint: str, flatten) -> bool | None:
             )
 
     return None
+
+
+SCHEMAS = {
+    "senate-lda-filings": pa.schema([
+        ("filing_uuid", pa.string()),
+        ("filing_year", pa.int64()),
+        ("filing_type", pa.string()),
+        ("filing_type_display", pa.string()),
+        ("filing_period", pa.string()),
+        ("filing_period_display", pa.string()),
+        ("income", pa.string()),
+        ("expenses", pa.string()),
+        ("dt_posted", pa.string()),
+        ("termination_date", pa.string()),
+        ("filing_document_url", pa.string()),
+        ("registrant_id", pa.int64()),
+        ("registrant_name", pa.string()),
+        ("registrant_state", pa.string()),
+        ("registrant_country", pa.string()),
+        ("client_id", pa.int64()),
+        ("client_name", pa.string()),
+        ("client_state", pa.string()),
+        ("client_country", pa.string()),
+    ]),
+    "senate-lda-lobbying-activities": pa.schema([
+        ("filing_uuid", pa.string()),
+        ("filing_year", pa.int64()),
+        ("dt_posted", pa.string()),
+        ("registrant_name", pa.string()),
+        ("client_name", pa.string()),
+        ("issue_code", pa.string()),
+        ("issue_area", pa.string()),
+        ("description", pa.string()),
+        ("lobbyist_names", pa.list_(pa.string())),
+        ("government_entities", pa.list_(pa.string())),
+    ]),
+    "senate-lda-contributions": pa.schema([
+        ("filing_uuid", pa.string()),
+        ("filing_year", pa.int64()),
+        ("filing_type", pa.string()),
+        ("filing_type_display", pa.string()),
+        ("filing_period", pa.string()),
+        ("dt_posted", pa.string()),
+        ("filer_type", pa.string()),
+        ("filer_type_display", pa.string()),
+        ("contact_name", pa.string()),
+        ("state", pa.string()),
+        ("country", pa.string()),
+        ("no_contributions", pa.bool_()),
+        ("registrant_id", pa.int64()),
+        ("registrant_name", pa.string()),
+        ("lobbyist_id", pa.int64()),
+        ("lobbyist_name", pa.string()),
+    ]),
+    "senate-lda-contribution-items": pa.schema([
+        ("filing_uuid", pa.string()),
+        ("filing_year", pa.int64()),
+        ("dt_posted", pa.string()),
+        ("contribution_type", pa.string()),
+        ("contribution_type_display", pa.string()),
+        ("contributor_name", pa.string()),
+        ("payee_name", pa.string()),
+        ("honoree_name", pa.string()),
+        ("amount", pa.string()),
+        ("contribution_date", pa.string()),
+    ]),
+    "senate-lda-registrants": pa.schema([
+        ("id", pa.int64()),
+        ("house_registrant_id", pa.int64()),
+        ("name", pa.string()),
+        ("description", pa.string()),
+        ("city", pa.string()),
+        ("state", pa.string()),
+        ("state_display", pa.string()),
+        ("country", pa.string()),
+        ("country_display", pa.string()),
+        ("ppb_country", pa.string()),
+        ("contact_name", pa.string()),
+        ("dt_updated", pa.string()),
+    ]),
+    "senate-lda-clients": pa.schema([
+        ("id", pa.int64()),
+        ("client_id", pa.int64()),
+        ("name", pa.string()),
+        ("general_description", pa.string()),
+        ("state", pa.string()),
+        ("state_display", pa.string()),
+        ("country", pa.string()),
+        ("country_display", pa.string()),
+        ("ppb_state", pa.string()),
+        ("ppb_country", pa.string()),
+        ("effective_date", pa.string()),
+        ("client_self_select", pa.bool_()),
+        ("registrant_id", pa.int64()),
+        ("registrant_name", pa.string()),
+    ]),
+    "senate-lda-lobbyists": pa.schema([
+        ("id", pa.int64()),
+        ("prefix_display", pa.string()),
+        ("first_name", pa.string()),
+        ("nickname", pa.string()),
+        ("middle_name", pa.string()),
+        ("last_name", pa.string()),
+        ("suffix_display", pa.string()),
+        ("registrant_id", pa.int64()),
+        ("registrant_name", pa.string()),
+    ]),
+}
+
+
+def _save_rows(rows: list[dict], asset: str, *, fragment: str | None = None) -> None:
+    schema = SCHEMAS[asset]
+    table = pa.Table.from_pylist(rows, schema=schema)
+    save_raw_parquet(table, asset, fragment=fragment)
