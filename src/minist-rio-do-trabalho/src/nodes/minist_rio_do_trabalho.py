@@ -272,6 +272,20 @@ def _looks_delimited(path: str) -> bool:
     return False
 
 
+def _looks_text_like(path: str) -> bool:
+    if os.path.basename(path).lower().endswith((".7z", ".zip", ".rar", ".gz")):
+        return False
+    try:
+        with open(path, "rb") as fh:
+            sample = fh.read(1 << 16)
+    except OSError:
+        return False
+    if not sample or b"\x00" in sample:
+        return False
+    control = sum(1 for b in sample if b < 32 and b not in (9, 10, 12, 13))
+    return control / len(sample) < 0.01
+
+
 def _delimited_paths(root_dir: str) -> list[str]:
     explicit: list[str] = []
     extensionless: list[str] = []
@@ -283,6 +297,16 @@ def _delimited_paths(root_dir: str) -> list[str]:
             elif _looks_delimited(path):
                 extensionless.append(path)
     return explicit or extensionless
+
+
+def _text_like_paths(root_dir: str) -> list[str]:
+    paths: list[str] = []
+    for root, _, files in os.walk(root_dir):
+        for f in files:
+            path = os.path.join(root, f)
+            if _looks_text_like(path):
+                paths.append(path)
+    return sorted(paths, key=lambda p: os.path.getsize(p), reverse=True)
 
 
 def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
@@ -299,6 +323,10 @@ def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
 
     paths = _delimited_paths(out_dir)
     if paths:
+        return paths
+    paths = _text_like_paths(out_dir)
+    if paths:
+        print(f"  [warn] {file_url}: no delimited member detected, using text-like extracted file(s)", flush=True)
         return paths
 
     fallback_output = ""
@@ -319,10 +347,14 @@ def _extract_archive(z7_path: str, out_dir: str, file_url: str) -> list[str]:
             elif proc.returncode != 0:
                 print(f"  [warn] {file_url}: {name} exited {proc.returncode} but produced delimited file(s)", flush=True)
             return paths
+        paths = _text_like_paths(out_dir)
+        if paths:
+            print(f"  [warn] {file_url}: {name} produced no detected delimited files, using text-like extracted file(s)", flush=True)
+            return paths
 
     py_summary = "no error" if py_error is None else f"{type(py_error).__name__}: {py_error}"
     raise RuntimeError(
-        f"{file_url}: failed to extract delimited TXT/CSV/TSV files with py7zr and system fallbacks; "
+        f"{file_url}: failed to extract text/delimited files with py7zr and system fallbacks; "
         f"py7zr={py_summary}; fallback_tail={fallback_output!r}"
     ) from py_error
 
