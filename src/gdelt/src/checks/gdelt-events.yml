@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `gdelt-events`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, action_geo_country_iso2, event_root_code, quad_class]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, action_geo_country_iso2, event_root_code, quad_class]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: action_geo_country_iso2
+  - kind: not_null
+    col: event_root_code
+  - kind: not_null
+    col: quad_class
+  - kind: row_floor
+    min: 45463
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
