@@ -3,8 +3,9 @@ status: active
 # Raw layer is the per-file-date aggregate batch (one parquet per processed GDELT
 # file-date), glob-unioned. Grain: (event_day, action-country ISO2, CAMEO event
 # root, quad class) with event counts and summed mention/article/Goldstein/tone
-# measures. Assertions are authored from the GDELT 2.0 Event 2.0 spec + our own
-# aggregation contract (_BATCH_SCHEMA), not from observed data. NOTE: the same
+# measures for the latest complete rolling month. Assertions are authored from
+# the GDELT 2.0 Event 2.0 spec + our own aggregation contract (_BATCH_SCHEMA),
+# not from observed data. NOTE: the same
 # (date, country, root, quad) tuple may legitimately recur across file-date
 # batches (late-detected stragglers re-attributed to their event day), so the raw
 # union is NOT unique on that key — the transform's GROUP BY re-sums them. Scale
@@ -90,13 +91,12 @@ tests:
     points_outward: true
     severity: warn
 
-  # --- scale & freshness (warn: a mid-backfill run holds only a prefix) ---
+  # --- scale & freshness ---
   - row_count: {min: 1000}
     reason: even a single processed GDELT day rolls up to thousands of (country, root, quad) cells
     certainty: 75
     severity: warn
   - freshness: {col: date, reaches: today - 7d}
-    reason: once caught up to the live edge the max event day lands within a week of today; a mid-backfill continuation run legitimately lags far behind
-    certainty: 50
+    reason: the fetch republishes the latest complete rolling month, so the max event day should land within a week of today unless the source is stale or the latest posted files are missing
+    certainty: 85
     points_outward: true
-    severity: warn

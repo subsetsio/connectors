@@ -11,12 +11,13 @@ write ONE small parquet batch per file-date. The published subset
 `gdelt-events` is the glob-union of those batches, re-aggregated in SQL into a
 clean conflict/cooperation time series.
 
-DESIGN — stateless rolling re-pull. A full 2015-present backfill now exceeds
-the cloud job budget, so each run republishes the latest two years of complete
-UTC days. That still captures current global event dynamics and source
-revisions inside the window while keeping every fresh run independently
-complete; no cross-run watermark is needed and no previous raw directory has to
-be trusted for the published overwrite table.
+DESIGN — stateless rolling re-pull. A full 2015-present backfill exceeds the
+cloud job budget, and a two-year rolling pull still requires tens of thousands
+of compressed files. Each run therefore republishes the latest complete UTC
+month. That captures current global event dynamics and source revisions inside
+the window while keeping every fresh run independently complete; no cross-run
+watermark is needed and no previous raw directory has to be trusted for the
+published overwrite table.
 
 Why event_day (not file-date) is the grain: a 15-minute export file mostly
 contains events dated that day, but carries a few late-detected stragglers dated
@@ -49,11 +50,11 @@ from subsets_utils import (
 )
 
 # GDELT 2.0 begins 2015-02-18; v1 (1979-2015) uses an incompatible schema/cadence
-# and is intentionally excluded. We publish a rolling two-year slice so a fresh
+# and is intentionally excluded. We publish a rolling one-month slice so a fresh
 # run completes inside the cloud budget.
 SOURCE_MIN_DATE = datetime(2015, 2, 18).date()
 _SOURCE_MIN_DAY8 = "20150218"  # same bound as YYYYMMDD for lexical event-day filtering
-_LOOKBACK_DAYS = 730
+_LOOKBACK_DAYS = 31
 
 _MASTER_FILE_LIST_URL = "http://data.gdeltproject.org/gdeltv2/masterfilelist.txt"
 _CAMEO_EVENTCODES_URL = "https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt"
@@ -290,7 +291,7 @@ def _build_batch(agg: dict) -> "pa.Table":
 
 
 def fetch_events(node_id: str) -> None:
-    """Re-materialize the rolling two-year GDELT event aggregate."""
+    """Re-materialize the rolling one-month GDELT event aggregate."""
     today_utc = datetime.now(tz=timezone.utc).date()
     min_date = max(SOURCE_MIN_DATE, today_utc - timedelta(days=_LOOKBACK_DAYS))
 
