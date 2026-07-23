@@ -23,15 +23,20 @@ codebook, and ~60 ship only Volume C (per-country demographic breakdowns).
 data rather than implied by a row count.
 
 Both nodes re-pull the full corpus each run (the source exposes no delta query).
-``responses`` writes one parquet fragment per dataset and skips fragments this
-run already committed, so a supervisor-interrupted run resumes where it stopped
-instead of restarting the crawl.
+``responses`` parses each Volume-A workbook in a **worker process**: the parse
+(openpyxl / xlrd) is CPU-bound and holds the GIL, so a thread pool serialises it
+and the ~800-workbook crawl overruns GitHub's six-hour job ceiling. A process
+pool parses across every core, which brings the full crawl back inside one DAG
+budget window — the orchestrator discards an interrupted node's staged fragments
+(they only commit on clean completion), so the run must finish in one window to
+land, not resume across a continuation.
 """
 from __future__ import annotations
 
 import datetime as dt
+import multiprocessing
 import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 import pyarrow as pa
 

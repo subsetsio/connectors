@@ -177,7 +177,7 @@ MAINTAIN_SPECS = [
             "re-fetch at least every 30 days per connector maintenance cadence "
             "and SCB database update guidance."
         ),
-        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson.gz", max_age_days=30),
+        check=lambda asset_id: raw_asset_exists(asset_id, "ndjson", max_age_days=30),
     )
     for spec in DOWNLOAD_SPECS
 ]
