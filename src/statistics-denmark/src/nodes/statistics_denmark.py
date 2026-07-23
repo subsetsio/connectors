@@ -11,6 +11,7 @@ the table as-is, casting the value column (INDHOLD) to DOUBLE.
 
 import io
 import os
+import time
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
@@ -27,6 +28,57 @@ _ROW_BUDGET = 300_000  # target max data rows per BULK request
 # same dimension streams fine, so the limit is on enumerated selections, not on
 # response size. Cap the per-request chunk well under that ceiling.
 _MAX_SELECT = 3000
+
+# --- Leg-budget continuation -------------------------------------------------
+# A giant table (e.g. BUDKC — municipal budgets by grouping, ~1600 chunks at
+# ~13s each ≈ 6h) cannot drain inside one GitHub 6h leg. The runtime kills a
+# node still running when the leg's DAG_TIME_BUDGET (5h45m) expires and RESETS
+# it to pending — and a killed node's staged raw fragments are NEVER committed
+# to the raw manifest (io.save_raw_parquet only stages; the orchestrator commits
+# on node RETURN). So a table that never returns re-streams from chunk 0 every
+# leg, commits nothing, and grows no visible raw — which the chain guard reads
+# as no progress and, after two such legs, ends the whole run as a failure
+# (observed: three multi-day chains died here).
+#
+# The fix is the orchestrator's documented pagination handshake: a fetch fn that
+# runs out of its slice of the leg budget commits the fragments it landed and
+# RETURNS True. The node's staged fragments then commit, the run finalizes as
+# needs_continuation, and the next leg — dispatched under the SAME run_id —
+# resumes past the already-committed chunks (see _current_run_fragments). A node
+# that fully drains returns None. Progress is monotonic and the chain advances.
+_RUN_STARTED_AT_ENV = "STATBANK_RUN_STARTED_AT"  # set by src/main.py per leg
+_DEFAULT_TIME_BUDGET_S = 20_700.0                # cloud leg budget when unset
+_LEG_FRACTION = 0.5                              # max share of a leg one node spends
+_DEADLINE_MARGIN_S = 15 * 60                     # stop before a BULK request could cross the leg deadline
+
+
+def _leg_deadline() -> float:
+    """`time.time()` after which this node must stop starting new BULK requests,
+    commit what it has, and ask for a continuation leg. Bounded by BOTH a
+    per-node fraction of the leg budget (so one huge table can't monopolise a
+    leg the way it would starve peers within a few legs) AND the true time left
+    before the parent DAG deadline (so a node that starts late still stops
+    before the 6h GHA cap kills it mid-write and discards the leg's fragments)."""
+    try:
+        budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or _DEFAULT_TIME_BUDGET_S
+    except ValueError:
+        budget = _DEFAULT_TIME_BUDGET_S
+    nominal = budget * _LEG_FRACTION
+    started = None
+    try:
+        started = float(os.environ.get(_RUN_STARTED_AT_ENV, "")) or None
+    except ValueError:
+        started = None
+    if started is None:
+        # Fallback: the leg's orchestrator is this node subprocess's parent; its
+        # start ≈ the leg start. (main.py normally exports the env above.)
+        try:
+            import psutil
+            started = psutil.Process(os.getppid()).create_time()
+        except Exception:
+            return time.time() + nominal
+    remaining = budget - max(0.0, time.time() - started) - _DEADLINE_MARGIN_S
+    return time.time() + max(0.0, min(nominal, remaining))
 
 
 def _table_id(node_id: str) -> str:
@@ -129,15 +181,20 @@ def _fetch_subjects(asset: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=schema), asset)
 
 
-def fetch_one(node_id: str) -> None:
+def fetch_one(node_id: str) -> bool | None:
+    """Fetch one table's raw fragments. Returns True when this leg's slice of
+    the time budget is spent and the table is not yet drained (the orchestrator
+    reads that as needs_continuation, commits the staged fragments, and dispatches
+    the next leg under the same run_id); returns None when the table is fully
+    drained."""
     asset = node_id
     if _already_complete(asset):
-        return
+        return None
 
     table_id = _table_id(node_id)
     if table_id == "subjects":
         _fetch_subjects(asset)
-        return
+        return None
 
     info = _tableinfo(table_id)
     variables = info["variables"]
@@ -164,14 +221,26 @@ def fetch_one(node_id: str) -> None:
     expected_fragments = {f"part-{idx:05d}" for idx in range(len(slices))}
     done_fragments = _current_run_fragments(asset)
     if expected_fragments and expected_fragments <= done_fragments:
-        return
+        return None
 
+    deadline = _leg_deadline()
     schema = None
     total = 0
+    requests_this_leg = 0
     for idx, sel in enumerate(slices):
         fragment = f"part-{idx:05d}"
         if fragment in done_fragments:
             continue
+        # Out of this leg's slice with chunks still to fetch: commit what landed
+        # and ask for a continuation leg. Fragments saved this call are staged
+        # and commit on return; the next leg resumes past them. Always make at
+        # least one request first so every leg advances (guards the chain-guard
+        # no-progress brake) — a single BULK request fits inside the deadline
+        # margin.
+        if requests_this_leg and time.time() >= deadline:
+            print(f"  -> {table_id}: leg budget spent at chunk {idx}/{len(slices)} "
+                  f"— committing and requesting continuation")
+            return True
         body = {
             "table": table_id,
             "format": "BULK",
@@ -180,6 +249,7 @@ def fetch_one(node_id: str) -> None:
             + [{"code": v["id"], "values": ["*"]} for v in others],
         }
         table = _fetch_bulk(body)
+        requests_this_leg += 1
         if table.num_rows == 0:
             continue
         if schema is None:
@@ -191,6 +261,7 @@ def fetch_one(node_id: str) -> None:
 
     if total == 0 and not (expected_fragments & done_fragments):
         raise ValueError(f"{table_id}: BULK returned 0 data rows across all chunks")
+    return None
 
 
 DOWNLOAD_SPECS = [

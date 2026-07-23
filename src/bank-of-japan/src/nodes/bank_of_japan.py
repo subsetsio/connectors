@@ -31,6 +31,7 @@ import httpx
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     save_raw_parquet,
     load_state,
@@ -290,10 +291,72 @@ def fetch_values(node_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# maintain (freshness) — skip the expensive values re-pull when raw is fresh
+# ---------------------------------------------------------------------------
+
+# The values sweep is a full-corpus crawl: tens of millions of observations
+# fetched at ~1 req/s, spanning many hours across a self-retriggering leg
+# chain. getDataCode exposes no server-side `since` filter, so any refresh
+# re-pulls the WHOLE corpus — far too expensive to repeat on every scheduled
+# run, and BOJ's main time-series statistics only revise on business days.
+# So skip the crawl while the already-committed raw is younger than
+# VALUES_MAX_AGE_DAYS (the standard subsets_utils maintain pattern). The
+# catalog (series) is cheap (~50 metadata calls) and always re-pulls, so the
+# published catalog stays current every run. The threshold sits comfortably
+# under the values download-test's 45-day freshness floor: whenever the raw
+# ages past it, the next run does a full re-pull and the floor holds.
+VALUES_MAX_AGE_DAYS = int(os.environ.get("BOJ_VALUES_MAX_AGE_DAYS", "21"))
+
+
+def _values_raw_fresh(asset_id: str) -> bool:
+    """True when the committed values raw is younger than VALUES_MAX_AGE_DAYS.
+
+    `asset_id` is the values NodeSpec id; its raw is sharded one parquet per
+    (db, frequency, chunk) as ``<asset_id>-<db>-<freq>-<NNNN>``. Freshness is
+    the NEWEST ``fetched_at`` across those shards, read from the raw manifest
+    (whose entries span runs, so this resolves in cloud where each run's raw
+    dir starts empty). Any uncertainty — no committed shard, no timestamp, or
+    a probe error — returns False so the crawl runs: never serve stale by
+    skipping.
+    """
+    from datetime import datetime, timezone, timedelta
+    try:
+        from subsets_utils import raw_manifest
+        assets = raw_manifest.load().get("assets") or {}
+        prefix = f"{asset_id}-"
+        newest = None
+        for key, entry in assets.items():
+            if not (isinstance(key, str) and key.startswith(prefix)
+                    and isinstance(entry, dict)):
+                continue
+            ts = raw_manifest.newest_fetched_at(entry)
+            if ts is not None and (newest is None or ts > newest):
+                newest = ts
+        if newest is None:
+            return False
+        return (datetime.now(timezone.utc) - newest) < timedelta(days=VALUES_MAX_AGE_DAYS)
+    except Exception as exc:  # noqa: BLE001 — a failed freshness probe must mean "fetch"
+        print(f"  values maintain probe failed ({type(exc).__name__}: {exc}) — treating as stale")
+        return False
+
+
+# ---------------------------------------------------------------------------
 # specs
 # ---------------------------------------------------------------------------
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="bank-of-japan-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bank-of-japan-values", fn=fetch_values, kind="download"),
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="bank-of-japan-values",
+        description=(
+            f"Full-corpus getDataCode crawl (no server-side since filter); skip "
+            f"while committed raw < {VALUES_MAX_AGE_DAYS}d old. BOJ main time-series "
+            f"statistics revise on business days (per stat-search.boj.or.jp)."
+        ),
+        check=_values_raw_fresh,
+    ),
 ]
