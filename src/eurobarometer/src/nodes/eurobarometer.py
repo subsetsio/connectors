@@ -248,12 +248,26 @@ def fetch_responses(node_id: str) -> None:
         pending.append((dataset_id, resources))
 
     workers = min(RESPONSE_WORKERS, max(1, len(pending)))
-    print(f"[responses] parsing {len(pending)} pending datasets with {workers} workers")
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = [pool.submit(_fetch_response_rows, dataset_id, resources)
-                   for dataset_id, resources in pending]
+    # Parse in worker PROCESSES: openpyxl/xlrd hold the GIL, so a thread pool
+    # would parse one workbook at a time and the crawl overruns the job ceiling.
+    # fork inherits the imported parser + HTTP session; the node process holds no
+    # threads at this point, so forking is clean. save_raw_parquet stays in the
+    # parent — the worker only downloads + parses and ships back plain rows.
+    ctx = multiprocessing.get_context("fork")
+    print(f"[responses] parsing {len(pending)} pending datasets with {workers} worker processes")
+    with ProcessPoolExecutor(max_workers=workers, mp_context=ctx) as pool:
+        futures = {pool.submit(_fetch_response_rows, dataset_id, resources): dataset_id
+                   for dataset_id, resources in pending}
         for future in as_completed(futures):
-            dataset_id, rows, failures = future.result()
+            try:
+                dataset_id, rows, failures = future.result()
+            except Exception as exc:
+                # A worker that died parsing one workbook (crash, unpicklable
+                # payload) must not sink the whole crawl — count it and move on.
+                print(f"[responses] {futures[future]}: worker failed "
+                      f"{type(exc).__name__}: {exc}")
+                failed += 1
+                continue
             failed += failures
             if not rows:
                 empty += 1
