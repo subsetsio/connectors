@@ -30,13 +30,28 @@ import httpx
 import pandas as pd
 
 from subsets_utils import (
-    NodeSpec, TRANSIENT_EXC, load_state, post, save_raw_ndjson, save_state,
-    transient_retry,
+    MaintainSpec, NodeSpec, TRANSIENT_EXC, load_state, post, raw_asset_exists,
+    save_raw_ndjson, save_state, transient_retry,
 )
 
 from utils import BASE, dedupe, get_json
 
 STATE_VERSION = 2
+
+# The raw manifest addresses an asset by (id, ext) with an EXACT string match,
+# so this must stay in lockstep with what `save_raw_ndjson` writes — a drift
+# here would make every MaintainSpec check return False and re-crawl the corpus.
+RAW_EXT = "ndjson.zst"
+
+# Refresh window for the maintain skip (matches maintenance.json cadence_days).
+# The SDG Global Database is versioned by a quarterly-ish release tag
+# (e.g. 2026.Q2.G.01) and exposes no row-level change feed, so freshness is
+# whole-corpus age: skip any raw asset younger than this. This is also what lets
+# the ~5h `values` crawl advance across DAG continuations instead of restarting
+# from series #1 every ~6h run and never completing (raw_asset_exists resolves
+# through the CONNECTOR-scoped raw manifest, so a snapshot an earlier run
+# committed still counts as fresh under a new run_id).
+REFRESH_DAYS = 90
 
 
 # ---------------------------------------------------------------------------
@@ -231,4 +246,30 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="united-nations-series", fn=fetch_series, kind="download"),
     NodeSpec(id="united-nations-geoareas", fn=fetch_geoareas, kind="download"),
     NodeSpec(id="united-nations-values", fn=fetch_values, kind="download"),
+]
+
+
+# The source has no change feed (research: no modifiedAfter); the SDG database
+# release tag is its only version marker, so freshness is whole-corpus age. The
+# small reference taxonomies and the ~3.2M-row `values` corpus version together
+# with each release, so all five downloads share one window. Without this skip a
+# full-DAG run re-runs the ~5h `values` crawl every time — even a continuation
+# resuming a deadline-interrupted `values-transform` — which restarts the crawl
+# from series #1 and burns the whole ~6h budget before the transform can be
+# recorded done, so the connector can never finalize. FORCE_REFRESH=1 bypasses.
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "UN SDG Global Database has no row-level delta filter and is "
+            "versioned by a quarterly-ish release tag, so refetch this asset "
+            f"when its raw snapshot is older than {REFRESH_DAYS}d "
+            "(maintenance.json cadence_days=90); younger than that, skip — "
+            "which is also how the ~5h values crawl advances across runs."
+        ),
+        check=(lambda asset_id: raw_asset_exists(
+            asset_id, RAW_EXT, max_age_days=REFRESH_DAYS
+        )),
+    )
+    for spec in DOWNLOAD_SPECS
 ]

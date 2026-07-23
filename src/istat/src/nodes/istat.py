@@ -182,9 +182,13 @@ _ANNUAL_FIRST_RANGES = {
     "164_305": (1991, 2001),  # Estimated resident population - Years 1991-2001
     "164_346": (1952, 1971),  # Estimated resident population - Years 1952-1971
     "164_347": (1972, 1981),  # Estimated resident population - Years 1972-1981
-    "165_1245": (2024, 2050),  # Municipal population projections - Years 2024-2050
     "183_1163": (2019, 2022),  # Enterprises by municipality - latest structural years
 }
+# 165_1245 is NOT here (was, misclassified as heavy): it is a DEAD flow, not a
+# large one. Probed from the dev machine 2026-07-23 it answers HTTP 404
+# "Dataflow ...165_1245(1.0) doesn't contain a mapping set" in ~0.3s -- the same
+# permanent upstream defect as 115_362/152/etc. It now takes the normal path,
+# raises _DeadFlow fast, and is waived alongside the other dead flows.
 
 # This flow still makes Istat fail SQL generation for a single unkeyed year.
 # Enter through compact dimensions immediately instead of paying one doomed
@@ -211,12 +215,23 @@ _DIMENSION_FIRST_ANNUAL_FLOWS = {"164_305", "183_1163"}
 # The cost was not the 2h these flows burned, it was the 903 never-run specs
 # that died behind them having never issued a single request.
 #
-# Nothing here fixes 164_305 -- 12,471 REF_AREA x 471 DATA_TYPE x 343 AGE has
-# no split that is both small enough for Istat to generate and few enough
-# requests to fit the 5/min IP cap (pinning FREQ+SEX+AGE is ~1,029 requests per
-# year, ~41h for the flow). This ORDERS them last instead, so a leg banks every
-# cheap flow before any monster gets a chance to spoil the endpoint, and their
-# failure is contained to themselves.
+# Nothing fixes 164_305 -- 12,471 REF_AREA x 471 DATA_TYPE x 343 AGE has no split
+# that is both small enough for Istat to generate and few enough requests to fit
+# the 5/min IP cap (pinning FREQ+SEX+AGE is ~1,029 requests per year, ~41h for the
+# flow). These four are not dead but they are UNBUILDABLE via this API, and the
+# earlier "order them last" mitigation is not enough: a leg banks the cheap flows,
+# then a monster query blackholes the runner, and the born-banned continuation leg
+# that retries only these makes ZERO progress -- which the orchestrator treats as
+# fatal (partial=False), hard-failing a run whose cheap raw already landed and
+# leaving the download stage permanently red (the chain cannot converge). Runs
+# 20260715-131758 / 20260716-104140 are the receipts.
+#
+# So fetch_one now fails these FAST, before issuing any request (see the guard at
+# the top of fetch_one). No monster query => no blackhole => no born-banned leg.
+# Their specs are waived, so the run finalizes done_with_failures over waived
+# specs and the 1,092 buildable flows converge to a green download stage. Left in
+# DOWNLOAD_SPECS (not removed) so spec-coverage stays 1096/1096; if Istat ever
+# ships a bulk/pre-aggregated municipal endpoint, drop the guard and they build.
 _HEAVY_FLOWS = frozenset(_ANNUAL_FIRST_RANGES)
 
 
@@ -787,6 +802,19 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name the runtime writes
     flow_id = ENTITY_BY_NODE[node_id]
     _wedges[0] = 0  # per-flow budget (specs run serially — DAG_PARALLELISM=1)
+
+    if flow_id in _HEAVY_FLOWS:
+        # Unbuildable via this API (see _HEAVY_FLOWS). Fail BEFORE any request so
+        # a ~10-min whole-year monster query cannot blackhole this runner and
+        # starve every sibling spec. The spec is waived, so this fast failure is
+        # excused by the download-run check and does not gate the stage; issuing
+        # the request is what breaks the run, not recording the failure.
+        raise RuntimeError(
+            f"{flow_id}: unbuildable via this API — the only servable shape is a "
+            f"~10-min whole-year query that blackholes the runner IP, and no split "
+            f"fits both Istat's SQL generator and the 5 req/min cap (~41h/flow). "
+            f"Failing fast; spec is waived (see _HEAVY_FLOWS)."
+        )
 
     # Detect an empty payload loudly rather than publishing a 0-row table that
     # would fail the downstream transform with a more opaque error.

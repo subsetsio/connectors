@@ -50,6 +50,7 @@ import contextvars
 import json
 import os
 import re
+import time
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote, unquote, urljoin
@@ -60,6 +61,7 @@ from constants import CATALOG, FAMILIES
 from subsets_utils import (
     NodeSpec,
     get,
+    get_client,
     list_raw_fragments,
     load_state,
     raw_writer,
@@ -99,6 +101,36 @@ _CHUNK_BYTES = 1024 * 1024
 # Held low enough that `_CONCURRENCY` in-flight files stay inside runner RAM.
 _CONCURRENCY = 8
 
+# A per-request TOTAL wall-clock deadline. HTTP_TIMEOUT.read only bounds the GAP
+# between successive socket reads, so a host that dribbles a few bytes just inside
+# that gap can hold one ranged chunk open for hours: a single throttled ~27 MB
+# airfare file once stalled a whole run for 5h+ without ever tripping the read
+# timeout, which starved every node scheduled after it and the chain guard then
+# killed the run. Draining each streamed response under a hard deadline turns that
+# drip into a transient ReadTimeout — the chunk is abandoned and retried on a
+# fresh connection, and if the host stays throttled the node fails cleanly instead
+# of hanging the DAG. Sized well above a healthy 1 MiB chunk (seconds) and a very
+# slow but real connection (tens of seconds).
+_RANGE_DEADLINE_S = 300.0
+# Whole-body fallback (server advertised no length — rare, chunked transfer): a
+# larger cap since it covers the entire object rather than one 1 MiB window.
+_WHOLE_DEADLINE_S = 900.0
+
+
+def _drain(resp: httpx.Response, deadline: float, ctx: str) -> bytes:
+    """Read a streaming response to completion under a total wall-clock deadline.
+
+    The gap-based read timeout cannot catch a slow-but-continuous drip; this can.
+    Exceeding the deadline raises a transient ReadTimeout so `transient_retry`
+    re-issues the request on a fresh connection instead of blocking forever.
+    """
+    buf = bytearray()
+    for piece in resp.iter_bytes():
+        buf += piece
+        if time.monotonic() > deadline:
+            raise httpx.ReadTimeout(f"total-deadline exceeded reading {ctx}")
+    return bytes(buf)
+
 
 def _submit_with_context(executor: ThreadPoolExecutor, fn, *args):
     """Run a worker with the current node ContextVar propagated."""
@@ -136,22 +168,37 @@ def _http_get_range(url: str, start: int, end: int) -> bytes:
 
     ANAC declares a Content-Length and then closes the connection early on large
     objects. A short chunk is a transient truncation, not a valid body, so raise
-    to let transient_retry re-issue just this chunk.
+    to let transient_retry re-issue just this chunk. The body is streamed under a
+    total deadline so a throttled drip (which never trips the gap-based read
+    timeout) is abandoned and retried rather than hanging the node.
     """
-    r = get(url, headers={"Range": f"bytes={start}-{end}"}, timeout=HTTP_TIMEOUT)
-    r.raise_for_status()
-    if r.status_code != 206:
-        # Range was ignored and the whole body came back. Only the first window
-        # can consume that; appending it at a non-zero offset would corrupt.
-        if start:
-            raise RuntimeError(f"{url}: server ignored Range at offset {start}")
-        return r.content
     want = end - start + 1
-    if len(r.content) != want:
+    deadline = time.monotonic() + _RANGE_DEADLINE_S
+    with get_client().stream(
+        "GET", url, headers={"Range": f"bytes={start}-{end}"}, timeout=HTTP_TIMEOUT
+    ) as r:
+        r.raise_for_status()
+        if r.status_code != 206:
+            # Range was ignored and the whole body came back. Only the first
+            # window can consume that; appending it at a non-zero offset corrupts.
+            if start:
+                raise RuntimeError(f"{url}: server ignored Range at offset {start}")
+            return _drain(r, deadline, f"whole body for {url}")
+        body = _drain(r, deadline, f"range {start}-{end} for {url}")
+    if len(body) != want:
         raise httpx.RemoteProtocolError(
-            f"short range {start}-{end} for {url}: got {len(r.content)} of {want} bytes"
+            f"short range {start}-{end} for {url}: got {len(body)} of {want} bytes"
         )
-    return r.content
+    return body
+
+
+@transient_retry()
+def _http_get_whole(url: str) -> bytes:
+    """Stream a whole object (no advertised length) under a total deadline."""
+    deadline = time.monotonic() + _WHOLE_DEADLINE_S
+    with get_client().stream("GET", url, timeout=HTTP_TIMEOUT) as r:
+        r.raise_for_status()
+        return _drain(r, deadline, f"whole body for {url}")
 
 
 def _fetch_body(url: str) -> bytes:
@@ -159,7 +206,7 @@ def _fetch_body(url: str) -> bytes:
     total = _content_total(_http_probe(url))
     if total is None:
         # No length advertised — one shot, nothing to length-check against.
-        return _http_get(url).content
+        return _http_get_whole(url)
 
     buf = bytearray()
     while len(buf) < total:
