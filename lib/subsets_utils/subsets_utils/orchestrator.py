@@ -281,6 +281,9 @@ class DAG:
         self._specs: dict[str, NodeSpec] = seen
         self.state: dict[str, dict] = {}
         self._needs_continuation = False
+        self._force_refresh = (
+            os.environ.get("FORCE_REFRESH", "").strip().lower() in ("1", "true", "yes")
+        )
         self._shutdown_requested = False
         self._deadline: float | None = None
         self._deadline_hit = False
@@ -795,6 +798,25 @@ class DAG:
             for spec in find_ready():
                 if len(in_flight) >= parallelism:
                     return
+                # Incremental materialization: a ready transform/check whose
+                # fingerprint (inputs + spec identity) matches its last
+                # successful execution is marked done in the parent — no
+                # subprocess, no table write, no scan. Decided here (not in
+                # _apply_maintain_skips) because it depends on what the deps
+                # did THIS run. FORCE_REFRESH bypasses, same as maintain.
+                if not self._force_refresh and isinstance(spec, (SqlNodeSpec, CheckNodeSpec)):
+                    from . import transform_state
+                    if transform_state.should_skip(spec) is not None:
+                        st = self.state[spec.id]
+                        st["status"] = "done"
+                        st["error"] = None
+                        st["skipped_fresh"] = True
+                        st["outcome"] = "skipped_fresh"
+                        st["skip_reason"] = "inputs and spec unchanged since last successful execution"
+                        print(f"[DAG] {spec.id} unchanged since last "
+                              f"{'materialization' if isinstance(spec, SqlNodeSpec) else 'audit'} — skipped")
+                        self.save_state()
+                        continue
                 # Reserve the slot before fork so the next find_ready() doesn't
                 # see this node as pending and re-spawn it.
                 self.state[spec.id]["status"] = "running"

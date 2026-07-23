@@ -563,6 +563,12 @@ def main():
         elif platform_github.maybe_retrigger(run_id):
             exit_code = 0
             continuation_dispatched = True
+            platform_github.write_output("retrigger_confirmed", "true")
+        else:
+            # Hand-off unconfirmed: tell the workflow's fallback step to
+            # dispatch the successor itself (second, independent path — the
+            # poller's continuation-lost detection remains the last resort).
+            platform_github.write_output("retrigger_needed", "true")
 
     # Print result
     if exit_code == 0:

@@ -54,6 +54,7 @@ jobs:
         # in this step's environment.
         run: uv sync
       - name: Run connector
+        id: run
         working-directory: src/${{ inputs.slug }}
         run: uv run --no-sync python -m subsets_utils.runner
         env:
@@ -75,3 +76,29 @@ jobs:
           # connectors' keys. Secret names are managed by the harness secret
           # sync (hardened/secrets.py).
           HARNESS_SECRETS: ${{ toJSON(secrets) }}
+      - name: Fallback retrigger (continuation hand-off failed in-process)
+        # Fires only when the runner wanted a successor but could not confirm
+        # one (exit 2 + retrigger_needed): a second, independent dispatch path
+        # so a transient API failure inside the leg can't kill the chain.
+        # The poller's continuation-lost detection remains the last resort.
+        if: ${{ failure() && steps.run.outputs.retrigger_needed == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_RETRIGGER_PAT }}
+          SLUG: ${{ inputs.slug }}
+          RESOLVED_RUN_ID: ${{ steps.run.outputs.resolved_run_id }}
+          DAG_TARGET: ${{ inputs.dag_target }}
+          DAG_ON_FAILURE: ${{ inputs.dag_on_failure }}
+        run: |
+          set -e
+          args=(-f "slug=$SLUG" -f "run_id=$RESOLVED_RUN_ID")
+          [ -n "$DAG_TARGET" ] && args+=(-f "dag_target=$DAG_TARGET")
+          [ -n "$DAG_ON_FAILURE" ] && args+=(-f "dag_on_failure=$DAG_ON_FAILURE")
+          for i in 1 2 3; do
+            if gh workflow run run.yml --repo "$GITHUB_REPOSITORY" "${args[@]}"; then
+              echo "Fallback retrigger dispatched (attempt $i)"
+              exit 0
+            fi
+            sleep $((i * 10))
+          done
+          echo "Fallback retrigger failed after 3 attempts" >&2
+          exit 1

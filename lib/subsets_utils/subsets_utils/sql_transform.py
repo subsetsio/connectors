@@ -227,3 +227,10 @@ def run_sql_node(spec: SqlNodeSpec) -> None:
         append(source, spec.table)
     else:
         overwrite(source, spec.table)
+
+    # Record the materialization fingerprint strictly AFTER the write returned,
+    # so an identical future invocation (same raw fragments, same SQL, same
+    # contract) skips in the parent instead of re-materializing. A write that
+    # raised records nothing — the next run re-executes.
+    from .transform_state import record_transform
+    record_transform(spec)

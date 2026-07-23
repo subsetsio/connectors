@@ -391,6 +391,13 @@ def run_check_node(spec: CheckNodeSpec) -> None:
         "violations": blocking,
         "warns": warns,
     }
+    if not blocking:
+        # A clean audit records its fingerprint so an identical future
+        # invocation (same table state, same check spec) skips in the parent.
+        # A blocking violation records nothing — the audit repeats until the
+        # data recovers or the checks are recompiled.
+        from .transform_state import record_check
+        state = record_check(spec, state)
     save_state(spec.id, state)
 
     if blocking:
