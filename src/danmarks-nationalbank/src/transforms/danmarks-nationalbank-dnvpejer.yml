@@ -1,4 +1,5 @@
-# provisional pass-through for accepted raw asset `danmarks-nationalbank-dnvpejer`.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnvpejer`. Regenerate after model-verify.
 key: [value, isin, time]
 temporal: time
 sort: [time, value, isin]
@@ -8,4 +9,4 @@ columns:
   - name: time
     type: VARCHAR
   - name: value
-    type: VARCHAR
+    type: BIGINT

@@ -1,4 +1,7 @@
--- provisional pass-through for accepted StatBank table not yet profiled
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
     "papir",
     "kupon",
@@ -6,7 +9,7 @@ SELECT
     "løbetid" AS l_betid,
     "udstedsektor",
     "udstland",
-    "værdian" AS vaerdian,
+    "værdian" AS v_rdian,
     "data",
     "time",
     "value"

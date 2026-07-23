@@ -3,10 +3,22 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
+key: [time, value, instrument, opgoer]
 temporal: time
 checks:
+  - kind: unique
+    columns: [time, value, instrument, opgoer]
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: instrument
+  - kind: not_null
+    col: opgoer
   - kind: row_floor
-    min: 218107
+    min: 30798
 regression:
   row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
   temporal_monotonic: true

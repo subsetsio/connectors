@@ -1,7 +1,8 @@
-# provisional pass-through for accepted raw asset `danmarks-nationalbank-dnvpu`.
-key: [value, papir, kupon, valuta, l_betid, udstedsektor, udstland, vaerdian, data, time]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `danmarks-nationalbank-dnvpu`. Regenerate after model-verify.
+key: [value, papir, kupon, valuta, l_betid, udstedsektor, udstland, v_rdian, data, time]
 temporal: time
-sort: [time, value, papir, kupon, valuta, l_betid, udstedsektor, udstland, vaerdian, data]
+sort: [time, value, papir, kupon, valuta, l_betid, udstedsektor, udstland, v_rdian, data]
 columns:
   - name: papir
     type: VARCHAR
@@ -15,7 +16,7 @@ columns:
     type: VARCHAR
   - name: udstland
     type: VARCHAR
-  - name: vaerdian
+  - name: v_rdian
     type: VARCHAR
   - name: data
     type: VARCHAR

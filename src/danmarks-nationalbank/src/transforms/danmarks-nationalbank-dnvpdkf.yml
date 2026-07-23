@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `danmarks-nationalbank-dnvpdkf`. Regenerate after model-verify.
 # caution: Raw StatBank extract contains duplicate rows even across all emitted fields; treat rows as source observations and aggregate with care.
-key: []
+key: [value, isninavn, time, invsektor]
 temporal: time
-sort: [time]
+sort: [time, value, isninavn, invsektor]
 columns:
   - name: isninavn
     type: VARCHAR
