@@ -31,6 +31,7 @@ import fcntl
 import zipfile
 
 import httpx
+import pyarrow.parquet as pq
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from subsets_utils import NodeSpec, get, is_transient, raw_writer
@@ -112,9 +113,31 @@ def _csv_delimiter(header: str) -> str:
 
 
 def _fetch_blob(node_id: str, blob_url: str) -> None:
-    """Download the per-table ZIP, stream its CSV into gzip NDJSON."""
+    """Download the per-table bulk file, stream it into gzip NDJSON.
+
+    The datalake serves most tables as a ZIP wrapping one semicolon-delimited
+    CSV, but a few large tables (e.g. FISE.CLC) as a bare Parquet file behind
+    the same `.zip` URL — dispatch on the leading magic bytes so either shape
+    lands as the same NDJSON-of-values the VARCHAR transforms re-type on read.
+    """
     resp = _http_get(blob_url)
-    zf = zipfile.ZipFile(io.BytesIO(resp.content))
+    content = resp.content
+    if content[:4] == b"PAR1":
+        _write_parquet(node_id, content)
+    else:
+        _write_zip_csv(node_id, content)
+
+
+def _write_parquet(node_id: str, content: bytes) -> None:
+    pf = pq.ParquetFile(io.BytesIO(content))
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as out:
+        for batch in pf.iter_batches():
+            for row in batch.to_pylist():
+                out.write(json.dumps(row, ensure_ascii=False, default=str) + "\n")
+
+
+def _write_zip_csv(node_id: str, content: bytes) -> None:
+    zf = zipfile.ZipFile(io.BytesIO(content))
     members = [n for n in zf.namelist() if n.lower().endswith(".csv")] or zf.namelist()
     member = members[0]
     with zf.open(member) as raw:

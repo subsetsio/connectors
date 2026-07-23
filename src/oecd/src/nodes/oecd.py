@@ -241,7 +241,7 @@ MAINTAIN_SPECS = [
             "https://sdmx.oecd.org/public/rest/dataflow/all/all/latest)."
         ),
         check=lambda aid: (
-            _SPEC_TO_ENTITY[aid].partition(":")[2] not in _TEXT_VALUE_DATAFLOWS
+            _SPEC_TO_ENTITY[aid]["dataflow_id"] not in _TEXT_VALUE_DATAFLOWS
             and raw_asset_exists(aid, "ndjson.gz", max_age_days=30)
         ),
     )
