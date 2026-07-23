@@ -190,23 +190,54 @@ _REPORT_FIELD = re.compile(r"<([A-Za-z_][\w.-]*)>(.*?)</\1>", re.DOTALL)
 
 
 def _detect_delim(text: str) -> str:
-    """Pick the delimiter giving the widest, quote-aware parse of the head.
+    """Pick the delimiter that yields the most *consistent* multi-column parse.
 
     Files on this portal are inconsistently ';' or ',' delimited (and may quote
-    fields that contain the other character), so count fields with a real CSV
-    parser rather than raw character counts.
+    fields that contain the other character). Widest-median picks the wrong one
+    on the free-text administrative files, whose Russian descriptions carry many
+    internal commas that inflate a raw ','-field count above the true ';' width
+    (a clean 22-column ';' table misreads as a ragged 30-35-column ',' one). So
+    score each candidate by the share of sampled rows at its modal field count —
+    consistency, not width — and reward a genuine multi-column split.
     """
-    best_med, best_delim = 0, ";"
+    best_score, best_delim = (-1.0, 0), ";"
     for delim in (";", ",", "\t"):
         counts = []
         for i, row in enumerate(csv.reader(io.StringIO(text, newline=""), delimiter=delim)):
             if i >= 25:
                 break
             counts.append(len(row))
-        med = sorted(counts)[len(counts) // 2] if counts else 1
-        if med > best_med:
-            best_med, best_delim = med, delim
+        counts = [c for c in counts if c > 0]
+        if not counts:
+            continue
+        mode = max(set(counts), key=counts.count)
+        share = counts.count(mode) / len(counts)
+        # A width-1 "split" is no split at all — score it 0 so a doubly-quoted
+        # file (every delimiter yields one field) falls through to _unwrap_rows.
+        score = (share if mode > 1 else 0.0, mode)
+        if score > best_score:
+            best_score, best_delim = score, delim
     return best_delim
+
+
+def _unwrap_inner_delim(sample) -> str | None:
+    """Detect the doubly-quoted layout and return its inner delimiter, else None.
+
+    Some territorial-office files (civil-service vacancy notices) wrap each whole
+    record in ONE quoted field — outer quotes, doubled inner quotes — so every
+    top-level delimiter yields a single field per row and the real columns hide
+    INSIDE that field (comma-delimited). Signature: the sample is single-column
+    yet the cells themselves carry embedded delimiters. Sniff the inner delimiter
+    from the unwrapped cell text; a genuinely single-column dataset (single values
+    per cell, no embedded delimiter) fails the guard and is left untouched.
+    """
+    single = [r[0] for r in sample if len(r) == 1 and r[0].strip()]
+    if not sample or len(single) < len(sample) or not single:
+        return None
+    embedded = sum((c.count(",") + c.count(";")) >= 2 for c in single)
+    if embedded < max(1, len(single) // 2):
+        return None
+    return _detect_delim("\n".join(single))
 
 
 def _num_frac(row) -> float:
@@ -440,6 +471,19 @@ def fetch_one(node_id: str) -> None:
             sample.append(row)
         if len(sample) >= 50:
             break
+
+    # Recover the doubly-quoted layout (whole record in one quoted field) by
+    # re-parsing each single cell as its own CSV record before planning columns.
+    inner_delim = _unwrap_inner_delim(sample)
+
+    def _split(row):
+        if inner_delim is not None and len(row) == 1:
+            return next(csv.reader(io.StringIO(row[0], newline=""), delimiter=inner_delim), row)
+        return row
+
+    if inner_delim is not None:
+        sample = [_split(r) for r in sample]
+
     skip_rows, cols = _plan_columns(sample)
     if not cols:
         raise AssertionError(f"{slug}: could not determine any columns")
@@ -452,6 +496,7 @@ def fetch_one(node_id: str) -> None:
         for row in csv.reader(io.StringIO(text, newline=""), delimiter=delim):
             if not any(c.strip() for c in row):
                 continue  # blank line
+            row = _split(row)
             seen += 1
             if seen <= skip_rows:
                 continue  # title preamble + header

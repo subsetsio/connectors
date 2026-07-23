@@ -18,6 +18,15 @@ from subsets_utils import (
 BASE_URL = "https://data.ssb.no/api/pxwebapi/v2"
 PREFIX = "statistics-norway-"
 MAX_CELLS_PER_REQUEST = 750_000
+# A handful of enterprise-demography tables cross-tab all ~994 municipalities
+# against detailed industry (SIC2007) and legal form, exploding into hundreds
+# of millions of (overwhelmingly empty) cells. At the API's ~<30 req/min and a
+# per-chunk cap of 750k cells, such a table alone consumes an entire multi-leg
+# CI run — starving every other table behind it in the DAG — and its earliest
+# raw fragments age past the freshness window before the last ones are written,
+# so it can never settle. We refuse to materialize a table above this ceiling
+# (the node fails fast, the spec is waived). See `MAX_TABLE_CELLS`.
+MAX_TABLE_CELLS = 30_000_000
 MAINTAIN_MAX_AGE_DAYS = 7
 RAW_EXT = "ndjson.zst"
 CADENCE = (
@@ -200,6 +209,15 @@ def fetch_table(asset_id: str) -> None:
         dimension_id: _codes_for_dimension(metadata["dimension"][dimension_id])
         for dimension_id in metadata["id"]
     }
+
+    table_cells = _product_size(selection)
+    if table_cells > MAX_TABLE_CELLS:
+        raise RuntimeError(
+            f"{asset_id}: full extract is {table_cells:,} cells "
+            f"(> MAX_TABLE_CELLS={MAX_TABLE_CELLS:,}) — a municipality x industry x "
+            "legal-form cross-tab too large to materialize within the run budget; "
+            "spec is waived rather than starving the rest of the DAG"
+        )
 
     total_rows = 0
     chunks = _split_selection(selection)

@@ -870,8 +870,11 @@ from constants import ENTITY_IDS
 
 ENTITY_BY_NODE = {f"istat-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS}
 
-# Heavy flows last -- see _HEAVY_FLOWS. The orchestrator breaks ties between
-# ready specs by declaration index, so this list's order IS the leg's order.
+# Heavy flows sort last (harmless now that fetch_one fails them fast before any
+# request — the ordering no longer protects the endpoint, it just keeps their 4
+# fast failures clustered at the tail, well under DAG_MAX_CONSECUTIVE_FAILURES=25).
+# The orchestrator breaks ties between ready specs by declaration index, so this
+# list's order IS the leg's order.
 DOWNLOAD_SPECS = [
     NodeSpec(
         id=f"istat-{eid.lower().replace('_', '-')}",
