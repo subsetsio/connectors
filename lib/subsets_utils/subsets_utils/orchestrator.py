@@ -284,6 +284,7 @@ class DAG:
         self._force_refresh = (
             os.environ.get("FORCE_REFRESH", "").strip().lower() in ("1", "true", "yes")
         )
+        self._prior_leg_nodes: dict[str, dict] | None = None  # lazy, see _prior_leg_done
         self._shutdown_requested = False
         self._deadline: float | None = None
         self._deadline_hit = False
@@ -372,6 +373,30 @@ class DAG:
     # =========================================================================
     # Maintain
     # =========================================================================
+
+    def _prior_leg_done(self, node_id: str) -> bool:
+        """True iff the hydrated prior run.json (an earlier continuation leg of
+        THIS run_id) recorded this node as done WITHOUT a pagination
+        continuation request. The explicit-record half of the download
+        leg-skip — the manifest's `fetched_this_run` is the durable half;
+        the skip requires both, so neither artifact can mislead alone."""
+        if self._prior_leg_nodes is None:
+            nodes: dict[str, dict] = {}
+            log_dir = os.environ.get("LOG_DIR")
+            run_id = os.environ.get("RUN_ID")
+            if log_dir and run_id:
+                try:
+                    with open(Path(log_dir) / "run.json") as f:
+                        doc = json.load(f)
+                    if doc.get("run_id") == run_id:
+                        nodes = {n["id"]: n for n in doc.get("dag", {}).get("nodes", [])
+                                 if isinstance(n, dict) and n.get("id")}
+                except (OSError, json.JSONDecodeError, KeyError, TypeError):
+                    nodes = {}
+            self._prior_leg_nodes = nodes
+        rec = self._prior_leg_nodes.get(node_id)
+        return bool(rec and rec.get("status") == "done"
+                    and not rec.get("needs_continuation"))
 
     def _apply_maintain_skips(self, order: list[NodeSpec]) -> None:
         """Evaluate MaintainSpec.check() for each in-scope NodeSpec and mark
@@ -804,19 +829,35 @@ class DAG:
                 # subprocess, no table write, no scan. Decided here (not in
                 # _apply_maintain_skips) because it depends on what the deps
                 # did THIS run. FORCE_REFRESH bypasses, same as maintain.
-                if not self._force_refresh and isinstance(spec, (SqlNodeSpec, CheckNodeSpec)):
-                    from . import transform_state
-                    if transform_state.should_skip(spec) is not None:
-                        st = self.state[spec.id]
-                        st["status"] = "done"
-                        st["error"] = None
-                        st["skipped_fresh"] = True
-                        st["outcome"] = "skipped_fresh"
-                        st["skip_reason"] = "inputs and spec unchanged since last successful execution"
-                        print(f"[DAG] {spec.id} unchanged since last "
-                              f"{'materialization' if isinstance(spec, SqlNodeSpec) else 'audit'} — skipped")
-                        self.save_state()
-                        continue
+                skip_reason = None
+                if not self._force_refresh:
+                    if isinstance(spec, (SqlNodeSpec, CheckNodeSpec)):
+                        from . import transform_state
+                        if transform_state.should_skip(spec) is not None:
+                            skip_reason = ("inputs and spec unchanged since "
+                                           "last successful execution")
+                    elif spec.kind == "download":
+                        # Continuation leg-skip: an earlier leg of THIS run
+                        # completed the fetch (per-node record, no pagination
+                        # pending) AND its raw is committed to the manifest
+                        # under this run_id. Without this, legs re-execute
+                        # every download and download-heavy connectors never
+                        # converge inside the wall clock.
+                        from . import raw_manifest
+                        if (self._prior_leg_done(spec.id)
+                                and raw_manifest.fetched_this_run(spec.id)):
+                            skip_reason = ("raw committed by an earlier leg "
+                                           "of this run")
+                if skip_reason:
+                    st = self.state[spec.id]
+                    st["status"] = "done"
+                    st["error"] = None
+                    st["skipped_fresh"] = True
+                    st["outcome"] = "skipped_fresh"
+                    st["skip_reason"] = skip_reason
+                    print(f"[DAG] {spec.id} skipped — {skip_reason}")
+                    self.save_state()
+                    continue
                 # Reserve the slot before fork so the next find_ready() doesn't
                 # see this node as pending and re-spawn it.
                 self.state[spec.id]["status"] = "running"

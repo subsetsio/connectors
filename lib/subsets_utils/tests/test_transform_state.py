@@ -122,6 +122,49 @@ def main():
         ts.record_transform(spec)
         assert ts.should_skip(cspec) is None
 
+    def download_leg_skip_evidence():
+        os.environ["RUN_ID"] = "20260724-000000"
+        manifest["assets"]["synthtest-a"]["fragments"]["f1"]["run_id"] = "20260724-000000"
+        write_manifest()
+        assert raw_manifest.fetched_this_run("synthtest-a") is True
+        # older run id → not this run's raw → no skip evidence
+        manifest["assets"]["synthtest-a"]["fragments"]["f1"]["run_id"] = "20260701-000000"
+        write_manifest()
+        assert raw_manifest.fetched_this_run("synthtest-a") is False
+        # unknown asset / no RUN_ID → False
+        assert raw_manifest.fetched_this_run("synthtest-nope") is False
+        os.environ.pop("RUN_ID")
+        assert raw_manifest.fetched_this_run("synthtest-a") is False
+        # restore for later tests
+        manifest["assets"]["synthtest-a"]["fragments"]["f1"].pop("run_id")
+        write_manifest()
+
+    def prior_leg_done_gates():
+        from subsets_utils.orchestrator import DAG
+        os.environ["RUN_ID"] = "20260724-000000"
+        log_dir = Path(tempfile.mkdtemp(prefix="legtest_"))
+        os.environ["LOG_DIR"] = str(log_dir)
+        (log_dir / "run.json").write_text(json.dumps({
+            "run_id": "20260724-000000",
+            "dag": {"nodes": [
+                {"id": "n-done", "status": "done"},
+                {"id": "n-paginating", "status": "done", "needs_continuation": True},
+                {"id": "n-pending", "status": "pending"},
+            ]},
+        }))
+        dag = DAG.__new__(DAG)  # helper only needs the lazy cache attribute
+        dag._prior_leg_nodes = None
+        assert dag._prior_leg_done("n-done") is True
+        assert dag._prior_leg_done("n-paginating") is False   # pagination must re-run
+        assert dag._prior_leg_done("n-pending") is False
+        assert dag._prior_leg_done("n-unknown") is False
+        # wrong run_id in run.json → no records trusted
+        (log_dir / "run.json").write_text(json.dumps({
+            "run_id": "OTHER", "dag": {"nodes": [{"id": "n-done", "status": "done"}]}}))
+        dag._prior_leg_nodes = None
+        assert dag._prior_leg_done("n-done") is False
+        os.environ.pop("RUN_ID"); os.environ.pop("LOG_DIR")
+
     check("fingerprint is stable", fingerprint_stable)
     check("whitespace reflow does not invalidate", whitespace_insensitive)
     check("SQL change invalidates", sql_change_invalidates)
@@ -129,6 +172,8 @@ def main():
     check("dep outside manifest never skips", no_manifest_never_skips)
     check("record → skip → invalidate roundtrip", skip_roundtrip)
     check("check skips only while transform state holds", check_follows_transform)
+    check("download leg-skip requires this-run manifest evidence", download_leg_skip_evidence)
+    check("prior-leg record gates the leg-skip", prior_leg_done_gates)
 
     print(f"\n{len(PASS)} passed")
 

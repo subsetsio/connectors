@@ -464,6 +464,33 @@ def newest_fetched_at(entry: dict) -> datetime | None:
     return newest
 
 
+def fetched_this_run(node_id: str) -> bool:
+    """True iff the COMMITTED manifest already holds this node's raw, fetched
+    under the CURRENT run id — i.e. an earlier continuation leg of this very
+    run landed it. Same asset resolution as dep_fragments (exact key, else
+    the flat `<node_id>-*` batch layout). Every fragment must carry the
+    current run_id: mixed or older run ids mean the asset's raw was not
+    (fully) produced by this run, so the node must execute.
+
+    This is the durable-evidence half of the leg-skip: the orchestrator pairs
+    it with the prior leg's explicit per-node completion record, so neither a
+    stale manifest nor a stale run.json can cause a skip on its own."""
+    run_id = os.environ.get("RUN_ID")
+    if not run_id:
+        return False
+    assets = load().get("assets") or {}
+    hit = assets.get(node_id)
+    matches = {node_id: hit} if isinstance(hit, dict) else {
+        k: v for k, v in assets.items()
+        if isinstance(v, dict) and "/" not in k and k.startswith(f"{node_id}-")
+    }
+    frags = [f for m in matches.values()
+             for f in (m.get("fragments") or {}).values() if isinstance(f, dict)]
+    if not frags:
+        return False
+    return all(f.get("run_id") == run_id for f in frags)
+
+
 def dep_fragments(dep_id: str) -> list[tuple[str, str]] | None:
     """Resolve a SqlNodeSpec dep's raw file set from the COMMITTED manifest.
 
