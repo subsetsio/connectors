@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
+key: [perf_fy_2024_adj_total_nurs_staff_hours_res_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
 checks:
   - kind: unique
-    columns: [performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
+    columns: [perf_fy_2024_adj_total_nurs_staff_hours_res_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
   - kind: not_null
-    col: performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day
+    col: perf_fy_2024_adj_total_nurs_staff_hours_res_day
   - kind: not_null
     col: provider_name
   - kind: not_null

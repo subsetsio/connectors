@@ -1,7 +1,7 @@
 # Clio Infra indicator file stems (the entity union, rank-active subsets).
 # Each maps to https://clio-infra.eu/data/<stem>_Compact.xlsx
 # Copied from data/sources/clio-infra/work/entity_union.json
-ENTITY_IDS = [
+FILE_STEMS = [
     'AluminiumProduction',
     'ArmedConflicts(International)',
     'Armedconflicts(Internal)',
@@ -89,3 +89,17 @@ ENTITY_IDS = [
     'Workingweekinmanufacturing',
     'ZincProduction',
 ]
+
+
+def asset_id(file_stem: str) -> str:
+    return (
+        "clio-infra-"
+        + file_stem.lower()
+        .replace("_", "-")
+        .replace("(", "-")
+        .replace(")", "")
+    )
+
+
+ASSET_TO_STEM = {asset_id(stem): stem for stem in FILE_STEMS}
+ENTITY_IDS = list(ASSET_TO_STEM)

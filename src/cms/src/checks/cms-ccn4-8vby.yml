@@ -3,20 +3,20 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [cms_certification_number_ccn, number_of_completed_surveys, percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family, survey_response_rate, percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest]
+key: [cms_certification_number_ccn, number_of_completed_surveys, pct_pts_who_reported_yes_they_would_health_agency_friends_family, survey_response_rate, pct_pts_who_gave_their_home_health_agency_a_0_lowest_10_highest]
 checks:
   - kind: unique
-    columns: [cms_certification_number_ccn, number_of_completed_surveys, percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family, survey_response_rate, percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest]
+    columns: [cms_certification_number_ccn, number_of_completed_surveys, pct_pts_who_reported_yes_they_would_health_agency_friends_family, survey_response_rate, pct_pts_who_gave_their_home_health_agency_a_0_lowest_10_highest]
   - kind: not_null
     col: cms_certification_number_ccn
   - kind: not_null
     col: number_of_completed_surveys
   - kind: not_null
-    col: percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family
+    col: pct_pts_who_reported_yes_they_would_health_agency_friends_family
   - kind: not_null
     col: survey_response_rate
   - kind: not_null
-    col: percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest
+    col: pct_pts_who_gave_their_home_health_agency_a_0_lowest_10_highest
   - kind: row_floor
     min: 6196
 regression:

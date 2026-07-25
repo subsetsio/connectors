@@ -15,11 +15,11 @@ import io
 
 import pyarrow as pa
 from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet
-from constants import ENTITY_IDS
+from constants import ASSET_TO_STEM, ENTITY_IDS
 
-# spec id (lowercased, '_'->'-') -> original indicator file stem (the URL needs
-# the exact upstream casing, e.g. "ArmedConflicts(International)").
-_SPEC_TO_STEM = {f"clio-infra-{e.lower().replace('_', '-')}": e for e in ENTITY_IDS}
+# spec id -> original indicator file stem (the URL needs the exact upstream
+# casing, e.g. "ArmedConflicts(International)").
+_SPEC_TO_STEM = ASSET_TO_STEM
 
 _LONG_SHEET = "data long format"
 
@@ -91,6 +91,6 @@ def fetch_one(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"clio-infra-{eid.lower().replace('_', '-')}", fn=fetch_one, kind="download")
+    NodeSpec(id=eid, fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
 ]
