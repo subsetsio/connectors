@@ -13,9 +13,7 @@ SELECT
     "libelle_indicateur",
     "id_indicateur",
     "value",
-    "code_vilas",
-    "code_isd",
-    "code_tableau_panorama",
     "source",
+    "code_isd",
     "libelle_isd"
 FROM "drees-619-indicateurs-financiers"
