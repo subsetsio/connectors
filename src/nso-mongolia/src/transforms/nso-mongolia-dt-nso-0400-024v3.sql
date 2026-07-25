@@ -3,9 +3,9 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "Хүйс" AS column,
-    "Хариуцлагын хэлбэр" AS column_2,
-    strptime("Сар", '%Y-%m')::DATE AS column_3,
+    "Хүйс" AS sex,
+    "Хариуцлагын хэлбэр" AS responsibility_type,
+    strptime("Сар", '%Y-%m')::DATE AS month,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-0400-024v3"

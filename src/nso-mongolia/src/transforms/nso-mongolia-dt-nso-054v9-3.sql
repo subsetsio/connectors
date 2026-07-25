@@ -3,8 +3,8 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "Үзүүлэлт" AS column,
-    CAST("Он" AS DOUBLE) AS column_2,
+    "Үзүүлэлт" AS indicator,
+    CAST("Он" AS DOUBLE) AS year,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-054v9-3"

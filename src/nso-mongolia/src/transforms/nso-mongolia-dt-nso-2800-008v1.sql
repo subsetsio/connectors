@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "Aimag" AS aimag,
-    CAST("ОН" AS BIGINT) AS column,
+    CAST("ОН" AS BIGINT) AS year,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-2800-008v1"

@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "Indicator" AS indicator,
-    "Улирал" AS column,
+    "Улирал" AS quarter,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-0700-025v1"

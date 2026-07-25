@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "National average" AS national_average,
-    CAST("ОН" AS BIGINT) AS column,
+    CAST("ОН" AS BIGINT) AS year,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-2800-049v1"

@@ -3,9 +3,9 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "Статистик үзүүлэлт" AS column,
-    "Бүрэлдэхүүн" AS column_2,
-    "Улирал" AS column_3,
+    "Статистик үзүүлэлт" AS statistical_indicator,
+    "Бүрэлдэхүүн" AS component,
+    "Улирал" AS quarter,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-0500-025v1"

@@ -3,8 +3,8 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "Дэд салбар" AS column,
-    strptime("Сар", '%Y-%m')::DATE AS column_2,
+    "Дэд салбар" AS subsector,
+    strptime("Сар", '%Y-%m')::DATE AS month,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-1100-007v1"

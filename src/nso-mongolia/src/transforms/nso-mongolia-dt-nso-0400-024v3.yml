@@ -1,14 +1,14 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `nso-mongolia-dt-nso-0400-024v3`. Regenerate after model-verify.
-key: [column_2, column_3, column]
-temporal: column_3
-sort: [column_3, column_2, column]
+key: [responsibility_type, month, sex]
+temporal: month
+sort: [month, responsibility_type, sex]
 columns:
-  - name: column
+  - name: sex
     type: VARCHAR
-  - name: column_2
+  - name: responsibility_type
     type: VARCHAR
-  - name: column_3
+  - name: month
     type: DATE
   - name: value
     type: DOUBLE

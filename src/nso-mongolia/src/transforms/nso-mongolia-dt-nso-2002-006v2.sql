@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "Indicator" AS indicator,
-    CAST("Он" AS BIGINT) AS column,
+    CAST("Он" AS BIGINT) AS year,
     "value",
     "unit"
 FROM "nso-mongolia-dt-nso-2002-006v2"
