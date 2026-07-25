@@ -14,5 +14,7 @@ checks:
   - kind: row_floor
     min: 230
 regression:
-  row_shrink_tolerance: 0.1
-  key_shrink_tolerance: 0.1
+  # ORR revised this table from 1104 to 460 rows; keep the new stable floor while
+  # allowing the baseline to advance after a clean run.
+  row_shrink_tolerance: 0.6
+  key_shrink_tolerance: 0.6
