@@ -23,4 +23,4 @@ SELECT
     "_geometry_name" AS geometry_name,
     "_geometry" AS geometry,
     "_bbox" AS bbox
-FROM "malaria-atlas-project-explorer:g6pd-data"
+FROM "malaria-atlas-project-explorer-g6pd-data"

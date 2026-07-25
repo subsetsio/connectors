@@ -45,4 +45,4 @@ SELECT
     "_geometry_name" AS geometry_name,
     "_geometry" AS geometry,
     "_bbox" AS bbox
-FROM "malaria-atlas-project-malaria:202406-global-pv-parasite-rate-surveys"
+FROM "malaria-atlas-project-malaria-202406-global-pv-parasite-rate-surveys"

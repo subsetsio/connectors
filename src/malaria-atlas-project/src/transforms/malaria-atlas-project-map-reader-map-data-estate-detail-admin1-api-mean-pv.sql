@@ -40,4 +40,4 @@ SELECT
     "_geometry_name" AS geometry_name,
     "_geometry" AS geometry,
     "_bbox" AS bbox
-FROM "malaria-atlas-project-map-reader:map-data-estate-detail-admin1-api-mean-pv"
+FROM "malaria-atlas-project-map-reader-map-data-estate-detail-admin1-api-mean-pv"

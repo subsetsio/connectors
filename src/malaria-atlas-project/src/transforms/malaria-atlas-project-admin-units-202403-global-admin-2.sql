@@ -26,4 +26,4 @@ SELECT
     "_geometry_name" AS geometry_name,
     "_geometry" AS geometry,
     "_bbox" AS bbox
-FROM "malaria-atlas-project-admin-units:202403-global-admin-2"
+FROM "malaria-atlas-project-admin-units-202403-global-admin-2"

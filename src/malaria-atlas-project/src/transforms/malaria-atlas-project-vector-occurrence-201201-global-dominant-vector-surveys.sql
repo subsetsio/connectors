@@ -33,4 +33,4 @@ SELECT
     "_geometry_name" AS geometry_name,
     "_geometry" AS geometry,
     "_bbox" AS bbox
-FROM "malaria-atlas-project-vector-occurrence:201201-global-dominant-vector-surveys"
+FROM "malaria-atlas-project-vector-occurrence-201201-global-dominant-vector-surveys"
