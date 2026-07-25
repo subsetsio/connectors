@@ -232,6 +232,9 @@ def _write_year(f, content: bytes, table_file: str, year: int, columns: list[str
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity_id = node_id[len("nces-"):]          # "nces-ipeds-hd" -> "ipeds-hd"
+    if entity_id in UNPUBLISHED_BULK_IDS:
+        print(f"  {asset}: skipped — IPEDS publishes no complete-data-file bulk ZIP")
+        return
     table_file = ENTITY_META[entity_id]
 
     ceiling = datetime.now(tz=timezone.utc).year + 1  # catch a just-released next year
@@ -276,5 +279,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"nces-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-    if eid not in UNPUBLISHED_BULK_IDS
 ]
