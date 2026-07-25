@@ -374,12 +374,10 @@ class DAG:
     # Maintain
     # =========================================================================
 
-    def _prior_leg_done(self, node_id: str) -> bool:
-        """True iff the hydrated prior run.json (an earlier continuation leg of
-        THIS run_id) recorded this node as done WITHOUT a pagination
-        continuation request. The explicit-record half of the download
-        leg-skip — the manifest's `fetched_this_run` is the durable half;
-        the skip requires both, so neither artifact can mislead alone."""
+    def _prior_leg_records(self) -> dict:
+        """Per-node records from the hydrated prior run.json, when it belongs to
+        an earlier continuation leg of THIS run_id. Empty otherwise. Read once
+        and memoized."""
         if self._prior_leg_nodes is None:
             nodes: dict[str, dict] = {}
             log_dir = os.environ.get("LOG_DIR")
@@ -394,9 +392,58 @@ class DAG:
                 except (OSError, json.JSONDecodeError, KeyError, TypeError):
                     nodes = {}
             self._prior_leg_nodes = nodes
-        rec = self._prior_leg_nodes.get(node_id)
+        return self._prior_leg_nodes
+
+    def _prior_leg_done(self, node_id: str) -> bool:
+        """True iff the hydrated prior run.json (an earlier continuation leg of
+        THIS run_id) recorded this node as done WITHOUT a pagination
+        continuation request. The explicit-record half of the download
+        leg-skip — the manifest's `fetched_this_run` is the durable half;
+        the skip requires both, so neither artifact can mislead alone."""
+        rec = self._prior_leg_records().get(node_id)
         return bool(rec and rec.get("status") == "done"
                     and not rec.get("needs_continuation"))
+
+    def _prior_leg_failed_ids(self) -> set:
+        """Nodes that already failed on their own merits in an earlier leg of
+        this run. Excludes nodes marked failed purely because a dependency
+        failed (`skipped_blocked`) — those carry no independent evidence.
+
+        Used by the consecutive-failure breaker: a failure this leg has already
+        seen is a known, localized defect, not new evidence that the run as a
+        whole is broken."""
+        return {
+            nid for nid, rec in self._prior_leg_records().items()
+            if rec.get("status") == "failed" and not rec.get("skipped_blocked")
+        }
+
+    def _prefetch_node_state(self, order: list[NodeSpec]) -> None:
+        """Snapshot the state files the scheduler is about to consult.
+
+        `transform_state.should_skip` compares a fingerprint against the node's
+        state file, in this process, before every spawn. Read one at a time
+        that is a storage round trip per node: ~1.1s each against R2 from a
+        GitHub runner, so eurostat's 17,349 nodes cost >5h of an all-but-idle
+        5.75h leg. One batched read makes the same decisions from memory.
+
+        Best-effort by construction: a failure here leaves the snapshot unset
+        and every read falls back to the per-node path.
+        """
+        if self._force_refresh:
+            return  # no skip checks will run, so nothing to prefetch
+        ids = [s.id for s in order if isinstance(s, (SqlNodeSpec, CheckNodeSpec))]
+        if len(ids) < 2:
+            return
+        t0 = time.monotonic()
+        try:
+            from .io import prefetch_states
+            found = prefetch_states(ids)
+        except Exception as e:  # noqa: BLE001 — an optimization must never fail a run
+            print(f"[DAG] WARN: state prefetch failed ({type(e).__name__}: {e}) "
+                  f"— falling back to per-node reads")
+            return
+        print(f"[DAG] Prefetched state for {len(ids)} node(s), {found} with "
+              f"prior state, in {time.monotonic() - t0:.1f}s")
 
     def _apply_maintain_skips(self, order: list[NodeSpec]) -> None:
         """Evaluate MaintainSpec.check() for each in-scope NodeSpec and mark
@@ -621,6 +668,15 @@ class DAG:
               this many consecutive node failures (default 10). Resets on any
               success. Guards against thrashing when an entire run is broken
               (auth dead, R2 down, etc.). Ignored in crash mode.
+              A node that already failed in an earlier leg of the same run does
+              NOT advance the streak: the breaker is meant to catch systemic
+              breakage, and node ordering is deterministic, so counting repeats
+              made a localized cluster of broken nodes permanently fatal — every
+              leg halted at the same point, the chain guard saw no progress, and
+              the run died with thousands of untouched nodes (eurostat
+              20260723-212535: 29 drifted transforms stranded 9,268 nodes). A
+              leg with zero successes still halts at the same threshold, which
+              is what actually distinguishes systemic from local.
 
         Behavior:
             - Each node runs in a fresh forked child; OS reclaims RSS on exit.
@@ -651,6 +707,17 @@ class DAG:
         # before any node forks — children only append rows. Per-invocation,
         # like output.log / memory.csv.
         tracking.init_http_log()
+
+        # Read the prior leg's run.json NOW, before anything can overwrite it.
+        # LOG_DIR/run.json holds the previous leg's record (the runner hydrates
+        # it) until this leg's first save_state replaces it — and the first
+        # save_state happens in _apply_maintain_skips, long before the scheduler
+        # asks any prior-leg question. Hydrating lazily meant a connector with
+        # maintain skips silently lost its own continuation evidence: the
+        # download leg-skip saw "pending" for nodes an earlier leg had finished
+        # and re-fetched them, which is the exact waste the leg-skip exists to
+        # prevent. Memoized, so every later reader gets this snapshot.
+        self._prior_leg_records()
 
         on_failure = os.environ.get("DAG_ON_FAILURE", "crash")
         self._on_failure = on_failure
@@ -735,10 +802,21 @@ class DAG:
         if self._maintain:
             self._apply_maintain_skips(order)
 
+        # Transform/check skip decisions read one state file per node. Take the
+        # whole snapshot in one concurrent batch here, so the scheduler loop
+        # below is pure CPU instead of one storage round trip per node — see
+        # io.prefetch_states for the measurement that motivated it.
+        self._prefetch_node_state(order)
+
         first_failure = None
         stop_submitting = False
         consecutive_failures = 0
         halted_consecutive = False
+        succeeded_this_leg = 0
+        failed_this_leg = 0
+        # Failures this leg has already seen in an earlier leg of the same run
+        # are known defects, not evidence that the whole run is broken.
+        prior_leg_failed = self._prior_leg_failed_ids()
 
         def propagate_blocked() -> None:
             """Mark any pending node whose dependency has failed as failed
@@ -898,17 +976,30 @@ class DAG:
                         if os.environ.get("DAG_VERBOSE") == "1":
                             self._print_node_detail(task_id)
                         consecutive_failures = 0
+                        succeeded_this_leg += 1
                     else:
                         batch_had_failure = True
+                        failed_this_leg += 1
                         print(f"[DAG] {task_id} failed: {result.get('error', 'unknown')}")
                         if first_failure is None:
                             first_failure = result
-                        consecutive_failures += 1
+                        known = task_id in prior_leg_failed
+                        if not known:
+                            consecutive_failures += 1
                         if on_failure == "crash":
                             stop_submitting = True
                         elif consecutive_failures >= max_consec:
                             print(f"[DAG] Halting scheduling: {consecutive_failures} "
                                   f"consecutive failures "
+                                  f"(DAG_MAX_CONSECUTIVE_FAILURES={max_consec}).")
+                            stop_submitting = True
+                            halted_consecutive = True
+                        elif succeeded_this_leg == 0 and failed_this_leg >= max_consec:
+                            # Nothing at all has worked this leg. Repeat failures
+                            # are exempt from the streak, but a leg where they are
+                            # the ONLY thing happening is systemic by any reading.
+                            print(f"[DAG] Halting scheduling: {failed_this_leg} failures "
+                                  f"and zero successes this leg "
                                   f"(DAG_MAX_CONSECUTIVE_FAILURES={max_consec}).")
                             stop_submitting = True
                             halted_consecutive = True

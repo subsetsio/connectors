@@ -131,6 +131,43 @@ def _canonical_type(type_expr: str) -> str:
     return str(duckdb.sql(f"SELECT CAST(NULL AS {type_expr}) AS c").types[0])
 
 
+def _bind(spec: SqlNodeSpec) -> "duckdb.DuckDBPyRelation":
+    """Bind the query, translating "column not found" into the diagnosis it
+    actually is: the raw no longer has the shape the model measured.
+
+    A compiled transform names the exact dimension columns the profiler saw. If
+    the source renames one — Eurostat renamed `quantile` to `quant_inc` across
+    29 dataflows between the 2026-07-09 profile and the 2026-07-23 re-pull — the
+    bind fails, and it fails for every table in that family at once. Failing is
+    correct (a faithful pass-through must not silently drop a dimension), but
+    a bare Binder Error reads like a bad hand-written query. Say what it is and
+    what fixes it, so the failure routes itself.
+    """
+    try:
+        return duckdb.sql(spec.sql)
+    except duckdb.BinderException as e:
+        msg = str(e)
+        if "not found in FROM clause" not in msg:
+            raise
+        available = []
+        for dep in spec.deps:
+            try:
+                available += [f"{dep}.{c}" for c in duckdb.sql(
+                    f'SELECT * FROM "{dep}" LIMIT 0').columns]
+            except Exception:  # noqa: BLE001 — diagnostics must not mask the real error
+                pass
+        raise ValueError(
+            f"SqlNodeSpec {spec.id!r}: upstream schema drift — the transform "
+            f"names a column the raw no longer has.\n"
+            f"  {msg.splitlines()[0]}\n"
+            f"  raw columns now: {', '.join(available) or '(could not read)'}\n"
+            f"  The compiled SQL is downstream of a measured profile, so the fix "
+            f"is to re-measure, not to hand-edit: `hardened model-verify "
+            f"<connector>` then `hardened compile-transforms <connector> --only "
+            f"{spec.table} --write --force` (and compile-checks likewise)."
+        ) from e
+
+
 def _verify_contract(spec: SqlNodeSpec) -> "duckdb.DuckDBPyRelation":
     """Bind the query and verify its output against spec.columns (verify-only).
 
@@ -140,7 +177,7 @@ def _verify_contract(spec: SqlNodeSpec) -> "duckdb.DuckDBPyRelation":
     exact (canonicalized) types. The SQL must cast; the runtime never coerces.
     Returns the bound relation so the caller executes the same plan it checked.
     """
-    rel = duckdb.sql(spec.sql)
+    rel = _bind(spec)
     if spec.columns is None:
         return rel
 

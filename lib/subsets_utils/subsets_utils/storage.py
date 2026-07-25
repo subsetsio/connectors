@@ -29,6 +29,17 @@ from typing import Optional
 
 from .config import is_cloud
 
+# Concurrency for `read_bytes_bulk`. High enough that thousands of tiny state
+# objects finish in seconds, low enough to stay well inside R2's per-connection
+# limits and s3fs's own connection pool.
+_BULK_READ_BATCH = 64
+
+
+def _norm_key(uri: str) -> str:
+    """A comparable key for a URI across the forms fsspec hands back: scheme
+    dropped, leading slashes stripped."""
+    return uri.split("://", 1)[-1].lstrip("/")
+
 
 class StorageBackend:
     # =========================================================================
@@ -122,6 +133,43 @@ class StorageBackend:
                 return f.read()
         except FileNotFoundError:
             return None
+
+    def read_bytes_bulk(self, uris) -> dict:
+        """Read many small objects CONCURRENTLY. Returns {uri: bytes} for the
+        ones that exist; missing objects are simply absent from the result.
+
+        The point is latency, not bandwidth. A sequential `read_bytes` per
+        object costs one full round trip each (~1s against R2 from a GitHub
+        runner), so any caller with thousands of tiny objects — the scheduler
+        deciding which of 17k transform nodes can be skipped — spends hours
+        blocked on the network. fsspec's `cat` runs the GETs on its async
+        loop, turning that into one bounded-concurrency batch.
+
+        Never raises for a missing object (`on_error="omit"`). A caller that
+        needs to distinguish "absent" from "unreadable" must fall back to
+        `read_bytes` for the keys it did not get back.
+
+        All URIs must share a scheme — the filesystem is resolved from the
+        first one. Every caller today passes one prefix's worth of keys.
+        """
+        uris = list(uris)
+        if not uris:
+            return {}
+        fs = self.fsspec_fs(uris[0])
+        # `batch_size` is an async-filesystem kwarg; the local sync filesystem
+        # rejects it. Both accept `on_error`.
+        try:
+            blobs = fs.cat(uris, on_error="omit", batch_size=_BULK_READ_BATCH)
+        except TypeError:
+            blobs = fs.cat(uris, on_error="omit")
+        if not isinstance(blobs, dict):
+            # fsspec collapses a single-path cat to raw bytes.
+            blobs = {uris[0]: blobs}
+        # s3fs returns keys as "bucket/key" (scheme stripped); the local fs
+        # returns them as filesystem paths. Map back onto what the caller asked
+        # for so the result is keyed by the URIs it passed in.
+        by_norm = {_norm_key(k): v for k, v in blobs.items() if isinstance(v, bytes)}
+        return {u: by_norm[n] for u in uris if (n := _norm_key(u)) in by_norm}
 
     def write_bytes(self, uri: str, data: bytes) -> None:
         """Write bytes to a URI (s3:// or local) via fsspec."""

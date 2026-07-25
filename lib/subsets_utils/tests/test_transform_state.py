@@ -165,6 +165,73 @@ def main():
         assert dag._prior_leg_done("n-done") is False
         os.environ.pop("RUN_ID"); os.environ.pop("LOG_DIR")
 
+    def state_prefetch_serves_skip_decisions():
+        """The batched snapshot must answer the same question the per-node read
+        did — that is the whole safety argument for taking it."""
+        from subsets_utils import io as sio
+        ts.record_transform(spec)
+        expected = ts.should_skip(spec)
+        assert expected is not None
+
+        # Snapshot, then make the underlying file unreadable. A skip decision
+        # that still lands proves it came from the snapshot, not from storage.
+        found = sio.prefetch_states([spec.id, "synthtest-never-written"])
+        assert found == 1, f"expected 1 asset with state, got {found}"
+        state_file = Path(sio.state_uri(spec.id))
+        moved = state_file.with_suffix(".json.moved")
+        state_file.rename(moved)
+        assert ts.should_skip(spec) == expected
+        # An asset with no state file is cached as a definite absence.
+        assert sio.load_state("synthtest-never-written") == {}
+        # An asset outside the snapshot still falls through to a real read.
+        assert sio.load_state("synthtest-outside-snapshot") == {}
+
+        # A write must go through the snapshot, not around it.
+        sio.save_state(spec.id, {"watermark": "w-1"})
+        assert sio.load_state(spec.id).get("watermark") == "w-1"
+        assert ts.should_skip(spec) is None      # fingerprint no longer recorded
+
+        sio.clear_state_cache()
+        moved.rename(state_file)
+        assert ts.should_skip(spec) == expected  # back to reading storage
+
+    def bulk_read_matches_single_read():
+        from subsets_utils import io as sio
+        from subsets_utils.storage import backend
+        sio.save_state("synthtest-bulk-a", {"k": "a"})
+        sio.save_state("synthtest-bulk-b", {"k": "b"})
+        uris = [sio.state_uri(x) for x in
+                ("synthtest-bulk-a", "synthtest-bulk-b", "synthtest-bulk-missing")]
+        blobs = backend.read_bytes_bulk(uris)
+        assert set(blobs) == set(uris[:2]), f"missing key must be omitted: {list(blobs)}"
+        for u in uris[:2]:
+            assert blobs[u] == backend.read_bytes(u)
+        assert backend.read_bytes_bulk([]) == {}
+
+    def prior_leg_failed_ids_are_own_merits_only():
+        from subsets_utils.orchestrator import DAG
+        os.environ["RUN_ID"] = "20260724-000000"
+        log_dir = Path(tempfile.mkdtemp(prefix="legfail_"))
+        os.environ["LOG_DIR"] = str(log_dir)
+        (log_dir / "run.json").write_text(json.dumps({
+            "run_id": "20260724-000000",
+            "dag": {"nodes": [
+                {"id": "n-broke", "status": "failed"},
+                {"id": "n-blocked", "status": "failed", "skipped_blocked": True},
+                {"id": "n-ok", "status": "done"},
+            ]},
+        }))
+        dag = DAG.__new__(DAG)
+        dag._prior_leg_nodes = None
+        assert dag._prior_leg_failed_ids() == {"n-broke"}
+        # A run.json from a different run tells us nothing about this one.
+        (log_dir / "run.json").write_text(json.dumps({
+            "run_id": "OTHER",
+            "dag": {"nodes": [{"id": "n-broke", "status": "failed"}]}}))
+        dag._prior_leg_nodes = None
+        assert dag._prior_leg_failed_ids() == set()
+        os.environ.pop("RUN_ID"); os.environ.pop("LOG_DIR")
+
     check("fingerprint is stable", fingerprint_stable)
     check("whitespace reflow does not invalidate", whitespace_insensitive)
     check("SQL change invalidates", sql_change_invalidates)
@@ -174,6 +241,9 @@ def main():
     check("check skips only while transform state holds", check_follows_transform)
     check("download leg-skip requires this-run manifest evidence", download_leg_skip_evidence)
     check("prior-leg record gates the leg-skip", prior_leg_done_gates)
+    check("bulk read matches per-object read", bulk_read_matches_single_read)
+    check("prefetched state answers skip decisions", state_prefetch_serves_skip_decisions)
+    check("prior-leg failures exclude blocked dependents", prior_leg_failed_ids_are_own_merits_only)
 
     print(f"\n{len(PASS)} passed")
 

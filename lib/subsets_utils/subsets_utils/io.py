@@ -69,11 +69,60 @@ def _delete(uri: str) -> None:
 # State files (small JSON, per-asset)
 # =============================================================================
 
+# Parent-process snapshot of state bytes, keyed by asset. Populated once by
+# `prefetch_states()` and consulted by every read below.
+#
+# Why this exists: the orchestrator decides "can this transform/check be
+# skipped?" by comparing a fingerprint against the asset's state file, in the
+# scheduler loop, before spawning anything. That is one R2 GET per node — ~1.1s
+# each against R2 from a GitHub runner — so a 17k-node connector spent >5h of
+# every 5.75h leg doing nothing but sequential round trips, and the workers sat
+# idle behind it (measured on eurostat 20260723-212535: 20% worker utilisation).
+# One bulk read replaces all of them.
+#
+# None = no snapshot taken, every read goes to storage (the old behaviour, and
+# what every child process sees — children are spawned, not forked, so they
+# start with a clean cache and cannot serve a stale entry).
+_STATE_CACHE: Optional[dict] = None
+
+
+def prefetch_states(assets) -> int:
+    """Snapshot every asset's state file in one concurrent batch. Returns the
+    number of assets that had state.
+
+    Parent-process only, and strictly an optimization: writes through
+    `save_state`/`record_completion` update the snapshot, and any asset absent
+    from it falls through to a normal read. Safe to call more than once — a
+    later call replaces the snapshot rather than merging into it.
+    """
+    global _STATE_CACHE
+    assets = list(dict.fromkeys(assets))
+    uris = {a: state_uri(a) for a in assets}
+    blobs = backend.read_bytes_bulk(uris.values())
+    _STATE_CACHE = {a: blobs.get(u) for a, u in uris.items()}
+    return sum(1 for v in _STATE_CACHE.values() if v)
+
+
+def clear_state_cache() -> None:
+    """Drop the snapshot; subsequent reads go to storage."""
+    global _STATE_CACHE
+    _STATE_CACHE = None
+
+
+def _cache_state_bytes(asset: str, data: Optional[bytes]) -> None:
+    """Write through to the snapshot so it never serves a value this process
+    has already superseded."""
+    if _STATE_CACHE is not None:
+        _STATE_CACHE[asset] = data
+
+
 def _load_state_raw(asset: str) -> dict:
     """Load state including underscore-prefixed reserved keys (e.g. _metadata).
     Internal: used by record_completion and save_state's merge path."""
-    uri = state_uri(asset)
-    data = _read_bytes(uri)
+    if _STATE_CACHE is not None and asset in _STATE_CACHE:
+        data = _STATE_CACHE[asset]
+    else:
+        data = _read_bytes(state_uri(asset))
     if not data:
         return {}
     return json.loads(data.decode("utf-8"))
@@ -125,7 +174,9 @@ def save_state(asset: str, state_data: dict) -> str:
         "_metadata": merged_meta,
     }
     uri = state_uri(asset)
-    _write_bytes(uri, json.dumps(payload, indent=2).encode("utf-8"))
+    data = json.dumps(payload, indent=2).encode("utf-8")
+    _write_bytes(uri, data)
+    _cache_state_bytes(asset, data)
     tracking.record_state_change(asset, existing, payload)
     return uri
 
@@ -158,7 +209,9 @@ def record_completion(asset: str) -> str:
         "_metadata": merged_meta,
     }
     uri = state_uri(asset)
-    _write_bytes(uri, json.dumps(payload, indent=2).encode("utf-8"))
+    data = json.dumps(payload, indent=2).encode("utf-8")
+    _write_bytes(uri, data)
+    _cache_state_bytes(asset, data)
     tracking.record_state_change(asset, existing, payload)
     return uri
 
