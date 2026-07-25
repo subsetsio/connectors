@@ -5,7 +5,7 @@
 -- caution: Sub-national gas consumption includes geography levels and domestic/non-domestic breakdowns; filter geography and consumer group before aggregation.
 SELECT
     "resource",
-    CAST("sheet" AS BIGINT) AS sheet,
+    "sheet",
     "row_label",
     "series",
     "value_text",

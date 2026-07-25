@@ -5,7 +5,7 @@
 -- caution: Northern Ireland electricity consumption rows are extracted cells; keep sheet, row_label, and series context when comparing geography or sector values.
 SELECT
     "resource",
-    CAST("sheet" AS BIGINT) AS sheet,
+    "sheet",
     "row_label",
     "series",
     "value_text",

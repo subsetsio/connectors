@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Sub-national final energy consumption includes mixed fuels, sectors, and geography levels; filter the relevant dimensions before summing.
 SELECT
-    CAST("resource" AS BIGINT) AS resource,
+    "resource",
     "sheet",
     "row_label",
     "series",

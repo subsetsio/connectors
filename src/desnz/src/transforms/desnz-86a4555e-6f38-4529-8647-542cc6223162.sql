@@ -5,7 +5,7 @@
 -- caution: Northern Ireland gas consumption rows are extracted cells; retain sheet, row_label, and series context when comparing domestic and non-domestic values.
 SELECT
     "resource",
-    CAST("sheet" AS BIGINT) AS sheet,
+    "sheet",
     "row_label",
     "series",
     "value_text",

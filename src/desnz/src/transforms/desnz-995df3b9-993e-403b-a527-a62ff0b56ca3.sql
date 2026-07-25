@@ -4,8 +4,8 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Road transport consumption includes geography, vehicle type, and fuel breakdowns; filter the relevant level before aggregation.
 SELECT
-    CAST("resource" AS BIGINT) AS resource,
-    CAST("sheet" AS BIGINT) AS sheet,
+    "resource",
+    "sheet",
     "row_label",
     "series",
     "value_text",

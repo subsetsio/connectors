@@ -5,7 +5,7 @@
 -- caution: LSOA, MSOA, and IGZ estimates contain mixed geography levels and electricity/gas measures; filter geography level and fuel before aggregation.
 SELECT
     "resource",
-    CAST("sheet" AS BIGINT) AS sheet,
+    "sheet",
     "row_label",
     "series",
     "value_text",

@@ -5,7 +5,7 @@
 -- caution: Sub-national electricity tables mix geographies and consumer groups; use resource, sheet, row_label, and series together before aggregating.
 SELECT
     "resource",
-    CAST("sheet" AS BIGINT) AS sheet,
+    "sheet",
     "row_label",
     "series",
     "value_text",

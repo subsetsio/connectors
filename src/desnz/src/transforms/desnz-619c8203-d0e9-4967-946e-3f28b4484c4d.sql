@@ -5,7 +5,7 @@
 -- caution: Off-gas-network estimates include multiple geography and property breakdowns; filter row_label and series context before aggregation.
 SELECT
     "resource",
-    CAST("sheet" AS BIGINT) AS sheet,
+    "sheet",
     "row_label",
     "series",
     "value_text",

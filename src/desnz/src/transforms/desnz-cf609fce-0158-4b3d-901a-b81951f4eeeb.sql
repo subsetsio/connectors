@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Residual fuel consumption includes multiple residual fuel types and geography levels; filter fuel and geography context before aggregation.
 SELECT
-    CAST("resource" AS BIGINT) AS resource,
+    "resource",
     "sheet",
     "row_label",
     "series",
