@@ -18,6 +18,13 @@ CSV_HEADERS = {
     "Accept-Language": "en",
 }
 
+def _upstream_id(entity_id: str) -> str:
+    if entity_id.startswith("DSD_") and "_DF_" in entity_id:
+        dsd_id, dataflow_id = entity_id.rsplit("_DF_", 1)
+        return f"{dsd_id}@DF_{dataflow_id}"
+    return entity_id
+
+
 _SPEC_SUFFIX_TO_ENTITY_ID = {eid.lower().replace("_", "-"): eid for eid in ENTITY_IDS}
 
 
@@ -31,7 +38,7 @@ def _entity_id_from_spec(node_id: str) -> str:
 
 def fetch_one(node_id: str) -> None:
     entity_id = _entity_id_from_spec(node_id)
-    dataflow = quote(entity_id, safe="")
+    dataflow = quote(_upstream_id(entity_id), safe="")
     url = f"{BASE_URL}/data/LU1,{dataflow}/all"
     response = get(
         url,
