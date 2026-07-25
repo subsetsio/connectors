@@ -75,6 +75,23 @@ RAW_EXT = "csv.gz"
 # Refresh window for the maintain skip — matches maintenance.json cadence_days.
 REFRESH_DAYS = 7
 
+# Existing snapshots for these assets were written with minimal CSV quoting.
+# DuckDB's read_csv_auto sampled no quoted values, inferred `quote = ''`, then
+# failed later on valid CBS labels containing commas. Re-fetch these once under
+# the always-quoted writer below; after a clean run, this set can be removed.
+FORCE_REQUOTE_ASSETS = frozenset({
+    "cbs-netherlands-37230ned",
+    "cbs-netherlands-70806ned",
+    "cbs-netherlands-71487ned",
+    "cbs-netherlands-7477",
+    "cbs-netherlands-80794ned",
+    "cbs-netherlands-81074ned",
+    "cbs-netherlands-83022ned",
+    "cbs-netherlands-83023ned",
+    "cbs-netherlands-83250ned",
+    "cbs-netherlands-84480ned",
+})
+
 # The theme taxonomy is a catalog-level entity set, not a StatLine table: it has
 # no Feed endpoint, no dimensions and no TypedDataSet. It gets its own fetch fn.
 THEMES_ENTITY_ID = "cbs-themes"
@@ -148,6 +165,16 @@ def _strip(value):
     return value.strip() if isinstance(value, str) else value
 
 
+def _csv_writer(fh, **kwargs):
+    """CSV writer whose header/sample makes DuckDB detect standard quoting."""
+    return csv.writer(fh, quoting=csv.QUOTE_ALL, **kwargs)
+
+
+def _csv_dict_writer(fh, fieldnames: list[str]):
+    """DictWriter variant matching `_csv_writer`."""
+    return csv.DictWriter(fh, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+
+
 def _dimension_labels(entity_id: str) -> dict[str, dict[str, str]]:
     """Per dimension key: {stripped code -> title}, from the table's own code lists."""
     properties = _fetch_page(
@@ -206,7 +233,7 @@ def _write_observations_csv_from_zip(node_id: str, download_url: str) -> int:
         with zf.open(name) as src, raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip") as out:
             text = io.TextIOWrapper(src, encoding="utf-8-sig", newline="")
             reader = csv.reader(text, delimiter=";")
-            writer = csv.writer(out)
+            writer = _csv_writer(out)
             for row in reader:
                 writer.writerow([_strip(v) for v in row])
                 rows_written += 1
@@ -241,7 +268,7 @@ def _write_typed_dataset_csv(node_id: str, entity_id: str) -> int:
                 for key in labels:
                     first[f"{key}_label"] = None
                 fieldnames = list(first)
-                writer = csv.DictWriter(fh, fieldnames=fieldnames)
+                writer = _csv_dict_writer(fh, fieldnames)
                 writer.writeheader()
 
             for row in rows:
@@ -307,7 +334,7 @@ def fetch_themes(node_id: str) -> None:
             for row in payload.get("value", []):
                 record = {k: _strip(v) for k, v in row.items()}
                 if writer is None:
-                    writer = csv.DictWriter(fh, fieldnames=list(record))
+                    writer = _csv_dict_writer(fh, list(record))
                     writer.writeheader()
                 writer.writerow(record)
                 rows_written += 1
@@ -350,6 +377,12 @@ DOWNLOAD_SPECS = [
 # re-pull it — which is what we want, since CBS revises tables in place and the
 # TypedDataSet endpoint offers no row-level `since` filter to be cleverer with.
 # FORCE_REFRESH=1 bypasses every check.
+def _is_fresh(asset_id: str) -> bool:
+    if asset_id in FORCE_REQUOTE_ASSETS:
+        return False
+    return raw_asset_exists(asset_id, RAW_EXT, max_age_days=REFRESH_DAYS)
+
+
 MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=_node_id(eid),
@@ -360,9 +393,7 @@ MAINTAIN_SPECS = [
             f"(maintenance.json cadence_days=7). Younger than that, skip — which "
             f"is also how the ~1531-table backfill advances across invocations."
         ),
-        check=lambda asset_id: raw_asset_exists(
-            asset_id, RAW_EXT, max_age_days=REFRESH_DAYS
-        ),
+        check=_is_fresh,
     )
     for eid in ENTITY_IDS
 ]
