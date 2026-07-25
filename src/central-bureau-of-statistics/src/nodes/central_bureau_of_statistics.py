@@ -33,7 +33,6 @@ from subsets_utils import (
     NodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 SERIES_BASE = "https://apis.cbs.gov.il/series"
@@ -44,14 +43,12 @@ SLUG = "central-bureau-of-statistics"
 # ---------------------------------------------------------------- HTTP helpers
 
 
-@transient_retry()
 def _get_json(url, **params):
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
 
 
-@transient_retry()
 def _get_text(url, **params):
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -246,19 +243,37 @@ def _fetch_price_history(code):
     """Full monthly history for one index code via /data/price, following the page
     count (100 obs/page). Returns a list of date-record dicts as the API delivers them."""
     end_year = datetime.now(tz=timezone.utc).year + 1
+    return _fetch_price_history_range(code, 1948, end_year, allow_window_fallback=True)
+
+
+def _fetch_price_history_range(code, start_year, end_year, *, allow_window_fallback=False):
+    """Fetch one price-index code for an inclusive year range.
+
+    Some valid CBS price series report multiple pages but return HTTP 500 for
+    page > 1. When that happens on the full-history call, refetch in small
+    windows whose monthly observations fit on the first page.
+    """
     recs = []
     page = 1
     max_pages = 1000  # safety ceiling; raises rather than truncating silently
     while True:
-        j = _get_json(
-            f"{INDEX_BASE}/data/price", id=code, startPeriod="01-1948",
-            endPeriod=f"12-{end_year}", format="json", lang="en", Page=page,
-        )
+        try:
+            j = _get_json(
+                f"{INDEX_BASE}/data/price", id=code, startPeriod=f"01-{start_year}",
+                endPeriod=f"12-{end_year}", format="json", lang="en", Page=page,
+            )
+        except Exception:
+            if allow_window_fallback and page > 1:
+                return _fetch_price_history_windowed(code, start_year, end_year)
+            raise
         months = j.get("month") or []
         for entry in months:
             for d in entry.get("date") or []:
                 recs.append(d)
         paging = j.get("paging") or {}
+        total_items = paging.get("total_items")
+        if total_items is not None and len(recs) >= int(total_items):
+            break
         last_page = paging.get("last_page") or 1
         if page >= last_page:
             break
@@ -266,6 +281,20 @@ def _fetch_price_history(code):
         if page > max_pages:
             raise AssertionError(f"price code {code}: exceeded {max_pages} pages")
     return recs
+
+
+def _fetch_price_history_windowed(code, start_year, end_year):
+    rows = []
+    seen = set()
+    for window_start in range(start_year, end_year + 1, 5):
+        window_end = min(window_start + 4, end_year)
+        for d in _fetch_price_history_range(code, window_start, window_end):
+            key = (d.get("year"), d.get("month"))
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(d)
+    return rows
 
 
 def _to_int(x):

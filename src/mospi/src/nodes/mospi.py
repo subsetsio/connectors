@@ -256,18 +256,21 @@ def _c_nss78():
 
 
 def _c_nas():
-    d = _list("/api/nas/getNasIndicatorList")
-    bys = _codes(d.get("base_year", []) if isinstance(d, dict) else [], "base_year")
-    sers = _codes(d.get("series", []) if isinstance(d, dict) else [], "series")
-    fcs = _codes(d.get("frequency", []) if isinstance(d, dict) else [], "frequency_code")
-    inds = _codes(d.get("indicator", []) if isinstance(d, dict) else [], "indicator_code")
-    qinds = _codes(d.get("quarter_indicator", []) if isinstance(d, dict) else [], "indicator_code")
+    # The former /api/nas/getNasIndicatorList endpoint now returns a deterministic
+    # 500 ("Please check the input parameters passed"). The current official
+    # swagger_user_nas.yaml documents the required getNASData enums directly:
+    # base_year in {2022-23, 2011-12}, series constrained by base_year,
+    # frequency_code in {Annually, Quarterly}, indicator_code 1..22.
+    inds = [str(i) for i in range(1, 23)]
     out = []
-    for by in bys:
-        for ser in sers:
-            for fc in fcs:
-                ind_set = inds if fc == 1 else (qinds or inds)
-                for ind in ind_set:
+    for by, series_values, freqs in (
+        ("2022-23", ("Current",), ("Annually", "Quarterly")),
+        ("2011-12", ("Current",), ("Annually", "Quarterly")),
+        ("2011-12", ("Back",), ("Annually",)),
+    ):
+        for ser in series_values:
+            for fc in freqs:
+                for ind in inds:
                     out.append({"base_year": by, "series": ser,
                                 "frequency_code": fc, "indicator_code": ind, **_FMT})
     return out
