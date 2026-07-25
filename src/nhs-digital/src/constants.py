@@ -4,7 +4,9 @@ The accepted CKAN package names (rank-active), copied verbatim from
 data/sources/nhs-digital/work/entity_union.json. Data, not logic — kept out of
 the node module so `nhs_digital.py` stays logic-only. The GP-practice
 presentation-level prescribing package is deliberately absent (deferred at
-accept: 411 resources, >1GB each — not publishable as one table via this mirror).
+accept: 411 resources, >1GB each — not publishable as one table via this
+mirror). The pathology laboratories package is also absent while its only
+live-format CKAN resource returns HTTP 403 from the factory environment.
 """
 
 ENTITY_IDS = [
@@ -34,5 +36,4 @@ ENTITY_IDS = [
     "national-pregnancy-in-diabetes-audit-report-2018",
     "ndfa-interval-review-july-2014-march-2021",
     "nhs-outcomes-framework-indicators",
-    "pathology-laboratories",
 ]

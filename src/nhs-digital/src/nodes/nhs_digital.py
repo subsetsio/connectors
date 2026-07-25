@@ -42,7 +42,6 @@ from subsets_utils import (
 CKAN = "https://ckan.publishing.service.gov.uk/api/3/action"
 _DATA_EXT = re.compile(r"\.(csv|xlsx|xls|zip)$", re.I)
 _FLUSH_ROWS = 200_000
-_KNOWN_EMPTY_ON_FORBIDDEN = {"nhs-digital-pathology-laboratories"}
 
 
 def _node_id(entity_id: str) -> str:
@@ -173,12 +172,7 @@ def fetch_one(node_id: str) -> None:
     with raw_parquet_writer(asset, SCHEMA) as writer:
         for url, ext in urls:
             base = url.split("?")[0]
-            try:
-                content = _download_bytes(url)
-            except Exception as exc:
-                if asset in _KNOWN_EMPTY_ON_FORBIDDEN and "403 Forbidden" in str(exc):
-                    continue
-                raise
+            content = _download_bytes(url)
             fname = base.rsplit("/", 1)[-1]
             for source_name, rows in _iter_tables(ext, content, fname):
                 if not rows:
@@ -205,7 +199,7 @@ def fetch_one(node_id: str) -> None:
         if buf:
             writer.write_table(pa.Table.from_pylist(buf, schema=SCHEMA))
 
-    if total == 0 and asset not in _KNOWN_EMPTY_ON_FORBIDDEN:
+    if total == 0:
         raise RuntimeError(
             f"{asset}: parsed 0 non-empty cells from {len(urls)} file(s) in '{pkg}'"
         )
