@@ -128,15 +128,23 @@ _CHIPS = {"xlsx", "zip", "csv", "pdf"}
 _TRANSIENT_EXC = (CffiConnectionError, CffiTimeout)
 
 
+def _http_status(exc: BaseException):
+    resp = getattr(exc, "response", None)
+    code = getattr(resp, "status_code", None)
+    if code is not None:
+        return code
+    match = re.search(r"\b(403|404|429|5\d\d)\b", str(exc))
+    if match:
+        return int(match.group(1))
+    return None
+
+
 def _is_transient(exc: BaseException) -> bool:
     if isinstance(exc, _TRANSIENT_EXC):
         return True
-    if isinstance(exc, CffiHTTPError):
-        # message contains the status; recover the code from the attached response
-        resp = getattr(exc, "response", None)
-        code = getattr(resp, "status_code", None)
-        if code is not None:
-            return code == 429 or 500 <= code < 600
+    code = _http_status(exc)
+    if code is not None:
+        return code == 429 or 500 <= code < 600
     return False
 
 
@@ -307,21 +315,36 @@ def fetch_one(node_id: str) -> None:
     try:
         try:
             url_map = _resolve_download_urls(session)
-        except CffiHTTPError as exc:
-            resp = getattr(exc, "response", None)
-            code = getattr(resp, "status_code", None)
-            if code != 403:
+        except Exception as exc:
+            if _http_status(exc) != 403:
                 raise
             url_map = DIRECT_FILE_URLS
-        url = url_map.get(entity_id)
-        if not url:
+
+        urls = []
+        resolved_url = url_map.get(entity_id)
+        if resolved_url:
+            urls.append(resolved_url)
+        fallback_url = DIRECT_FILE_URLS.get(entity_id)
+        if fallback_url and fallback_url not in urls:
+            urls.append(fallback_url)
+        if not urls:
             raise RuntimeError(
                 f"could not resolve a download URL for {entity_id!r} on {DATA_PAGE} "
                 f"(resolved ids: {sorted(url_map)[:5]}...)"
             )
 
-        resp = _http_get(session, url)
-        content = resp.content
+        errors = []
+        for url in urls:
+            try:
+                resp = _http_get(session, url)
+                content = resp.content
+                break
+            except Exception as exc:
+                errors.append(f"{url}: {exc}")
+                if _http_status(exc) != 403 or url == urls[-1]:
+                    raise RuntimeError(
+                        f"{entity_id}: failed to download; attempts: {errors}"
+                    ) from exc
     finally:
         session.close()
     if not content:
