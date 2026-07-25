@@ -19,7 +19,7 @@ SELECT
     "average_number_of_providers_per_county",
     "number_of_dual_eligible_users",
     "percentage_of_dual_eligible_users_out_of_total_users",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries" AS pct_dual_elig_users_out_dual_elig_ffs_benes,
     "total_payment",
     "moratorium",
     "number_of_fee_for_service_beneficiaries_dual_color",
@@ -38,8 +38,8 @@ SELECT
     "number_of_dual_eligible_users_description",
     "percentage_of_dual_eligible_users_out_of_total_users_dual_color",
     "percentage_of_dual_eligible_users_out_of_total_users_description",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_description",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color" AS pct_dual_elig_users_out_dual_elig_ffs_benes_dual_color,
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_description" AS pct_dual_elig_users_out_dual_elig_ffs_benes_description,
     "total_payment_dual_color",
     "total_payment_description",
     "number_of_fee_for_service_beneficiaries_change",
@@ -50,6 +50,6 @@ SELECT
     "average_number_of_providers_per_county_change",
     "number_of_dual_eligible_users_change",
     "percentage_of_dual_eligible_users_out_of_total_users_change",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_change",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_change" AS pct_dual_elig_users_out_dual_elig_ffs_benes_change,
     "total_payment_change"
 FROM "cms-8900b9c5-50b7-43de-9bdd-0d7113a8355e"

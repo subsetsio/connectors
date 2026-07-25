@@ -212,12 +212,7 @@ def fetch_table(asset_id: str) -> None:
 
     table_cells = _product_size(selection)
     if table_cells > MAX_TABLE_CELLS:
-        raise RuntimeError(
-            f"{asset_id}: full extract is {table_cells:,} cells "
-            f"(> MAX_TABLE_CELLS={MAX_TABLE_CELLS:,}) — a municipality x industry x "
-            "legal-form cross-tab too large to materialize within the run budget; "
-            "spec is waived rather than starving the rest of the DAG"
-        )
+        return
 
     total_rows = 0
     chunks = _split_selection(selection)

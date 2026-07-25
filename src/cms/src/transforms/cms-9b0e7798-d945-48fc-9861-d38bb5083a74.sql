@@ -17,7 +17,7 @@ SELECT
     CAST("average_number_of_providers_per_cbsa" AS BIGINT) AS average_number_of_providers_per_cbsa,
     "number_of_dual_eligible_users",
     "percentage_of_dual_eligible_users_out_of_total_users",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries" AS pct_dual_elig_users_out_dual_elig_ffs_benes,
     CAST("total_payment" AS DOUBLE) AS total_payment,
     "number_of_fee_for_service_beneficiaries_dual_color",
     "number_of_fee_for_service_beneficiaries_description",
@@ -35,8 +35,8 @@ SELECT
     "number_of_dual_eligible_users_description",
     "percentage_of_dual_eligible_users_out_of_total_users_dual_color",
     "percentage_of_dual_eligible_users_out_of_total_users_description",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color_description",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color" AS pct_dual_elig_users_out_dual_elig_ffs_benes_dual_color,
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color_description" AS pct_dual_elig_users_out_dual_elig_f_benes_dual_color_description,
     "total_payment_dual_color",
     "total_payment_description",
     "number_of_fee_for_service_beneficiaries_change",
@@ -47,6 +47,6 @@ SELECT
     "average_number_of_providers_per_cbsa_change",
     "number_of_dual_eligible_users_change",
     "percentage_of_dual_eligible_users_out_of_total_users_change",
-    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_change",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_change" AS pct_dual_elig_users_out_dual_elig_ffs_benes_change,
     "total_payment_change"
 FROM "cms-9b0e7798-d945-48fc-9861-d38bb5083a74"
