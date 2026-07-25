@@ -160,6 +160,21 @@ def _previous_raw_for_release(asset_id: str, url: str) -> pa.Table:
     return table
 
 
+def _previous_metro_counties_raw(asset_id: str) -> pa.Table:
+    """Reuse the prior static county crosswalk when AEI blocks every workbook
+    route from the cloud runner. This asset is declared frozen; still validate
+    the basic shape so an unrelated stale/corrupt raw cannot pass silently."""
+    table = load_raw_parquet(asset_id)
+    if table.num_rows < 500:
+        raise AssertionError(f"prior metro-counties raw has only {table.num_rows} rows")
+    if set(table.column_names) != set(METRO_COUNTIES_COLUMNS):
+        raise AssertionError(
+            f"prior metro-counties raw columns {table.column_names!r} "
+            f"do not match {METRO_COUNTIES_COLUMNS!r}"
+        )
+    return table
+
+
 # The 13 meaningful columns of the workbook's single "data" sheet (the sheet has
 # trailing empty columns we drop). Order matches the source header row exactly.
 COLUMNS = [
@@ -349,7 +364,19 @@ def fetch_housing_market_indicators(node_id: str) -> None:
 
 
 def fetch_metro_counties(node_id: str) -> None:
-    content = _fetch_bytes(METRO_COUNTIES_URL)
+    try:
+        content = _fetch_bytes(METRO_COUNTIES_URL)
+    except Exception as fetch_error:  # noqa: BLE001 - preserve source-route diagnostics
+        try:
+            table = _previous_metro_counties_raw(node_id)
+        except Exception as fallback_error:  # noqa: BLE001 - include both failures
+            raise AssertionError(
+                f"could not fetch static metro-counties workbook and prior raw fallback "
+                f"was not usable.\nFetch error: {fetch_error}\n"
+                f"Fallback error: {fallback_error}"
+            ) from fetch_error
+        save_raw_parquet(table, node_id)
+        return
 
     wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
     ws = wb[wb.sheetnames[0]]
