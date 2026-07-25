@@ -17,7 +17,7 @@ SELECT
     "production_2022_ttpa",
     "design_capacity_ttpa",
     "total_reserves_proven_and_probable_thousand_metric_tonnes",
-    "total_resource_inferred_indicated_and_measured_thousand_metric_tonnes" AS total_iron_ore_resource_inferred_indicated_measured_thousand_metric_tonnes,
+    "total_resource_inferred_indicated_and_measured_thousand_metric_tonnes" AS total_resource_thousand_metric_tonnes,
     "operating_status",
     "start_date",
     "stop_date",
