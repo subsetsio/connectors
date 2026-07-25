@@ -20,10 +20,10 @@ SELECT
     CAST("FINAL_BENCHMARK" AS DOUBLE) AS final_benchmark,
     CAST("NORM_RISK_SCORE" AS DOUBLE) AS norm_risk_score,
     CAST("CIF_CAP_RISK" AS DOUBLE) AS cif_cap_risk,
-    CAST("HEBA_UP_AMT" AS BIGINT) AS heba_up_amt,
-    CAST("HEBA_DOWN_AMT" AS BIGINT) AS heba_down_amt,
-    CAST("HEBA_UP_MNTHS" AS BIGINT) AS heba_up_mnths,
-    CAST("HEBA_DOWN_MNTHS" AS BIGINT) AS heba_down_mnths,
+    CAST(src."HEBA_UP_AMT" AS BIGINT) AS heba_up_amt,
+    CAST(src."HEBA_DOWN_AMT" AS BIGINT) AS heba_down_amt,
+    CAST(src."HEBA_UP_MNTHS" AS BIGINT) AS heba_up_mnths,
+    CAST(src."HEBA_DOWN_MNTHS" AS BIGINT) AS heba_down_mnths,
     CAST("SAV_RATE" AS DOUBLE) AS sav_rate,
     "TRENDED_AD_BASELINE" AS trended_ad_baseline,
     "TRENDED_ESRD_BASELINE" AS trended_esrd_baseline,
@@ -134,4 +134,4 @@ SELECT
     CAST("P_SNF_ADM" AS DOUBLE) AS p_snf_adm,
     CAST("SNF_LOS" AS DOUBLE) AS snf_los,
     CAST("SNF_PAYPERSTAY" AS DOUBLE) AS snf_payperstay
-FROM "cms-6c3532b3-8325-48fd-a939-12b41d2b126a"
+FROM "cms-6c3532b3-8325-48fd-a939-12b41d2b126a" AS src
