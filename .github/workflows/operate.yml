@@ -42,7 +42,6 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           HARNESS_CONNECTORS_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GH_RETRIGGER_PAT }}
-          OPERATE_CONNECTORS_DIR: ${{ github.workspace }}
           # Sized well above sustained demand (~34 due/day at fleet size ~255);
           # the limit only bounds a runaway tick. See lib.py.
           OPERATE_DISPATCH_LIMIT: "50"

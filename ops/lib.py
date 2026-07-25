@@ -3,11 +3,11 @@
 THE DEPENDENCY RULE — operate reads ONLY the production substrates:
 
   * R2: run records the workflow itself wrote (`<slug>/runs/<run_id>/run.json`),
-    the production gate (`production_enabled_sources.txt`, bucket root), and
-    operate's own `_operate/status.json`.
+    the published source manifest (`_harness/manifest.json` — every source
+    record, incl. `enabled` and the `maintenance` contract; compiled from the
+    factory records by factory scripts/publish_sources.py), and operate's own
+    `_operate/status.json`.
   * GitHub API: workflow dispatch + the in-flight run list.
-  * The connectors repo tree: per-connector `maintenance.json` contracts
-    (local checkout via OPERATE_CONNECTORS_DIR, else the contents API).
 
 Never import factory code, never read factory/data/sources. Operate must give
 identical answers from any machine, including a GitHub Actions runner.
@@ -31,7 +31,7 @@ from datetime import datetime, timezone
 import boto3
 import requests
 
-GATE_KEY = "production_enabled_sources.txt"  # bucket root; platform mirrors it
+MANIFEST_KEY = "_harness/manifest.json"  # compiled source records; platform reads it too
 STATUS_KEY = "_operate/status.json"
 WORKFLOW_FILE = "run.yml"
 RUN_NAME_SEP = " :: "
@@ -135,17 +135,17 @@ class R2:
             ContentType="application/json",
         )
 
-    def production_gate(self) -> list[str]:
-        text = self.get_text(GATE_KEY)
-        if text is None:
+    def manifest(self) -> dict[str, dict]:
+        """slug -> source record from the published manifest. The manifest
+        carries EVERY source (disabled included) — absence means deleted."""
+        doc = self.get_json(MANIFEST_KEY)
+        sources = (doc or {}).get("sources")
+        if not isinstance(sources, dict):
             raise SystemExit(
-                f"no production gate at s3://{self.bucket}/{GATE_KEY} — "
+                f"no source manifest at s3://{self.bucket}/{MANIFEST_KEY} — "
                 "nothing is production-enabled (factory scripts/publish_sources.py owns it)"
             )
-        return sorted(
-            line.strip() for line in text.splitlines()
-            if line.strip() and not line.strip().startswith("#")
-        )
+        return {s: r for s, r in sources.items() if isinstance(r, dict)}
 
     def list_run_ids(self, slug: str) -> list[str]:
         """run_ids under `<slug>/runs/`, newest first (ids are UTC timestamps)."""
@@ -225,31 +225,12 @@ class GitHub:
 # ---- maintenance contract -----------------------------------------------------
 
 
-def maintenance_contract(slug: str, gh: GitHub | None = None) -> dict:
-    """The connector's `maintenance.json`, from the local checkout when
-    OPERATE_CONNECTORS_DIR is set, else the GitHub contents API. Absent or
-    malformed degrades to defaults — a bad contract must never stall the tick."""
-    raw: dict = {}
-    root = os.environ.get("OPERATE_CONNECTORS_DIR")
-    if root:
-        path = os.path.join(root, "src", slug, "maintenance.json")
-        try:
-            with open(path, encoding="utf-8") as f:
-                doc = json.load(f)
-            raw = doc if isinstance(doc, dict) else {}
-        except (OSError, json.JSONDecodeError):
-            raw = {}
-    elif gh is not None:
-        try:
-            r = gh._req(
-                "GET", f"/contents/src/{slug}/maintenance.json",
-                headers={"Accept": "application/vnd.github.raw+json"},
-            )
-            doc = json.loads(r.text)
-            raw = doc if isinstance(doc, dict) else {}
-        except (requests.HTTPError, json.JSONDecodeError):
-            raw = {}
-
+def maintenance_contract(source: dict) -> dict:
+    """The operating contract off a manifest record's `maintenance` object.
+    Absent or malformed degrades to defaults — a bad record must never stall
+    the tick."""
+    raw = source.get("maintenance")
+    raw = raw if isinstance(raw, dict) else {}
     days = raw.get("cadence_days")
     if isinstance(days, bool) or not isinstance(days, (int, float)) or days <= 0:
         days = DEFAULT_CADENCE_DAYS
@@ -430,7 +411,8 @@ def observe_fleet(r2: R2, gh: GitHub,
     per-slug `dispatched` list and lost-dispatch streaks that let this tick
     notice a dispatch that never left a trace on R2 (see dispatch_lost_streak).
     """
-    gate = r2.production_gate()
+    manifest = r2.manifest()
+    gate = sorted(s for s, rec in manifest.items() if rec.get("enabled") is True)
     inflight = gh.in_flight()
     prev_rows: dict[str, dict] = {}
     prev_dispatched: dict[str, str] = {}
@@ -441,7 +423,7 @@ def observe_fleet(r2: R2, gh: GitHub,
                            if isinstance(d, dict) and d.get("slug") and d.get("run_id")}
     rows: list[dict] = []
     for slug in gate:
-        contract = maintenance_contract(slug, gh)
+        contract = maintenance_contract(manifest[slug])
         obs = observe(r2, slug, (inflight.get(slug) or {}).get("run_id"))
         lost = dispatch_lost_streak(obs, inflight.get(slug),
                                     prev_rows.get(slug) or {}, prev_dispatched.get(slug))
