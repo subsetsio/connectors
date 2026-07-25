@@ -23,4 +23,7 @@ checks:
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
-  temporal_monotonic: true
+  # FEMA has published impossible future approval dates (for example year 6023),
+  # so max(dateapproved) is an upstream data-quality outlier rather than a
+  # usable freshness/regression signal.
+  temporal_monotonic: false

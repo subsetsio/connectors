@@ -37,8 +37,9 @@ MAX_PAGES_ABS = 100000         # reference-entity full crawl guard
 REF_BATCH_PAGES = 200          # 5k rows per reference-entity raw batch
 
 # Leave enough room for the DAG parent to commit raw manifests and retrigger
-# before GitHub's runner deadline. Override only for local probing.
-LEG_SECONDS = int(os.environ.get("LDA_LEG_SECONDS", str(4 * 60 * 60)))
+# before GitHub's runner deadline. Anonymous crawls are slow, so keep legs short
+# enough that every cloud job can flush progress well before the 6h cap.
+LEG_SECONDS = int(os.environ.get("LDA_LEG_SECONDS", str(90 * 60)))
 
 # ---------------------------------------------------------------------------
 # HTTP: per-process rate limiting + retry
@@ -124,6 +125,24 @@ def reference_complete(asset: str, *, max_age_days: int = 30) -> bool:
     if state.get("schema_version") != STATE_VERSION or not state.get("complete"):
         return False
     fragments = list_raw_fragments(asset, "parquet")
+    if not fragments:
+        return False
+    latest = max(
+        (meta.get("fetched_at") for meta in fragments.values() if meta.get("fetched_at")),
+        default=None,
+    )
+    if not latest:
+        return False
+    try:
+        then = datetime.fromisoformat(latest.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return (datetime.now(timezone.utc) - then).days <= max_age_days
+
+
+def raw_asset_exists(asset: str, extension: str, *, max_age_days: int = 30) -> bool:
+    """True when at least one raw fragment of this extension was fetched recently."""
+    fragments = list_raw_fragments(asset, extension)
     if not fragments:
         return False
     latest = max(
@@ -250,7 +269,8 @@ def _crawl_paged(asset: str, endpoint: str, flatten) -> bool | None:
             print(f"{asset}: wrote {frag} ({len(buf):,} rows)")
             buf = []
             batch_start = page + 1
-        elif not has_next:
+
+        if not has_next:
             save_state(asset, {
                 "schema_version": STATE_VERSION,
                 "complete": True,

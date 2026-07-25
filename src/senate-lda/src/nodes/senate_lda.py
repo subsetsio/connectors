@@ -11,6 +11,7 @@ from utils import (
     _fetch,
     _name,
     dated_complete,
+    raw_asset_exists,
     reference_complete,
 )
 
@@ -287,21 +288,21 @@ MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id="senate-lda-filing-types",
         description="LDA filing type constants are small reference data; skip raw assets younger than 30 days.",
-        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=30),
     ),
     MaintainSpec(
         asset_id="senate-lda-lobbying-issue-codes",
         description="LDA lobbying issue constants are small reference data; skip raw assets younger than 30 days.",
-        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=30),
     ),
     MaintainSpec(
         asset_id="senate-lda-government-entities",
         description="LDA government entity constants are small reference data; skip raw assets younger than 30 days.",
-        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=30),
     ),
     MaintainSpec(
         asset_id="senate-lda-contribution-item-types",
         description="LDA contribution item type constants are small reference data; skip raw assets younger than 30 days.",
-        check=lambda aid: raw_asset_exists(aid, "ndjson.zst", max_age_days=30),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=30),
     ),
 ]

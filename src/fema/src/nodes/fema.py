@@ -186,7 +186,8 @@ def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> N
     client = get_client()
     # (connect, read) — read timeout is generous: full-file delivery of the
     # largest datasets streams for minutes.
-    with client.stream("GET", url, params=params, timeout=(15.0, 900.0)) as resp:
+    headers = {"Accept-Encoding": "identity"}
+    with client.stream("GET", url, params=params, headers=headers, timeout=(15.0, 900.0)) as resp:
         resp.raise_for_status()
         ctype = resp.headers.get("content-type", "").lower()
         if "text/html" in ctype:
@@ -198,7 +199,7 @@ def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> N
             for chunk in resp.iter_bytes(1 << 20):  # 1 MiB
                 out.write(chunk)
                 written += len(chunk)
-        if expected is not None and written != int(expected):
+        if expected is not None and written < int(expected):
             raise _TransientDownload(
                 f"{node_id}: truncated download ({written} of {expected} bytes)"
             )
