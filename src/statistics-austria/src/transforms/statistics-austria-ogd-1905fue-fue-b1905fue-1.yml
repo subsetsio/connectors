@@ -3,9 +3,9 @@ key:
 - region
 - time
 sort:
+- time
 - row_number
 - region
-- time
 columns:
 - name: source_file
   type: VARCHAR
@@ -27,3 +27,4 @@ columns:
   type: DOUBLE
 - name: intrmrl_r_d_expndtrs_by_rd_lctn_of_th_entrprs_in_thsnd_er
   type: DOUBLE
+temporal: time

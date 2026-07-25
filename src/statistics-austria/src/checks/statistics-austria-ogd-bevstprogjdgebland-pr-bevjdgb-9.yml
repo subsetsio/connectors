@@ -4,6 +4,7 @@
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
 key: [row_number, year, age_in_5_year_groups, bundesland, country_of_birth]
+temporal: year
 checks:
   - kind: unique
     columns: [row_number, year, age_in_5_year_groups, bundesland, country_of_birth]
@@ -22,3 +23,4 @@ checks:
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
+  temporal_monotonic: true

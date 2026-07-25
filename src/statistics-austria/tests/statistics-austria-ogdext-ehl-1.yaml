@@ -1,8 +1,10 @@
 spec_id: statistics-austria-ogdext-ehl-1
-status: deferred
+status: active
 coverage:
   frozen: true
   reason: Static external EHL reference extract; the source does not publish a maintained refresh cadence for this file.
-# Catalog connector: each OGD dataset has its own schema, and some
-# accepted KLASSDB entries are zip bundles. Assertions are authored
-# from the first materialized raw profile in the model stage.
+tests:
+- row_count:
+    min: 1
+  severity: block
+  reason: frozen Statistics Austria vintage should continue to materialize rows

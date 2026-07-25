@@ -4,6 +4,7 @@
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
 key: [row_number, coicop_5_digits, time]
+temporal: time
 checks:
   - kind: unique
     columns: [row_number, coicop_5_digits, time]
@@ -14,7 +15,8 @@ checks:
   - kind: not_null
     col: time
   - kind: row_floor
-    min: 38190
+    min: 38377
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
+  temporal_monotonic: true

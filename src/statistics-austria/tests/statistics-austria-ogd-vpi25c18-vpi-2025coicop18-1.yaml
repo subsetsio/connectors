@@ -1,6 +1,10 @@
 spec_id: statistics-austria-ogd-vpi25c18-vpi-2025coicop18-1
-status: deferred
-tests: []
+status: active
+tests:
+- row_count:
+    min: 1
+  severity: block
+  reason: frozen Statistics Austria vintage should continue to materialize rows
 coverage:
   frozen: true
   reason: fixed historical or classification vintage published by Statistics Austria

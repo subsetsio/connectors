@@ -3,9 +3,9 @@ key:
 - coicop_5_digits
 - time
 sort:
+- time
 - row_number
 - coicop_5_digits
-- time
 columns:
 - name: source_file
   type: VARCHAR
@@ -31,3 +31,4 @@ columns:
   type: DOUBLE
 - name: weight_in_reporting_month
   type: DOUBLE
+temporal: time
