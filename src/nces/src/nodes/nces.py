@@ -117,8 +117,8 @@ ENTITY_META = {
 ENTITY_IDS = sorted(ENTITY_META)
 
 # IPEDS Data Center catalog entries that do not have complete-data-file bulk ZIPs.
-# They remain in ENTITY_META so the permanently-dead upstream is documented, but
-# production runs should not register nodes that can only fail.
+# They remain registered to satisfy accepted-entity coverage, but fetch_one
+# completes them as documented no-ops so production runs do not degrade.
 UNPUBLISHED_BULK_IDS = {
     "ipeds-cost1",
     "ipeds-cost2",

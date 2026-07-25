@@ -23,9 +23,12 @@ series share the same month string. `obs_index` is the 0-based position of the
 observation within its series — it keeps each row addressable and preserves the
 intra-month cadence without inventing day labels the source did not provide.
 """
+import hashlib
+import time
+
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 BASE = "https://datenservice.kof.ethz.ch/api/v1/public"
 
@@ -51,6 +54,7 @@ SCHEMA = pa.schema([
 ])
 
 
+@transient_retry(attempts=8, min_wait=10, max_wait=180)
 def _fetch_collection(name: str) -> dict:
     resp = get(
         f"{BASE}/collections/{name}",
@@ -64,6 +68,8 @@ def _fetch_collection(name: str) -> dict:
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     name = SPEC_TO_COLLECTION[node_id]
+    stagger_s = int(hashlib.sha1(node_id.encode("utf-8")).hexdigest()[:2], 16) % 10
+    time.sleep(stagger_s)
     data = _fetch_collection(name)
 
     if not isinstance(data, dict):
