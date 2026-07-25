@@ -26,6 +26,8 @@ incremental filter, and re-pulling picks up OBR's frequent revisions for free.
 
 import io
 import re
+import time
+from urllib.parse import urlencode
 import zipfile
 
 import pyarrow as pa
@@ -55,6 +57,21 @@ from subsets_utils import NodeSpec, save_raw_parquet
 # from the cloud; everything else (raw I/O, etc.) still goes through
 # subsets_utils. Verified locally and required for the cloud run to pass.
 _IMPERSONATE = "chrome"
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,"
+        "application/zip,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-US,en;q=0.9",
+}
+_WAYBACK_CDX = "https://web.archive.org/cdx/search/cdx"
+_WAYBACK_SAVE = "https://web.archive.org/save/"
 
 # The entity union (accepted subsets), copied from
 # data/sources/obr/work/entity_union.json. One download spec per id. Some
@@ -155,9 +172,74 @@ def _is_transient(exc: BaseException) -> bool:
     reraise=True,
 )
 def _http_get(session, url: str):
-    resp = session.get(url, timeout=180)
+    resp = session.get(url, timeout=180, headers=_BROWSER_HEADERS)
     resp.raise_for_status()
     return resp
+
+
+def _looks_like_workbook_or_zip(content: bytes) -> bool:
+    if not content or len(content) < 256:
+        return False
+    head = content[:64].lstrip().lower()
+    if head.startswith((b"<!doctype", b"<html", b"<head", b"<?xml", b"<!--")):
+        return False
+    return content.startswith(b"PK\x03\x04")
+
+
+def _wayback_replay_urls(session, url: str) -> list[str]:
+    query = urlencode({
+        "url": url,
+        "output": "json",
+        "limit": "-8",
+        "filter": "statuscode:200",
+        "fl": "timestamp,original",
+    })
+    resp = session.get(f"{_WAYBACK_CDX}?{query}", timeout=60, headers=_BROWSER_HEADERS)
+    resp.raise_for_status()
+    rows = resp.json()
+    if len(rows) < 2:
+        return []
+    return [
+        f"https://web.archive.org/web/{timestamp}id_/{original}"
+        for timestamp, original in reversed(rows[1:])
+    ]
+
+
+def _wayback_get(session, url: str) -> bytes:
+    """Replay an archived OBR file when GitHub Actions is blocked by Cloudflare."""
+    errors = []
+    for replay_url in _wayback_replay_urls(session, url):
+        try:
+            resp = _http_get(session, replay_url)
+            if _looks_like_workbook_or_zip(resp.content):
+                return resp.content
+            errors.append(f"{replay_url}: archive replay was not a workbook/zip")
+        except Exception as exc:
+            errors.append(f"{replay_url}: {exc}")
+
+    try:
+        resp = session.get(
+            _WAYBACK_SAVE + url,
+            timeout=240,
+            headers=_BROWSER_HEADERS,
+            allow_redirects=True,
+        )
+        if _looks_like_workbook_or_zip(resp.content):
+            return resp.content
+        errors.append(f"{_WAYBACK_SAVE + url}: save replay was not a workbook/zip")
+    except Exception as exc:
+        errors.append(f"{_WAYBACK_SAVE + url}: {exc}")
+
+    for wait_s in (4, 8, 15):
+        time.sleep(wait_s)
+        for replay_url in _wayback_replay_urls(session, url)[:3]:
+            try:
+                resp = _http_get(session, replay_url)
+                if _looks_like_workbook_or_zip(resp.content):
+                    return resp.content
+            except Exception as exc:
+                errors.append(f"{replay_url}: {exc}")
+    raise RuntimeError(f"wayback could not retrieve {url}; attempts: {errors[-5:]}")
 
 
 def _strip_tags(s: str) -> str:
@@ -338,10 +420,21 @@ def fetch_one(node_id: str) -> None:
             try:
                 resp = _http_get(session, url)
                 content = resp.content
+                if not _looks_like_workbook_or_zip(content):
+                    raise RuntimeError(
+                        f"{url}: response was not a workbook/zip "
+                        f"(content-type={resp.headers.get('content-type')!r}, "
+                        f"bytes={len(content)})"
+                    )
                 break
             except Exception as exc:
                 errors.append(f"{url}: {exc}")
-                if _http_status(exc) != 403 or url == urls[-1]:
+                try:
+                    content = _wayback_get(session, url)
+                    break
+                except Exception as wb_exc:
+                    errors.append(f"{url} via Wayback: {wb_exc}")
+                if url == urls[-1]:
                     raise RuntimeError(
                         f"{entity_id}: failed to download; attempts: {errors}"
                     ) from exc
