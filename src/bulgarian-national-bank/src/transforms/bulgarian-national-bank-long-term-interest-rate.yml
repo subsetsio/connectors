@@ -1,9 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bulgarian-national-bank-long-term-interest-rate`. Regenerate after model-verify.
+# caution: The table contains multiple frequency/page variants of the convergence long-term interest-rate series; filter by frequency and series before time-series analysis.
+key: [period, freq, page_id, series_key, series_name]
+temporal: period
+sort: [period, freq, page_id, series_key, series_name]
 columns:
   - name: keyfamily
     type: VARCHAR
   - name: freq
     type: VARCHAR
+  - name: page_id
+    type: BIGINT
   - name: series_key
     type: VARCHAR
   - name: series_name

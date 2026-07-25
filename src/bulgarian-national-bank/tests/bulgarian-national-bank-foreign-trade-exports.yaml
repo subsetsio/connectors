@@ -1,6 +1,9 @@
 spec_id: bulgarian-national-bank-foreign-trade-exports
 status: active
 tests:
+  - freshness: {col: period, reaches: today - 400d}
+    reason: BNB foreign-trade statistical series are revised on a slower monthly/annual publication cycle
+    certainty: 70
   - not_null: keyfamily
   - not_null: series_key
   - not_null: period

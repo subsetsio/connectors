@@ -3,7 +3,7 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 -- caution: This is a current-period extract for Foerderung/berufliche Rehabilitation; use the corresponding timeseries table for historical trend analysis.
--- caution: Rows are split by funding group in group_code/group_name; filter or aggregate those groups deliberately before comparing totals.
+-- caution: Rows are split by funding group in group_name; the upstream currently omits group_code for this table, so filter or aggregate group_name deliberately before comparing totals.
 SELECT
     "metric",
     "period_label",

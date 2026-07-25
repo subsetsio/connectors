@@ -1,8 +1,8 @@
 spec_id: bulgarian-national-bank-long-term-interest-rate
 status: active
 tests:
-  - freshness: {col: period, reaches: today - 60d}
-    reason: the BNB long-term interest-rate series is actively updated and the latest profiled run reached 2026-05-29
+  - freshness: {col: period, reaches: today - 90d}
+    reason: the BNB long-term interest-rate series is actively updated, with slack for monthly source publication lag
     certainty: 80
   - not_null: keyfamily
   - not_null: series_key

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bulgarian-national-bank-exchange-rates`. Regenerate after model-verify.
+# caution: The ratio column gives the quoted currency amount; divide rate_bgn by ratio when comparing one-unit exchange rates across currencies.
+key: [date, currency_name, currency_code]
+temporal: date
+sort: [date, currency_name, currency_code]
 columns:
   - name: date
     type: DATE
@@ -12,7 +17,5 @@ columns:
     type: DOUBLE
   - name: reverse_rate
     type: DOUBLE
-  - name: rate_bgn_per_unit
-    type: DOUBLE
-  - name: is_metal
-    type: BOOLEAN
+  - name: gold
+    type: BIGINT

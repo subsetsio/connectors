@@ -1,7 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `bundesagentur-f-r-arbeit-fst-current`. Regenerate after model-verify.
 # caution: This is a current-period extract for Foerderung/berufliche Rehabilitation; use the corresponding timeseries table for historical trend analysis.
-# caution: Rows are split by funding group in group_code/group_name; filter or aggregate those groups deliberately before comparing totals.
+# caution: Rows are split by funding group in group_name; the upstream currently omits group_code for this table, so filter or aggregate group_name deliberately before comparing totals.
 key: [metric, group_code, group_name, period_label, date]
 temporal: date
 sort: [date, metric, group_code, group_name, period_label]

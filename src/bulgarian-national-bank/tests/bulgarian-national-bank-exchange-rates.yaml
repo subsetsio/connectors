@@ -1,8 +1,8 @@
 spec_id: bulgarian-national-bank-exchange-rates
 status: active
 tests:
-  - freshness: {col: date, reaches: today - 30d}
-    reason: BNB exchange rates are a current operational series; the latest profiled run reached 2026-06-22
+  - freshness: {col: date, reaches: today - 45d}
+    reason: BNB exchange rates are a current operational series, with slack for source publication delays and non-business-day windows
     certainty: 85
   - not_null: date
   - not_null: currency_code
