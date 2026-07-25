@@ -18,6 +18,7 @@ stay memory-bounded. Rate limit: config says 10 calls / 10s; we self-throttle to
 """
 
 import fcntl
+import importlib
 import json
 import random
 import re
@@ -53,11 +54,6 @@ HTTP_HEADERS = {
         "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     ),
 }
-
-# spec id -> verbatim case-sensitive PXWeb path. Spec ids are SLUG + entity id,
-# and entity ids are already lower/dash slugs, so no further transform is needed.
-SPEC_TO_PATH = {f"{SLUG}-{eid}": path for eid, path in ENTITY_PATHS.items()}
-
 
 # --- rate limiting -----------------------------------------------------------
 # PSA's PXWeb config advertises 10 calls / 10s. The runtime may execute many
@@ -252,7 +248,10 @@ def _decode(js: dict, code_to_col: dict) -> list:
 # --- the generic fetch -------------------------------------------------------
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
-    path = SPEC_TO_PATH[node_id]  # KeyError here = a coverage bug; let it raise
+    entity_id = node_id.removeprefix(f"{SLUG}-")
+    # Dynamic import keeps spec hashing from walking the 3,575-entry generated
+    # catalog for every spec while preserving the verbatim PXWeb paths.
+    path = importlib.import_module("constants").ENTITY_PATHS[entity_id]
     url = BASE + path
 
     meta = _get_json(url)
