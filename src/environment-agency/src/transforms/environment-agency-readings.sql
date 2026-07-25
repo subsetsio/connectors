@@ -10,5 +10,5 @@ SELECT
     CAST("date_time" AS TIMESTAMP) AS date_time,
     "value",
     "completeness",
-    "quality"
+    "quality" AS quality_status
 FROM "environment-agency-readings"
