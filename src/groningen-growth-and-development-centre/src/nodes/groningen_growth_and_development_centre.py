@@ -22,7 +22,7 @@ import openpyxl
 import pandas as pd
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_parquet
 from constants import DATASETS
 
 SLUG = "groningen-growth-and-development-centre"
@@ -32,7 +32,6 @@ DATAVERSE = "https://dataverse.nl"
 # --------------------------------------------------------------------------- #
 # Dataverse access
 # --------------------------------------------------------------------------- #
-@transient_retry()
 def _resolve_file_id(doi: str, filename: str) -> int:
     """Look up the numeric datafile id for `filename` inside the dataset `doi`."""
     resp = get(
@@ -52,7 +51,6 @@ def _resolve_file_id(doi: str, filename: str) -> int:
     )
 
 
-@transient_retry()
 def _download_datafile(file_id: int) -> bytes:
     """Fetch a Dataverse datafile (303-redirects to a signed store URL; GET follows)."""
     resp = get(f"{DATAVERSE}/api/access/datafile/{file_id}", timeout=(10.0, 600.0))
@@ -227,6 +225,20 @@ DOWNLOAD_SPECS = [
         id=f"{SLUG}-{eid.lower().replace('_', '-')}",
         fn=fetch_one,
         kind="download",
+    )
+    for eid in DATASETS
+]
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=f"{SLUG}-{eid.lower().replace('_', '-')}",
+        description=(
+            "Full Dataverse dataset releases are immutable per published version; "
+            "reuse the existing parquet raw asset once fetched. Source collection: "
+            "https://dataverse.nl/dataverse/GGDC"
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet"),
     )
     for eid in DATASETS
 ]
