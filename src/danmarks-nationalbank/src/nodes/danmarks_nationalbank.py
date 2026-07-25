@@ -132,20 +132,21 @@ def _column_keys(header: str, time_codes: set) -> list:
     return keys
 
 
-def _fetch_slice(body: dict, time_codes: set, emit) -> int:
-    """Fetch one slice and stream parsed records to `emit`.
+def _fetch_slice(body: dict, time_codes: set) -> list[dict]:
+    """Fetch one slice and return parsed records.
 
-    The caller writes each committed slice as a raw fragment, so a failed slice
-    leaks no partial data and successful slices stay bounded in memory.
+    Rows are buffered until the HTTP stream finishes. That keeps a dropped
+    response from leaking partial rows into the committed raw fragment before
+    the recursive splitter retries the request at a narrower coordinate box.
     """
-    rows = 0
+    records = []
     try:
         with get_client().stream("POST", f"{API}/data", json=body, timeout=(10.0, 600.0)) as resp:
             resp.raise_for_status()
             lines = resp.iter_lines()
             header = next(lines, None)
             if header is None:
-                return rows
+                return records
             keys = _column_keys(header, time_codes)
             ncols = len(keys)
             for line in lines:
@@ -156,13 +157,12 @@ def _fetch_slice(body: dict, time_codes: set, emit) -> int:
                     # Defensive: a stray embedded ';' would desync the row; skip it
                     # rather than silently mis-key columns.
                     continue
-                emit({keys[i]: parts[i] for i in range(ncols)})
-                rows += 1
+                records.append({keys[i]: parts[i] for i in range(ncols)})
     except Exception as exc:
-        if rows:
-            raise PartialFetchError(f"stream failed after {rows} emitted row(s)") from exc
+        if records:
+            raise PartialFetchError(f"stream failed after {len(records)} emitted row(s)") from exc
         raise
-    return rows
+    return records
 
 
 def _expanded_specs(var_specs: list, values_by_code: dict | None) -> list:
@@ -193,9 +193,10 @@ def _emit_box(
     progress no matter how wrong the up-front size estimate was."""
     body = {"table": table_id, "lang": "en", "format": "BULK", "variables": var_specs}
     try:
-        rows = _fetch_slice(body, time_codes, emit)
-    except PartialFetchError:
-        raise
+        records = _fetch_slice(body, time_codes)
+        for rec in records:
+            emit(rec)
+        return len(records)
     except Exception:
         var_specs = _expanded_specs(var_specs, values_by_code)
         widest = max(range(len(var_specs)), key=lambda i: len(var_specs[i]["values"]))

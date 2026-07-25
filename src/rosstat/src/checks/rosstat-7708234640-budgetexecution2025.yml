@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `rosstat-7708234640-budgetexecution2025`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: ["2024", column_7, column, column_5, column_3]
+checks:
+  - kind: unique
+    columns: ["2024", column_7, column, column_5, column_3]
+  - kind: not_null
+    col: "2024"
+  - kind: not_null
+    col: column_7
+  - kind: not_null
+    col: column
+  - kind: not_null
+    col: column_5
+  - kind: not_null
+    col: column_3
+  - kind: row_floor
+    min: 20
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

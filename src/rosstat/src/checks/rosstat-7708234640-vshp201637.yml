@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `rosstat-7708234640-vshp201637`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, oktmo_parent, measures, category_parent]
+temporal: time
+checks:
+  - kind: unique
+    columns: [value, oktmo_parent, measures, category_parent]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: oktmo_parent
+  - kind: not_null
+    col: measures
+  - kind: not_null
+    col: category_parent
+  - kind: row_floor
+    min: 826
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
