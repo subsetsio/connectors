@@ -1,2 +1,10 @@
 spec_id: statistisches-landesamt-sachsen-anhalt-61111-0001
-status: deferred
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: the annual consumer price index table returned 888 rows in the accepted cloud download; a much smaller result suggests the export changed or truncated.
+    certainty: 85
+  - freshness: {col: time, reaches: 2023}
+    reason: the annual CPI table should include recent index years; this conservative floor catches stale or malformed exports without assuming exact publication lag.
+    certainty: 80
+    points_outward: true

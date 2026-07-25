@@ -1,2 +1,10 @@
 spec_id: statistisches-landesamt-sachsen-anhalt-61111-0002
-status: deferred
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: the monthly consumer price index table returned 15,984 rows in the accepted cloud download; a much smaller result suggests the export changed or truncated.
+    certainty: 85
+  - freshness: {col: time, reaches: 2023}
+    reason: the monthly CPI table should include recent reference periods; this conservative floor catches stale or malformed exports without assuming exact publication lag.
+    certainty: 80
+    points_outward: true

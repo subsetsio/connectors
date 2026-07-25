@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistisches-landesamt-sachsen-anhalt-31231-0002`. Regenerate after model-verify.
+# caution: Statewide housing indicators are presented as multiple measured variables in one GENESIS table; filter value_variable_code or value_variable_label before comparing values.
+key: [source_row_number]
+temporal: time
+sort: [time, source_row_number]
+columns:
+  - name: statistics_code
+    type: BIGINT
+  - name: statistics_label
+    type: VARCHAR
+  - name: time_code
+    type: VARCHAR
+  - name: time_label
+    type: VARCHAR
+  - name: time
+    type: BIGINT
+  - name: "1_variable_code"
+    type: VARCHAR
+  - name: "1_variable_label"
+    type: VARCHAR
+  - name: "1_variable_attribute_code"
+    type: BIGINT
+  - name: "1_variable_attribute_label"
+    type: VARCHAR
+  - name: value
+    type: VARCHAR
+  - name: value_unit
+    type: VARCHAR
+  - name: value_variable_code
+    type: VARCHAR
+  - name: value_variable_label
+    type: VARCHAR
+  - name: source_table_code
+    type: VARCHAR
+  - name: source_row_number
+    type: BIGINT

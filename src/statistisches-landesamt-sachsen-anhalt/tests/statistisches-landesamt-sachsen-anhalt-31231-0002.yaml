@@ -1,2 +1,10 @@
 spec_id: statistisches-landesamt-sachsen-anhalt-31231-0002
-status: deferred
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: the statewide housing indicators table returned 465 rows in the accepted cloud download; a much smaller result suggests the export changed or truncated.
+    certainty: 85
+  - freshness: {col: time, reaches: 2023}
+    reason: the GENESIS annual housing series should include recent observations; this conservative floor catches stale or malformed exports without assuming exact publication lag.
+    certainty: 80
+    points_outward: true

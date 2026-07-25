@@ -1,2 +1,10 @@
 spec_id: statistisches-landesamt-sachsen-anhalt-12411-0001
-status: deferred
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: the population-by-sex municipality table returned 3,495 rows in the accepted cloud download; a much smaller result suggests the GENESIS export changed or truncated.
+    certainty: 85
+  - freshness: {col: time, reaches: 2023}
+    reason: the GENESIS annual table should include recent municipal observations; this conservative floor catches stale or malformed exports without assuming exact publication lag.
+    certainty: 80
+    points_outward: true

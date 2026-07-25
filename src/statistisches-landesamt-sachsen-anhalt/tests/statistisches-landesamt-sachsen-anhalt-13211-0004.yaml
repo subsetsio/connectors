@@ -1,2 +1,10 @@
 spec_id: statistisches-landesamt-sachsen-anhalt-13211-0004
-status: deferred
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: the labor-market GENESIS table returned 8,400 rows in the accepted cloud download; a much smaller result suggests the export changed or truncated.
+    certainty: 85
+  - freshness: {col: time, reaches: 2023}
+    reason: the accepted labor-market table should include recent reference periods; this conservative floor catches stale or malformed exports without assuming exact publication lag.
+    certainty: 80
+    points_outward: true

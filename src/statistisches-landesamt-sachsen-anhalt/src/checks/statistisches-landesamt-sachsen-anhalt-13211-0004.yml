@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistisches-landesamt-sachsen-anhalt-13211-0004`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [source_row_number, value, "2_variable_attribute_code", "2_variable_attribute_label", "1_variable_attribute_code"]
+temporal: time
+checks:
+  - kind: unique
+    columns: [source_row_number, value, "2_variable_attribute_code", "2_variable_attribute_label", "1_variable_attribute_code"]
+  - kind: not_null
+    col: source_row_number
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: "2_variable_attribute_code"
+  - kind: not_null
+    col: "2_variable_attribute_label"
+  - kind: not_null
+    col: "1_variable_attribute_code"
+  - kind: row_floor
+    min: 4200
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

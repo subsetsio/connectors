@@ -11,6 +11,6 @@ SELECT
     "sensor_type",
     "taxon",
     "individual_id",
-    CAST("tag_id" AS BIGINT) AS tag_id,
+    "tag_id",
     "study_name"
 FROM "movebank-move-1083"
