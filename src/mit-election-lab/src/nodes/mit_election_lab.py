@@ -37,16 +37,20 @@ from __future__ import annotations
 
 import csv
 import io
+import random
+import time
 
+import httpx
 import pyarrow as pa
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from subsets_utils import (
     NodeSpec,
+    TRANSIENT_EXC,
     get,
     post,
     get_client,
     raw_parquet_writer,
-    transient_retry,
 )
 from constants import ENTITY_IDS, ENTITY_DOIS
 
@@ -73,13 +77,53 @@ DL_TIMEOUT = 600.0
 META_TIMEOUT = 120.0
 PARQUET_BATCH_ROWS = 50_000
 
+# Dataverse starts returning bare 403s after sustained anonymous traffic. Pace
+# the connector and treat those 403s as throttles; true permission failures keep
+# failing after the bounded retry window.
+DATAVERSE_MIN_GAP_S = 1.25
+DATAVERSE_RETRY_ATTEMPTS = 8
+DATAVERSE_RETRY_MIN_WAIT = 15
+DATAVERSE_RETRY_MAX_WAIT = 180
+_last_request_at = 0.0
+
 
 # --------------------------------------------------------------------------- #
 # Dataverse API helpers
 # --------------------------------------------------------------------------- #
-@transient_retry()
+def _pace_dataverse() -> None:
+    global _last_request_at
+    now = time.monotonic()
+    wait = _last_request_at + DATAVERSE_MIN_GAP_S - now
+    if wait > 0:
+        time.sleep(wait + random.uniform(0, 0.35))
+    _last_request_at = time.monotonic()
+
+
+def _is_dataverse_transient(exc: BaseException) -> bool:
+    if isinstance(exc, TRANSIENT_EXC):
+        return True
+    if isinstance(exc, httpx.HTTPStatusError):
+        code = exc.response.status_code
+        return code in (403, 429) or 500 <= code < 600
+    return False
+
+
+def _dataverse_retry():
+    return retry(
+        retry=retry_if_exception(_is_dataverse_transient),
+        stop=stop_after_attempt(DATAVERSE_RETRY_ATTEMPTS),
+        wait=wait_exponential(
+            min=DATAVERSE_RETRY_MIN_WAIT,
+            max=DATAVERSE_RETRY_MAX_WAIT,
+        ),
+        reraise=True,
+    )
+
+
+@_dataverse_retry()
 def _list_tabular_files(doi: str) -> list[dict]:
     """Return the latest version's tabular data files: [{id,label,size}]."""
+    _pace_dataverse()
     r = get(
         f"{BASE}/datasets/:persistentId/versions/:latest/files",
         params={"persistentId": doi},
@@ -106,9 +150,10 @@ def _is_guestbook_block(resp) -> bool:
         return False
 
 
-@transient_retry()
+@_dataverse_retry()
 def _signed_url(file_id: int) -> str:
     """Clear the guestbook and return a one-hour signed download URL."""
+    _pace_dataverse()
     r = post(f"{BASE}/access/datafile/{file_id}", json=GUESTBOOK, timeout=META_TIMEOUT)
     r.raise_for_status()
     return r.json()["data"]["signedUrl"]
@@ -121,16 +166,18 @@ def _first_line(resp) -> str:
     return ""
 
 
-@transient_retry()
+@_dataverse_retry()
 def _peek_header(file_id: int) -> tuple[str, bool]:
     """Return (first header line, gated?) for a datafile, handling guestbook."""
     client = get_client()
     direct = f"{BASE}/access/datafile/{file_id}"
+    _pace_dataverse()
     with client.stream("GET", direct, timeout=DL_TIMEOUT) as resp:
         if not _is_guestbook_block(resp):
             resp.raise_for_status()
             return _first_line(resp), False
     url = _signed_url(file_id)
+    _pace_dataverse()
     with client.stream("GET", url, timeout=DL_TIMEOUT) as resp:
         resp.raise_for_status()
         return _first_line(resp), True
@@ -168,7 +215,7 @@ class _ByteIterStream(io.RawIOBase):
         return n
 
 
-@transient_retry()
+@_dataverse_retry()
 def _download_file_to_batch(file_id: int, delim: str, gated: bool, batch_asset: str) -> int:
     """Stream one source file → one parquet batch (string values, verbatim).
     Idempotent: a retry truncates and rewrites the batch from scratch."""
@@ -176,6 +223,7 @@ def _download_file_to_batch(file_id: int, delim: str, gated: bool, batch_asset: 
     url = _signed_url(file_id) if gated else f"{BASE}/access/datafile/{file_id}"
     n_rows = 0
 
+    _pace_dataverse()
     with client.stream("GET", url, timeout=DL_TIMEOUT) as resp:
         resp.raise_for_status()
         text = io.TextIOWrapper(
