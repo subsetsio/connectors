@@ -3,15 +3,13 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [metric, group_code, group_name, period_label, date]
+key: [metric, group_name, period_label, date]
 temporal: date
 checks:
   - kind: unique
-    columns: [metric, group_code, group_name, period_label, date]
+    columns: [metric, group_name, period_label, date]
   - kind: not_null
     col: metric
-  - kind: not_null
-    col: group_code
   - kind: not_null
     col: group_name
   - kind: not_null

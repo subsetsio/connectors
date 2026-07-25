@@ -77,6 +77,19 @@ def _to_apex(url: str) -> str:
     return url.replace("://www.bruegel.org/", "://bruegel.org/")
 
 
+def _to_www(url: str) -> str:
+    return url.replace("://bruegel.org/", "://www.bruegel.org/")
+
+
+def _wayback_url_variants(url: str) -> list[str]:
+    """Wayback may index the same Bruegel file under apex or www. Try both."""
+    out = []
+    for cand in (url, _to_apex(url), _to_www(url)):
+        if cand not in out:
+            out.append(cand)
+    return out
+
+
 @transient_retry()
 def _fetch_raw(url: str, headers: dict) -> bytes:
     resp = get(url, timeout=(10.0, 180.0), headers=headers)
@@ -152,7 +165,13 @@ def get_bytes(url: str, headers: dict | None = None) -> bytes:
             return data
     except Exception:
         pass
-    return _wayback_bytes(url, h)
+    last_exc = None
+    for candidate in _wayback_url_variants(url):
+        try:
+            return _wayback_bytes(candidate, h)
+        except Exception as exc:
+            last_exc = exc
+    raise last_exc
 
 
 @transient_retry()
