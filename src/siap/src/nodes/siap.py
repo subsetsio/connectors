@@ -21,7 +21,7 @@ BASE_URL = "https://nube.agricultura.gob.mx/index.php"
 
 AGRICOLA_MUNICIPAL_YEARS = tuple(range(2003, 2025))
 AGRICOLA_NACIONAL_YEARS = tuple(range(1980, 2003))
-PECUARIO_MUNICIPAL_YEARS = tuple(list(range(2006, 2023)) + [2024])
+PECUARIO_MUNICIPAL_YEARS = tuple(range(2006, 2025))
 PECUARIO_NACIONAL_YEARS = tuple(range(1980, 2006))
 
 
@@ -192,7 +192,7 @@ def _download_csv(view_id: str, year: int) -> bytes:
     resp = get(
         BASE_URL,
         params={"view": view_id, "ANIO": year},
-        timeout=(10.0, 240.0),
+        timeout=(60.0, 240.0),
         headers={"Accept": "text/csv,*/*"},
     )
     resp.raise_for_status()
