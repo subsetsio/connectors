@@ -9,20 +9,17 @@ historical archive via the API, so each refresh re-pulls the whole current
 snapshot and overwrites the published table. (A longer time series accrues
 naturally as snapshots from successive days land downstream.)
 
-Fetch strategy — why it is not a plain offset crawl
-----------------------------------------------------
+Fetch strategy - why it is not a plain offset crawl
+---------------------------------------------------
 The Elasticsearch backend enforces `from + size <= 10000` (offset+limit window),
 and the shared public api-key hard-caps `limit` at 10. So a plain offset crawl
 can only reach the first 10,000 of the ~18,000 rows. To read the whole corpus we
-exploit `total < 2 * WINDOW`: a window-scan sorted by `state.keyword` ascending
-returns rows at sort-positions [0, WINDOW); a descending scan returns
-[total-WINDOW, total). For total <= 2*WINDOW those two ranges cover every row
-(the gap [WINDOW, total-WINDOW) is empty). Any state that straddles the WINDOW
-boundary appears in BOTH scans; we re-fetch exactly those boundary states in full
-via `filters[state.keyword]=<state>` (exact-match — note the `.keyword` suffix;
-bare `filters[state]` is an analyzed/fuzzy match that returns wrong rows). A
-final reconciliation asserts the union covers the reported grand total, so the
-node fails loudly rather than publishing a partial corpus.
+first enumerate states from ascending/descending state-window scans, then fetch
+each state in full via `filters[state.keyword]=<state>` (exact-match; bare
+`filters[state]` is an analyzed/fuzzy match that returns wrong rows). State
+chunks are far below the 10,000 result window. A final reconciliation asserts the
+state-chunked corpus covers the reported grand total, so the node fails loudly
+rather than publishing a partial corpus.
 
 A registered own api-key (env DATA_GOV_IN_API_KEY) lifts the per-request limit
 cap (the 10,000 window still applies, so the scan/chunk logic is unchanged) and
@@ -78,10 +75,6 @@ def _call(extra: dict) -> dict:
     return resp.json()
 
 
-def _rowkey(rec: dict) -> tuple:
-    return tuple(str(rec.get(k, "")) for k in FIELDS)
-
-
 def _query_total(selector: dict) -> int:
     d = _call({**selector, "limit": 1, "offset": 0})
     return int(d.get("total") or 0)
@@ -116,6 +109,22 @@ def _scan(order: str) -> list:
     return _paginate(sel, min(total, WINDOW))
 
 
+def _enumerate_states() -> list[str]:
+    """Discover every state value without relying on a distinct-values endpoint."""
+    rows_asc = _scan("asc")
+    rows_desc = _scan("desc")
+    states = sorted(
+        {
+            str(row.get("state", "")).strip()
+            for row in [*rows_asc, *rows_desc]
+            if str(row.get("state", "")).strip()
+        }
+    )
+    if not states:
+        raise RuntimeError("state enumeration returned no states")
+    return states
+
+
 def _fetch_state(state: str) -> list:
     """Fetch every row for one state via exact `.keyword` match."""
     sel = {"filters[state.keyword]": state}
@@ -146,20 +155,10 @@ def fetch_prices(node_id: str) -> None:
             "per-state (or finer) chunking"
         )
 
-    rows_asc = _scan("asc")
-    rows_desc = _scan("desc")
+    rows: list[dict] = []
+    for state in _enumerate_states():
+        rows.extend(_fetch_state(state))
 
-    union: dict = {_rowkey(r): r for r in rows_asc}
-    union.update({_rowkey(r): r for r in rows_desc})
-
-    # States present in BOTH scans straddle the window boundary and may be
-    # incomplete in either scan — re-fetch them exactly and in full.
-    boundary = {r["state"] for r in rows_asc} & {r["state"] for r in rows_desc}
-    for state in sorted(boundary):
-        for rec in _fetch_state(state):
-            union[_rowkey(rec)] = rec
-
-    rows = list(union.values())
     if len(rows) < grand_total * 0.95:
         raise RuntimeError(
             f"collected {len(rows)} rows but resource reports {grand_total}; "
