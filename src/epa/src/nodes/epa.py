@@ -116,6 +116,14 @@ EXT = "ndjson.gz"
 # FRS/ICIS views; 100k is the measured reliable size for those slower tables.
 PAGE_SIZE = 100_000
 
+# icis.icis_dmr_form_value is both very large and unusually slow/wide.
+# Repeated 100k-row PARQUET requests for this table disconnected server-side
+# after long work, so keep its requests below that failure envelope without
+# multiplying request counts for the rest of the corpus.
+TABLE_PAGE_SIZES = {
+    "icis.icis_dmr_form_value": 25_000,
+}
+
 # Rows converted from arrow to NDJSON at a time. Bounds peak RSS: a window is
 # never materialised as one large list of Python dicts.
 CHUNK_ROWS = 50_000
@@ -189,10 +197,15 @@ def _table_for(node_id: str) -> str:
     return node_id[len("epa-") :].replace("-", "_")
 
 
-def _fragment_for(page: int) -> tuple[int, int, str]:
+def _page_size_for(table: str) -> int:
+    return TABLE_PAGE_SIZES.get(table, PAGE_SIZE)
+
+
+def _fragment_for(table: str, page: int) -> tuple[int, int, str]:
     """The inclusive row-window and the fragment key for a zero-based page."""
-    first = page * PAGE_SIZE + 1
-    last = (page + 1) * PAGE_SIZE
+    page_size = _page_size_for(table)
+    first = page * page_size + 1
+    last = (page + 1) * page_size
     return first, last, f"{first:010d}-{last:010d}"
 
 
@@ -291,7 +304,7 @@ def fetch_one(node_id: str) -> bool | None:
     fetched = 0
 
     for page in range(MAX_PAGES):
-        first, last, fragment = _fragment_for(page)
+        first, last, fragment = _fragment_for(table, page)
 
         if fragment in committed:
             continue
