@@ -199,7 +199,7 @@ def _iter_lines(resp):
         yield tail
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=60, max_wait=600)
 def _stream_csv_to_parquet(url: str, asset: str) -> int:
     """Stream the dataflow CSV and write normalized parquet. Returns row count."""
     client = get_client()
