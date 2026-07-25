@@ -1,0 +1,63 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-statistics-office-sap2011t5t1dc13`. Regenerate after model-verify.
+# caution: Rows are source PxStat cells. Tables may include totals or aggregate categories alongside detailed dimension categories, so filter dimension code or label columns before summing values.
+key: [dim1_code, dim1_label, dim2_label, dim2_code, statistic_code]
+temporal: period_start
+sort: [period_start, dim1_code, dim1_label, dim2_label, dim2_code, statistic_code]
+columns:
+  - name: matrix
+    type: VARCHAR
+  - name: statistic_code
+    type: VARCHAR
+  - name: statistic_label
+    type: VARCHAR
+  - name: time_code
+    type: BIGINT
+  - name: time_label
+    type: BIGINT
+  - name: time_dimension
+    type: VARCHAR
+  - name: period_start
+    type: DATE
+  - name: period_end
+    type: DATE
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: dim1_name
+    type: VARCHAR
+  - name: dim1_code
+    type: VARCHAR
+  - name: dim1_label
+    type: VARCHAR
+  - name: dim2_name
+    type: VARCHAR
+  - name: dim2_code
+    type: VARCHAR
+  - name: dim2_label
+    type: VARCHAR
+  - name: dim3_name
+    type: VARCHAR
+  - name: dim3_code
+    type: VARCHAR
+  - name: dim3_label
+    type: VARCHAR
+  - name: dim4_name
+    type: VARCHAR
+  - name: dim4_code
+    type: VARCHAR
+  - name: dim4_label
+    type: VARCHAR
+  - name: dim5_name
+    type: VARCHAR
+  - name: dim5_code
+    type: VARCHAR
+  - name: dim5_label
+    type: VARCHAR
+  - name: dim6_name
+    type: VARCHAR
+  - name: dim6_code
+    type: VARCHAR
+  - name: dim6_label
+    type: VARCHAR

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `central-statistics-office-cd647`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dim2_label, dim2_code, dim3_code, dim3_label, dim1_code]
+temporal: period_start
+checks:
+  - kind: unique
+    columns: [dim2_label, dim2_code, dim3_code, dim3_label, dim1_code]
+  - kind: not_null
+    col: dim2_label
+  - kind: not_null
+    col: dim2_code
+  - kind: not_null
+    col: dim3_code
+  - kind: not_null
+    col: dim3_label
+  - kind: not_null
+    col: dim1_code
+  - kind: row_floor
+    min: 360
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

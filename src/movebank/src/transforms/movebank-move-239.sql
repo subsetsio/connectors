@@ -14,3 +14,4 @@ SELECT
     "tag_id",
     "study_name"
 FROM "movebank-move-239"
+WHERE NOT ("event_id" IS NULL AND "timestamp" IS NULL AND "longitude" IS NULL AND "latitude" IS NULL AND "sensor_type" IS NULL AND "taxon" IS NULL AND "individual_id" IS NULL AND "tag_id" IS NULL AND "study_name" IS NULL)
