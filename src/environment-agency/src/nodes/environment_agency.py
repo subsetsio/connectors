@@ -7,7 +7,7 @@ Three assets:
 
 - ``stations``  reference catalog, one row per monitoring station (~9.5k).
 - ``measures``  series catalog, one row per measure = station x parameter x
-                period x statistic (~32k).
+                period_seconds x statistic (~32k).
 - ``readings``  long-format observations, one row per (measure, date_time).
 
 Readings scope. The corpus is ~32k measures at periods from 15-minute to
@@ -168,7 +168,7 @@ _MEASURES_SCHEMA = pa.schema([
     ("name", pa.string()),
     ("parameter", pa.string()),
     ("parameter_name", pa.string()),
-    ("period", pa.int64()),
+    ("period_seconds", pa.int64()),
     ("period_name", pa.string()),
     ("value_type", pa.string()),
     ("value_statistic", pa.string()),
@@ -193,7 +193,7 @@ def fetch_measures(node_id: str) -> None:
             "name": _str(m.get("label")),
             "parameter": _str(m.get("parameter")),
             "parameter_name": _str(m.get("parameterName")),
-            "period": _to_int(m.get("period")),
+            "period_seconds": _to_int(m.get("period")),
             "period_name": _str(m.get("periodName")),
             "value_type": _str(m.get("valueType")),
             "value_statistic": _label_of(m.get("valueStatistic")),

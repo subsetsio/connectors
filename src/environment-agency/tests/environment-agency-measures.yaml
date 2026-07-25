@@ -44,6 +44,6 @@ tests:
     reason: research listed waterLevel, waterFlow, rainfall, groundwaterLevel, temperature, ph, dissolved-oxygen and more; collapsing to <3 means the field was mis-flattened
     certainty: 80
 
-  - at_least: {col: period, expr: 60}
-    reason: period is a duration in seconds; the finest EA hydrology series is 15-minute (900s), so anything under a minute is a parse error
+  - at_least: {col: period_seconds, expr: 60}
+    reason: period_seconds is a duration; the finest EA hydrology series is 15-minute (900s), so anything under a minute is a parse error
     certainty: 85

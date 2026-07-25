@@ -209,6 +209,54 @@ def _union_tables(tables: list[pa.Table]) -> pa.Table:
     return pa.concat_tables(aligned)
 
 
+def _entity_codes(entity_id: str) -> tuple[str, str | None] | None:
+    match = re.fullmatch(r"cis(\d+)(?:vaz(\d+))?", entity_id.lower())
+    if not match:
+        return None
+    return match.group(1), match.group(2)
+
+
+def _only_non_null_values(table: pa.Table, column: str) -> set[str]:
+    if column not in table.column_names:
+        raise RuntimeError(f"downloaded CSV missing expected identity column {column!r}")
+    return {
+        str(value)
+        for value in table[column].to_pylist()
+        if value is not None and str(value) != ""
+    }
+
+
+def _validate_entity_table(entity_id: str, table: pa.Table) -> None:
+    """Reject successful 200 responses that contain a different CZSO dataset.
+
+    The iSMS export endpoint has been observed returning a CISOB-shaped payload
+    for unrelated codelist URLs. Without this guard the raw write succeeds and
+    the mismatch is only discovered later as transform/check breakage.
+    """
+    codes = _entity_codes(entity_id)
+    if not codes:
+        return
+    source_code, target_code = codes
+    if target_code is None:
+        observed = _only_non_null_values(table, "kodcis")
+        if observed != {source_code}:
+            raise RuntimeError(
+                f"{entity_id}: downloaded kodcis values {sorted(observed)[:5]} "
+                f"do not match requested {source_code}"
+            )
+        return
+
+    observed_source = _only_non_null_values(table, "kodcis1")
+    observed_target = _only_non_null_values(table, "kodcis2")
+    if observed_source != {source_code} or observed_target != {target_code}:
+        raise RuntimeError(
+            f"{entity_id}: downloaded relation codes "
+            f"kodcis1={sorted(observed_source)[:5]}, "
+            f"kodcis2={sorted(observed_target)[:5]} do not match requested "
+            f"{source_code}->{target_code}"
+        )
+
+
 def _pick_csv_resource(resources: list) -> dict:
     """Pick the dataset's CSV distribution. Every probed dataset exposes exactly
     one text/csv resource; prefer an explicit csv format, else the sole
@@ -247,7 +295,9 @@ def fetch_one(node_id: str) -> None:
         _csv_to_table(member_content, source_member=member_name)
         for member_name, member_content in members
     ]
-    save_raw_parquet(_union_tables(tables), asset)
+    table = _union_tables(tables)
+    _validate_entity_table(entity_id, table)
+    save_raw_parquet(table, asset)
 
 
 DOWNLOAD_SPECS = [

@@ -66,6 +66,11 @@ class EmptyPageError(RuntimeError):
     """Neither language page rendered its document portlets (the server returns a
     degraded page under load). Retryable — a re-fetch usually fixes it."""
 
+
+class NoDataWorkbookError(RuntimeError):
+    """Document portlets rendered, but no data workbook was served."""
+
+
 # A publication's attachments may be listed on either language page, and for 15
 # publications only on the Greek one. Harvest both and union by documentID.
 PUBLICATION_URLS = (
@@ -288,6 +293,12 @@ def _is_data_workbook(filename):
     return not (m and m.group(1).upper() in _NON_DATA_TOKENS)
 
 
+@retry(
+    retry=retry_if_exception_type(NoDataWorkbookError),
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=2, min=3, max=60),
+    reraise=True,
+)
 def _excel_attachments(code):
     files = []
     for did, url in _document_urls(code).items():
@@ -310,6 +321,8 @@ def _excel_attachments(code):
         if not _is_data_workbook(fn):
             continue
         files.append((fn, resp.content))
+    if not files:
+        raise NoDataWorkbookError(f"{code} yielded no data Excel workbooks")
     return files
 
 

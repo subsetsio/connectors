@@ -1,8 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `caiso-atl-pnode`. Regenerate after model-verify.
-key: [pnode_id]
+key: [pnode_id, eff_start_dt_gmt]
 temporal: eff_start_dt
-sort: [eff_start_dt, pnode_id]
+sort: [eff_start_dt, pnode_id, eff_start_dt_gmt]
 columns:
   - name: pnode_id
     type: VARCHAR

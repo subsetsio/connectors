@@ -7,7 +7,7 @@ SELECT
     "empty1",
     "trimestres_cotises_en",
     "trimestres_d_avpf_en",
-    "trimestres_de_maladie_maternite_invalidite_accidents_du_travail_en",
+    "trimestres_de_maladie_maternite_invalidite_accidents_du_travail_en" AS trimestres_maladie_maternite_invalidite_at_en,
     "trimestres_de_chomage_formation_reconversion_preretraite_en",
     "trimestres_de_service_national_en",
     "autres_trimestres_trimestres_equivalents_rachats_trimestres_gratuits_pour_autres_motifs_en" AS autres_trimestres_valides_en,

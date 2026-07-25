@@ -413,7 +413,10 @@ def fetch_report(node_id: str) -> None:
             if rows:
                 tag = (mrid or "all").lower().replace("_", "-")
                 batch = f"{node_id}-{cur:%Y%m%d}-{tag}"
-                save_raw_ndjson(_typed_rows(rows), batch)
+                # Keep sharded windows under the logical node's manifest entry.
+                # Otherwise caiso-sld-fcst accidentally resolves sibling
+                # caiso-sld-fcst-peak batches through prefix matching.
+                save_raw_ndjson(_typed_rows(rows), node_id, fragment=batch)
         # Raw written before state advances.
         save_state(node_id, {"schema_version": STATE_VERSION, "watermark": win_end.isoformat()})
         cur = win_end + timedelta(days=1)

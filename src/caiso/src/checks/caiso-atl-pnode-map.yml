@@ -3,15 +3,19 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [pnode_id]
+key: [apnode_id, pnode_id, eff_start_dt_gmt]
 temporal: eff_start_dt_gmt
 checks:
   - kind: unique
-    columns: [pnode_id]
+    columns: [apnode_id, pnode_id, eff_start_dt_gmt]
+  - kind: not_null
+    col: apnode_id
   - kind: not_null
     col: pnode_id
+  - kind: not_null
+    col: eff_start_dt_gmt
   - kind: row_floor
-    min: 1138
+    min: 1139
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1

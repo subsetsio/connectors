@@ -13,5 +13,5 @@ SELECT
     "taux_de_remplacement_quantile_a_50",
     "taux_de_remplacement_quantile_a_75",
     "taux_de_remplacement_quantile_a_90",
-    "part_de_la_categorie_ayant_un_taux_de_remplacement_inferieur_a_100_en"
+    "part_de_la_categorie_ayant_un_taux_de_remplacement_inferieur_a_100_en" AS part_categorie_taux_remplacement_inf_100_en
 FROM "drees-repartition-des-taux-de-remplacement-entre-les-revenus-juste-avant-et-juste-apres-la-retraite"
