@@ -23,9 +23,9 @@ fields arrive as epoch-millisecond integers and are converted downstream in the
 transform SQL.
 """
 import json
+import re
+import time
 from functools import lru_cache
-
-import httpx
 
 from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 
@@ -44,6 +44,7 @@ _BIG_PAGE = 16000
 # 16000/page. This cap only fires if a source grows far beyond expectation; it
 # raises (never silently truncates) so unexpected growth is surfaced.
 MAX_PAGES = 20000
+JSON_429_ATTEMPTS = 8
 
 
 def _page_size(url: str) -> int:
@@ -73,33 +74,47 @@ def _object_id_field(layer_url: str, layer: int) -> str:
     return field
 
 
-@transient_retry()
+def _retry_after_seconds(error: dict) -> float:
+    details = " ".join(str(d) for d in error.get("details", []))
+    match = re.search(r"Retry after\s+(\d+(?:\.\d+)?)\s+sec", details, flags=re.I)
+    if match:
+        return min(max(float(match.group(1)), 1.0), 120.0)
+    return 60.0
+
+
 def _query(layer_url: str, layer: int, page: int, offset: int, order_field: str) -> dict:
-    resp = get(
-        f"{layer_url}/{layer}/query",
-        params={
-            "where": "1=1",
-            "outFields": "*",
-            "returnGeometry": "false",
-            "orderByFields": order_field,
-            "resultRecordCount": page,
-            "resultOffset": offset,
-            "f": "json",
-        },
-        timeout=(10.0, 180.0),
-    )
-    resp.raise_for_status()
-    data = resp.json()
-    if isinstance(data, dict) and "error" in data:
-        error = data["error"]
-        if isinstance(error, dict) and error.get("code") == 429:
-            retry_resp = httpx.Response(429, request=resp.request)
-            raise httpx.HTTPStatusError(
-                f"{layer_url}/{layer}/query: ArcGIS query quota exceeded {error}",
-                request=resp.request,
-                response=retry_resp,
+    query_url = f"{layer_url}/{layer}/query"
+    for attempt in range(1, JSON_429_ATTEMPTS + 1):
+        resp = get(
+            query_url,
+            params={
+                "where": "1=1",
+                "outFields": "*",
+                "returnGeometry": "false",
+                "orderByFields": order_field,
+                "resultRecordCount": page,
+                "resultOffset": offset,
+                "f": "json",
+            },
+            timeout=(10.0, 180.0),
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        if isinstance(data, dict) and "error" in data:
+            error = data["error"]
+            if isinstance(error, dict) and error.get("code") == 429 and attempt < JSON_429_ATTEMPTS:
+                wait = _retry_after_seconds(error)
+                print(
+                    f"[arcgis] {query_url} quota exceeded at offset {offset}; "
+                    f"retry {attempt}/{JSON_429_ATTEMPTS - 1} in {wait:.1f}s"
+                )
+                time.sleep(wait)
+                continue
+            raise RuntimeError(
+                f"{query_url}: ArcGIS query error {error}"
             )
-    return data
+        return data
+    raise RuntimeError(f"{query_url}: ArcGIS query quota exceeded after {JSON_429_ATTEMPTS} attempts")
 
 
 def fetch_one(node_id: str) -> None:
