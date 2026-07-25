@@ -1,6 +1,9 @@
 spec_id: danmarks-nationalbank-dnruupi
 status: active
 tests:
+  - freshness: {col: time, reaches: today - 120d}
+    reason: Danmarks Nationalbank StatBank tables are refreshed by the connector weekly, while individual monthly or quarterly series can lag publication; the latest reported time period should remain within a conservative 120-day window.
+    certainty: 85
   - not_null: time
     reason: every StatBank BULK cell carries a time-period coordinate (the Tid dimension)
     certainty: 95
