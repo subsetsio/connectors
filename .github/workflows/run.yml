@@ -21,6 +21,10 @@ on:
         required: false
         type: string
         default: continue
+      subsets_reset_check_baseline:
+        description: "Set SUBSETS_RESET_CHECK_BASELINE=1 for one post-publish audit run"
+        required: false
+        type: string
 
 concurrency:
   group: run-${{ inputs.slug }}
@@ -67,6 +71,7 @@ jobs:
           RUN_ID: ${{ inputs.run_id }}
           DAG_TARGET: ${{ inputs.dag_target }}
           DAG_ON_FAILURE: ${{ inputs.dag_on_failure }}
+          SUBSETS_RESET_CHECK_BASELINE: ${{ inputs.subsets_reset_check_baseline }}
           # Single-repo: every Actions secret arrives as one JSON blob, but it
           # is consumed by the TRUSTED supervisor (subsets_utils.runner) only.
           # The supervisor scrubs every blob key from the connector subprocess
