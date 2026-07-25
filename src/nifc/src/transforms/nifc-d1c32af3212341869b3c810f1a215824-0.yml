@@ -86,11 +86,11 @@ columns:
   - name: attr_firecode
     type: VARCHAR
   - name: attr_firedepartmentid
-    type: JSON
+    type: VARCHAR
   - name: attr_firediscoverydatetime
     type: BIGINT
   - name: attr_firemgmtcomplexity
-    type: VARCHAR
+    type: JSON
   - name: attr_fireoutdatetime
     type: JSON
   - name: attr_firestrategyconfinepercent
@@ -180,7 +180,7 @@ columns:
   - name: attr_poolegaldescqtr
     type: VARCHAR
   - name: attr_poolegaldescqtrqtr
-    type: VARCHAR
+    type: JSON
   - name: attr_poolegaldescrange
     type: VARCHAR
   - name: attr_poolegaldescsection
@@ -228,9 +228,9 @@ columns:
   - name: attr_iscpxchild
     type: BIGINT
   - name: attr_cpxname
-    type: JSON
+    type: VARCHAR
   - name: attr_cpxid
-    type: JSON
+    type: VARCHAR
   - name: attr_sourceglobalid
     type: VARCHAR
   - name: globalid

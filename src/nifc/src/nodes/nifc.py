@@ -25,6 +25,8 @@ transform SQL.
 import json
 from functools import lru_cache
 
+import httpx
+
 from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 
 from constants import LAYERS
@@ -87,7 +89,17 @@ def _query(layer_url: str, layer: int, page: int, offset: int, order_field: str)
         timeout=(10.0, 180.0),
     )
     resp.raise_for_status()
-    return resp.json()
+    data = resp.json()
+    if isinstance(data, dict) and "error" in data:
+        error = data["error"]
+        if isinstance(error, dict) and error.get("code") == 429:
+            retry_resp = httpx.Response(429, request=resp.request)
+            raise httpx.HTTPStatusError(
+                f"{layer_url}/{layer}/query: ArcGIS query quota exceeded {error}",
+                request=resp.request,
+                response=retry_resp,
+            )
+    return data
 
 
 def fetch_one(node_id: str) -> None:

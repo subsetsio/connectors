@@ -3,7 +3,7 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "data_as_of",
+    strptime("data_as_of", '%m/%d/%Y')::DATE AS data_as_of,
     "death_year",
     "death_month",
     "jurisdiction_occurrence",

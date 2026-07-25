@@ -15,7 +15,7 @@ changes.
 
 
 ENTITY_IDS = [
-    '25m4-6qqq', '2m93-xvra', '2na8-fe6s', '35bp-whkw', '367e-pucc', '36ue-xht5',
+    '25m4-6qqq', '2m93-xvra', '2na8-fe6s', '367e-pucc', '36ue-xht5',
     '3apk-4u4f', '3em4-f5qt', '3h58-x6cd', '3j26-kg6d', '3nzu-udr9', '3q3z-9ucr',
     '489q-934x', '4bc2-bbpq', '4q35-rqzk', '4ueh-89p9', '4va6-ph5s', '53g5-jf7x',
     '5pqj-rvh4', '65mz-jvh5', '6mjs-pnrx', '6pdm-py4x', '6rvp-rahv', '6tn6-vc33',
@@ -38,7 +38,7 @@ ENTITY_IDS = [
     'siwp-yg6m', 'ss2j-8ajj', 'sz5x-j2c3', 'th9n-ghnr', 'tpcp-uiv5', 'trpk-sp8z',
     'u6jv-9ijr', 'uggs-hy5q', 'uzn2-cq9f', 'v2g4-wqg2', 'v728-xui5', 'v7tk-n6v3',
     'va5e-efw9', 'vsak-wrfu', 'w26f-tf3h', 'w4cs-jspc', 'wd75-kcmv', 'wibz-pb5q',
-    'wpti-gvdi', 'wxz7-ekz9', 'xb3p-q62w', 'xkb8-kh2a', 'xkkf-xrst', 'xy7w-35q7',
+    'wpti-gvdi', 'wxz7-ekz9', 'xkb8-kh2a', 'xkkf-xrst', 'xy7w-35q7',
     'y268-sna3', 'y5bj-9g5w', 'ycxr-emue', 'yib5-h3pw', 'yni7-er2q', 'ynw2-4viq',
     'ypxr-mz8e', 'yrur-wghw',
 ]

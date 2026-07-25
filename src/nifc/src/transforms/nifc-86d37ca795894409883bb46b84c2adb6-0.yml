@@ -32,7 +32,7 @@ columns:
   - name: finalfirereportapprovedbyunit
     type: JSON
   - name: finalfirereportapproveddate
-    type: BIGINT
+    type: JSON
   - name: firebehaviorgeneral
     type: VARCHAR
   - name: firebehaviorgeneral1
@@ -54,7 +54,7 @@ columns:
   - name: firediscoverydatetime
     type: BIGINT
   - name: firemgmtcomplexity
-    type: VARCHAR
+    type: JSON
   - name: fireoutdatetime
     type: BIGINT
   - name: firestrategyconfinepercent
@@ -126,7 +126,7 @@ columns:
   - name: percentperimetertobecontained
     type: BIGINT
   - name: poocity
-    type: JSON
+    type: VARCHAR
   - name: poocounty
     type: VARCHAR
   - name: poodispatchcenterid
@@ -144,17 +144,17 @@ columns:
   - name: poolandownerkind
     type: VARCHAR
   - name: poolegaldescprincipalmeridian
-    type: VARCHAR
+    type: JSON
   - name: poolegaldescqtr
     type: JSON
   - name: poolegaldescqtrqtr
     type: JSON
   - name: poolegaldescrange
-    type: VARCHAR
+    type: JSON
   - name: poolegaldescsection
-    type: BIGINT
+    type: JSON
   - name: poolegaldesctownship
-    type: VARCHAR
+    type: JSON
   - name: poopredictiveserviceareaid
     type: VARCHAR
   - name: pooprotectingagency
@@ -190,9 +190,9 @@ columns:
   - name: iscpxchild
     type: BIGINT
   - name: cpxname
-    type: JSON
+    type: VARCHAR
   - name: cpxid
-    type: JSON
+    type: VARCHAR
   - name: sourceglobalid
     type: VARCHAR
   - name: globalid
