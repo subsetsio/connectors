@@ -16,4 +16,3 @@ SELECT
     "value_type",
     "source"
 FROM "un-statistics-division-sdg-data"
-WHERE TRY_CAST("value" AS DOUBLE) IS NOT NULL
