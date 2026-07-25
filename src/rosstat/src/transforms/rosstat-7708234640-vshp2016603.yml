@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `rosstat-7708234640-vshp2016603`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw table; treat rows as source records rather than mergeable observations.
+key: []
+temporal: time
+sort: [time]
+columns:
+  - name: measures
+    type: VARCHAR
+  - name: category_parent
+    type: BIGINT
+  - name: oktmo_parent
+    type: VARCHAR
+  - name: time
+    type: BIGINT
+  - name: value
+    type: VARCHAR

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `rosstat-7708234640-population`. Regenerate after model-verify.
+key: [kode, number, total, rural, urban]
+temporal: year
+sort: [year, kode, number, total, rural, urban]
+columns:
+  - name: number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: kode
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: municipalities
+    type: VARCHAR
+  - name: total
+    type: VARCHAR
+  - name: urban
+    type: VARCHAR
+  - name: rural
+    type: VARCHAR

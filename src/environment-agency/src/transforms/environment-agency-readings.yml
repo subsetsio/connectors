@@ -1,7 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `environment-agency-readings`. Regenerate after model-verify.
 # caution: The value column mixes units and observed properties across measures; join to measures before comparing, aggregating, or labeling values.
-write_mode: merge
+write_mode: overwrite
 key: [measure_id, date_time]
 temporal: date
 sort: [date, measure_id, date_time]
