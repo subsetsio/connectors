@@ -25,12 +25,12 @@ SELECT
     "malignant_melanoma_of_skin_c43",
     "malignant_neoplasm_of_breast_c50",
     "malignant_neoplasm_of_cervix_uteri_c53",
-    "corpus_uteri_cancer_c54_c55",
+    "malignant_neoplasms_of_corpus_uteri_and_uterus_part_unspecified_c54_c55" AS corpus_uteri_cancer_c54_c55,
     "malignant_neoplasm_of_ovary_c56",
     "malignant_neoplasm_of_prostate_c61",
     "malignant_neoplasms_of_kidney_and_renal_pelvis_c64_c65",
     "malignant_neoplasm_of_bladder_c67",
-    "cns_cancer_c70_c72",
-    "lymphoid_hematopoietic_cancer_c81_c96",
-    "other_unspecified_cancers_c17_c97"
+    "malignant_neoplasms_of_meninges_brain_and_other_parts_of_central_nervous_system_c70_c72" AS cns_cancer_c70_c72,
+    "malignant_neoplasms_of_lymphoid_hematopoietic_and_related_tissue_c81_c96" AS lymphoid_hematopoietic_cancer_c81_c96,
+    "all_other_and_unspecified_malignant_neoplasms_c17_c23_c24_c26_c31_c37_c41_c44_c49_c51_c52_c57_c60_c62_c63_c66_c68_c69_c73_c80_c97" AS other_unspecified_cancers_c17_c97
 FROM "nchs-2na8-fe6s"

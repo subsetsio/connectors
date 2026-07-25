@@ -116,6 +116,15 @@ ENTITY_META = {
 
 ENTITY_IDS = sorted(ENTITY_META)
 
+# IPEDS Data Center catalog entries that do not have complete-data-file bulk ZIPs.
+# They remain in ENTITY_META so the permanently-dead upstream is documented, but
+# production runs should not register nodes that can only fail.
+UNPUBLISHED_BULK_IDS = {
+    "ipeds-cost1",
+    "ipeds-cost2",
+    "ipeds-drvcost",
+}
+
 
 # --------------------------------------------------------------------------- #
 # HTTP
@@ -267,4 +276,5 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"nces-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
+    if eid not in UNPUBLISHED_BULK_IDS
 ]
