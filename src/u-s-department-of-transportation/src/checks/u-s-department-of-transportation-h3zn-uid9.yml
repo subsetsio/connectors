@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-h3zn-uid9`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dot_number, veh_maint_measure, unsafe_driv_measure, driv_fit_measure, veh_maint_insp_w_viol]
+checks:
+  - kind: unique
+    columns: [dot_number, veh_maint_measure, unsafe_driv_measure, driv_fit_measure, veh_maint_insp_w_viol]
+  - kind: not_null
+    col: dot_number
+  - kind: not_null
+    col: veh_maint_measure
+  - kind: not_null
+    col: unsafe_driv_measure
+  - kind: not_null
+    col: driv_fit_measure
+  - kind: not_null
+    col: veh_maint_insp_w_viol
+  - kind: row_floor
+    min: 13942
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

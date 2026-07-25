@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-8bui-9xvu`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [agency_mode_tos_date, upt, agency, ntd_id, uza_name]
+temporal: date
+checks:
+  - kind: unique
+    columns: [agency_mode_tos_date, upt, agency, ntd_id, uza_name]
+  - kind: not_null
+    col: agency_mode_tos_date
+  - kind: not_null
+    col: upt
+  - kind: not_null
+    col: agency
+  - kind: not_null
+    col: ntd_id
+  - kind: not_null
+    col: uza_name
+  - kind: row_floor
+    min: 184468
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

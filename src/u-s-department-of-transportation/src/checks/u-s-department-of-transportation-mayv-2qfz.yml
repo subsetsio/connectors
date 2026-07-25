@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-mayv-2qfz`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [tt_percentile_75, tt_percentile_50, tt_percentile_25, dest_county_fips, orig_county_fips]
+temporal: year
+checks:
+  - kind: unique
+    columns: [tt_percentile_75, tt_percentile_50, tt_percentile_25, dest_county_fips, orig_county_fips]
+  - kind: not_null
+    col: tt_percentile_75
+  - kind: not_null
+    col: tt_percentile_50
+  - kind: not_null
+    col: tt_percentile_25
+  - kind: not_null
+    col: dest_county_fips
+  - kind: not_null
+    col: orig_county_fips
+  - kind: row_floor
+    min: 2124302
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

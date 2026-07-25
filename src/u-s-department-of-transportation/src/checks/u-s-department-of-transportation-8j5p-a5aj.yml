@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-8j5p-a5aj`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [systemlength, urbanid, countyid, stateid, ownership]
+checks:
+  - kind: unique
+    columns: [systemlength, urbanid, countyid, stateid, ownership]
+  - kind: not_null
+    col: systemlength
+  - kind: not_null
+    col: urbanid
+  - kind: not_null
+    col: countyid
+  - kind: not_null
+    col: stateid
+  - kind: not_null
+    col: ownership
+  - kind: row_floor
+    min: 13059
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

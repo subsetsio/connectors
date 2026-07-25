@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-p7t6-tka4`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [section_id, sample_number, end_lrs, begin_lrs, future_aadt]
+temporal: year
+checks:
+  - kind: unique
+    columns: [section_id, sample_number, end_lrs, begin_lrs, future_aadt]
+  - kind: not_null
+    col: section_id
+  - kind: not_null
+    col: sample_number
+  - kind: not_null
+    col: end_lrs
+  - kind: not_null
+    col: begin_lrs
+  - kind: not_null
+    col: future_aadt
+  - kind: row_floor
+    min: 62526
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

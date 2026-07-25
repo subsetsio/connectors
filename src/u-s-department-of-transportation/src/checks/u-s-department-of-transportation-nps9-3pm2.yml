@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-nps9-3pm2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [vmt, state, year, fclass, area]
+temporal: year
+checks:
+  - kind: unique
+    columns: [vmt, state, year, fclass, area]
+  - kind: not_null
+    col: vmt
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: fclass
+  - kind: not_null
+    col: area
+  - kind: row_floor
+    min: 14872
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

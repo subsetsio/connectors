@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-6jw9-gfkw`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [urban_code, county_code, state_code, ownership, f_system]
+checks:
+  - kind: unique
+    columns: [urban_code, county_code, state_code, ownership, f_system]
+  - kind: not_null
+    col: urban_code
+  - kind: not_null
+    col: county_code
+  - kind: not_null
+    col: state_code
+  - kind: not_null
+    col: ownership
+  - kind: not_null
+    col: f_system
+  - kind: row_floor
+    min: 12683
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-hswt-qvr8`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reportername, ntdid, modecd, reportyear, typeofservicecd]
+checks:
+  - kind: unique
+    columns: [reportername, ntdid, modecd, reportyear, typeofservicecd]
+  - kind: not_null
+    col: reportername
+  - kind: not_null
+    col: ntdid
+  - kind: not_null
+    col: modecd
+  - kind: not_null
+    col: reportyear
+  - kind: not_null
+    col: typeofservicecd
+  - kind: row_floor
+    min: 2673
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

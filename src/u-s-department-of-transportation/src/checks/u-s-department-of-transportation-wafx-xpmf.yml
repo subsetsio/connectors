@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-wafx-xpmf`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state, year, vehicle_type, system, area]
+temporal: year
+checks:
+  - kind: unique
+    columns: [state, year, vehicle_type, system, area]
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: vehicle_type
+  - kind: not_null
+    col: system
+  - kind: not_null
+    col: area
+  - kind: row_floor
+    min: 14976
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-6axg-epim`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [nhtsa_id, recall_link, subject, potentially_affected, report_received_date]
+temporal: report_received_date
+checks:
+  - kind: unique
+    columns: [nhtsa_id, recall_link, subject, potentially_affected, report_received_date]
+  - kind: not_null
+    col: nhtsa_id
+  - kind: not_null
+    col: recall_link
+  - kind: not_null
+    col: subject
+  - kind: not_null
+    col: potentially_affected
+  - kind: not_null
+    col: report_received_date
+  - kind: row_floor
+    min: 15068
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

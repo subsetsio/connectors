@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-g3h6-334u`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sum_min, num_trip, yr_mo_d, sysid, sysname]
+temporal: yr_mo_d
+checks:
+  - kind: unique
+    columns: [sum_min, num_trip, yr_mo_d, sysid, sysname]
+  - kind: not_null
+    col: sum_min
+  - kind: not_null
+    col: num_trip
+  - kind: not_null
+    col: yr_mo_d
+  - kind: not_null
+    col: sysid
+  - kind: not_null
+    col: sysname
+  - kind: row_floor
+    min: 15687
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

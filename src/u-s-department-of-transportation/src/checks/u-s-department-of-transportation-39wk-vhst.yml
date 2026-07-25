@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-39wk-vhst`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [route_id, natroute_id, begin_point, end_point, section_length]
+checks:
+  - kind: unique
+    columns: [route_id, natroute_id, begin_point, end_point, section_length]
+  - kind: not_null
+    col: route_id
+  - kind: not_null
+    col: natroute_id
+  - kind: not_null
+    col: begin_point
+  - kind: not_null
+    col: end_point
+  - kind: not_null
+    col: section_length
+  - kind: row_floor
+    min: 68855
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

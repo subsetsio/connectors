@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-9wrh-mnib`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state_portion_pop, urban_code, state_portion_land, state_code]
+checks:
+  - kind: unique
+    columns: [state_portion_pop, urban_code, state_portion_land, state_code]
+  - kind: not_null
+    col: state_portion_pop
+  - kind: not_null
+    col: urban_code
+  - kind: not_null
+    col: state_portion_land
+  - kind: not_null
+    col: state_code
+  - kind: row_floor
+    min: 309
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

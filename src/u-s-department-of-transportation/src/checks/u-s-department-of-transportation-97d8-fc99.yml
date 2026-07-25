@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-97d8-fc99`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [number_of_inflators, percent_of_accounting_category, manufacturer, accounting_category]
+temporal: report_date
+checks:
+  - kind: unique
+    columns: [number_of_inflators, percent_of_accounting_category, manufacturer, accounting_category]
+  - kind: not_null
+    col: number_of_inflators
+  - kind: not_null
+    col: percent_of_accounting_category
+  - kind: not_null
+    col: manufacturer
+  - kind: not_null
+    col: accounting_category
+  - kind: row_floor
+    min: 95
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

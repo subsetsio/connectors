@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-nxha-wg33`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fatalities, state, year, fclass, area]
+temporal: year
+checks:
+  - kind: unique
+    columns: [fatalities, state, year, fclass, area]
+  - kind: not_null
+    col: fatalities
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: fclass
+  - kind: not_null
+    col: area
+  - kind: row_floor
+    min: 14066
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

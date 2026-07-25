@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-transportation-hinw-eisy`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [average_year_of_manufacture, average_age, number_of_aircraft, oldest_age, oldest_year_of_manufacture]
+temporal: year
+checks:
+  - kind: unique
+    columns: [average_year_of_manufacture, average_age, number_of_aircraft, oldest_age, oldest_year_of_manufacture]
+  - kind: not_null
+    col: average_year_of_manufacture
+  - kind: not_null
+    col: average_age
+  - kind: not_null
+    col: number_of_aircraft
+  - kind: not_null
+    col: oldest_age
+  - kind: not_null
+    col: oldest_year_of_manufacture
+  - kind: row_floor
+    min: 577
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
