@@ -18,8 +18,12 @@ columns:
     type: VARCHAR
   - name: breakdown
     type: VARCHAR
-  - name: quarter
+  - name: quarter_code
     type: BIGINT
+    description: Raw Stats NZ quarter-ending period code in YYYYMM form, such as 202603 for the March 2026 quarter.
+  - name: quarter
+    type: DATE
+    description: Quarter-ending month parsed from `quarter_code`.
   - name: unit
     type: VARCHAR
   - name: value

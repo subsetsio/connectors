@@ -10,7 +10,8 @@ SELECT
     "Table_Sub_Name" AS table_sub_name,
     "Table_Section" AS table_section,
     "Breakdown" AS breakdown,
-    CAST("Quarter" AS BIGINT) AS quarter,
+    CAST("Quarter" AS BIGINT) AS quarter_code,
+    strptime(CAST("Quarter" AS VARCHAR), '%Y%m')::DATE AS quarter,
     "Unit" AS unit,
     "Value" AS value
 FROM "statsnz-tatauranga-umanga-maori-statistics-on-maori-businesses-march-2026-quarter"
