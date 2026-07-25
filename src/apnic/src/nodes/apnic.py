@@ -22,7 +22,6 @@ volumes are small (low tens of MB). Freshness gating is the maintain step's job.
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -201,62 +200,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="apnic-delegated-resources", fn=fetch_delegated_resources, kind="download"),
     NodeSpec(id="apnic-ipv6-capability", fn=fetch_ipv6_capability, kind="download"),
     NodeSpec(id="apnic-as-user-population", fn=fetch_as_user_population, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="apnic-delegated-resources-transform",
-        deps=["apnic-delegated-resources"],
-        sql='''
-            SELECT
-                registry,
-                cc                                                         AS economy,
-                resource_type,
-                "start"                                                    AS resource_start,
-                "value",
-                TRY_CAST(STRPTIME(NULLIF("date", '00000000'), '%Y%m%d') AS DATE) AS allocation_date,
-                status,
-                opaque_id
-            FROM "apnic-delegated-resources"
-        ''',
-        temporal="allocation_date",
-    ),
-    SqlNodeSpec(
-        id="apnic-ipv6-capability-transform",
-        deps=["apnic-ipv6-capability"],
-        sql='''
-            SELECT
-                CAST("date" AS DATE) AS date,
-                economy,
-                seen,
-                preferred,
-                capable,
-                preferred_pc,
-                capable_pc,
-                preferred_pc_30d,
-                capable_pc_30d
-            FROM "apnic-ipv6-capability"
-            WHERE "date" IS NOT NULL AND seen IS NOT NULL
-        ''',
-        key=("economy", "date"),
-        temporal="date",
-    ),
-    SqlNodeSpec(
-        id="apnic-as-user-population-transform",
-        deps=["apnic-as-user-population"],
-        sql='''
-            SELECT
-                rank,
-                asn,
-                description,
-                cc AS economy,
-                users,
-                pct_cc_pop,
-                pct_internet,
-                samples
-            FROM "apnic-as-user-population"
-            WHERE asn IS NOT NULL
-        ''',
-        key=("asn",),
-    ),
 ]
