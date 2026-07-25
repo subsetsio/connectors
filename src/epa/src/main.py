@@ -34,6 +34,10 @@ def main():
         current_budget = float(os.environ.get("DAG_TIME_BUDGET", "20700") or "20700")
         os.environ["DAG_TIME_BUDGET"] = str(int(min(current_budget, 16_200)))
         os.environ.setdefault("DAG_DRAIN_TIMEOUT_S", "120")
+        # Envirofacts occasionally drops long-running PARQUET window requests
+        # after doing server-side work. Keep retrying the same idempotent window
+        # rather than failing a multi-hour table leg.
+        os.environ.setdefault("HTTP_RETRY_ATTEMPTS", "8")
     validate_environment()
     workflow = load_nodes()
     workflow.run()
