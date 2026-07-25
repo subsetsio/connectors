@@ -8,7 +8,7 @@ SELECT
     "name",
     "parameter",
     "parameter_name",
-    "period",
+    "period_seconds",
     "period_name",
     "value_type",
     "value_statistic",

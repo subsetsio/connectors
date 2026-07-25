@@ -2,8 +2,8 @@
 # of raw asset `environment-agency-measures`. Regenerate after model-verify.
 # caution: Each measure identifies one station-parameter-period-statistic stream; observed values and units are interpreted through the measure metadata.
 key: [measure_id]
-temporal: period
-sort: [period, measure_id]
+temporal: period_seconds
+sort: [period_seconds, measure_id]
 columns:
   - name: measure_id
     type: VARCHAR
@@ -13,7 +13,7 @@ columns:
     type: VARCHAR
   - name: parameter_name
     type: VARCHAR
-  - name: period
+  - name: period_seconds
     type: BIGINT
   - name: period_name
     type: VARCHAR
