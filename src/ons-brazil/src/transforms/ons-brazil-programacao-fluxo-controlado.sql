@@ -3,7 +3,7 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    strptime("din_programacaodia", '%Y-%m-%d')::DATE AS din_programacaodia,
+    CAST("din_programacaodia" AS DATE) AS din_programacaodia,
     "num_patamar",
     "nom_elementofluxocontrolado",
     "dsc_elementofluxocontrolado",

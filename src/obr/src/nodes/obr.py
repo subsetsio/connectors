@@ -82,6 +82,29 @@ ENTITY_IDS = [
 
 DATA_PAGE = "https://obr.uk/data/"
 
+# CI fallback for OBR's Cloudflare-blocked dynamic routes. The live resolver
+# below is still preferred, but GitHub-hosted runners can be denied at /data/
+# before any parser logic runs. These direct attachment URLs are the current
+# files resolved from /data/ and bypass the /download/ redirect layer.
+DIRECT_FILE_URLS = {
+    "economic-and-fiscal-outlook-charts-and-tables": "https://obr.uk/docs/d055fbf02d5b3g6jq8l2/efo-march-2026-charts-and-tables-zipfile.zip",
+    "economic-and-fiscal-outlook-detailed-forecast-tables": "https://obr.uk/docs/d055fbf02d5b3g6jq8l2/efo-march-2026-detailed-forecast-tables-zipfile.zip",
+    "economic-and-fiscal-outlook-ready-reckoner": "https://obr.uk/docs/dlm_uploads/March_2025_Economic_and_fiscal_outlook_ready_reckoner-updated-March-2026.xlsx",
+    "fiscal-risks-and-sustainability-charts-and-tables": "https://obr.uk/docs/dlm_uploads/July-2025-Fiscal-risks-and-sustainability-%E2%80%93-charts-and-tables.zip",
+    "forecast-evaluation-report-annex-a-supplementary-economy-tables": "https://obr.uk/docs/dlm_uploads/Forecast-evaluation-report-%E2%80%93-July-2025-annex-A-%E2%80%93-supplementary-economy-tables.xlsx",
+    "forecast-evaluation-report-annex-b-supplementary-fiscal-tables": "https://obr.uk/docs/dlm_uploads/Forecast-evaluation-report-%E2%80%93-July-2025-annex-B-%E2%80%93-supplementary-fiscal-tables.xlsx",
+    "forecast-evaluation-report-charts-and-tables": "https://obr.uk/docs/dlm_uploads/Forecast-evaluation-report-%E2%80%93-July-2025-char-ts-and-tables.xlsx",
+    "forecast-revisions-database": "https://obr.uk/docs/dlm_uploads/Fiscal_forecast_revisions_database_March_2026.xlsx",
+    "historical-official-forecasts-database": "https://obr.uk/docs/dlm_uploads/Historical_official_forecasts_database_Spring_2026.xlsx",
+    "historical-public-finances-database": "https://obr.uk/docs/dlm_uploads/Historical-public-finances-database.xlsx",
+    "long-term-economic-determinants-economic-and-fiscal-outlook": "https://obr.uk/docs/dlm_uploads/Long-term-economic-determinants-March-2026-EFO.xlsx",
+    "policy-costings-uncertainty-ratings-database": "https://obr.uk/docs/dlm_uploads/Uncertainty_ratings_database_March_2026.xlsx",
+    "policy-measures-database": "https://obr.uk/docs/dlm_uploads/Policy_measures_database_March_2026.xlsx",
+    "policy-risks-database": "https://obr.uk/docs/dlm_uploads/Policy_risks_database_November_2025.xlsx",
+    "public-finances-databank": "https://obr.uk/docs/dlm_uploads/PSF_aggregates_databank_Jul-5.xlsx",
+    "welfare-trends-report-charts-and-tables": "https://obr.uk/docs/dlm_uploads/Welfare-trends-report-October-2024-charts-and-tables.xlsx",
+}
+
 # Melted-workbook schema — identical for every product, the contract that keeps
 # batched parquet safe.
 SCHEMA = pa.schema([
@@ -174,12 +197,12 @@ def _resolve_download_urls(session) -> dict:
         lowered = {t.lower() for t in texts}
         if not (lowered & {"xlsx", "zip", "csv"}):
             continue
-        candidates = [t for t in texts if t.lower() not in _CHIPS and len(t) > 4]
-        if not candidates:
-            continue
-        eid = _slug_id(max(candidates, key=len))
-        if eid and eid not in out:
-            out[eid] = href
+        for text in texts:
+            if text.lower() in _CHIPS or len(text) <= 4:
+                continue
+            eid = _slug_id(text)
+            if eid in ENTITY_IDS and eid not in out:
+                out[eid] = href
     return out
 
 
@@ -282,7 +305,14 @@ def fetch_one(node_id: str) -> None:
     # download requests) to satisfy Cloudflare bot-management. See module note.
     session = cffi_requests.Session(impersonate=_IMPERSONATE)
     try:
-        url_map = _resolve_download_urls(session)
+        try:
+            url_map = _resolve_download_urls(session)
+        except CffiHTTPError as exc:
+            resp = getattr(exc, "response", None)
+            code = getattr(resp, "status_code", None)
+            if code != 403:
+                raise
+            url_map = DIRECT_FILE_URLS
         url = url_map.get(entity_id)
         if not url:
             raise RuntimeError(
