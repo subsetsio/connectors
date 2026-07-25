@@ -193,6 +193,10 @@ def _format_z(dt: datetime) -> str:
     )
 
 
+def _format_date(dt: datetime) -> str:
+    return dt.astimezone(timezone.utc).date().isoformat()
+
+
 def _feature_row(feature: dict) -> dict:
     props = feature.get("properties") or {}
     row = {k: _stringify(v) for k, v in props.items()}
@@ -234,7 +238,10 @@ def fetch_water(node_id: str) -> None:
     if window is not None:
         now = datetime.now(tz=timezone.utc).replace(microsecond=0)
         start = now - timedelta(days=window)
-        params["datetime"] = f"{_format_z(start)}/{_format_z(now)}"
+        if collection == "field-measurements":
+            params["datetime"] = f"{_format_date(start)}/{_format_date(now)}"
+        else:
+            params["datetime"] = f"{_format_z(start)}/{_format_z(now)}"
 
     url = f"{WATER_BASE}/collections/{collection}/items"
     pages = 0
