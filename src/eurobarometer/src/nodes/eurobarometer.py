@@ -114,6 +114,7 @@ MAX_ENRICHMENT_MISS_FRACTION = 0.35
 # check — the tests/ spec pins the real floor at 600 distinct surveys.
 MAX_EMPTY_FRACTION = 0.40
 RESPONSE_WORKERS = int(os.environ.get("EUROBAROMETER_RESPONSE_WORKERS", "8"))
+RESPONSE_BATCH_DATASETS = int(os.environ.get("EUROBAROMETER_RESPONSE_BATCH_DATASETS", "25"))
 MAINTAIN_MAX_AGE_DAYS = 30
 
 
@@ -242,7 +243,7 @@ def fetch_responses(node_id: str) -> None:
     written = resumed = failed = empty = 0
     pending = []
     for dataset_id, resources in targets.items():
-        if dataset_id in committed:
+        if any(dataset_id in fragment for fragment in committed):
             resumed += 1
             continue
         pending.append((dataset_id, resources))
@@ -255,6 +256,23 @@ def fetch_responses(node_id: str) -> None:
     # parent — the worker only downloads + parses and ships back plain rows.
     ctx = multiprocessing.get_context("fork")
     print(f"[responses] parsing {len(pending)} pending datasets with {workers} worker processes")
+    batch_rows = []
+    batch_dataset_ids = []
+
+    def flush_batch() -> None:
+        nonlocal batch_rows, batch_dataset_ids
+        if not batch_rows:
+            return
+        first = batch_dataset_ids[0]
+        last = batch_dataset_ids[-1]
+        fragment = f"{first}__to__{last}"
+        save_raw_parquet(pa.Table.from_pylist(batch_rows, schema=RESPONSES_SCHEMA),
+                         node_id, fragment=fragment)
+        print(f"  -> Saved {node_id}-{fragment}.parquet "
+              f"({len(batch_rows):,} rows from {len(batch_dataset_ids)} datasets)")
+        batch_rows = []
+        batch_dataset_ids = []
+
     with ProcessPoolExecutor(max_workers=workers, mp_context=ctx) as pool:
         futures = {pool.submit(_fetch_response_rows, dataset_id, resources): dataset_id
                    for dataset_id, resources in pending}
@@ -272,9 +290,12 @@ def fetch_responses(node_id: str) -> None:
             if not rows:
                 empty += 1
                 continue
-            save_raw_parquet(pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA),
-                             node_id, fragment=dataset_id)
+            batch_rows.extend(rows)
+            batch_dataset_ids.append(dataset_id)
+            if len(batch_dataset_ids) >= RESPONSE_BATCH_DATASETS:
+                flush_batch()
             written += 1
+        flush_batch()
 
     print(f"[responses] done: {written} fragments written, {resumed} resumed, "
           f"{empty} parsed to nothing, {failed} downloads failed")
