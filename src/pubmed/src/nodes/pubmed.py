@@ -21,7 +21,6 @@ import re
 import time
 import xml.etree.ElementTree as ET
 
-import psutil
 import pyarrow as pa
 
 from subsets_utils import (
@@ -36,33 +35,6 @@ from subsets_utils import (
 STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
-
-# Files fetched per node invocation. PubMed's largest baseline shards plus XML
-# parsing and R2 fragment commits can keep the child alive near the supervisor
-# deadline. Keep legs short and let main.py raise this connector's chain cap
-# for the annual full-baseline backfill.
-FILES_PER_RUN = 4
-
-# Additional wall-clock cap for one child process. Runtime continuation still
-# owns the overall job budget; this just commits raw fragments regularly even
-# when a few large XML files parse slowly.
-MAX_NODE_SECONDS = 75 * 60
-
-# Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value set in
-# src/main.py. The node uses the parent process age to avoid starting a new
-# expensive file too close to the supervisor deadline.
-DEFAULT_TIME_BUDGET_S = 18_000.0
-
-# Set by src/main.py before load_nodes(). Forked children can see this
-# invocation timestamp, unlike the orchestrator's monotonic deadline.
-RUN_STARTED_AT_ENV = "PUBMED_INVOCATION_STARTED_AT"
-
-# Do not begin another gzipped XML file unless the current invocation has this
-# much budget left. A large PubMed baseline file can take tens of minutes to
-# fetch, decompress, parse, upload, and commit; starting one at the end of the
-# DAG budget causes the watchdog to kill the child and leaves the run pending
-# instead of cleanly continuing.
-MIN_INVOCATION_REMAINING_S = 90 * 60
 
 # Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
 # HTTPS host and legacy production saw no 429s, but a small delay keeps us a
@@ -112,40 +84,6 @@ def _discover_baseline() -> tuple[str, list[int]]:
     prefix = prefixes.pop()
     nums = sorted(int(s[-4:]) for s in stems)
     return prefix, nums
-
-
-def _invocation_remaining_seconds() -> float | None:
-    """Approximate remaining supervisor budget for this workflow invocation."""
-    try:
-        budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
-    except ValueError:
-        budget = DEFAULT_TIME_BUDGET_S
-    try:
-        started = float(os.environ.get(RUN_STARTED_AT_ENV, ""))
-    except ValueError:
-        started = 0.0
-    if started > 0:
-        return budget - max(0.0, time.time() - started)
-    try:
-        parent_started = psutil.Process(os.getppid()).create_time()
-    except Exception:
-        return None
-    return budget - max(0.0, time.time() - parent_started)
-
-
-def _continue_before_invocation_deadline(remaining: float) -> bool:
-    """Return True while there is still time for the parent to collect us.
-
-    The orchestrator turns a True return into a committed raw-manifest update
-    and a needs_continuation handoff. Sleeping near the deadline is unsafe: the
-    parent watchdog sees the child as still in-flight and can kill it before it
-    reports the successful continuation result.
-    """
-    print(
-        f"DAG budget has only {max(0.0, remaining):.0f}s left; "
-        "requesting continuation before starting another PubMed file"
-    )
-    return True
 
 
 def _parse_date(date_elem) -> str | None:
@@ -232,18 +170,11 @@ def _parse_articles(xml_bytes: bytes) -> list[dict]:
 
 
 def fetch_citations(node_id: str):
-    """Fetch up to FILES_PER_RUN baseline files not already present in THIS
-    run's scope, writing one parquet batch per file. Returns True while files
-    remain so the runner self-retriggers (same RUN_ID) to drain the rest;
-    returns None on the final batch so the transform publishes the full corpus.
+    """Fetch baseline files not already present in THIS run's scope.
 
-    Why batch + continuation rather than one loop over everything: the runner
-    sets no DAG_TIME_BUDGET, so there is no in-node deadline interrupt — the
-    only continuation path is a node returning True (-> exit 2 -> self-retrigger
-    with the SAME RUN_ID). A single pass over all ~1,334 files risks overrunning
-    the 355-min GitHub job limit, which is a host SIGTERM that marks the run
-    failed with NO retrigger. Bounding each invocation makes progress monotonic
-    and the wall-clock per invocation predictable.
+    Each baseline file is written as one parquet fragment. The runtime
+    supervisor owns wall-clock continuation; this function saves after every
+    file and returns normally only when the corpus is genuinely drained.
 
     The authoritative "already done" set is the raw manifest's fragments
     COMMITTED under the *current* RUN_ID — the commit log, not a directory
@@ -281,28 +212,12 @@ def fetch_citations(node_id: str):
         print(f"{prefix}: all {len(nums)} files present — corpus complete")
         return  # None -> download done -> transform publishes the full corpus
 
-    batch = pending[:FILES_PER_RUN]
-    deadline = time.monotonic() + MAX_NODE_SECONDS
     print(
-        f"{prefix}: {len(completed)} present, fetching {len(batch)} "
-        f"of {len(pending)} pending ({len(nums)} total)"
+        f"{prefix}: {len(completed)} present, fetching "
+        f"{len(pending)} pending ({len(nums)} total)"
     )
 
-    for i, n in enumerate(batch):
-        invocation_remaining = _invocation_remaining_seconds()
-        if (
-            invocation_remaining is not None
-            and invocation_remaining < MIN_INVOCATION_REMAINING_S
-        ):
-            return _continue_before_invocation_deadline(invocation_remaining)
-
-        if i > 0 and time.monotonic() >= deadline:
-            print(
-                f"node time cap reached after {i} files; "
-                f"{len(pending) - i} files remaining — requesting continuation"
-            )
-            return True
-
+    for i, n in enumerate(pending, start=1):
         filename = f"{prefix}{n:04d}.xml.gz"
         raw = _fetch_bytes(BASE_URL + filename)
         records = _parse_articles(gzip.decompress(raw))
@@ -311,14 +226,10 @@ def fetch_citations(node_id: str):
         save_raw_parquet(table, node_id, fragment=f"{n:04d}")
         completed.add(n)
         _record_state()                          # then advance observable state
-        print(f"  {filename}: {len(records):,} citations")
-        if i + 1 < len(batch):
+        print(f"  [{i}/{len(pending)}] {filename}: {len(records):,} citations")
+        if i < len(pending):
             time.sleep(DOWNLOAD_DELAY)
 
-    remaining = len(pending) - len(batch)
-    if remaining > 0:
-        print(f"{remaining} files remaining — requesting continuation")
-        return True  # needs_continuation -> retrigger with same RUN_ID
     print(f"{prefix}: corpus complete ({len(completed)}/{len(nums)} files)")
     # None -> download done -> transform runs against the full run-scoped raw
 
