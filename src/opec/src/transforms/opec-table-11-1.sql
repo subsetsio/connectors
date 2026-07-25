@@ -1,4 +1,6 @@
-WITH ranked AS (
+SELECT series, section, item, period, frequency, period_start,
+       value, report_period, report_date, table_title
+FROM (
     SELECT
         CASE WHEN section IS NULL OR section = ''
              THEN item ELSE section || ' - ' || item END  AS series,
@@ -10,19 +12,8 @@ WITH ranked AS (
         CAST(value AS DOUBLE)       AS value,
         report_period,
         CAST(report_date AS DATE)   AS report_date,
-        table_title,
-        row_number() OVER (
-            PARTITION BY
-                CASE WHEN section IS NULL OR section = ''
-                     THEN item ELSE section || ' - ' || item END,
-                period
-            ORDER BY report_date DESC
-        ) AS rn
+        table_title
     FROM "opec-table-11-1"
     WHERE value IS NOT NULL AND period IS NOT NULL
 )
-SELECT series, section, item, period, frequency, period_start,
-       value, report_period, report_date, table_title
-FROM ranked
-WHERE rn = 1
-ORDER BY series, period_start
+ORDER BY report_date, period_start, series, period

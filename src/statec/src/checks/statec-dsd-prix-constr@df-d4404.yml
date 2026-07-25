@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [time_period_time_period, constr_trade_construction_trades, building_type_building_type, comment_ts_building_type_detailed_description_of_the_group_of_series_of_building_type]
+key: [time_period_time_period, constr_trade_construction_trades, building_type_building_type, comment_ts_building_type]
 checks:
   - kind: unique
-    columns: [time_period_time_period, constr_trade_construction_trades, building_type_building_type, comment_ts_building_type_detailed_description_of_the_group_of_series_of_building_type]
+    columns: [time_period_time_period, constr_trade_construction_trades, building_type_building_type, comment_ts_building_type]
   - kind: not_null
     col: time_period_time_period
   - kind: not_null
@@ -14,7 +14,7 @@ checks:
   - kind: not_null
     col: building_type_building_type
   - kind: not_null
-    col: comment_ts_building_type_detailed_description_of_the_group_of_series_of_building_type
+    col: comment_ts_building_type
   - kind: row_floor
     min: 108
 regression:

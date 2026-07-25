@@ -3,14 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [budget_component_consumption_basket, comment_ts_hhcomp_detailed_description_of_the_group_of_series_household_composition, time_period_time_period, hhcomp_household_composition]
+key: [budget_component_consumption_basket, comment_ts_hhcomp, time_period_time_period, hhcomp_household_composition]
 checks:
   - kind: unique
-    columns: [budget_component_consumption_basket, comment_ts_hhcomp_detailed_description_of_the_group_of_series_household_composition, time_period_time_period, hhcomp_household_composition]
+    columns: [budget_component_consumption_basket, comment_ts_hhcomp, time_period_time_period, hhcomp_household_composition]
   - kind: not_null
     col: budget_component_consumption_basket
   - kind: not_null
-    col: comment_ts_hhcomp_detailed_description_of_the_group_of_series_household_composition
+    col: comment_ts_hhcomp
   - kind: not_null
     col: time_period_time_period
   - kind: not_null

@@ -16,7 +16,7 @@ ENTITY_IDS = [
     'a3-omo-outright-transaction-detail', 'a3-omo-repo-transaction-details',
     'a3-omo-repo-unwinds', 'a3-short-dated-liquidity-mgmt', 'a3-term-funding-facility',
     'a3-term-funding-facility-unwinds', 'a3-us-dollar-repo-operations', 'a3.1-act',
-    'a3.1-ags---bonds', 'a3.1-ags---notes', 'a3.1-nswtc', 'a3.1-nt', 'a3.1-qtc', 'a3.1-safa',
+    'a3.1-ags---bonds', 'a3.1-nswtc', 'a3.1-nt', 'a3.1-qtc', 'a3.1-safa',
     'a3.1-summary', 'a3.1-tasc', 'a3.1-tcv', 'a3.1-watc', 'a3.2-rba-securities-lending',
     'a3.2-rba-switches', 'a4-data', 'a5-data', 'a6-data-from-1984', 'a6-data-prior-to-1984',
     'a7-data', 'b1-data', 'b10-data', 'b10-series-breaks', 'b11.1-assets', 'b11.1-liabilities',

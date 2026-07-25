@@ -3,8 +3,18 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
+key: [period, vintage_date]
+temporal: vintage_date
 checks:
+  - kind: unique
+    columns: [period, vintage_date]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: vintage_date
   - kind: row_floor
     min: 18324
 regression:
   row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

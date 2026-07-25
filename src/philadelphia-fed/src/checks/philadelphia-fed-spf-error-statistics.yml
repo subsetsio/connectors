@@ -3,8 +3,22 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
+key: [variable, date, series, horizon]
+temporal: date
 checks:
+  - kind: unique
+    columns: [variable, date, series, horizon]
+  - kind: not_null
+    col: variable
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: series
+  - kind: not_null
+    col: horizon
   - kind: row_floor
     min: 46119
 regression:
   row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
