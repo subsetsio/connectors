@@ -35,7 +35,7 @@ import time
 
 import httpx
 
-from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_writer
 
 BASE_URL = "https://api.insee.fr/melodi"
 # Melodi serves pretty-printed JSON over chunked transfer with NO Content-Length,
@@ -230,17 +230,31 @@ def _row_from_csv(row: dict) -> dict:
     return out
 
 
+def _data_csv_name(zf: zipfile.ZipFile, entity_id: str) -> str:
+    names = [name for name in zf.namelist() if name.lower().endswith(".csv")]
+    preferred = [
+        name for name in names
+        if name.lower().endswith("_data.csv")
+        and "metadata" not in name.lower()
+    ]
+    candidates = preferred or names
+    for name in candidates:
+        with zf.open(name) as raw, io.TextIOWrapper(
+            raw, encoding="utf-8-sig", newline=""
+        ) as text:
+            reader = csv.DictReader(text, delimiter=";")
+            fields = set(reader.fieldnames or [])
+        if {"OBS_VALUE", "TIME_PERIOD"} <= fields:
+            return name
+    raise RuntimeError(f"{entity_id}: packaged CSV zip has no observation data CSV")
+
+
 def _fetch_csv_product(asset: str, entity_id: str) -> None:
     url, expected_size = _csv_product(entity_id)
     payload = _download_packaged_zip(url, expected_size)
     with zipfile.ZipFile(io.BytesIO(payload)) as zf:
-        data_names = [
-            name for name in zf.namelist()
-            if name.lower().endswith("_data.csv") or name.lower().endswith("data.csv")
-        ]
-        if not data_names:
-            raise RuntimeError(f"{entity_id}: packaged CSV zip has no data CSV")
-        with zf.open(data_names[0]) as raw, io.TextIOWrapper(
+        data_name = _data_csv_name(zf, entity_id)
+        with zf.open(data_name) as raw, io.TextIOWrapper(
             raw, encoding="utf-8-sig", newline=""
         ) as text, raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
             reader = csv.DictReader(text, delimiter=";")
@@ -363,11 +377,11 @@ MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=f"insee-{eid.lower().replace('_', '-')}",
         description=(
-            "Weekly refresh cadence for INSEE Melodi datacubes; no per-cube "
-            "incremental or validator signal is exposed by the API "
-            "(inferred from connector maintenance cadence)."
+            "Weekly full refresh for INSEE Melodi datacubes; the API exposes "
+            "no per-cube validator/incremental signal, and raw row completeness "
+            "is only proven by the post-publish checks."
         ),
-        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+        check=lambda aid: False,
     )
     for eid in ENTITY_IDS
 ]

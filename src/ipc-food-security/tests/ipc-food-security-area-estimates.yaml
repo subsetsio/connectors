@@ -14,8 +14,8 @@ tests:
   - row_count: {min: 1000}
     reason: the area estimates table covers sub-national areas for hundreds of analyses
     certainty: 90
-  - between: {col: overall_phase_value, lo: 1, hi: 5}
-    reason: IPC phases are numbered 1 through 5 where classified
+  - between: {col: overall_phase_value, lo: 0, hi: 9}
+    reason: IPC phase values include 1 through 5 where classified plus upstream sentinel values such as 0 and 9
     certainty: 90
     severity: warn
   - relationship: {left: phase3_plus_population, op: ">=", right: phase3_population}
