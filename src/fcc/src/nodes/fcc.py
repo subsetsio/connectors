@@ -9,6 +9,7 @@ BASE = "https://opendata.fcc.gov/resource"
 FULL_LIMIT = 200_000_000
 CHUNK_SIZE = 1 << 20
 FRESH_DAYS = 7
+FORCE_REFRESH_IDS = {"fcc-jq92-z5tt", "fcc-whue-6pnt"}
 
 
 def _headers() -> dict[str, str]:
@@ -56,9 +57,14 @@ MAINTAIN_SPECS = [
         asset_id=spec.id,
         description=(
             "FCC Socrata datasets are refreshed from the live portal; "
-            "skip raw CSV assets fetched in the last 7 days (inferred cadence)."
+            "skip raw CSV assets fetched in the last 7 days (inferred cadence). "
+            "The June 2016 V2 and December 2019 broadband files are forced "
+            "through one fresh run to replace raw CSVs that DuckDB could not sniff."
         ),
-        check=lambda asset_id: raw_asset_exists(asset_id, "csv.gz", max_age_days=FRESH_DAYS),
+        check=lambda asset_id: (
+            asset_id not in FORCE_REFRESH_IDS
+            and raw_asset_exists(asset_id, "csv.gz", max_age_days=FRESH_DAYS)
+        ),
     )
     for spec in DOWNLOAD_SPECS
 ]
