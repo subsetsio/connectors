@@ -42,7 +42,7 @@ SELECT
     "tract",
     "urban_rural_uspsai",
     "urban_rural_nchs",
-    "hhincome_median_census_tract",
+    CAST("hhincome_median_census_tract" AS HUGEINT) AS "hhincome_median_census_tract",
     "latitude",
     "longitude",
     "pop_total_census_tract",

@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [column, row_label]
+key: [source_column, row_label]
 checks:
   - kind: unique
-    columns: [column, row_label]
+    columns: [source_column, row_label]
   - kind: not_null
-    col: column
+    col: source_column
   - kind: not_null
     col: row_label
   - kind: row_floor
