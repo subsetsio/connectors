@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "DATAFLOW" AS dataflow,
-    "PART_CONS_INT_TOUR: Share of domestic consumption accounted for tourism" AS part_cons_int_tour_share_of_domestic_consumption_accounted_for_tourism,
+    "PART_CONS_INT_TOUR: Share of domestic consumption accounted for tourism" AS part_cons_int_tour,
     "PRODUCT: Product" AS product_product,
     "FREQ: Frequency" AS freq_frequency,
     "TIME_PERIOD: Time period" AS time_period_time_period,

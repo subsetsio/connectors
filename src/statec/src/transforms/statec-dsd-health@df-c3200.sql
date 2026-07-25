@@ -13,5 +13,5 @@ SELECT
     "UNIT_MULT: Unit multiplier" AS unit_mult_unit_multiplier,
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals,
-    "COMMENT_TS_DISEASE: Detailed description of the group of series diseases" AS comment_ts_disease_detailed_description_of_the_group_of_series_diseases
+    "COMMENT_TS_DISEASE: Detailed description of the group of series diseases" AS comment_ts_disease
 FROM "statec-dsd-health@df-c3200"

@@ -11,7 +11,7 @@ SELECT
     "SEX: Sex" AS sex_sex,
     "SIZECLAS: Size class" AS sizeclas_size_class,
     "EDUC_LEVEL: Educational level" AS educ_level_educational_level,
-    "ISCO08: International Standard Classification of Occupations 2008 (ISCO-08)" AS isco08_international_standard_classification_of_occupations_2008_isco_08,
+    "ISCO08: International Standard Classification of Occupations 2008 (ISCO-08)" AS isco08,
     "RESID_STATUS: Residence status" AS resid_status_residence_status,
     "TIME_PERIOD: Time period" AS time_period_time_period,
     "OBS_VALUE" AS obs_value,
