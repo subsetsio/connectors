@@ -46,9 +46,9 @@ SELECT
         WHEN 3 THEN 'Verbal Conflict'
         WHEN 4 THEN 'Material Conflict'
     END AS quad_class_label,
-    num_events,
-    sum_mentions,
-    sum_articles,
+    CAST(num_events AS BIGINT) AS num_events,
+    CAST(sum_mentions AS BIGINT) AS sum_mentions,
+    CAST(sum_articles AS BIGINT) AS sum_articles,
     tot_goldstein / num_events AS avg_goldstein,
     tot_tone / num_events AS avg_tone
 FROM rolled
