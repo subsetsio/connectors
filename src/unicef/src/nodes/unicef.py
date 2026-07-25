@@ -84,6 +84,7 @@ _ALIASES = {
 # row rather than hardcoded (SUBREGION is the geography in PARAGUAY but an extra
 # stratifier in CD2030:CD2030, and must survive in the blob there).
 _CODE_COL = re.compile(r"^[A-Z][A-Z0-9_]*$")
+_CSV_LINE_END = re.compile(r"(\r\n|\n|\r)")
 
 
 def _first(row_by_header: dict, names) -> tuple[str | None, str | None]:
@@ -175,13 +176,16 @@ def _iter_lines(resp):
         chunk = inflate.feed(chunk)
         if not chunk:
             continue
-        # Split on the newline alone: str.splitlines would also break on the
-        # vertical tab and U+2028, which SDMX labels are free to contain.
+        # Split only on CSV record terminators: str.splitlines would also break
+        # on the vertical tab and U+2028, which SDMX labels are free to contain.
         # Terminators are kept so csv.reader can rejoin quoted fields that span
         # lines.
-        parts = (tail + decode.decode(chunk)).split("\n")
-        tail = parts.pop()
-        yield from (p + "\n" for p in parts)
+        parts = _CSV_LINE_END.split(tail + decode.decode(chunk))
+        tail = ""
+        for i in range(0, len(parts) - 1, 2):
+            yield parts[i] + parts[i + 1]
+        if len(parts) % 2:
+            tail = parts[-1]
     if inflate.truncated():
         raise httpx.RemoteProtocolError("compressed response ended mid-stream")
     tail += decode.decode(b"", True)

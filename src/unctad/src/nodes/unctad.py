@@ -36,7 +36,6 @@ import pyarrow.parquet as pq
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     get_client,
     raw_parquet_writer,
@@ -251,37 +250,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# --------------------------------------------------------------------------- #
-# Transform — publish one Delta table per report, verbatim typed columns.
-# --------------------------------------------------------------------------- #
-# Every report is a time-series panel with a leading period column. Most carry a
-# yearly `year` column; a handful are quarterly/monthly/period-coded and their
-# period column is not named `year`, so override the temporal for those. Keys are
-# left undeclared: the grain is a composite of period + several dimension codes
-# that is not verified unique here.
-TEMPORAL_OVERRIDE = {
-    "unctad-us.creativegoodsgr": "period",
-    "unctad-us.gdpgr": "period",
-    "unctad-us.lsbci": "quarter",
-    "unctad-us.lsci": "quarter",
-    "unctad-us.lsci-m": "month",
-    "unctad-us.merchvolumequarterly": "quarter",
-    "unctad-us.plsci": "quarter",
-    "unctad-us.portcalls-s": "period",
-    "unctad-us.portcallsarrivals-s": "period",
-    "unctad-us.totandcomservicesquarterly": "period",
-    "unctad-us.ucpi-m": "period",
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        temporal=TEMPORAL_OVERRIDE.get(s.id, "year"),
-    )
-    for s in DOWNLOAD_SPECS
 ]
