@@ -247,9 +247,8 @@ def fetch_emissions(node_id: str) -> None:
 
 
 def _has_complete_release(asset_id: str) -> bool:
-    return {fragment for fragment, _ in GAS_PACKAGES}.issubset(
-        set(list_raw_fragments(asset_id, "parquet"))
-    )
+    fragments = set(list_raw_fragments(asset_id, "parquet"))
+    return "full" not in fragments and {fragment for fragment, _ in GAS_PACKAGES}.issubset(fragments)
 
 
 DOWNLOAD_SPECS = [
