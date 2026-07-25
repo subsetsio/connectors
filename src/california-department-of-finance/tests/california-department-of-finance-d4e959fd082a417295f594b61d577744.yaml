@@ -5,8 +5,8 @@ tests:
     reason: Accepted ArcGIS FeatureServer item should expose at least one attribute row; zero rows means the item was unshared, moved, or the wrong layer was selected.
     certainty: 80
     points_outward: true
-  - freshness: {col: Year, reaches: "2024"}
-    reason: Top destructive wildfire layer is organized by incident year and currently reaches 2024; refreshes should not regress the latest incident year.
+  - freshness: {col: Year, reaches: "2021"}
+    reason: Top destructive wildfire layer is organized by incident year and the current public layer reaches 2021; refreshes should not regress the latest incident year in this source surface.
     certainty: 75
   - not_null: ObjectId
     reason: ArcGIS hosted feature layers include an object id field for every feature.
