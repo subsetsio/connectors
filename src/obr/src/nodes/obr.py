@@ -190,25 +190,41 @@ def _wayback_replay_urls(session, url: str) -> list[str]:
     query = urlencode({
         "url": url,
         "output": "json",
-        "limit": "-8",
+        "limit": "-20",
         "filter": "statuscode:200",
-        "fl": "timestamp,original",
+        "fl": "timestamp,original,digest",
     })
     resp = session.get(f"{_WAYBACK_CDX}?{query}", timeout=60, headers=_BROWSER_HEADERS)
     resp.raise_for_status()
     rows = resp.json()
     if len(rows) < 2:
         return []
-    return [
-        f"https://web.archive.org/web/{timestamp}id_/{original}"
-        for timestamp, original in reversed(rows[1:])
-    ]
+    replay_urls = []
+    seen_digests = set()
+    for timestamp, original, digest in reversed(rows[1:]):
+        if digest in seen_digests:
+            continue
+        seen_digests.add(digest)
+        replay_urls.extend([
+            f"https://web.archive.org/web/{timestamp}id_/{original}",
+            f"https://web.archive.org/web/{timestamp}if_/{original}",
+        ])
+    return replay_urls
 
 
 def _wayback_get(session, url: str) -> bytes:
     """Replay an archived OBR file when GitHub Actions is blocked by Cloudflare."""
     errors = []
-    for replay_url in _wayback_replay_urls(session, url):
+    replay_urls = [
+        f"https://web.archive.org/web/0id_/{url}",
+        f"https://web.archive.org/web/2id_/{url}",
+        *_wayback_replay_urls(session, url),
+    ]
+    seen_urls = set()
+    for replay_url in replay_urls:
+        if replay_url in seen_urls:
+            continue
+        seen_urls.add(replay_url)
         try:
             resp = _http_get(session, replay_url)
             if _looks_like_workbook_or_zip(resp.content):
