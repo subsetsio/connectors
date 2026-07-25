@@ -13,6 +13,6 @@ SELECT
     "percent_change_from_previous_month",
     "percent_change_from_same_month_of_previous_year_previous_year",
     "contribution_compared_with_previous_month",
-    "contribution_compared_with_same_month_of_previous_year_previous_year",
+    "contribution_compared_with_same_month_of_previous_year_previous_year" AS contribution_compared_same_month_of_previous_year_previous_year,
     "weight_in_reporting_month"
 FROM "statistics-austria-ogd-vpi05c18-vpi-2005coicop18-1"

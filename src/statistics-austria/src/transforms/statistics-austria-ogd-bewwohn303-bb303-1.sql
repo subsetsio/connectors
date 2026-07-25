@@ -8,6 +8,6 @@ SELECT
     "jahr",
     "commune_partly_abo",
     "type_of_construction_measure",
-    "new_construction_of_entire_buildings_type_of_predominant_residential_building",
+    "new_construction_of_entire_buildings_type_of_predominant_residential_building" AS nw_cnstrctn_of_entr_bldngs_typ_of_prdmnnt_rsdntl_bldng,
     "number_of_dwellings"
 FROM "statistics-austria-ogd-bewwohn303-bb303-1"

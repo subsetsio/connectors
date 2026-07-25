@@ -12,7 +12,7 @@ SELECT
     "property_income_d_4_received",
     "property_income_d_4_paid",
     "primary_income_b_5n_net",
-    "social_benefits_other_than_social_transfers_in_kind_d_62_received",
+    "social_benefits_other_than_social_transfers_in_kind_d_62_received" AS scl_bnfts_othr_thn_scl_trnsfrs_in_knd_d_62_rcvd,
     "other_current_transfers_d_7_received",
     "current_taxes_on_income_wealth_etc_d_5_paid",
     "social_contributions_d_61_paid",

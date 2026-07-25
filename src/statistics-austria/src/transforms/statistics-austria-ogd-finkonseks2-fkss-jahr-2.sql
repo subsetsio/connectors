@@ -13,8 +13,8 @@ SELECT
     "f_3_debt_securities_203_in_mio_eur",
     "f_4_loans_204_in_mio_eur",
     "f_5_equity_and_investment_fund_shares_205_in_mio_eur",
-    "f_6_insurance_pensions_and_standardised_guarantee_schemes_206_in_mio_eur",
-    "f_7_financial_derivatives_and_employee_stock_options_207_in_mio_eur",
+    "f_6_insurance_pensions_and_standardised_guarantee_schemes_206_in_mio_eur" AS f_6_insrnc_pnsns_and_stndrdsd_grnt_schms_206_in_m_er,
+    "f_7_financial_derivatives_and_employee_stock_options_207_in_mio_eur" AS f_7_fnncl_drvtvs_and_emply_stck_optns_207_in_m_er,
     "f_8_other_accounts_payable_208_in_mio_eur",
     "sum_financial_liabilities_209_in_mln_eur"
 FROM "statistics-austria-ogd-finkonseks2-fkss-jahr-2"

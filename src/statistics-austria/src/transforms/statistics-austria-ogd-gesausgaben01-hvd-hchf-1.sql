@@ -7,7 +7,7 @@ SELECT
     "row_number",
     CAST("time" AS BIGINT) AS time,
     "health_care_functions_hc",
-    "hf_1_government_schemes_and_compulsory_contributory_health_care_financing_schemes",
+    "hf_1_government_schemes_and_compulsory_contributory_health_care_financing_schemes" AS hf_1_gvrnmnt_schms_and_cmplsry_cntrbtry_hlth_cr_fnncng_schms,
     "hf_1_1_government_schemes",
     "hf_1_2_compulsory_contributory_health_insurance_schemes",
     "hf_1_2_1_social_health_insurance_schemes",

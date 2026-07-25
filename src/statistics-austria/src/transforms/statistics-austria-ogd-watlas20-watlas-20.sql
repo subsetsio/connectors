@@ -11,11 +11,11 @@ SELECT
     "employees_nace_rev_2_f",
     "personnel_costs_in_eur_million_nace_rev_2_f",
     "turnover_in_eur_million_nace_rev_2_f",
-    "total_purchases_of_goods_and_services_in_eur_million_nace_rev_2_f",
+    "total_purchases_of_goods_and_services_in_eur_million_nace_rev_2_f" AS ttl_prchss_of_gds_and_srvcs_in_er_mlln_nc_rv_2_f,
     "value_added_at_factor_cost_in_eur_million_nace_rev_2_f",
     "gross_investments_in_eur_million_nace_rev_2_f",
     "unemployed_ilo_definition_nace_rev_2_f",
-    "total_hours_worked_national_accounts_concept_in_million_hours_nace_rev_2_f",
+    "total_hours_worked_national_accounts_concept_in_million_hours_nace_rev_2_f" AS ttl_hrs_wrkd_ntnl_accnts_cncpt_in_mlln_hrs_nc_rv_2_f,
     "persons_employed_per_enterprise_nace_rev_2_f",
     "turnover_per_enterprise_in_eur_nace_rev_2_f",
     "turnover_per_person_employed_in_eur_nace_rev_2_f",
@@ -29,6 +29,6 @@ SELECT
     "index_of_persons_employed_2021_100_nace_rev_2_f",
     "index_of_hours_worked_2021_100_nace_rev_2_f",
     "labour_cost_index_2020_100_nace_2008_f",
-    "construction_output_price_index_for_building_construction_and_civil_engineering_2010_100",
-    "construction_cost_index_for_construction_of_residential_buildings_2010_100"
+    "construction_output_price_index_for_building_construction_and_civil_engineering_2010_100" AS cnstrctn_otpt_prc_indx_fr_bldng_cnstrctn_and_cvl_engnrng_2010_10,
+    "construction_cost_index_for_construction_of_residential_buildings_2010_100" AS cnstrctn_cst_indx_fr_cnstrctn_of_rsdntl_bldngs_2010_100
 FROM "statistics-austria-ogd-watlas20-watlas-20"

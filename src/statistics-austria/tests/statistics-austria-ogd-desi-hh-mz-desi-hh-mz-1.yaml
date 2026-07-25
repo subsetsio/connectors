@@ -1,5 +1,8 @@
 spec_id: statistics-austria-ogd-desi-hh-mz-desi-hh-mz-1
-status: deferred
-# Catalog connector: each OGD dataset has its own schema, and some
-# accepted KLASSDB entries are zip bundles. Assertions are authored
-# from the first materialized raw profile in the model stage.
+status: active
+tests:
+- freshness:
+    col: time
+    reaches: today - 1200d
+  severity: block
+  reason: Statistics Austria temporal series should include recent observations within the source cadence slack

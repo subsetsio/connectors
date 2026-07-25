@@ -16,11 +16,11 @@ SELECT
     "employees_nace_rev_2_h",
     "personnel_costs_in_eur_million_nace_rev_2_h",
     "turnover_in_eur_million_nace_rev_2_h",
-    "total_purchases_of_goods_and_services_in_eur_million_nace_rev_2_h",
+    "total_purchases_of_goods_and_services_in_eur_million_nace_rev_2_h" AS ttl_prchss_of_gds_and_srvcs_in_er_mlln_nc_rv_2_h,
     "value_added_at_factor_cost_in_eur_million_nace_rev_2_h",
     "gross_investments_in_eur_million_nace_rev_2_h",
     "unemployed_ilo_definition_nace_rev_2_h",
-    "total_hours_worked_national_accounts_concept_in_million_hours_nace_rev_2_h",
+    "total_hours_worked_national_accounts_concept_in_million_hours_nace_rev_2_h" AS ttl_hrs_wrkd_ntnl_accnts_cncpt_in_mlln_hrs_nc_rv_2_h,
     "persons_employed_per_enterprise_nace_rev_2_h",
     "turnover_per_enterprise_in_eur_nace_rev_2_h",
     "turnover_per_person_employed_in_eur_nace_rev_2_h",
@@ -34,5 +34,5 @@ SELECT
     "new_vehicle_registrations",
     "rail_passenger_transport",
     "air_passenger_transport",
-    "consumption_expenditure_of_households_for_transport_services_in_eur_million"
+    "consumption_expenditure_of_households_for_transport_services_in_eur_million" AS cnsmptn_expndtr_of_hshlds_fr_trnsprt_srvcs_in_er_mlln
 FROM "statistics-austria-ogd-watlas23-watlas-23"

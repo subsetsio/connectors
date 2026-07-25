@@ -6,7 +6,7 @@ SELECT
     "source_file",
     "row_number",
     "reporting_month",
-    "production_under_sub_contracted_operations_carried_out_by_the_sub_contractor",
+    "production_under_sub_contracted_operations_carried_out_by_the_sub_contractor" AS prdctn_undr_sb_cntrctd_oprtns_crrd_ot_by_th_sb_cntrctr,
     "prodcom_8_digit",
     "total_production_t",
     "sold_production_s",

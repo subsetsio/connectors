@@ -9,8 +9,8 @@ SELECT
     "industries_nace_and_size_classes",
     "turnover_with_product_innovations_in_ml_euro",
     "turnover_with_product_innovations_as_of_total_turnover",
-    "turnover_with_product_innovations_in_ml_euro_of_which_market_novelties",
+    "turnover_with_product_innovations_in_ml_euro_of_which_market_novelties" AS trnvr_prdct_innvtns_in_ml_er_of_whch_mrkt_nvlts,
     "turnover_with_market_novelties_as_of_total_turnover",
-    "turnover_with_product_innovations_in_ml_euro_of_which_products_only_new_to_the_firm",
-    "turnover_with_product_innovations_only_new_to_the_firm_as_of_total_turnover"
+    "turnover_with_product_innovations_in_ml_euro_of_which_products_only_new_to_the_firm" AS trnvr_prdct_innvtns_in_ml_er_of_whch_prdcts_only_nw_t_th_frm,
+    "turnover_with_product_innovations_only_new_to_the_firm_as_of_total_turnover" AS trnvr_prdct_innvtns_only_nw_t_th_frm_as_of_ttl_trnvr
 FROM "statistics-austria-ogd-innov004-cis-004-unt-innovation-1"

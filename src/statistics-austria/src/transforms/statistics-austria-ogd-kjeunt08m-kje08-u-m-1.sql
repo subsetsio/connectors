@@ -13,5 +13,5 @@ SELECT
     "total_turnover_in_thousand_eur",
     "domestic_turnover_in_thousand_eur",
     "turnover_in_thousand_eur_eurozone_countries_without_austria",
-    "turnover_from_in_thousand_eur_non_eurozone_countries_and_third_countries"
+    "turnover_from_in_thousand_eur_non_eurozone_countries_and_third_countries" AS trnvr_frm_in_thsnd_er_nn_erzn_cntrs_and_thrd_cntrs
 FROM "statistics-austria-ogd-kjeunt08m-kje08-u-m-1"

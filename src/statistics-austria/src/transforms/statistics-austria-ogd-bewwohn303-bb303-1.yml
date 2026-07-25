@@ -1,19 +1,25 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `statistics-austria-ogd-bewwohn303-bb303-1`. Regenerate after model-verify.
-key: [row_number, commune_partly_abo, jahr, new_construction_of_entire_buildings_type_of_predominant_residential_building]
-sort: [row_number, commune_partly_abo, jahr, new_construction_of_entire_buildings_type_of_predominant_residential_building]
+key:
+- row_number
+- commune_partly_abo
+- jahr
+- nw_cnstrctn_of_entr_bldngs_typ_of_prdmnnt_rsdntl_bldng
+sort:
+- row_number
+- commune_partly_abo
+- jahr
+- nw_cnstrctn_of_entr_bldngs_typ_of_prdmnnt_rsdntl_bldng
 columns:
-  - name: source_file
-    type: VARCHAR
-  - name: row_number
-    type: BIGINT
-  - name: jahr
-    type: VARCHAR
-  - name: commune_partly_abo
-    type: VARCHAR
-  - name: type_of_construction_measure
-    type: VARCHAR
-  - name: new_construction_of_entire_buildings_type_of_predominant_residential_building
-    type: VARCHAR
-  - name: number_of_dwellings
-    type: BIGINT
+- name: source_file
+  type: VARCHAR
+- name: row_number
+  type: BIGINT
+- name: jahr
+  type: VARCHAR
+- name: commune_partly_abo
+  type: VARCHAR
+- name: type_of_construction_measure
+  type: VARCHAR
+- name: nw_cnstrctn_of_entr_bldngs_typ_of_prdmnnt_rsdntl_bldng
+  type: VARCHAR
+- name: number_of_dwellings
+  type: BIGINT

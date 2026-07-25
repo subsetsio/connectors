@@ -11,7 +11,7 @@ SELECT
     "sex_3",
     "total",
     "higher_education_sector",
-    "higher_education_sector_of_which_public_universities_without_clinics",
+    "higher_education_sector_of_which_public_universities_without_clinics" AS hghr_edctn_sctr_of_whch_pblc_unvrsts_wtht_clncs,
     "higher_education_sector_of_which_university_clinics",
     "higher_education_sector_of_which_universities_of_the_arts",
     "higher_education_sector_of_which_austrian_academy_of_science",

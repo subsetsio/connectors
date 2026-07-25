@@ -22,7 +22,7 @@ SELECT
     "vienna_at13",
     "contractors_work_group_03_12",
     "other_construction_work_group_21_ht96",
-    "earthworks_clearing_building_pit_safeguards_deep_foundations_group_03",
+    "earthworks_clearing_building_pit_safeguards_deep_foundations_group_03" AS erthwrks_clrng_bldng_pt_sfgrds_dp_fndtns_grp_03,
     "development_infrastructure_group_06",
     "concrete_and_reinforced_concrete_work_group_07",
     "masonry_group_08",
@@ -48,7 +48,7 @@ SELECT
     "windows_and_glazed_doors_made_of_aluminium_group_72",
     "windows_and_glazed_doors_made_of_plastic_group_73",
     "electrical_installations_light_engineering_group_ht06",
-    "central_heating_installations_heat_exchanger_radiator_etc_group_ht35_50",
+    "central_heating_installations_heat_exchanger_radiator_etc_group_ht35_50" AS cntrl_htng_instlltns_ht_exchngr_rdtr_etc_grp_ht35_50,
     "gas_and_water_installations_group_ht61",
     "passenger_lift_group_ht96"
 FROM "statistics-austria-ogd-bpihbaugg2020-bpi-h2020-1"

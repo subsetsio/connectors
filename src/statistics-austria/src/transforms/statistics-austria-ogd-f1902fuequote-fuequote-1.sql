@@ -7,12 +7,12 @@ SELECT
     "row_number",
     CAST("time_section" AS BIGINT) AS time_section,
     "gross_domestic_expenditure_on_r_d_in_million_euro",
-    "gross_domestic_expenditure_on_r_d_funded_by_federal_government_in_million_euro",
-    "gross_domestic_expenditure_on_r_d_funded_by_research_premium_in_million_euro",
-    "gross_domestic_expenditure_on_r_d_funded_by_l_nder_governments_in_million_euro",
-    "gross_domestic_expenditure_on_r_d_funded_by_business_enterprise_sector_in_million_euro",
-    "gross_domestic_expenditure_on_r_d_funded_by_abroad_in_million_euro",
-    "gross_domestic_expenditure_on_r_d_funded_by_other_in_million_euro",
+    "gross_domestic_expenditure_on_r_d_funded_by_federal_government_in_million_euro" AS grss_dmstc_expndtr_on_r_d_fndd_by_fdrl_gvrnmnt_in_mlln_er,
+    "gross_domestic_expenditure_on_r_d_funded_by_research_premium_in_million_euro" AS grss_dmstc_expndtr_on_r_d_fndd_by_rsrch_prmm_in_mlln_er,
+    "gross_domestic_expenditure_on_r_d_funded_by_l_nder_governments_in_million_euro" AS grss_dmstc_expndtr_on_r_d_fndd_by_l_ndr_gvrnmnts_in_mlln_er,
+    "gross_domestic_expenditure_on_r_d_funded_by_business_enterprise_sector_in_million_euro" AS grss_dmstc_expndtr_on_r_d_fndd_by_bsnss_entrprs_sctr_in_mlln_er,
+    "gross_domestic_expenditure_on_r_d_funded_by_abroad_in_million_euro" AS grss_dmstc_expndtr_on_r_d_fndd_by_abrd_in_mlln_er,
+    "gross_domestic_expenditure_on_r_d_funded_by_other_in_million_euro" AS grss_dmstc_expndtr_on_r_d_fndd_by_othr_in_mlln_er,
     "nominal_gross_domestic_product_gdp_in_billion_euro",
     "gerd_as_a_percentage_of_gdp_research_intensity"
 FROM "statistics-austria-ogd-f1902fuequote-fuequote-1"

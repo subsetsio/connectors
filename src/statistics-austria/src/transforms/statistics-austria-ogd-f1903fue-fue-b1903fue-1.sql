@@ -29,7 +29,7 @@ SELECT
     "fte_for_r_d_researchers_bachelor_or_short_study",
     "fte_for_r_d_researchers_post_secondary_colleges",
     "fte_for_r_d_researchers_master_craftman_s_diploma",
-    "fte_for_r_d_researchers_school_leaving_examination_in_a_higher_technical_or_vocational_college_e_g_bhs_htl_hak",
-    "fte_for_r_d_researchers_school_leaving_examination_in_an_academic_secondary_school_e_g_ahs_bms_apprenticeship",
+    "fte_for_r_d_researchers_school_leaving_examination_in_a_higher_technical_or_vocational_college_e_g_bhs_htl_hak" AS ft_fr_r_d_rsrchrs_schl_lvng_exmntn_in_a_hghr_tchncl_or_vctnl_cll,
+    "fte_for_r_d_researchers_school_leaving_examination_in_an_academic_secondary_school_e_g_ahs_bms_apprenticeship" AS ft_fr_r_d_rsrchrs_schl_lvng_exmntn_in_an_acdmc_scndry_schl_e_g_a,
     "fte_for_r_d_researchers_other_education"
 FROM "statistics-austria-ogd-f1903fue-fue-b1903fue-1"
