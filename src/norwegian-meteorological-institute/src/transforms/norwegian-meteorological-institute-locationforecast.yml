@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-locationforecast`. Regenerate after model-verify.
+# caution: Forecast rows are for sampled connector locations and each update cycle; use updated_at when comparing forecast revisions for the same location and valid time.
+key: [time, location, updated_at]
+temporal: time
+sort: [time, location, updated_at]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: time
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: air_pressure_at_sea_level
+    type: DOUBLE
+  - name: air_temperature
+    type: DOUBLE
+  - name: cloud_area_fraction
+    type: DOUBLE
+  - name: relative_humidity
+    type: DOUBLE
+  - name: wind_from_direction
+    type: DOUBLE
+  - name: wind_speed
+    type: DOUBLE
+  - name: next_1_hours_symbol_code
+    type: VARCHAR
+  - name: next_1_hours_precipitation_amount
+    type: DOUBLE
+  - name: next_6_hours_symbol_code
+    type: VARCHAR
+  - name: next_6_hours_precipitation_amount
+    type: DOUBLE
+  - name: next_12_hours_symbol_code
+    type: VARCHAR

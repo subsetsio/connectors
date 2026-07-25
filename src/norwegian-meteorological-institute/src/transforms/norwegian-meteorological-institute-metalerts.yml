@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-metalerts`. Regenerate after model-verify.
+# caution: Rows represent the currently returned alert feed at fetch time, so repeated runs may revise or remove alerts as MET updates the active-warning set.
+key: [alert_id]
+temporal: interval_start
+sort: [interval_start, alert_id]
+columns:
+  - name: alert_id
+    type: VARCHAR
+  - name: feature_index
+    type: BIGINT
+  - name: title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: event
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: geographic_domain
+    type: VARCHAR
+  - name: risk_matrix_color
+    type: VARCHAR
+  - name: severity
+    type: VARCHAR
+  - name: certainty
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: awareness_level
+    type: VARCHAR
+  - name: awareness_type
+    type: VARCHAR
+  - name: published_at
+    type: VARCHAR
+  - name: interval_start
+    type: TIMESTAMP
+  - name: interval_end
+    type: TIMESTAMP
+  - name: geometry_type
+    type: VARCHAR
+  - name: geometry_json
+    type: VARCHAR
+  - name: properties_json
+    type: VARCHAR
+  - name: fetched_at
+    type: TIMESTAMP

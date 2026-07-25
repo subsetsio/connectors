@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-tidalwater`. Regenerate after model-verify.
+# caution: Rows combine modeled tide, surge, and percentile water-level fields for harbor feeds; observed_at is the water-level timestamp while updated identifies the source feed update.
+key: [observed_at, harbor]
+temporal: updated
+sort: [updated, observed_at, harbor]
+columns:
+  - name: harbor
+    type: VARCHAR
+  - name: updated
+    type: TIMESTAMP
+  - name: observed_at
+    type: TIMESTAMP
+  - name: surge
+    type: DOUBLE
+  - name: tide
+    type: DOUBLE
+  - name: total
+    type: DOUBLE
+  - name: p0
+    type: DOUBLE
+  - name: p25
+    type: DOUBLE
+  - name: p50
+    type: DOUBLE
+  - name: p75
+    type: DOUBLE
+  - name: p100
+    type: DOUBLE
+  - name: fetched_at
+    type: TIMESTAMP

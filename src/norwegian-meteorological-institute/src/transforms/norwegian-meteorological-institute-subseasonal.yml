@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-subseasonal`. Regenerate after model-verify.
+# caution: Subseasonal rows are for sampled connector locations and each model update cycle; use updated_at when comparing forecast revisions for the same location and valid time.
+key: [time, location, updated_at]
+temporal: time
+sort: [time, location, updated_at]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: time
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: next_24_hours_air_temperature_max
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_max_percentile_10
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_max_percentile_90
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_mean
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_mean_percentile_10
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_mean_percentile_90
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_min
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_min_percentile_10
+    type: DOUBLE
+  - name: next_24_hours_air_temperature_min_percentile_90
+    type: DOUBLE
+  - name: next_24_hours_precipitation_amount
+    type: DOUBLE
+  - name: next_24_hours_precipitation_amount_percentile_10
+    type: DOUBLE
+  - name: next_24_hours_precipitation_amount_percentile_90
+    type: DOUBLE
+  - name: next_24_hours_probability_of_frost
+    type: DOUBLE
+  - name: next_24_hours_probability_of_heavy_precipitation
+    type: DOUBLE
+  - name: next_24_hours_probability_of_precipitation
+    type: DOUBLE

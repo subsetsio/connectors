@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-oceanforecast`. Regenerate after model-verify.
+# caution: Ocean forecast rows are for sampled coastal locations and each update cycle; use updated_at when comparing forecast revisions for the same location and valid time.
+key: [time, location, updated_at]
+temporal: time
+sort: [time, location, updated_at]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: time
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: sea_surface_wave_from_direction
+    type: DOUBLE
+  - name: sea_surface_wave_height
+    type: DOUBLE
+  - name: sea_water_speed
+    type: DOUBLE
+  - name: sea_water_temperature
+    type: DOUBLE
+  - name: sea_water_to_direction
+    type: DOUBLE

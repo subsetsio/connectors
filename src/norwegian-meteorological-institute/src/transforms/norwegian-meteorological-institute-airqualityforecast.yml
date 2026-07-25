@@ -1,0 +1,93 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-airqualityforecast`. Regenerate after model-verify.
+# caution: Forecast rows are generated for sampled locations and forecast intervals, not a complete national monitoring-station inventory.
+key: [from_time, to_time, location]
+temporal: from_time
+sort: [from_time, to_time, location]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: from_time
+    type: TIMESTAMP
+  - name: to_time
+    type: TIMESTAMP
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: aqi
+    type: DOUBLE
+  - name: no2_concentration
+    type: DOUBLE
+  - name: aqi_no2
+    type: DOUBLE
+  - name: no2_nonlocal_fraction
+    type: DOUBLE
+  - name: no2_nonlocal_fraction_seasalt
+    type: DOUBLE
+  - name: no2_local_fraction_traffic_exhaust
+    type: DOUBLE
+  - name: no2_local_fraction_traffic_nonexhaust
+    type: DOUBLE
+  - name: no2_local_fraction_shipping
+    type: DOUBLE
+  - name: no2_local_fraction_heating
+    type: DOUBLE
+  - name: no2_local_fraction_industry
+    type: DOUBLE
+  - name: pm10_concentration
+    type: DOUBLE
+  - name: aqi_pm10
+    type: DOUBLE
+  - name: pm10_nonlocal_fraction
+    type: DOUBLE
+  - name: pm10_nonlocal_fraction_seasalt
+    type: DOUBLE
+  - name: pm10_local_fraction_traffic_exhaust
+    type: DOUBLE
+  - name: pm10_local_fraction_traffic_nonexhaust
+    type: DOUBLE
+  - name: pm10_local_fraction_shipping
+    type: DOUBLE
+  - name: pm10_local_fraction_heating
+    type: DOUBLE
+  - name: pm10_local_fraction_industry
+    type: DOUBLE
+  - name: pm25_concentration
+    type: DOUBLE
+  - name: aqi_pm25
+    type: DOUBLE
+  - name: pm25_nonlocal_fraction
+    type: DOUBLE
+  - name: pm25_nonlocal_fraction_seasalt
+    type: DOUBLE
+  - name: pm25_local_fraction_traffic_exhaust
+    type: DOUBLE
+  - name: pm25_local_fraction_traffic_nonexhaust
+    type: DOUBLE
+  - name: pm25_local_fraction_shipping
+    type: DOUBLE
+  - name: pm25_local_fraction_heating
+    type: DOUBLE
+  - name: pm25_local_fraction_industry
+    type: DOUBLE
+  - name: o3_concentration
+    type: DOUBLE
+  - name: aqi_o3
+    type: DOUBLE
+  - name: o3_nonlocal_fraction
+    type: DOUBLE
+  - name: o3_nonlocal_fraction_seasalt
+    type: DOUBLE
+  - name: o3_local_fraction_traffic_exhaust
+    type: DOUBLE
+  - name: o3_local_fraction_traffic_nonexhaust
+    type: DOUBLE
+  - name: o3_local_fraction_shipping
+    type: DOUBLE
+  - name: o3_local_fraction_heating
+    type: DOUBLE
+  - name: o3_local_fraction_industry
+    type: DOUBLE

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-spotwind`. Regenerate after model-verify.
+# caution: Rows describe aviation spot wind forecasts by named region and flight level; aggregate only after selecting the intended flight_level.
+key: [observation, valid_time, location, flight_level]
+temporal: observation
+sort: [observation, valid_time, location, flight_level]
+columns:
+  - name: observation
+    type: TIMESTAMP
+  - name: valid_time
+    type: TIMESTAMP
+  - name: location
+    type: VARCHAR
+  - name: flight_level
+    type: DOUBLE
+  - name: wind_direction
+    type: DOUBLE
+  - name: wind_speed
+    type: DOUBLE
+  - name: temperature
+    type: DOUBLE
+  - name: fetched_at
+    type: TIMESTAMP

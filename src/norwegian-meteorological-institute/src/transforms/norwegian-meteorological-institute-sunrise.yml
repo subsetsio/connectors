@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norwegian-meteorological-institute-sunrise`. Regenerate after model-verify.
+# caution: Rows are calculated for sampled locations and dates; polar-day and polar-night periods may lack ordinary sunrise or sunset times.
+key: [date, solarnoon_time, solarmidnight_time, location]
+temporal: date
+sort: [date, solarnoon_time, solarmidnight_time, location]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: date
+    type: DATE
+  - name: body
+    type: VARCHAR
+  - name: fetched_at
+    type: TIMESTAMP
+  - name: sunrise_time
+    type: VARCHAR
+  - name: sunrise_azimuth
+    type: DOUBLE
+  - name: sunrise_elevation
+    type: JSON
+  - name: sunrise_visible
+    type: JSON
+  - name: sunset_time
+    type: VARCHAR
+  - name: sunset_azimuth
+    type: DOUBLE
+  - name: sunset_elevation
+    type: JSON
+  - name: sunset_visible
+    type: JSON
+  - name: solarnoon_time
+    type: VARCHAR
+  - name: solarnoon_azimuth
+    type: JSON
+  - name: solarnoon_elevation
+    type: DOUBLE
+  - name: solarnoon_visible
+    type: BOOLEAN
+  - name: solarmidnight_time
+    type: VARCHAR
+  - name: solarmidnight_azimuth
+    type: JSON
+  - name: solarmidnight_elevation
+    type: DOUBLE
+  - name: solarmidnight_visible
+    type: BOOLEAN
