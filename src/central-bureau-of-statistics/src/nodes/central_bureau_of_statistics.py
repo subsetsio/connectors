@@ -286,14 +286,29 @@ def _fetch_price_history_range(code, start_year, end_year, *, allow_window_fallb
 def _fetch_price_history_windowed(code, start_year, end_year):
     rows = []
     seen = set()
-    for window_start in range(start_year, end_year + 1, 5):
-        window_end = min(window_start + 4, end_year)
-        for d in _fetch_price_history_range(code, window_start, window_end):
+    for year in range(start_year, end_year + 1):
+        try:
+            batch = _fetch_price_history_range(code, year, year)
+        except Exception:
+            batch = _fetch_price_history_months(code, year)
+        for d in batch:
             key = (d.get("year"), d.get("month"))
             if key in seen:
                 continue
             seen.add(key)
             rows.append(d)
+    return rows
+
+
+def _fetch_price_history_months(code, year):
+    rows = []
+    for month in range(1, 13):
+        j = _get_json(
+            f"{INDEX_BASE}/data/price", id=code, startPeriod=f"{month:02d}-{year}",
+            endPeriod=f"{month:02d}-{year}", format="json", lang="en", Page=1,
+        )
+        for entry in j.get("month") or []:
+            rows.extend(entry.get("date") or [])
     return rows
 
 
