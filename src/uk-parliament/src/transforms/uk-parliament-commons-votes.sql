@@ -7,5 +7,47 @@ SELECT
     "source_entity",
     "source_endpoint",
     "source_skip",
-    "record"
+    CAST("record" AS STRUCT(
+        DivisionId BIGINT,
+        Date TIMESTAMP,
+        PublicationUpdated TIMESTAMP,
+        Number BIGINT,
+        IsDeferred BOOLEAN,
+        EVELType VARCHAR,
+        EVELCountry VARCHAR,
+        Title VARCHAR,
+        AyeCount BIGINT,
+        NoCount BIGINT,
+        DoubleMajorityAyeCount JSON,
+        DoubleMajorityNoCount JSON,
+        AyeTellers STRUCT(
+            MemberId BIGINT,
+            "Name" VARCHAR,
+            Party VARCHAR,
+            SubParty JSON,
+            PartyColour VARCHAR,
+            PartyAbbreviation VARCHAR,
+            MemberFrom VARCHAR,
+            ListAs VARCHAR,
+            ProxyName JSON
+        )[],
+        NoTellers STRUCT(
+            MemberId BIGINT,
+            "Name" VARCHAR,
+            Party VARCHAR,
+            SubParty JSON,
+            PartyColour VARCHAR,
+            PartyAbbreviation VARCHAR,
+            MemberFrom VARCHAR,
+            ListAs VARCHAR,
+            ProxyName JSON
+        )[],
+        Ayes JSON[],
+        Noes JSON[],
+        FriendlyDescription JSON,
+        FriendlyTitle JSON,
+        NoVoteRecorded JSON[],
+        RemoteVotingStart JSON,
+        RemoteVotingEnd JSON
+    )) AS "record"
 FROM "uk-parliament-commons-votes"
