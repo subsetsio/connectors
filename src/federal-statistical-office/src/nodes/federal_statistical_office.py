@@ -43,6 +43,23 @@ MAX_CELLS = 2_000_000
 
 RESERVED = {"value", "cube_id", "updated"}
 
+COLUMN_ALIASES = {
+    # The FSO changed several forestry dimension labels in July 2026. Keep the
+    # raw contract stable for the compiled transforms and published schema.
+    ("px-x-0703010000_101", "Eigentümertyp"): "type_of_owner",
+    ("px-x-0703010000_101", "Variable"): "observation_unit",
+    ("px-x-0703010000_102", "Eigentümertyp"): "type_of_owner",
+    ("px-x-0703010000_105", "Grössenklasse"): "size_class",
+    ("px-x-0703010000_105", "Variable"): "observation_unit",
+    ("px-x-0703010000_106", "Eigentümertyp"): "type_of_owner",
+    ("px-x-0703030000_112", "Eigentümertyp"): "type_of_owner",
+    ("px-x-0703030000_112", "Variable"): "observation_unit",
+    ("px-x-0703030000_123", "Kantone"): "kanton",
+    ("px-x-0703030000_123", "Variable"): "beobachtungseinheit",
+    ("px-x-0703030000_124", "Kantone"): "kanton",
+    ("px-x-0703030000_124", "Variable"): "beobachtungseinheit",
+}
+
 
 def _node_to_cube(node_id):
     """Recover the original cube id (with underscores) from a spec/asset id.
@@ -112,13 +129,13 @@ def _sanitize(text, fallback):
     return name
 
 
-def _column_map(meta):
+def _column_map(meta, cube=None):
     """Map each variable code -> a unique, SQL-safe column name (from its label)."""
     used = set(RESERVED)
     colmap = {}
     for i, v in enumerate(meta["variables"]):
         code = v["code"]
-        name = _sanitize(v.get("text") or code, f"dim_{i}")
+        name = COLUMN_ALIASES.get((cube, code)) or _sanitize(v.get("text") or code, f"dim_{i}")
         base = name
         n = 2
         while name in used:
@@ -220,7 +237,7 @@ def fetch_one(node_id):
     asset = node_id  # the spec id IS the asset name
     cube = _node_to_cube(node_id)
     lang, url, meta = _fetch_meta(cube)
-    colmap = _column_map(meta)
+    colmap = _column_map(meta, cube)
     dim_codes = [v["code"] for v in meta["variables"]]
     value_lists = [list(v["values"]) for v in meta["variables"]]
     updated = meta.get("updated")
