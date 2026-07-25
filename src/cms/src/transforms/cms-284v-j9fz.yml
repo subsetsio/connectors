@@ -1,103 +1,103 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `cms-284v-j9fz`. Regenerate after model-verify.
-key: [performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
-sort: [performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
+key: [perf_fy_2024_adj_total_nurs_staff_hours_res_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
+sort: [perf_fy_2024_adj_total_nurs_staff_hours_res_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
 columns:
-  - name: snf_vbp_program_ranking
-    type: BIGINT
-  - name: cms_certification_number_ccn
-    type: VARCHAR
-  - name: provider_name
-    type: VARCHAR
-  - name: provider_address
-    type: VARCHAR
-  - name: city_town
-    type: VARCHAR
-  - name: state
-    type: VARCHAR
-  - name: zip_code
-    type: VARCHAR
-  - name: baseline_period_fy_2022_risk_standardized_readmission_rate
-    type: VARCHAR
-  - name: footnote_baseline_period_fy_2022_risk_standardized_readmission_rate
-    type: VARCHAR
-  - name: performance_period_fy_2024_risk_standardized_readmission_rate
-    type: VARCHAR
-  - name: footnote_performance_period_fy_2024_risk_standardized_readmission_rate
-    type: VARCHAR
-  - name: snfrm_achievement_score
-    type: VARCHAR
-  - name: footnote_snfrm_achievement_score
-    type: VARCHAR
-  - name: snfrm_improvement_score
-    type: VARCHAR
-  - name: footnote_snfrm_improvement_score
-    type: VARCHAR
-  - name: snfrm_measure_score
-    type: VARCHAR
-  - name: footnote_snfrm_measure_score
-    type: VARCHAR
-  - name: baseline_period_fy_2022_risk_standardized_healthcare_associated_infection_rate
-    type: VARCHAR
-  - name: footnote_baseline_period_fy_2022_risk_standardized_healthcare_associated_infection_rate
-    type: VARCHAR
-  - name: performance_period_fy_2024_risk_standardized_healthcare_associated_infection_rate
-    type: VARCHAR
-  - name: footnote_performance_period_fy_2024_risk_standardized_healthcare_associated_infection_rate
-    type: VARCHAR
-  - name: snf_hai_achievement_score
-    type: VARCHAR
-  - name: footnote_snf_hai_achievement_score
-    type: VARCHAR
-  - name: snf_hai_improvement_score
-    type: VARCHAR
-  - name: footnote_snf_hai_improvement_score
-    type: VARCHAR
-  - name: snf_hai_measure_score
-    type: VARCHAR
-  - name: footnote_snf_hai_measure_score
-    type: VARCHAR
-  - name: baseline_period_fy_2022_total_nursing_staff_turnover_rate
-    type: VARCHAR
-  - name: footnote_baseline_period_fy_2022_total_nursing_staff_turnover_rate
-    type: VARCHAR
-  - name: performance_period_fy_2024_total_nursing_staff_turnover_rate
-    type: VARCHAR
-  - name: footnote_performance_period_fy_2024_total_nursing_staff_turnover_rate
-    type: VARCHAR
-  - name: total_nursing_staff_turnover_achievement_score
-    type: VARCHAR
-  - name: footnote_total_nursing_staff_turnover_achievement_score
-    type: VARCHAR
-  - name: total_nursing_staff_turnover_improvement_score
-    type: VARCHAR
-  - name: footnote_total_nursing_staff_turnover_improvement_score
-    type: VARCHAR
-  - name: total_nursing_staff_turnover_measure_score
-    type: VARCHAR
-  - name: footnote_total_nursing_staff_turnover_measure_score
-    type: VARCHAR
-  - name: baseline_period_fy_2022_adjusted_total_nursing_staff_hours_per_resident_day
-    type: VARCHAR
-  - name: footnote_baseline_period_fy_2022_adjusted_total_nursing_staff_hours_per_resident_day
-    type: VARCHAR
-  - name: performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day
-    type: VARCHAR
-  - name: footnote_performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day
-    type: VARCHAR
-  - name: total_nurse_staffing_achievement_score
-    type: VARCHAR
-  - name: footnote_total_nurse_staffing_achievement_score
-    type: VARCHAR
-  - name: total_nurse_staffing_improvement_score
-    type: VARCHAR
-  - name: footnote_total_nurse_staffing_improvement_score
-    type: VARCHAR
-  - name: total_nurse_staffing_measure_score
-    type: VARCHAR
-  - name: footnote_total_nurse_staffing_measure_score
-    type: VARCHAR
-  - name: performance_score
-    type: DOUBLE
-  - name: incentive_payment_multiplier
-    type: DOUBLE
+- name: snf_vbp_program_ranking
+  type: BIGINT
+- name: cms_certification_number_ccn
+  type: VARCHAR
+- name: provider_name
+  type: VARCHAR
+- name: provider_address
+  type: VARCHAR
+- name: city_town
+  type: VARCHAR
+- name: state
+  type: VARCHAR
+- name: zip_code
+  type: VARCHAR
+- name: baseline_period_fy_2022_risk_standardized_readmission_rate
+  type: VARCHAR
+- name: fn_base_fy_2022_risk_std_readmit
+  type: VARCHAR
+- name: performance_period_fy_2024_risk_standardized_readmission_rate
+  type: VARCHAR
+- name: fn_perf_fy_2024_risk_std_readmit
+  type: VARCHAR
+- name: snfrm_achievement_score
+  type: VARCHAR
+- name: footnote_snfrm_achievement_score
+  type: VARCHAR
+- name: snfrm_improvement_score
+  type: VARCHAR
+- name: footnote_snfrm_improvement_score
+  type: VARCHAR
+- name: snfrm_measure_score
+  type: VARCHAR
+- name: footnote_snfrm_measure_score
+  type: VARCHAR
+- name: base_fy_2022_risk_std_hc_assoc_inf
+  type: VARCHAR
+- name: fn_base_fy_2022_risk_std_hc_assoc_inf
+  type: VARCHAR
+- name: perf_fy_2024_risk_std_hc_assoc_inf
+  type: VARCHAR
+- name: fn_perf_fy_2024_risk_std_hc_assoc_inf
+  type: VARCHAR
+- name: snf_hai_achievement_score
+  type: VARCHAR
+- name: footnote_snf_hai_achievement_score
+  type: VARCHAR
+- name: snf_hai_improvement_score
+  type: VARCHAR
+- name: footnote_snf_hai_improvement_score
+  type: VARCHAR
+- name: snf_hai_measure_score
+  type: VARCHAR
+- name: footnote_snf_hai_measure_score
+  type: VARCHAR
+- name: baseline_period_fy_2022_total_nursing_staff_turnover_rate
+  type: VARCHAR
+- name: fn_base_fy_2022_total_nurs_staff_turn
+  type: VARCHAR
+- name: performance_period_fy_2024_total_nursing_staff_turnover_rate
+  type: VARCHAR
+- name: fn_perf_fy_2024_total_nurs_staff_turn
+  type: VARCHAR
+- name: total_nursing_staff_turnover_achievement_score
+  type: VARCHAR
+- name: footnote_total_nursing_staff_turnover_achievement_score
+  type: VARCHAR
+- name: total_nursing_staff_turnover_improvement_score
+  type: VARCHAR
+- name: footnote_total_nursing_staff_turnover_improvement_score
+  type: VARCHAR
+- name: total_nursing_staff_turnover_measure_score
+  type: VARCHAR
+- name: footnote_total_nursing_staff_turnover_measure_score
+  type: VARCHAR
+- name: base_fy_2022_adj_total_nurs_staff_hours_res_day
+  type: VARCHAR
+- name: fn_base_fy_2022_adj_total_nurs_staff_hours_res_day
+  type: VARCHAR
+- name: perf_fy_2024_adj_total_nurs_staff_hours_res_day
+  type: VARCHAR
+- name: fn_perf_fy_2024_adj_total_nurs_staff_hours_res_day
+  type: VARCHAR
+- name: total_nurse_staffing_achievement_score
+  type: VARCHAR
+- name: footnote_total_nurse_staffing_achievement_score
+  type: VARCHAR
+- name: total_nurse_staffing_improvement_score
+  type: VARCHAR
+- name: footnote_total_nurse_staffing_improvement_score
+  type: VARCHAR
+- name: total_nurse_staffing_measure_score
+  type: VARCHAR
+- name: footnote_total_nurse_staffing_measure_score
+  type: VARCHAR
+- name: performance_score
+  type: DOUBLE
+- name: incentive_payment_multiplier
+  type: DOUBLE

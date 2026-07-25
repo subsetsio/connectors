@@ -4,287 +4,287 @@ key: [certification_date, cms_certification_number_ccn]
 temporal: certification_date
 sort: [certification_date, cms_certification_number_ccn]
 columns:
-  - name: cms_certification_number_ccn
-    type: VARCHAR
-  - name: network
-    type: BIGINT
-  - name: facility_name
-    type: VARCHAR
-  - name: five_star_date
-    type: VARCHAR
-  - name: five_star
-    type: VARCHAR
-  - name: five_star_data_availability_code
-    type: VARCHAR
-  - name: address_line_1
-    type: VARCHAR
-  - name: address_line_2
-    type: VARCHAR
-  - name: city_town
-    type: VARCHAR
-  - name: state
-    type: VARCHAR
-  - name: zip_code
-    type: VARCHAR
-  - name: county_parish
-    type: VARCHAR
-  - name: telephone_number
-    type: VARCHAR
-  - name: profit_or_non_profit
-    type: VARCHAR
-  - name: chain_owned
-    type: VARCHAR
-  - name: chain_organization
-    type: VARCHAR
-  - name: late_shift
-    type: VARCHAR
-  - name: of_dialysis_stations
-    type: BIGINT
-  - name: offers_in_center_hemodialysis
-    type: VARCHAR
-  - name: offers_peritoneal_dialysis
-    type: VARCHAR
-  - name: offers_home_hemodialysis_training
-    type: VARCHAR
-  - name: certification_date
-    type: DATE
-  - name: claims_date
-    type: VARCHAR
-  - name: eqrs_date
-    type: VARCHAR
-  - name: smr_date
-    type: VARCHAR
-  - name: patient_survival_category_text
-    type: VARCHAR
-  - name: patient_survival_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_included_in_survival_summary
-    type: VARCHAR
-  - name: mortality_rate_facility
-    type: VARCHAR
-  - name: mortality_rate_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: mortality_rate_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: shr_date
-    type: VARCHAR
-  - name: patient_hospitalization_category_text
-    type: VARCHAR
-  - name: patient_hospitalization_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_included_in_hospitalization_summary
-    type: VARCHAR
-  - name: hospitalization_rate_facility
-    type: VARCHAR
-  - name: hospitalization_rate_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: hospitalization_rate_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: srr_date
-    type: VARCHAR
-  - name: patient_hospital_readmission_category
-    type: VARCHAR
-  - name: patient_hospital_readmission_data_availability_code
-    type: VARCHAR
-  - name: number_of_hospitalizations_included_in_hospital_readmission_summary
-    type: VARCHAR
-  - name: readmission_rate_facility
-    type: VARCHAR
-  - name: readmission_rate_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: readmission_rate_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: strr_date
-    type: VARCHAR
-  - name: patient_transfusion_category_text
-    type: VARCHAR
-  - name: patient_transfusion_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_included_in_the_transfusion_summary
-    type: VARCHAR
-  - name: transfusion_rate_facility
-    type: VARCHAR
-  - name: transfusion_rate_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: transfusion_rate_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: fyswr_date
-    type: VARCHAR
-  - name: fyswr_category_text
-    type: VARCHAR
-  - name: patient_transplant_waitlist_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_in_this_facility_for_fyswr
-    type: VARCHAR
-  - name: first_year_standardized_kidney_transplant_waitlist_ratio
-    type: VARCHAR
-  - name: "95_c_i_upper_limit_for_fyswr"
-    type: VARCHAR
-  - name: "95_c_i_lower_limit_for_fyswr"
-    type: VARCHAR
-  - name: pppw_category_text
-    type: VARCHAR
-  - name: patient_prevalent_transplant_waitlist_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_for_pppw
-    type: VARCHAR
-  - name: percentage_of_prevalent_patients_waitlisted_for_kidney_transplant
-    type: VARCHAR
-  - name: "95_c_i_upper_limit_for_pppw"
-    type: VARCHAR
-  - name: "95_c_i_lower_limit_for_pppw"
-    type: VARCHAR
-  - name: sedr_date
-    type: VARCHAR
-  - name: sedr_category_text
-    type: VARCHAR
-  - name: emergency_department_encounter_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_included_in_sedr_summary
-    type: VARCHAR
-  - name: standardized_ed_visits_ratio_facility
-    type: VARCHAR
-  - name: sedr_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: sedr_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: ed30_date
-    type: VARCHAR
-  - name: ed30_category_text
-    type: VARCHAR
-  - name: emergency_department_encounter_ratio_occurring_within_30_days_of_hospital_discharge_data_availability_code
-    type: VARCHAR
-  - name: number_of_hospitalizations_included_in_ed30_summary
-    type: VARCHAR
-  - name: standardized_ed_visits_within_30_days_of_hospital_discharge_ratio_facility
-    type: VARCHAR
-  - name: ed30_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: ed30_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: years_modality_switch_based_upon
-    type: VARCHAR
-  - name: smosr_classification_category_facility
-    type: VARCHAR
-  - name: modality_switch_data_availability_code
-    type: VARCHAR
-  - name: smosr_number_of_eligible_patients_facility
-    type: VARCHAR
-  - name: smosr_standardized_modality_switch_ratio_facility
-    type: VARCHAR
-  - name: smosr_upper_confidence_limit_facility
-    type: VARCHAR
-  - name: smosr_lower_confidence_limit_facility
-    type: VARCHAR
-  - name: sir_date
-    type: VARCHAR
-  - name: patient_infection_category_text
-    type: VARCHAR
-  - name: patient_infection_data_availability_code
-    type: VARCHAR
-  - name: standard_infection_ratio
-    type: VARCHAR
-  - name: sir_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: sir_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: fistula_category_text
-    type: VARCHAR
-  - name: fistula_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_included_in_fistula_summary
-    type: VARCHAR
-  - name: fistula_rate_facility
-    type: VARCHAR
-  - name: fistula_rate_upper_confidence_limit_97_5
-    type: VARCHAR
-  - name: fistula_rate_lower_confidence_limit_2_5
-    type: VARCHAR
-  - name: hcp_vaccination_data_collection_dates
-    type: VARCHAR
-  - name: hcp_vaccination_data_availability_code
-    type: VARCHAR
-  - name: healthcare_worker_covid_19_vaccination_adherence_percentage
-    type: VARCHAR
-  - name: adult_hd_kt_v_data_availability_code
-    type: VARCHAR
-  - name: number_of_adult_hd_patients_with_kt_v_data
-    type: VARCHAR
-  - name: number_of_adult_hd_patient_months_with_kt_v_data
-    type: VARCHAR
-  - name: percent_of_adult_hd_patients_with_kt_v_1_2
-    type: VARCHAR
-  - name: adult_pd_kt_v_data_availability_code
-    type: VARCHAR
-  - name: number_of_adult_pd_patients_with_kt_v_data
-    type: VARCHAR
-  - name: number_of_adult_pd_patient_months_with_kt_v_data
-    type: VARCHAR
-  - name: percentage_of_adult_pd_pts_with_kt_v_1_7
-    type: VARCHAR
-  - name: pediatric_hd_kt_v_data_availability_code
-    type: VARCHAR
-  - name: number_of_pediatric_hd_patients_with_kt_v_data
-    type: VARCHAR
-  - name: number_of_pediatric_hd_patient_months_with_kt_v_data
-    type: VARCHAR
-  - name: percentage_of_pediatric_hd_patients_with_kt_v_1_2
-    type: VARCHAR
-  - name: pediatric_pd_kt_v_data_availability_code
-    type: VARCHAR
-  - name: number_of_pediatric_pd_patients_with_kt_v_data
-    type: VARCHAR
-  - name: number_of_pediatric_pd_patient_months_with_kt_v_data
-    type: VARCHAR
-  - name: percentage_of_pediatric_pd_patients_with_kt_v_1_8
-    type: VARCHAR
-  - name: percentage_of_medicare_patients_with_hgb_10_g_dl
-    type: VARCHAR
-  - name: hgb_10_data_availability_code
-    type: VARCHAR
-  - name: percentage_of_medicare_patients_with_hgb_12_g_dl
-    type: VARCHAR
-  - name: hgb_12_data_availability_code
-    type: VARCHAR
-  - name: number_of_dialysis_patients_with_hgb_data
-    type: VARCHAR
-  - name: hypercalcemia_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_in_hypercalcemia_summary
-    type: VARCHAR
-  - name: number_of_patient_months_in_hypercalcemia_summary
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_hypercalcemia_serum_calcium_greater_than_10_2_mg_dl
-    type: VARCHAR
-  - name: serum_phosphorus_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_in_serum_phosphorus_summary
-    type: VARCHAR
-  - name: number_of_patient_months_in_serum_phosphorus_summary
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_serum_phosphorus_less_than_3_5_mg_dl
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_serum_phosphorus_between_3_5_4_5_mg_dl
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_serum_phosphorus_between_4_6_5_5_mg_dl
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_serum_phosphorus_between_5_6_7_0_mg_dl
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_serum_phosphorus_greater_than_7_0_mg_dl
-    type: VARCHAR
-  - name: long_term_catheter_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_in_long_term_catheter_summary
-    type: VARCHAR
-  - name: number_of_patient_months_in_long_term_catheter_summary
-    type: VARCHAR
-  - name: percentage_of_adult_patients_with_long_term_catheter_in_use
-    type: VARCHAR
-  - name: npcr_data_availability_code
-    type: VARCHAR
-  - name: number_of_patients_in_npcr_summary
-    type: VARCHAR
-  - name: number_of_patient_months_in_npcr_summary
-    type: VARCHAR
-  - name: percentage_of_pediatric_hd_patients_with_npcr
-    type: VARCHAR
+- name: cms_certification_number_ccn
+  type: VARCHAR
+- name: network
+  type: BIGINT
+- name: facility_name
+  type: VARCHAR
+- name: five_star_date
+  type: VARCHAR
+- name: five_star
+  type: VARCHAR
+- name: five_star_data_availability_code
+  type: VARCHAR
+- name: address_line_1
+  type: VARCHAR
+- name: address_line_2
+  type: VARCHAR
+- name: city_town
+  type: VARCHAR
+- name: state
+  type: VARCHAR
+- name: zip_code
+  type: VARCHAR
+- name: county_parish
+  type: VARCHAR
+- name: telephone_number
+  type: VARCHAR
+- name: profit_or_non_profit
+  type: VARCHAR
+- name: chain_owned
+  type: VARCHAR
+- name: chain_organization
+  type: VARCHAR
+- name: late_shift
+  type: VARCHAR
+- name: of_dialysis_stations
+  type: BIGINT
+- name: offers_in_center_hemodialysis
+  type: VARCHAR
+- name: offers_peritoneal_dialysis
+  type: VARCHAR
+- name: offers_home_hemodialysis_training
+  type: VARCHAR
+- name: certification_date
+  type: DATE
+- name: claims_date
+  type: VARCHAR
+- name: eqrs_date
+  type: VARCHAR
+- name: smr_date
+  type: VARCHAR
+- name: patient_survival_category_text
+  type: VARCHAR
+- name: patient_survival_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_included_in_survival_summary
+  type: VARCHAR
+- name: mortality_rate_facility
+  type: VARCHAR
+- name: mortality_rate_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: mortality_rate_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: shr_date
+  type: VARCHAR
+- name: patient_hospitalization_category_text
+  type: VARCHAR
+- name: patient_hospitalization_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_included_in_hospitalization_summary
+  type: VARCHAR
+- name: hospitalization_rate_facility
+  type: VARCHAR
+- name: hospitalization_rate_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: hospitalization_rate_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: srr_date
+  type: VARCHAR
+- name: patient_hospital_readmission_category
+  type: VARCHAR
+- name: patient_hospital_readmission_data_availability_code
+  type: VARCHAR
+- name: num_hosps_hosp_readmit_sum
+  type: VARCHAR
+- name: readmission_rate_facility
+  type: VARCHAR
+- name: readmission_rate_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: readmission_rate_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: strr_date
+  type: VARCHAR
+- name: patient_transfusion_category_text
+  type: VARCHAR
+- name: patient_transfusion_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_included_in_the_transfusion_summary
+  type: VARCHAR
+- name: transfusion_rate_facility
+  type: VARCHAR
+- name: transfusion_rate_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: transfusion_rate_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: fyswr_date
+  type: VARCHAR
+- name: fyswr_category_text
+  type: VARCHAR
+- name: patient_transplant_waitlist_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_in_this_facility_for_fyswr
+  type: VARCHAR
+- name: first_year_standardized_kidney_transplant_waitlist_ratio
+  type: VARCHAR
+- name: 95_c_i_upper_limit_for_fyswr
+  type: VARCHAR
+- name: 95_c_i_lower_limit_for_fyswr
+  type: VARCHAR
+- name: pppw_category_text
+  type: VARCHAR
+- name: patient_prevalent_transplant_waitlist_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_for_pppw
+  type: VARCHAR
+- name: pct_prev_pts_waitlist_kidney_tx
+  type: VARCHAR
+- name: 95_c_i_upper_limit_for_pppw
+  type: VARCHAR
+- name: 95_c_i_lower_limit_for_pppw
+  type: VARCHAR
+- name: sedr_date
+  type: VARCHAR
+- name: sedr_category_text
+  type: VARCHAR
+- name: emergency_department_encounter_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_included_in_sedr_summary
+  type: VARCHAR
+- name: standardized_ed_visits_ratio_facility
+  type: VARCHAR
+- name: sedr_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: sedr_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: ed30_date
+  type: VARCHAR
+- name: ed30_category_text
+  type: VARCHAR
+- name: ed_dept_enc_ratio_occur_30_days_hosp_dc_avail_code
+  type: VARCHAR
+- name: number_of_hospitalizations_included_in_ed30_summary
+  type: VARCHAR
+- name: std_ed_visits_30_days_hosp_dc_ratio_fac
+  type: VARCHAR
+- name: ed30_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: ed30_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: years_modality_switch_based_upon
+  type: VARCHAR
+- name: smosr_classification_category_facility
+  type: VARCHAR
+- name: modality_switch_data_availability_code
+  type: VARCHAR
+- name: smosr_number_of_eligible_patients_facility
+  type: VARCHAR
+- name: smosr_standardized_modality_switch_ratio_facility
+  type: VARCHAR
+- name: smosr_upper_confidence_limit_facility
+  type: VARCHAR
+- name: smosr_lower_confidence_limit_facility
+  type: VARCHAR
+- name: sir_date
+  type: VARCHAR
+- name: patient_infection_category_text
+  type: VARCHAR
+- name: patient_infection_data_availability_code
+  type: VARCHAR
+- name: standard_infection_ratio
+  type: VARCHAR
+- name: sir_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: sir_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: fistula_category_text
+  type: VARCHAR
+- name: fistula_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_included_in_fistula_summary
+  type: VARCHAR
+- name: fistula_rate_facility
+  type: VARCHAR
+- name: fistula_rate_upper_confidence_limit_97_5
+  type: VARCHAR
+- name: fistula_rate_lower_confidence_limit_2_5
+  type: VARCHAR
+- name: hcp_vaccination_data_collection_dates
+  type: VARCHAR
+- name: hcp_vaccination_data_availability_code
+  type: VARCHAR
+- name: healthcare_worker_covid_19_vaccination_adherence_percentage
+  type: VARCHAR
+- name: adult_hd_kt_v_data_availability_code
+  type: VARCHAR
+- name: number_of_adult_hd_patients_with_kt_v_data
+  type: VARCHAR
+- name: number_of_adult_hd_patient_months_with_kt_v_data
+  type: VARCHAR
+- name: percent_of_adult_hd_patients_with_kt_v_1_2
+  type: VARCHAR
+- name: adult_pd_kt_v_data_availability_code
+  type: VARCHAR
+- name: number_of_adult_pd_patients_with_kt_v_data
+  type: VARCHAR
+- name: number_of_adult_pd_patient_months_with_kt_v_data
+  type: VARCHAR
+- name: percentage_of_adult_pd_pts_with_kt_v_1_7
+  type: VARCHAR
+- name: pediatric_hd_kt_v_data_availability_code
+  type: VARCHAR
+- name: number_of_pediatric_hd_patients_with_kt_v_data
+  type: VARCHAR
+- name: number_of_pediatric_hd_patient_months_with_kt_v_data
+  type: VARCHAR
+- name: percentage_of_pediatric_hd_patients_with_kt_v_1_2
+  type: VARCHAR
+- name: pediatric_pd_kt_v_data_availability_code
+  type: VARCHAR
+- name: number_of_pediatric_pd_patients_with_kt_v_data
+  type: VARCHAR
+- name: number_of_pediatric_pd_patient_months_with_kt_v_data
+  type: VARCHAR
+- name: percentage_of_pediatric_pd_patients_with_kt_v_1_8
+  type: VARCHAR
+- name: percentage_of_medicare_patients_with_hgb_10_g_dl
+  type: VARCHAR
+- name: hgb_10_data_availability_code
+  type: VARCHAR
+- name: percentage_of_medicare_patients_with_hgb_12_g_dl
+  type: VARCHAR
+- name: hgb_12_data_availability_code
+  type: VARCHAR
+- name: number_of_dialysis_patients_with_hgb_data
+  type: VARCHAR
+- name: hypercalcemia_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_in_hypercalcemia_summary
+  type: VARCHAR
+- name: number_of_patient_months_in_hypercalcemia_summary
+  type: VARCHAR
+- name: pct_adult_pts_hypercalcemia_serum_calc_gt_10_2_mg_dl
+  type: VARCHAR
+- name: serum_phosphorus_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_in_serum_phosphorus_summary
+  type: VARCHAR
+- name: number_of_patient_months_in_serum_phosphorus_summary
+  type: VARCHAR
+- name: pct_adult_pts_serum_phos_lt_3_5_mg_dl
+  type: VARCHAR
+- name: pct_adult_pts_serum_phos_btwn_3_5_4_5_mg_dl
+  type: VARCHAR
+- name: pct_adult_pts_serum_phos_btwn_4_6_5_5_mg_dl
+  type: VARCHAR
+- name: pct_adult_pts_serum_phos_btwn_5_6_7_0_mg_dl
+  type: VARCHAR
+- name: pct_adult_pts_serum_phos_gt_7_0_mg_dl
+  type: VARCHAR
+- name: long_term_catheter_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_in_long_term_catheter_summary
+  type: VARCHAR
+- name: number_of_patient_months_in_long_term_catheter_summary
+  type: VARCHAR
+- name: percentage_of_adult_patients_with_long_term_catheter_in_use
+  type: VARCHAR
+- name: npcr_data_availability_code
+  type: VARCHAR
+- name: number_of_patients_in_npcr_summary
+  type: VARCHAR
+- name: number_of_patient_months_in_npcr_summary
+  type: VARCHAR
+- name: percentage_of_pediatric_hd_patients_with_npcr
+  type: VARCHAR

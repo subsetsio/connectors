@@ -9,6 +9,7 @@ fetch/parse/schema logic lives in the individual files under nodes/.
 import datetime
 import re
 import time
+from urllib.parse import urlencode
 
 import pandas as pd
 
@@ -130,10 +131,9 @@ def _wayback_bytes(url: str, headers: dict) -> bytes:
     # even when CDX lists a valid capture. Replay explicit recent captures before
     # paying for a new Save-Page-Now request.
     try:
-        cdx = get(_WB_CDX,
-                  params={"url": url, "output": "json", "limit": "-5",
-                          "filter": "statuscode:200", "fl": "timestamp,original"},
-                  timeout=(10.0, 60.0), headers=headers)
+        query = urlencode({"url": url, "output": "json", "limit": "-5",
+                           "filter": "statuscode:200", "fl": "timestamp,original"})
+        cdx = get(f"{_WB_CDX}?{query}", timeout=(10.0, 60.0), headers=headers)
         cdx.raise_for_status()
         rows = cdx.json()
         for row in reversed(rows[1:]):

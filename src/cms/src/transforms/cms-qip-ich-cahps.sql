@@ -35,7 +35,7 @@ SELECT
     "Overall Rating of Dialysis Facility Achievement Measure Rate" AS overall_rating_of_dialysis_facility_achievement_measure_rate,
     "Overall Rating of Dialysis Facility Measure Score" AS overall_rating_of_dialysis_facility_measure_score,
     CAST("State Average Overall Rating of Dialysis Facility Measure Score" AS BIGINT) AS state_average_overall_rating_of_dialysis_facility_measure_score,
-    CAST("National Average Overall Rating of Dialysis Facility Measure Score" AS BIGINT) AS national_average_overall_rating_of_dialysis_facility_measure_score,
+    CAST("National Average Overall Rating of Dialysis Facility Measure Score" AS BIGINT) AS natl_avg_overall_rating_dial_fac_meas_score,
     "ICHCAHPS Measure Score" AS ichcahps_measure_score,
     "ICH CAHPS Reason for No Score (See Footnotes File)" AS ich_cahps_reason_for_no_score_see_footnotes_file,
     CAST("State Average ICH CAHPS Measure Score" AS BIGINT) AS state_average_ich_cahps_measure_score,

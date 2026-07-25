@@ -15,7 +15,7 @@ SELECT
     "Fire Safety Survey Date" AS fire_safety_survey_date,
     CAST("Total Number of Health Deficiencies" AS BIGINT) AS total_number_of_health_deficiencies,
     "Total Number of Fire Safety Deficiencies" AS total_number_of_fire_safety_deficiencies,
-    CAST("Count of Freedom from Abuse and Neglect and Exploitation Deficiencies" AS BIGINT) AS count_of_freedom_from_abuse_and_neglect_and_exploitation_deficiencies,
+    CAST("Count of Freedom from Abuse and Neglect and Exploitation Deficiencies" AS BIGINT) AS count_freedom_from_abuse_neglect_exploitation_deficiencies,
     CAST("Count of Quality of Life and Care Deficiencies" AS BIGINT) AS count_of_quality_of_life_and_care_deficiencies,
     CAST("Count of Resident Assessment and Care Planning Deficiencies" AS BIGINT) AS count_of_resident_assessment_and_care_planning_deficiencies,
     CAST("Count of Nursing and Physician Services Deficiencies" AS BIGINT) AS count_of_nursing_and_physician_services_deficiencies,

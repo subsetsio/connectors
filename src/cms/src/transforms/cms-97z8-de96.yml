@@ -3,83 +3,83 @@
 # caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
 key: []
 columns:
-  - name: country
-    type: VARCHAR
-  - name: quality_of_patient_care_star_rating
-    type: BIGINT
-  - name: star_rating_1_percentage
-    type: DOUBLE
-  - name: star_rating_1_5_percentage
-    type: DOUBLE
-  - name: star_rating_2_percentage
-    type: DOUBLE
-  - name: star_rating_2_5_percentage
-    type: DOUBLE
-  - name: star_rating_3_percentage
-    type: DOUBLE
-  - name: star_rating_3_5_percentage
-    type: DOUBLE
-  - name: star_rating_4_percentage
-    type: DOUBLE
-  - name: star_rating_4_5_percentage
-    type: DOUBLE
-  - name: star_rating_5_percentage
-    type: DOUBLE
-  - name: how_often_the_home_health_team_began_their_patients_care_in_a_timely_manner
-    type: DOUBLE
-  - name: how_often_the_home_health_team_determined_whether_patients_received_a_flu_shot_for_the_current_flu_season
-    type: DOUBLE
-  - name: how_often_patients_got_better_at_walking_or_moving_around
-    type: DOUBLE
-  - name: how_often_patients_got_better_at_getting_in_and_out_of_bed
-    type: DOUBLE
-  - name: how_often_patients_got_better_at_bathing
-    type: DOUBLE
-  - name: how_often_patients_breathing_improved
-    type: DOUBLE
-  - name: how_often_patients_got_better_at_taking_their_drugs_correctly_by_mouth
-    type: DOUBLE
-  - name: changes_in_skin_integrity_post_acute_care_pressure_ulcer_injury
-    type: DOUBLE
-  - name: how_often_physician_recommended_actions_to_address_medication_issues_were_completely_timely
-    type: DOUBLE
-  - name: percent_of_residents_experiencing_one_or_more_falls_with_major_injury
-    type: DOUBLE
-  - name: discharge_function_score
-    type: DOUBLE
-  - name: transfer_of_health_information_to_the_provider
-    type: DOUBLE
-  - name: transfer_of_health_information_to_the_patient
-    type: DOUBLE
-  - name: ppr_number_of_hhas_that_performed_better_than_the_national_observed_rate
-    type: BIGINT
-  - name: ppr_number_of_hhas_that_performed_no_different_than_the_national_observed_rate
-    type: VARCHAR
-  - name: ppr_number_of_hhas_that_performed_worse_than_the_national_observed_rate
-    type: BIGINT
-  - name: ppr_number_of_hhas_that_have_too_few_cases_for_public_reporting
-    type: VARCHAR
-  - name: ppr_national_observed_rate
-    type: DOUBLE
-  - name: dtc_number_of_hhas_that_performed_better_than_the_national_observed_rate
-    type: VARCHAR
-  - name: dtc_number_of_hhas_that_performed_no_different_than_the_national_observed_rate
-    type: VARCHAR
-  - name: dtc_number_of_hhas_that_performed_worse_than_the_national_observed_rate
-    type: VARCHAR
-  - name: dtc_number_of_hhas_that_have_too_few_cases_for_public_reporting
-    type: VARCHAR
-  - name: dtc_national_observed_rate
-    type: DOUBLE
-  - name: pph_number_of_hhas_that_performed_better_than_the_national_observed_rate
-    type: BIGINT
-  - name: pph_number_of_hhas_that_performed_no_different_than_the_national_observed_rate
-    type: VARCHAR
-  - name: pph_number_of_hhas_that_performed_worse_than_the_national_observed_rate
-    type: BIGINT
-  - name: pph_number_of_hhas_that_have_too_few_cases_for_public_reporting
-    type: VARCHAR
-  - name: pph_national_observed_rate
-    type: DOUBLE
-  - name: how_much_medicare_spends_on_an_episode_of_care_at_this_agency_compared_to_medicare_spending_across_all_agencies_nationally
-    type: DOUBLE
+- name: country
+  type: VARCHAR
+- name: quality_of_patient_care_star_rating
+  type: BIGINT
+- name: star_rating_1_percentage
+  type: DOUBLE
+- name: star_rating_1_5_percentage
+  type: DOUBLE
+- name: star_rating_2_percentage
+  type: DOUBLE
+- name: star_rating_2_5_percentage
+  type: DOUBLE
+- name: star_rating_3_percentage
+  type: DOUBLE
+- name: star_rating_3_5_percentage
+  type: DOUBLE
+- name: star_rating_4_percentage
+  type: DOUBLE
+- name: star_rating_4_5_percentage
+  type: DOUBLE
+- name: star_rating_5_percentage
+  type: DOUBLE
+- name: how_often_home_health_team_began_their_pts_care_a_timely_manner
+  type: DOUBLE
+- name: how_often_home_health_team_determined_wh_shot_current_flu_season
+  type: DOUBLE
+- name: how_often_patients_got_better_at_walking_or_moving_around
+  type: DOUBLE
+- name: how_often_patients_got_better_at_getting_in_and_out_of_bed
+  type: DOUBLE
+- name: how_often_patients_got_better_at_bathing
+  type: DOUBLE
+- name: how_often_patients_breathing_improved
+  type: DOUBLE
+- name: how_often_pts_got_better_at_taking_thei_drugs_correctly_by_mouth
+  type: DOUBLE
+- name: changes_in_skin_integrity_post_acute_care_pressure_ulcer_injury
+  type: DOUBLE
+- name: how_often_physician_recommended_ac_issues_were_completely_timely
+  type: DOUBLE
+- name: pct_residents_experiencing_one_more_falls_major_injury
+  type: DOUBLE
+- name: discharge_function_score
+  type: DOUBLE
+- name: transfer_of_health_information_to_the_provider
+  type: DOUBLE
+- name: transfer_of_health_information_to_the_patient
+  type: DOUBLE
+- name: ppr_num_hhas_that_performed_better_natl_observed
+  type: BIGINT
+- name: ppr_num_hhas_that_performed_no_different_natl_observed
+  type: VARCHAR
+- name: ppr_num_hhas_that_performed_worse_natl_observed
+  type: BIGINT
+- name: ppr_number_of_hhas_that_have_too_few_cases_for_public_reporting
+  type: VARCHAR
+- name: ppr_national_observed_rate
+  type: DOUBLE
+- name: dtc_num_hhas_that_performed_better_natl_observed
+  type: VARCHAR
+- name: dtc_num_hhas_that_performed_no_different_natl_observed
+  type: VARCHAR
+- name: dtc_num_hhas_that_performed_worse_natl_observed
+  type: VARCHAR
+- name: dtc_number_of_hhas_that_have_too_few_cases_for_public_reporting
+  type: VARCHAR
+- name: dtc_national_observed_rate
+  type: DOUBLE
+- name: pph_num_hhas_that_performed_better_natl_observed
+  type: BIGINT
+- name: pph_num_hhas_that_performed_no_different_natl_observed
+  type: VARCHAR
+- name: pph_num_hhas_that_performed_worse_natl_observed
+  type: BIGINT
+- name: pph_number_of_hhas_that_have_too_few_cases_for_public_reporting
+  type: VARCHAR
+- name: pph_national_observed_rate
+  type: DOUBLE
+- name: how_much_mcare_spends_on_an_episo_across_all_agencies_nationally
+  type: DOUBLE

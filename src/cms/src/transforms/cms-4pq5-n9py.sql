@@ -54,7 +54,7 @@ SELECT
     "Reported RN Staffing Hours per Resident per Day" AS reported_rn_staffing_hours_per_resident_per_day,
     "Reported Licensed Staffing Hours per Resident per Day" AS reported_licensed_staffing_hours_per_resident_per_day,
     "Reported Total Nurse Staffing Hours per Resident per Day" AS reported_total_nurse_staffing_hours_per_resident_per_day,
-    "Total number of nurse staff hours per resident per day on the weekend" AS total_number_of_nurse_staff_hours_per_resident_per_day_on_the_weekend,
+    "Total number of nurse staff hours per resident per day on the weekend" AS total_num_nurse_staff_hours_res_day_on_weekend,
     "Registered Nurse hours per resident per day on the weekend" AS registered_nurse_hours_per_resident_per_day_on_the_weekend,
     "Reported Physical Therapist Staffing Hours per Resident Per Day" AS reported_physical_therapist_staffing_hours_per_resident_per_day,
     "Total nursing staff turnover" AS total_nursing_staff_turnover,

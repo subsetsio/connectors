@@ -1,7 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `clio-infra-armedconflicts(international)`. Regenerate after model-verify.
+# of raw asset `clio-infra-unifieddemocracyscores(uds)`. Regenerate after model-verify.
 # caution: Each table is one Clio Infra indicator; the meaning and units of value are specific to that indicator and should not be combined across indicators without consulting the source metadata.
-key: [year, country]
+deps: [clio-infra-unifieddemocracyscores(uds)]
+key: [country, year]
 temporal: year
 sort: [year, country]
 columns:

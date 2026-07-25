@@ -1,8 +1,10 @@
 spec_id: cdc-gvsb-yw6g
 status: active
 tests:
-  - row_count: {min: 218408}
-    reason: exported 436,816 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half of that, so fewer rows means the stream truncated
-    certainty: 80
-    points_outward: true
-    severity: block
+- row_count:
+    min: 3000
+  reason: current CDC Socrata count is 7,295 rows on 2026-07-25 after an upstream reshape; keep a conservative non-empty floor
+    to catch truncated exports without assuming the retired historical row volume.
+  certainty: 80
+  points_outward: true
+  severity: block

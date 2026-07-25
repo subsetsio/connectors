@@ -9,7 +9,7 @@ tests:
   points_outward: true
   severity: block
 - freshness:
-    col: data_as_of
+    col: Data As Of
     reaches: today - 400d
   reason: temporal CDC dataset should include observations or update markers within the last 400 days for promotion; wider
     than weekly/monthly cadence to accommodate annual releases and delayed public-health revisions

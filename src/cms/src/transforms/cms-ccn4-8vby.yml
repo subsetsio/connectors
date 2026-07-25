@@ -1,57 +1,57 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `cms-ccn4-8vby`. Regenerate after model-verify.
-key: [cms_certification_number_ccn, number_of_completed_surveys, percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family, survey_response_rate, percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest]
-sort: [cms_certification_number_ccn, number_of_completed_surveys, percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family, survey_response_rate, percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest]
+key: [cms_certification_number_ccn, number_of_completed_surveys, pct_pts_who_reported_yes_they_would_health_agency_friends_family, survey_response_rate, pct_pts_who_gave_their_home_health_agency_a_0_lowest_10_highest]
+sort: [cms_certification_number_ccn, number_of_completed_surveys, pct_pts_who_reported_yes_they_would_health_agency_friends_family, survey_response_rate, pct_pts_who_gave_their_home_health_agency_a_0_lowest_10_highest]
 columns:
-  - name: cms_certification_number_ccn
-    type: VARCHAR
-  - name: hhcahps_survey_summary_star_rating
-    type: VARCHAR
-  - name: hhcahps_survey_summary_star_rating_footnote
-    type: VARCHAR
-  - name: star_rating_for_health_team_gave_care_in_a_professional_way
-    type: VARCHAR
-  - name: footnote_for_star_rating_for_gave_care_in_a_professional_way
-    type: VARCHAR
-  - name: percent_of_patients_who_reported_that_their_home_health_team_gave_care_in_a_professional_way
-    type: VARCHAR
-  - name: footnote_for_percent_of_patients_who_reported_that_their_home_health_team_gave_care_in_a_professional_way
-    type: VARCHAR
-  - name: star_rating_for_health_team_communicated_well_with_them
-    type: VARCHAR
-  - name: footnote_for_star_rating_for_communicated_well_with_them
-    type: VARCHAR
-  - name: percent_of_patients_who_reported_that_their_home_health_team_communicated_well_with_them
-    type: VARCHAR
-  - name: footnote_for_percent_of_patients_who_reported_that_their_home_health_team_communicated_well_with_them
-    type: VARCHAR
-  - name: star_rating_team_discussed_medicines_pain_and_home_safety
-    type: VARCHAR
-  - name: footnote_star_rating_discussed_medicines_pain_home_safety
-    type: VARCHAR
-  - name: percent_of_patients_who_reported_that_their_home_health_team_discussed_medicines_pain_and_home_safety_with_them
-    type: VARCHAR
-  - name: footnote_for_percent_of_patients_who_reported_that_their_home_health_team_discussed_medicines_pain_and_home_safety_with_them
-    type: VARCHAR
-  - name: star_rating_for_how_patients_rated_overall_care_from_agency
-    type: VARCHAR
-  - name: footnote_for_star_rating_for_overall_care_from_agency
-    type: VARCHAR
-  - name: percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest
-    type: VARCHAR
-  - name: footnote_for_percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest
-    type: VARCHAR
-  - name: percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family
-    type: VARCHAR
-  - name: footnote_for_percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family
-    type: VARCHAR
-  - name: number_of_completed_surveys
-    type: VARCHAR
-  - name: footnote_for_number_of_completed_surveys
-    type: VARCHAR
-  - name: survey_response_rate
-    type: VARCHAR
-  - name: footnote_for_survey_response_rate
-    type: VARCHAR
-  - name: footnote_number
-    type: VARCHAR
+- name: cms_certification_number_ccn
+  type: VARCHAR
+- name: hhcahps_survey_summary_star_rating
+  type: VARCHAR
+- name: hhcahps_survey_summary_star_rating_footnote
+  type: VARCHAR
+- name: star_rating_for_health_team_gave_care_in_a_professional_way
+  type: VARCHAR
+- name: footnote_for_star_rating_for_gave_care_in_a_professional_way
+  type: VARCHAR
+- name: pct_pts_who_reported_that_their_home_hea_care_a_professional_way
+  type: VARCHAR
+- name: fn_pct_pts_who_reported_that_their_home_care_a_professional_way
+  type: VARCHAR
+- name: star_rating_for_health_team_communicated_well_with_them
+  type: VARCHAR
+- name: footnote_for_star_rating_for_communicated_well_with_them
+  type: VARCHAR
+- name: pct_pts_who_reported_that_their_home_team_communicated_well_them
+  type: VARCHAR
+- name: fn_pct_pts_who_reported_that_their_h_team_communicated_well_them
+  type: VARCHAR
+- name: star_rating_team_discussed_medicines_pain_and_home_safety
+  type: VARCHAR
+- name: footnote_star_rating_discussed_medicines_pain_home_safety
+  type: VARCHAR
+- name: pct_pts_who_reported_that_their_home_healt_pain_home_safety_them
+  type: VARCHAR
+- name: fn_pct_pts_who_reported_that_their_home_he_pain_home_safety_them
+  type: VARCHAR
+- name: star_rating_for_how_patients_rated_overall_care_from_agency
+  type: VARCHAR
+- name: footnote_for_star_rating_for_overall_care_from_agency
+  type: VARCHAR
+- name: pct_pts_who_gave_their_home_health_agency_a_0_lowest_10_highest
+  type: VARCHAR
+- name: fn_pct_pts_who_gave_their_home_health_agency_0_lowest_10_highest
+  type: VARCHAR
+- name: pct_pts_who_reported_yes_they_would_health_agency_friends_family
+  type: VARCHAR
+- name: fn_pct_pts_who_reported_yes_they_wo_health_agency_friends_family
+  type: VARCHAR
+- name: number_of_completed_surveys
+  type: VARCHAR
+- name: footnote_for_number_of_completed_surveys
+  type: VARCHAR
+- name: survey_response_rate
+  type: VARCHAR
+- name: footnote_for_survey_response_rate
+  type: VARCHAR
+- name: footnote_number
+  type: VARCHAR

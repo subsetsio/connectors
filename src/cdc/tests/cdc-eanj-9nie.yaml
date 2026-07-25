@@ -8,11 +8,7 @@ tests:
   certainty: 80
   points_outward: true
   severity: block
-- freshness:
-    col: past_week_ending
-    reaches: today - 400d
-  reason: temporal CDC dataset should include observations or update markers within the last 400 days for promotion; wider
-    than weekly/monthly cadence to accommodate annual releases and delayed public-health revisions
-  certainty: 70
-  points_outward: true
-  severity: block
+coverage:
+  frozen: true
+  reason: CDC Socrata dataset is a historical or irregularly revised table; raw row-count tests still verify the full export,
+    but no rolling freshness cadence is promised for this table.

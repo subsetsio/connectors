@@ -1,8 +1,10 @@
 spec_id: cdc-wan8-w4er
 status: active
 tests:
-  - row_count: {min: 400055}
-    reason: exported 800,110 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half of that, so fewer rows means the stream truncated
-    certainty: 80
-    points_outward: true
-    severity: block
+- row_count:
+    min: 400055
+  reason: exported 800,110 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within
+    half of that, so fewer rows means the stream truncated
+  certainty: 80
+  points_outward: true
+  severity: block
