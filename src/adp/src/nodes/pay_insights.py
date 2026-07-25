@@ -13,7 +13,7 @@ hardcoding a date.
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 
 from utils import parse_float, read_history_csv
 
@@ -43,26 +43,3 @@ def fetch_pay_insights(node_id: str) -> None:
     } for r in rows]
     table = pa.Table.from_pylist(records, schema=PAY_SCHEMA)
     save_raw_parquet(table, node_id)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="adp-pay-insights", fn=fetch_pay_insights, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="adp-pay-insights-transform",
-        deps=["adp-pay-insights"],
-        sql='''
-            SELECT
-                CAST(date AS DATE)        AS date,
-                timestep                  AS frequency,
-                aggregation,
-                category,
-                median_pay_change,
-                median_annual_pay
-            FROM "adp-pay-insights"
-            WHERE date IS NOT NULL
-        ''',
-    ),
-]
