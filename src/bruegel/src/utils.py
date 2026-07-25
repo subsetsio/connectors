@@ -272,11 +272,10 @@ def _wayback_html(page_url: str) -> str:
     return snap.text
 
 
-# Ordered by (liveness, then cost). Jina and SPN both read the CURRENT page and
-# both fail fast; the Wayback snapshot can hand back a link to a superseded (and
-# therefore deleted) refresh; the direct www fetch is last because in CI it does
-# not fail, it hangs — the WAF blackholes the runner until every retry times out.
-_PAGE_RESOLVERS = (_jina_html, _spn_html, _wayback_html, get_text)
+# Ordered by (liveness, then cost). The apex host currently serves the dataset
+# pages and returns current file links without needing Jina/archive.org. Keep the
+# fallback resolvers because Bruegel has moved WAF behavior between hosts before.
+_PAGE_RESOLVERS = (get_text, _jina_html, _spn_html, _wayback_html)
 
 
 def _resolve_link_sets(page_path: str):
@@ -284,18 +283,26 @@ def _resolve_link_sets(page_path: str):
     Callers try each set in turn: a resolver can succeed at reading a page yet
     hand back a dead link (Wayback's snapshot of a superseded refresh), and the
     only way to tell is to attempt the download."""
-    page_url = BASE + page_path
+    page_urls = [APEX + page_path, BASE + page_path]
     seen: list[list[str]] = []
+    failures: list[str] = []
     for resolver in _PAGE_RESOLVERS:
-        try:
-            links = [_to_apex(u) for u in _links_from_html(resolver(page_url))]
-        except Exception:
-            continue
-        if links and links not in seen:
-            seen.append(links)
-            yield links
+        for page_url in page_urls:
+            try:
+                html = resolver(page_url)
+                links = [_to_apex(u) for u in _links_from_html(html)]
+            except Exception as exc:
+                failures.append(f"{resolver.__name__}({page_url}): {type(exc).__name__}: {exc}")
+                continue
+            if not links:
+                failures.append(f"{resolver.__name__}({page_url}): 0 file links")
+                continue
+            if links not in seen:
+                seen.append(links)
+                yield links
     if not seen:
-        raise AssertionError(f"no download link found for {page_path}")
+        tail = "; ".join(failures[-6:])
+        raise AssertionError(f"no download link found for {page_path}; tried {tail}")
 
 
 def resolve_links(page_path: str) -> list[str]:
