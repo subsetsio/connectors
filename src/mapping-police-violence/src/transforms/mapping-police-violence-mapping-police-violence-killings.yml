@@ -31,7 +31,7 @@ columns:
     type: VARCHAR
   - name: ori
     type: VARCHAR
-  - name: cause_of_death
+  - name: use_of_force
     type: VARCHAR
   - name: circumstances
     type: VARCHAR
@@ -43,29 +43,21 @@ columns:
     type: VARCHAR
   - name: signs_of_mental_illness
     type: VARCHAR
-  - name: allegedly_armed
-    type: VARCHAR
-  - name: wapo_armed
+  - name: allegedly_armed_with
     type: VARCHAR
   - name: wapo_threat_level
     type: VARCHAR
-  - name: wapo_flee
+  - name: threat_perception
     type: VARCHAR
-  - name: wapo_body_camera
+  - name: flee
     type: VARCHAR
-  - name: wapo_id
-    type: BIGINT
-  - name: off_duty_killing
+  - name: incident_footage
     type: VARCHAR
-  - name: geography
-    type: VARCHAR
-  - name: mpv_id
-    type: BIGINT
-  - name: fe_id
-    type: BIGINT
   - name: encounter_type
     type: VARCHAR
   - name: initial_reason
+    type: VARCHAR
+  - name: call_for_service
     type: VARCHAR
   - name: officer_names
     type: VARCHAR
@@ -73,7 +65,15 @@ columns:
     type: VARCHAR
   - name: officer_known_past_shootings
     type: VARCHAR
-  - name: call_for_service
+  - name: off_duty_killing
+    type: VARCHAR
+  - name: wapo_id
+    type: BIGINT
+  - name: mpv_id
+    type: BIGINT
+  - name: fe_id
+    type: BIGINT
+  - name: geography
     type: VARCHAR
   - name: tract
     type: BIGINT
