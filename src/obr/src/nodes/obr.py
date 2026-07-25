@@ -215,10 +215,18 @@ def _wayback_replay_urls(session, url: str) -> list[str]:
 def _wayback_get(session, url: str) -> bytes:
     """Replay an archived OBR file when GitHub Actions is blocked by Cloudflare."""
     errors = []
+    try:
+        cdx_replays = _wayback_replay_urls(session, url)
+    except Exception as exc:
+        # The CDX API can return archive-specific 4xx responses from CI. That
+        # should not prevent the deterministic latest-capture replay URLs from
+        # being tried.
+        errors.append(f"{_WAYBACK_CDX}: {exc}")
+        cdx_replays = []
     replay_urls = [
         f"https://web.archive.org/web/0id_/{url}",
         f"https://web.archive.org/web/2id_/{url}",
-        *_wayback_replay_urls(session, url),
+        *cdx_replays,
     ]
     seen_urls = set()
     for replay_url in replay_urls:
@@ -248,7 +256,12 @@ def _wayback_get(session, url: str) -> bytes:
 
     for wait_s in (4, 8, 15):
         time.sleep(wait_s)
-        for replay_url in _wayback_replay_urls(session, url)[:3]:
+        try:
+            retry_replays = _wayback_replay_urls(session, url)[:3]
+        except Exception as exc:
+            errors.append(f"{_WAYBACK_CDX}: {exc}")
+            retry_replays = []
+        for replay_url in retry_replays:
             try:
                 resp = _http_get(session, replay_url)
                 if _looks_like_workbook_or_zip(resp.content):
