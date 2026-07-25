@@ -30,7 +30,7 @@ from urllib.parse import quote
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 from utils import BASE, PREFIX, get_bytes, xml_root
 
 
@@ -133,25 +133,6 @@ def fetch_exchange_rates(node_id: str) -> None:
 
 
 _FX_ID = f"{PREFIX}exchange-rates"
-
-_FX_SQL = f'''
-    SELECT
-        CAST(date AS DATE)                       AS date,
-        currency_code,
-        currency_name,
-        ratio,
-        rate_bgn,
-        reverse_rate,
-        rate_bgn / NULLIF(ratio, 0)              AS rate_bgn_per_unit,
-        currency_code IN ('XAU', 'XAG', 'XPT', 'XPD') AS is_metal
-    FROM (
-        SELECT *, row_number() OVER (
-            PARTITION BY date, currency_code ORDER BY rate_bgn
-        ) AS rn
-        FROM "{_FX_ID}"
-    )
-    WHERE rn = 1 AND rate_bgn IS NOT NULL
-'''
 
 
 # ---------------------------------------------------------------------------
@@ -316,25 +297,6 @@ def fetch_sdmx(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_SDMX_SCHEMA), asset)
 
 
-def _sdmx_sql(dep_id: str) -> str:
-    return f'''
-        SELECT
-            keyfamily,
-            freq,
-            series_key,
-            series_name,
-            period,
-            value
-        FROM (
-            SELECT *, row_number() OVER (
-                PARTITION BY series_key, freq, period ORDER BY value
-            ) AS rn
-            FROM "{dep_id}"
-        )
-        WHERE rn = 1 AND value IS NOT NULL
-    '''
-
-
 # ---------------------------------------------------------------------------
 # Specs
 # ---------------------------------------------------------------------------
@@ -343,16 +305,5 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=_FX_ID, fn=fetch_exchange_rates, kind="download"),
 ] + [
     NodeSpec(id=f"{PREFIX}{eid}", fn=fetch_sdmx, kind="download")
-    for eid in SDMX_PAGES
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{_FX_ID}-transform", deps=[_FX_ID], sql=_FX_SQL),
-] + [
-    SqlNodeSpec(
-        id=f"{PREFIX}{eid}-transform",
-        deps=[f"{PREFIX}{eid}"],
-        sql=_sdmx_sql(f"{PREFIX}{eid}"),
-    )
     for eid in SDMX_PAGES
 ]
