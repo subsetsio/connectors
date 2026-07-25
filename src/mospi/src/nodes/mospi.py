@@ -40,9 +40,11 @@ OpenSSL's path builder matches the first intermediate by subject, picks the AAA
 one, and dead-ends on an untrusted self-signed root. We add both eMudhra
 intermediates (`mospi_ca_bundle.pem`) as extra anchors on top of certifi so the
 path builder can disambiguate; the chain still terminates at `emSign Root CA -
-G1`, which certifi trusts. Verification is never disabled and no distrusted root
-is trusted. If eMudhra rotates the intermediate this fails closed with a TLS
-error — refresh the bundle (instructions are in its header).
+G1`, which certifi trusts. The server also requires legacy TLS renegotiation,
+so OpenSSL 3 clients must opt into `OP_LEGACY_SERVER_CONNECT`. Verification is
+never disabled and no distrusted root is trusted. If eMudhra rotates the
+intermediate this fails closed with a TLS error — refresh the bundle
+(instructions are in its header).
 
 Known limitation: CPI base_year 2024 (the newest rebasing, 2025+ data only) is
 served by an undocumented `getCPIData` endpoint that returns 400 for every
@@ -73,10 +75,11 @@ MAX_PAGES_ABS = 100000    # safety ceiling — raises (never silently truncates)
 
 # ---------------------------------------------------------------------------
 # Transport: route through subsets_utils.get, but back its client with an SSL
-# context that can verify the MoSPI chain (see module docstring). subsets_utils
-# exposes no supported hook for the client's SSL context, so we swap the private
-# module-level client — requests still flow through subsets_utils.get, keeping
-# its retry and http_requests.csv tracking.
+# context that can verify the MoSPI chain and tolerate the server's legacy TLS
+# renegotiation (see module docstring). subsets_utils exposes no supported hook
+# for the client's SSL context, so we swap the private module-level client —
+# requests still flow through subsets_utils.get, keeping its retry and
+# http_requests.csv tracking.
 # ---------------------------------------------------------------------------
 CA_BUNDLE = Path(__file__).with_name("mospi_ca_bundle.pem")
 
@@ -95,6 +98,9 @@ def _ensure_client() -> None:
 
     ctx = ssl.create_default_context(cafile=certifi.where())
     ctx.load_verify_locations(cafile=str(CA_BUNDLE))
+    legacy_server_connect = getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0)
+    if legacy_server_connect:
+        ctx.options |= legacy_server_connect
     client = httpx.Client(
         timeout=httpx.Timeout(180.0, connect=15.0),
         headers={"User-Agent": "subsets.io-data-connector/1.0 (mospi)"},

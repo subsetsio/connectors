@@ -15,10 +15,11 @@ from datetime import date
 import pyarrow as pa
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, save_raw_parquet
 
 SLUG = "swiss-national-bank"
 BASE_URL = "https://data.snb.ch/api"
+MAINTAIN_MAX_AGE_DAYS = 7
 
 SCHEMA = pa.schema(
     [
@@ -117,4 +118,24 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(entity_id), fn=fetch_one, kind="download")
     for entity_id in ENTITY_IDS
+]
+
+
+def _raw_is_fresh(asset_id: str) -> bool:
+    """Resume multi-leg refreshes and skip recently fetched full-cube snapshots."""
+    return raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            f"SNB cube endpoint has no row-level since/modifiedAfter filter; each "
+            f"download is a full-cube snapshot. Re-fetch when committed raw is older "
+            f"than {MAINTAIN_MAX_AGE_DAYS}d, and skip newer raw so continuation legs "
+            "resume instead of re-running the leading cube set."
+        ),
+        check=_raw_is_fresh,
+    )
+    for spec in DOWNLOAD_SPECS
 ]
