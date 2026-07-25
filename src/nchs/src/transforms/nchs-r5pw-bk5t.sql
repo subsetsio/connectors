@@ -21,7 +21,7 @@ SELECT
     "chronic_lower_respiratory_diseases",
     "other_diseases_of_respiratory_system",
     "nephritis_nephrotic_syndrome_and_nephrosis",
-    "symptoms_signs_and_abnormal_clinical_and_laboratory_findings_not_elsewhere_classified",
+    "ill_defined_causes",
     "diseases_of_heart",
     "cerebrovascular_diseases",
     "covid_19_multiple_cause_of_death",
