@@ -266,8 +266,10 @@ def _fetch_price_history_range(code, start_year, end_year, *, allow_window_fallb
             if allow_window_fallback and page > 1:
                 fetched_years = [_to_int(d.get("year")) for d in recs]
                 fetched_years = [y for y in fetched_years if y is not None]
-                next_year = max(fetched_years, default=start_year - 1)
-                return recs + _fetch_price_history_windowed(code, next_year, end_year, existing=recs)
+                oldest_year = min(fetched_years, default=end_year + 1)
+                return _fetch_price_history_windowed(
+                    code, start_year, oldest_year, existing=recs
+                ) + recs
             raise
         months = j.get("month") or []
         for entry in months:

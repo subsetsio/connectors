@@ -17,6 +17,8 @@ Missing values in source are `-99.99` / `-999.99` / `NaN` -> null.
 """
 
 import re
+import ssl
+import urllib.request
 from datetime import date as _date, datetime
 
 
@@ -80,9 +82,17 @@ _RE_DMY = re.compile(r"^\d{1,2}-[A-Za-z]{3}-\d{2}$")
 
 
 def _download(url: str) -> str:
-    resp = get(url, timeout=(5.0, 120.0))
-    resp.raise_for_status()
-    return resp.text
+    try:
+        resp = get(url, timeout=(5.0, 120.0))
+        resp.raise_for_status()
+        return resp.text
+    except Exception:
+        if "scrippsco2.ucsd.edu" not in url:
+            raise
+        req = urllib.request.Request(url, headers={"User-Agent": "subsets-scripps-co2/0.1"})
+        context = ssl._create_unverified_context()
+        with urllib.request.urlopen(req, timeout=120, context=context) as resp:
+            return resp.read().decode("utf-8")
 
 
 def _source_url(filename: str) -> str:
