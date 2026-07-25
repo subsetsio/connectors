@@ -7,7 +7,7 @@ tests:
   - not_null: title
     reason: public alerts should include a human-readable title
     certainty: 90
-  - column_type: {col: interval_start, type: string}
+  - column_type: {col: interval_start, type: timestamp}
     certainty: 80
   - row_count: {min: 1}
     reason: metalerts all.json should return current alert features; an empty feed may happen rarely but usually means parsing broke
