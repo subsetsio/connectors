@@ -12,14 +12,15 @@ EDGAR F-gases, EDGAR CO2bio). We deliberately DO NOT fetch IEA-EDGAR CO2 or
 the EDGAR AR5 GHG total — both embed IEA fossil-CO2 data under CC BY-NC-ND
 4.0 (non-commercial / no-derivatives), which we may not redistribute.
 
-Each workbook's "IPCC 2006" sheet is a wide table: a 9-row metadata
-preamble, then a header row (index 9) of 8 identifier columns
-(IPCC_annex, C_group_IM24_sh, Country_code_A3, Name,
-ipcc_code_2006_for_standard_report, ...name, Substance, fossil_bio) followed
-by Y_1970..Y_2024 year columns (F-gases start Y_1990). Values are in Gg
-(gigagrams = kilotonnes) of the named substance. The F-gases workbook
-resolves into ~25 individual species (HFC-125, SF6, NF3, ...) via the
-Substance column, which we carry through verbatim as `gas`.
+Each workbook's "IPCC 2006" sheet has a 9-row metadata preamble, then a header
+row (index 9) of identifier columns (IPCC_annex, C_group_IM24_sh,
+Country_code_A3, Name, ipcc_code_2006_for_standard_report, ...name,
+Substance, fossil_bio). EDGAR has served both annual wide files with
+Y_1970..Y_2024 columns and monthly files with Year plus Jan..Dec columns; we
+publish one annual table, summing monthly values to the same Gg (kilotonnes) of
+the named substance. The F-gases workbook resolves into ~25 individual species
+(HFC-125, SF6, NF3, ...) via the Substance column, which we carry through
+verbatim as `gas`.
 
 Re-pull strategy: stateless full re-pull. The whole CC-BY tabular set is a
 few tens of MB and parses in seconds, so we re-download and overwrite every
@@ -56,6 +57,7 @@ GAS_PACKAGES = [
 
 SHEET = "IPCC 2006"
 HEADER_ROW = 9  # 0-indexed: 9-row metadata preamble precedes the column header
+MONTH_COLUMNS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 SCHEMA = pa.schema([
     ("country_code", pa.string()),
@@ -121,22 +123,31 @@ def _parse_workbook(zip_bytes: bytes) -> list[dict]:
     if header is None:
         raise RuntimeError("workbook ended before header row")
 
-    # Year columns are labelled Y_####; everything else is an identifier col.
+    # EDGAR release files may be annual-wide (Y_#### columns) or monthly
+    # long-ish (Year plus Jan..Dec). Both are normalized to annual totals.
     year_cols = {
         idx: int(h[2:])
         for idx, h in enumerate(header)
         if isinstance(h, str) and h.startswith("Y_") and h[2:].isdigit()
     }
-    if len(year_cols) < 10:
-        raise RuntimeError(
-            f"expected many Y_#### columns, found {len(year_cols)} in {header}"
-        )
 
     def col(name: str) -> int:
         for idx, h in enumerate(header):
             if h == name:
                 return idx
         raise RuntimeError(f"column {name!r} not in header {header}")
+
+    monthly_cols: dict[int, str] = {}
+    if not year_cols:
+        monthly_cols = {col(name): name for name in MONTH_COLUMNS}
+        i_year = col("Year")
+    else:
+        i_year = None
+
+    if len(year_cols) < 10 and not monthly_cols:
+        raise RuntimeError(
+            f"expected Y_#### columns or Year plus Jan..Dec columns, found header {header}"
+        )
 
     i_annex = col("IPCC_annex")
     i_cgroup = col("C_group_IM24_sh")
@@ -161,13 +172,29 @@ def _parse_workbook(zip_bytes: bytes) -> list[dict]:
             "gas": row[i_sub],
             "fossil_bio": row[i_fb],
         }
-        for idx, year in year_cols.items():
-            val = row[idx]
-            if val is None or val == "":
+        if year_cols:
+            for idx, year in year_cols.items():
+                val = row[idx]
+                if val is None or val == "":
+                    continue
+                rec = dict(base)
+                rec["year"] = year
+                rec["emissions_kt"] = float(val)
+                out.append(rec)
+        else:
+            year = row[i_year]
+            if year is None or year == "":
+                continue
+            values = [
+                float(row[idx])
+                for idx in monthly_cols
+                if row[idx] is not None and row[idx] != ""
+            ]
+            if not values:
                 continue
             rec = dict(base)
-            rec["year"] = year
-            rec["emissions_kt"] = float(val)
+            rec["year"] = int(year)
+            rec["emissions_kt"] = sum(values)
             out.append(rec)
     return out
 
