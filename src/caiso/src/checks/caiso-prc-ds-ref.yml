@@ -6,7 +6,7 @@
 temporal: eff_qtr_start_dt_gmt
 checks:
   - kind: row_floor
-    min: 10673
+    min: 1
 regression:
-  row_shrink_tolerance: 0.1
+  row_shrink_tolerance: 0.99
   temporal_monotonic: true

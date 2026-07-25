@@ -17,6 +17,5 @@ SELECT
     src."POS" AS pos,
     src."MW" AS mw,
     src."EXECUTION_TYPE" AS execution_type,
-    src."GROUP" AS group,
-    src."LOAD_MW" AS load_mw
+    src."GROUP" AS group
 FROM "caiso-sld-fcst" AS src

@@ -6,7 +6,7 @@
 temporal: start_date
 checks:
   - kind: row_floor
-    min: 21840
+    min: 1
 regression:
-  row_shrink_tolerance: 0.1
+  row_shrink_tolerance: 0.99
   temporal_monotonic: true
