@@ -16,4 +16,4 @@ SELECT
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_TS: Detailed description of the group of series" AS comment_ts_detailed_description_of_the_group_of_series,
     "COMMENT_DSET: Comments on the dataset levels" AS comment_dset_comments_on_the_dataset_levels
-FROM "statec-dsd-asile@df-b2900"
+FROM "statec-dsd-asile-df-b2900"

@@ -43,7 +43,8 @@ STATE_VERSION = 2
 # here would make every MaintainSpec check return False and re-crawl the corpus.
 RAW_EXT = "ndjson.zst"
 
-# Refresh window for the maintain skip (matches maintenance.json cadence_days).
+# Refresh window for the expensive values maintain skip (matches
+# maintenance.json cadence_days).
 # The SDG Global Database is versioned by a quarterly-ish release tag
 # (e.g. 2026.Q2.G.01) and exposes no row-level change feed, so freshness is
 # whole-corpus age: skip any raw asset younger than this. This is also what lets
@@ -250,26 +251,29 @@ DOWNLOAD_SPECS = [
 
 
 # The source has no change feed (research: no modifiedAfter); the SDG database
-# release tag is its only version marker, so freshness is whole-corpus age. The
-# small reference taxonomies and the ~3.2M-row `values` corpus version together
-# with each release, so all five downloads share one window. Without this skip a
-# full-DAG run re-runs the ~5h `values` crawl every time — even a continuation
-# resuming a deadline-interrupted `values-transform` — which restarts the crawl
-# from series #1 and burns the whole ~6h budget before the transform can be
-# recorded done, so the connector can never finalize. FORCE_REFRESH=1 bypasses.
+# release tag is its only version marker, so `values` freshness is whole-corpus
+# age. The small reference taxonomies are cheap enough to refetch every full run,
+# which also avoids an all-fresh DAG path where post-publish checks stay pending.
+# The expensive ~3.2M-row `values` corpus must keep its skip: without it a
+# continuation resuming a deadline-interrupted `values-transform` re-runs the
+# ~5h crawl from series #1 and can never finalize.
+def _is_fresh(asset_id: str) -> bool:
+    if asset_id != "united-nations-values":
+        return False
+    return raw_asset_exists(asset_id, RAW_EXT, max_age_days=REFRESH_DAYS)
+
+
 MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id=spec.id,
         description=(
             "UN SDG Global Database has no row-level delta filter and is "
-            "versioned by a quarterly-ish release tag, so refetch this asset "
-            f"when its raw snapshot is older than {REFRESH_DAYS}d "
-            "(maintenance.json cadence_days=90); younger than that, skip — "
-            "which is also how the ~5h values crawl advances across runs."
+            "versioned by a quarterly-ish release tag. Refetch the small "
+            "taxonomy assets every run; skip only the expensive values corpus "
+            f"while its raw snapshot is younger than {REFRESH_DAYS}d "
+            "(maintenance.json cadence_days=90)."
         ),
-        check=(lambda asset_id: raw_asset_exists(
-            asset_id, RAW_EXT, max_age_days=REFRESH_DAYS
-        )),
+        check=_is_fresh,
     )
     for spec in DOWNLOAD_SPECS
 ]

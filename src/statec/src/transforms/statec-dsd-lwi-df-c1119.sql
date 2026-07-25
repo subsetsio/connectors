@@ -22,4 +22,4 @@ SELECT
     "COMMENT_OBS: Comments to the observation value" AS comment_obs_comments_to_the_observation_value,
     "COMMENT_TS: Detailed description of the group of series" AS comment_ts_detailed_description_of_the_group_of_series,
     "DECIMALS: Decimals" AS decimals_decimals
-FROM "statec-dsd-lwi@df-c1119"
+FROM "statec-dsd-lwi-df-c1119"

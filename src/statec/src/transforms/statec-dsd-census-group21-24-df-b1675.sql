@@ -29,4 +29,4 @@ SELECT
     "TIME_PERIOD: Time period" AS time_period_time_period,
     "OBS_VALUE" AS obs_value,
     "UNIT_MULT: Unit multiplier" AS unit_mult_unit_multiplier
-FROM "statec-dsd-census-group21-24@df-b1675"
+FROM "statec-dsd-census-group21-24-df-b1675"

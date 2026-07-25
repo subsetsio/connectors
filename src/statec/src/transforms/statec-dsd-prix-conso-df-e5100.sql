@@ -25,4 +25,4 @@ SELECT
     "COMMENT_DSET: Comments on the dataset levels" AS comment_dset_comments_on_the_dataset_levels,
     "COMMENT_OBS: Comments to the observation value" AS comment_obs_comments_to_the_observation_value,
     "COMMENT_TS_CONSTR_TRADE: Detailed description of the group of series" AS comment_ts_constr_trade
-FROM "statec-dsd-prix-conso@df-e5100"
+FROM "statec-dsd-prix-conso-df-e5100"

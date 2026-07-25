@@ -14,4 +14,4 @@ SELECT
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_TS_MEASURE: Note" AS comment_ts_measure_note
-FROM "statec-dsd-tic-ia@df-d8461"
+FROM "statec-dsd-tic-ia-df-d8461"

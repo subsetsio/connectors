@@ -27,4 +27,4 @@ SELECT
     "COMMENT_TS_ACCIDENT_TYPE: Detailed description of the group of series collision type" AS comment_ts_accident_type,
     "COMMENT_TS_SEVERITY_ACC: Detailed description of the group of series accident severity" AS comment_ts_severity_acc,
     "COMMENT_TS_SEVERITY_INJ: Detailed description of the group of series inj severity" AS comment_ts_severity_inj
-FROM "statec-dsd-accident@df-c4109"
+FROM "statec-dsd-accident-df-c4109"

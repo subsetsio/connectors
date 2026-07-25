@@ -14,4 +14,4 @@ SELECT
     "UNIT_MULT: Unit multiplier" AS unit_mult_unit_multiplier,
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals
-FROM "statec-dsd-deces-foetal@df-b2303"
+FROM "statec-dsd-deces-foetal-df-b2303"

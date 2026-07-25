@@ -22,4 +22,4 @@ SELECT
     "COMMENT_TS_WINE_VAR: Detailed description of the group of series wine" AS comment_ts_wine_var,
     "REPYEARSTART: Reporting year start day" AS repyearstart_reporting_year_start_day,
     "COMMENT_TS_MEASURE: Detailed description of the group of series measure" AS comment_ts_measure
-FROM "statec-dsd-vins@df-d2204"
+FROM "statec-dsd-vins-df-d2204"

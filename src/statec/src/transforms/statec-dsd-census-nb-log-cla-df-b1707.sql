@@ -27,4 +27,4 @@ SELECT
     "OBS_VALUE" AS obs_value,
     "UNIT_MULT: Unit multiplier" AS unit_mult_unit_multiplier,
     "DECIMALS: Decimals" AS decimals_decimals
-FROM "statec-dsd-census-nb-log-cla@df-b1707"
+FROM "statec-dsd-census-nb-log-cla-df-b1707"

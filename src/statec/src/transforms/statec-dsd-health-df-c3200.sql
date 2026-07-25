@@ -14,4 +14,4 @@ SELECT
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_TS_DISEASE: Detailed description of the group of series diseases" AS comment_ts_disease
-FROM "statec-dsd-health@df-c3200"
+FROM "statec-dsd-health-df-c3200"

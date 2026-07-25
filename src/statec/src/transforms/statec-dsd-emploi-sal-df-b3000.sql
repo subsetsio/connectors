@@ -17,4 +17,4 @@ SELECT
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_TS_NACE: Comments on the time series NACE" AS comment_ts_nace_comments_on_the_time_series_nace
-FROM "statec-dsd-emploi-sal@df-b3000"
+FROM "statec-dsd-emploi-sal-df-b3000"

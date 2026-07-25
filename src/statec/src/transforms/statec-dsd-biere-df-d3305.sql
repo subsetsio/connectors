@@ -16,4 +16,4 @@ SELECT
     "COMMENT_DSET: Comments on the dataset levels" AS comment_dset_comments_on_the_dataset_levels,
     "COMMENT_OBS: Comments to the observation value" AS comment_obs_comments_to_the_observation_value,
     "COMMENT_TS_MESURE: Detailed description of the group of series measure" AS comment_ts_mesure
-FROM "statec-dsd-biere@df-d3305"
+FROM "statec-dsd-biere-df-d3305"

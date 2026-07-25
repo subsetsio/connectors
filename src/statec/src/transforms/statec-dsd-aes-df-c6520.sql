@@ -23,4 +23,4 @@ SELECT
     "DECIMALS: Decimals" AS decimals_decimals,
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "UNIT_MULT: Unit multiplier" AS unit_mult_unit_multiplier
-FROM "statec-dsd-aes@df-c6520"
+FROM "statec-dsd-aes-df-c6520"

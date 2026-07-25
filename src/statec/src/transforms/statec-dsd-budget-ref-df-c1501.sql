@@ -18,4 +18,4 @@ SELECT
     "COMMENT_OBS: Comments to the observation value" AS comment_obs_comments_to_the_observation_value,
     "COMMENT_TS_HHCOMP: Detailed description of the group of series household composition" AS comment_ts_hhcomp,
     "COMMENT_TS_BUDGET_COMPONENT: Detailed description of the group of series budget component" AS comment_ts_budget_component
-FROM "statec-dsd-budget-ref@df-c1501"
+FROM "statec-dsd-budget-ref-df-c1501"

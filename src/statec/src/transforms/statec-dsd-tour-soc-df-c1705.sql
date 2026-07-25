@@ -17,4 +17,4 @@ SELECT
     "UNIT_MULT: Unit multiplier" AS unit_mult_unit_multiplier,
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals
-FROM "statec-dsd-tour-soc@df-c1705"
+FROM "statec-dsd-tour-soc-df-c1705"

@@ -19,4 +19,4 @@ SELECT
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_TS: Detailed description of the group of series" AS comment_ts_detailed_description_of_the_group_of_series
-FROM "statec-dsd-env-egss@df-e2705"
+FROM "statec-dsd-env-egss-df-e2705"

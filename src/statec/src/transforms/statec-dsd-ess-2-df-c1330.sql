@@ -20,4 +20,4 @@ SELECT
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_DSET: Comments on the dataset levels" AS comment_dset_comments_on_the_dataset_levels
-FROM "statec-dsd-ess-2@df-c1330"
+FROM "statec-dsd-ess-2-df-c1330"

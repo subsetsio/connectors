@@ -17,4 +17,4 @@ SELECT
     "DECIMALS: Decimals" AS decimals_decimals,
     "COMMENT_DSET: Comments on the dataset levels" AS comment_dset_comments_on_the_dataset_levels,
     "COMMENT_TS: Detailed description of the group of series" AS comment_ts_detailed_description_of_the_group_of_series
-FROM "statec-dsd-labour-cost@df-d1213"
+FROM "statec-dsd-labour-cost-df-d1213"

@@ -12,4 +12,4 @@ SELECT
     "OBS_VALUE" AS obs_value,
     "OBS_STATUS: Observation status" AS obs_status_observation_status,
     "DECIMALS: Decimals" AS decimals_decimals
-FROM "statec-dsd-agr-land-rent@df-d2130"
+FROM "statec-dsd-agr-land-rent-df-d2130"
