@@ -1,5 +1,8 @@
 spec_id: u-s-department-of-transportation-9vq4-dn8b
 status: active
+coverage:
+  frozen: true
+  reason: DOT Socrata catalog table is treated as a historical/static extract for this connector; no dataset-specific publisher freshness SLA was asserted during model authoring.
 tests:
   - row_count: {min: 1}
     reason: accepted Socrata datasets are tabular assets; an empty pull means SODA pagination broke or the dataset was withdrawn upstream.
