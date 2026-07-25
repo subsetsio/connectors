@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `swiss-national-bank-bsta-snb.jahr-u.efr.erk.keg.kkg`. Regenerate after model-verify.
+key: [period_start, period, series_label, series_key, dimensions_json]
+temporal: period_start
+sort: [period_start, period, series_label, series_key, dimensions_json]
+columns:
+  - name: cube_id
+    type: VARCHAR
+  - name: series_key
+    type: VARCHAR
+  - name: series_label
+    type: VARCHAR
+  - name: dimensions_json
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: scale
+    type: BIGINT
+  - name: period
+    type: BIGINT
+  - name: period_start
+    type: DATE
+  - name: value
+    type: DOUBLE
