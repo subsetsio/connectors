@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-regulationofchiefexecutiverecruitment(xrreg)"
+FROM "clio-infra-regulationofchiefexecutiverecruitment-xrreg"

@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-executiveconstraints(xconst)"
+FROM "clio-infra-executiveconstraints-xconst"

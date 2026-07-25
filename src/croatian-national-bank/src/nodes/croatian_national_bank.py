@@ -23,7 +23,9 @@ normalised to DOUBLE in the transform SQL.
 """
 
 from datetime import date
+from json import JSONDecodeError
 
+import httpx
 import pyarrow as pa
 
 from subsets_utils import (
@@ -81,7 +83,18 @@ def _fetch_range(path: str, start: str, end: str) -> list:
     params = {"datum-primjene-od": start, "datum-primjene-do": end}
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
-    return resp.json()
+    try:
+        data = resp.json()
+    except JSONDecodeError as exc:
+        snippet = resp.text[:160].replace("\n", " ")
+        raise httpx.RemoteProtocolError(
+            f"{path} returned non-JSON response ({len(resp.content)} bytes): {snippet!r}"
+        ) from exc
+    if not isinstance(data, list):
+        raise httpx.RemoteProtocolError(
+            f"{path} returned {type(data).__name__}, expected JSON list"
+        )
+    return data
 
 
 def _coerce(rows: list, schema: pa.Schema) -> pa.Table:

@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-opennessofexecutiverecruitment(xropen)"
+FROM "clio-infra-opennessofexecutiverecruitment-xropen"

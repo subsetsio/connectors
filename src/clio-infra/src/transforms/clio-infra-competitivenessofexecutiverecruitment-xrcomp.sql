@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-competitivenessofexecutiverecruitment(xrcomp)"
+FROM "clio-infra-competitivenessofexecutiverecruitment-xrcomp"

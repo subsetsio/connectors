@@ -115,6 +115,11 @@ def _month_ranges(years: range) -> list[tuple[str, str]]:
     return out
 
 
+def _year_ranges(years: range) -> list[tuple[str, str]]:
+    """(StartDate, EndDate) MM/DD/YYYY pairs, one per calendar year."""
+    return [(f"01/01/{y}", f"12/31/{y}") for y in years]
+
+
 def _skip_invalid_row(row) -> str:
     """Drop genuinely malformed rows (free-text Notes fields occasionally carry
     unquoted line breaks that split a record into the wrong column count)."""
@@ -167,8 +172,12 @@ def fetch_reports(node_id: str) -> None:
         date_ranges = _month_ranges(
             range(this_year - DAILY_WINDOW_YEARS + 1, this_year + 1)
         )
+    elif report_type == "MultiDay":
+        # Texas is large enough that the full-history MultiDay export can 500;
+        # yearly chunks keep each state request bounded.
+        date_ranges = _year_ranges(range(FULL_HISTORY_START, this_year + 1))
     else:
-        # MultiDay / Hail / SigWx are small — one full-history request per state.
+        # Hail / SigWx are small — one full-history request per state.
         date_ranges = [(f"01/01/{FULL_HISTORY_START}", f"12/31/{this_year}")]
 
     schema = _report_schema(columns)

@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-numeracy(total)"
+FROM "clio-infra-numeracy-total"

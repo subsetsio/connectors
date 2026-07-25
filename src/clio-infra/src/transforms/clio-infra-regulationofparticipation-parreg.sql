@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-regulationofparticipation(parreg)"
+FROM "clio-infra-regulationofparticipation-parreg"

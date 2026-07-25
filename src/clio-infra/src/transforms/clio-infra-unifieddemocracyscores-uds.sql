@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-unifieddemocracyscores(uds)"
+FROM "clio-infra-unifieddemocracyscores-uds"

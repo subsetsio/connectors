@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-armedconflicts(international)"
+FROM "clio-infra-armedconflicts-international"

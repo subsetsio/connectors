@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-lifeexpectancyatbirth(total)"
+FROM "clio-infra-lifeexpectancyatbirth-total"

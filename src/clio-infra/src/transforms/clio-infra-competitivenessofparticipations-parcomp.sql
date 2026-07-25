@@ -8,4 +8,4 @@ SELECT
     "country",
     "year",
     "value"
-FROM "clio-infra-competitivenessofparticipations(parcomp)"
+FROM "clio-infra-competitivenessofparticipations-parcomp"
