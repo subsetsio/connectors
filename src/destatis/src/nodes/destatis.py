@@ -48,7 +48,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     transient_retry,
@@ -273,28 +272,7 @@ DOWNLOAD_SPECS = [
 ]
 
 
-# A generic passthrough transform per statistic. The graph requires every download
-# node to have a transform consumer, so this comprehension covers all 331; the
-# curated `src/transforms/<table>.sql` + `.yml` pairs override it per table (see
-# orchestrator.load_nodes), and the transform stage is what authors those.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="time_label",
-        sql=f'''
-            SELECT
-                statistic_code,
-                table_code,
-                table_name,
-                "time"            AS time_label,
-                measure_code,
-                dims              AS dimensions,
-                CAST(value AS DOUBLE) AS value,
-                status
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms live as src/transforms/<table>.sql + .yml pairs (all 331 tables
+# have one; load_nodes reads the files). The generic passthrough comprehension
+# that used to sit here was fully shadowed by those pairs and the module-level
+# TRANSFORM_SPECS form is retired.

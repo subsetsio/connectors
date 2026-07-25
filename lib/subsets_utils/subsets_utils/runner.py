@@ -218,10 +218,14 @@ def _resolve_exit_code(subprocess_exit: int, run_status: str | None) -> int:
     if run_status == "needs_continuation":
         return 2
 
-    # No status or status="failed"/"running" — fall back to subprocess exit
-    # Killed by SIGTERM (143) or OOM (137) → continuation candidate IF some
-    # progress was made (run.json exists)
-    if subprocess_exit in (137, 143) and run_status is not None:
+    # No status or status="failed"/"running" — fall back to subprocess exit.
+    # The connector is spawned via subprocess.Popen with no shell, and
+    # Popen.wait() reports signal deaths as NEGATIVE signal numbers:
+    # -9 (SIGKILL — what the OOM killer sends) and -15 (SIGTERM). The
+    # shell-style 128+N codes (137/143) never appear on this interface.
+    # Killed by SIGKILL/SIGTERM → continuation candidate IF some progress
+    # was made (run.json exists).
+    if subprocess_exit in (-signal.SIGKILL, -signal.SIGTERM) and run_status is not None:
         return 2
 
     # Anything else is a hard failure
@@ -586,10 +590,10 @@ def main():
         else:
             print(f"Subprocess died (exit {subprocess_exit}) but run partially complete - exit 2 to retrigger")
     else:
-        if subprocess_exit == 137:
-            error_msg = "Exit code 137 - Out of memory (no progress to resume)"
-        elif subprocess_exit == 143:
-            error_msg = "Exit code 143 - SIGTERM (no progress to resume)"
+        if subprocess_exit == -signal.SIGKILL:
+            error_msg = "Killed by SIGKILL (signal 9, likely OOM) - no progress to resume"
+        elif subprocess_exit == -signal.SIGTERM:
+            error_msg = "Killed by SIGTERM (signal 15) - no progress to resume"
         else:
             error_msg = f"Subprocess exit code {subprocess_exit}, run.json status={run_status}"
         print(f"Connector failed: {error_msg}")
