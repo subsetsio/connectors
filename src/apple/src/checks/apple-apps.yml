@@ -3,11 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [snapshot_date, storefront, feed_type, rank]
+key: [snapshot_date, storefront, feed_type, rank, entity_id]
 temporal: snapshot_date
 checks:
   - kind: unique
-    columns: [snapshot_date, storefront, feed_type, rank]
+    columns: [snapshot_date, storefront, feed_type, rank, entity_id]
   - kind: not_null
     col: snapshot_date
   - kind: not_null
@@ -16,6 +16,8 @@ checks:
     col: feed_type
   - kind: not_null
     col: rank
+  - kind: not_null
+    col: entity_id
   - kind: row_floor
     min: 16338
 regression:
