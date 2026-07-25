@@ -42,7 +42,9 @@ intermediates (`mospi_ca_bundle.pem`) as extra anchors on top of certifi so the
 path builder can disambiguate; the chain still terminates at `emSign Root CA -
 G1`, which certifi trusts. The server also requires legacy TLS renegotiation,
 so OpenSSL 3 clients must opt into `OP_LEGACY_SERVER_CONNECT`. Verification is
-never disabled and no distrusted root is trusted. If eMudhra rotates the
+never disabled and no distrusted root is trusted. Python 3.11 on some Linux
+builds does not expose `ssl.OP_LEGACY_SERVER_CONNECT`, so the connector falls
+back to OpenSSL's stable bit value for that option. If eMudhra rotates the
 intermediate this fails closed with a TLS error — refresh the bundle
 (instructions are in its header).
 
@@ -102,9 +104,8 @@ def _ensure_client() -> None:
         ctx.set_ciphers("DEFAULT:@SECLEVEL=0")
     except ssl.SSLError:
         pass
-    legacy_server_connect = getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0)
-    if legacy_server_connect:
-        ctx.options |= legacy_server_connect
+    legacy_server_connect = getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0x4)
+    ctx.options |= legacy_server_connect
     client = httpx.Client(
         timeout=httpx.Timeout(180.0, connect=15.0),
         headers={"User-Agent": "subsets.io-data-connector/1.0 (mospi)"},
