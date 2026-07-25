@@ -160,6 +160,7 @@ def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
             if (
                 "Incomplete mapping set" in body
                 or "Object reference not set to an instance of an object" in body
+                or "Did not expect more then 1 structure from query" in body
             ):
                 return _SKIP_404  # permanent source-side SDMX mapping failure
         resp.raise_for_status()  # 5xx/429 -> transient retry; other 4xx -> raise

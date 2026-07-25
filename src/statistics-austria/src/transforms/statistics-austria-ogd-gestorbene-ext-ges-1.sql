@@ -6,5 +6,5 @@ SELECT
     "source_file",
     "row_number",
     CAST("year_under_review" AS BIGINT) AS year_under_review,
-    "deceased"
+    "deaths"
 FROM "statistics-austria-ogd-gestorbene-ext-ges-1"
