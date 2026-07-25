@@ -3,15 +3,15 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [column_2, column]
-temporal: column_2
+key: [month, subsector]
+temporal: month
 checks:
   - kind: unique
-    columns: [column_2, column]
+    columns: [month, subsector]
   - kind: not_null
-    col: column_2
+    col: month
   - kind: not_null
-    col: column
+    col: subsector
   - kind: row_floor
     min: 4114
 regression:
