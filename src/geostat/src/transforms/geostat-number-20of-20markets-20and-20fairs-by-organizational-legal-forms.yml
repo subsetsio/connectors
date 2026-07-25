@@ -1,11 +1,14 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `geostat-number-20of-20markets-20and-20fairs-by-organizational-legal-forms`. Regenerate after model-verify.
-key: [period, number_of_markets_and_fairs_according_to_organizational_legal_forms_and_period]
-sort: [period, number_of_markets_and_fairs_according_to_organizational_legal_forms_and_period]
+key: [period, organizational_legal_form]
+sort: [period, organizational_legal_form]
 columns:
-  - name: number_of_markets_and_fairs_according_to_organizational_legal_forms_and_period
+  - name: organizational_legal_form
     type: VARCHAR
+    description: Organizational-legal form category for markets and fairs.
   - name: period
     type: BIGINT
+    description: Observation year.
   - name: value
     type: BIGINT
+    description: Number of markets and fairs.

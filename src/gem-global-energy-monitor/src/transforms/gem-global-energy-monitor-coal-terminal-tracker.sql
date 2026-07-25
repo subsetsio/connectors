@@ -25,6 +25,5 @@ SELECT
     "location_accuracy",
     "coal_source",
     "gem_terminal_id",
-    "gem_unit_phase_id",
-    "col_23"
+    "gem_unit_phase_id"
 FROM "gem-global-energy-monitor-coal-terminal-tracker"

@@ -37,6 +37,5 @@ SELECT
     "gem_location_id",
     "gem_phase_id",
     "other_ids_location",
-    "wiki_url",
-    "col_35"
+    "wiki_url"
 FROM "gem-global-energy-monitor-bioenergy-tracker"

@@ -29,15 +29,5 @@ SELECT
     "finance_type",
     "finance_status",
     "close_year",
-    "gem_wiki_link",
-    "col_26",
-    "col_27",
-    "col_28",
-    "col_29",
-    "col_30",
-    "col_31",
-    "col_32",
-    "col_33",
-    "col_34",
-    "col_35"
+    "gem_wiki_link"
 FROM "gem-global-energy-monitor-gas-finance-tracker"

@@ -3,14 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [period, number_of_markets_and_fairs_according_to_organizational_legal_forms_and_period]
+key: [period, organizational_legal_form]
 checks:
   - kind: unique
-    columns: [period, number_of_markets_and_fairs_according_to_organizational_legal_forms_and_period]
+    columns: [period, organizational_legal_form]
   - kind: not_null
     col: period
   - kind: not_null
-    col: number_of_markets_and_fairs_according_to_organizational_legal_forms_and_period
+    col: organizational_legal_form
   - kind: row_floor
     min: 36
 regression:

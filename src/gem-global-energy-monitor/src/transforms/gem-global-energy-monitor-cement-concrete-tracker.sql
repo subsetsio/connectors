@@ -30,19 +30,5 @@ SELECT
     "production_type",
     "ccs_ccus",
     "alternative_fuel",
-    "clay_calcination",
-    "col_28",
-    "col_29",
-    "col_30",
-    "col_31",
-    "col_32",
-    "col_33",
-    "col_34",
-    "col_35",
-    "col_36",
-    "col_37",
-    "col_38",
-    "col_39",
-    "col_40",
-    "col_41"
+    "clay_calcination"
 FROM "gem-global-energy-monitor-cement-concrete-tracker"

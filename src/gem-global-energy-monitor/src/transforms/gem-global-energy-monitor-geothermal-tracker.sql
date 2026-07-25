@@ -36,6 +36,5 @@ SELECT
     "gem_unit_id",
     "other_ids_location",
     "other_ids_unit_phase",
-    "wiki_url",
-    "col_34"
+    "wiki_url"
 FROM "gem-global-energy-monitor-geothermal-tracker"
