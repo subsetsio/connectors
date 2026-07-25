@@ -141,10 +141,16 @@ class _Inflater:
     def __init__(self):
         self._d = None
         self._sniffed = False
+        self._prefix = b""
 
     def feed(self, chunk: bytes) -> bytes:
         if not self._sniffed:
+            self._prefix += chunk
+            if len(self._prefix) < 2:
+                return b""
             self._sniffed = True
+            chunk = self._prefix
+            self._prefix = b""
             # wbits=47: auto-detect gzip vs zlib framing.
             self._d = zlib.decompressobj(47) if _compressed(chunk) else None
         if self._d is None:
