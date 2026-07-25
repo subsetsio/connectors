@@ -230,7 +230,10 @@ def _parse_workbook(blob: bytes):
             if i == header_idx:
                 seen = {}
                 columns = []
-                for j, cell in enumerate(raw):
+                header = list(raw)
+                while header and (header[-1] is None or str(header[-1]).strip() == ""):
+                    header.pop()
+                for j, cell in enumerate(header):
                     name = _norm_col(cell, j)
                     if name in seen:
                         seen[name] += 1
