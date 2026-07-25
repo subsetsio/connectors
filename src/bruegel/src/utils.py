@@ -69,6 +69,7 @@ _JINA = "https://r.jina.ai/"
 # yet (the trackers publish date-versioned filenames, so each refresh is new).
 _WB_RAW = "https://web.archive.org/web/29991231id_/"
 _WB_SAVE = "https://web.archive.org/save/"
+_WB_CDX = "https://web.archive.org/cdx/search/cdx"
 
 
 def _to_apex(url: str) -> str:
@@ -125,14 +126,31 @@ def _wayback_bytes(url: str, headers: dict) -> bytes:
             return data
     except Exception:
         pass
-    # 2) trigger a capture; its inline body is the file often enough to try
+    # 2) the far-future "latest" endpoint can return archive-side 4xx responses
+    # even when CDX lists a valid capture. Replay explicit recent captures before
+    # paying for a new Save-Page-Now request.
+    try:
+        cdx = get(_WB_CDX,
+                  params={"url": url, "output": "json", "limit": "-5",
+                          "filter": "statuscode:200", "fl": "timestamp,original"},
+                  timeout=(10.0, 60.0), headers=headers)
+        cdx.raise_for_status()
+        rows = cdx.json()
+        for row in reversed(rows[1:]):
+            ts, original = row[0], row[1]
+            data = _fetch_raw(f"https://web.archive.org/web/{ts}id_/{original}", headers)
+            if _is_real_file(data):
+                return data
+    except Exception:
+        pass
+    # 3) trigger a capture; its inline body is the file often enough to try
     try:
         data = _fetch_raw(save_url, headers)
         if _is_real_file(data):
             return data
     except Exception:
         pass
-    # 3) SPN may have archived it even when its inline replay was a status page —
+    # 4) SPN may have archived it even when its inline replay was a status page —
     #    poll the now-existing snapshot with backoff.
     last = "no snapshot"
     for wait in (4, 8, 15, 25):

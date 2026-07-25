@@ -54,7 +54,6 @@ import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
 )
 
@@ -67,7 +66,7 @@ MARKETS = ("MDA", "MTR")
 
 WINDOW_DAYS = 7          # source cap: 1-7 operation days per request
 PML_CHUNK = 20           # source cap: 1-20 NodosP per PML request
-REQUEST_SPACING_S = 0.2  # politeness: a small gap between requests to one slow host
+REQUEST_SPACING_S = 0.0  # CENACE PML requires thousands of calls; rely on HTTP retry/backoff.
 
 # Catalog discovery fallback (used only if the NodosP page can't be parsed).
 CATALOG_FALLBACK_URL = (
@@ -128,11 +127,11 @@ def _schema(cfg: dict) -> pa.Schema:
 # window has no published data (empty); any other 4xx is a real error.
 # ---------------------------------------------------------------------------
 
-@transient_retry(attempts=4, min_wait=2, max_wait=20)
 def _fetch_json(url: str):
-    # Hard read timeout (60s) + bounded retries: a single slow/hung call can
-    # never stall the run — it fails fast and the window is retried or skipped.
-    resp = get(url, timeout=(10.0, 60.0))
+    # Keep per-request latency bounded. subsets_utils.get owns transient
+    # retry/backoff; wrapping it here would multiply waits across thousands of
+    # PML requests.
+    resp = get(url, timeout=(10.0, 20.0))
     code = resp.status_code
     if code >= 500 or code == 429:
         resp.raise_for_status()           # -> retried by the decorator
