@@ -36,6 +36,7 @@ import pyarrow as pa
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
+    delete_raw_file,
     get_client,
     list_raw_fragments,
     save_raw_parquet,
@@ -203,6 +204,10 @@ def fetch_emissions(node_id: str) -> None:
     asset = node_id
     run_id = os.environ.get("RUN_ID", "unknown")
     fragments = list_raw_fragments(asset, "parquet")
+    if "full" in fragments:
+        print("  retiring legacy full-asset fragment; rebuilding release fragments")
+        delete_raw_file(asset, "parquet")
+        fragments = {}
     if os.environ.get("FORCE_REFRESH") == "1":
         done = {frag for frag, meta in fragments.items() if meta.get("run_id") == run_id}
     else:
