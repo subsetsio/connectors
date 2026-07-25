@@ -47,7 +47,7 @@ SCHEMA = pa.schema([(f, pa.string()) for f in _FIELDS])
 
 
 def _spec_id(entity_id: str) -> str:
-    return "unicef-" + entity_id.lower().replace("_", "-")
+    return "unicef-" + entity_id.lower().replace("_", "-").replace(":", "-")
 
 
 # Header-name aliases for the universal tidy columns, in priority order. SDMX-CSV
