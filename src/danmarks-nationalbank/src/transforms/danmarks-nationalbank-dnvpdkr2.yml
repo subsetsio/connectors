@@ -1,0 +1,29 @@
+# Hand-authored pass-through to complete the accepted-table graph before the
+# first successful DNVPDKR2 raw profile. Re-run model-verify and regenerate
+# after the fixed downloader lands a complete extract.
+key: []
+temporal: time
+sort: [time]
+columns:
+  - name: typreal
+    type: VARCHAR
+  - name: l_betid3
+    type: VARCHAR
+  - name: l_betid2
+    type: VARCHAR
+  - name: kupon2
+    type: VARCHAR
+  - name: valuta
+    type: VARCHAR
+  - name: udsted
+    type: VARCHAR
+  - name: invsektor
+    type: VARCHAR
+  - name: daekobl
+    type: VARCHAR
+  - name: datat
+    type: VARCHAR
+  - name: time
+    type: VARCHAR
+  - name: value
+    type: VARCHAR
