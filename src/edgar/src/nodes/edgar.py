@@ -51,7 +51,7 @@ BASE_URL = (
 GAS_PACKAGES = [
     ("ch4", "EDGAR_CH4_m_1970_2024.zip"),
     ("n2o", "EDGAR_N2O_m_1970_2024.zip"),
-    ("f-gases", "EDGAR_F-gases_m_1990_2024.zip"),
+    ("f-gases", "EDGAR_F-gases_1990_2024.zip"),
     ("co2bio", "EDGAR_CO2bio_m_1970_2024.zip"),
 ]
 
