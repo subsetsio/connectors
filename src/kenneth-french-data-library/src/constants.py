@@ -113,9 +113,9 @@ ENTITY_IDS = [
     'Asia_Pacific_ex_Japan_25_Portfolios_ME_OP_Daily',
     'Asia_Pacific_ex_Japan_25_Portfolios_ME_Prior_12_2',
     'Asia_Pacific_ex_Japan_25_Portfolios_ME_Prior_250_20_daily',
-    'Asia_Pacific_ex_Japan_32_Portfolios_ME_BE-ME_INV(TA)_2x4x4',
+    'Asia_Pacific_ex_Japan_32_Portfolios_ME_BE-ME_INV-TA_2x4x4',
     'Asia_Pacific_ex_Japan_32_Portfolios_ME_BE-ME_OP_2x4x4',
-    'Asia_Pacific_ex_Japan_32_Portfolios_ME_INV(TA)_OP_2x4x4',
+    'Asia_Pacific_ex_Japan_32_Portfolios_ME_INV-TA_OP_2x4x4',
     'Asia_Pacific_ex_Japan_3_Factors',
     'Asia_Pacific_ex_Japan_3_Factors_Daily',
     'Asia_Pacific_ex_Japan_5_Factors',
@@ -141,9 +141,9 @@ ENTITY_IDS = [
     'Developed_25_Portfolios_ME_OP_Daily',
     'Developed_25_Portfolios_ME_Prior_12_2',
     'Developed_25_Portfolios_ME_Prior_250_20_daily',
-    'Developed_32_Portfolios_ME_BE-ME_INV(TA)_2x4x4',
+    'Developed_32_Portfolios_ME_BE-ME_INV-TA_2x4x4',
     'Developed_32_Portfolios_ME_BE-ME_OP_2x4x4',
-    'Developed_32_Portfolios_ME_INV(TA)_OP_2x4x4',
+    'Developed_32_Portfolios_ME_INV-TA_OP_2x4x4',
     'Developed_3_Factors',
     'Developed_3_Factors_Daily',
     'Developed_5_Factors',
@@ -166,9 +166,9 @@ ENTITY_IDS = [
     'Developed_ex_US_25_Portfolios_ME_OP_Daily',
     'Developed_ex_US_25_Portfolios_ME_Prior_12_2',
     'Developed_ex_US_25_Portfolios_ME_Prior_250_20_daily',
-    'Developed_ex_US_32_Portfolios_ME_BE-ME_INV(TA)_2x4x4',
+    'Developed_ex_US_32_Portfolios_ME_BE-ME_INV-TA_2x4x4',
     'Developed_ex_US_32_Portfolios_ME_BE-ME_OP_2x4x4',
-    'Developed_ex_US_32_Portfolios_ME_INV(TA)_OP_2x4x4',
+    'Developed_ex_US_32_Portfolios_ME_INV-TA_OP_2x4x4',
     'Developed_ex_US_3_Factors',
     'Developed_ex_US_3_Factors_Daily',
     'Developed_ex_US_5_Factors',
@@ -201,9 +201,9 @@ ENTITY_IDS = [
     'Europe_25_Portfolios_ME_OP_Daily',
     'Europe_25_Portfolios_ME_Prior_12_2',
     'Europe_25_Portfolios_ME_Prior_250_20_daily',
-    'Europe_32_Portfolios_ME_BE-ME_INV(TA)_2x4x4',
+    'Europe_32_Portfolios_ME_BE-ME_INV-TA_2x4x4',
     'Europe_32_Portfolios_ME_BE-ME_OP_2x4x4',
-    'Europe_32_Portfolios_ME_INV(TA)_OP_2x4x4',
+    'Europe_32_Portfolios_ME_INV-TA_OP_2x4x4',
     'Europe_3_Factors',
     'Europe_3_Factors_Daily',
     'Europe_5_Factors',
@@ -238,9 +238,9 @@ ENTITY_IDS = [
     'Japan_25_Portfolios_ME_OP_Daily',
     'Japan_25_Portfolios_ME_Prior_12_2',
     'Japan_25_Portfolios_ME_Prior_250_20_daily',
-    'Japan_32_Portfolios_ME_BE-ME_INV(TA)_2x4x4',
+    'Japan_32_Portfolios_ME_BE-ME_INV-TA_2x4x4',
     'Japan_32_Portfolios_ME_BE-ME_OP_2x4x4',
-    'Japan_32_Portfolios_ME_INV(TA)_OP_2x4x4',
+    'Japan_32_Portfolios_ME_INV-TA_OP_2x4x4',
     'Japan_3_Factors',
     'Japan_3_Factors_Daily',
     'Japan_5_Factors',
@@ -264,9 +264,9 @@ ENTITY_IDS = [
     'North_America_25_Portfolios_ME_OP_Daily',
     'North_America_25_Portfolios_ME_Prior_12_2',
     'North_America_25_Portfolios_ME_Prior_250_20_daily',
-    'North_America_32_Portfolios_ME_BE-ME_INV(TA)_2x4x4',
+    'North_America_32_Portfolios_ME_BE-ME_INV-TA_2x4x4',
     'North_America_32_Portfolios_ME_BE-ME_OP_2x4x4',
-    'North_America_32_Portfolios_ME_INV(TA)_OP_2x4x4',
+    'North_America_32_Portfolios_ME_INV-TA_OP_2x4x4',
     'North_America_3_Factors',
     'North_America_3_Factors_Daily',
     'North_America_5_Factors',
@@ -310,9 +310,19 @@ ENTITY_IDS = [
 
 
 def spec_id(entity_id: str) -> str:
-    return f"{SLUG}-" + entity_id.lower().replace("_", "-")
+    return (
+        f"{SLUG}-"
+        + entity_id.lower()
+        .replace("_", "-")
+        .replace("(", "-")
+        .replace(")", "")
+    )
 
 
-SPEC_TO_ENTITY = {spec_id(e): e for e in ENTITY_IDS}
+def source_entity_id(entity_id: str) -> str:
+    return entity_id.replace("INV-TA", "INV(TA)")
+
+
+SPEC_TO_ENTITY = {spec_id(e): source_entity_id(e) for e in ENTITY_IDS}
 
 assert len(SPEC_TO_ENTITY) == len(ENTITY_IDS), "spec-id collision in ENTITY_IDS"
