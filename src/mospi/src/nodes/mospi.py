@@ -98,6 +98,10 @@ def _ensure_client() -> None:
 
     ctx = ssl.create_default_context(cafile=certifi.where())
     ctx.load_verify_locations(cafile=str(CA_BUNDLE))
+    try:
+        ctx.set_ciphers("DEFAULT:@SECLEVEL=0")
+    except ssl.SSLError:
+        pass
     legacy_server_connect = getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0)
     if legacy_server_connect:
         ctx.options |= legacy_server_connect
