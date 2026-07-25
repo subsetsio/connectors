@@ -31,15 +31,5 @@ SELECT
     "close_year",
     "loan_arranger_financial_advisor",
     "epc_contractor",
-    "gem_wiki_link",
-    "col_28",
-    "col_29",
-    "col_30",
-    "col_31",
-    "col_32",
-    "col_33",
-    "col_34",
-    "col_35",
-    "col_36",
-    "col_37"
+    "gem_wiki_link"
 FROM "gem-global-energy-monitor-gas-finance-tracker"
