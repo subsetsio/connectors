@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-urir-txqm`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: "5_digit_ntd_id"
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: uace_code
+    type: VARCHAR
+  - name: rail_bus_fetty
+    type: VARCHAR
+  - name: mode_name
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: fixed_route_flag
+    type: BOOLEAN
+  - name: rail_y_n
+    type: BOOLEAN
+  - name: month
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sftsecfl
+    type: VARCHAR
+  - name: eventtype
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: location_group
+    type: VARCHAR
+  - name: minor_physical_assaults_on_operators
+    type: BIGINT
+  - name: non_physical_assaults_on_operators_security_events_only
+    type: BIGINT
+  - name: minor_physical_assaults_on_other_transit_workers
+    type: BIGINT
+  - name: minor_nonphysical_assaults_on_other_transit_workers
+    type: BIGINT
+  - name: additional_assault_information
+    type: VARCHAR
+  - name: total_incidents
+    type: BIGINT
+  - name: customer
+    type: BIGINT
+  - name: worker
+    type: BIGINT
+  - name: other
+    type: BIGINT
+  - name: total_injuries
+    type: BIGINT

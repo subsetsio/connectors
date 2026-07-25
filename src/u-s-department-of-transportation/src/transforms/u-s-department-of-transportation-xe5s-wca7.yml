@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-xe5s-wca7`. Regenerate after model-verify.
+key: [policy_no]
+temporal: effective_date
+sort: [effective_date, policy_no]
+columns:
+  - name: docket_number
+    type: VARCHAR
+  - name: usdot_number
+    type: BIGINT
+  - name: ins_form_code
+    type: VARCHAR
+  - name: filing_status_reason
+    type: VARCHAR
+  - name: ins_type_code
+    type: BIGINT
+  - name: ins_type_ind
+    type: VARCHAR
+  - name: policy_no
+    type: VARCHAR
+  - name: ins_type_desc
+    type: VARCHAR
+  - name: min_cov_amount
+    type: DOUBLE
+  - name: ins_class_code
+    type: VARCHAR
+  - name: effective_date
+    type: DATE
+  - name: underl_lim_amount
+    type: DOUBLE
+  - name: max_cov_amount
+    type: DOUBLE
+  - name: cancl_effective_date
+    type: DATE
+  - name: insurance_company_name
+    type: VARCHAR

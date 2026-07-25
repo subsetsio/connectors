@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("vessel_id" AS BIGINT) AS vessel_id,
+    CAST("operator_id" AS BIGINT) AS operator_id,
+    "vessel_name",
+    "uscg_number",
+    CAST("in_service" AS BIGINT) AS in_service,
+    CAST("carries_passengers" AS BIGINT) AS carries_passengers,
+    CAST("carries_vehicles" AS BIGINT) AS carries_vehicles,
+    CAST("carries_freight" AS BIGINT) AS carries_freight,
+    "passenger_capacity",
+    "vehicle_capacity",
+    "fuel_type",
+    "fuel_other",
+    "typical_speed",
+    CAST("year_built" AS BIGINT) AS year_built,
+    "main_horsepower_ahead",
+    "main_horsepower_astern",
+    "hull_material",
+    "hull_shape",
+    "propulsion_type",
+    "self_prop_indicator",
+    "registered_breadth",
+    "registered_depth",
+    "registered_length",
+    "registered_net_tons",
+    "registered_gross_tons",
+    "vessel_ownership",
+    "vessel_owned_by",
+    "vessel_operation",
+    "vessel_operated_by",
+    "fuel_mileage",
+    "ada_accessible",
+    "expected_lifespan",
+    CAST("vessel_type" AS BIGINT) AS vessel_type,
+    CAST("census_year_miles" AS BIGINT) AS census_year_miles,
+    CAST("census_year" AS BIGINT) AS census_year
+FROM "u-s-department-of-transportation-u6m4-3cmd"

@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "state_parent_ntd_id",
+    "ntd_id",
+    "agency_name",
+    "reporter_type",
+    "reporting_module",
+    "sponsor_ntd_id",
+    "sponsor_name",
+    CAST("report_year" AS BIGINT) AS report_year,
+    "primary_mode_served",
+    "secondary_modes_served",
+    CAST("facility_id" AS BIGINT) AS facility_id,
+    "facility_type",
+    "facility_name",
+    "street_address",
+    "city",
+    "state",
+    CAST("zip_code" AS BIGINT) AS zip_code,
+    CAST("latitude" AS DOUBLE) AS latitude,
+    CAST("longitude" AS DOUBLE) AS longitude,
+    "non_agency_mode_served",
+    "private_modes_served",
+    CAST("administrative_maintenance" AS BIGINT) AS administrative_maintenance,
+    CAST("passenger_parking_facility" AS BIGINT) AS passenger_parking_facility,
+    CAST("square_feet" AS BIGINT) AS square_feet,
+    CAST("number_of_parking_spaces" AS BIGINT) AS number_of_parking_spaces,
+    CAST("section_of_a_larger_facility" AS BIGINT) AS section_of_a_larger_facility,
+    CAST("year_built_or_reconstructed" AS BIGINT) AS year_built_or_reconstructed,
+    CAST("percent_agency_capital" AS BIGINT) AS percent_agency_capital,
+    CAST("cross_agency_facility_flag" AS BOOLEAN) AS cross_agency_facility_flag,
+    CAST("condition_assessment_date" AS TIMESTAMP) AS condition_assessment_date,
+    CAST("condition_assessment" AS BIGINT) AS condition_assessment,
+    "separate_asset_flag",
+    "notes",
+    "lat_long_geo_reference",
+    "street_address_geo_reference"
+FROM "u-s-department-of-transportation-gm5m-aghp"

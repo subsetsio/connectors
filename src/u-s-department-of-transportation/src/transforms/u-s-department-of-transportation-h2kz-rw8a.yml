@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-h2kz-rw8a`. Regenerate after model-verify.
+key: [id, date, year, measure, metric]
+temporal: date
+sort: [date, id, year, measure, metric]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: date
+    type: TIMESTAMP
+  - name: value
+    type: DOUBLE
+  - name: measure
+    type: VARCHAR
+  - name: measurenum
+    type: BIGINT
+  - name: metric
+    type: VARCHAR
+  - name: metricnum
+    type: BIGINT
+  - name: table
+    type: BIGINT
+  - name: notes
+    type: VARCHAR
+  - name: source
+    type: VARCHAR

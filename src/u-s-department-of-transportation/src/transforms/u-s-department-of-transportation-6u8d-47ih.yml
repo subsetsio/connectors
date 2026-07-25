@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-6u8d-47ih`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: airline_id
+    type: BIGINT
+  - name: carrier
+    type: VARCHAR
+  - name: carrier_name
+    type: VARCHAR
+  - name: unique_carrier
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: passengers
+    type: BIGINT
+  - name: mishandled_baggage
+    type: BIGINT
+  - name: enplaned_baggage
+    type: BIGINT
+  - name: mishandled_wchr_sctr
+    type: BIGINT
+  - name: enplaned_wchr_sctr
+    type: BIGINT
+  - name: form_type
+    type: VARCHAR
+  - name: mkt_carrier_flag
+    type: BOOLEAN

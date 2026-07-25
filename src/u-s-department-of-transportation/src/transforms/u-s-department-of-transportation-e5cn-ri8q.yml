@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-e5cn-ri8q`. Regenerate after model-verify.
+key: [id, state, abbrev, fips, effective_date]
+temporal: effective_date
+sort: [effective_date, id, state, abbrev, fips]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: rate
+    type: DOUBLE
+  - name: fuel_type
+    type: VARCHAR
+  - name: fuel_type_code
+    type: VARCHAR
+  - name: fips
+    type: BIGINT
+  - name: abbrev
+    type: VARCHAR
+  - name: note
+    type: VARCHAR
+  - name: effective_date
+    type: TIMESTAMP
+  - name: year
+    type: BIGINT

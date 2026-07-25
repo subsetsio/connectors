@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-8u28-hw9f`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: report_date
+sort: [report_date]
+columns:
+  - name: report_date
+    type: TIMESTAMP
+  - name: manufacturer
+    type: VARCHAR
+  - name: recall_campaign
+    type: VARCHAR
+  - name: priority_group
+    type: BIGINT
+  - name: driver_passenger
+    type: VARCHAR
+  - name: total_air_bags_affected
+    type: BIGINT
+  - name: total_inflators_repaired
+    type: BIGINT
+  - name: scrapped
+    type: BIGINT
+  - name: exported
+    type: BIGINT
+  - name: stolen
+    type: BIGINT
+  - name: other
+    type: BIGINT
+  - name: nonresponsive
+    type: BIGINT
+  - name: affirmative_refusal
+    type: BIGINT
+  - name: aftermarket_modification
+    type: BIGINT
+  - name: vehicle_degradation
+    type: BIGINT
+  - name: net_inflators_affected
+    type: BIGINT
+  - name: net_inflators_remaining
+    type: BIGINT
+  - name: completion_rate
+    type: DOUBLE

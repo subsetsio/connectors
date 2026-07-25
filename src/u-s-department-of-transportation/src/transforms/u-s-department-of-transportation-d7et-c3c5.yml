@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-d7et-c3c5`. Regenerate after model-verify.
+key: [bridges, state, year, nhs]
+temporal: year
+sort: [year, bridges, state, nhs]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: nhs
+    type: BOOLEAN
+  - name: bridges
+    type: BIGINT

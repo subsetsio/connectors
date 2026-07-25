@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-97d8-fc99`. Regenerate after model-verify.
+key: [number_of_inflators, percent_of_accounting_category, manufacturer, accounting_category]
+temporal: report_date
+sort: [report_date, number_of_inflators, percent_of_accounting_category, manufacturer, accounting_category]
+columns:
+  - name: report_date
+    type: TIMESTAMP
+  - name: manufacturer
+    type: VARCHAR
+  - name: accounting_category
+    type: VARCHAR
+  - name: number_of_inflators
+    type: BIGINT
+  - name: percent_of_accounting_category
+    type: DOUBLE

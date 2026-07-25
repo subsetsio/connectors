@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-5n49-mh85`. Regenerate after model-verify.
+key: [vol_spec_fuel, state, month, year, data_type]
+temporal: date_modified
+sort: [date_modified, vol_spec_fuel, state, month, year, data_type]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: vol_spec_fuel
+    type: BIGINT
+  - name: data_type
+    type: VARCHAR
+  - name: date_modified
+    type: TIMESTAMP

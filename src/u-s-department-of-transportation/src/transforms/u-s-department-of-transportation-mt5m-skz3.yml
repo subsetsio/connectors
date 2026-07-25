@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-mt5m-skz3`. Regenerate after model-verify.
+key: [non_divisible_trip_permits, state, year]
+temporal: year
+sort: [year, non_divisible_trip_permits, state]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: vehicles_weighed_fixed
+    type: BIGINT
+  - name: vehicles_weighed_wim
+    type: BIGINT
+  - name: vehicles_weighed_portable
+    type: BIGINT
+  - name: vehicles_weighed_semi_portable
+    type: BIGINT
+  - name: oversize_violation_current_year
+    type: BIGINT
+  - name: overweight_violation_current_year
+    type: BIGINT
+  - name: non_divisible_trip_permits
+    type: BIGINT
+  - name: non_divisible_annual_permits
+    type: BIGINT
+  - name: divisible_trip_permits
+    type: BIGINT
+  - name: divisible_annual_permits
+    type: BIGINT

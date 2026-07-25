@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-nps9-3pm2`. Regenerate after model-verify.
+key: [vmt, state, year, fclass, area]
+temporal: year
+sort: [year, vmt, state, fclass, area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: fclass
+    type: VARCHAR
+  - name: vmt
+    type: BIGINT

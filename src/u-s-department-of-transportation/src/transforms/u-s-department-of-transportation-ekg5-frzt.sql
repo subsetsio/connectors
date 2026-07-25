@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+SELECT
+    "agency",
+    "city",
+    "state",
+    "ntd_id",
+    "organization_type",
+    "reporter_type",
+    CAST("report_year" AS BIGINT) AS report_year,
+    "uace_code",
+    "uza_name",
+    CAST("primary_uza_population" AS BIGINT) AS primary_uza_population,
+    CAST("agency_voms" AS BIGINT) AS agency_voms,
+    "mode",
+    "mode_name",
+    "type_of_service",
+    CAST("mode_voms" AS BIGINT) AS mode_voms,
+    CAST("fare_revenues_per_unlinked" AS DOUBLE) AS fare_revenues_per_unlinked,
+    "fare_revenues_per_unlinked_1",
+    CAST("fare_revenues_per_total" AS DOUBLE) AS fare_revenues_per_total,
+    "fare_revenues_per_total_1",
+    CAST("cost_per_hour" AS DOUBLE) AS cost_per_hour,
+    "cost_per_hour_questionable",
+    CAST("passengers_per_hour" AS BIGINT) AS passengers_per_hour,
+    "passengers_per_hour_1",
+    CAST("cost_per_passenger" AS DOUBLE) AS cost_per_passenger,
+    "cost_per_passenger_1",
+    CAST("cost_per_passenger_mile" AS DOUBLE) AS cost_per_passenger_mile,
+    "cost_per_passenger_mile_1",
+    CAST("fare_revenues_earned" AS BIGINT) AS fare_revenues_earned,
+    "fare_revenues_earned_1",
+    CAST("total_operating_expenses" AS BIGINT) AS total_operating_expenses,
+    "total_operating_expenses_1",
+    CAST("unlinked_passenger_trips" AS BIGINT) AS unlinked_passenger_trips,
+    "unlinked_passenger_trips_1",
+    CAST("vehicle_revenue_hours" AS BIGINT) AS vehicle_revenue_hours,
+    "vehicle_revenue_hours_1",
+    CAST("passenger_miles" AS BIGINT) AS passenger_miles,
+    "passenger_miles_questionable",
+    CAST("vehicle_revenue_miles" AS BIGINT) AS vehicle_revenue_miles,
+    "vehicle_revenue_miles_1"
+FROM "u-s-department-of-transportation-ekg5-frzt"

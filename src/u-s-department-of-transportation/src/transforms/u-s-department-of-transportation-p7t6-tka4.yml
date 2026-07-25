@@ -1,0 +1,260 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-p7t6-tka4`. Regenerate after model-verify.
+key: [section_id, sample_number, end_lrs, begin_lrs, future_aadt]
+temporal: year
+sort: [year, section_id, sample_number, end_lrs, begin_lrs, future_aadt]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: BIGINT
+  - name: metric_english
+    type: BIGINT
+  - name: county
+    type: BIGINT
+  - name: section_id
+    type: VARCHAR
+  - name: has_sample
+    type: BIGINT
+  - name: has_hov
+    type: BIGINT
+  - name: has_surveil
+    type: BIGINT
+  - name: is_donut
+    type: BIGINT
+  - name: lrs_id
+    type: VARCHAR
+  - name: begin_lrs
+    type: DOUBLE
+  - name: end_lrs
+    type: DOUBLE
+  - name: type_section
+    type: BIGINT
+  - name: rural_urban
+    type: BIGINT
+  - name: urbanized_sample
+    type: BIGINT
+  - name: urbanized_code
+    type: BIGINT
+  - name: nonattainment_area_code
+    type: BIGINT
+  - name: functional_system
+    type: BIGINT
+  - name: gen_functional_system
+    type: BIGINT
+  - name: national_highway_system
+    type: BIGINT
+  - name: unbuilt_facility
+    type: BIGINT
+  - name: official_inter_rt_num
+    type: BIGINT
+  - name: route_signing
+    type: BIGINT
+  - name: route_qualifier
+    type: BIGINT
+  - name: signed_route_number
+    type: VARCHAR
+  - name: governmental_ownership
+    type: BIGINT
+  - name: special_systems
+    type: BIGINT
+  - name: type_facility
+    type: BIGINT
+  - name: designated_truck_route
+    type: BIGINT
+  - name: toll
+    type: BIGINT
+  - name: section_length
+    type: DOUBLE
+  - name: donut_aadt_volume
+    type: BIGINT
+  - name: standard_aadt_volume
+    type: BIGINT
+  - name: aadt
+    type: BIGINT
+  - name: aadt_derivation
+    type: BIGINT
+  - name: number_lanes
+    type: BIGINT
+  - name: urban_location
+    type: BIGINT
+  - name: access_control
+    type: BIGINT
+  - name: median_type
+    type: BIGINT
+  - name: median_width
+    type: BIGINT
+  - name: roughness
+    type: BIGINT
+  - name: pavement_condition
+    type: DOUBLE
+  - name: sample_number
+    type: VARCHAR
+  - name: sample_subdivision
+    type: BIGINT
+  - name: standard_expansion_factor
+    type: DOUBLE
+  - name: donut_expansion_factor
+    type: BIGINT
+  - name: surface_type
+    type: BIGINT
+  - name: pavement_section
+    type: BIGINT
+  - name: sn_d
+    type: DOUBLE
+  - name: type_base
+    type: BIGINT
+  - name: type_subgrade
+    type: BIGINT
+  - name: overlay_pav_thickness
+    type: DOUBLE
+  - name: year_surface_improv
+    type: BIGINT
+  - name: type_improvement
+    type: BIGINT
+  - name: lane_width
+    type: BIGINT
+  - name: shoulder_type
+    type: BIGINT
+  - name: shoulder_width_right
+    type: BIGINT
+  - name: shoulder_width_left
+    type: BIGINT
+  - name: peak_parking
+    type: BIGINT
+  - name: right_of_way_width
+    type: BIGINT
+  - name: widening_feasibility
+    type: BIGINT
+  - name: horizontal_alignment_adq
+    type: BIGINT
+  - name: num_classes_curves_a
+    type: BIGINT
+  - name: len_classes_curves_a
+    type: DOUBLE
+  - name: num_classes_curves_b
+    type: BIGINT
+  - name: len_classes_curves_b
+    type: DOUBLE
+  - name: num_classes_curves_c
+    type: BIGINT
+  - name: len_classes_curves_c
+    type: DOUBLE
+  - name: num_classes_curves_d
+    type: BIGINT
+  - name: len_classes_curves_d
+    type: DOUBLE
+  - name: num_classes_curves_3
+    type: BIGINT
+  - name: len_classes_curves_e
+    type: DOUBLE
+  - name: num_classes_curves_f
+    type: BIGINT
+  - name: len_classes_curves_f
+    type: DOUBLE
+  - name: num_classes_curves_g
+    type: BIGINT
+  - name: len_classes_curves_g
+    type: DOUBLE
+  - name: num_classes_curves_h
+    type: BIGINT
+  - name: len_classes_curves_h
+    type: DOUBLE
+  - name: num_classes_curves_i
+    type: BIGINT
+  - name: len_classes_curves_i
+    type: BIGINT
+  - name: num_classes_curves_j
+    type: BIGINT
+  - name: len_classes_curves_j
+    type: BIGINT
+  - name: num_classes_curves_k
+    type: BIGINT
+  - name: len_classes_curves_k
+    type: DOUBLE
+  - name: num_classes_curves_l
+    type: BIGINT
+  - name: len_classes_curves_l
+    type: DOUBLE
+  - name: num_classes_curves_m
+    type: BIGINT
+  - name: len_classes_curves_m
+    type: BIGINT
+  - name: type_terrain
+    type: BIGINT
+  - name: vertical_alignment_adq
+    type: BIGINT
+  - name: num_classes_grades_a
+    type: BIGINT
+  - name: len_classes_grades_a
+    type: DOUBLE
+  - name: num_classes_grades_b
+    type: BIGINT
+  - name: len_classes_grades_b
+    type: DOUBLE
+  - name: num_classes_grades_c
+    type: BIGINT
+  - name: len_classes_grades_c
+    type: DOUBLE
+  - name: num_classes_grades_d
+    type: BIGINT
+  - name: len_classes_grades_d
+    type: DOUBLE
+  - name: num_classes_grades_e
+    type: BIGINT
+  - name: len_classes_grades_e
+    type: DOUBLE
+  - name: num_classes_grades_f
+    type: BIGINT
+  - name: len_classes_grades_f
+    type: DOUBLE
+  - name: percent_sight_distance
+    type: BIGINT
+  - name: speed_limit
+    type: BIGINT
+  - name: weighted_design_speed
+    type: BIGINT
+  - name: single_unit_veh_peak
+    type: BIGINT
+  - name: single_unit_veh_average
+    type: BIGINT
+  - name: comb_comm_veh_peak
+    type: BIGINT
+  - name: comb_comm_veh_average
+    type: BIGINT
+  - name: k_factor
+    type: BIGINT
+  - name: directional_factor
+    type: BIGINT
+  - name: peak_capacity
+    type: BIGINT
+  - name: volume_flow_ratio
+    type: DOUBLE
+  - name: turning_lanes_left
+    type: BIGINT
+  - name: turning_right
+    type: BIGINT
+  - name: prevailing_signalization
+    type: BIGINT
+  - name: percent_green_time
+    type: BIGINT
+  - name: future_aadt
+    type: BIGINT
+  - name: future_aadt_year
+    type: BIGINT
+  - name: climate_zone
+    type: BIGINT
+  - name: drainage_adequacy
+    type: BIGINT
+  - name: type_development
+    type: BIGINT
+  - name: num_grade_sep_intrchngs
+    type: BIGINT
+  - name: num_atgrade_signal
+    type: BIGINT
+  - name: num_atgrade_stop
+    type: BIGINT
+  - name: num_atgrade_other
+    type: BIGINT
+  - name: num_atgrade_rrcrossings
+    type: BIGINT

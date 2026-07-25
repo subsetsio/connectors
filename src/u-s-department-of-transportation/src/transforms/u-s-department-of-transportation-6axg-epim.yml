@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-6axg-epim`. Regenerate after model-verify.
+key: [nhtsa_id, recall_link, subject, potentially_affected, report_received_date]
+temporal: report_received_date
+sort: [report_received_date, nhtsa_id, recall_link, subject, potentially_affected]
+columns:
+  - name: report_received_date
+    type: TIMESTAMP
+  - name: nhtsa_id
+    type: VARCHAR
+  - name: recall_link
+    type: VARCHAR
+  - name: manufacturer
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: component
+    type: VARCHAR
+  - name: mfr_campaign_number
+    type: VARCHAR
+  - name: recall_type
+    type: VARCHAR
+  - name: potentially_affected
+    type: BIGINT
+  - name: defect_summary
+    type: VARCHAR
+  - name: consequence_summary
+    type: VARCHAR
+  - name: corrective_action
+    type: VARCHAR
+  - name: fire_risk_when_parked
+    type: VARCHAR
+  - name: do_not_drive
+    type: VARCHAR
+  - name: completion_rate
+    type: DOUBLE

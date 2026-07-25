@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-y9wr-xk52`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: quarter
+sort: [quarter]
+columns:
+  - name: shipmt_id
+    type: BIGINT
+  - name: orig_state
+    type: BIGINT
+  - name: orig_ma
+    type: BIGINT
+  - name: orig_cfs_area
+    type: VARCHAR
+  - name: dest_state
+    type: BIGINT
+  - name: dest_ma
+    type: BIGINT
+  - name: dest_cfs_area
+    type: VARCHAR
+  - name: naics
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: sctg
+    type: VARCHAR
+  - name: mode
+    type: BIGINT
+  - name: shipmt_value
+    type: BIGINT
+  - name: shipmt_wght
+    type: BIGINT
+  - name: shipmt_dist_gc
+    type: BIGINT
+  - name: shipmt_dist_routed
+    type: BIGINT
+  - name: temp_cntl_yn
+    type: BOOLEAN
+  - name: export_yn
+    type: BOOLEAN
+  - name: export_cntry
+    type: VARCHAR
+  - name: hazmat
+    type: VARCHAR
+  - name: wgt_factor
+    type: DOUBLE

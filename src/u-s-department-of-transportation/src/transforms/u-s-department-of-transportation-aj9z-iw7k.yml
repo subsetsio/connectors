@@ -1,0 +1,68 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-aj9z-iw7k`. Regenerate after model-verify.
+key: [msg_id]
+temporal: min_tmstp_utc
+sort: [min_tmstp_utc, msg_id]
+columns:
+  - name: msg_id
+    type: VARCHAR
+  - name: tenant
+    type: VARCHAR
+  - name: intersection_id
+    type: BIGINT
+  - name: road_regulator_id
+    type: VARCHAR
+  - name: intersection_name
+    type: VARCHAR
+  - name: min_tmstp_utc
+    type: TIMESTAMP
+  - name: max_tmstp_utc
+    type: TIMESTAMP
+  - name: offset_tmstp_utc
+    type: VARCHAR
+  - name: moy_utc
+    type: BIGINT
+  - name: layer_id
+    type: BIGINT
+  - name: layer_type
+    type: VARCHAR
+  - name: msg_revision
+    type: BIGINT
+  - name: elevation
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: intersection_revision
+    type: BIGINT
+  - name: lane_width
+    type: BIGINT
+  - name: vehicle_max_speed
+    type: VARCHAR
+  - name: vehicle_min_speed
+    type: VARCHAR
+  - name: vehicle_night_max_speed
+    type: VARCHAR
+  - name: max_speed_school_zone
+    type: VARCHAR
+  - name: max_speed_school_zone_children
+    type: VARCHAR
+  - name: max_speed_construction_zone
+    type: VARCHAR
+  - name: truck_min_speed
+    type: VARCHAR
+  - name: truck_max_speed
+    type: VARCHAR
+  - name: truck_night_max_speed
+    type: VARCHAR
+  - name: vehicle_trailer_min_speed
+    type: VARCHAR
+  - name: vehicle_trailer_max_speed
+    type: VARCHAR
+  - name: vehicle_trailer_night_max
+    type: VARCHAR
+  - name: unknown_speed
+    type: VARCHAR
+  - name: lane_set
+    type: VARCHAR

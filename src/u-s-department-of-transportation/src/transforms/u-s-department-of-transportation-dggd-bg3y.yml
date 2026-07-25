@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-dggd-bg3y`. Regenerate after model-verify.
+key: [tt_percentile_75, tt_percentile_50, tt_percentile_25, dest_county_fips, orig_county_fips]
+temporal: year
+sort: [year, tt_percentile_75, tt_percentile_50, tt_percentile_25, dest_county_fips, orig_county_fips]
+columns:
+  - name: orig_county_fips
+    type: BIGINT
+  - name: orig_state
+    type: VARCHAR
+  - name: orig_county_name
+    type: VARCHAR
+  - name: dest_county_fips
+    type: BIGINT
+  - name: dest_state
+    type: VARCHAR
+  - name: dest_county_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: pair_moves
+    type: VARCHAR
+  - name: tt_percentile_25
+    type: DOUBLE
+  - name: tt_percentile_50
+    type: DOUBLE
+  - name: tt_percentile_75
+    type: DOUBLE

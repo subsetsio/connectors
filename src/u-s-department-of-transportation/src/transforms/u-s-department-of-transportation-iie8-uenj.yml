@@ -1,0 +1,115 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-iie8-uenj`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: time
+sort: [time]
+columns:
+  - name: id
+    type: DOUBLE
+  - name: time
+    type: DOUBLE
+  - name: distance_av_headway
+    type: DOUBLE
+  - name: pos_x_av_f
+    type: DOUBLE
+  - name: pos_y_av_f
+    type: DOUBLE
+  - name: pos_x_av_m
+    type: DOUBLE
+  - name: pos_y_av_m
+    type: DOUBLE
+  - name: heading_av_m
+    type: DOUBLE
+  - name: dim_x_av
+    type: DOUBLE
+  - name: dim_y_av
+    type: DOUBLE
+  - name: dim_z_av
+    type: DOUBLE
+  - name: speed_av
+    type: DOUBLE
+  - name: acc_av
+    type: DOUBLE
+  - name: pos_x_sv_f
+    type: DOUBLE
+  - name: pos_y_sv_f
+    type: DOUBLE
+  - name: pos_x_sv_m
+    type: DOUBLE
+  - name: pos_y_sv_m
+    type: DOUBLE
+  - name: heading_sv
+    type: DOUBLE
+  - name: dim_x_sv
+    type: DOUBLE
+  - name: dim_y_sv
+    type: DOUBLE
+  - name: dim_z_sv
+    type: DOUBLE
+  - name: speed_sv
+    type: DOUBLE
+  - name: acc_sv
+    type: DOUBLE
+  - name: closest_distance_longitudinal
+    type: DOUBLE
+  - name: closest_distance_lateral
+    type: DOUBLE
+  - name: map_origin_x
+    type: DOUBLE
+  - name: map_origin_y
+    type: DOUBLE
+  - name: map_origin_z
+    type: DOUBLE
+  - name: road_origin_x_m
+    type: DOUBLE
+  - name: road_origin_y_m
+    type: DOUBLE
+  - name: road_origin_x_ecef
+    type: DOUBLE
+  - name: road_origin_y_ecef
+    type: DOUBLE
+  - name: lanelet_id_av
+    type: DOUBLE
+  - name: lane_id_av
+    type: DOUBLE
+  - name: lanelet_id_sv
+    type: DOUBLE
+  - name: lane_id_sv
+    type: DOUBLE
+  - name: total_lanes
+    type: DOUBLE
+  - name: run_number
+    type: DOUBLE
+  - name: sub_run_number
+    type: DOUBLE
+  - name: date
+    type: VARCHAR
+  - name: time_of_day
+    type: VARCHAR
+  - name: sub_run_start_time
+    type: DOUBLE
+  - name: route_starting_point_rs
+    type: VARCHAR
+  - name: route_ending_point_re
+    type: VARCHAR
+  - name: distance
+    type: VARCHAR
+  - name: maplink
+    type: VARCHAR
+  - name: annual_traffic_density
+    type: VARCHAR
+  - name: roadway_type
+    type: VARCHAR
+  - name: speed_limits
+    type: VARCHAR
+  - name: road_condition
+    type: VARCHAR
+  - name: type_of_vehicle
+    type: VARCHAR
+  - name: aggressiveness
+    type: VARCHAR
+  - name: following_distance
+    type: DOUBLE
+  - name: special_notes
+    type: VARCHAR

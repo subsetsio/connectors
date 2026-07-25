@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-phui-gnza`. Regenerate after model-verify.
+key: [state, year, fedaid, system, area]
+temporal: year
+sort: [year, state, fedaid, system, area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: fedaid
+    type: VARCHAR
+  - name: system
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: miles
+    type: BIGINT

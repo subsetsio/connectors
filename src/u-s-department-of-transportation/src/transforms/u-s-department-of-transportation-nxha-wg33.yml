@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-nxha-wg33`. Regenerate after model-verify.
+key: [fatalities, state, year, fclass, area]
+temporal: year
+sort: [year, fatalities, state, fclass, area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: fclass
+    type: VARCHAR
+  - name: fatalities
+    type: BIGINT

@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-wqw2-rjgd`. Regenerate after model-verify.
+key: [unique_id, cur_fare, cur_yield, city, citymarketid]
+temporal: year
+sort: [year, unique_id, cur_fare, cur_yield, city, citymarketid]
+columns:
+  - name: tbl
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: citymarketid
+    type: BIGINT
+  - name: city
+    type: VARCHAR
+  - name: markets
+    type: BIGINT
+  - name: cur_passengers
+    type: BIGINT
+  - name: cur_fare
+    type: DOUBLE
+  - name: cur_yield
+    type: DOUBLE
+  - name: distance
+    type: DOUBLE
+  - name: ly_passengers
+    type: BIGINT
+  - name: ly_fare
+    type: DOUBLE
+  - name: ly_yield
+    type: DOUBLE
+  - name: ly_distance
+    type: DOUBLE
+  - name: location_1
+    type: VARCHAR
+  - name: location_1_address
+    type: VARCHAR
+  - name: location_1_city
+    type: VARCHAR
+  - name: location_1_state
+    type: VARCHAR
+  - name: location_1_zip
+    type: VARCHAR
+  - name: unique_id
+    type: BIGINT

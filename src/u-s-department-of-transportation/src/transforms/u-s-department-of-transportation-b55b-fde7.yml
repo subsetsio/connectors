@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-b55b-fde7`. Regenerate after model-verify.
+key: [core_details, ending_cross_street, end_date, beginning_cross_street, start_date]
+temporal: end_date
+sort: [end_date, core_details, ending_cross_street, beginning_cross_street, start_date]
+columns:
+  - name: beginning_accuracy
+    type: VARCHAR
+  - name: beginning_cross_street
+    type: VARCHAR
+  - name: beginning_milepost
+    type: DOUBLE
+  - name: core_details
+    type: VARCHAR
+  - name: end_date
+    type: TIMESTAMP
+  - name: end_date_accuracy
+    type: VARCHAR
+  - name: ending_accuracy
+    type: VARCHAR
+  - name: ending_cross_street
+    type: VARCHAR
+  - name: ending_milepost
+    type: DOUBLE
+  - name: lanes
+    type: VARCHAR
+  - name: location_method
+    type: VARCHAR
+  - name: multipoint
+    type: VARCHAR
+  - name: restrictions
+    type: VARCHAR
+  - name: start_date
+    type: TIMESTAMP
+  - name: start_date_accuracy
+    type: VARCHAR
+  - name: types_of_work
+    type: VARCHAR
+  - name: vehicle_impact
+    type: VARCHAR

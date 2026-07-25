@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-tnfy-euyi`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: begin_date
+sort: [begin_date]
+columns:
+  - name: ntd_id
+    type: VARCHAR
+  - name: reporter_name
+    type: VARCHAR
+  - name: uza_name
+    type: VARCHAR
+  - name: uace_code
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: data_point
+    type: VARCHAR
+  - name: begin_date
+    type: TIMESTAMP
+  - name: end_date
+    type: TIMESTAMP
+  - name: percentage_change
+    type: DOUBLE
+  - name: value
+    type: BIGINT
+  - name: reported_by
+    type: VARCHAR

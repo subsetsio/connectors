@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-vudg-jaa5`. Regenerate after model-verify.
+key: [longitude, terminal_id, terminal_name, operator_id, term_state]
+sort: [longitude, terminal_id, terminal_name, operator_id, term_state]
+columns:
+  - name: terminal_id
+    type: BIGINT
+  - name: operator_id
+    type: BIGINT
+  - name: terminal_name
+    type: VARCHAR
+  - name: term_city
+    type: VARCHAR
+  - name: term_state
+    type: VARCHAR
+  - name: term_country
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: in_operation
+    type: BIGINT
+  - name: parking
+    type: BIGINT
+  - name: local_bus
+    type: BIGINT
+  - name: intercity_bus
+    type: BIGINT
+  - name: local_rail
+    type: BIGINT
+  - name: intercity_rail
+    type: BIGINT
+  - name: terminal_ownership
+    type: BIGINT
+  - name: terminal_owned_by
+    type: VARCHAR
+  - name: terminal_operation
+    type: BIGINT
+  - name: terminal_operated_by
+    type: VARCHAR
+  - name: census_year
+    type: BIGINT

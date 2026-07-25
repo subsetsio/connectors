@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-8mt8-2mdr`. Regenerate after model-verify.
+key: [unique_id, dot_number, viol_code, section_desc, insp_date]
+sort: [unique_id, dot_number, viol_code, section_desc, insp_date]
+columns:
+  - name: unique_id
+    type: BIGINT
+  - name: insp_date
+    type: VARCHAR
+  - name: dot_number
+    type: BIGINT
+  - name: viol_code
+    type: VARCHAR
+  - name: basic_desc
+    type: VARCHAR
+  - name: oos_indicator
+    type: BOOLEAN
+  - name: oos_weight
+    type: BIGINT
+  - name: severity_weight
+    type: BIGINT
+  - name: time_weight
+    type: BIGINT
+  - name: total_severity_wght
+    type: BIGINT
+  - name: section_desc
+    type: VARCHAR
+  - name: group_desc
+    type: VARCHAR
+  - name: viol_unit
+    type: VARCHAR

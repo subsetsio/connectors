@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-cnzt-d3cb`. Regenerate after model-verify.
+key: [ridership, station, year, state]
+temporal: year
+sort: [year, ridership, station, state]
+columns:
+  - name: station
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: ridership
+    type: BIGINT
+  - name: year
+    type: BIGINT

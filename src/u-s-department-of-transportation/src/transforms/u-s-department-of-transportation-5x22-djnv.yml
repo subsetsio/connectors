@@ -1,0 +1,89 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-5x22-djnv`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: agency
+    type: VARCHAR
+  - name: "5_digit_ntd_id"
+    type: VARCHAR
+  - name: reporter_type
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: mode_name
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: urbanized_area_code
+    type: VARCHAR
+  - name: urbanized_area_name
+    type: VARCHAR
+  - name: urbanized_area_population
+    type: BIGINT
+  - name: urbanized_area_square_miles
+    type: DOUBLE
+  - name: uza_reporting_method
+    type: VARCHAR
+  - name: fg_nfg_reporting_method
+    type: VARCHAR
+  - name: total_actual_vehicle_revenue_hours
+    type: BIGINT
+  - name: total_unlinked_passenger_trips
+    type: BIGINT
+  - name: total_actual_vrm
+    type: BIGINT
+  - name: total_passenger_miles_traveled
+    type: BIGINT
+  - name: total_operating_expenses
+    type: BIGINT
+  - name: non_fixed_guideway_vehicle_revenue_miles
+    type: BIGINT
+  - name: non_fixed_guideway_passenger_miles
+    type: BIGINT
+  - name: non_fixed_guideway_operating_expenses
+    type: BIGINT
+  - name: fixed_guideway_vehicle_revenue_miles
+    type: BIGINT
+  - name: fixed_guideway_passenger_miles
+    type: BIGINT
+  - name: fixed_guideway_operating_expenses
+    type: BIGINT
+  - name: directional_route_miles
+    type: DOUBLE
+  - name: sgr_fg_directional_route_miles
+    type: DOUBLE
+  - name: sgr_fg_vehicle_revenue_miles
+    type: BIGINT
+  - name: sgr_hib_directional_route_miles
+    type: DOUBLE
+  - name: sgr_hib_vehicle_revenue_miles
+    type: BIGINT
+  - name: primary_uza
+    type: BOOLEAN
+  - name: total_actual_vrh_questionable
+    type: VARCHAR
+  - name: total_upt_questionable
+    type: VARCHAR
+  - name: total_actual_vrm_questionable
+    type: VARCHAR
+  - name: total_pmt_questionable
+    type: VARCHAR
+  - name: total_oe_questionable
+    type: VARCHAR
+  - name: nfg_vrm_questionable
+    type: VARCHAR
+  - name: nfg_pmt_questionable
+    type: VARCHAR
+  - name: drm_questionable
+    type: VARCHAR
+  - name: fg_oe_questionable
+    type: VARCHAR
+  - name: fg_vrm_questionable
+    type: VARCHAR
+  - name: state_ntd_id
+    type: VARCHAR

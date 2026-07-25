@@ -1,0 +1,485 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-w6v2-vk5z`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+columns:
+  - name: operator_id
+    type: BIGINT
+  - name: operator_name
+    type: VARCHAR
+  - name: op_strcity
+    type: VARCHAR
+  - name: op_strzip
+    type: VARCHAR
+  - name: url
+    type: VARCHAR
+  - name: op_country
+    type: VARCHAR
+  - name: ticket_revenue
+    type: DOUBLE
+  - name: private_contract_revenue
+    type: DOUBLE
+  - name: advertising_revenue
+    type: DOUBLE
+  - name: public_contract_revenue
+    type: DOUBLE
+  - name: federal_funding_revenue
+    type: DOUBLE
+  - name: state_funding_revenue
+    type: DOUBLE
+  - name: local_funding_revenue
+    type: DOUBLE
+  - name: federal_state_local
+    type: BIGINT
+  - name: pub_fund_type_1
+    type: BIGINT
+  - name: pub_fund_source_1
+    type: VARCHAR
+  - name: pub_fund_prog_1
+    type: VARCHAR
+  - name: pub_fund_type_2
+    type: BIGINT
+  - name: pub_fund_source_2
+    type: VARCHAR
+  - name: pub_fund_prog_2
+    type: VARCHAR
+  - name: pub_fund_type_3
+    type: BIGINT
+  - name: pub_fund_source_3
+    type: VARCHAR
+  - name: pub_fund_prog_3
+    type: VARCHAR
+  - name: pub_fund_type_4
+    type: BIGINT
+  - name: pub_fund_source_4
+    type: VARCHAR
+  - name: pub_fund_prog_4
+    type: VARCHAR
+  - name: pub_fund_type_5
+    type: BIGINT
+  - name: pub_fund_source_5
+    type: VARCHAR
+  - name: pub_fund_prog_5
+    type: VARCHAR
+  - name: pub_fund_type_6
+    type: BIGINT
+  - name: pub_fund_source_6
+    type: VARCHAR
+  - name: pub_fund_prog_6
+    type: VARCHAR
+  - name: pub_fund_type_7
+    type: BIGINT
+  - name: pub_fund_source_7
+    type: VARCHAR
+  - name: pub_fund_prog_7
+    type: VARCHAR
+  - name: pub_fund_type_8
+    type: BIGINT
+  - name: pub_fund_source_8
+    type: VARCHAR
+  - name: pub_fund_prog_8
+    type: VARCHAR
+  - name: vessel_id
+    type: BIGINT
+  - name: vessel_name
+    type: VARCHAR
+  - name: uscg_number
+    type: VARCHAR
+  - name: in_service
+    type: BIGINT
+  - name: carries_passengers
+    type: BIGINT
+  - name: carries_vehicles
+    type: BIGINT
+  - name: carries_freight
+    type: BIGINT
+  - name: passenger_capacity
+    type: BIGINT
+  - name: vehicle_capacity
+    type: BIGINT
+  - name: fuel_type
+    type: BIGINT
+  - name: fuel_other
+    type: VARCHAR
+  - name: typical_speed
+    type: BIGINT
+  - name: year_built
+    type: BIGINT
+  - name: mainhorsepowerahead
+    type: BIGINT
+  - name: mainhorsepowerastern
+    type: BIGINT
+  - name: hullmaterial
+    type: BIGINT
+  - name: hullshape
+    type: BIGINT
+  - name: propulsiontype
+    type: BIGINT
+  - name: selfpropindicator
+    type: BIGINT
+  - name: registered_breadth
+    type: DOUBLE
+  - name: registered_depth
+    type: DOUBLE
+  - name: registered_length
+    type: DOUBLE
+  - name: registered_net_tons
+    type: BIGINT
+  - name: registered_gross_tons
+    type: BIGINT
+  - name: vessel_ownership
+    type: BIGINT
+  - name: vessel_owned_by
+    type: VARCHAR
+  - name: vessel_operation
+    type: VARCHAR
+  - name: vessel_operated_by
+    type: VARCHAR
+  - name: fuel_mileage
+    type: DOUBLE
+  - name: ada_accessible
+    type: DOUBLE
+  - name: engine_lifespan
+    type: BIGINT
+  - name: census_year_miles
+    type: BIGINT
+  - name: terminal_id
+    type: BIGINT
+  - name: terminal_name
+    type: VARCHAR
+  - name: term_city
+    type: VARCHAR
+  - name: term_state
+    type: VARCHAR
+  - name: term_country
+    type: VARCHAR
+  - name: terminal_coordinates
+    type: VARCHAR
+  - name: terminal_coordinates_address
+    type: VARCHAR
+  - name: terminal_coordinates_city
+    type: VARCHAR
+  - name: terminal_coordinates_state
+    type: VARCHAR
+  - name: terminal_coordinates_zip
+    type: VARCHAR
+  - name: parking
+    type: BIGINT
+  - name: local_bus
+    type: BIGINT
+  - name: intercity_bus
+    type: BIGINT
+  - name: local_rail
+    type: BIGINT
+  - name: intercity_rail
+    type: BIGINT
+  - name: terminal_ownership
+    type: BIGINT
+  - name: terminal_owned_by
+    type: VARCHAR
+  - name: terminal_operation
+    type: BIGINT
+  - name: terminal_operated_by
+    type: VARCHAR
+  - name: segment_id
+    type: BIGINT
+  - name: seg_length
+    type: DOUBLE
+  - name: average_trip_time
+    type: BIGINT
+  - name: season_start_month
+    type: BIGINT
+  - name: season_start_day
+    type: BIGINT
+  - name: season_end_month
+    type: BIGINT
+  - name: season_end_day
+    type: BIGINT
+  - name: route_rates_regulated
+    type: BIGINT
+  - name: route_rate_regulator
+    type: VARCHAR
+  - name: passengers
+    type: BIGINT
+  - name: vehicles
+    type: BIGINT
+  - name: avg_daily_brd_pax
+    type: BIGINT
+  - name: avg_daily_brd_veh
+    type: BIGINT
+  - name: vessel1_id
+    type: BIGINT
+  - name: vessel1_name
+    type: VARCHAR
+  - name: vessel2_id
+    type: BIGINT
+  - name: vessel2_name
+    type: VARCHAR
+  - name: vessel3_id
+    type: BIGINT
+  - name: vessel3_name
+    type: VARCHAR
+  - name: segment_name
+    type: VARCHAR
+  - name: seg_terminal1_id
+    type: BIGINT
+  - name: seg_terminal2_id
+    type: BIGINT
+  - name: seg_type
+    type: BIGINT
+  - name: serves_nps
+    type: BIGINT
+  - name: terminal_name1
+    type: VARCHAR
+  - name: term_city1
+    type: VARCHAR
+  - name: term_state1
+    type: VARCHAR
+  - name: term_country1
+    type: VARCHAR
+  - name: terminal_coordinates1
+    type: VARCHAR
+  - name: terminal_coordinates1_address
+    type: VARCHAR
+  - name: terminal_coordinates1_city
+    type: VARCHAR
+  - name: terminal_coordinates1_state
+    type: VARCHAR
+  - name: terminal_coordinates1_zip
+    type: VARCHAR
+  - name: parking1
+    type: BIGINT
+  - name: local_bus1
+    type: BIGINT
+  - name: intercity_bus1
+    type: BIGINT
+  - name: local_rail1
+    type: BIGINT
+  - name: intercity_rail1
+    type: BIGINT
+  - name: terminal_ownership1
+    type: BIGINT
+  - name: terminal_owned_by1
+    type: VARCHAR
+  - name: terminal_operation1
+    type: BIGINT
+  - name: terminal_operated_by1
+    type: VARCHAR
+  - name: terminal_name2
+    type: VARCHAR
+  - name: term_city2
+    type: VARCHAR
+  - name: term_state2
+    type: VARCHAR
+  - name: term_country2
+    type: VARCHAR
+  - name: terminal_coordinates2
+    type: VARCHAR
+  - name: terminal_coordinates2_address
+    type: VARCHAR
+  - name: terminal_coordinates2_city
+    type: VARCHAR
+  - name: terminal_coordinates2_state
+    type: VARCHAR
+  - name: terminal_coordinates2_zip
+    type: VARCHAR
+  - name: parking2
+    type: BIGINT
+  - name: local_bus2
+    type: BIGINT
+  - name: intercity_bus2
+    type: BIGINT
+  - name: local_rail2
+    type: BIGINT
+  - name: intercity_rail2
+    type: BIGINT
+  - name: terminal_ownership2
+    type: BIGINT
+  - name: terminal_owned_by2
+    type: VARCHAR
+  - name: terminal_operation2
+    type: BIGINT
+  - name: terminal_operated_by2
+    type: VARCHAR
+  - name: uscg_number1
+    type: BIGINT
+  - name: in_service1
+    type: BIGINT
+  - name: carries_passengers1
+    type: BIGINT
+  - name: carries_vehicles1
+    type: BIGINT
+  - name: carries_freight1
+    type: BIGINT
+  - name: passenger_capacity1
+    type: BIGINT
+  - name: vehicle_capacity1
+    type: BIGINT
+  - name: fuel_type1
+    type: BIGINT
+  - name: fuel_other1
+    type: VARCHAR
+  - name: typical_speed1
+    type: DOUBLE
+  - name: year_built1
+    type: BIGINT
+  - name: mainhorsepowerahead1
+    type: BIGINT
+  - name: mainhorsepowerastern1
+    type: BIGINT
+  - name: hullmaterial1
+    type: BIGINT
+  - name: hullshape1
+    type: BIGINT
+  - name: propulsiontype1
+    type: BIGINT
+  - name: selfpropindicator1
+    type: BIGINT
+  - name: registered_breadth1
+    type: DOUBLE
+  - name: registered_depth1
+    type: DOUBLE
+  - name: registered_length1
+    type: DOUBLE
+  - name: registered_gross_tons1
+    type: BIGINT
+  - name: registered_net_tons1
+    type: BIGINT
+  - name: vessel_ownership1
+    type: BIGINT
+  - name: vessel_owned_by1
+    type: VARCHAR
+  - name: vessel_operation1
+    type: BIGINT
+  - name: vessel_operated_by1
+    type: VARCHAR
+  - name: fuel_mileage1
+    type: DOUBLE
+  - name: ada_accessible1
+    type: BIGINT
+  - name: engine_lifespan1
+    type: BIGINT
+  - name: census_year_miles1
+    type: BIGINT
+  - name: uscg_number2
+    type: BIGINT
+  - name: in_service2
+    type: BIGINT
+  - name: carries_passengers2
+    type: BIGINT
+  - name: carries_vehicles2
+    type: BIGINT
+  - name: carries_freight2
+    type: BIGINT
+  - name: passenger_capacity2
+    type: BIGINT
+  - name: vehicle_capacity2
+    type: BIGINT
+  - name: fuel_type2
+    type: BIGINT
+  - name: fuel_other2
+    type: VARCHAR
+  - name: typical_speed2
+    type: DOUBLE
+  - name: year_built2
+    type: BIGINT
+  - name: mainhorsepowerahead2
+    type: BIGINT
+  - name: mainhorsepowerastern2
+    type: BIGINT
+  - name: hullmaterial2
+    type: BIGINT
+  - name: hullshape2
+    type: BIGINT
+  - name: propulsiontype2
+    type: BIGINT
+  - name: selfpropindicator2
+    type: BIGINT
+  - name: registered_breadth2
+    type: DOUBLE
+  - name: registered_depth2
+    type: DOUBLE
+  - name: registered_length2
+    type: DOUBLE
+  - name: registered_gross_tons2
+    type: BIGINT
+  - name: registered_net_tons2
+    type: BIGINT
+  - name: vessel_ownership2
+    type: BIGINT
+  - name: vessel_owned_by2
+    type: VARCHAR
+  - name: vessel_operation2
+    type: BIGINT
+  - name: vessel_operated_by2
+    type: VARCHAR
+  - name: fuel_mileage2
+    type: DOUBLE
+  - name: ada_accessible2
+    type: BIGINT
+  - name: engine_lifespan2
+    type: BIGINT
+  - name: census_year_miles2
+    type: BIGINT
+  - name: uscg_number3
+    type: BIGINT
+  - name: in_service3
+    type: BIGINT
+  - name: carries_passengers3
+    type: BIGINT
+  - name: carries_vehicles3
+    type: BIGINT
+  - name: carries_freight3
+    type: BIGINT
+  - name: passenger_capacity3
+    type: BIGINT
+  - name: vehicle_capacity3
+    type: BIGINT
+  - name: fuel_type3
+    type: BIGINT
+  - name: fuel_other3
+    type: VARCHAR
+  - name: typical_speed3
+    type: BIGINT
+  - name: year_built3
+    type: BIGINT
+  - name: mainhorsepowerahead3
+    type: BIGINT
+  - name: mainhorsepowerastern3
+    type: BIGINT
+  - name: hullmaterial3
+    type: BIGINT
+  - name: hullshape3
+    type: BIGINT
+  - name: propulsiontype3
+    type: BIGINT
+  - name: selfpropindicator3
+    type: BIGINT
+  - name: registered_breadth3
+    type: DOUBLE
+  - name: registered_depth3
+    type: DOUBLE
+  - name: registered_length3
+    type: DOUBLE
+  - name: registered_gross_tons3
+    type: BIGINT
+  - name: registered_net_tons3
+    type: BIGINT
+  - name: vessel_ownership3
+    type: BIGINT
+  - name: vessel_owned_by3
+    type: VARCHAR
+  - name: vessel_operation3
+    type: BIGINT
+  - name: vessel_operated_by3
+    type: VARCHAR
+  - name: fuel_mileage3
+    type: DOUBLE
+  - name: ada_accessible3
+    type: BIGINT
+  - name: engine_lifespan3
+    type: BIGINT
+  - name: census_year_miles3
+    type: BIGINT
+  - name: surveyyear
+    type: BIGINT

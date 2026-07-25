@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-xb52-s9ue`. Regenerate after model-verify.
+key: [gallons, state, year, month]
+temporal: year
+sort: [year, gallons, state, month]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: gallons
+    type: BIGINT

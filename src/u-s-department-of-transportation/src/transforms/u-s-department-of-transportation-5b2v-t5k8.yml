@@ -1,0 +1,213 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-5b2v-t5k8`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state_fips_code
+    type: BIGINT
+  - name: county_fips_code
+    type: BIGINT
+  - name: rural_urban
+    type: BIGINT
+  - name: urbanized_sampling_technique
+    type: BIGINT
+  - name: urbanized_area_code
+    type: BIGINT
+  - name: type_of_section
+    type: BIGINT
+  - name: section_identification
+    type: VARCHAR
+  - name: functional_class
+    type: BIGINT
+  - name: federal_aid_system
+    type: BIGINT
+  - name: federal_aid_system_status
+    type: BIGINT
+  - name: route_signing
+    type: BIGINT
+  - name: route_number
+    type: VARCHAR
+  - name: governmental_level_of_control
+    type: BIGINT
+  - name: federal_state_and_local_domain
+    type: BIGINT
+  - name: special_systems
+    type: VARCHAR
+  - name: type_of_facility
+    type: BIGINT
+  - name: trucks_commercial_vehicles
+    type: BIGINT
+  - name: toll
+    type: BIGINT
+  - name: section_grouped_length
+    type: DOUBLE
+  - name: aadt
+    type: BIGINT
+  - name: number_of_through_lanes
+    type: BIGINT
+  - name: work_functional_class_code
+    type: BIGINT
+  - name: sample_number
+    type: VARCHAR
+  - name: sample_subdivision
+    type: BIGINT
+  - name: aadt_volume_group_identifier
+    type: BIGINT
+  - name: expansion_factor
+    type: DOUBLE
+  - name: surface_pavement_type
+    type: BIGINT
+  - name: pavement_section
+    type: BIGINT
+  - name: structural_number
+    type: DOUBLE
+  - name: pavement_condition
+    type: DOUBLE
+  - name: access_control
+    type: BIGINT
+  - name: lane_width
+    type: BIGINT
+  - name: approach_width
+    type: BIGINT
+  - name: shoulder_type
+    type: BIGINT
+  - name: right_shoulder_width
+    type: BIGINT
+  - name: left_shoulder_width
+    type: BIGINT
+  - name: median_type
+    type: BIGINT
+  - name: median_width
+    type: BIGINT
+  - name: existing_right_of_way_width
+    type: BIGINT
+  - name: is_widening_feasible
+    type: BIGINT
+  - name: horizontal_alignment_adequacy
+    type: BIGINT
+  - name: number_class_a_curves
+    type: BIGINT
+  - name: length_class_a_curves
+    type: DOUBLE
+  - name: number_class_b_curves
+    type: BIGINT
+  - name: length_class_b_curves
+    type: DOUBLE
+  - name: number_class_c_curves
+    type: BIGINT
+  - name: length_class_c_curves
+    type: DOUBLE
+  - name: number_class_d_curves
+    type: BIGINT
+  - name: length_class_d_curves
+    type: DOUBLE
+  - name: number_class_e_curves
+    type: BIGINT
+  - name: length_class_e_curves
+    type: DOUBLE
+  - name: number_class_f_curves
+    type: BIGINT
+  - name: length_class_f_curves
+    type: DOUBLE
+  - name: number_class_g_curves
+    type: BIGINT
+  - name: length_class_g_curves
+    type: DOUBLE
+  - name: number_class_h_curves
+    type: BIGINT
+  - name: length_class_h_curves
+    type: DOUBLE
+  - name: number_class_i_curves
+    type: BIGINT
+  - name: length_class_i_curves
+    type: DOUBLE
+  - name: number_class_j_curves
+    type: BIGINT
+  - name: length_class_j_curves
+    type: DOUBLE
+  - name: number_class_k_curves
+    type: BIGINT
+  - name: length_class_k_curves
+    type: DOUBLE
+  - name: number_class_l_curves
+    type: BIGINT
+  - name: length_class_l_curves
+    type: DOUBLE
+  - name: number_class_m_curves
+    type: BIGINT
+  - name: length_class_m_curves
+    type: DOUBLE
+  - name: vertical_alignment_adequacy
+    type: BIGINT
+  - name: number_class_a_grades
+    type: BIGINT
+  - name: length_class_a_grades
+    type: DOUBLE
+  - name: number_class_b_grades
+    type: BIGINT
+  - name: length_class_b_grades
+    type: DOUBLE
+  - name: number_class_c_grades
+    type: BIGINT
+  - name: length_class_c_grades
+    type: DOUBLE
+  - name: number_class_d_grades
+    type: BIGINT
+  - name: length_class_d_grades
+    type: DOUBLE
+  - name: number_class_e_grades
+    type: BIGINT
+  - name: length_class_e_grades
+    type: DOUBLE
+  - name: number_class_f_grades
+    type: BIGINT
+  - name: length_class_f_grades
+    type: DOUBLE
+  - name: percent_passing_sight_distance
+    type: BIGINT
+  - name: speed_limit
+    type: BIGINT
+  - name: weighted_design_speed
+    type: BIGINT
+  - name: peak_percent_trucks
+    type: BIGINT
+  - name: off_peak_percent_trucks
+    type: BIGINT
+  - name: k_factor
+    type: BIGINT
+  - name: directional_factor
+    type: BIGINT
+  - name: peak_capacity
+    type: BIGINT
+  - name: off_peak_capacity
+    type: BIGINT
+  - name: prevailing_type_of
+    type: BIGINT
+  - name: typical_percent_green_time
+    type: BIGINT
+  - name: peak_parking
+    type: BIGINT
+  - name: off_peak_parking
+    type: BIGINT
+  - name: future_aadt
+    type: BIGINT
+  - name: drainage_adequacy
+    type: BIGINT
+  - name: type_of_terrain
+    type: BIGINT
+  - name: type_of_development
+    type: BIGINT
+  - name: urban_location
+    type: BIGINT
+  - name: number_of_at_grade
+    type: BIGINT
+  - name: number_of_at_grade_1
+    type: BIGINT
+  - name: number_of_at_grade_2
+    type: BIGINT
+  - name: volume_surface_flow_ratio
+    type: DOUBLE

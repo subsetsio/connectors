@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-em9t-xx9j`. Regenerate after model-verify.
+key: [full_time_employees, total_employees, part_time_employees, year]
+temporal: year
+sort: [year, full_time_employees, total_employees, part_time_employees]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: full_time_employees
+    type: BIGINT
+  - name: part_time_employees
+    type: BIGINT
+  - name: total_employees
+    type: BIGINT
+  - name: full_time_equivalent_employees
+    type: BIGINT

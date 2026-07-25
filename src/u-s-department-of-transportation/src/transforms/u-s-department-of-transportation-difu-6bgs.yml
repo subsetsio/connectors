@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-difu-6bgs`. Regenerate after model-verify.
+key: [terminal_id, longitude, terminal_name, latitude, term_city]
+sort: [terminal_id, longitude, terminal_name, latitude, term_city]
+columns:
+  - name: terminal_id
+    type: BIGINT
+  - name: terminal_name
+    type: VARCHAR
+  - name: term_city
+    type: VARCHAR
+  - name: term_state
+    type: VARCHAR
+  - name: term_country
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: in_operation
+    type: BIGINT
+  - name: intercity_bus
+    type: BIGINT
+  - name: intercity_rail
+    type: BIGINT
+  - name: local_bus
+    type: BIGINT
+  - name: local_rail
+    type: BIGINT
+  - name: bike_share
+    type: BIGINT
+  - name: parking
+    type: BIGINT
+  - name: terminal_operation
+    type: VARCHAR
+  - name: terminal_ownership
+    type: VARCHAR
+  - name: number_of_operators
+    type: BIGINT
+  - name: census_year
+    type: BIGINT

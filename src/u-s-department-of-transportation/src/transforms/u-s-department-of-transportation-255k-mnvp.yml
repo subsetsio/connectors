@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-255k-mnvp`. Regenerate after model-verify.
+key: [state, year, disbursements]
+temporal: year
+sort: [year, state, disbursements]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: disbursements
+    type: VARCHAR
+  - name: dollars
+    type: BIGINT

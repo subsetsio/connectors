@@ -1,0 +1,132 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-fx4q-ay7w`. Regenerate after model-verify.
+key: [report_number, inspection_id, snet_sequence_id, insp_carrier_name, insp_carrier_street]
+temporal: insp_date
+sort: [insp_date, report_number, inspection_id, snet_sequence_id, insp_carrier_name, insp_carrier_street]
+columns:
+  - name: change_date
+    type: VARCHAR
+  - name: inspection_id
+    type: BIGINT
+  - name: dot_number
+    type: BIGINT
+  - name: report_state
+    type: VARCHAR
+  - name: report_number
+    type: VARCHAR
+  - name: insp_date
+    type: DATE
+  - name: insp_start_time
+    type: VARCHAR
+  - name: insp_end_time
+    type: VARCHAR
+  - name: registration_date
+    type: DATE
+  - name: region
+    type: VARCHAR
+  - name: ci_status_code
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: location_desc
+    type: VARCHAR
+  - name: county_code_state
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: insp_level_id
+    type: BIGINT
+  - name: service_center
+    type: VARCHAR
+  - name: census_source_id
+    type: BIGINT
+  - name: insp_facility
+    type: VARCHAR
+  - name: shipper_name
+    type: VARCHAR
+  - name: shipping_paper_number
+    type: VARCHAR
+  - name: cargo_tank
+    type: VARCHAR
+  - name: hazmat_placard_req
+    type: VARCHAR
+  - name: snet_version_number
+    type: VARCHAR
+  - name: snet_search_date
+    type: VARCHAR
+  - name: alcohol_control_sub
+    type: VARCHAR
+  - name: drug_intrdctn_search
+    type: VARCHAR
+  - name: drug_intrdctn_arrests
+    type: BIGINT
+  - name: size_weight_enf
+    type: VARCHAR
+  - name: traffic_enf
+    type: VARCHAR
+  - name: local_enf_jurisdiction
+    type: VARCHAR
+  - name: pen_cen_match
+    type: VARCHAR
+  - name: final_status_date
+    type: VARCHAR
+  - name: post_acc_ind
+    type: VARCHAR
+  - name: gross_comb_veh_wt
+    type: BIGINT
+  - name: viol_total
+    type: BIGINT
+  - name: oos_total
+    type: BIGINT
+  - name: driver_viol_total
+    type: BIGINT
+  - name: driver_oos_total
+    type: BIGINT
+  - name: vehicle_viol_total
+    type: BIGINT
+  - name: vehicle_oos_total
+    type: BIGINT
+  - name: hazmat_viol_total
+    type: BIGINT
+  - name: hazmat_oos_total
+    type: BIGINT
+  - name: snet_sequence_id
+    type: BIGINT
+  - name: transaction_code
+    type: VARCHAR
+  - name: transaction_date
+    type: VARCHAR
+  - name: upload_date
+    type: VARCHAR
+  - name: upload_first_byte
+    type: BIGINT
+  - name: upload_dot_number
+    type: VARCHAR
+  - name: upload_search_indicator
+    type: VARCHAR
+  - name: census_search_date
+    type: VARCHAR
+  - name: snet_input_date
+    type: VARCHAR
+  - name: source_office
+    type: VARCHAR
+  - name: mcmis_add_date
+    type: VARCHAR
+  - name: insp_carrier_name
+    type: VARCHAR
+  - name: insp_carrier_street
+    type: VARCHAR
+  - name: insp_carrier_city
+    type: VARCHAR
+  - name: insp_carrier_state
+    type: VARCHAR
+  - name: insp_carrier_zip_code
+    type: VARCHAR
+  - name: insp_colonia
+    type: VARCHAR
+  - name: docket_number
+    type: BIGINT
+  - name: insp_interstate
+    type: VARCHAR
+  - name: insp_carrier_state_id
+    type: VARCHAR

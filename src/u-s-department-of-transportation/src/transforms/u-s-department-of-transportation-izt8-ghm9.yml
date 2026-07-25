@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-izt8-ghm9`. Regenerate after model-verify.
+key: [miles, state, year, ownership, area]
+temporal: year
+sort: [year, miles, state, ownership, area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: ownership
+    type: VARCHAR
+  - name: miles
+    type: DOUBLE

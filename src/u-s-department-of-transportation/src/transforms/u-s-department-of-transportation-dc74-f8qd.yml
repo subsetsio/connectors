@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-dc74-f8qd`. Regenerate after model-verify.
+key: [current_ridership, date, week_number, agency]
+temporal: date
+sort: [date, current_ridership, week_number, agency]
+columns:
+  - name: agency
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: date
+    type: TIMESTAMP
+  - name: week_number
+    type: BIGINT
+  - name: current_ridership
+    type: BIGINT
+  - name: baseline
+    type: BIGINT

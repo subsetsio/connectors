@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-hr7b-uxn2`. Regenerate after model-verify.
+key: [state, year, disposition, type, gov_level]
+temporal: year
+sort: [year, state, disposition, type, gov_level]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: gov_level
+    type: VARCHAR
+  - name: disposition
+    type: VARCHAR
+  - name: revenue
+    type: BIGINT

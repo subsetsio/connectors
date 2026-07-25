@@ -1,0 +1,68 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-h4kh-i7b7`. Regenerate after model-verify.
+key: [road_event_id, end_date, beginning_cross_street, start_date, lanes]
+temporal: feed_update_date
+sort: [feed_update_date, road_event_id, end_date, beginning_cross_street, start_date, lanes]
+columns:
+  - name: feed_update_date
+    type: TIMESTAMP
+  - name: road_event_feed_info_version
+    type: DOUBLE
+  - name: road_event_id
+    type: VARCHAR
+  - name: subidentifier
+    type: VARCHAR
+  - name: road_name
+    type: VARCHAR
+  - name: road_number
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: beginning_cross_street
+    type: VARCHAR
+  - name: ending_cross_street
+    type: VARCHAR
+  - name: beginning_milepost
+    type: VARCHAR
+  - name: ending_milepost
+    type: VARCHAR
+  - name: beginning_accuracy
+    type: VARCHAR
+  - name: ending_accuracy
+    type: VARCHAR
+  - name: start_date
+    type: TIMESTAMP
+  - name: end_date
+    type: TIMESTAMP
+  - name: start_date_accuracy
+    type: VARCHAR
+  - name: end_date_accuracy
+    type: VARCHAR
+  - name: event_status
+    type: VARCHAR
+  - name: total_num_lanes
+    type: DOUBLE
+  - name: vehicle_impact
+    type: VARCHAR
+  - name: workers_present
+    type: VARCHAR
+  - name: reduced_speed_limit
+    type: VARCHAR
+  - name: restrictions
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: issuing_organization
+    type: VARCHAR
+  - name: creation_date
+    type: VARCHAR
+  - name: update_date
+    type: VARCHAR
+  - name: types_of_work
+    type: VARCHAR
+  - name: lanes
+    type: VARCHAR
+  - name: geometry_linestring
+    type: VARCHAR
+  - name: geometry_multipoint
+    type: VARCHAR

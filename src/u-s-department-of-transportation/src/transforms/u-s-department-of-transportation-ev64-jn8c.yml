@@ -1,0 +1,247 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-ev64-jn8c`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: tmstp_utc
+sort: [tmstp_utc]
+columns:
+  - name: tmstp_epoch
+    type: BIGINT
+  - name: tmstp_utc
+    type: TIMESTAMP
+  - name: date_utc
+    type: TIMESTAMP
+  - name: rsu_locations
+    type: VARCHAR
+  - name: temp_id
+    type: VARCHAR
+  - name: msg_count
+    type: BIGINT
+  - name: sec_mark
+    type: BIGINT
+  - name: latitude
+    type: BIGINT
+  - name: longitude
+    type: BIGINT
+  - name: elevation
+    type: BIGINT
+  - name: heading
+    type: BIGINT
+  - name: speed
+    type: BIGINT
+  - name: transmission_state
+    type: VARCHAR
+  - name: lateral_acceleration
+    type: BIGINT
+  - name: longitudinal_acceleration
+    type: BIGINT
+  - name: vertical_acceleration
+    type: BIGINT
+  - name: yaw_rate
+    type: BIGINT
+  - name: semi_major_axis_orientation
+    type: BIGINT
+  - name: semi_major_axis_accuracy
+    type: BIGINT
+  - name: semi_minor_axis_accuracy
+    type: BIGINT
+  - name: steering_wheel_angle
+    type: BIGINT
+  - name: abs_status
+    type: VARCHAR
+  - name: auxiliary_brake_status
+    type: VARCHAR
+  - name: brake_boost_status
+    type: VARCHAR
+  - name: scs_status
+    type: VARCHAR
+  - name: traction_control_status
+    type: VARCHAR
+  - name: wheel_brakes_flags
+    type: BIGINT
+  - name: brake_unavailable
+    type: BOOLEAN
+  - name: brake_left_front
+    type: BOOLEAN
+  - name: brake_left_rear
+    type: BOOLEAN
+  - name: brake_right_front
+    type: BOOLEAN
+  - name: brake_right_rear
+    type: BOOLEAN
+  - name: vehicle_length
+    type: BIGINT
+  - name: vehicle_width
+    type: BIGINT
+  - name: vehicle_classification
+    type: BIGINT
+  - name: vehicle_role
+    type: VARCHAR
+  - name: vehicle_fuel_type
+    type: VARCHAR
+  - name: vehicle_hpms_type
+    type: VARCHAR
+  - name: vehicle_key_type
+    type: BIGINT
+  - name: vehicle_height
+    type: BIGINT
+  - name: vehicle_mass
+    type: BIGINT
+  - name: vehicle_bumper_front
+    type: BIGINT
+  - name: vehicle_bumper_rear
+    type: BIGINT
+  - name: air_pressure
+    type: BIGINT
+  - name: air_temp
+    type: BIGINT
+  - name: front_wiper_rate
+    type: BIGINT
+  - name: front_wiper_status
+    type: VARCHAR
+  - name: friction
+    type: BIGINT
+  - name: is_raining
+    type: VARCHAR
+  - name: precip_situation
+    type: VARCHAR
+  - name: rain_rate
+    type: BIGINT
+  - name: road_friction
+    type: BIGINT
+  - name: solar_radiation
+    type: BIGINT
+  - name: exterior_lights_flags
+    type: VARCHAR
+  - name: low_beam_headlights
+    type: BOOLEAN
+  - name: high_beam_headlights
+    type: BOOLEAN
+  - name: left_turn_signal
+    type: BOOLEAN
+  - name: right_turn_signal
+    type: BOOLEAN
+  - name: hazard_lights
+    type: BOOLEAN
+  - name: automatic_light_control
+    type: BOOLEAN
+  - name: daytime_running_lights
+    type: BOOLEAN
+  - name: fog_lights
+    type: BOOLEAN
+  - name: parking_lights
+    type: BOOLEAN
+  - name: safety_events_flags
+    type: VARCHAR
+  - name: event_hazard_lights
+    type: BOOLEAN
+  - name: event_intersection_violation
+    type: BOOLEAN
+  - name: event_abs_violation
+    type: BOOLEAN
+  - name: event_traction_control_loss
+    type: BOOLEAN
+  - name: event_stability_control
+    type: BOOLEAN
+  - name: event_hazardous_materials
+    type: BOOLEAN
+  - name: event_reserved_1
+    type: BOOLEAN
+  - name: event_hard_braking
+    type: BOOLEAN
+  - name: event_lights_changed
+    type: BOOLEAN
+  - name: event_wipers_changed
+    type: BOOLEAN
+  - name: event_flat_tire
+    type: BOOLEAN
+  - name: event_disabled_vehicle
+    type: BOOLEAN
+  - name: event_airbag
+    type: BOOLEAN
+  - name: emergency_events_flags
+    type: VARCHAR
+  - name: emergency_unavailable
+    type: VARCHAR
+  - name: emergency_response
+    type: VARCHAR
+  - name: emergency_lights_active
+    type: VARCHAR
+  - name: emergency_sound_active
+    type: VARCHAR
+  - name: non_emergency_lights_active
+    type: VARCHAR
+  - name: non_emergency_sound_active
+    type: VARCHAR
+  - name: disabled_vehicle_status
+    type: VARCHAR
+  - name: type_event
+    type: VARCHAR
+  - name: vehiclealerts_events_not
+    type: VARCHAR
+  - name: vehiclealerts_lightbar_use
+    type: VARCHAR
+  - name: vehiclealerts_multi
+    type: VARCHAR
+  - name: vehiclealerts_siren_use
+    type: VARCHAR
+  - name: vehiclealerts_not_used
+    type: VARCHAR
+  - name: trailers_connection_pivot
+    type: VARCHAR
+  - name: trailers_connection_pivots
+    type: VARCHAR
+  - name: trailers_connection_pivot_1
+    type: VARCHAR
+  - name: trailers_not_used
+    type: VARCHAR
+  - name: trailers_length
+    type: VARCHAR
+  - name: trailers_height
+    type: VARCHAR
+  - name: trailers_width
+    type: VARCHAR
+  - name: trailers_isdolly
+    type: VARCHAR
+  - name: trailers_front_pivot_angle
+    type: VARCHAR
+  - name: trailers_front_pivot_offset
+    type: VARCHAR
+  - name: trailers_front_pivots
+    type: VARCHAR
+  - name: trailers_position_offset
+    type: VARCHAR
+  - name: trailers_position_offset_1
+    type: VARCHAR
+  - name: trailers_rear_pivot_angle
+    type: VARCHAR
+  - name: trailers_rear_pivot_offset
+    type: VARCHAR
+  - name: trailers_rear_pivots
+    type: VARCHAR
+  - name: pathprediction_confidence
+    type: BIGINT
+  - name: pathprediction_radiusofcurve
+    type: BIGINT
+  - name: pathhistory_crumbdata
+    type: VARCHAR
+  - name: pathhistory_currgnss_status
+    type: VARCHAR
+  - name: currgnss_status_unavailable
+    type: VARCHAR
+  - name: currgnss_status_ishealthy
+    type: VARCHAR
+  - name: currgnss_status_ismonitored
+    type: VARCHAR
+  - name: currgnss_status
+    type: VARCHAR
+  - name: currgnss_status_apdop_of
+    type: VARCHAR
+  - name: currgnss_status_inview_of
+    type: VARCHAR
+  - name: currgnss_status_1
+    type: VARCHAR
+  - name: currgnss_status_2
+    type: VARCHAR
+  - name: decoded_bytes
+    type: DOUBLE

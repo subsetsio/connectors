@@ -1,0 +1,145 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-wwdp-t4re`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: agency
+    type: VARCHAR
+  - name: "5_digit_ntd_id"
+    type: VARCHAR
+  - name: reporter_type
+    type: VARCHAR
+  - name: organization_type
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: report_year
+    type: BIGINT
+  - name: agency_voms
+    type: BIGINT
+  - name: mode
+    type: VARCHAR
+  - name: mode_name
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: mode_voms
+    type: BIGINT
+  - name: mode_voms_questionable
+    type: VARCHAR
+  - name: primary_uza_code
+    type: VARCHAR
+  - name: primary_uza_name
+    type: VARCHAR
+  - name: primary_uza_area_sq_miles
+    type: DOUBLE
+  - name: primary_uza_population
+    type: BIGINT
+  - name: service_area_sq_miles
+    type: BIGINT
+  - name: service_area_population
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: time_service_begins
+    type: VARCHAR
+  - name: time_service_ends
+    type: VARCHAR
+  - name: actual_vehicles_passenger_car_miles
+    type: BIGINT
+  - name: vehicle_miles_questionable
+    type: VARCHAR
+  - name: actual_vehicles_passenger_car_revenue_miles
+    type: BIGINT
+  - name: vehicle_revenue_miles_questionable
+    type: VARCHAR
+  - name: actual_vehicles_passenger_deadhead_miles
+    type: BIGINT
+  - name: deadhead_miles_questionable
+    type: VARCHAR
+  - name: scheduled_vehicles_passenger_car_revenue_miles
+    type: BIGINT
+  - name: scheduled_revenue_miles_questionable
+    type: VARCHAR
+  - name: actual_vehicles_passenger_car_hours
+    type: BIGINT
+  - name: vehicle_hours_questionable
+    type: VARCHAR
+  - name: actual_vehicles_passenger_car_revenue_hours
+    type: BIGINT
+  - name: vehicle_revenue_hours_questionable
+    type: VARCHAR
+  - name: actual_vehicles_passenger_car_deadhead_hours
+    type: BIGINT
+  - name: deadhead_hours_questionable
+    type: VARCHAR
+  - name: charter_service_hours
+    type: BIGINT
+  - name: school_bus_hours
+    type: BIGINT
+  - name: trains_in_operation
+    type: BIGINT
+  - name: trains_in_operation_questionable
+    type: VARCHAR
+  - name: train_miles
+    type: BIGINT
+  - name: train_miles_questionable
+    type: VARCHAR
+  - name: train_revenue_miles
+    type: BIGINT
+  - name: train_revenue_miles_questionable
+    type: VARCHAR
+  - name: train_deadhead_miles
+    type: BIGINT
+  - name: train_hours
+    type: BIGINT
+  - name: train_hours_questionable
+    type: VARCHAR
+  - name: train_revenue_hours
+    type: BIGINT
+  - name: train_revenue_hours_questionable
+    type: VARCHAR
+  - name: train_deadhead_hours
+    type: BIGINT
+  - name: unlinked_passenger_trips_upt
+    type: BIGINT
+  - name: unlinked_passenger_trips_questionable
+    type: VARCHAR
+  - name: ada_upt
+    type: BIGINT
+  - name: sponsored_service_upt
+    type: BIGINT
+  - name: passenger_miles
+    type: BIGINT
+  - name: passenger_miles_questionable
+    type: VARCHAR
+  - name: directional_route_miles
+    type: DOUBLE
+  - name: directional_route_miles_questionable
+    type: VARCHAR
+  - name: brt_non_statutory_mixed_traffic
+    type: DOUBLE
+  - name: mixed_traffic_right_of_way
+    type: DOUBLE
+  - name: days_of_service_operated
+    type: BIGINT
+  - name: days_not_operated_strikes
+    type: BIGINT
+  - name: days_not_operated_emergencies
+    type: BIGINT
+  - name: average_speed
+    type: DOUBLE
+  - name: average_speed_questionable
+    type: VARCHAR
+  - name: average_passenger_trip_length_aptl
+    type: VARCHAR
+  - name: aptl_questionable
+    type: VARCHAR
+  - name: passengers_per_hour
+    type: BIGINT
+  - name: passengers_per_hour_questionable
+    type: VARCHAR

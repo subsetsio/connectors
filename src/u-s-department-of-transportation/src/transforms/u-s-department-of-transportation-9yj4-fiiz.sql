@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+SELECT
+    "agency",
+    "city",
+    "state",
+    "ntd_id",
+    "organization_type",
+    "reporter_type",
+    CAST("report_year" AS BIGINT) AS report_year,
+    "uace_code",
+    "uza_name",
+    CAST("primary_uza_population" AS BIGINT) AS primary_uza_population,
+    CAST("agency_voms" AS BIGINT) AS agency_voms,
+    "mode",
+    "mode_name",
+    "type_of_service",
+    CAST("mode_voms" AS BIGINT) AS mode_voms,
+    CAST("under_200_vehicles" AS DOUBLE) AS under_200_vehicles,
+    "under_200_vehicles_1",
+    CAST("_200_to_300_vehicles" AS DOUBLE) AS 200_to_300_vehicles,
+    "_200_to_300_vehicles_1" AS 200_to_300_vehicles_1,
+    CAST("over_300_vehicles" AS DOUBLE) AS over_300_vehicles,
+    "over_300_vehicles_questionable",
+    CAST("heavy_maintenance_facilities" AS DOUBLE) AS heavy_maintenance_facilities,
+    "heavy_maintenance_facilities_1",
+    CAST("total_facilities" AS DOUBLE) AS total_facilities,
+    "total_maintenance_facilities",
+    CAST("owned" AS DOUBLE) AS owned,
+    "owned_questionable",
+    CAST("leased_from_a_public_entity" AS DOUBLE) AS leased_from_a_public_entity,
+    "leased_from_a_public_entity_1",
+    CAST("leased_from_a_private_entity" AS DOUBLE) AS leased_from_a_private_entity,
+    "leased_from_a_private_entity_1",
+    CAST("owned_by_pt_provider" AS DOUBLE) AS owned_by_pt_provider,
+    "owned_by_pt_provider_1",
+    CAST("owned_by_public_agency" AS DOUBLE) AS owned_by_public_agency,
+    "owned_by_public_agency_1",
+    CAST("leased_by_pt_provider" AS DOUBLE) AS leased_by_pt_provider,
+    "leased_by_pt_provider_1",
+    CAST("leased_by_public_agency" AS DOUBLE) AS leased_by_public_agency,
+    "leased_by_public_agency_1"
+FROM "u-s-department-of-transportation-9yj4-fiiz"

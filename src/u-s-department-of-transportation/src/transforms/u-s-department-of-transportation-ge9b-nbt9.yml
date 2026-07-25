@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-ge9b-nbt9`. Regenerate after model-verify.
+key: [core_details, line, start_date, end_date, ending_cross_street]
+temporal: end_date
+sort: [end_date, core_details, line, start_date, ending_cross_street]
+columns:
+  - name: beginning_cross_street
+    type: VARCHAR
+  - name: core_details
+    type: VARCHAR
+  - name: end_date
+    type: TIMESTAMP
+  - name: ending_cross_street
+    type: VARCHAR
+  - name: is_end_date_verified
+    type: BOOLEAN
+  - name: is_end_position_verified
+    type: BOOLEAN
+  - name: is_start_date_verified
+    type: BOOLEAN
+  - name: is_start_position_verified
+    type: BOOLEAN
+  - name: line
+    type: VARCHAR
+  - name: location_method
+    type: VARCHAR
+  - name: start_date
+    type: TIMESTAMP
+  - name: vehicle_impact
+    type: VARCHAR

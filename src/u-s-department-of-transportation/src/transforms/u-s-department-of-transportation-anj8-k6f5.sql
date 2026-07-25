@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "use_case_identifier",
+    "use_case_name",
+    "agency",
+    "bureau",
+    "email_address",
+    "public_reporting_indicator",
+    "development_stage",
+    "high_impact_indicator",
+    "high_impact_justification",
+    "use_case_topic_area",
+    "ai_classification",
+    "problem_description",
+    "benefit_description",
+    "output_description",
+    CAST("operation_date" AS TIMESTAMP) AS operation_date,
+    "contractor_indicator",
+    "vendor_name",
+    "ato_indicator",
+    "system_name",
+    "training_data_description",
+    "enterprise_data_inventory_url",
+    "pii_indicator",
+    "pia_url",
+    "demographic_variable_description",
+    "custom_code_indicator",
+    "open_source_code_url",
+    "predeployment_testing_indicator",
+    "ai_impact_assessment_indicator",
+    "potential_impact_description",
+    "independent_review_indicator",
+    "ongoing_monitoring_indicator",
+    "operator_training_indicator",
+    "fail_safe_indicator",
+    "appeal_process_indicator",
+    "end_user_feedback_description"
+FROM "u-s-department-of-transportation-anj8-k6f5"

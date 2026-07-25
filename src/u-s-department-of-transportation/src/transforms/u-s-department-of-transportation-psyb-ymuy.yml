@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-psyb-ymuy`. Regenerate after model-verify.
+key: [msg_id, tmstp_utc, msg_milliseconds_utc, msg_moy_utc, inbound_lane]
+temporal: tmstp_utc
+sort: [tmstp_utc, msg_id, msg_milliseconds_utc, msg_moy_utc, inbound_lane]
+columns:
+  - name: msg_id
+    type: VARCHAR
+  - name: tenant
+    type: VARCHAR
+  - name: tmstp_utc
+    type: TIMESTAMP
+  - name: date_utc
+    type: TIMESTAMP
+  - name: msg_moy_utc
+    type: BIGINT
+  - name: msg_milliseconds_utc
+    type: BIGINT
+  - name: msg_count
+    type: BIGINT
+  - name: intersection_id
+    type: BIGINT
+  - name: road_regulator_id
+    type: VARCHAR
+  - name: entity_id
+    type: VARCHAR
+  - name: station_id
+    type: BIGINT
+  - name: msg_rank
+    type: BIGINT
+  - name: signal_moy_utc
+    type: VARCHAR
+  - name: signal_milliseconds_utc
+    type: VARCHAR
+  - name: request_id
+    type: BIGINT
+  - name: status
+    type: VARCHAR
+  - name: vehicle_role
+    type: VARCHAR
+  - name: signal_msg_count
+    type: BIGINT
+  - name: duration
+    type: VARCHAR
+  - name: inbound_lane
+    type: BIGINT
+  - name: status_msg_count
+    type: BIGINT

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-hinw-eisy`. Regenerate after model-verify.
+key: [average_year_of_manufacture, average_age, number_of_aircraft, oldest_age, oldest_year_of_manufacture]
+temporal: year
+sort: [year, average_year_of_manufacture, average_age, number_of_aircraft, oldest_age, oldest_year_of_manufacture]
+columns:
+  - name: unique_carrier_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: number_of_aircraft
+    type: BIGINT
+  - name: average_year_of_manufacture
+    type: DOUBLE
+  - name: oldest_year_of_manufacture
+    type: BIGINT
+  - name: youngest_year_of_manufacture
+    type: BIGINT
+  - name: average_age
+    type: DOUBLE
+  - name: oldest_age
+    type: BIGINT
+  - name: youngest_age
+    type: BIGINT

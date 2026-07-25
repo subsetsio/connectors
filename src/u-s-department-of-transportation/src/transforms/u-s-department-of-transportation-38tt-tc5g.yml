@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-38tt-tc5g`. Regenerate after model-verify.
+key: [miles, state, year, fclass, area]
+temporal: year
+sort: [year, miles, state, fclass, area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: fclass
+    type: VARCHAR
+  - name: miles
+    type: DOUBLE

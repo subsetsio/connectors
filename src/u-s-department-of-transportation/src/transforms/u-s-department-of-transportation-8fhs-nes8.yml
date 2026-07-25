@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-8fhs-nes8`. Regenerate after model-verify.
+key: [receipts, state, year, tax, account]
+temporal: year
+sort: [year, receipts, state, tax, account]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: account
+    type: VARCHAR
+  - name: tax
+    type: VARCHAR
+  - name: receipts
+    type: BIGINT

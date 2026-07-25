@@ -1,0 +1,295 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-m2bh-93w3`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: the_geom
+    type: VARCHAR
+  - name: statefp
+    type: BIGINT
+  - name: countyfp
+    type: BIGINT
+  - name: geoid
+    type: DOUBLE
+  - name: name
+    type: VARCHAR
+  - name: aland
+    type: BIGINT
+  - name: awater
+    type: BIGINT
+  - name: cbsafp
+    type: BIGINT
+  - name: ruralbg
+    type: DOUBLE
+  - name: totbg
+    type: DOUBLE
+  - name: ruralpop
+    type: DOUBLE
+  - name: totpop
+    type: DOUBLE
+  - name: popbase
+    type: VARCHAR
+  - name: year
+    type: DOUBLE
+  - name: statepo
+    type: VARCHAR
+  - name: x
+    type: DOUBLE
+  - name: y
+    type: DOUBLE
+  - name: paccair
+    type: DOUBLE
+  - name: paccairl
+    type: DOUBLE
+  - name: paccbus
+    type: DOUBLE
+  - name: paccrail
+    type: DOUBLE
+  - name: paccall
+    type: DOUBLE
+  - name: cntair
+    type: DOUBLE
+  - name: cntairl
+    type: DOUBLE
+  - name: cntbus
+    type: DOUBLE
+  - name: cntrail
+    type: DOUBLE
+  - name: cntall
+    type: DOUBLE
+  - name: abinair
+    type: DOUBLE
+  - name: abinairl
+    type: DOUBLE
+  - name: abinbus
+    type: DOUBLE
+  - name: abinrail
+    type: DOUBLE
+  - name: abinall
+    type: DOUBLE
+  - name: air_6c
+    type: DOUBLE
+  - name: airl_6c
+    type: DOUBLE
+  - name: bus_6c
+    type: DOUBLE
+  - name: rail_6c
+    type: DOUBLE
+  - name: all_6c
+    type: DOUBLE
+  - name: air_12c
+    type: DOUBLE
+  - name: airl_12c
+    type: DOUBLE
+  - name: bus_12c
+    type: DOUBLE
+  - name: rail_12c
+    type: DOUBLE
+  - name: all_12c
+    type: DOUBLE
+  - name: air_18c
+    type: DOUBLE
+  - name: airl_18c
+    type: DOUBLE
+  - name: bus_18c
+    type: DOUBLE
+  - name: rail_18c
+    type: DOUBLE
+  - name: all_18c
+    type: DOUBLE
+  - name: popair
+    type: DOUBLE
+  - name: popairl
+    type: DOUBLE
+  - name: popbus
+    type: DOUBLE
+  - name: poprail
+    type: DOUBLE
+  - name: popall
+    type: DOUBLE
+  - name: hh
+    type: DOUBLE
+  - name: lf
+    type: DOUBLE
+  - name: pov_any
+    type: DOUBLE
+  - name: l10k_any
+    type: DOUBLE
+  - name: uemp_any
+    type: DOUBLE
+  - name: p65_air
+    type: DOUBLE
+  - name: pov_air
+    type: DOUBLE
+  - name: l10k_air
+    type: DOUBLE
+  - name: uemp_air
+    type: DOUBLE
+  - name: p65_airl
+    type: DOUBLE
+  - name: pov_airl
+    type: DOUBLE
+  - name: l10kairl
+    type: DOUBLE
+  - name: uempairl
+    type: DOUBLE
+  - name: p65_bus
+    type: DOUBLE
+  - name: pov_bus
+    type: DOUBLE
+  - name: l10k_bus
+    type: DOUBLE
+  - name: uemp_bus
+    type: DOUBLE
+  - name: p65_rail
+    type: DOUBLE
+  - name: pov_rail
+    type: DOUBLE
+  - name: l10krail
+    type: DOUBLE
+  - name: uemprail
+    type: DOUBLE
+  - name: p65
+    type: DOUBLE
+  - name: pov
+    type: DOUBLE
+  - name: l10k
+    type: DOUBLE
+  - name: uemp
+    type: DOUBLE
+  - name: bin_p65
+    type: DOUBLE
+  - name: bin_pov
+    type: DOUBLE
+  - name: bin_l10k
+    type: DOUBLE
+  - name: bin_uemp
+    type: DOUBLE
+  - name: p65_any
+    type: DOUBLE
+  - name: l25k_any
+    type: DOUBLE
+  - name: l25k_air
+    type: DOUBLE
+  - name: l25kairl
+    type: DOUBLE
+  - name: l25k_bus
+    type: DOUBLE
+  - name: l25k_rail
+    type: DOUBLE
+  - name: l25k
+    type: DOUBLE
+  - name: bin_l25k
+    type: DOUBLE
+  - name: bin_v0
+    type: DOUBLE
+  - name: v0_any
+    type: DOUBLE
+  - name: v0_air
+    type: DOUBLE
+  - name: v0_airl
+    type: DOUBLE
+  - name: v0_bus
+    type: DOUBLE
+  - name: v0_rail
+    type: DOUBLE
+  - name: v0
+    type: DOUBLE
+  - name: hh_any
+    type: DOUBLE
+  - name: hh_air
+    type: DOUBLE
+  - name: hh_airl
+    type: DOUBLE
+  - name: hh_bus
+    type: DOUBLE
+  - name: hh_rail
+    type: DOUBLE
+  - name: lf_any
+    type: DOUBLE
+  - name: lf_airl
+    type: DOUBLE
+  - name: lf_bus
+    type: DOUBLE
+  - name: lf_rail
+    type: DOUBLE
+  - name: lf_air
+    type: DOUBLE
+  - name: p65_anyct
+    type: DOUBLE
+  - name: l10anyct
+    type: DOUBLE
+  - name: l25anyct
+    type: DOUBLE
+  - name: uempanyct
+    type: DOUBLE
+  - name: p65airct
+    type: DOUBLE
+  - name: p65airlct
+    type: DOUBLE
+  - name: p65busct
+    type: DOUBLE
+  - name: p65railct
+    type: DOUBLE
+  - name: p65ct
+    type: DOUBLE
+  - name: l10airct
+    type: DOUBLE
+  - name: l10airlct
+    type: DOUBLE
+  - name: l10busct
+    type: DOUBLE
+  - name: l10raict
+    type: DOUBLE
+  - name: l10kct
+    type: DOUBLE
+  - name: l25airct
+    type: DOUBLE
+  - name: l25ailct
+    type: DOUBLE
+  - name: l25busct
+    type: DOUBLE
+  - name: l25raict
+    type: DOUBLE
+  - name: l25kct
+    type: DOUBLE
+  - name: povairct
+    type: DOUBLE
+  - name: povailct
+    type: DOUBLE
+  - name: povbusct
+    type: DOUBLE
+  - name: povraict
+    type: DOUBLE
+  - name: v0airct
+    type: DOUBLE
+  - name: v0airlct
+    type: DOUBLE
+  - name: v0busct
+    type: DOUBLE
+  - name: v0railct
+    type: DOUBLE
+  - name: uemairct
+    type: DOUBLE
+  - name: uemailct
+    type: DOUBLE
+  - name: uembusct
+    type: DOUBLE
+  - name: uemraict
+    type: DOUBLE
+  - name: uempct
+    type: DOUBLE
+  - name: povanyct
+    type: DOUBLE
+  - name: povct
+    type: DOUBLE
+  - name: v0anyct
+    type: DOUBLE
+  - name: hh_v0ct
+    type: DOUBLE
+  - name: var
+    type: VARCHAR
+  - name: var_num
+    type: DOUBLE

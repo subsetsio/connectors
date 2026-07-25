@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-h9qc-expu`. Regenerate after model-verify.
+key: [ntd_id, reporter_name, states_served, minadvanceresreq, service_type_code]
+sort: [ntd_id, reporter_name, states_served, minadvanceresreq, service_type_code]
+columns:
+  - name: ntd_id
+    type: VARCHAR
+  - name: reporter_name
+    type: VARCHAR
+  - name: reporter_type_desc_short
+    type: VARCHAR
+  - name: mode_code
+    type: VARCHAR
+  - name: service_type_code
+    type: VARCHAR
+  - name: states_served
+    type: VARCHAR
+  - name: serve_own_ntdid_flag
+    type: BOOLEAN
+  - name: has_psgnr_elig_rqmt_flag
+    type: BOOLEAN
+  - name: minadvanceresreq
+    type: VARCHAR
+  - name: fare_amount
+    type: DOUBLE

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-rx2s-7tqf`. Regenerate after model-verify.
+key: [id, startdate, organizationtypeid]
+temporal: startdate
+sort: [startdate, id, organizationtypeid]
+columns:
+  - name: id
+    type: BIGINT
+  - name: organizationtypeid
+    type: BIGINT
+  - name: organizationcode
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: startdate
+    type: TIMESTAMP
+  - name: enddate
+    type: TIMESTAMP

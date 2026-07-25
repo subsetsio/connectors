@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-b3rp-be92`. Regenerate after model-verify.
+key: [nhtsa_action_number]
+temporal: open_date
+sort: [open_date, nhtsa_action_number]
+columns:
+  - name: nhtsa_action_number
+    type: VARCHAR
+  - name: nhtsa_link
+    type: VARCHAR
+  - name: manufacturer
+    type: VARCHAR
+  - name: investigation_type
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: component
+    type: VARCHAR
+  - name: recall
+    type: VARCHAR
+  - name: open_date
+    type: TIMESTAMP
+  - name: closed_date
+    type: TIMESTAMP
+  - name: status
+    type: VARCHAR

@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-udzf-9fvh`. Regenerate after model-verify.
+key: [primary_key, total, scheduled, charter, fg_apt_id]
+temporal: data_dte
+sort: [data_dte, primary_key, total, scheduled, charter, fg_apt_id]
+columns:
+  - name: data_dte
+    type: TIMESTAMP
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: usg_apt_id
+    type: BIGINT
+  - name: usg_apt
+    type: VARCHAR
+  - name: usg_wac
+    type: BIGINT
+  - name: fg_apt_id
+    type: BIGINT
+  - name: fg_apt
+    type: VARCHAR
+  - name: fg_wac
+    type: BIGINT
+  - name: airlineid
+    type: BIGINT
+  - name: carrier
+    type: VARCHAR
+  - name: carriergroup
+    type: BIGINT
+  - name: type
+    type: VARCHAR
+  - name: scheduled
+    type: BIGINT
+  - name: charter
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: primary_key
+    type: VARCHAR

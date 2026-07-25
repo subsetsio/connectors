@@ -1,0 +1,380 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-xp92-5xme`. Regenerate after model-verify.
+key: [reportbaseid]
+temporal: revisiondate
+sort: [revisiondate, reportbaseid]
+columns:
+  - name: crossingid
+    type: VARCHAR
+  - name: reportbaseid
+    type: BIGINT
+  - name: parentreportbaseid
+    type: BIGINT
+  - name: crossingclosed
+    type: BIGINT
+  - name: reportingagencytypeid
+    type: BIGINT
+  - name: reportingagencyid
+    type: BIGINT
+  - name: revisiondate
+    type: TIMESTAMP
+  - name: reasonid
+    type: BIGINT
+  - name: crossingidsuffix
+    type: VARCHAR
+  - name: reportstatus
+    type: VARCHAR
+  - name: lastupdated
+    type: TIMESTAMP
+  - name: railroad
+    type: VARCHAR
+  - name: statecd
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: cntycd
+    type: VARCHAR
+  - name: countyname
+    type: VARCHAR
+  - name: nearest
+    type: BIGINT
+  - name: citycd
+    type: VARCHAR
+  - name: cityname
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: blocknumb
+    type: VARCHAR
+  - name: highway
+    type: VARCHAR
+  - name: sepind
+    type: BIGINT
+  - name: seprr1
+    type: VARCHAR
+  - name: seprr2
+    type: VARCHAR
+  - name: seprr3
+    type: VARCHAR
+  - name: seprr4
+    type: VARCHAR
+  - name: multfrmsfiled
+    type: BIGINT
+  - name: sameind
+    type: BIGINT
+  - name: samerr1
+    type: VARCHAR
+  - name: samerr2
+    type: VARCHAR
+  - name: samerr3
+    type: VARCHAR
+  - name: samerr4
+    type: VARCHAR
+  - name: rrid
+    type: VARCHAR
+  - name: ttstn
+    type: VARCHAR
+  - name: ttstnnam
+    type: VARCHAR
+  - name: rrmain
+    type: VARCHAR
+  - name: xingownr
+    type: VARCHAR
+  - name: typexing
+    type: BIGINT
+  - name: xpurpose
+    type: BIGINT
+  - name: posxing
+    type: BIGINT
+  - name: openpub
+    type: BIGINT
+  - name: typetrnsrvcids
+    type: VARCHAR
+  - name: develtypid
+    type: BIGINT
+  - name: xingadj
+    type: BIGINT
+  - name: xngadjno
+    type: VARCHAR
+  - name: whistban
+    type: BIGINT
+  - name: whistdate
+    type: TIMESTAMP
+  - name: hscorrid
+    type: VARCHAR
+  - name: sfxhscorrid
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: llsource
+    type: BIGINT
+  - name: rrnarr1
+    type: VARCHAR
+  - name: rrnarr2
+    type: VARCHAR
+  - name: rrnarr3
+    type: VARCHAR
+  - name: rrnarr4
+    type: VARCHAR
+  - name: stnarr1
+    type: VARCHAR
+  - name: stnarr2
+    type: VARCHAR
+  - name: stnarr3
+    type: VARCHAR
+  - name: stnarr4
+    type: VARCHAR
+  - name: rrnarr
+    type: VARCHAR
+  - name: stnarr
+    type: VARCHAR
+  - name: polcont
+    type: VARCHAR
+  - name: rrcont
+    type: VARCHAR
+  - name: hwycont
+    type: VARCHAR
+  - name: thrrequestno
+    type: VARCHAR
+  - name: ccmqzid
+    type: VARCHAR
+  - name: operatingrailroadcode
+    type: VARCHAR
+  - name: operatingrailroadtype
+    type: VARCHAR
+  - name: rrdiv
+    type: VARCHAR
+  - name: rrsubdiv
+    type: VARCHAR
+  - name: branch
+    type: VARCHAR
+  - name: prfxmilepost
+    type: VARCHAR
+  - name: milepost
+    type: VARCHAR
+  - name: sfxmilepost
+    type: VARCHAR
+  - name: lt1passmov
+    type: VARCHAR
+  - name: passcnt
+    type: BIGINT
+  - name: daythru
+    type: BIGINT
+  - name: nghtthru
+    type: DOUBLE
+  - name: totalswt
+    type: DOUBLE
+  - name: totalltr
+    type: DOUBLE
+  - name: lt1mov
+    type: BIGINT
+  - name: weektrnmov
+    type: DOUBLE
+  - name: yeartrnmov
+    type: DOUBLE
+  - name: maxttspd
+    type: BIGINT
+  - name: minspd
+    type: BIGINT
+  - name: maxspd
+    type: BIGINT
+  - name: maintrk
+    type: BIGINT
+  - name: sidingtrk
+    type: BIGINT
+  - name: yardtrk
+    type: BIGINT
+  - name: transittrk
+    type: BIGINT
+  - name: industrytrk
+    type: BIGINT
+  - name: othrtrk
+    type: BIGINT
+  - name: othrtrkdes
+    type: VARCHAR
+  - name: spselids
+    type: VARCHAR
+  - name: sgnleqp
+    type: BIGINT
+  - name: emonitordvce
+    type: BIGINT
+  - name: healthmonitor
+    type: BIGINT
+  - name: nosigns
+    type: BIGINT
+  - name: xbuck
+    type: BIGINT
+  - name: stopstd
+    type: BIGINT
+  - name: yieldstd
+    type: BIGINT
+  - name: advwarn
+    type: VARCHAR
+  - name: advw10_1
+    type: BIGINT
+  - name: advw10_2
+    type: BIGINT
+  - name: advw10_3
+    type: BIGINT
+  - name: advw10_4
+    type: BIGINT
+  - name: advw10_11
+    type: BIGINT
+  - name: advw10_12
+    type: BIGINT
+  - name: low_grnd
+    type: BIGINT
+  - name: low_grndsigns
+    type: BIGINT
+  - name: pavemrkids
+    type: VARCHAR
+  - name: channel
+    type: BIGINT
+  - name: exempt
+    type: BIGINT
+  - name: enssign
+    type: BIGINT
+  - name: othsgn
+    type: BIGINT
+  - name: othsgn1
+    type: BIGINT
+  - name: othdes1
+    type: VARCHAR
+  - name: othsgn2
+    type: BIGINT
+  - name: othdes2
+    type: VARCHAR
+  - name: othsgn3
+    type: BIGINT
+  - name: othdes3
+    type: VARCHAR
+  - name: prvxsign
+    type: BIGINT
+  - name: led
+    type: VARCHAR
+  - name: gates
+    type: BIGINT
+  - name: gateped
+    type: BIGINT
+  - name: gateconf
+    type: VARCHAR
+  - name: gateconftype
+    type: VARCHAR
+  - name: flashov
+    type: BIGINT
+  - name: flashnov
+    type: BIGINT
+  - name: cflashtype
+    type: VARCHAR
+  - name: flashpost
+    type: BIGINT
+  - name: flashposttype
+    type: VARCHAR
+  - name: bkl_flashpost
+    type: BIGINT
+  - name: sdl_flashpost
+    type: BIGINT
+  - name: flashpai
+    type: BIGINT
+  - name: awdidate
+    type: VARCHAR
+  - name: awhornchk
+    type: BIGINT
+  - name: awhornldate
+    type: VARCHAR
+  - name: hwytrafsignl
+    type: BIGINT
+  - name: wigwags
+    type: BIGINT
+  - name: bells
+    type: BIGINT
+  - name: specpro
+    type: BIGINT
+  - name: flashoth
+    type: BIGINT
+  - name: flashothdes
+    type: VARCHAR
+  - name: hwynrsig
+    type: BIGINT
+  - name: intrprmp
+    type: VARCHAR
+  - name: premptype
+    type: VARCHAR
+  - name: hwtrfpsig
+    type: BIGINT
+  - name: hwtrfpsigsdis
+    type: BIGINT
+  - name: hwtrfpsiglndis
+    type: BIGINT
+  - name: monitordev
+    type: VARCHAR
+  - name: wdcode
+    type: BIGINT
+  - name: traficln
+    type: VARCHAR
+  - name: traflntype
+    type: BIGINT
+  - name: hwypved
+    type: BIGINT
+  - name: downst
+    type: BIGINT
+  - name: illumina
+    type: BIGINT
+  - name: xsurfdate
+    type: VARCHAR
+  - name: xsurfwidth
+    type: BIGINT
+  - name: xsurflength
+    type: BIGINT
+  - name: xsurfaceids
+    type: VARCHAR
+  - name: xsurothr
+    type: VARCHAR
+  - name: hwynear
+    type: VARCHAR
+  - name: hwyndist
+    type: BIGINT
+  - name: xangle
+    type: BIGINT
+  - name: compower
+    type: BIGINT
+  - name: hwysys
+    type: VARCHAR
+  - name: hwyclasscd
+    type: BIGINT
+  - name: hwyclassrdtpid
+    type: BIGINT
+  - name: sthwy1
+    type: BIGINT
+  - name: hwyspeed
+    type: BIGINT
+  - name: hwyspeedps
+    type: VARCHAR
+  - name: lrsrouteid
+    type: VARCHAR
+  - name: lrsmilepost
+    type: VARCHAR
+  - name: aadt
+    type: VARCHAR
+  - name: aadtyear
+    type: VARCHAR
+  - name: pcttruk
+    type: VARCHAR
+  - name: schlbuschk
+    type: BIGINT
+  - name: schlbscnt
+    type: BIGINT
+  - name: hazmtveh
+    type: VARCHAR
+  - name: emrgncysrvc
+    type: BIGINT
+  - name: reportyear
+    type: BIGINT
+  - name: reporttype
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: city_state_location
+    type: VARCHAR

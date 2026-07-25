@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-ex2n-fgi7`. Regenerate after model-verify.
+key: [percent_of_commuters, msa, year, msa_size]
+temporal: year
+sort: [year, percent_of_commuters, msa, msa_size]
+columns:
+  - name: year
+    type: BIGINT
+  - name: commuting_mode
+    type: VARCHAR
+  - name: msa
+    type: VARCHAR
+  - name: msa_size
+    type: VARCHAR
+  - name: percent_of_commuters
+    type: DOUBLE

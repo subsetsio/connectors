@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-wafx-xpmf`. Regenerate after model-verify.
+key: [state, year, vehicle_type, system, area]
+temporal: year
+sort: [year, state, vehicle_type, system, area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: system
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: percent_annual_distance
+    type: DOUBLE

@@ -1,0 +1,64 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-iq8k-ytf6`. Regenerate after model-verify.
+key: [msg_id]
+temporal: tmstp_utc
+sort: [tmstp_utc, msg_id]
+columns:
+  - name: msg_id
+    type: VARCHAR
+  - name: tenant
+    type: VARCHAR
+  - name: tmstp_utc
+    type: TIMESTAMP
+  - name: date_utc
+    type: TIMESTAMP
+  - name: intersection_id
+    type: BIGINT
+  - name: road_regulator_id
+    type: VARCHAR
+  - name: intersection_name
+    type: VARCHAR
+  - name: msg_moy_utc
+    type: BIGINT
+  - name: intersection_moy_utc
+    type: BIGINT
+  - name: intersection_milliseconds
+    type: BIGINT
+  - name: intersection_msg_count
+    type: BIGINT
+  - name: intersection_status_flags
+    type: BIGINT
+  - name: manual_control_enabled
+    type: BOOLEAN
+  - name: stop_time_activated
+    type: BOOLEAN
+  - name: failure_flash
+    type: BOOLEAN
+  - name: preempt_active
+    type: BOOLEAN
+  - name: signal_priority_active
+    type: BOOLEAN
+  - name: fixed_time_operation
+    type: BOOLEAN
+  - name: traffic_dependent_operation
+    type: BOOLEAN
+  - name: standby_operation
+    type: BOOLEAN
+  - name: failure_mode
+    type: BOOLEAN
+  - name: controller_off
+    type: BOOLEAN
+  - name: recent_map_message_update
+    type: BOOLEAN
+  - name: recent_change_in_map_assigned
+    type: BOOLEAN
+  - name: no_valid_map_is_available
+    type: BOOLEAN
+  - name: no_valid_spat_is_available
+    type: BOOLEAN
+  - name: reserved_bits_1
+    type: BOOLEAN
+  - name: reserved_bits_2
+    type: BOOLEAN
+  - name: intersection_states
+    type: VARCHAR

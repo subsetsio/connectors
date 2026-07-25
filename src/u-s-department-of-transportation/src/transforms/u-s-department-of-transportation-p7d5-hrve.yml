@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-p7d5-hrve`. Regenerate after model-verify.
+key: [tmstp_utc, latitude, msg_milliseconds_utc, request_milliseconds_utc, longitude]
+temporal: tmstp_utc
+sort: [tmstp_utc, latitude, msg_milliseconds_utc, request_milliseconds_utc, longitude]
+columns:
+  - name: msg_id
+    type: VARCHAR
+  - name: tenant
+    type: VARCHAR
+  - name: tmstp_utc
+    type: TIMESTAMP
+  - name: date_utc
+    type: TIMESTAMP
+  - name: msg_moy_utc
+    type: BIGINT
+  - name: msg_milliseconds_utc
+    type: BIGINT
+  - name: msg_count
+    type: BIGINT
+  - name: intersection_id
+    type: BIGINT
+  - name: road_regulator_id
+    type: VARCHAR
+  - name: entity_id
+    type: VARCHAR
+  - name: station_id
+    type: BIGINT
+  - name: msg_rank
+    type: BIGINT
+  - name: requestor_name
+    type: BIGINT
+  - name: requestor_type
+    type: VARCHAR
+  - name: vehicle_role
+    type: VARCHAR
+  - name: vehicle_subrole
+    type: VARCHAR
+  - name: request_id
+    type: BIGINT
+  - name: request_type
+    type: VARCHAR
+  - name: request_duration
+    type: BIGINT
+  - name: request_moy_utc
+    type: BIGINT
+  - name: request_milliseconds_utc
+    type: BIGINT
+  - name: inbound_lane
+    type: BIGINT
+  - name: heading
+    type: BIGINT
+  - name: elevation
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: speed
+    type: BIGINT
+  - name: transmission
+    type: VARCHAR

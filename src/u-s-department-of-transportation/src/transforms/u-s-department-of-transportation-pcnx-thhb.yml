@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-pcnx-thhb`. Regenerate after model-verify.
+key: [measurement_start, speed, volume, occupancy, lane_id]
+temporal: measurement_start
+sort: [measurement_start, speed, volume, occupancy, lane_id]
+columns:
+  - name: zone_id
+    type: BIGINT
+  - name: lane_number
+    type: BIGINT
+  - name: lane_id
+    type: BIGINT
+  - name: measurement_start
+    type: TIMESTAMP
+  - name: speed
+    type: BIGINT
+  - name: volume
+    type: BIGINT
+  - name: occupancy
+    type: BIGINT
+  - name: quality
+    type: BIGINT

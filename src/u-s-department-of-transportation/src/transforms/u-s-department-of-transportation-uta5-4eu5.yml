@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-uta5-4eu5`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: origin_county_fips
+    type: BIGINT
+  - name: orig_state
+    type: VARCHAR
+  - name: orig_county_name
+    type: VARCHAR
+  - name: dest_county_fips
+    type: BIGINT
+  - name: dest_state
+    type: VARCHAR
+  - name: dest_county_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: pair_moves
+    type: VARCHAR
+  - name: tt_percentile_25
+    type: DOUBLE
+  - name: tt_percentile_50
+    type: DOUBLE
+  - name: tt_percentile_75
+    type: DOUBLE

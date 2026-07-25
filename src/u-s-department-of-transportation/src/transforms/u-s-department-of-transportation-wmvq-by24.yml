@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-wmvq-by24`. Regenerate after model-verify.
+key: [terminal_id, longitude, terminal_name, latitude, term_city]
+sort: [terminal_id, longitude, terminal_name, latitude, term_city]
+columns:
+  - name: terminal_id
+    type: BIGINT
+  - name: terminal_name
+    type: VARCHAR
+  - name: term_city
+    type: VARCHAR
+  - name: term_state
+    type: VARCHAR
+  - name: term_country
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: census_year
+    type: BIGINT
+  - name: data_year
+    type: BIGINT

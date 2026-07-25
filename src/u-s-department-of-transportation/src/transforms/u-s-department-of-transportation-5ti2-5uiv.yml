@@ -1,0 +1,161 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-5ti2-5uiv`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: month_year
+sort: [month_year]
+columns:
+  - name: "5_digit_ntd_id"
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: organization_type
+    type: VARCHAR
+  - name: rail_bus_ferry
+    type: VARCHAR
+  - name: mode_name
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: fixed_route_flag
+    type: BOOLEAN
+  - name: rail_y_n
+    type: BOOLEAN
+  - name: uace_code
+    type: VARCHAR
+  - name: primary_uza_name
+    type: VARCHAR
+  - name: primary_uza_sq_miles
+    type: DOUBLE
+  - name: primary_uza_population
+    type: BIGINT
+  - name: service_area_sq_miles
+    type: DOUBLE
+  - name: service_area_population
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: month_year
+    type: TIMESTAMP
+  - name: vehicles
+    type: BIGINT
+  - name: vehicle_revenue_miles
+    type: BIGINT
+  - name: vehicle_revenue_hours
+    type: BIGINT
+  - name: ridership
+    type: BIGINT
+  - name: collisions_with_motor_vehicle
+    type: BIGINT
+  - name: collisions_with_person
+    type: BIGINT
+  - name: collisions_with_fixed_object
+    type: BIGINT
+  - name: collisions_with_rail_vehicle
+    type: BIGINT
+  - name: collisions_with_bus_vehicle
+    type: BIGINT
+  - name: collisions_with_other
+    type: BIGINT
+  - name: total_collisions
+    type: BIGINT
+  - name: total_derailments
+    type: BIGINT
+  - name: total_fires
+    type: BIGINT
+  - name: total_security_events
+    type: BIGINT
+  - name: total_events_not_otherwise
+    type: BIGINT
+  - name: total_events
+    type: BIGINT
+  - name: passenger_fatalities
+    type: BIGINT
+  - name: people_waiting_or_leaving
+    type: BIGINT
+  - name: operator_fatalities
+    type: BIGINT
+  - name: other_employee_fatalities
+    type: BIGINT
+  - name: total_employee_fatalities
+    type: BIGINT
+  - name: other_worker_fatalities
+    type: BIGINT
+  - name: bicyclist_fatalities
+    type: BIGINT
+  - name: pedestrian_in_crosswalk
+    type: BIGINT
+  - name: pedestrian_not_in_crosswalk
+    type: BIGINT
+  - name: pedestrian_crossing_tracks
+    type: BIGINT
+  - name: pedestrian_walking_along
+    type: BIGINT
+  - name: other_vehicle_occupant
+    type: BIGINT
+  - name: other_fatalities
+    type: BIGINT
+  - name: trespasser_fatalities
+    type: BIGINT
+  - name: suicide_fatalities
+    type: BIGINT
+  - name: total_other_fatalities
+    type: BIGINT
+  - name: total_fatalities
+    type: BIGINT
+  - name: passenger_injuries
+    type: BIGINT
+  - name: people_waiting_or_leaving_1
+    type: BIGINT
+  - name: operator_injuries
+    type: BIGINT
+  - name: other_employee_injuries
+    type: BIGINT
+  - name: total_employee_injuries
+    type: BIGINT
+  - name: other_worker_injuries
+    type: BIGINT
+  - name: bicyclist_injuries
+    type: BIGINT
+  - name: pedestrian_in_corsswalk
+    type: BIGINT
+  - name: pedestrian_not_in_crosswalk_1
+    type: BIGINT
+  - name: pedestrian_crossing_tracks_1
+    type: BIGINT
+  - name: pedestrian_walking_along_1
+    type: BIGINT
+  - name: other_vehicle_occupant_1
+    type: BIGINT
+  - name: other_injuries
+    type: BIGINT
+  - name: trespasser_injuries
+    type: BIGINT
+  - name: suicide_injuries
+    type: BIGINT
+  - name: total_other_injuries
+    type: BIGINT
+  - name: total_injuries
+    type: BIGINT
+  - name: non_major_physical_assaults_on_operators
+    type: BIGINT
+  - name: non_major_non_physical_assaults_on_operators
+    type: BIGINT
+  - name: non_major_physical_assaults_on_other_transit_workers
+    type: BIGINT
+  - name: non_major_non_physical_assaults_on_other_transit_workers
+    type: BIGINT
+  - name: major_physical_assaults_on_operators
+    type: BIGINT
+  - name: major_non_physical_assaults_on_operators
+    type: BIGINT
+  - name: major_physical_assaults_on_other_transit_workers
+    type: BIGINT
+  - name: major_non_physical_assaults_on_other_transit_workers
+    type: BIGINT
+  - name: total_assaults_on_transit_workers
+    type: BIGINT

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-ra4w-8xud`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: vehicle_type
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: f_system
+    type: BIGINT
+  - name: median_speed
+    type: DOUBLE
+  - name: median_speed_previousmonth
+    type: DOUBLE
+  - name: median_speed_previousyear
+    type: DOUBLE
+  - name: median_speed_2019
+    type: DOUBLE

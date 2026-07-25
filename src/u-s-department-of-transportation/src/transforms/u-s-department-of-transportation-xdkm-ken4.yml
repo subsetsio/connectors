@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-xdkm-ken4`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: TIMESTAMP
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: spd
+    type: DOUBLE
+  - name: blind_turn
+    type: BIGINT
+  - name: constrained_tunnel
+    type: BIGINT
+  - name: narrow
+    type: BIGINT
+  - name: slow_sign
+    type: BIGINT
+  - name: trail_hazards
+    type: BIGINT
+  - name: trail_junction
+    type: BIGINT
+  - name: vehicle_conflict_point
+    type: BIGINT
+  - name: walk_bike_sign
+    type: BIGINT
+  - name: eb
+    type: BIGINT
+  - name: uphill
+    type: BIGINT
+  - name: downhill
+    type: BIGINT
+  - name: passing
+    type: BIGINT
+  - name: participantid
+    type: BIGINT
+  - name: age
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: bike_type
+    type: VARCHAR
+  - name: ebike_class
+    type: BIGINT

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-kbvr-tyu5`. Regenerate after model-verify.
+key: [value, id, date, state, fips]
+temporal: date
+sort: [date, value, id, state, fips]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: date
+    type: TIMESTAMP
+  - name: fuel_type
+    type: VARCHAR
+  - name: fuel_type_code
+    type: BIGINT
+  - name: fips
+    type: BIGINT
+  - name: abbrev
+    type: VARCHAR

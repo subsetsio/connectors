@@ -1,0 +1,53 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-k22y-bc83`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: month_year
+sort: [month_year]
+columns:
+  - name: uace_code
+    type: VARCHAR
+  - name: uza_name
+    type: VARCHAR
+  - name: uza_shortname
+    type: VARCHAR
+  - name: population_num
+    type: BIGINT
+  - name: rail_bus_ferry
+    type: VARCHAR
+  - name: month_year
+    type: TIMESTAMP
+  - name: event_type
+    type: VARCHAR
+  - name: metric
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: ridership
+    type: BIGINT
+  - name: vehicle_revenue_miles
+    type: BIGINT
+  - name: metric_ridership_rate
+    type: DOUBLE
+  - name: metric_vehicle_revenue_miles
+    type: DOUBLE
+  - name: cost_pp
+    type: DOUBLE
+  - name: perc_ada
+    type: DOUBLE
+  - name: ridership_6mo_avg
+    type: DOUBLE
+  - name: vehicle_revenue_hours_6mo_avg
+    type: DOUBLE
+  - name: vehicle_revenue_miles_6mo_avg
+    type: DOUBLE
+  - name: value_6mo_avg
+    type: DOUBLE
+  - name: metric_ridership_6mo_avg_rate
+    type: DOUBLE
+  - name: metric_vehicle_revenue_hours_6mo_avg_rate
+    type: DOUBLE
+  - name: metric_vehicle_revenue_miles_6mo_avg_rate
+    type: DOUBLE
+  - name: year
+    type: TIMESTAMP

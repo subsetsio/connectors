@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-hswt-qvr8`. Regenerate after model-verify.
+key: [reportername, ntdid, modecd, reportyear, typeofservicecd]
+sort: [reportername, ntdid, modecd, reportyear, typeofservicecd]
+columns:
+  - name: reportyear
+    type: BIGINT
+  - name: ntdid
+    type: VARCHAR
+  - name: reportername
+    type: VARCHAR
+  - name: modecd
+    type: VARCHAR
+  - name: typeofservicecd
+    type: VARCHAR
+  - name: primarysecuritytypedesc
+    type: VARCHAR
+  - name: primarysecuritytypecnt
+    type: DOUBLE
+  - name: secondarypersonnelcnt
+    type: DOUBLE
+  - name: totalpersonnelcnt
+    type: DOUBLE
+  - name: dedicatedtransitpolicefl
+    type: BOOLEAN
+  - name: dedicatedlocalpolicefl
+    type: BOOLEAN
+  - name: contractedlocallawenforc
+    type: BOOLEAN
+  - name: transitagencysecurityforcefl
+    type: BOOLEAN
+  - name: contractedsecurityforcefl
+    type: BOOLEAN
+  - name: offdutypoliceofficersfl
+    type: BOOLEAN
+  - name: useoflocalpolicenoncontr
+    type: BOOLEAN

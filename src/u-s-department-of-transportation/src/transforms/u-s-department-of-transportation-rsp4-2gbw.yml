@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-rsp4-2gbw`. Regenerate after model-verify.
+key: [state, year, month]
+temporal: year
+sort: [year, state, month]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: gallons
+    type: DOUBLE

@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-gm5m-aghp`. Regenerate after model-verify.
+key: [facility_name, facility_id, agency_name, ntd_id, year_built_or_reconstructed]
+temporal: condition_assessment_date
+sort: [condition_assessment_date, facility_name, facility_id, agency_name, ntd_id, year_built_or_reconstructed]
+columns:
+  - name: state_parent_ntd_id
+    type: VARCHAR
+  - name: ntd_id
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: reporter_type
+    type: VARCHAR
+  - name: reporting_module
+    type: VARCHAR
+  - name: sponsor_ntd_id
+    type: VARCHAR
+  - name: sponsor_name
+    type: VARCHAR
+  - name: report_year
+    type: BIGINT
+  - name: primary_mode_served
+    type: VARCHAR
+  - name: secondary_modes_served
+    type: VARCHAR
+  - name: facility_id
+    type: BIGINT
+  - name: facility_type
+    type: VARCHAR
+  - name: facility_name
+    type: VARCHAR
+  - name: street_address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: non_agency_mode_served
+    type: VARCHAR
+  - name: private_modes_served
+    type: VARCHAR
+  - name: administrative_maintenance
+    type: BIGINT
+  - name: passenger_parking_facility
+    type: BIGINT
+  - name: square_feet
+    type: BIGINT
+  - name: number_of_parking_spaces
+    type: BIGINT
+  - name: section_of_a_larger_facility
+    type: BIGINT
+  - name: year_built_or_reconstructed
+    type: BIGINT
+  - name: percent_agency_capital
+    type: BIGINT
+  - name: cross_agency_facility_flag
+    type: BOOLEAN
+  - name: condition_assessment_date
+    type: TIMESTAMP
+  - name: condition_assessment
+    type: BIGINT
+  - name: separate_asset_flag
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: lat_long_geo_reference
+    type: VARCHAR
+  - name: street_address_geo_reference
+    type: VARCHAR

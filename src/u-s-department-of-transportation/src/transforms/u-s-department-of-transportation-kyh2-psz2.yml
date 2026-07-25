@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-kyh2-psz2`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: ride_date
+sort: [ride_date]
+columns:
+  - name: cntrl_sec_id
+    type: DOUBLE
+  - name: category
+    type: VARCHAR
+  - name: participant
+    type: VARCHAR
+  - name: timestamp
+    type: DOUBLE
+  - name: speed_mph
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: long
+    type: DOUBLE
+  - name: category_group
+    type: VARCHAR
+  - name: ride_date
+    type: TIMESTAMP
+  - name: age
+    type: DOUBLE
+  - name: sex
+    type: VARCHAR
+  - name: bike_type
+    type: VARCHAR
+  - name: e_bike_class
+    type: VARCHAR
+  - name: bike_experience_roundup
+    type: VARCHAR
+  - name: bike_experience_binary
+    type: VARCHAR
+  - name: demoyes
+    type: BIGINT
+  - name: location
+    type: VARCHAR
+  - name: experience_on_trail
+    type: BOOLEAN

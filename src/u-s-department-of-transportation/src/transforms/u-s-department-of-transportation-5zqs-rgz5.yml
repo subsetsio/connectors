@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-5zqs-rgz5`. Regenerate after model-verify.
+key: [tmc, start_longitude, start_latitude, end_latitude, miles]
+temporal: active_start_date
+sort: [active_start_date, tmc, start_longitude, start_latitude, end_latitude, miles]
+columns:
+  - name: tmc
+    type: VARCHAR
+  - name: road
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: intersection
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: zip
+    type: BIGINT
+  - name: start_latitude
+    type: DOUBLE
+  - name: start_longitude
+    type: DOUBLE
+  - name: end_latitude
+    type: DOUBLE
+  - name: end_longitude
+    type: DOUBLE
+  - name: miles
+    type: DOUBLE
+  - name: road_order
+    type: DOUBLE
+  - name: timezone_name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: active_start_date
+    type: TIMESTAMP
+  - name: active_end_date
+    type: VARCHAR

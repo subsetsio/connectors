@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-btpt-uxhx`. Regenerate after model-verify.
+key: [date, week_num, indicator, mode]
+temporal: date
+sort: [date, week_num, indicator, mode]
+columns:
+  - name: mode
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: week_num
+    type: DOUBLE
+  - name: date
+    type: TIMESTAMP
+  - name: current
+    type: BIGINT
+  - name: baseline
+    type: BIGINT
+  - name: lowest_date
+    type: VARCHAR
+  - name: lowest
+    type: VARCHAR

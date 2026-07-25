@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+SELECT
+    "agency",
+    "city",
+    "state",
+    "ntd_id",
+    "organization_type",
+    CAST("report_year" AS BIGINT) AS report_year,
+    "uace_code",
+    "uza_name",
+    CAST("primary_uza_population" AS BIGINT) AS primary_uza_population,
+    CAST("agency_voms" AS BIGINT) AS agency_voms,
+    "full_or_part_time",
+    "mode",
+    "mode_name",
+    "type_of_service",
+    CAST("mode_voms" AS BIGINT) AS mode_voms,
+    CAST("vehicle_operations_hours" AS BIGINT) AS vehicle_operations_hours,
+    "vehicle_operations_hours_q",
+    CAST("vehicle_maintenance_hours" AS BIGINT) AS vehicle_maintenance_hours,
+    "vehicle_maintenance_hours_q",
+    CAST("facility_maintenance_hours" AS BIGINT) AS facility_maintenance_hours,
+    "facility_maintenance_hours_q",
+    CAST("general_administration_hours" AS BIGINT) AS general_administration_hours,
+    "general_administration_hours_q",
+    CAST("capital_labor_hours" AS BIGINT) AS capital_labor_hours,
+    "capital_labor_hours_q",
+    CAST("total_hours" AS BIGINT) AS total_hours,
+    "total_hours_q",
+    CAST("vehicle_operations_count" AS BIGINT) AS vehicle_operations_count,
+    "vehicle_operations_count_q",
+    CAST("vehicle_maintenance_count" AS BIGINT) AS vehicle_maintenance_count,
+    "vehicle_maintenance_count_q",
+    CAST("facility_maintenance_count" AS DOUBLE) AS facility_maintenance_count,
+    "facility_maintenance_count_q",
+    CAST("general_administration_count" AS BIGINT) AS general_administration_count,
+    "general_administration_count_q",
+    CAST("capital_labor_count" AS DOUBLE) AS capital_labor_count,
+    "capital_labor_count_q",
+    CAST("total_employee_count" AS BIGINT) AS total_employee_count,
+    "total_employee_count_q"
+FROM "u-s-department-of-transportation-uyv8-9jek"

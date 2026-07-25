@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-tchw-zxud`. Regenerate after model-verify.
+key: [week_ending, week_number, mode, indicator]
+temporal: week_ending
+sort: [week_ending, week_number, mode, indicator]
+columns:
+  - name: mode
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: week_number
+    type: BIGINT
+  - name: week_ending
+    type: TIMESTAMP
+  - name: week_change
+    type: DOUBLE

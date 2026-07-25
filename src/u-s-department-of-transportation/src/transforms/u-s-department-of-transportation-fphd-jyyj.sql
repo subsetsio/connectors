@@ -1,0 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+SELECT
+    "agency",
+    "city",
+    "state",
+    "ntd_id",
+    "organization_type",
+    "reporter_type",
+    CAST("report_year" AS BIGINT) AS report_year,
+    "uace_code",
+    "uza_name",
+    CAST("primary_uza_population" AS BIGINT) AS primary_uza_population,
+    CAST("agency_voms" AS BIGINT) AS agency_voms,
+    "modecd",
+    "mode_name",
+    "typeofservicecd",
+    CAST("mode_voms" AS BIGINT) AS mode_voms,
+    "form_type",
+    CAST("guideway" AS BIGINT) AS guideway,
+    "guideway_questionable",
+    CAST("stations" AS BIGINT) AS stations,
+    "stations_questionable",
+    CAST("administrative_buildings" AS BIGINT) AS administrative_buildings,
+    "administrative_buildings_1",
+    CAST("maintenance_buildings" AS BIGINT) AS maintenance_buildings,
+    "maintenance_buildings_1",
+    CAST("passenger_vehicles" AS BIGINT) AS passenger_vehicles,
+    "passenger_vehicles_1",
+    CAST("other_vehicles" AS BIGINT) AS other_vehicles,
+    "other_vehicles_questionable",
+    CAST("fare_collection_equipment" AS BIGINT) AS fare_collection_equipment,
+    "fare_collection_equipment_1",
+    CAST("communication_information" AS BIGINT) AS communication_information,
+    "communication_information_1",
+    CAST("other" AS BIGINT) AS other,
+    "other_questionable",
+    CAST("reduced_reporter" AS BIGINT) AS reduced_reporter,
+    "reduced_reporter_questionable",
+    CAST("total" AS BIGINT) AS total,
+    "total_questionable"
+FROM "u-s-department-of-transportation-fphd-jyyj"

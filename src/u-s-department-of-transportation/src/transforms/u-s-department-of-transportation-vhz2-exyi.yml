@@ -1,0 +1,140 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-vhz2-exyi`. Regenerate after model-verify.
+key: [pos_x_av_m, distance_av_headway, heading_av_m, pos_y_av_m, closest_distance_longitudinal]
+temporal: date
+sort: [date, pos_x_av_m, distance_av_headway, heading_av_m, pos_y_av_m, closest_distance_longitudinal]
+columns:
+  - name: id
+    type: BIGINT
+  - name: time
+    type: DOUBLE
+  - name: distance_av_headway
+    type: DOUBLE
+  - name: pos_x_av_f
+    type: DOUBLE
+  - name: pos_y_av_f
+    type: DOUBLE
+  - name: pos_x_av_m
+    type: DOUBLE
+  - name: pos_y_av_m
+    type: DOUBLE
+  - name: heading_av_m
+    type: DOUBLE
+  - name: dim_x_av
+    type: DOUBLE
+  - name: dim_y_av
+    type: DOUBLE
+  - name: dim_z_av
+    type: DOUBLE
+  - name: speed_av
+    type: DOUBLE
+  - name: acc_av
+    type: DOUBLE
+  - name: pos_x_sv1_f
+    type: DOUBLE
+  - name: pos_y_sv1_f
+    type: DOUBLE
+  - name: pos_x_sv1_m
+    type: DOUBLE
+  - name: pos_y_sv1_m
+    type: DOUBLE
+  - name: heading_sv1
+    type: DOUBLE
+  - name: dim_x_sv1
+    type: BIGINT
+  - name: dim_y_sv1
+    type: BIGINT
+  - name: dim_z_sv1
+    type: DOUBLE
+  - name: speed_sv1
+    type: DOUBLE
+  - name: acc_sv1
+    type: DOUBLE
+  - name: pos_x_sv2_f
+    type: DOUBLE
+  - name: pos_y_sv2_f
+    type: DOUBLE
+  - name: pos_x_sv2_m
+    type: DOUBLE
+  - name: pos_y_sv2_m
+    type: DOUBLE
+  - name: heading_sv2
+    type: DOUBLE
+  - name: dim_x_sv2
+    type: BIGINT
+  - name: dim_y_sv2
+    type: BIGINT
+  - name: dim_z_sv2
+    type: DOUBLE
+  - name: speed_sv2
+    type: DOUBLE
+  - name: acc_sv2
+    type: DOUBLE
+  - name: closest_distance_longitudinal
+    type: DOUBLE
+  - name: closest_distance_lateral
+    type: DOUBLE
+  - name: map_origin_x
+    type: DOUBLE
+  - name: map_origin_y
+    type: DOUBLE
+  - name: map_origin_z
+    type: DOUBLE
+  - name: road_origin_x_m
+    type: BIGINT
+  - name: road_origin_y_m
+    type: BIGINT
+  - name: road_origin_x_ecef
+    type: DOUBLE
+  - name: road_origin_y_ecef
+    type: DOUBLE
+  - name: lanelet_id_av
+    type: BIGINT
+  - name: lane_id_av
+    type: BIGINT
+  - name: lanelet_id_sv1
+    type: BIGINT
+  - name: lane_id_sv1
+    type: BIGINT
+  - name: lanelet_id_sv2
+    type: BIGINT
+  - name: lane_id_sv2
+    type: BIGINT
+  - name: total_lanes
+    type: BIGINT
+  - name: run_number
+    type: BIGINT
+  - name: sub_run_number
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: time_of_day
+    type: VARCHAR
+  - name: sub_run_start_time
+    type: BIGINT
+  - name: route_starting_point_rs
+    type: VARCHAR
+  - name: route_ending_point_re
+    type: VARCHAR
+  - name: distance
+    type: VARCHAR
+  - name: maplink
+    type: VARCHAR
+  - name: annual_traffic_density
+    type: VARCHAR
+  - name: roadway_type
+    type: VARCHAR
+  - name: road_condition
+    type: VARCHAR
+  - name: speed_limits
+    type: VARCHAR
+  - name: type_of_vehicle
+    type: VARCHAR
+  - name: aggressiveness
+    type: VARCHAR
+  - name: following_distance
+    type: BIGINT
+  - name: special_notes
+    type: VARCHAR
+  - name: gap_level
+    type: BIGINT

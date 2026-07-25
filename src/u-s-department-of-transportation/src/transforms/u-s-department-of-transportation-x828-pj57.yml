@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-x828-pj57`. Regenerate after model-verify.
+key: [travel_time_seconds, measurement_tstamp, speed, tmc_code, historical_average_speed]
+temporal: measurement_tstamp
+sort: [measurement_tstamp, travel_time_seconds, speed, tmc_code, historical_average_speed]
+columns:
+  - name: tmc_code
+    type: VARCHAR
+  - name: measurement_tstamp
+    type: TIMESTAMP
+  - name: speed
+    type: DOUBLE
+  - name: historical_average_speed
+    type: DOUBLE
+  - name: reference_speed
+    type: DOUBLE
+  - name: travel_time_seconds
+    type: DOUBLE
+  - name: confidence_score
+    type: DOUBLE
+  - name: cvalue
+    type: DOUBLE

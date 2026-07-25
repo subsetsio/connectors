@@ -1,0 +1,107 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-r495-tyji`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: reporting_month
+sort: [reporting_month]
+columns:
+  - name: origin_airport_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: reporting_month
+    type: TIMESTAMP
+  - name: origin_airport_code
+    type: VARCHAR
+  - name: total_departures
+    type: BIGINT
+  - name: total_passengers
+    type: BIGINT
+  - name: total_seats
+    type: BIGINT
+  - name: total_load_factor
+    type: DOUBLE
+  - name: total_passengers_flight
+    type: DOUBLE
+  - name: total_seats_flight
+    type: BIGINT
+  - name: total_distance_flight_sm
+    type: BIGINT
+  - name: total_distance_passenger
+    type: BIGINT
+  - name: total_payload_lbs
+    type: BIGINT
+  - name: total_freight_lbs
+    type: BIGINT
+  - name: total_mail_lbs
+    type: BIGINT
+  - name: domestic_departures
+    type: BIGINT
+  - name: domestic_passengers
+    type: BIGINT
+  - name: domestic_seats
+    type: BIGINT
+  - name: domestic_load_factor
+    type: DOUBLE
+  - name: domestic_passengers_flight
+    type: DOUBLE
+  - name: domestic_seats_flight
+    type: BIGINT
+  - name: domestic_distance_flight
+    type: BIGINT
+  - name: domestic_distance_passenger
+    type: BIGINT
+  - name: domestic_payload_lbs
+    type: BIGINT
+  - name: domestic_freight_lbs
+    type: BIGINT
+  - name: domestic_mail_lbs
+    type: BIGINT
+  - name: outbound_international
+    type: BIGINT
+  - name: outbound_international_1
+    type: BIGINT
+  - name: outbound_international_seats
+    type: BIGINT
+  - name: outbound_international_load
+    type: DOUBLE
+  - name: outbound_international_2
+    type: BIGINT
+  - name: outbound_international_seats_1
+    type: BIGINT
+  - name: outbound_international_3
+    type: BIGINT
+  - name: outbound_international_4
+    type: BIGINT
+  - name: outbound_international_payload
+    type: BIGINT
+  - name: outbound_international_freight
+    type: BIGINT
+  - name: outbound_international_mail
+    type: BIGINT
+  - name: inbound_international
+    type: BIGINT
+  - name: inbound_international_1
+    type: BIGINT
+  - name: inbound_international_seats
+    type: BIGINT
+  - name: inbound_international_load
+    type: DOUBLE
+  - name: inbound_international_2
+    type: BIGINT
+  - name: inbound_international_seats_1
+    type: BIGINT
+  - name: inbound_international_distance
+    type: BIGINT
+  - name: inbound_international_distance_1
+    type: BIGINT
+  - name: inbound_international_payload
+    type: BIGINT
+  - name: inbound_international_freight
+    type: BIGINT
+  - name: inbound_international_mail
+    type: BIGINT
+  - name: origin_city_name
+    type: VARCHAR
+  - name: origin_airport_name
+    type: VARCHAR

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-dm5j-zc6c`. Regenerate after model-verify.
+key: [docket_number, usdot_number, op_auth_type, reason, op_auth_status]
+temporal: status_change_date
+sort: [status_change_date, docket_number, usdot_number, op_auth_type, reason, op_auth_status]
+columns:
+  - name: docket_number
+    type: VARCHAR
+  - name: usdot_number
+    type: BIGINT
+  - name: op_auth_type
+    type: VARCHAR
+  - name: op_auth_status
+    type: VARCHAR
+  - name: reason
+    type: VARCHAR
+  - name: status_change_date
+    type: DATE

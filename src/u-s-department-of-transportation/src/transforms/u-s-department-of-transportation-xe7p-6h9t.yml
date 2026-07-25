@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-xe7p-6h9t`. Regenerate after model-verify.
+key: [vehicles, passengers, state, year]
+temporal: year
+sort: [year, vehicles, passengers, state]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: passengers
+    type: DOUBLE
+  - name: vehicles
+    type: DOUBLE
+  - name: year
+    type: BIGINT

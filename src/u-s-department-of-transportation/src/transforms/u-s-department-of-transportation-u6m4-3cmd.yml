@@ -1,0 +1,75 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-u6m4-3cmd`. Regenerate after model-verify.
+key: [vessel_name, uscg_number, vessel_id, registered_length, passenger_capacity]
+sort: [vessel_name, uscg_number, vessel_id, registered_length, passenger_capacity]
+columns:
+  - name: vessel_id
+    type: BIGINT
+  - name: operator_id
+    type: BIGINT
+  - name: vessel_name
+    type: VARCHAR
+  - name: uscg_number
+    type: VARCHAR
+  - name: in_service
+    type: BIGINT
+  - name: carries_passengers
+    type: BIGINT
+  - name: carries_vehicles
+    type: BIGINT
+  - name: carries_freight
+    type: BIGINT
+  - name: passenger_capacity
+    type: VARCHAR
+  - name: vehicle_capacity
+    type: VARCHAR
+  - name: fuel_type
+    type: VARCHAR
+  - name: fuel_other
+    type: VARCHAR
+  - name: typical_speed
+    type: VARCHAR
+  - name: year_built
+    type: BIGINT
+  - name: main_horsepower_ahead
+    type: VARCHAR
+  - name: main_horsepower_astern
+    type: VARCHAR
+  - name: hull_material
+    type: VARCHAR
+  - name: hull_shape
+    type: VARCHAR
+  - name: propulsion_type
+    type: VARCHAR
+  - name: self_prop_indicator
+    type: VARCHAR
+  - name: registered_breadth
+    type: VARCHAR
+  - name: registered_depth
+    type: VARCHAR
+  - name: registered_length
+    type: VARCHAR
+  - name: registered_net_tons
+    type: VARCHAR
+  - name: registered_gross_tons
+    type: VARCHAR
+  - name: vessel_ownership
+    type: VARCHAR
+  - name: vessel_owned_by
+    type: VARCHAR
+  - name: vessel_operation
+    type: VARCHAR
+  - name: vessel_operated_by
+    type: VARCHAR
+  - name: fuel_mileage
+    type: VARCHAR
+  - name: ada_accessible
+    type: VARCHAR
+  - name: expected_lifespan
+    type: VARCHAR
+  - name: vessel_type
+    type: BIGINT
+  - name: census_year_miles
+    type: BIGINT
+  - name: census_year
+    type: BIGINT

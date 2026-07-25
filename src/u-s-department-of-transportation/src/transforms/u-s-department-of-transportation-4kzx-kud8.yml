@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-4kzx-kud8`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: value_date
+sort: [value_date]
+columns:
+  - name: year_record
+    type: BIGINT
+  - name: state_code
+    type: BIGINT
+  - name: route_id
+    type: VARCHAR
+  - name: begin_point
+    type: DOUBLE
+  - name: end_point
+    type: DOUBLE
+  - name: data_item
+    type: VARCHAR
+  - name: value_numeric
+    type: VARCHAR
+  - name: value_text
+    type: VARCHAR
+  - name: value_date
+    type: TIMESTAMP
+  - name: natroute_id
+    type: VARCHAR

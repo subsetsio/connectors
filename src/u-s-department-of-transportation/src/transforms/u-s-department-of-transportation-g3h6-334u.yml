@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-g3h6-334u`. Regenerate after model-verify.
+key: [sum_min, num_trip, yr_mo_d, sysid, sysname]
+temporal: yr_mo_d
+sort: [yr_mo_d, sum_min, num_trip, sysid, sysname]
+columns:
+  - name: sysid
+    type: BIGINT
+  - name: sysname
+    type: VARCHAR
+  - name: year
+    type: DOUBLE
+  - name: assigned_month
+    type: DOUBLE
+  - name: yr_mo_d
+    type: TIMESTAMP
+  - name: sum_min
+    type: DOUBLE
+  - name: num_trip
+    type: DOUBLE
+  - name: sysname_alt
+    type: VARCHAR

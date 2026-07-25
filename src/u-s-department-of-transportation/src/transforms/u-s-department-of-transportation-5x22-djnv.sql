@@ -1,0 +1,48 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+SELECT
+    "agency",
+    "_5_digit_ntd_id" AS 5_digit_ntd_id,
+    "reporter_type",
+    "mode",
+    "mode_name",
+    "type_of_service",
+    CAST("year" AS BIGINT) AS year,
+    "urbanized_area_code",
+    "urbanized_area_name",
+    CAST("urbanized_area_population" AS BIGINT) AS urbanized_area_population,
+    CAST("urbanized_area_square_miles" AS DOUBLE) AS urbanized_area_square_miles,
+    "uza_reporting_method",
+    "fg_nfg_reporting_method",
+    CAST("total_actual_vehicle_revenue_hours" AS BIGINT) AS total_actual_vehicle_revenue_hours,
+    CAST("total_unlinked_passenger_trips" AS BIGINT) AS total_unlinked_passenger_trips,
+    CAST("total_actual_vrm" AS BIGINT) AS total_actual_vrm,
+    CAST("total_passenger_miles_traveled" AS BIGINT) AS total_passenger_miles_traveled,
+    CAST("total_operating_expenses" AS BIGINT) AS total_operating_expenses,
+    CAST("non_fixed_guideway_vehicle_revenue_miles" AS BIGINT) AS non_fixed_guideway_vehicle_revenue_miles,
+    CAST("non_fixed_guideway_passenger_miles" AS BIGINT) AS non_fixed_guideway_passenger_miles,
+    CAST("non_fixed_guideway_operating_expenses" AS BIGINT) AS non_fixed_guideway_operating_expenses,
+    CAST("fixed_guideway_vehicle_revenue_miles" AS BIGINT) AS fixed_guideway_vehicle_revenue_miles,
+    CAST("fixed_guideway_passenger_miles" AS BIGINT) AS fixed_guideway_passenger_miles,
+    CAST("fixed_guideway_operating_expenses" AS BIGINT) AS fixed_guideway_operating_expenses,
+    CAST("directional_route_miles" AS DOUBLE) AS directional_route_miles,
+    CAST("sgr_fg_directional_route_miles" AS DOUBLE) AS sgr_fg_directional_route_miles,
+    CAST("sgr_fg_vehicle_revenue_miles" AS BIGINT) AS sgr_fg_vehicle_revenue_miles,
+    CAST("sgr_hib_directional_route_miles" AS DOUBLE) AS sgr_hib_directional_route_miles,
+    CAST("sgr_hib_vehicle_revenue_miles" AS BIGINT) AS sgr_hib_vehicle_revenue_miles,
+    CAST("primary_uza" AS BOOLEAN) AS primary_uza,
+    "total_actual_vrh_questionable",
+    "total_upt_questionable",
+    "total_actual_vrm_questionable",
+    "total_pmt_questionable",
+    "total_oe_questionable",
+    "nfg_vrm_questionable",
+    "nfg_pmt_questionable",
+    "drm_questionable",
+    "fg_oe_questionable",
+    "fg_vrm_questionable",
+    "state_ntd_id"
+FROM "u-s-department-of-transportation-5x22-djnv"

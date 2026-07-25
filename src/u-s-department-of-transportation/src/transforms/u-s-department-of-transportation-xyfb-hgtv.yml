@@ -1,0 +1,65 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-xyfb-hgtv`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: mkt_carrier
+    type: VARCHAR
+  - name: mkt_carrier_airline_id
+    type: BIGINT
+  - name: mkt_carrier_name
+    type: VARCHAR
+  - name: mkt_unique_carrier
+    type: VARCHAR
+  - name: mkt_unique_carrier_name
+    type: VARCHAR
+  - name: op_carrier
+    type: VARCHAR
+  - name: op_carrier_airline_id
+    type: BIGINT
+  - name: op_carrier_name
+    type: VARCHAR
+  - name: op_unique_carrier
+    type: VARCHAR
+  - name: op_unique_carrier_name
+    type: VARCHAR
+  - name: pax_alt_trans
+    type: BIGINT
+  - name: pax_no_alt_trans
+    type: BIGINT
+  - name: pax_no_comp_1
+    type: BIGINT
+  - name: pax_no_comp_2
+    type: BIGINT
+  - name: pax_no_comp_3
+    type: BIGINT
+  - name: tot_den_boarding
+    type: BIGINT
+  - name: pax_comp_1
+    type: BIGINT
+  - name: pax_comp_2
+    type: BIGINT
+  - name: pax_upgrade
+    type: BIGINT
+  - name: pax_downgrade
+    type: BIGINT
+  - name: tot_boarding
+    type: BIGINT
+  - name: comp_paid_1
+    type: BIGINT
+  - name: comp_paid_2
+    type: BIGINT
+  - name: comp_paid_3
+    type: BIGINT
+  - name: code_share
+    type: BOOLEAN
+  - name: op_carrier_source
+    type: VARCHAR

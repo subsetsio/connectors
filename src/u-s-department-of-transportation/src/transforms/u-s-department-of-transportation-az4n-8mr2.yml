@@ -1,0 +1,300 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-az4n-8mr2`. Regenerate after model-verify.
+key: [dot_number]
+temporal: add_date
+sort: [add_date, dot_number]
+columns:
+  - name: mcs150_date
+    type: VARCHAR
+  - name: add_date
+    type: DATE
+  - name: status_code
+    type: VARCHAR
+  - name: dot_number
+    type: BIGINT
+  - name: dun_bradstreet_no
+    type: BIGINT
+  - name: phy_omc_region
+    type: VARCHAR
+  - name: safety_inv_terr
+    type: VARCHAR
+  - name: carrier_operation
+    type: VARCHAR
+  - name: business_org_id
+    type: BIGINT
+  - name: mcs150_mileage
+    type: BIGINT
+  - name: mcs150_mileage_year
+    type: BIGINT
+  - name: mcs151_mileage
+    type: BIGINT
+  - name: total_cars
+    type: BIGINT
+  - name: mcs150_update_code_id
+    type: BIGINT
+  - name: prior_revoke_flag
+    type: VARCHAR
+  - name: prior_revoke_dot_number
+    type: BIGINT
+  - name: phone
+    type: VARCHAR
+  - name: fax
+    type: VARCHAR
+  - name: cell_phone
+    type: VARCHAR
+  - name: company_officer_1
+    type: VARCHAR
+  - name: company_officer_2
+    type: VARCHAR
+  - name: business_org_desc
+    type: VARCHAR
+  - name: truck_units
+    type: BIGINT
+  - name: power_units
+    type: BIGINT
+  - name: bus_units
+    type: BIGINT
+  - name: fleetsize
+    type: VARCHAR
+  - name: review_id
+    type: BIGINT
+  - name: recordable_crash_rate
+    type: DOUBLE
+  - name: mail_nationality_indicator
+    type: VARCHAR
+  - name: phy_nationality_indicator
+    type: VARCHAR
+  - name: phy_barrio
+    type: VARCHAR
+  - name: mail_barrio
+    type: VARCHAR
+  - name: carship
+    type: VARCHAR
+  - name: docket1prefix
+    type: VARCHAR
+  - name: docket1
+    type: BIGINT
+  - name: docket2prefix
+    type: VARCHAR
+  - name: docket2
+    type: BIGINT
+  - name: docket3prefix
+    type: VARCHAR
+  - name: docket3
+    type: BIGINT
+  - name: pointnum
+    type: VARCHAR
+  - name: total_intrastate_drivers
+    type: BIGINT
+  - name: mcsipstep
+    type: BIGINT
+  - name: mcsipdate
+    type: DATE
+  - name: hm_ind
+    type: VARCHAR
+  - name: interstate_beyond_100_miles
+    type: BIGINT
+  - name: interstate_within_100_miles
+    type: BIGINT
+  - name: intrastate_beyond_100_miles
+    type: BIGINT
+  - name: intrastate_within_100_miles
+    type: BIGINT
+  - name: total_cdl
+    type: BIGINT
+  - name: total_drivers
+    type: BIGINT
+  - name: avg_drivers_leased_per_month
+    type: BIGINT
+  - name: classdef
+    type: VARCHAR
+  - name: legal_name
+    type: VARCHAR
+  - name: dba_name
+    type: VARCHAR
+  - name: phy_street
+    type: VARCHAR
+  - name: phy_city
+    type: VARCHAR
+  - name: phy_country
+    type: VARCHAR
+  - name: phy_state
+    type: VARCHAR
+  - name: phy_zip
+    type: VARCHAR
+  - name: phy_cnty
+    type: VARCHAR
+  - name: carrier_mailing_street
+    type: VARCHAR
+  - name: carrier_mailing_state
+    type: VARCHAR
+  - name: carrier_mailing_city
+    type: VARCHAR
+  - name: carrier_mailing_country
+    type: VARCHAR
+  - name: carrier_mailing_zip
+    type: VARCHAR
+  - name: carrier_mailing_cnty
+    type: VARCHAR
+  - name: carrier_mailing_und_date
+    type: DATE
+  - name: driver_inter_total
+    type: BIGINT
+  - name: email_address
+    type: VARCHAR
+  - name: review_type
+    type: VARCHAR
+  - name: review_date
+    type: DATE
+  - name: safety_rating
+    type: VARCHAR
+  - name: safety_rating_date
+    type: DATE
+  - name: undeliv_phy
+    type: VARCHAR
+  - name: crgo_genfreight
+    type: VARCHAR
+  - name: crgo_household
+    type: VARCHAR
+  - name: crgo_metalsheet
+    type: VARCHAR
+  - name: crgo_motoveh
+    type: VARCHAR
+  - name: crgo_drivetow
+    type: VARCHAR
+  - name: crgo_logpole
+    type: VARCHAR
+  - name: crgo_bldgmat
+    type: VARCHAR
+  - name: crgo_mobilehome
+    type: VARCHAR
+  - name: crgo_machlrg
+    type: VARCHAR
+  - name: crgo_produce
+    type: VARCHAR
+  - name: crgo_liqgas
+    type: VARCHAR
+  - name: crgo_intermodal
+    type: VARCHAR
+  - name: crgo_passengers
+    type: VARCHAR
+  - name: crgo_oilfield
+    type: VARCHAR
+  - name: crgo_livestock
+    type: VARCHAR
+  - name: crgo_grainfeed
+    type: VARCHAR
+  - name: crgo_coalcoke
+    type: VARCHAR
+  - name: crgo_meat
+    type: VARCHAR
+  - name: crgo_garbage
+    type: VARCHAR
+  - name: crgo_usmail
+    type: VARCHAR
+  - name: crgo_chem
+    type: VARCHAR
+  - name: crgo_drybulk
+    type: VARCHAR
+  - name: crgo_coldfood
+    type: VARCHAR
+  - name: crgo_beverages
+    type: VARCHAR
+  - name: crgo_paperprod
+    type: VARCHAR
+  - name: crgo_utility
+    type: VARCHAR
+  - name: crgo_farmsupp
+    type: VARCHAR
+  - name: crgo_construct
+    type: VARCHAR
+  - name: crgo_waterwell
+    type: VARCHAR
+  - name: crgo_cargoothr
+    type: VARCHAR
+  - name: crgo_cargoothr_desc
+    type: VARCHAR
+  - name: owntruck
+    type: BIGINT
+  - name: owntract
+    type: BIGINT
+  - name: owntrail
+    type: BIGINT
+  - name: owncoach
+    type: BIGINT
+  - name: ownschool_1_8
+    type: BIGINT
+  - name: ownschool_9_15
+    type: BIGINT
+  - name: ownschool_16
+    type: BIGINT
+  - name: ownbus_16
+    type: BIGINT
+  - name: ownvan_1_8
+    type: BIGINT
+  - name: ownvan_9_15
+    type: BIGINT
+  - name: ownlimo_1_8
+    type: BIGINT
+  - name: ownlimo_9_15
+    type: BIGINT
+  - name: ownlimo_16
+    type: BIGINT
+  - name: trmtruck
+    type: BIGINT
+  - name: trmtract
+    type: BIGINT
+  - name: trmtrail
+    type: BIGINT
+  - name: trmcoach
+    type: BIGINT
+  - name: trmschool_1_8
+    type: BIGINT
+  - name: trmschool_9_15
+    type: BIGINT
+  - name: trmschool_16
+    type: BIGINT
+  - name: trmbus_16
+    type: BIGINT
+  - name: trmvan_1_8
+    type: BIGINT
+  - name: trmvan_9_15
+    type: BIGINT
+  - name: trmlimo_1_8
+    type: BIGINT
+  - name: trmlimo_9_15
+    type: BIGINT
+  - name: trmlimo_16
+    type: BIGINT
+  - name: trptruck
+    type: BIGINT
+  - name: trptract
+    type: BIGINT
+  - name: trptrail
+    type: BIGINT
+  - name: trpcoach
+    type: BIGINT
+  - name: trpschool_1_8
+    type: BIGINT
+  - name: trpschool_9_15
+    type: BIGINT
+  - name: trpschool_16
+    type: BIGINT
+  - name: trpbus_16
+    type: BIGINT
+  - name: trpvan_1_8
+    type: BIGINT
+  - name: trpvan_9_15
+    type: BIGINT
+  - name: trplimo_1_8
+    type: BIGINT
+  - name: trplimo_9_15
+    type: BIGINT
+  - name: trplimo_16
+    type: BIGINT
+  - name: docket1_status_code
+    type: VARCHAR
+  - name: docket2_status_code
+    type: VARCHAR
+  - name: docket3_status_code
+    type: VARCHAR

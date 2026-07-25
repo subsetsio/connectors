@@ -1,0 +1,67 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-ag7u-9n3t`. Regenerate after model-verify.
+# caution: No stable row key was verified in the raw profile; use this table as a source snapshot rather than assuming row identity across runs.
+key: []
+temporal: measurement_tstamp
+sort: [measurement_tstamp]
+columns:
+  - name: tmc_code
+    type: VARCHAR
+  - name: measurement_tstamp
+    type: TIMESTAMP
+  - name: speed
+    type: DOUBLE
+  - name: average_speed
+    type: DOUBLE
+  - name: reference_speed
+    type: DOUBLE
+  - name: travel_time_minutes
+    type: DOUBLE
+  - name: confidence_score
+    type: DOUBLE
+  - name: cvalue
+    type: DOUBLE
+  - name: start_time
+    type: TIMESTAMP
+  - name: end_time
+    type: TIMESTAMP
+  - name: time_start_record
+    type: TIMESTAMP
+  - name: time_end_record
+    type: TIMESTAMP
+  - name: id
+    type: VARCHAR
+  - name: order
+    type: BIGINT
+  - name: miles
+    type: DOUBLE
+  - name: direction
+    type: VARCHAR
+  - name: distance_to_work_zone
+    type: DOUBLE
+  - name: distance_e_to_wz
+    type: DOUBLE
+  - name: sholder_closure_count
+    type: DOUBLE
+  - name: traffic_lane_closure_count
+    type: DOUBLE
+  - name: week
+    type: VARCHAR
+  - name: volume
+    type: DOUBLE
+  - name: max_lanes_closed
+    type: DOUBLE
+  - name: road_name
+    type: VARCHAR
+  - name: road_type
+    type: VARCHAR
+  - name: on_ramp
+    type: BIGINT
+  - name: off_ramp
+    type: BIGINT
+  - name: incident_id
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: lanes
+    type: BIGINT

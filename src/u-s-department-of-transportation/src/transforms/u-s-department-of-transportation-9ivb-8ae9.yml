@@ -1,0 +1,256 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-9ivb-8ae9`. Regenerate after model-verify.
+key: [incident_description, incident_number, incident_time, incident_date, agency]
+temporal: incident_date
+sort: [incident_date, incident_description, incident_number, incident_time, agency]
+columns:
+  - name: "5_digit_ntd_id"
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: uace_code
+    type: VARCHAR
+  - name: rail_bus_ferry
+    type: VARCHAR
+  - name: mode_name
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: consolidated_mode_name
+    type: VARCHAR
+  - name: type_of_service
+    type: VARCHAR
+  - name: fixed_route_flag
+    type: BOOLEAN
+  - name: rail_y_n
+    type: BOOLEAN
+  - name: year
+    type: BIGINT
+  - name: incident_description
+    type: VARCHAR
+  - name: incident_number
+    type: BIGINT
+  - name: incident_date
+    type: TIMESTAMP
+  - name: incident_time
+    type: VARCHAR
+  - name: event_type
+    type: VARCHAR
+  - name: event_type_group
+    type: VARCHAR
+  - name: assault_homicide_person_type_desc
+    type: VARCHAR
+  - name: assault_homicide_type_desc
+    type: VARCHAR
+  - name: assault_homicide_transit_worker_flag
+    type: BOOLEAN
+  - name: other_event_type_description
+    type: VARCHAR
+  - name: event_category
+    type: VARCHAR
+  - name: runaway_train_flag
+    type: VARCHAR
+  - name: safety_security
+    type: VARCHAR
+  - name: collision_with
+    type: VARCHAR
+  - name: property_damage
+    type: BIGINT
+  - name: property_damage_type
+    type: VARCHAR
+  - name: disabling_damage_flag
+    type: BOOLEAN
+  - name: total_injuries
+    type: BIGINT
+  - name: total_fatalities
+    type: BIGINT
+  - name: towed_y_n
+    type: VARCHAR
+  - name: number_of_transit_vehicles
+    type: BIGINT
+  - name: number_of_vehicles_involved
+    type: BIGINT
+  - name: number_of_cars_on_involved_transit_vehicles
+    type: BIGINT
+  - name: derailed_cars_count
+    type: BIGINT
+  - name: location_type
+    type: VARCHAR
+  - name: multiple_locations_list
+    type: VARCHAR
+  - name: approximate_address
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: latlon
+    type: VARCHAR
+  - name: evacuation
+    type: BOOLEAN
+  - name: life_safety_y_n
+    type: VARCHAR
+  - name: evac_to_right_of_way
+    type: VARCHAR
+  - name: evacuation_comment
+    type: VARCHAR
+  - name: self_evacuation_y_n
+    type: VARCHAR
+  - name: evacuation_location
+    type: VARCHAR
+  - name: hazmat_type
+    type: VARCHAR
+  - name: hazmat_type_description
+    type: VARCHAR
+  - name: fire_type
+    type: VARCHAR
+  - name: fire_fuel
+    type: VARCHAR
+  - name: other_fire_fuel_description
+    type: VARCHAR
+  - name: weather
+    type: VARCHAR
+  - name: weather_comment
+    type: VARCHAR
+  - name: lighting
+    type: VARCHAR
+  - name: current_condition
+    type: VARCHAR
+  - name: tide
+    type: VARCHAR
+  - name: road_configuration
+    type: VARCHAR
+  - name: track_configuration
+    type: VARCHAR
+  - name: path_condition
+    type: VARCHAR
+  - name: rail_alignment
+    type: VARCHAR
+  - name: rail_grade_crossing_control
+    type: VARCHAR
+  - name: rail_grade_crossing_comment
+    type: VARCHAR
+  - name: right_of_way_condition
+    type: VARCHAR
+  - name: intersection
+    type: VARCHAR
+  - name: service_stop_control_device
+    type: VARCHAR
+  - name: operator_location
+    type: VARCHAR
+  - name: intentional_y_n
+    type: VARCHAR
+  - name: vehicle_action
+    type: VARCHAR
+  - name: action_type
+    type: VARCHAR
+  - name: collision_impact_point
+    type: VARCHAR
+  - name: non_transit_vehicle_action_list
+    type: VARCHAR
+  - name: derailment_type
+    type: VARCHAR
+  - name: transit_y_n
+    type: VARCHAR
+  - name: revenue_vehicle_identifier_list
+    type: VARCHAR
+  - name: fuel_type
+    type: VARCHAR
+  - name: vehicle_speed
+    type: BIGINT
+  - name: transit_vehicle_type
+    type: VARCHAR
+  - name: non_rail_transit_vehicle
+    type: VARCHAR
+  - name: manufacturer
+    type: VARCHAR
+  - name: manufacturer_description
+    type: VARCHAR
+  - name: transit_vehicle_rider
+    type: BIGINT
+  - name: people_waiting_or_leaving
+    type: BIGINT
+  - name: transit_vehicle_operator
+    type: BIGINT
+  - name: transit_employee_fatalities
+    type: BIGINT
+  - name: other_worker_fatalities
+    type: BIGINT
+  - name: bicyclist_fatalities
+    type: BIGINT
+  - name: pedestrian_in_crosswalk
+    type: BIGINT
+  - name: pedestrian_not_in_crosswalk
+    type: BIGINT
+  - name: pedestrian_crossing_tracks
+    type: BIGINT
+  - name: pedestrian_walking_along
+    type: BIGINT
+  - name: occupant_of_other_vehicle
+    type: BIGINT
+  - name: other_fatalities
+    type: BIGINT
+  - name: suicide_fatalities
+    type: BIGINT
+  - name: trespasser_fatalities_subtotal
+    type: BIGINT
+  - name: transit_vehicle_rider_injuries
+    type: BIGINT
+  - name: transit_vehicle_rider_serious
+    type: BIGINT
+  - name: people_waiting_or_leaving_1
+    type: BIGINT
+  - name: people_waiting_or_leaving_2
+    type: BIGINT
+  - name: transit_vehicle_operator_1
+    type: BIGINT
+  - name: transit_vehicle_operator_2
+    type: BIGINT
+  - name: transit_employee_injuries
+    type: BIGINT
+  - name: transit_employee_serious
+    type: BIGINT
+  - name: other_worker_injuries
+    type: BIGINT
+  - name: other_worker_serious_injuries
+    type: BIGINT
+  - name: bicyclist_injuries
+    type: BIGINT
+  - name: bicyclist_serious_injuries
+    type: BIGINT
+  - name: pederstiran_in_crosswalk
+    type: BIGINT
+  - name: pederstiran_in_crosswalk_1
+    type: BIGINT
+  - name: pedestrian_not_in_crosswalk_1
+    type: BIGINT
+  - name: pedestrian_not_in_crosswalk_2
+    type: BIGINT
+  - name: pedestrian_crossing_tracks_1
+    type: BIGINT
+  - name: pedestrian_crossing_tracks_2
+    type: BIGINT
+  - name: pedestrian_walking_along_1
+    type: BIGINT
+  - name: pedestrian_walking_along_2
+    type: BIGINT
+  - name: occupant_of_other_vehicle_1
+    type: BIGINT
+  - name: occupant_of_other_vehicle_2
+    type: BIGINT
+  - name: other_injuries
+    type: BIGINT
+  - name: other_serious_injuries
+    type: BIGINT
+  - name: suicide_injuries
+    type: BIGINT
+  - name: suicide_serious_injuries
+    type: BIGINT
+  - name: trespasser_inuries_subtotal
+    type: BIGINT
+  - name: trespasser_serious_injuries_subtotal
+    type: BIGINT
+  - name: total_serious_injuries
+    type: BIGINT
+  - name: person_list
+    type: VARCHAR

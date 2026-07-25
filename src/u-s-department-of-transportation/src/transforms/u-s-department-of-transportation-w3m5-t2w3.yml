@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-w3m5-t2w3`. Regenerate after model-verify.
+key: [pct_ttl_num_trip, sum_min, the_geom, lat, lon]
+temporal: year
+sort: [year, pct_ttl_num_trip, sum_min, the_geom, lat, lon]
+columns:
+  - name: the_geom
+    type: VARCHAR
+  - name: sysid
+    type: DOUBLE
+  - name: year
+    type: DOUBLE
+  - name: month
+    type: DOUBLE
+  - name: groupid
+    type: DOUBLE
+  - name: e_station
+    type: VARCHAR
+  - name: sum_min
+    type: DOUBLE
+  - name: num_trip
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: e_station_name
+    type: VARCHAR
+  - name: pct_ttl_num_trip
+    type: DOUBLE
+  - name: bin_num_trips
+    type: DOUBLE
+  - name: sysname
+    type: VARCHAR

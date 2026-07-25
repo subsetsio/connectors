@@ -1,0 +1,104 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-wzfs-4rgw`. Regenerate after model-verify.
+key: [road_event_id]
+temporal: road_event_feed_info_update
+sort: [road_event_feed_info_update, road_event_id]
+columns:
+  - name: road_event_feed_info_update
+    type: TIMESTAMP
+  - name: road_event_feed_info_version
+    type: DOUBLE
+  - name: road_event_id
+    type: VARCHAR
+  - name: event_type
+    type: VARCHAR
+  - name: road_names
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: beginning_cross_street
+    type: VARCHAR
+  - name: ending_cross_street
+    type: VARCHAR
+  - name: beginning_milepost
+    type: VARCHAR
+  - name: ending_milepost
+    type: VARCHAR
+  - name: beginning_accuracy
+    type: VARCHAR
+  - name: ending_accuracy
+    type: VARCHAR
+  - name: start_date
+    type: TIMESTAMP
+  - name: end_date
+    type: TIMESTAMP
+  - name: start_date_accuracy
+    type: VARCHAR
+  - name: end_date_accuracy
+    type: VARCHAR
+  - name: event_status
+    type: VARCHAR
+  - name: total_num_lanes
+    type: VARCHAR
+  - name: vehicle_impact
+    type: VARCHAR
+  - name: workers_present
+    type: BOOLEAN
+  - name: reduced_speed_limit
+    type: VARCHAR
+  - name: restrictions
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: creation_date
+    type: TIMESTAMP
+  - name: update_date
+    type: TIMESTAMP
+  - name: types_of_work
+    type: VARCHAR
+  - name: lanes
+    type: VARCHAR
+  - name: geometry_linestring
+    type: VARCHAR
+  - name: geometry_multipoint
+    type: VARCHAR
+  - name: relationship_first
+    type: VARCHAR
+  - name: relationship_next
+    type: VARCHAR
+  - name: relationship_parents
+    type: VARCHAR
+  - name: relationship_children
+    type: VARCHAR
+  - name: road_event_feed_info_publisher
+    type: VARCHAR
+  - name: road_event_feed_info_update_1
+    type: VARCHAR
+  - name: road_event_feed_info_contact
+    type: VARCHAR
+  - name: road_event_feed_info_contact_1
+    type: VARCHAR
+  - name: data_source_id
+    type: VARCHAR
+  - name: data_source_organization
+    type: VARCHAR
+  - name: data_source_location_method
+    type: VARCHAR
+  - name: data_source_contact_name
+    type: VARCHAR
+  - name: data_source_contact_email
+    type: VARCHAR
+  - name: data_source_update_date
+    type: VARCHAR
+  - name: data_source_update_frequency
+    type: VARCHAR
+  - name: data_source_location_verify
+    type: VARCHAR
+  - name: data_source_lrs_type
+    type: VARCHAR
+  - name: data_source_lrs_url
+    type: VARCHAR
+  - name: feed_bbox
+    type: VARCHAR
+  - name: road_event_bbox
+    type: VARCHAR

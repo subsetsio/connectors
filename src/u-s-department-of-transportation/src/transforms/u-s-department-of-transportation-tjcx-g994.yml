@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-tjcx-g994`. Regenerate after model-verify.
+key: [expenditures, state, year, improvement_type, funding_area]
+temporal: year
+sort: [year, expenditures, state, improvement_type, funding_area]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: funding_area
+    type: VARCHAR
+  - name: improvement_type
+    type: VARCHAR
+  - name: expenditures
+    type: BIGINT

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-transportation-s85w-az69`. Regenerate after model-verify.
+key: [dollars, state, year, action, status]
+temporal: year
+sort: [year, dollars, state, action, status]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: action
+    type: VARCHAR
+  - name: dollars
+    type: BIGINT
