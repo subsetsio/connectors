@@ -10,7 +10,7 @@ SELECT
     "intitule",
     "depart_avant_l_age_legal_d_ouverture_des_droits_a_la_retraite",
     "depart_a_l_age_legal_d_ouverture_des_droits_a_la_retraite",
-    "depart_entre_l_age_legal_d_ouverture_des_droits_a_la_retraite_et_l_age_d_annulation_de_la_decote",
+    "depart_entre_l_age_legal_d_ouverture_des_droits_a_la_retraite_et_l_age_d_annulation_de_la_decote" AS depart_entre_age_legal_et_annulation_decote,
     "depart_a_l_age_d_annulation_de_la_decote",
     "depart_apres_l_age_d_annulation_de_la_decote",
     "ensemble"

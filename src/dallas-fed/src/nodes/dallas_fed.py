@@ -361,7 +361,7 @@ def fetch_wei(node_id: str) -> None:
 # International House Price Database
 # ===========================================================================
 HOUSEPRICE_PAGE = "/research/international/houseprice"
-HOUSEPRICE_DIR = "/-/media/Documents/research/international/houseprice/"
+HOUSEPRICE_DIR = "/~/media/documents/research/international/houseprice/"
 HOUSEPRICE_METRICS = {
     "HPI": "house_price_index",
     "RHPI": "real_house_price_index",
@@ -378,11 +378,29 @@ HOUSEPRICE_SCHEMA = pa.schema([
 
 def _latest_houseprice_file() -> str:
     page = _fetch_bytes(HOUSEPRICE_PAGE).decode("utf-8", errors="replace")
-    versions = re.findall(r"houseprice/hp(\d{4})\.xlsx", page, flags=re.IGNORECASE)
-    if not versions:
+    matches = re.findall(
+        r"((?:/[-~]/media/documents/research/international/houseprice/)?hp(\d{4})\.xlsx)",
+        page,
+        flags=re.IGNORECASE,
+    )
+    if not matches:
         raise AssertionError("houseprice: no hpXXXX.xlsx release found on product page")
-    latest = max(versions)  # YYMM string sorts chronologically
-    return f"{HOUSEPRICE_DIR}hp{latest}.xlsx"
+    candidates = []
+    seen = set()
+    for path, version in sorted(matches, key=lambda m: m[1], reverse=True):
+        path = path if path.startswith("/") else f"{HOUSEPRICE_DIR}{path}"
+        path = path.replace("/Documents/", "/documents/")
+        if path in seen:
+            continue
+        seen.add(path)
+        candidates.append((version, path))
+    for _, path in candidates:
+        configure_http(headers={"User-Agent": _UA})
+        resp = get(BASE + path, timeout=(10.0, 120.0))
+        if resp.status_code == 200:
+            return path
+    versions = ", ".join(version for version, _ in candidates[:5])
+    raise AssertionError(f"houseprice: no reachable hpXXXX.xlsx release found; tried latest {versions}")
 
 
 def fetch_houseprice(node_id: str) -> None:

@@ -5,8 +5,8 @@
 SELECT
     "generation_en",
     "trimestre_s_d_avpf_utiles",
-    "trimestre_s_de_chomage_de_formation_de_preretraite_et_de_conversion_utiles",
-    "trimestre_s_de_maladie_de_maternite_d_invalidite_et_d_accident_du_travail_utiles",
-    "trimestres_d_avpf_de_chomage_de_formation_de_reconversion_de_preretraite_de_maladie_de_maternite_d_i",
+    "trimestre_s_de_chomage_de_formation_de_preretraite_et_de_conversion_utiles" AS trimestres_chomage_formation_preretraite_conversion_utiles,
+    "trimestre_s_de_maladie_de_maternite_d_invalidite_et_d_accident_du_travail_utiles" AS trimestres_maladie_maternite_invalidite_accident_utiles,
+    "trimestres_d_avpf_de_chomage_de_formation_de_reconversion_de_preretraite_de_maladie_de_maternite_d_i" AS trimestres_avpf_et_assimiles_utiles,
     "genre"
 FROM "drees-proportion-dhommes-et-de-femmes-ayant-valide-des-trimestres-davpf-ou-des-trimest"
