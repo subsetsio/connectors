@@ -264,7 +264,10 @@ def _fetch_price_history_range(code, start_year, end_year, *, allow_window_fallb
             )
         except Exception:
             if allow_window_fallback and page > 1:
-                return _fetch_price_history_windowed(code, start_year, end_year)
+                fetched_years = [_to_int(d.get("year")) for d in recs]
+                fetched_years = [y for y in fetched_years if y is not None]
+                next_year = max(fetched_years, default=start_year - 1)
+                return recs + _fetch_price_history_windowed(code, next_year, end_year, existing=recs)
             raise
         months = j.get("month") or []
         for entry in months:
@@ -283,32 +286,23 @@ def _fetch_price_history_range(code, start_year, end_year, *, allow_window_fallb
     return recs
 
 
-def _fetch_price_history_windowed(code, start_year, end_year):
+def _fetch_price_history_windowed(code, start_year, end_year, *, existing=()):
     rows = []
-    seen = set()
+    seen = {(d.get("year"), d.get("month")) for d in existing}
     for year in range(start_year, end_year + 1):
         try:
             batch = _fetch_price_history_range(code, year, year)
         except Exception:
-            batch = _fetch_price_history_months(code, year)
+            # CBS returns {"Message":"Error: Price Data"} for some historical
+            # annual slices of otherwise valid series. Preserve the rest of the
+            # series instead of failing the whole price-index corpus.
+            continue
         for d in batch:
             key = (d.get("year"), d.get("month"))
             if key in seen:
                 continue
             seen.add(key)
             rows.append(d)
-    return rows
-
-
-def _fetch_price_history_months(code, year):
-    rows = []
-    for month in range(1, 13):
-        j = _get_json(
-            f"{INDEX_BASE}/data/price", id=code, startPeriod=f"{month:02d}-{year}",
-            endPeriod=f"{month:02d}-{year}", format="json", lang="en", Page=1,
-        )
-        for entry in j.get("month") or []:
-            rows.extend(entry.get("date") or [])
     return rows
 
 
