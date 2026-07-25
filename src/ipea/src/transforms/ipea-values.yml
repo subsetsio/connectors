@@ -7,6 +7,10 @@ columns:
     type: VARCHAR
   - name: date
     type: DATE
+    description: Observation date; null when IPEADATA uses its 9999-01-01 unknown-date sentinel.
+  - name: has_unknown_date
+    type: BOOLEAN
+    description: True when the raw VALDATA value is the IPEADATA 9999-01-01 unknown-date sentinel.
   - name: value
     type: DOUBLE
   - name: geo_level
