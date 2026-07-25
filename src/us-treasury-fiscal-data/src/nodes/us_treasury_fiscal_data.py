@@ -28,12 +28,9 @@ returns every value as a string, including the literal string "null" for missing
 values, so a per-table parquet schema buys nothing here. NDJSON stores the
 records faithfully and the model stage types them from the profiled raw.
 
-The one exception is `v2/debt/tror`, at ~230 fields the only endpoint wider than
-DuckDB's `map_inference_threshold` (200). Every reader in the stack opens NDJSON
-with a bare `read_json_auto`, which silently infers one `MAP(VARCHAR, VARCHAR)`
-column instead of 230 struct fields, so the table profiles, tests and transforms
-all see a single opaque column. Parquet carries the schema explicitly and is
-read back by name.
+The exceptions in `PARQUET_ENTITY_IDS` are endpoints that DuckDB has inferred as
+one opaque JSON/MAP column from NDJSON in production. Parquet carries the schema
+explicitly and is read back by name.
 """
 
 import time
@@ -50,8 +47,11 @@ from subsets_utils import (
 
 from constants import ENDPOINTS, ENTITY_IDS
 
-# Wider than DuckDB's map_inference_threshold — see the module docstring.
-PARQUET_ENTITY_IDS = {"v2-debt-tror"}
+# See the module docstring.
+PARQUET_ENTITY_IDS = {
+    "v1-accounting-od-utf-transaction-subtotals",
+    "v2-debt-tror",
+}
 
 BASE_URL = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/"
 SLUG_PREFIX = "us-treasury-fiscal-data-"
@@ -97,19 +97,39 @@ def _iter_table(endpoint: str, stats: dict):
         meta = payload.get("meta") or {}
         batch = payload.get("data") or []
         if page == 1:
-            stats["total_count"] = meta.get("total-count")
+            stats["total_count"] = _meta_int(meta.get("total-count"))
 
         stats["rows"] += len(batch)
         yield from batch
+        if not batch and not _seen_advertised_rows(stats):
+            expected = stats.get("total_count")
+            raise RuntimeError(
+                f"{endpoint}: page {page} returned no rows after {stats['rows']} of "
+                f"{expected} advertised rows; the page walk truncated."
+            )
 
-        total_pages = meta.get("total-pages")
+        total_pages = _meta_int(meta.get("total-pages"))
         if total_pages is not None:
-            if page >= total_pages:
+            if page >= total_pages and _seen_advertised_rows(stats):
                 return
         elif len(batch) < PAGE_SIZE:
             return
         page += 1
         time.sleep(PAGE_DELAY_S)
+
+
+def _meta_int(value) -> int | None:
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _seen_advertised_rows(stats: dict) -> bool:
+    expected = stats.get("total_count")
+    return expected is None or stats["rows"] >= expected
 
 
 def _assert_complete(asset: str, endpoint: str, stats: dict) -> None:
