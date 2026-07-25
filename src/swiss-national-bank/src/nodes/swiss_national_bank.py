@@ -43,7 +43,8 @@ _YEAR_RE = re.compile(r"^(\d{4})$")
 
 
 def _spec_id(cube_id: str) -> str:
-    return f"{SLUG}-{cube_id.lower().replace('_', '-')}"
+    safe_cube_id = cube_id.lower().replace("@", "-").replace("_", "-")
+    return f"{SLUG}-{safe_cube_id}"
 
 
 def _cube_for(node_id: str) -> str:
