@@ -72,6 +72,7 @@ _I_ACTION_FIPS = 53      # action-location country, FIPS 10-4 two-letter code
 _N_COLS = 61
 
 _VALID_QUADS = {1, 2, 3, 4}
+_VALID_EVENT_ROOTS = {f"{i:02d}" for i in range(1, 21)}
 _FETCH_WORKERS = 16
 
 # FIPS 10-4 (NGA GEC) -> ISO 3166-1 alpha-2. GDELT geo country codes are FIPS, not
@@ -229,7 +230,7 @@ def _aggregate_file(url: str, date8: str) -> dict:
         if quad not in _VALID_QUADS:
             continue
         root = f[_I_EVENT_ROOT]
-        if not root:
+        if root not in _VALID_EVENT_ROOTS:
             continue
         iso2 = _FIPS_TO_ISO2.get(f[_I_ACTION_FIPS]) if f[_I_ACTION_FIPS] else None
         try:
