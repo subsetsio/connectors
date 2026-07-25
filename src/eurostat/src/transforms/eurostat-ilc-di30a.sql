@@ -5,8 +5,8 @@
 SELECT
     "freq",
     "unit",
-    "trans1y",
-    "quantile",
+    "trans_inc",
+    "quant_inc",
     "geo",
     CAST("time_period" AS BIGINT) AS time_period,
     "value",

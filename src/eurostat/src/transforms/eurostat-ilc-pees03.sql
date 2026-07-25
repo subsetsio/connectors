@@ -7,7 +7,7 @@ SELECT
     "yn_rskpov",
     "lev_depr",
     "workint",
-    "quantile",
+    "quant_inc",
     "unit",
     "geo",
     CAST("time_period" AS BIGINT) AS time_period,

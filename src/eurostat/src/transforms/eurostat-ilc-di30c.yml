@@ -1,15 +1,16 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `eurostat-ilc-di30c`. Regenerate after model-verify.
-key: [freq, unit, trans3y, quantile, geo, time_period]
-sort: [freq, unit, trans3y, quantile, geo, time_period]
+key: [freq, unit, trans_inc, quant_inc, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, unit, trans_inc, quant_inc, geo]
 columns:
   - name: freq
     type: VARCHAR
   - name: unit
     type: VARCHAR
-  - name: trans3y
+  - name: trans_inc
     type: VARCHAR
-  - name: quantile
+  - name: quant_inc
     type: VARCHAR
   - name: geo
     type: VARCHAR

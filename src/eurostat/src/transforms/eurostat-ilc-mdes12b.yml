@@ -1,7 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `eurostat-ilc-mdes12b`. Regenerate after model-verify.
-key: [freq, unit, wstatus, quantile, geo, time_period]
-sort: [freq, unit, wstatus, quantile, geo, time_period]
+key: [freq, unit, wstatus, quant_inc, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, unit, wstatus, quant_inc, geo]
 columns:
   - name: freq
     type: VARCHAR
@@ -9,7 +10,7 @@ columns:
     type: VARCHAR
   - name: wstatus
     type: VARCHAR
-  - name: quantile
+  - name: quant_inc
     type: VARCHAR
   - name: geo
     type: VARCHAR

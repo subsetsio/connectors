@@ -1,13 +1,14 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `eurostat-hlth-silc-12`. Regenerate after model-verify.
-key: [freq, unit, quantile, age, sex, lev_limit, geo, time_period]
-sort: [freq, unit, quantile, age, sex, lev_limit, geo, time_period]
+key: [freq, unit, quant_inc, age, sex, lev_limit, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, unit, quant_inc, age, sex, lev_limit, geo]
 columns:
   - name: freq
     type: VARCHAR
   - name: unit
     type: VARCHAR
-  - name: quantile
+  - name: quant_inc
     type: VARCHAR
   - name: age
     type: VARCHAR

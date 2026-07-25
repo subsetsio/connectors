@@ -4,9 +4,9 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "freq",
-    "trans1y",
+    "trans_inc",
     "sex",
-    "quantile",
+    "quant_inc",
     "unit",
     "geo",
     CAST("time_period" AS BIGINT) AS time_period,

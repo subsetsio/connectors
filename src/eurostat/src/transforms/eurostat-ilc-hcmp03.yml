@@ -1,7 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `eurostat-ilc-hcmp03`. Regenerate after model-verify.
-key: [freq, unit, deg_urb, quantile, geo, time_period]
-sort: [freq, unit, deg_urb, quantile, geo, time_period]
+key: [freq, unit, deg_urb, quant_inc, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, unit, deg_urb, quant_inc, geo]
 columns:
   - name: freq
     type: VARCHAR
@@ -9,7 +10,7 @@ columns:
     type: VARCHAR
   - name: deg_urb
     type: VARCHAR
-  - name: quantile
+  - name: quant_inc
     type: VARCHAR
   - name: geo
     type: VARCHAR

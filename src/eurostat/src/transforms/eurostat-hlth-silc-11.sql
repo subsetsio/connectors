@@ -5,7 +5,7 @@
 SELECT
     "freq",
     "unit",
-    "quantile",
+    "quant_inc",
     "age",
     "sex",
     "geo",

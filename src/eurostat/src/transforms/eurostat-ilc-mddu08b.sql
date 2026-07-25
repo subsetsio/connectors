@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "freq",
-    "quantile",
+    "quant_inc",
     "wstatus",
     "unit",
     "geo",

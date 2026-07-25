@@ -7,7 +7,7 @@ SELECT
     "unit",
     "lev_diff",
     "deg_urb",
-    "quantile",
+    "quant_inc",
     "geo",
     CAST("time_period" AS BIGINT) AS time_period,
     "value",

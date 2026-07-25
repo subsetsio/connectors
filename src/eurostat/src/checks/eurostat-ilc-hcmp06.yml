@@ -3,10 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [freq, unit, lev_diff, deg_urb, quantile, geo, time_period]
+key: [freq, unit, lev_diff, deg_urb, quant_inc, geo, time_period]
+temporal: time_period
 checks:
   - kind: unique
-    columns: [freq, unit, lev_diff, deg_urb, quantile, geo, time_period]
+    columns: [freq, unit, lev_diff, deg_urb, quant_inc, geo, time_period]
   - kind: not_null
     col: freq
   - kind: not_null
@@ -16,7 +17,7 @@ checks:
   - kind: not_null
     col: deg_urb
   - kind: not_null
-    col: quantile
+    col: quant_inc
   - kind: not_null
     col: geo
   - kind: not_null
@@ -26,3 +27,4 @@ checks:
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
+  temporal_monotonic: true

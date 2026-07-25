@@ -5,7 +5,7 @@
 SELECT
     "freq",
     "hhcomp",
-    "quantile",
+    "quant_inc",
     "unit",
     "geo",
     CAST("time_period" AS BIGINT) AS time_period,
