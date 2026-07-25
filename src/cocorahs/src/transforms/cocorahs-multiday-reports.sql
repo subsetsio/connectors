@@ -1,4 +1,4 @@
-SELECT
+SELECT DISTINCT
     TRIM(StationNumber)                              AS station_number,
     TRIM(StationName)                                AS station_name,
     TRIM(State)                                      AS state,
