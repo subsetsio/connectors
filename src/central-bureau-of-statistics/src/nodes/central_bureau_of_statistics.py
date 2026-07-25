@@ -31,7 +31,6 @@ from datetime import datetime, timezone
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -108,6 +107,41 @@ def _series_meta(s):
         "calc": (s.get("calc") or {}).get("name"),
         "last_update": s.get("update"),
     }
+
+
+def _subject_taxonomy_rows():
+    """Derive the hierarchy from series path metadata.
+
+    Direct /catalog/level child calls are brittle (CBS returns HTTP 500 for
+    several level/subject combinations), while /data/path for each top-level
+    subject embeds every level's id/name in each series record.
+    """
+    seen = {}
+    for code in _subject_codes():
+        j = _get_json(f"{SERIES_BASE}/data/path", id=code, last=1, format="json", lang="en")
+        for s in j.get("DataSet", {}).get("Series", []):
+            path = s.get("path") or {}
+            path_parts = []
+            for level in range(1, 5):
+                item = path.get(f"level{level}") or {}
+                value = item.get("value")
+                name = item.get("name")
+                if value is None or name is None:
+                    continue
+                path_parts.append(str(value))
+                key = tuple(path_parts)
+                if key not in seen:
+                    seen[key] = {
+                        "level": level,
+                        "subject_code": _to_int(value),
+                        "subject_name": name,
+                        "path": "/".join(path_parts),
+                        "parent_path": "/".join(path_parts[:-1]) or None,
+                    }
+    rows = sorted(seen.values(), key=lambda r: (r["level"], r["path"]))
+    if len(rows) < 100:
+        raise AssertionError(f"only {len(rows)} subject taxonomy rows discovered")
+    return rows
 
 
 # ---------------------------------------------------------------- series catalog
@@ -319,6 +353,23 @@ def fetch_price_index_values(node_id: str) -> None:
         save_raw_parquet(table, f"{node_id}-{cid}")
 
 
+# ---------------------------------------------------------------- subjects
+
+SUBJECTS_SCHEMA = pa.schema([
+    ("level", pa.int64()),
+    ("subject_code", pa.int64()),
+    ("subject_name", pa.string()),
+    ("path", pa.string()),
+    ("parent_path", pa.string()),
+])
+
+
+def fetch_subjects(node_id: str) -> None:
+    """Reference taxonomy for CBS time-series subjects, one row per path node."""
+    table = pa.Table.from_pylist(_subject_taxonomy_rows(), schema=SUBJECTS_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
 # ---------------------------------------------------------------- specs
 
 DOWNLOAD_SPECS = [
@@ -326,73 +377,5 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-series-values", fn=fetch_series_values, kind="download"),
     NodeSpec(id=f"{SLUG}-price-index-catalog", fn=fetch_price_index_catalog, kind="download"),
     NodeSpec(id=f"{SLUG}-price-index-values", fn=fetch_price_index_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-series-catalog-transform",
-        deps=[f"{SLUG}-series-catalog"],
-        sql=f'''
-            SELECT
-                CAST(series_id AS BIGINT)        AS series_id,
-                CAST(subject_code AS BIGINT)     AS subject_code,
-                level1_name,
-                level2_name,
-                level3_name,
-                level4_name,
-                series_name,
-                unit_name,
-                frequency,
-                data_type,
-                price_basis,
-                TRY_CAST(last_update AS DATE)    AS last_update
-            FROM "{SLUG}-series-catalog"
-            WHERE series_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-series-values-transform",
-        deps=[f"{SLUG}-series-values"],
-        sql=f'''
-            SELECT
-                CAST(series_id AS BIGINT)                        AS series_id,
-                frequency,
-                period,
-                CAST(strptime(period, '%Y-%m') AS DATE)          AS date,
-                CAST(value AS DOUBLE)                            AS value
-            FROM "{SLUG}-series-values"
-            WHERE value IS NOT NULL AND period IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-price-index-catalog-transform",
-        deps=[f"{SLUG}-price-index-catalog"],
-        sql=f'''
-            SELECT DISTINCT
-                chapter_id,
-                chapter_name,
-                CAST(code AS BIGINT) AS code,
-                index_name
-            FROM "{SLUG}-price-index-catalog"
-            WHERE code IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{SLUG}-price-index-values-transform",
-        deps=[f"{SLUG}-price-index-values"],
-        sql=f'''
-            SELECT
-                CAST(code AS BIGINT)                             AS code,
-                index_name,
-                chapter_name,
-                CAST(make_date(year, month, 1) AS DATE)          AS date,
-                CAST(value AS DOUBLE)                            AS value,
-                CAST(percent AS DOUBLE)                          AS monthly_percent,
-                CAST(percent_year AS DOUBLE)                     AS yearly_percent,
-                base_desc
-            FROM "{SLUG}-price-index-values"
-            WHERE value IS NOT NULL AND year IS NOT NULL
-              AND month BETWEEN 1 AND 12
-        ''',
-    ),
+    NodeSpec(id=f"{SLUG}-subjects", fn=fetch_subjects, kind="download"),
 ]

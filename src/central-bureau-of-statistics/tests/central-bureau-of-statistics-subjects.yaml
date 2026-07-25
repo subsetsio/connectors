@@ -1,0 +1,26 @@
+spec_id: central-bureau-of-statistics-subjects
+status: active
+tests:
+  - not_null: level
+    reason: every taxonomy row has a hierarchy level
+    certainty: 95
+  - column_type: {col: level, type: integer}
+    certainty: 95
+  - between: {col: level, lo: 1, hi: 4}
+    reason: CBS series path metadata exposes level1 through level4 subject nodes before the leaf series name
+    certainty: 85
+  - not_null: subject_code
+    reason: every taxonomy node has a source path code
+    certainty: 90
+  - not_null: subject_name
+    reason: every taxonomy node has a human-readable source name
+    certainty: 90
+  - not_null: path
+    reason: the stable path identifies the node within the hierarchy
+    certainty: 95
+  - unique: path
+    reason: one taxonomy row per hierarchy path
+    certainty: 90
+  - row_count: {min: 100}
+    reason: 33 top-level subjects expand to hundreds of lower-level path nodes
+    certainty: 80
