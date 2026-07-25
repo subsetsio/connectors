@@ -8,8 +8,8 @@ SELECT
     "state",
     "legalAgencyName" AS legalagencyname,
     "projectType" AS projecttype,
-    "projectStartDate" AS projectstartdate,
-    "projectEndDate" AS projectenddate,
+    CASE WHEN year("projectStartDate") > 2200 THEN NULL ELSE "projectStartDate" END AS projectstartdate,
+    CASE WHEN year("projectEndDate") > 2200 THEN NULL ELSE "projectEndDate" END AS projectenddate,
     "nameOfProgram" AS nameofprogram,
     "fundingAmount" AS fundingamount
 FROM "fema-emergencymanagementperformancegrants"

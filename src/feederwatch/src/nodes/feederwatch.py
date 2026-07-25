@@ -32,6 +32,7 @@ Three subsets:
 import io
 import re
 import zipfile
+from functools import lru_cache
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
@@ -67,6 +68,18 @@ _BROWSER_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
+
+_FALLBACK_LINKS = [
+    "https://cdn.feederwatch.org/data/202406/PFW_all_1988_1995_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_all_1996_2000_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_all_2001_2005_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_all_2006_2010_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_all_2011_2015_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_all_2016_2020_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_all_2021_2024_May2024_Public.csv.zip",
+    "https://cdn.feederwatch.org/data/202406/PFW_count_site_data_public_May2024.csv",
+    "https://cdn.feederwatch.org/data/202406/PFW_spp_translation_table_May2024.csv",
+]
 
 # Header is identical across all year-range files (verified 1988-1995,
 # 2006-2010, 2021-2024). Read every column as string and let "NA"/"" be null;
@@ -121,16 +134,22 @@ def _links_from_wayback() -> list[str]:
     )
 
 
-def _entry_links() -> list[str]:
+@lru_cache(maxsize=1)
+def _entry_links() -> tuple[str, ...]:
     """All current cdn.feederwatch.org data links — live page, else Wayback."""
     try:
         links = _links_from_live()
         if links:
-            return links
+            return tuple(links)
     except Exception as exc:  # Cloudflare 403 et al. — fall back to Wayback.
         print(f"  live entry page unavailable ({type(exc).__name__}: {exc}); "
               f"discovering links via Wayback Machine")
-    return _links_from_wayback()
+    try:
+        return tuple(_links_from_wayback())
+    except Exception as exc:
+        print(f"  Wayback discovery unavailable ({type(exc).__name__}: {exc}); "
+              "using bundled May 2024 FeederWatch release links")
+        return tuple(_FALLBACK_LINKS)
 
 
 def _resolve_one(pattern: str) -> str:

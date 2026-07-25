@@ -64,7 +64,7 @@ SELECT
     "gas_level_rating",
     "gas_level_rating_appraisal_year",
     "reported_coal_mine_methane_emissions_thousand_tonnes_ch4",
-    "reported_coal_mine_methane_emissions_thousand_tonnes_co2_equivalent",
+    "reported_coal_mine_methane_emissions_thousand_tonnes_co2_equivalent" AS reported_cmm_emissions_thousand_tonnes_co2e,
     "year_of_reported_coal_mine_methane_emissions",
     "reference_type",
     "source_id",

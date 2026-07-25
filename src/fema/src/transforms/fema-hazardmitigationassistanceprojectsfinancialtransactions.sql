@@ -5,7 +5,7 @@
 SELECT
     "projectIdentifier" AS projectidentifier,
     "transactionIdentifier" AS transactionidentifier,
-    "transactionDate" AS transactiondate,
+    CASE WHEN year("transactionDate") > 2200 THEN NULL ELSE "transactionDate" END AS transactiondate,
     "commitmentIdentifier" AS commitmentidentifier,
     "accsLine" AS accsline,
     "fundCode" AS fundcode,
