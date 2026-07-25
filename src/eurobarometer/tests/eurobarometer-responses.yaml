@@ -17,12 +17,14 @@ tests:
     reason: an answer row without a label is not emitted
     certainty: 95
 
-  - unique: [survey_id, source_file, sheet_name, block_index, banner, answer_index]
+  - unique: [survey_id, source_file, sheet_name, block_index, question_code, question_title, banner, answer_index]
     reason: >-
       the grain. A workbook may ship several Volume-A files (EU27/EU28 restatements),
       a sheet may stack several question blocks, and a workbook may carry two sheets
-      whose names differ only by trailing whitespace - so the full tuple is needed.
-      Duplicates mean the parser folded two blocks together or read a sibling volume.
+      whose names differ only by trailing whitespace. Within a block, the same
+      banner column and answer row can repeat across separate questions, so question
+      identity is part of the row key. Duplicates mean the parser folded two
+      question tables together or read a sibling volume.
     certainty: 90
 
   - column_type: {col: block_index, type: integer}
