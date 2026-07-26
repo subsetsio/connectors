@@ -3,6 +3,6 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    CAST("col_0" AS BIGINT) AS col_0,
-    "col_1"
+    CAST("col_0" AS BIGINT) AS dimension_0,
+    "col_1" AS dimension_1
 FROM "rosstat-7708234640-okfs"
