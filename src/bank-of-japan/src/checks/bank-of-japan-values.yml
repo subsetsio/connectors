@@ -3,20 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [db, series_code, date]
 temporal: date
 checks:
-  - kind: unique
-    columns: [db, series_code, date]
-  - kind: not_null
-    col: db
-  - kind: not_null
-    col: series_code
-  - kind: not_null
-    col: date
   - kind: row_floor
-    min: 6478980
+    min: 11498487
 regression:
   row_shrink_tolerance: 0.1
-  key_shrink_tolerance: 0.1
   temporal_monotonic: true

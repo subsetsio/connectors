@@ -30,7 +30,3 @@ SELECT
     notes
 FROM "bank-of-japan-series"
 WHERE series_code IS NOT NULL AND series_code <> ''
-QUALIFY row_number() OVER (
-    PARTITION BY db, series_code
-    ORDER BY last_update DESC NULLS LAST
-) = 1
