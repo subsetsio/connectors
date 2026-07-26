@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `apnic-as-user-population`. Regenerate after model-verify.
+# caution: This is a current snapshot, not a historical time series; compare refreshes through run lineage rather than treating rows as dated observations.
+# caution: An Autonomous System can appear under more than one economy code in the APNIC Labs population estimate, so use `asn` with `cc` when identifying rows.
+key: [asn, cc]
+sort: [asn, cc]
+columns:
+  - name: rank
+    type: BIGINT
+  - name: asn
+    type: BIGINT
+  - name: description
+    type: VARCHAR
+  - name: cc
+    type: VARCHAR
+  - name: users
+    type: BIGINT
+  - name: pct_cc_pop
+    type: DOUBLE
+  - name: pct_internet
+    type: DOUBLE
+  - name: samples
+    type: BIGINT

@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `apnic-ipv6-capability`. Regenerate after model-verify.
+# caution: Rows are per economy and day; APNIC also publishes other entity groupings, but this connector currently models the per-economy series only.
+key: [economy, date]
+temporal: date
+sort: [date, economy]
+columns:
+  - name: economy
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: seen
+    type: DOUBLE
+  - name: preferred
+    type: DOUBLE
+  - name: capable
+    type: DOUBLE
+  - name: preferred_pc
+    type: DOUBLE
+  - name: capable_pc
+    type: DOUBLE
+  - name: preferred_pc_30d
+    type: DOUBLE
+  - name: capable_pc_30d
+    type: DOUBLE

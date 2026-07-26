@@ -5,8 +5,8 @@ tests:
     certainty: 95
   - not_null: rank
     certainty: 90
-  - unique: asn
-    reason: one row per AS for the current measurement window
+  - unique: [asn, cc]
+    reason: APNIC can attribute one AS to more than one economy in the current measurement window
     certainty: 85
   - at_least: {col: users, expr: 0}
     reason: estimated end-user population is non-negative

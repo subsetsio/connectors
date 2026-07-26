@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `apnic-delegated-resources`. Regenerate after model-verify.
+# caution: The `value` column has different units by resource_type: ASN counts for asn rows, IPv4 address counts for ipv4 rows, and IPv6 prefix size/count semantics from the delegated-stats file for ipv6 rows.
+key: [start]
+temporal: date
+sort: [date, start]
+columns:
+  - name: registry
+    type: VARCHAR
+  - name: cc
+    type: VARCHAR
+  - name: resource_type
+    type: VARCHAR
+  - name: start
+    type: VARCHAR
+  - name: value
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: status
+    type: VARCHAR
+  - name: opaque_id
+    type: VARCHAR
