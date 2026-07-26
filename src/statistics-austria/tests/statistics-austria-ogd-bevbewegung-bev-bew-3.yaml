@@ -3,6 +3,6 @@ status: active
 tests:
 - freshness:
     col: year
-    reaches: current_year() - 3
+    reaches: current_year() - 6
   severity: block
   reason: Statistics Austria temporal series should include recent observations within the source cadence slack

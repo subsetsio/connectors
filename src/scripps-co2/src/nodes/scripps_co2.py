@@ -70,6 +70,7 @@ NODE_FILES = {
 _NO_STATION = {"ice_core", "mlo_spo_annual", "mlo_spo_monthly"}
 
 _RE_ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_RE_MDY = re.compile(r"^\d{1,2}/\d{1,2}/\d{4}$")
 _RE_DMY = re.compile(r"^\d{1,2}-[A-Za-z]{3}-\d{2}$")
 
 
@@ -303,6 +304,24 @@ def _p_seawater(f):
 def _p_early_lajolla(f):
     if not f:
         return None
+    if _RE_MDY.match(f[0]):
+        parts = f[0].split("/")
+        iso = _ymd(parts[2], parts[0], parts[1])
+        value = _num(f[-1])
+        if iso is None or value is None:
+            return None
+        rec = {"date": iso, "value": value}
+        if len(f) >= 2:
+            time = f[1].strip()
+            if ":" in time:
+                hour, minute = time.split(":", 1)
+                rec["hour"] = _int(hour)
+                rec["minute"] = _int(minute)
+        if len(f) >= 3:
+            rec["decimal_date"] = _num(f[2])
+        if len(f) >= 4:
+            rec["index"] = _num(f[3])
+        return rec
     if _valid_date(f[0]):
         value = _num(f[-1])
         if value is None:
