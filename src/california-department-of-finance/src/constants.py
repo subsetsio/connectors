@@ -44,4 +44,20 @@ ENTITY_IDS = [
     "ee6b2c4f8fdb40edad85e682490509b9",
     "f38e6e7f9e1d47deafb032a9cd73cdd8",
     "f3e56cb333394a9aba52f7f911197212",
+    # 2026-07-26 recollect: DRU rolled the wildfire housing-loss series to a
+    # 2015-25 vintage under NEW item ids (plus related jurisdiction/popup
+    # layers). The 2014-24 vintage items above remain live upstream and stay
+    # published; these are additive, not replacements.
+    "02325c8c06e04781b030c0a47ddf2a78",  # 2015-25 Wildfire Housing Loss County (All)
+    "164e8cc7a4ea4eb3937739d591b3bbb1",  # Wildfire Impacts on CA Housing Stock by State/County/Subcounty 2015-2025
+    "275e192ffded43f680bd40443bb5b73c",  # Top Counties Wildfire Related Housing Destruction
+    "34fd73a6bb3547fb9f8ece6872d11dce",  # 2015-25 Wildfire Housing Loss Jurisdiction
+    "796ce7a8b9bc48e5b4f8c51df6b2d914",  # City and State Wildfire-Related Housing Losses 2015-2025 (DINS)
+    "95a31702222a4521a6c12cbd11e42fbe",  # California Area Boundaries
+    "a5040e07601041469d058362e6d03f4e",  # jurisdiction popup
+    "c2e9450604fa4b1d8a26729e3365962f",  # county popup
+    "d05e060df7444647aa8e42c2982f951e",  # Top Ten Most Destructive Wildfires 2015-2025
+    "d546228bac8d4819b235b0e4b92c3300",  # Summary of CA Wildfire-Related Housing Loss by Jurisdiction 2015-25
+    "ef1f67a489714037a0c393d0300bf4b3",  # Wildfire Housing Loss from 2015-25 (Unincorporated)
+    "f49d2d7e35fe47f9aac2fc20e5c0ca43",  # 2015-25 Wildfire Housing Loss (Sum All)
 ]
