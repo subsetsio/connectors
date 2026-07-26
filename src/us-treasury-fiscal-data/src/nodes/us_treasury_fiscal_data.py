@@ -110,7 +110,7 @@ def _iter_table(endpoint: str, stats: dict):
 
         total_pages = _meta_int(meta.get("total-pages"))
         if total_pages is not None:
-            if page >= total_pages and _seen_advertised_rows(stats):
+            if page >= total_pages:
                 return
         elif len(batch) < PAGE_SIZE:
             return

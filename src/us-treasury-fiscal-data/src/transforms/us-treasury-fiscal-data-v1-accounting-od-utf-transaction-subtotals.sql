@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "trans_statement",
-    "eff_date",
+    CAST(NULLIF("eff_date", 'null') AS DATE) AS eff_date,
     "trans_desc_cd",
     CAST(NULLIF("shares_per_par", 'null') AS DOUBLE) AS shares_per_par,
     "acct_nbr",
