@@ -141,6 +141,23 @@ class _TransientDownload(Exception):
     body. Raised so the retry loop re-fetches instead of writing garbage."""
 
 
+def _validate_download_file(node_id: str, ext: str, path: str) -> None:
+    """Catch cleanly-closed but incomplete OpenFEMA payloads before raw publish."""
+    if ext != "parquet":
+        return
+    with open(path, "rb") as fh:
+        head = fh.read(4)
+        try:
+            fh.seek(-4, 2)
+        except OSError as exc:
+            raise _TransientDownload(f"{node_id}: parquet payload is too small") from exc
+        tail = fh.read(4)
+    if head != b"PAR1" or tail != b"PAR1":
+        raise _TransientDownload(
+            f"{node_id}: invalid parquet magic bytes (head={head!r}, tail={tail!r})"
+        )
+
+
 def _is_transient(exc: BaseException) -> bool:
     if isinstance(exc, (_TRANSIENT_EXC, _TransientDownload)):
         return True
@@ -235,6 +252,7 @@ def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> N
 
                 written = tmp.tell()
                 if expected_total is None or written >= expected_total:
+                    _validate_download_file(node_id, ext, tmp.name)
                     break
                 raise _TransientDownload(
                     f"{node_id}: truncated download ({written} of {expected_total} bytes)"
