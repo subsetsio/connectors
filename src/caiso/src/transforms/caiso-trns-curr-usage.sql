@@ -17,6 +17,6 @@ SELECT
     "LABEL" AS label,
     "POS" AS pos,
     "OPR_INTERVAL" AS opr_interval,
-    "MW" AS mw,
+    CAST("MW" AS DOUBLE) AS mw,
     "GROUP" AS group
 FROM "caiso-trns-curr-usage"
