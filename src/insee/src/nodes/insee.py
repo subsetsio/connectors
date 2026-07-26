@@ -349,7 +349,10 @@ def fetch_one(node_id: str) -> None:
                 total += len(observations)
                 offset += len(observations)
                 paging = doc.get("paging") or {}
-                if not paging.get("next") or paging.get("isLast"):
+                # Some large Melodi datacubes report isLast=true on page 1
+                # while still returning a valid next link. Treat next as the
+                # authoritative continuation signal.
+                if not paging.get("next"):
                     break
 
         print(f"  {asset}: wrote {total} observations across {pages} page(s)")
