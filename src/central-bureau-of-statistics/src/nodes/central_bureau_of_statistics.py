@@ -44,13 +44,13 @@ SLUG = "central-bureau-of-statistics"
 
 
 def _get_json(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 180.0))
+    resp = get(url, params=params, timeout=(10.0, 420.0))
     resp.raise_for_status()
     return resp.json()
 
 
 def _get_text(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 180.0))
+    resp = get(url, params=params, timeout=(10.0, 420.0))
     resp.raise_for_status()
     return resp.text
 
@@ -263,7 +263,7 @@ def _fetch_price_history_range(code, start_year, end_year, *, allow_window_fallb
                 endPeriod=f"12-{end_year}", format="json", lang="en", Page=page,
             )
         except Exception:
-            if allow_window_fallback and page > 1:
+            if allow_window_fallback:
                 fetched_years = [_to_int(d.get("year")) for d in recs]
                 fetched_years = [y for y in fetched_years if y is not None]
                 oldest_year = min(fetched_years, default=end_year + 1)
