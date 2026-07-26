@@ -1,0 +1,32 @@
+# hand-authored 2026-07-26 — faithful pass-through of raw asset
+# `unctad-us.iff-crimesrelated` (UNCTAD's consolidated crime-related IFF
+# report; replaces the retired _In/_Out pair, direction is now a dimension).
+# Grain verified unique on the measured bulk CSV. Regenerate after model-verify.
+key: [year, economy, economy_label, series, series_label, direction, direction_label, estimatebound, estimatebound_label]
+temporal: year
+sort: [year, economy, economy_label, series, series_label, direction, direction_label, estimatebound, estimatebound_label]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: series_label
+    type: VARCHAR
+  - name: direction
+    type: VARCHAR
+  - name: direction_label
+    type: VARCHAR
+  - name: estimatebound
+    type: VARCHAR
+  - name: estimatebound_label
+    type: VARCHAR
+  - name: millions_of_us_at_current_prices
+    type: DOUBLE
+  - name: millions_of_us_at_current_prices_footnote
+    type: VARCHAR
+  - name: millions_of_us_at_current_prices_missing_value
+    type: VARCHAR

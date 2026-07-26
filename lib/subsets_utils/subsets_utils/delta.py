@@ -648,8 +648,13 @@ def merge(
             if _force_write():
                 merger = merger.when_matched_update(updates=updates)
             else:
+                # Each term parenthesized: delta-rs/sqlparser misparses a bare
+                # `a IS DISTINCT FROM b OR c IS DISTINCT FROM d` chain
+                # ("Cannot infer common argument type for logical boolean
+                # operation Utf8 OR Boolean"), failing ANY merge with >= 2
+                # non-key columns at planning time.
                 row_changed = " OR ".join(
-                    f"target.{c} IS DISTINCT FROM source.{c}" for c in non_key
+                    f"(target.{c} IS DISTINCT FROM source.{c})" for c in non_key
                 )
                 merger = merger.when_matched_update(updates=updates, predicate=row_changed)
         metrics = merger.when_not_matched_insert(updates=updates).execute()

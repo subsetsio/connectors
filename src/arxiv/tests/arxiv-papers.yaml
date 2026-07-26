@@ -64,8 +64,12 @@ tests:
 
   # --- bounds: creation dates fall in arXiv's lifetime ---
   - between: {col: created_date, lo: '1986-01-01', hi: today}
-    reason: arXiv launched in 1991 but a few records carry earlier v1 timestamps from retro-imports; nothing should predate the mid-80s or postdate now
+    reason: >-
+      arXiv launched in 1991 but a few records carry earlier v1 timestamps from
+      retro-imports; created_date now comes from real version timestamps, so a
+      single upstream garbage date must not block the whole corpus — warn only
     certainty: 90
+    severity: warn
   - between: {col: num_versions, lo: 1, hi: 500}
     reason: every paper has at least one version; hundreds is the realistic ceiling
     certainty: 85

@@ -1,0 +1,10 @@
+# hand-authored 2026-07-26 — post-publish audit of `unctad-us.iff-crimesrelated`.
+# Row floor from the measured bulk CSV (130 rows, 2015-2025). Regenerate via
+# `compile-checks` after the next model-verify.
+temporal: year
+checks:
+  - kind: row_floor
+    min: 65
+regression:
+  row_shrink_tolerance: 0.1
+  temporal_monotonic: true
