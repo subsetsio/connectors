@@ -9,7 +9,7 @@ SELECT
     "Area Type" AS area_type,
     CAST("Year" AS BIGINT) AS year,
     "Month" AS month,
-    "Seasonally Adjusted(Y/N)" AS seasonally_adjusted_y_n,
+    "Seasonally Adjusted (Y/N)" AS seasonally_adjusted_y_n,
     "Status" AS status,
     CAST("Labor Force" AS BIGINT) AS labor_force,
     CAST("Employment" AS BIGINT) AS employment,
