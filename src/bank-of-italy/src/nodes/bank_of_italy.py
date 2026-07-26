@@ -104,6 +104,12 @@ NO_GRAPH_SERIES = {
     "MFN_RTIT.M.020.202.922",
 }
 
+UPSTREAM_IMPRACTICAL_TABLES = {
+    # TDB10295's default PROSPETTODATI response drops required coordinates; the
+    # coordinate-complete rekey request ran for hours in CI without returning.
+    "TDB10295",
+}
+
 
 def _seed_session() -> None:
     """Establish the JSESSIONID that every data service requires."""
@@ -341,6 +347,10 @@ def _schema(payload: dict, label_dims: list[str]) -> list[str]:
 def fetch_one(node_id: str) -> None:
     asset = node_id
     table_id = TABLE_BY_SPEC[node_id.removeprefix(f"{SLUG}-")]
+    if table_id in UPSTREAM_IMPRACTICAL_TABLES:
+        raise RuntimeError(
+            f"{table_id}: upstream-impractical PROSPETTODATI rekey; see active waiver"
+        )
 
     _seed_session()
     cube_ids = _member_series(_resolve_table(table_id))

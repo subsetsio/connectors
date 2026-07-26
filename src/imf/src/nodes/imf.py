@@ -47,6 +47,12 @@ BATCH_ROWS = 100_000
 # Entity union (rank-active dataflows) -> SDMX agency id. The agency is part of
 # the data URL path, so it must travel with the id. Copied from the entity union
 # joined with the collect catalog's agencyID.
+# 2026-07-26: 13 dataflows (CFBL, CO2EEIEM, CRBRATE, ECFIE,
+# EER_INPUTS_2026_APR_VINTAGE, FLTRI, FSI_COUNTRY_METADATA_TABLE_2, GPT,
+# INFORMRISK, MPFT, TAXFIT, WPCPER, WPFXI) were removed pending modeling —
+# they were accepted 2026-07-09 without transform consumers, which the DAG
+# gate refuses; they are deferred in the accept policy until a dev session
+# models them (see accept policy UNMODELED_2026_07).
 ENTITIES = {
     "AEA": "IMF.STA",
     "AFRREO": "IMF.AFR",
@@ -55,19 +61,14 @@ ENTITIES = {
     "BOP": "IMF.STA",
     "BOP_AGG": "IMF.STA",
     "CCI": "IMF.STA",
-    "CFBL": "IMF.STA",
     "CO2E": "IMF.STA",
-    "CO2EEIEM": "IMF.STA",
     "COFER": "IMF.STA",
     "CPI": "IMF.STA",
     "CPI_WCA": "IMF.STA",
-    "CRBRATE": "IMF.STA",
     "CTOT": "IMF.RES",
     "DIP": "IMF.STA",
-    "ECFIE": "IMF.RES",
     "ED": "IMF.RES",
     "EER": "IMF.STA",
-    "EER_INPUTS_2026_APR_VINTAGE": "IMF.STA",
     "ENVTX": "IMF.STA",
     "EQ": "IMF.RES",
     "ER": "IMF.STA",
@@ -79,12 +80,10 @@ ENTITIES = {
     "FD": "IMF.STA",
     "FDI": "IMF.MCM",
     "FFS": "IMF.STA",
-    "FLTRI": "IMF.STA",
     "FM": "IMF.FAD",
     "FSIBSIS": "IMF.STA",
     "FSIC": "IMF.STA",
     "FSICDM": "IMF.STA",
-    "FSI_COUNTRY_METADATA_TABLE_2": "IMF.STA",
     "GDD": "IMF.FAD",
     "GENENVPROEXP": "IMF.STA",
     "GFS_BS": "IMF.STA",
@@ -93,7 +92,6 @@ ENTITIES = {
     "GFS_SOEF": "IMF.STA",
     "GFS_SOO": "IMF.STA",
     "GFS_SSUC": "IMF.STA",
-    "GPT": "IMF.SPR",
     "GS_ATF": "IMF.STA",
     "GS_CGI": "IMF.STA",
     "GS_ED": "IMF.STA",
@@ -108,7 +106,6 @@ ENTITIES = {
     "IIPCC": "IMF.STA",
     "IL": "IMF.STA",
     "IMTS": "IMF.STA",
-    "INFORMRISK": "IMF.STA",
     "IRFCL": "IMF.STA",
     "ISORA_LATEST_DATA_PUB": "ISORA",
     "ITG": "IMF.STA",
@@ -125,7 +122,6 @@ ENTITIES = {
     "MFS_NSRF": "IMF.STA",
     "MFS_ODC": "IMF.STA",
     "MFS_OFC": "IMF.STA",
-    "MPFT": "IMF.RES",
     "NDGAIN": "IMF.STA",
     "NSDP": "IMF.STA",
     "PCPS": "IMF.RES",
@@ -141,14 +137,11 @@ ENTITIES = {
     "RSUI": "IMF.WHD",
     "SPE": "IMF.STA",
     "SRD": "IMF.RES",
-    "TAXFIT": "IMF.FAD",
     "TEG": "IMF.STA",
     "UNFCCC": "IMF.STA",
     "WEO": "IMF.RES",
     "WHDREO": "IMF.WHD",
     "WORLD": "IMF.FAD",
-    "WPCPER": "IMF.STA",
-    "WPFXI": "IMF.STA",
 }
 
 
