@@ -38,16 +38,19 @@ PREFIX = f"{SLUG}-"
 # Living-Atlas hotspot orgs (services9.arcgis.com) allow far larger pages, so
 # the ~1.2M-row VIIRS layer pages in bigger chunks.
 _DEFAULT_PAGE = 2000
+_EXPENSIVE_PAGE = 500
 _BIG_PAGE = 16000
 
 # Safety ceiling: the largest layer (VIIRS, ~1.2M rows) is ~76 pages at
 # 16000/page. This cap only fires if a source grows far beyond expectation; it
 # raises (never silently truncates) so unexpected growth is surfaced.
 MAX_PAGES = 20000
-JSON_429_ATTEMPTS = 8
+JSON_429_ATTEMPTS = 20
 
 
 def _page_size(url: str) -> int:
+    if "InFORM_FireOccurrence_Public" in url:
+        return _EXPENSIVE_PAGE
     return _BIG_PAGE if "services9.arcgis.com" in url else _DEFAULT_PAGE
 
 
