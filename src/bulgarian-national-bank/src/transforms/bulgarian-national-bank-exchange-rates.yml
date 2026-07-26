@@ -1,21 +1,33 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `bulgarian-national-bank-exchange-rates`. Regenerate after model-verify.
-# caution: The ratio column gives the quoted currency amount; divide rate_bgn by ratio when comparing one-unit exchange rates across currencies.
+# caution: Bulgaria adopted the euro on 2026-01-01 (1 EUR = 1.95583 BGN, the fixed conversion rate): base_currency is 'BGN' before that date and 'EUR' from it, so rate values on either side of the boundary are denominated in different base currencies — split or convert on base_currency before comparing or aggregating across it.
+# caution: rate is base currency per `ratio` units of foreign currency and reverse_rate is foreign currency per 1 unit of base currency in both eras; divide rate by ratio when comparing one-unit exchange rates across currencies (ratio is 100 for some lev-era quotes, 1 in the euro era).
+# caution: Null rate rows before 2026-01-01 are dates with no BNB quote for that currency; the source also no longer serves historical EUR/BGN values, so pre-2026 EUR rows are null (the rate was fixed at 1.95583 BGN per EUR from 1999).
 key: [date, currency_name, currency_code]
 temporal: date
 sort: [date, currency_name, currency_code]
 columns:
   - name: date
     type: DATE
+    description: observation date (BNB valid-for date)
   - name: currency_code
     type: VARCHAR
+    description: ISO 4217 code of the quoted foreign currency or metal
   - name: currency_name
     type: VARCHAR
+    description: English name of the quoted foreign currency or metal
+  - name: base_currency
+    type: VARCHAR
+    description: "denomination of `rate`: 'BGN' (Bulgarian lev) for dates before 2026-01-01, 'EUR' from 2026-01-01 when Bulgaria adopted the euro (1 EUR = 1.95583 BGN)"
   - name: ratio
     type: DOUBLE
-  - name: rate_bgn
+    description: quoted units of foreign currency that `rate` prices (e.g. 100 for some lev-era JPY quotes; 1 in the euro era)
+  - name: rate
     type: DOUBLE
+    description: base currency per `ratio` units of foreign currency (levs before 2026-01-01, euro from it); null when BNB published no quote for that currency and date
   - name: reverse_rate
     type: DOUBLE
+    description: foreign currency per 1 unit of base currency (per 1 BGN before 2026-01-01, per 1 EUR from it)
   - name: gold
     type: BIGINT
+    description: source series marker (2 = precious-metal price series, 1 = currency)

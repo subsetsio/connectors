@@ -1,0 +1,11 @@
+spec_id: california-department-of-finance-d05e060df7444647aa8e42c2982f951e
+status: active
+tests:
+  - row_count: {min: 5}
+    reason: Top ten most destructive wildfires 2015-2025 is a fixed top-10 ranking layer (10 rows observed while probing); a collapse below this floor means a truncated page or an unshared/empty source.
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - not_null: Fire_Name_Year
+    reason: Fire_Name_Year is the key identity column present on every feature observed; nulls mean the attribute set changed upstream or we read the wrong layer.
+    certainty: 85

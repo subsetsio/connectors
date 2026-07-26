@@ -6,17 +6,21 @@ tests:
     certainty: 85
   - not_null: date
   - not_null: currency_code
-  - nullable: {col: rate_bgn, max_null_frac: 0.6}
-    reason: the raw period search includes historical currency/date combinations with no BNB quote; published rows filter null rates
+  - not_null: base_currency
+  - enum: {col: base_currency, values: [BGN, EUR]}
+    reason: the series has exactly two denomination eras — lev before the 2026-01-01 euro changeover, euro from it; any other value means the era split broke
+    certainty: 95
+  - nullable: {col: rate, max_null_frac: 0.6}
+    reason: the raw period search includes lev-era currency/date combinations with no BNB quote (and the source no longer serves historical EUR/BGN values); euro-era all-null rows are dropped at fetch
     certainty: 80
-  - column_type: {col: rate_bgn, type: float}
+  - column_type: {col: rate, type: float}
   - column_type: {col: ratio, type: float}
   - column_type: {col: currency_code, type: string}
   - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     reason: fetch fn normalises dd.mm.yyyy to ISO yyyy-mm-dd
     certainty: 95
-  - at_least: {col: rate_bgn, expr: 0}
-    reason: a BGN exchange rate is strictly positive
+  - at_least: {col: rate, expr: 0}
+    reason: an exchange rate is strictly positive in either denomination era
     certainty: 90
     severity: warn
   - distinct_count: {col: currency_code, min: 20}

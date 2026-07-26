@@ -3,12 +3,31 @@
 Two fetch surfaces, one node module:
 
 * **exchange-rates** — the StERForeignCurrencies endpoint serves a ``<ROWSET>``
-  XML of daily lev rates. The period search is capped at a 3-month window per
+  XML of daily rates. The period search is capped at a 3-month window per
   request but accepts all currencies at once, so a full re-pull is ~one request
   per calendar quarter. History starts 2000-01-01: the BNB series goes back to
   1991 but the lev was redenominated 1000:1 on 1999-07-05, so pre-2000 values
-  are in old lev and would put a 1000x discontinuity in ``rate_bgn``. We publish
+  are in old lev and would put a 1000x discontinuity in the rate. We publish
   the continuous modern series only.
+
+  **Euro changeover (2026-01-01).** Bulgaria adopted the euro at the fixed
+  conversion rate 1 EUR = 1.95583 BGN. From that date the endpoint stops
+  quoting lev rates and serves euro reference rates instead, flipping BOTH the
+  unit and the direction of the same XML fields: ``RATE`` was "Levs (BGN)"
+  (levs per ``RATIO`` units of foreign currency) and became "Foreign currency
+  per 1 euro"; ``REVERSERATE`` was "currency per 1 BGN" and became "Euro per
+  unit of foreign currency". We publish ONE directionally uniform series:
+  ``base_currency`` records the era ('BGN' before 2026-01-01, 'EUR' from it),
+  ``rate`` is always base currency per ``ratio`` units of foreign currency
+  (pre-2026 lev values pass through unchanged; euro-era rows map the source
+  REVERSERATE and quote per 1 unit, so ``ratio`` is 1), and ``reverse_rate``
+  is always foreign currency per 1 unit of base (euro-era rows map the source
+  RATE). Euro-era rows the euro reference list does not quote — the EUR base
+  row itself, retired pre-euro currencies, precious metals — come back all-null
+  and are dropped rather than published as empty observations. The fetch
+  asserts the response's header labels against the row-date era so a future
+  BNB semantics change fails the run instead of silently corrupting the
+  series again (precedent: the pre-2000 redenomination cut above).
 
 * **SDMX statistics** — five category pages (long-term interest rate, foreign
   trade exports/imports, foreign direct investment in Bulgaria, direct
@@ -47,15 +66,17 @@ FX_CURRENCIES = (
     "XAU,XEU,XPT,YUG,ZAR"
 )
 FX_START_YEAR = 2000  # post-redenomination; see module docstring
+FX_EURO_DATE = "2026-01-01"  # euro changeover; see module docstring
 
 
 _FX_SCHEMA = pa.schema([
     ("date", pa.string()),            # ISO yyyy-mm-dd
     ("currency_code", pa.string()),
     ("currency_name", pa.string()),
-    ("ratio", pa.float64()),
-    ("rate_bgn", pa.float64()),       # levs per `ratio` units of currency
-    ("reverse_rate", pa.float64()),   # currency per 1 BGN
+    ("base_currency", pa.string()),   # 'BGN' before 2026-01-01, 'EUR' from it
+    ("ratio", pa.float64()),          # quoted units of foreign currency
+    ("rate", pa.float64()),           # base currency per `ratio` units
+    ("reverse_rate", pa.float64()),   # foreign currency per 1 base unit
     ("gold", pa.int64()),
 ])
 
@@ -100,22 +121,52 @@ def _fetch_fx_window(y1, m1, d1, y2, m2, d2):
     except ET.ParseError:
         return []  # empty windows return a non-XML stub
     rows = []
+    header_rate_label = None
     for row in root.iter("ROW"):
         d = _text(row, "CURR_DATE")
         code = _text(row, "CODE")
-        if not d or not code or d == "Date" or code == "Code":
-            continue  # header row inside the ROWSET
+        if d == "Date" or code == "Code":
+            # header row inside the ROWSET — its RATE cell is the column
+            # label ("Levs (BGN)" pre-euro, "Foreign currency per 1 euro" after)
+            header_rate_label = (_text(row, "RATE") or "").strip()
+            continue
+        if not d or not code:
+            continue
         parts = d.split(".")
         if len(parts) != 3:
             continue
         iso = f"{parts[2]}-{parts[1]}-{parts[0]}"
+        euro_era = iso >= FX_EURO_DATE
+        if header_rate_label:
+            if ("euro" in header_rate_label.lower()) != euro_era:
+                raise AssertionError(
+                    f"FX response header RATE={header_rate_label!r} disagrees with "
+                    f"row date {iso} (euro_era={euro_era}) — BNB changed the rate "
+                    "semantics again; re-model before publishing"
+                )
+        ratio = _to_float(_text(row, "RATIO"))
+        rate = _to_float(_text(row, "RATE"))
+        reverse_rate = _to_float(_text(row, "REVERSERATE"))
+        if euro_era:
+            # euro era: source RATE is foreign-per-1-euro and REVERSERATE is
+            # euro-per-1-unit — swap so `rate` stays base-per-foreign, the
+            # same direction as the lev era. Quotes are per 1 unit (no RATIO
+            # field is served), so ratio is 1.
+            rate, reverse_rate = reverse_rate, rate
+            if rate is None and reverse_rate is None:
+                # not on the euro reference list (the EUR base row itself,
+                # retired pre-euro currencies, precious metals) — drop
+                # rather than publish an all-null observation
+                continue
+            ratio = 1.0
         rows.append({
             "date": iso,
             "currency_code": code.strip(),
             "currency_name": (_text(row, "NAME_") or "").strip(),
-            "ratio": _to_float(_text(row, "RATIO")),
-            "rate_bgn": _to_float(_text(row, "RATE")),
-            "reverse_rate": _to_float(_text(row, "REVERSERATE")),
+            "base_currency": "EUR" if euro_era else "BGN",
+            "ratio": ratio,
+            "rate": rate,
+            "reverse_rate": reverse_rate,
             "gold": int(_to_float(_text(row, "GOLD")) or 0),
         })
     return rows
