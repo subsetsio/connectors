@@ -1,0 +1,36 @@
+# authored pass-through of raw asset `california-department-of-finance-796ce7a8b9bc48e5b4f8c51df6b2d914` (accept expansion
+# 2026-07-26); bootstrap grain = the layer's object-id field. Regenerate
+# via compile-transforms after model-verify profiles this raw.
+key: [objectid]
+sort: [year123, objectid]
+columns:
+  - name: county
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: jurisdiction
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: year123
+    type: BIGINT
+  - name: annual_total_mobile_home_unit
+    type: BIGINT
+  - name: annual_total_multi_family_structure
+    type: BIGINT
+  - name: annual_total_single_family_unit
+    type: BIGINT
+  - name: annual_total_destroyed_homes
+    type: BIGINT
+  - name: decade_total_mobile_home_unit
+    type: BIGINT
+  - name: decade_total_multi_family_structure
+    type: BIGINT
+  - name: decade_total_single_family_unit
+    type: BIGINT
+  - name: decade_total_destroyed_homes
+    type: BIGINT
+  - name: objectid
+    type: BIGINT
+  - name: sort
+    type: VARCHAR

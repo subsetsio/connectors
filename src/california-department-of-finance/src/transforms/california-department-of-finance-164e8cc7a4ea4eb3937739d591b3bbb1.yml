@@ -1,0 +1,60 @@
+# authored pass-through of raw asset `california-department-of-finance-164e8cc7a4ea4eb3937739d591b3bbb1` (accept expansion
+# 2026-07-26); bootstrap grain = the layer's object-id field. Regenerate
+# via compile-transforms after model-verify profiles this raw.
+key: [fid]
+sort: [year123, fid]
+columns:
+  - name: county
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: jurisdiction
+    type: VARCHAR
+  - name: juryr
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: year123
+    type: BIGINT
+  - name: pop
+    type: BIGINT
+  - name: hustock
+    type: BIGINT
+  - name: sfstock
+    type: BIGINT
+  - name: mfstock
+    type: BIGINT
+  - name: mhustock
+    type: BIGINT
+  - name: sflossan
+    type: BIGINT
+  - name: mhulossan
+    type: BIGINT
+  - name: mflossan
+    type: BIGINT
+  - name: totallossan
+    type: BIGINT
+  - name: sfstockloss
+    type: DOUBLE
+  - name: mhustockloss
+    type: DOUBLE
+  - name: mhstockloss
+    type: DOUBLE
+  - name: totalstockloss
+    type: DOUBLE
+  - name: sflossdec
+    type: BIGINT
+  - name: mhulossdec
+    type: BIGINT
+  - name: mflossdec
+    type: BIGINT
+  - name: totallossdec
+    type: BIGINT
+  - name: filter
+    type: BIGINT
+  - name: sort
+    type: BIGINT
+  - name: fid
+    type: BIGINT
+  - name: stocklossrate
+    type: DOUBLE
