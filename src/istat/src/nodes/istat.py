@@ -431,6 +431,14 @@ def _classify_csv(resp, flow_id: str) -> str | None:
     body = resp.text[:1000]
     if resp.status_code == 413 or "Unable to generate SQL" in body:
         raise _OversizedQuery(f"{flow_id}: {resp.text[:400].strip()}")
+    if (
+        resp.status_code == 500
+        and "A network-related or instance-specific error occurred while establishing a connection to SQL Server" in body
+    ):
+        raise _DeadFlow(
+            f"{flow_id}: upstream SQL Server connectivity failure from Istat "
+            f"SDMX endpoint: {resp.text[:400].strip()}"
+        )
     # 404/422 are overloaded: an empty time window and a dataflow with no data
     # behind it at all come back the same way, distinguished only by the body.
     if resp.status_code in (404, 422):
