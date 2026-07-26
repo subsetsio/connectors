@@ -1,18 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: time_label
-sort: [time_label]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `destatis-43213`. Regenerate after model-verify.
+# caution: Rows are GENESIS-Online observations for one EVAS statistic; `dims` encodes the source cube dimensions and may include totals alongside detailed categories, so filter dimensions before aggregating.
+key: [time]
+temporal: year
+sort: [year, time]
 columns:
   - name: statistic_code
-    type: VARCHAR
+    type: BIGINT
   - name: table_code
     type: VARCHAR
   - name: table_name
     type: VARCHAR
-  - name: time_label
-    type: VARCHAR
+  - name: time
+    type: BIGINT
+  - name: year
+    type: INTEGER
   - name: measure_code
     type: VARCHAR
-  - name: dimensions
+  - name: dims
     type: VARCHAR
   - name: value
     type: DOUBLE
