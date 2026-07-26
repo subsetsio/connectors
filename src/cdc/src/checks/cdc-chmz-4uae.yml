@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [reporting_area_sort, reporting_area, mmwr_week, hantavirus_infection_non_hantavirus_pulmonary_syndrome_current_week_flag, hantavirus_pulmonary_syndrome_current_week_flag]
+key: [reporting_area_sort, reporting_area, mmwr_week, hantavirus_inf_non_hantavirus_pulmonary_syn_curr_wk_flag, hantavirus_pulmonary_syndrome_current_week_flag]
 checks:
   - kind: unique
-    columns: [reporting_area_sort, reporting_area, mmwr_week, hantavirus_infection_non_hantavirus_pulmonary_syndrome_current_week_flag, hantavirus_pulmonary_syndrome_current_week_flag]
+    columns: [reporting_area_sort, reporting_area, mmwr_week, hantavirus_inf_non_hantavirus_pulmonary_syn_curr_wk_flag, hantavirus_pulmonary_syndrome_current_week_flag]
   - kind: not_null
     col: reporting_area_sort
   - kind: not_null
@@ -14,7 +14,7 @@ checks:
   - kind: not_null
     col: mmwr_week
   - kind: not_null
-    col: hantavirus_infection_non_hantavirus_pulmonary_syndrome_current_week_flag
+    col: hantavirus_inf_non_hantavirus_pulmonary_syn_curr_wk_flag
   - kind: not_null
     col: hantavirus_pulmonary_syndrome_current_week_flag
   - kind: row_floor

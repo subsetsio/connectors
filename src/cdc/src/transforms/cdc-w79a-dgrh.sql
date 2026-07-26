@@ -9,7 +9,7 @@ SELECT
     CAST("Hemolytic uremic snydrome post-diarrheal, Current week" AS BIGINT) AS hemolytic_uremic_snydrome_post_diarrheal_current_week,
     "Hemolytic uremic snydrome post-diarrheal, Current week, flag" AS hemolytic_uremic_snydrome_post_diarrheal_current_week_flag,
     CAST("Hemolytic uremic snydrome post-diarrheal, Previous 52 weeks Max†" AS BIGINT) AS hemolytic_uremic_snydrome_post_diarrheal_previous_52_weeks_max,
-    "Hemolytic uremic snydrome post-diarrheal, Previous 52 weeks Max†, flag" AS hemolytic_uremic_snydrome_post_diarrheal_previous_52_weeks_max_flag,
+    "Hemolytic uremic snydrome post-diarrheal, Previous 52 weeks Max†, flag" AS hemolytic_uremic_syn_post_diarrheal_prev_52wk_max_flag,
     CAST("Hemolytic uremic snydrome post-diarrheal, Cum 2021†" AS BIGINT) AS hemolytic_uremic_snydrome_post_diarrheal_cum_2021,
     "Hemolytic uremic snydrome post-diarrheal, Cum 2021†, flag" AS hemolytic_uremic_snydrome_post_diarrheal_cum_2021_flag,
     CAST("Hemolytic uremic snydrome post-diarrheal, Cum 2020†" AS BIGINT) AS hemolytic_uremic_snydrome_post_diarrheal_cum_2020,

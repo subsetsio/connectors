@@ -14,13 +14,13 @@ SELECT
     CAST("Lack of a food safety culture/ attitude towards food safety" AS BIGINT) AS lack_of_a_food_safety_culture_attitude_towards_food_safety,
     CAST("Language barrier between management and employees" AS BIGINT) AS language_barrier_between_management_and_employees,
     CAST("Insufficient capacity of equipment (not  
-   enough equipment for the processes)" AS BIGINT) AS insufficient_capacity_of_equipment_not_enough_equipment_for_the_processes,
+   enough equipment for the processes)" AS BIGINT) AS insufficient_equipment_capacity,
     CAST("Equipment is improperly used" AS BIGINT) AS equipment_is_improperly_used,
     CAST("Lack of preventative maintenance on equipment" AS BIGINT) AS lack_of_preventative_maintenance_on_equipment,
     CAST("Improperly sized or installed equipment for the facility" AS BIGINT) AS improperly_sized_or_installed_equipment_for_the_facility,
     CAST("Poor facility layout" AS BIGINT) AS poor_facility_layout,
     CAST("Lack of reinvestment in the restaurant" AS BIGINT) AS lack_of_reinvestment_in_the_restaurant,
-    CAST("Lack of sick leave or other financial incentives to adhere to good practices" AS BIGINT) AS lack_of_sick_leave_or_other_financial_incentives_to_adhere_to_good_practices,
+    CAST("Lack of sick leave or other financial incentives to adhere to good practices" AS BIGINT) AS lack_sick_leave_or_financial_incentives,
     CAST("Lack of needed supplies for the operation of the restaurant" AS BIGINT) AS lack_of_needed_supplies_for_the_operation_of_the_restaurant,
     CAST("Insufficient process to mitigate the hazard" AS BIGINT) AS insufficient_process_to_mitigate_the_hazard,
     CAST("Employees or managers are not following the

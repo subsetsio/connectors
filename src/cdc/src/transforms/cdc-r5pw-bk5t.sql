@@ -21,7 +21,7 @@ SELECT
     CAST("Chronic Lower Respiratory Diseases" AS BIGINT) AS chronic_lower_respiratory_diseases,
     CAST("Other Diseases of Respiratory System" AS BIGINT) AS other_diseases_of_respiratory_system,
     CAST("Nephritis, Nephrotic Syndrome, and Nephrosis" AS BIGINT) AS nephritis_nephrotic_syndrome_and_nephrosis,
-    CAST("Symptoms, Signs, and Abnormal Clinical and Laboratory Findings, Not Elsewhere Classified" AS BIGINT) AS symptoms_signs_and_abnormal_clinical_and_laboratory_findings_not_elsewhere_classified,
+    CAST("Symptoms, Signs, and Abnormal Clinical and Laboratory Findings, Not Elsewhere Classified" AS BIGINT) AS symptoms_abnormal_findings_nec,
     CAST("Diseases of Heart" AS BIGINT) AS diseases_of_heart,
     CAST("Cerebrovascular Diseases" AS BIGINT) AS cerebrovascular_diseases,
     CAST("COVID-19 (Multiple Cause of Death)" AS BIGINT) AS covid_19_multiple_cause_of_death,

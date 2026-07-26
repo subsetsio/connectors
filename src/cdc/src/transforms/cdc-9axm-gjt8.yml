@@ -1,7 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `cdc-9axm-gjt8`. Regenerate after model-verify.
-key: [reporting_area_sort, reporting_area, mmwr_week, dengue_virus_infections_dengue_previous_52_weeks_max, dengue_virus_infections_dengue_like_illness_previous_52_weeks_max]
-sort: [reporting_area_sort, reporting_area, mmwr_week, dengue_virus_infections_dengue_previous_52_weeks_max, dengue_virus_infections_dengue_like_illness_previous_52_weeks_max]
+key: [reporting_area_sort, reporting_area, mmwr_week, dengue_virus_infections_dengue_previous_52_weeks_max, dengue_infs_dengue_like_prev_52wk_max]
+sort: [reporting_area_sort, reporting_area, mmwr_week, dengue_virus_infections_dengue_previous_52_weeks_max, dengue_infs_dengue_like_prev_52wk_max]
 columns:
   - name: reporting_area
     type: VARCHAR
@@ -29,9 +29,9 @@ columns:
     type: VARCHAR
   - name: dengue_virus_infections_dengue_like_illness_current_week_flag
     type: VARCHAR
-  - name: dengue_virus_infections_dengue_like_illness_previous_52_weeks_max
+  - name: dengue_infs_dengue_like_prev_52wk_max
     type: BIGINT
-  - name: dengue_virus_infections_dengue_like_illness_previous_52_weeks_max_flag
+  - name: dengue_infs_dengue_like_prev_52wk_max_flag
     type: VARCHAR
   - name: dengue_virus_infections_dengue_like_illness_cum_2021
     type: BIGINT

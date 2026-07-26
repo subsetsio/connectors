@@ -3,14 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [reporting_area_sort, salmonellosis_excluding_salmonella_typhi_infection_and_salmonella_paratyphi_infection_previous_52_weeks_max, reporting_area, mmwr_week, salmonella_typhi_infection_previous_52_weeks_max]
+key: [reporting_area_sort, salmonella_excluding_s_typhi_inf_and_s_paratyphi_inf_pr_00b190fc, reporting_area, mmwr_week, salmonella_typhi_infection_previous_52_weeks_max]
 checks:
   - kind: unique
-    columns: [reporting_area_sort, salmonellosis_excluding_salmonella_typhi_infection_and_salmonella_paratyphi_infection_previous_52_weeks_max, reporting_area, mmwr_week, salmonella_typhi_infection_previous_52_weeks_max]
+    columns: [reporting_area_sort, salmonella_excluding_s_typhi_inf_and_s_paratyphi_inf_pr_00b190fc, reporting_area, mmwr_week, salmonella_typhi_infection_previous_52_weeks_max]
   - kind: not_null
     col: reporting_area_sort
   - kind: not_null
-    col: salmonellosis_excluding_salmonella_typhi_infection_and_salmonella_paratyphi_infection_previous_52_weeks_max
+    col: salmonella_excluding_s_typhi_inf_and_s_paratyphi_inf_pr_00b190fc
   - kind: not_null
     col: reporting_area
   - kind: not_null

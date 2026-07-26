@@ -17,7 +17,7 @@ SELECT
     "Influenza-associated pediatric mortality§, Current week" AS influenza_associated_pediatric_mortality_current_week,
     "Influenza-associated pediatric mortality§, Current week, flag" AS influenza_associated_pediatric_mortality_current_week_flag,
     CAST("Influenza-associated pediatric mortality§, Previous 52 weeks Max†" AS BIGINT) AS influenza_associated_pediatric_mortality_previous_52_weeks_max,
-    "Influenza-associated pediatric mortality§, Previous 52 weeks Max†, flag" AS influenza_associated_pediatric_mortality_previous_52_weeks_max_flag,
+    "Influenza-associated pediatric mortality§, Previous 52 weeks Max†, flag" AS flu_assoc_ped_mort_prev_52wk_max_flag,
     "Influenza-associated pediatric mortality§, Cum 2022†" AS influenza_associated_pediatric_mortality_cum_2022,
     "Influenza-associated pediatric mortality§, Cum 2022†, flag" AS influenza_associated_pediatric_mortality_cum_2022_flag,
     "Influenza-associated pediatric mortality§, Cum 2021†" AS influenza_associated_pediatric_mortality_cum_2021,

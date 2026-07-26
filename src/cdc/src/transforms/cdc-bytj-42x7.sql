@@ -9,7 +9,7 @@ SELECT
     "Viral hemorrhagic fevers§, Guanarito virus¶, Current week" AS viral_hemorrhagic_fevers_guanarito_virus_current_week,
     "Viral hemorrhagic fevers§, Guanarito virus¶, Current week, flag" AS viral_hemorrhagic_fevers_guanarito_virus_current_week_flag,
     "Viral hemorrhagic fevers§, Guanarito virus¶, Previous 52 weeks Max†" AS viral_hemorrhagic_fevers_guanarito_virus_previous_52_weeks_max,
-    "Viral hemorrhagic fevers§, Guanarito virus¶, Previous 52 weeks Max†, flag" AS viral_hemorrhagic_fevers_guanarito_virus_previous_52_weeks_max_flag,
+    "Viral hemorrhagic fevers§, Guanarito virus¶, Previous 52 weeks Max†, flag" AS viral_hem_fevers_guanarito_virus_prev_52wk_max_flag,
     "Viral hemorrhagic fevers§, Guanarito virus¶, Cum 2022†" AS viral_hemorrhagic_fevers_guanarito_virus_cum_2022,
     "Viral hemorrhagic fevers§, Guanarito virus¶, Cum 2022†, flag" AS viral_hemorrhagic_fevers_guanarito_virus_cum_2022_flag,
     "Viral hemorrhagic fevers§, Guanarito virus¶, Cum 2021†" AS viral_hemorrhagic_fevers_guanarito_virus_cum_2021,

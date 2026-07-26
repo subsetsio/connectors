@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [reporting_area_sort, reporting_area, mmwr_week, haemophilus_influenza_invasive_disease_age_5_years_unknown_serotype_previous_52_weeks_max, haemophilus_influenza_invasive_disease_age_5_years_nontypeable_previous_52_weeks_max]
+key: [reporting_area_sort, reporting_area, mmwr_week, haem_flu_inv_dis_age_5_years_unknown_serotype_prev_52wk_max, haem_flu_inv_dis_age_5_years_nontypeable_prev_52wk_max]
 checks:
   - kind: unique
-    columns: [reporting_area_sort, reporting_area, mmwr_week, haemophilus_influenza_invasive_disease_age_5_years_unknown_serotype_previous_52_weeks_max, haemophilus_influenza_invasive_disease_age_5_years_nontypeable_previous_52_weeks_max]
+    columns: [reporting_area_sort, reporting_area, mmwr_week, haem_flu_inv_dis_age_5_years_unknown_serotype_prev_52wk_max, haem_flu_inv_dis_age_5_years_nontypeable_prev_52wk_max]
   - kind: not_null
     col: reporting_area_sort
   - kind: not_null
@@ -14,9 +14,9 @@ checks:
   - kind: not_null
     col: mmwr_week
   - kind: not_null
-    col: haemophilus_influenza_invasive_disease_age_5_years_unknown_serotype_previous_52_weeks_max
+    col: haem_flu_inv_dis_age_5_years_unknown_serotype_prev_52wk_max
   - kind: not_null
-    col: haemophilus_influenza_invasive_disease_age_5_years_nontypeable_previous_52_weeks_max
+    col: haem_flu_inv_dis_age_5_years_nontypeable_prev_52wk_max
   - kind: row_floor
     min: 1820
 regression:

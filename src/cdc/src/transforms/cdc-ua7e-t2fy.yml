@@ -164,15 +164,15 @@ columns:
     type: BIGINT
   - name: number_hospitals_reporting_number_of_icu_beds_occupied
     type: BIGINT
-  - name: number_hospitals_reporting_total_patients_hospitalized_with_covid_19
+  - name: hosp_reporting_total_pts_hosp_with_covid_19
     type: BIGINT
-  - name: number_hospitals_reporting_totalpatients_hospitalized_with_influenza
+  - name: hosp_reporting_totalpts_hosp_with_flu
     type: BIGINT
   - name: number_hospitals_reporting_total_patients_hospitalized_with_rsv
     type: BIGINT
-  - name: number_hospitals_reporting_icu_patients_hospitalized_with_covid_19
+  - name: hosp_reporting_icu_pts_hosp_with_covid_19
     type: BIGINT
-  - name: number_hospitals_reporting_icu_patients_hospitalized_with_influenza
+  - name: hosp_reporting_icu_pts_hosp_with_flu
     type: BIGINT
   - name: number_hospitals_reporting_icu_patients_hospitalized_with_rsv
     type: BIGINT
@@ -198,17 +198,17 @@ columns:
     type: BIGINT
   - name: number_hospitals_reporting_percent_icu_beds_occupied
     type: BIGINT
-  - name: number_hospitals_reporting_percent_inpatient_beds_occupied_by_covid_19_patients
+  - name: hosp_reporting_pct_inpt_beds_occ_by_covid_19_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_inpatient_beds_occupied_by_influenza_patients
+  - name: hosp_reporting_pct_inpt_beds_occ_by_flu_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_inpatient_beds_occupied_by_rsv_patients
+  - name: hosp_reporting_pct_inpt_beds_occ_by_rsv_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_icu_beds_occupied_by_covid_19_patients
+  - name: hosp_reporting_pct_icu_beds_occ_by_covid_19_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_icu_beds_occupied_by_influenza_patients
+  - name: hosp_reporting_pct_icu_beds_occ_by_flu_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_icu_beds_occupied_by_rsv_patients
+  - name: hosp_reporting_pct_icu_beds_occ_by_rsv_pts
     type: BIGINT
   - name: percent_hospitals_reporting_number_of_inpatient_beds
     type: DOUBLE
@@ -218,15 +218,15 @@ columns:
     type: DOUBLE
   - name: percent_hospitals_reporting_number_of_icu_beds_occupied
     type: DOUBLE
-  - name: percent_hospitals_reporting_total_patients_hospitalized_with_covid_19
+  - name: pct_hospitals_reporting_total_pts_hosp_with_covid_19
     type: DOUBLE
-  - name: percent_hospitals_reporting_totalpatients_hospitalized_with_influenza
+  - name: pct_hospitals_reporting_totalpts_hosp_with_flu
     type: DOUBLE
   - name: percent_hospitals_reporting_total_patients_hospitalized_with_rsv
     type: DOUBLE
-  - name: percent_hospitals_reporting_icu_patients_hospitalized_with_covid_19
+  - name: pct_hospitals_reporting_icu_pts_hosp_with_covid_19
     type: DOUBLE
-  - name: percent_hospitals_reporting_icu_patients_hospitalized_with_influenza
+  - name: pct_hospitals_reporting_icu_pts_hosp_with_flu
     type: DOUBLE
   - name: percent_hospitals_reporting_icu_patients_hospitalized_with_rsv
     type: DOUBLE
@@ -252,119 +252,119 @@ columns:
     type: DOUBLE
   - name: percent_hospitals_reporting_percent_icu_beds_occupied
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_inpatient_beds_occupied_by_covid_19_patients
+  - name: pct_hospitals_reporting_pct_inpt_beds_occ_by_covid_19_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_inpatient_beds_occupied_by_influenza_patients
+  - name: pct_hospitals_reporting_pct_inpt_beds_occ_by_flu_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_inpatient_beds_occupied_by_rsv_patients
+  - name: pct_hospitals_reporting_pct_inpt_beds_occ_by_rsv_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_icu_beds_occupied_by_covid_19_patients
+  - name: pct_hospitals_reporting_pct_icu_beds_occ_by_covid_19_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_icu_beds_occupied_by_influenza_patients
+  - name: pct_hospitals_reporting_pct_icu_beds_occ_by_flu_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_icu_beds_occupied_by_rsv_patients
+  - name: pct_hospitals_reporting_pct_icu_beds_occ_by_rsv_pts
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_number_of_inpatient_beds_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_number_o_c408270e
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_number_of_inpatient_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_number_o_5cc69b45
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_number_of_icu_beds_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_number_o_237366e6
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_number_of_icu_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_number_o_b9630fcc
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_total_patients_hospitalized_with_covid_19_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_total_pt_415af7de
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_totalpatients_hospitalized_with_influenza_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_totalpts_841b6664
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_total_patients_hospitalized_with_rsv_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_total_pt_c737992a
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_icu_patients_hospitalized_with_covid_19_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_icu_pts_a12b0c41
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_icu_patients_hospitalized_with_influenza_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_icu_pts_93185fe8
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_icu_patients_hospitalized_with_rsv_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_icu_pts_247a05d7
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_pediatric_covid_19_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_ped_covi_22970b21
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_adult_covid_19_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_adult_co_7d62790f
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_covid_19_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_covid_19_f43e43e2
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_pediatric_influenza_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_ped_flu_d6964421
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_adult_influenza_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_adult_fl_6479980e
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_influenza_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_flu_admi_8ede46a8
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_pediatric_rsv_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_ped_rsv_54c0e791
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_adult_rsv_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_adult_rs_2e9edba6
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_rsv_admissions_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_rsv_admi_af46cf8d
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_inpatient_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_inpt_5ac932c0
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_icu_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_icu_be6a01fc
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_inpatient_beds_occupied_by_covid_19_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_inpt_0f92f3d0
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_inpatient_beds_occupied_by_influenza_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_inpt_835b9d97
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_inpatient_beds_occupied_by_rsv_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_inpt_f24fcfb2
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_icu_beds_occupied_by_covid_19_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_icu_b79bd9e0
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_icu_beds_occupied_by_influenza_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_icu_0550448e
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_icu_beds_occupied_by_rsv_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_icu_98ff3344
     type: DOUBLE
-  - name: number_of_pediatric_covid_19_admissions_0_4_years_per_100_000_population
+  - name: number_of_ped_covid_19_admissions_0_4_years_per_100_000_68b80585
     type: DOUBLE
-  - name: number_of_pediatric_covid_19_admissions_5_17_years_per_100_000_population
+  - name: number_of_ped_covid_19_admissions_5_17_years_per_100_00_13822159
     type: DOUBLE
-  - name: total_number_of_pediatric_covid_19_admissions_per_100_000_population
+  - name: total_number_of_ped_covid_19_admissions_per_100_000_population
     type: DOUBLE
-  - name: number_of_adult_covid_19_admissions_18_49_years_per_100_000_population
+  - name: number_of_adult_covid_19_admissions_18_49_years_per_100_771e8c85
     type: DOUBLE
-  - name: number_of_adult_covid_19_admissions_50_64_years_per_100_000_population
+  - name: number_of_adult_covid_19_admissions_50_64_years_per_100_13e08b8c
     type: DOUBLE
-  - name: number_of_adult_covid_19_admissions_65_74_years_per_100_000_population
+  - name: number_of_adult_covid_19_admissions_65_74_years_per_100_a89892a1
     type: DOUBLE
-  - name: number_of_adult_covid_19_admissions_75_years_per_100_000_population
+  - name: number_of_adult_covid_19_admissions_75_years_per_100_00_1b1c9d2d
     type: DOUBLE
   - name: total_number_of_adult_covid_19_admissions_per_100_000_population
     type: DOUBLE
   - name: total_number_of_covid_19_admissions_per_100_000_population
     type: DOUBLE
-  - name: number_of_pediatric_influenza_admissions_0_4_years_per_100_000_population
+  - name: number_of_ped_flu_admissions_0_4_years_per_100_000_population
     type: DOUBLE
-  - name: number_of_pediatric_influenza_admissions_5_17_years_per_100_000_population
+  - name: number_of_ped_flu_admissions_5_17_years_per_100_000_population
     type: DOUBLE
-  - name: total_number_of_pediatric_influenza_admissions_per_100_000_population
+  - name: total_number_of_ped_flu_admissions_per_100_000_population
     type: DOUBLE
-  - name: number_of_adult_influenza_admissions_18_49_years_per_100_000_population
+  - name: number_of_adult_flu_admissions_18_49_years_per_100_000_afb6952f
     type: DOUBLE
-  - name: number_of_adult_influenza_admissions_50_64_years_per_100_000_population
+  - name: number_of_adult_flu_admissions_50_64_years_per_100_000_71b9a262
     type: DOUBLE
-  - name: number_of_adult_influenza_admissions_65_74_years_per_100_000_population
+  - name: number_of_adult_flu_admissions_65_74_years_per_100_000_58797406
     type: DOUBLE
-  - name: number_of_adult_influenza_admissions_75_years_per_100_000_population
+  - name: number_of_adult_flu_admissions_75_years_per_100_000_population
     type: DOUBLE
-  - name: total_number_of_adult_influenza_admissions_per_100_000_population
+  - name: total_number_of_adult_flu_admissions_per_100_000_population
     type: DOUBLE
   - name: total_number_of_influenza_admissions_per_100_000_population
     type: DOUBLE
-  - name: number_of_pediatric_rsv_admissions_0_4_years_per_100_000_population
+  - name: number_of_ped_rsv_admissions_0_4_years_per_100_000_population
     type: DOUBLE
-  - name: number_of_pediatric_rsv_admissions_5_17_years_per_100_000_population
+  - name: number_of_ped_rsv_admissions_5_17_years_per_100_000_population
     type: DOUBLE
   - name: total_number_of_pediatric_rsv_admissions_per_100_000_population
     type: DOUBLE
-  - name: number_of_adult_rsv_admissions_18_49_years_per_100_000_population
+  - name: number_of_adult_rsv_admissions_18_49_years_per_100_000_433a6a78
     type: DOUBLE
-  - name: number_of_adult_rsv_admissions_50_64_years_per_100_000_population
+  - name: number_of_adult_rsv_admissions_50_64_years_per_100_000_c796caa7
     type: DOUBLE
-  - name: number_of_adult_rsv_admissions_65_74_years_per_100_000_population
+  - name: number_of_adult_rsv_admissions_65_74_years_per_100_000_55705877
     type: DOUBLE
   - name: number_of_adult_rsv_admissions_75_years_per_100_000_population
     type: DOUBLE
@@ -372,13 +372,13 @@ columns:
     type: DOUBLE
   - name: total_number_of_rsv_admissions_per_100_000_population
     type: DOUBLE
-  - name: percent_hospitals_reporting_total_new_covid_19_admissions_above_80
+  - name: pct_hospitals_reporting_total_new_covid_19_admissions_above_80
     type: BIGINT
-  - name: percent_hospitals_reporting_total_new_covid_19_admissions_above_90
+  - name: pct_hospitals_reporting_total_new_covid_19_admissions_above_90
     type: BIGINT
-  - name: percent_hospitals_reporting_total_new_influenza_admissions_above_80
+  - name: pct_hospitals_reporting_total_new_flu_admissions_above_80
     type: BIGINT
-  - name: percent_hospitals_reporting_total_new_influenza_admissions_above_90
+  - name: pct_hospitals_reporting_total_new_flu_admissions_above_90
     type: BIGINT
   - name: percent_hospitals_reporting_total_new_rsv_admissions_above_80
     type: BIGINT
@@ -426,7 +426,7 @@ columns:
     type: DOUBLE
   - name: percent_hospitalized_adult_patients_with_influenza_in_the_icu
     type: DOUBLE
-  - name: percent_hospitalized_pediatric_patients_with_influenza_in_the_icu
+  - name: pct_hosp_ped_pts_with_flu_in_the_icu
     type: DOUBLE
   - name: percent_hospitalized_patients_with_rsv_in_the_icu
     type: DOUBLE
@@ -434,55 +434,55 @@ columns:
     type: DOUBLE
   - name: percent_hospitalized_pediatric_patients_with_rsv_in_the_icu
     type: DOUBLE
-  - name: percent_change_in_the_number_of_pediatric_covid_19_admissions_0_4_years_from_prior_week
+  - name: pct_change_in_the_number_of_ped_covid_19_admissions_0_4_b62ad6fe
     type: DOUBLE
-  - name: percent_change_in_the_number_of_pediatric_covid_19_admissions_5_17_years_from_prior_week
+  - name: pct_change_in_the_number_of_ped_covid_19_admissions_5_1_5499adea
     type: DOUBLE
-  - name: percent_change_in_the_total_pediatric_covid_19_admissions_from_prior_week
+  - name: pct_change_in_the_total_ped_covid_19_admissions_from_prior_week
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_covid_19_admissions_18_49_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_covid_19_admissions_1_73f3537a
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_covid_19_admissions_50_64_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_covid_19_admissions_5_e35ed4dc
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_covid_19_admissions_65_74_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_covid_19_admissions_6_ef6e2f1c
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_covid_19_admissions_75_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_covid_19_admissions_7_6cf26042
     type: DOUBLE
-  - name: percent_change_in_the_total_adult_covid_19_admissions_from_prior_week
+  - name: pct_change_in_the_total_adult_covid_19_admissions_from_c278af4e
     type: DOUBLE
   - name: percent_change_in_the_total_covid_19_admissions_from_prior_week
     type: DOUBLE
-  - name: percent_change_in_the_number_of_pediatric_influenza_admissions_0_4_years_from_prior_week
+  - name: pct_change_in_the_number_of_ped_flu_admissions_0_4_year_0985efcc
     type: DOUBLE
-  - name: percent_change_in_the_number_of_pediatric_influenza_admissions_5_17_years_from_prior_week
+  - name: pct_change_in_the_number_of_ped_flu_admissions_5_17_yea_ff479e90
     type: DOUBLE
-  - name: percent_change_in_the_total_pediatric_influenza_admissions_from_prior_week
+  - name: pct_change_in_the_total_ped_flu_admissions_from_prior_week
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_influenza_admissions_18_49_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_flu_admissions_18_49_7ac08eb6
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_influenza_admissions_50_64_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_flu_admissions_50_64_7aae03c8
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_influenza_admissions_65_74_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_flu_admissions_65_74_8cfcb1ab
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_influenza_admissions_75_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_flu_admissions_75_yea_c15acd63
     type: DOUBLE
-  - name: percent_change_in_the_total_adult_influenza_admissions_from_prior_week
+  - name: pct_change_in_the_total_adult_flu_admissions_from_prior_week
     type: DOUBLE
   - name: percent_change_in_the_total_influenza_admissions_from_prior_week
     type: DOUBLE
-  - name: percent_change_in_the_number_of_pediatric_rsv_admissions_0_4_years_from_prior_week
+  - name: pct_change_in_the_number_of_ped_rsv_admissions_0_4_year_82e1fffd
     type: DOUBLE
-  - name: percent_change_in_the_number_of_pediatric_rsv_admissions_5_17_years_from_prior_week
+  - name: pct_change_in_the_number_of_ped_rsv_admissions_5_17_yea_bf31ca49
     type: DOUBLE
-  - name: percent_change_in_the_total_pediatric_rsv_admissions_from_prior_week
+  - name: pct_change_in_the_total_ped_rsv_admissions_from_prior_week
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_rsv_admissions_18_49_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_rsv_admissions_18_49_3ee9d1cc
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_rsv_admissions_50_64_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_rsv_admissions_50_64_eba90282
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_rsv_admissions_65_74_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_rsv_admissions_65_74_9a0acb5c
     type: DOUBLE
-  - name: percent_change_in_the_number_of_adult_rsv_admissions_75_years_from_prior_week
+  - name: pct_change_in_the_number_of_adult_rsv_admissions_75_yea_e6de160f
     type: DOUBLE
   - name: percent_change_in_the_total_adult_rsv_admissions_from_prior_week
     type: DOUBLE
@@ -490,153 +490,153 @@ columns:
     type: DOUBLE
   - name: number_hospitals_reporting_percent_adult_inpatient_beds_occupied
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_inpatient_beds_occupied
+  - name: hosp_reporting_pct_ped_inpt_beds_occ
     type: BIGINT
   - name: number_hospitals_reporting_percent_adult_icu_beds_occupied
     type: BIGINT
   - name: number_hospitals_reporting_percent_pediatric_icu_beds_occupied
     type: BIGINT
-  - name: number_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_covid_19_patients
+  - name: hosp_reporting_pct_adult_inpt_beds_occ_by_covid_19_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_covid_19_patients
+  - name: hosp_reporting_pct_ped_inpt_beds_occ_by_covid_19_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_adult_icu_beds_occupied_by_covid_19_patients
+  - name: hosp_reporting_pct_adult_icu_beds_occ_by_covid_19_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_covid_19_patients
+  - name: hosp_reporting_pct_ped_icu_beds_occ_by_covid_19_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_influenza_patients
+  - name: hosp_reporting_pct_adult_inpt_beds_occ_by_flu_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_influenza_patients
+  - name: hosp_reporting_pct_ped_inpt_beds_occ_by_flu_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_adult_icu_beds_occupied_by_influenza_patients
+  - name: hosp_reporting_pct_adult_icu_beds_occ_by_flu_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_influenza_patients
+  - name: hosp_reporting_pct_ped_icu_beds_occ_by_flu_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_rsv_patients
+  - name: hosp_reporting_pct_adult_inpt_beds_occ_by_rsv_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_rsv_patients
+  - name: hosp_reporting_pct_ped_inpt_beds_occ_by_rsv_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_adult_icu_beds_occupied_by_rsv_patients
+  - name: hosp_reporting_pct_adult_icu_beds_occ_by_rsv_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_rsv_patients
+  - name: hosp_reporting_pct_ped_icu_beds_occ_by_rsv_pts
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_patients_with_covid_19_in_the_icu
+  - name: hosp_reporting_pct_hosp_pts_with_covid_19_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_adult_patients_with_covid_19_in_the_icu
+  - name: hosp_reporting_pct_hosp_adult_pts_with_covid_19_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_pediatric_patients_with_covid_19_in_the_icu
+  - name: hosp_reporting_pct_hosp_ped_pts_with_covid_19_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_patients_with_influenza_in_the_icu
+  - name: hosp_reporting_pct_hosp_pts_with_flu_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_adult_patients_with_influenza_in_the_icu
+  - name: hosp_reporting_pct_hosp_adult_pts_with_flu_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_pediatric_patients_with_influenza_in_the_icu
+  - name: hosp_reporting_pct_hosp_ped_pts_with_flu_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_patients_with_rsv_in_the_icu
+  - name: hosp_reporting_pct_hosp_pts_with_rsv_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_adult_patients_with_rsv_in_the_icu
+  - name: hosp_reporting_pct_hosp_adult_pts_with_rsv_in_the_icu
     type: BIGINT
-  - name: number_hospitals_reporting_percent_hospitalized_pediatric_patients_with_rsv_in_the_icu
+  - name: hosp_reporting_pct_hosp_ped_pts_with_rsv_in_the_icu
     type: BIGINT
-  - name: percent_hospitals_reporting_percent_adult_inpatient_beds_occupied
+  - name: pct_hospitals_reporting_pct_adult_inpt_beds_occ
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied
+  - name: pct_hospitals_reporting_pct_ped_inpt_beds_occ
     type: DOUBLE
   - name: percent_hospitals_reporting_percent_adult_icu_beds_occupied
     type: DOUBLE
   - name: percent_hospitals_reporting_percent_pediatric_icu_beds_occupied
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_covid_19_patients
+  - name: pct_hospitals_reporting_pct_adult_inpt_beds_occ_by_covid_19_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_covid_19_patients
+  - name: pct_hospitals_reporting_pct_ped_inpt_beds_occ_by_covid_19_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_adult_icu_beds_occupied_by_covid_19_patients
+  - name: pct_hospitals_reporting_pct_adult_icu_beds_occ_by_covid_19_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_covid_19_patients
+  - name: pct_hospitals_reporting_pct_ped_icu_beds_occ_by_covid_19_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_influenza_patients
+  - name: pct_hospitals_reporting_pct_adult_inpt_beds_occ_by_flu_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_influenza_patients
+  - name: pct_hospitals_reporting_pct_ped_inpt_beds_occ_by_flu_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_adult_icu_beds_occupied_by_influenza_patients
+  - name: pct_hospitals_reporting_pct_adult_icu_beds_occ_by_flu_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_influenza_patients
+  - name: pct_hospitals_reporting_pct_ped_icu_beds_occ_by_flu_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_rsv_patients
+  - name: pct_hospitals_reporting_pct_adult_inpt_beds_occ_by_rsv_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_rsv_patients
+  - name: pct_hospitals_reporting_pct_ped_inpt_beds_occ_by_rsv_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_adult_icu_beds_occupied_by_rsv_patients
+  - name: pct_hospitals_reporting_pct_adult_icu_beds_occ_by_rsv_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_rsv_patients
+  - name: pct_hospitals_reporting_pct_ped_icu_beds_occ_by_rsv_pts
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_patients_with_covid_19_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_pts_with_covid_19_in_the_icu
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_adult_patients_with_covid_19_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_adult_pts_with_covid_1_ee3206ef
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_pediatric_patients_with_covid_19_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_ped_pts_with_covid_19_b7f1def4
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_patients_with_influenza_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_pts_with_flu_in_the_icu
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_adult_patients_with_influenza_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_adult_pts_with_flu_in_the_icu
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_pediatric_patients_with_influenza_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_ped_pts_with_flu_in_the_icu
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_patients_with_rsv_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_pts_with_rsv_in_the_icu
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_adult_patients_with_rsv_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_adult_pts_with_rsv_in_the_icu
     type: DOUBLE
-  - name: percent_hospitals_reporting_percent_hospitalized_pediatric_patients_with_rsv_in_the_icu
+  - name: pct_hospitals_reporting_pct_hosp_ped_pts_with_rsv_in_the_icu
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_e03e93dc
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_6ee33a34
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_icu_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_5e1066b7
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_4f3ee013
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_covid_19_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_b032d65a
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_covid_19_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_37e45198
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_icu_beds_occupied_by_covid_19_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_856c2838
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_covid_19_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_c67a94a1
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_influenza_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_fbcc66fa
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_influenza_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_745393e6
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_icu_beds_occupied_by_influenza_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_e10ef0e6
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_influenza_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_3390eb95
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_inpatient_beds_occupied_by_rsv_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_4473d8b2
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_inpatient_beds_occupied_by_rsv_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_e6c4a2c1
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_adult_icu_beds_occupied_by_rsv_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_adul_7e291d28
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_pediatric_icu_beds_occupied_by_rsv_patients_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_ped_65da2fdc
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_patients_with_covid_19_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_cde003bf
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_adult_patients_with_covid_19_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_201dec09
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_pediatric_patients_with_covid_19_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_09cb5bdf
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_patients_with_influenza_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_751c15b4
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_adult_patients_with_influenza_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_9719a171
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_pediatric_patients_with_influenza_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_699dd590
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_patients_with_rsv_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_64c50352
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_adult_patients_with_rsv_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_e64f0e39
     type: DOUBLE
-  - name: absolute_change_in_the_percent_hospitals_reporting_percent_hospitalized_pediatric_patients_with_rsv_in_the_icu_from_prior_week
+  - name: absolute_change_in_the_pct_hospitals_reporting_pct_hosp_4ffd1e00
     type: DOUBLE
   - name: respiratory_virus_season
     type: VARCHAR
@@ -646,5 +646,5 @@ columns:
     type: BIGINT
   - name: cumulative_seasonal_total_confirmed_new_rsv_admissions
     type: BIGINT
-  - name: cumulative_seasonal_total_confirmed_new_respiratory_admissions_covid_19_influenza_and_rsv
+  - name: cum_seasonal_total_conf_new_respiratory_admissions_covi_54a27ead
     type: BIGINT

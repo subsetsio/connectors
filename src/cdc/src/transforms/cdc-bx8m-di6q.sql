@@ -9,7 +9,7 @@ SELECT
     "HHS Region 6" AS hhs_region_6,
     "BRFSS" AS brfss,
     "Disability Estimates" AS disability_estimates,
-    "Disability status and types among adults 18 years of age or older" AS disability_status_and_types_among_adults_18_years_of_age_or_older,
+    "Disability status and types among adults 18 years of age or older" AS adult_disability_status_types,
     "Any Disability" AS any_disability,
     "%" AS column,
     "Age-adjusted Prevalence" AS age_adjusted_prevalence,

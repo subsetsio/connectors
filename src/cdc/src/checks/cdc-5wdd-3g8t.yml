@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [reporting_area_sort, reporting_area, mmwr_week, arboviral_diseases_chikungunya_virus_disease_previous_52_weeks_max, arboviral_diseases_eastern_equine_encephalitis_virus_disease_previous_52_weeks_max]
+key: [reporting_area_sort, reporting_area, mmwr_week, arbo_dis_chik_virus_dis_prev_52wk_max, arbo_dis_east_equine_enceph_virus_dis_prev_52wk_max]
 checks:
   - kind: unique
-    columns: [reporting_area_sort, reporting_area, mmwr_week, arboviral_diseases_chikungunya_virus_disease_previous_52_weeks_max, arboviral_diseases_eastern_equine_encephalitis_virus_disease_previous_52_weeks_max]
+    columns: [reporting_area_sort, reporting_area, mmwr_week, arbo_dis_chik_virus_dis_prev_52wk_max, arbo_dis_east_equine_enceph_virus_dis_prev_52wk_max]
   - kind: not_null
     col: reporting_area_sort
   - kind: not_null
@@ -14,9 +14,9 @@ checks:
   - kind: not_null
     col: mmwr_week
   - kind: not_null
-    col: arboviral_diseases_chikungunya_virus_disease_previous_52_weeks_max
+    col: arbo_dis_chik_virus_dis_prev_52wk_max
   - kind: not_null
-    col: arboviral_diseases_eastern_equine_encephalitis_virus_disease_previous_52_weeks_max
+    col: arbo_dis_east_equine_enceph_virus_dis_prev_52wk_max
   - kind: row_floor
     min: 175
 regression:
