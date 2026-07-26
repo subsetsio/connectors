@@ -54,8 +54,9 @@ def _unique_headers(headers: list[str]) -> list[str]:
     seen: dict[str, int] = {}
     unique = []
     for header in headers:
-        count = seen.get(header, 0) + 1
-        seen[header] = count
+        seen_key = header.lower()
+        count = seen.get(seen_key, 0) + 1
+        seen[seen_key] = count
         unique.append(header if count == 1 else f"{header}_{count}")
     return unique
 
