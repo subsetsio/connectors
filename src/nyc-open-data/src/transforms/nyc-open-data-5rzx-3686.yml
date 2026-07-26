@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5rzx-3686`. Regenerate after model-verify.
+key: [fleet_name, agency, description, seasonal_flag, critical_fleet_only]
+temporal: date
+sort: [date, fleet_name, agency, description, seasonal_flag, critical_fleet_only]
+columns:
+  - name: date
+    type: DATE
+  - name: agency
+    type: VARCHAR
+  - name: fleet_name
+    type: VARCHAR
+  - name: fleet_roster
+    type: BIGINT
+  - name: target_daily_in_service
+    type: BIGINT
+  - name: target_in_service
+    type: DOUBLE
+  - name: actual_count_in_service
+    type: BIGINT
+  - name: average_over_fy_18_to_date
+    type: BIGINT
+  - name: seasonal_flag
+    type: VARCHAR
+  - name: agency_total
+    type: VARCHAR
+  - name: critical_fleet_only
+    type: VARCHAR
+  - name: description
+    type: VARCHAR

@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-yv25-wqf9`. Regenerate after model-verify.
+key: []
+temporal: encounter_datetime
+sort: [encounter_datetime]
+columns:
+  - name: encounter_datetime
+    type: TIMESTAMP
+  - name: park_area_id
+    type: VARCHAR
+  - name: park_division
+    type: VARCHAR
+  - name: visit_reason
+    type: VARCHAR
+  - name: patrol_method
+    type: VARCHAR
+  - name: encounter_type
+    type: VARCHAR
+  - name: simplified_encounter_type
+    type: VARCHAR
+  - name: closed_amenity
+    type: VARCHAR
+  - name: closed_patroncount
+    type: DOUBLE
+  - name: closed_education
+    type: BOOLEAN
+  - name: closed_outcome
+    type: BOOLEAN
+  - name: closed_pdcontact
+    type: BOOLEAN
+  - name: closed_outcome_spec
+    type: VARCHAR
+  - name: sd_patronscomplied
+    type: BIGINT
+  - name: sd_patronsnocomply
+    type: BIGINT
+  - name: sd_amenity
+    type: VARCHAR
+  - name: sd_pdcontact
+    type: BOOLEAN
+  - name: sd_outcome_spec
+    type: VARCHAR
+  - name: summonscount_a01
+    type: BIGINT
+  - name: summonscount_a03
+    type: BIGINT
+  - name: summonscount_a04
+    type: BIGINT
+  - name: summonscount_a22
+    type: BIGINT
+  - name: other_summonscount
+    type: BIGINT
+  - name: park_borough
+    type: VARCHAR

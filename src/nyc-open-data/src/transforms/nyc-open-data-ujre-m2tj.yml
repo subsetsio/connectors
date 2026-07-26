@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ujre-m2tj`. Regenerate after model-verify.
+key: [post_date, mocs_award_number]
+temporal: post_date
+sort: [post_date, mocs_award_number]
+columns:
+  - name: post_date
+    type: DATE
+  - name: mocs_award_number
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: vendor_name
+    type: VARCHAR
+  - name: amount
+    type: BIGINT
+  - name: source
+    type: VARCHAR
+  - name: statussummary
+    type: VARCHAR

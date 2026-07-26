@@ -1,0 +1,297 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-jtpv-nuuc`. Regenerate after model-verify.
+key: [principal, dbn, n_interaction_k8_all, n_attendance_k8_all, n_chronic_absent_ems_all]
+sort: [principal, dbn, n_interaction_k8_all, n_attendance_k8_all, n_chronic_absent_ems_all]
+columns:
+  - name: dbn
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: school_type
+    type: VARCHAR
+  - name: enrollment
+    type: BIGINT
+  - name: survey_pp_ri
+    type: VARCHAR
+  - name: survey_pp_ct
+    type: VARCHAR
+  - name: survey_pp_se
+    type: VARCHAR
+  - name: survey_pp_es
+    type: VARCHAR
+  - name: survey_pp_sf
+    type: VARCHAR
+  - name: survey_pp_tr
+    type: VARCHAR
+  - name: qr_1_1
+    type: VARCHAR
+  - name: qr_1_2
+    type: VARCHAR
+  - name: qr_2_2
+    type: VARCHAR
+  - name: qr_3_4
+    type: VARCHAR
+  - name: qr_4_2
+    type: VARCHAR
+  - name: qr_1_4
+    type: VARCHAR
+  - name: qr_1_3
+    type: VARCHAR
+  - name: qr_3_1
+    type: VARCHAR
+  - name: qr_4_1
+    type: VARCHAR
+  - name: qr_5_1
+    type: VARCHAR
+  - name: dates_of_review
+    type: VARCHAR
+  - name: rating_ela_grade_5_pct_rs
+    type: VARCHAR
+  - name: rating_mth_grade_5_pct_rs
+    type: VARCHAR
+  - name: gender_female_pct
+    type: DOUBLE
+  - name: gender_male_pct
+    type: DOUBLE
+  - name: ell
+    type: DOUBLE
+  - name: iep
+    type: DOUBLE
+  - name: cap_sc_pct
+    type: DOUBLE
+  - name: eni_pct_k8
+    type: DOUBLE
+  - name: temp_housing_pct
+    type: DOUBLE
+  - name: hra_elig_pct
+    type: DOUBLE
+  - name: ethnicity_asian_pct
+    type: DOUBLE
+  - name: ethnicity_black_pct
+    type: DOUBLE
+  - name: ethnicity_hispanic_pct
+    type: DOUBLE
+  - name: ethnicity_amerindian_pct
+    type: DOUBLE
+  - name: ethnicity_pacific_pct
+    type: DOUBLE
+  - name: ethnicity_white_pct
+    type: DOUBLE
+  - name: teacher_ethnicity_asian_pct
+    type: VARCHAR
+  - name: teacher_ethnicity_black_pct
+    type: VARCHAR
+  - name: teacher_ethnicity_hispanic_pct
+    type: VARCHAR
+  - name: teacher_ethnicity_amerindian_pct
+    type: VARCHAR
+  - name: teacher_ethnicity_pacific_pct
+    type: VARCHAR
+  - name: teacher_ethnicity_white_pct
+    type: VARCHAR
+  - name: median_distance
+    type: DOUBLE
+  - name: near_pct_asian
+    type: DOUBLE
+  - name: near_pct_black
+    type: DOUBLE
+  - name: near_pct_hispanic
+    type: DOUBLE
+  - name: near_pct_amerindian
+    type: DOUBLE
+  - name: near_pct_pacific
+    type: DOUBLE
+  - name: near_pct_white
+    type: DOUBLE
+  - name: ethnicity_asian_pct_dist
+    type: DOUBLE
+  - name: ethnicity_black_pct_dist
+    type: DOUBLE
+  - name: ethnicity_hispanic_pct_dist
+    type: DOUBLE
+  - name: ethnicity_amerindian_pct_dist
+    type: DOUBLE
+  - name: ethnicity_pacific_pct_dist
+    type: DOUBLE
+  - name: ethnicity_white_pct_dist
+    type: DOUBLE
+  - name: principal_experience
+    type: VARCHAR
+  - name: teach_3_more_exp
+    type: VARCHAR
+  - name: val_attendance_k8_all
+    type: VARCHAR
+  - name: val_chronic_absent_ems_all
+    type: VARCHAR
+  - name: teacher_attendance
+    type: VARCHAR
+  - name: n_hs_9gr_credits_all
+    type: VARCHAR
+  - name: val_hs_9gr_credits_all
+    type: VARCHAR
+  - name: n_pct_accelerated_all
+    type: VARCHAR
+  - name: val_pct_accelerated_all
+    type: VARCHAR
+  - name: n_pct_core_ela_all
+    type: VARCHAR
+  - name: val_pct_core_ela_all
+    type: VARCHAR
+  - name: n_pct_core_mth_all
+    type: VARCHAR
+  - name: val_pct_core_mth_all
+    type: VARCHAR
+  - name: n_pct_core_sci_all
+    type: VARCHAR
+  - name: val_pct_core_sci_all
+    type: VARCHAR
+  - name: n_pct_core_soc_all
+    type: VARCHAR
+  - name: val_pct_core_soc_all
+    type: VARCHAR
+  - name: n_chronic_absent_ems_all
+    type: VARCHAR
+  - name: n_lre_all
+    type: VARCHAR
+  - name: val_lre_all
+    type: VARCHAR
+  - name: n_ele_core_all
+    type: VARCHAR
+  - name: val_ele_core_all
+    type: VARCHAR
+  - name: rr_s
+    type: VARCHAR
+  - name: rr_t
+    type: VARCHAR
+  - name: rr_p
+    type: VARCHAR
+  - name: principal
+    type: VARCHAR
+  - name: n_attendance_k8_all
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allea
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allea
+    type: VARCHAR
+  - name: n_chronic_absent_ems_alleb
+    type: VARCHAR
+  - name: val_chronic_absent_ems_alleb
+    type: VARCHAR
+  - name: n_chronic_absent_ems_alleh
+    type: VARCHAR
+  - name: val_chronic_absent_ems_alleh
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allei
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allei
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allem
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allem
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allep
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allep
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allew
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allew
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allgf
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allgf
+    type: VARCHAR
+  - name: n_chronic_absent_ems_allgm
+    type: VARCHAR
+  - name: val_chronic_absent_ems_allgm
+    type: VARCHAR
+  - name: n_interaction_k8_all
+    type: VARCHAR
+  - name: val_interaction_k8_all
+    type: VARCHAR
+  - name: n_pct_accel_lote_all
+    type: VARCHAR
+  - name: val_pct_accel_lote_all
+    type: VARCHAR
+  - name: n_pct_accel_mth_all
+    type: VARCHAR
+  - name: n_pct_accel_p_all
+    type: VARCHAR
+  - name: val_pct_accel_p_all
+    type: VARCHAR
+  - name: n_pct_accel_p_lote_all
+    type: VARCHAR
+  - name: val_pct_accel_p_lote_all
+    type: VARCHAR
+  - name: n_pct_accel_p_mth_all
+    type: VARCHAR
+  - name: n_pct_accel_p_sci_all
+    type: VARCHAR
+  - name: val_pct_accel_p_sci_all
+    type: VARCHAR
+  - name: n_pct_accel_sci_all
+    type: VARCHAR
+  - name: val_pct_accel_sci_all
+    type: VARCHAR
+  - name: n_pct_accel_try_all
+    type: VARCHAR
+  - name: val_pct_accel_try_all
+    type: VARCHAR
+  - name: n_pct_accel_try_lote_all
+    type: VARCHAR
+  - name: val_pct_accel_try_lote_all
+    type: VARCHAR
+  - name: n_pct_accel_try_mth_all
+    type: VARCHAR
+  - name: n_pct_accel_try_sci_all
+    type: VARCHAR
+  - name: val_pct_accel_try_sci_all
+    type: VARCHAR
+  - name: n_prof_2plus_watn5_elalevel1
+    type: VARCHAR
+  - name: val_prof_2plus_watn5_elalevel1
+    type: VARCHAR
+  - name: n_prof_2plus_watn5_mthlevel1
+    type: VARCHAR
+  - name: val_prof_2plus_watn5_mthlevel1
+    type: VARCHAR
+  - name: n_prof_pct_watn5_elalevel2
+    type: VARCHAR
+  - name: val_prof_pct_watn5_elalevel2
+    type: VARCHAR
+  - name: n_prof_pct_watn5_elalevel34
+    type: VARCHAR
+  - name: val_prof_pct_watn5_elalevel34
+    type: VARCHAR
+  - name: n_prof_pct_watn5_mthlevel2
+    type: VARCHAR
+  - name: val_prof_pct_watn5_mthlevel2
+    type: VARCHAR
+  - name: n_prof_pct_watn5_mthlevel34
+    type: VARCHAR
+  - name: val_prof_pct_watn5_mthlevel34
+    type: VARCHAR
+  - name: n_prof_2plus_watn3_elalevel1
+    type: VARCHAR
+  - name: val_prof_2plus_watn3_elalevel1
+    type: VARCHAR
+  - name: n_prof_2plus_watn3_mthlevel1
+    type: VARCHAR
+  - name: val_prof_2plus_watn3_mthlevel1
+    type: VARCHAR
+  - name: n_prof_pct_watn3_elalevel2
+    type: VARCHAR
+  - name: val_prof_pct_watn3_elalevel2
+    type: VARCHAR
+  - name: n_prof_pct_watn3_elalevel34
+    type: VARCHAR
+  - name: val_prof_pct_watn3_elalevel34
+    type: VARCHAR
+  - name: n_prof_pct_watn3_mthlevel2
+    type: VARCHAR
+  - name: val_prof_pct_watn3_mthlevel2
+    type: VARCHAR
+  - name: n_prof_pct_watn3_mthlevel34
+    type: VARCHAR
+  - name: val_prof_pct_watn3_mthlevel34
+    type: VARCHAR

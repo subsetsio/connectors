@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "opportunity_id",
+    "content_id",
+    "vol_requests",
+    "event_time",
+    "title",
+    "hits",
+    "summary",
+    "is_priority",
+    "category_id",
+    "category_desc",
+    "amsl",
+    "amsl_unit",
+    "org_title",
+    "org_content_id",
+    "addresses_count",
+    "locality",
+    "region",
+    "postcode",
+    "primary_loc",
+    "display_url",
+    "recurrence_type",
+    "_hours" AS hours,
+    "created_date",
+    "last_modified_date",
+    "start_date_date",
+    "end_date_date",
+    "status",
+    "borough",
+    "latitude",
+    "longitude",
+    "community_board",
+    "community_council",
+    "census_tract",
+    "bin",
+    "bbl",
+    "nta"
+FROM "nyc-open-data-bquu-z2ht"

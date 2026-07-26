@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-nxmt-wszr`. Regenerate after model-verify.
+key: [report_ending_weekly_starting_on_sundays]
+temporal: report_ending_weekly_starting_on_sundays
+sort: [report_ending_weekly_starting_on_sundays]
+columns:
+  - name: report_ending_weekly_starting_on_sundays
+    type: DATE
+  - name: number_of_sessions
+    type: BIGINT
+  - name: average_session_length
+    type: TIME
+  - name: number_of_unique_clients
+    type: BIGINT
+  - name: tb_downloaded
+    type: DOUBLE
+  - name: tb_uploaded
+    type: DOUBLE
+  - name: cumulative_bandwidth_utilization_to_date_tb
+    type: DOUBLE
+  - name: cumulative_sessions_to_date
+    type: BIGINT
+  - name: cumulative_subscribers_to_date
+    type: BIGINT

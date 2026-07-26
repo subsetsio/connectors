@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-8gpu-s594`. Regenerate after model-verify.
+key: [project_number]
+temporal: date_application_submitted_to_sed
+sort: [date_application_submitted_to_sed, project_number]
+columns:
+  - name: project_number
+    type: VARCHAR
+  - name: building_id
+    type: VARCHAR
+  - name: project_description
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: school_address
+    type: VARCHAR
+  - name: sed_approved_estimate
+    type: BIGINT
+  - name: date_application_submitted_to_sed
+    type: DATE
+  - name: borough
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: nta_2020
+    type: VARCHAR

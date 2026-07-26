@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-uebm-cmjr`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [project_type, crossstreet_1, on_street, name]
+checks:
+  - kind: unique
+    columns: [project_type, crossstreet_1, on_street, name]
+  - kind: not_null
+    col: project_type
+  - kind: not_null
+    col: crossstreet_1
+  - kind: not_null
+    col: on_street
+  - kind: not_null
+    col: name
+  - kind: row_floor
+    min: 30
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

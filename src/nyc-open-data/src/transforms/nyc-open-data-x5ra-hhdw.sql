@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "hh_id",
+    "day_weight",
+    "cms_zone",
+    "survey_mode",
+    "person_id",
+    "person_num",
+    "day_num",
+    "travel_date",
+    "travel_date_dow",
+    "day_is_complete",
+    "made_trips",
+    "num_trips",
+    "num_complete_trip_surveys",
+    "num_deleted_trips",
+    "no_travel_capture",
+    "no_travel_no_work",
+    "no_travel_telework",
+    "no_travel_housework",
+    "no_travel_kids_break",
+    "no_travel_no_transport",
+    "no_travel_sick",
+    "no_travel_delivery",
+    "no_travel_homeschool",
+    "no_travel_weather",
+    "no_travel_other",
+    "deliver_prepared",
+    "deliver_service",
+    "deliver_food",
+    "deliver_package_home",
+    "deliver_package_work",
+    "deliver_package_locker",
+    "deliver_other",
+    "deliver_none",
+    "shop_online",
+    "telecommute_time"
+FROM "nyc-open-data-x5ra-hhdw"

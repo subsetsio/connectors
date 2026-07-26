@@ -1,0 +1,56 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-nfid-uabd`. Regenerate after model-verify.
+key: []
+temporal: order_completed_on_date
+sort: [order_completed_on_date]
+columns:
+  - name: order_number
+    type: VARCHAR
+  - name: record_type
+    type: VARCHAR
+  - name: order_type
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: on_street
+    type: VARCHAR
+  - name: on_street_suffix
+    type: VARCHAR
+  - name: from_street
+    type: VARCHAR
+  - name: from_street_suffix
+    type: VARCHAR
+  - name: to_street
+    type: VARCHAR
+  - name: to_street_suffix
+    type: VARCHAR
+  - name: side_of_street
+    type: VARCHAR
+  - name: order_completed_on_date
+    type: DATE
+  - name: sign_code
+    type: VARCHAR
+  - name: sign_description
+    type: VARCHAR
+  - name: sign_size
+    type: VARCHAR
+  - name: sign_design_voided_on_date
+    type: DATE
+  - name: sign_location
+    type: VARCHAR
+  - name: distance_from_intersection
+    type: BIGINT
+  - name: arrow_direction
+    type: VARCHAR
+  - name: facing_direction
+    type: VARCHAR
+  - name: sheeting_type
+    type: VARCHAR
+  - name: support
+    type: VARCHAR
+  - name: sign_notes
+    type: VARCHAR
+  - name: sign_x_coord
+    type: BIGINT
+  - name: sign_y_coord
+    type: BIGINT

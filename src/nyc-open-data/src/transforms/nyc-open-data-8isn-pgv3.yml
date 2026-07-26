@@ -1,0 +1,89 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-8isn-pgv3`. Regenerate after model-verify.
+key: [dep_boiler_application, community_board, borough, utility, primary_fuel]
+sort: [dep_boiler_application, community_board, borough, utility, primary_fuel]
+columns:
+  - name: borough_block_lot
+    type: BIGINT
+  - name: street_address
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: utility
+    type: VARCHAR
+  - name: building_manager
+    type: VARCHAR
+  - name: owner
+    type: VARCHAR
+  - name: owner_address
+    type: VARCHAR
+  - name: owner_telephone
+    type: VARCHAR
+  - name: dep_boiler_application
+    type: VARCHAR
+  - name: "6_deadline"
+    type: BIGINT
+  - name: boiler_model
+    type: VARCHAR
+  - name: of_identical_boilers
+    type: BIGINT
+  - name: boiler_capacity_gross_btu
+    type: DOUBLE
+  - name: boiler_installation_date
+    type: BIGINT
+  - name: boiler_age_range
+    type: VARCHAR
+  - name: est_retirement_year
+    type: BIGINT
+  - name: burner_model
+    type: VARCHAR
+  - name: primary_fuel
+    type: VARCHAR
+  - name: total_gallons_high
+    type: BIGINT
+  - name: total_gallons_low
+    type: BIGINT
+  - name: total_mmbtu_high
+    type: DOUBLE
+  - name: total_mmbtu_low
+    type: DOUBLE
+  - name: greener_greater_buildings
+    type: BIGINT
+  - name: ggb_deadline
+    type: BIGINT
+  - name: building_type
+    type: VARCHAR
+  - name: council_district
+    type: BIGINT
+  - name: community_board
+    type: VARCHAR
+  - name: bldg_sqft
+    type: VARCHAR
+  - name: of_bldgs
+    type: BIGINT
+  - name: of_floors
+    type: BIGINT
+  - name: of_res_units
+    type: BIGINT
+  - name: total_units
+    type: BIGINT
+  - name: year_built
+    type: BIGINT
+  - name: condo
+    type: BOOLEAN
+  - name: coop
+    type: BOOLEAN
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

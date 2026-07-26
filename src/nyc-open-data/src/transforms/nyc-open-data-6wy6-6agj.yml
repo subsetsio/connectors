@@ -1,0 +1,56 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-6wy6-6agj`. Regenerate after model-verify.
+key: [neighborhood_tabulation_area_name_nta_name]
+temporal: number_of_public_computer_center_open_lab_hours
+sort: [number_of_public_computer_center_open_lab_hours, neighborhood_tabulation_area_name_nta_name]
+columns:
+  - name: neighborhood_tabulation_area_code_nta_code
+    type: VARCHAR
+  - name: neighborhood_tabulation_area_name_nta_name
+    type: VARCHAR
+  - name: borough_name
+    type: VARCHAR
+  - name: total_population
+    type: BIGINT
+  - name: total_number_of_households
+    type: BIGINT
+  - name: home_broadband_adoption_percentage_of_households
+    type: DOUBLE
+  - name: home_broadband_adoption_by_quartiles_high_connected_medium_high_connected_medium_low_connected_low_connected
+    type: VARCHAR
+  - name: mobile_broadband_adoption_percentage_of_households
+    type: DOUBLE
+  - name: mobile_broadband_adoption_by_quartiles_high_connected_medium_high_connected_medium_low_connected_low_connected
+    type: VARCHAR
+  - name: no_broadband_percentage_of_households
+    type: DOUBLE
+  - name: no_broadand_by_quartiles_high_medium_high_medium_low_low
+    type: VARCHAR
+  - name: commercial_fiber_max_isp_choice_by_nta
+    type: BIGINT
+  - name: percentage_of_blocks_without_a_commercial_fiber_provider
+    type: DOUBLE
+  - name: percentage_of_blocks_without_a_commercial_fiber_provider_by_quartiles
+    type: VARCHAR
+  - name: residential_broadband_isp_choice_average_by_nta
+    type: DOUBLE
+  - name: residential_broadband_isp_choice_average_by_quartiles
+    type: VARCHAR
+  - name: total_poles
+    type: BIGINT
+  - name: reserved_poles
+    type: BIGINT
+  - name: density_of_poles_reserved_and_with_equipment_installed_for_mobile_telecom_franchise
+    type: DOUBLE
+  - name: public_wifi_in_nyc_count
+    type: BIGINT
+  - name: number_of_free_public_wifi_access_points_in_a_pedestrian_corridor
+    type: BIGINT
+  - name: available_free_public_wifi_in_a_pedestrian_corridor_yn
+    type: BOOLEAN
+  - name: number_of_public_computer_centers_with_free_public_wifi
+    type: BIGINT
+  - name: number_of_public_computer_center_workstations
+    type: BIGINT
+  - name: number_of_public_computer_center_open_lab_hours
+    type: TIMESTAMP

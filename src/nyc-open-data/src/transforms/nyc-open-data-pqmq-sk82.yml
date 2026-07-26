@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pqmq-sk82`. Regenerate after model-verify.
+key: [report_date, engagement_category, age_group]
+temporal: report_date
+sort: [report_date, engagement_category, age_group]
+columns:
+  - name: report_date
+    type: DATE
+  - name: age_group
+    type: VARCHAR
+  - name: engagement_category
+    type: VARCHAR
+  - name: citywide_count
+    type: BIGINT

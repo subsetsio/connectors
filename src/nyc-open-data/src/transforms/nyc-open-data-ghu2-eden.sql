@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "the_geom",
+    "gispropnum",
+    "objectid",
+    "omppropid",
+    "department",
+    "permitdist",
+    "permitpare",
+    "parentid",
+    "_location" AS location,
+    "communityb",
+    "councildis",
+    "precinct",
+    "zipcode",
+    "borough",
+    "acres",
+    "retired",
+    "eapply",
+    "pip_ratabl",
+    "gisobjid",
+    "_class" AS class,
+    "commission",
+    "acquisitio",
+    "address",
+    "jurisdicti",
+    "mapped",
+    "name311",
+    "permit",
+    "signname",
+    "subcategor",
+    "typecatego",
+    "url",
+    "waterfront",
+    "nys_assemb",
+    "nys_senate",
+    "us_congres",
+    "globalid"
+FROM "nyc-open-data-ghu2-eden"

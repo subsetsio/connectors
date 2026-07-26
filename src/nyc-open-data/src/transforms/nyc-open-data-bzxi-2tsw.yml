@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-bzxi-2tsw`. Regenerate after model-verify.
+key: [building_id]
+temporal: date_added
+sort: [date_added, building_id]
+columns:
+  - name: building_id
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: street_address
+    type: VARCHAR
+  - name: borocode
+    type: BIGINT
+  - name: block
+    type: BIGINT
+  - name: lot
+    type: BIGINT
+  - name: bqi
+    type: BOOLEAN
+  - name: discharged_aep
+    type: BOOLEAN
+  - name: discharged_7a
+    type: BOOLEAN
+  - name: hpd_vacate_order
+    type: BOOLEAN
+  - name: dob_vacate_order
+    type: BOOLEAN
+  - name: harassment_finding
+    type: BOOLEAN
+  - name: date_added
+    type: DATE
+  - name: borough
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

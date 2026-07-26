@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ji82-xba5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [uid, factype, overabbrev, facsubgrp, datasource]
+checks:
+  - kind: unique
+    columns: [uid, factype, overabbrev, facsubgrp, datasource]
+  - kind: not_null
+    col: uid
+  - kind: not_null
+    col: factype
+  - kind: not_null
+    col: overabbrev
+  - kind: not_null
+    col: facsubgrp
+  - kind: not_null
+    col: datasource
+  - kind: row_floor
+    min: 17223
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

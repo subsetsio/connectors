@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-2i8t-es4u`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [enforcemen, from_stree, to_street, the_geom]
+temporal: enforcemen
+checks:
+  - kind: unique
+    columns: [enforcemen, from_stree, to_street, the_geom]
+  - kind: not_null
+    col: enforcemen
+  - kind: not_null
+    col: from_stree
+  - kind: not_null
+    col: to_street
+  - kind: not_null
+    col: the_geom
+  - kind: row_floor
+    min: 14
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

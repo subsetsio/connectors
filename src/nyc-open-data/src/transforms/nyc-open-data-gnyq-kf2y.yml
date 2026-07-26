@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-gnyq-kf2y`. Regenerate after model-verify.
+key: [expiration_date, permit_number, bo]
+temporal: expiration_date
+sort: [expiration_date, permit_number, bo]
+columns:
+  - name: permit_number
+    type: BIGINT
+  - name: expiration_date
+    type: DATE
+  - name: address_no
+    type: VARCHAR
+  - name: address_st
+    type: VARCHAR
+  - name: bo
+    type: VARCHAR
+  - name: zip
+    type: BIGINT
+  - name: bbl
+    type: VARCHAR
+  - name: bin
+    type: BIGINT
+  - name: census_tract_2010
+    type: BIGINT
+  - name: city_council_district
+    type: BIGINT
+  - name: community_district
+    type: BIGINT
+  - name: nta_code
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE

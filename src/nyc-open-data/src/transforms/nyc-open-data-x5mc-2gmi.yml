@@ -1,0 +1,202 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-x5mc-2gmi`. Regenerate after model-verify.
+key: [trip_id]
+temporal: travel_date
+sort: [travel_date, trip_id]
+columns:
+  - name: hh_id
+    type: BIGINT
+  - name: person_id
+    type: BIGINT
+  - name: person_num
+    type: BIGINT
+  - name: day_id
+    type: BIGINT
+  - name: travel_dow
+    type: BIGINT
+  - name: day_num
+    type: BIGINT
+  - name: is_complete
+    type: BIGINT
+  - name: travel_date
+    type: DATE
+  - name: linked_trip_id
+    type: BIGINT
+  - name: linked_leg_num
+    type: BIGINT
+  - name: trip_id
+    type: BIGINT
+  - name: trip_num
+    type: BIGINT
+  - name: day_is_complete
+    type: BIGINT
+  - name: arrive_dow
+    type: BIGINT
+  - name: depart_dow
+    type: BIGINT
+  - name: o_in_region
+    type: BIGINT
+  - name: o_county
+    type: BIGINT
+  - name: d_in_region
+    type: BIGINT
+  - name: d_county
+    type: BIGINT
+  - name: mode_type_nyc
+    type: BIGINT
+  - name: r_mode_type_nyc
+    type: BIGINT
+  - name: mode_1
+    type: BIGINT
+  - name: mode_2
+    type: BIGINT
+  - name: mode_3
+    type: BIGINT
+  - name: mode_priority_nyc
+    type: BIGINT
+  - name: transit_access
+    type: BIGINT
+  - name: r_transit_access
+    type: BIGINT
+  - name: transit_egress
+    type: BIGINT
+  - name: r_transit_egress
+    type: BIGINT
+  - name: park_location
+    type: BIGINT
+  - name: park_type
+    type: BIGINT
+  - name: park_pay
+    type: BIGINT
+  - name: park_cost
+    type: VARCHAR
+  - name: ev_charge_station
+    type: BIGINT
+  - name: ev_charge_station_level_1
+    type: BIGINT
+  - name: ev_charge_station_level_2
+    type: BIGINT
+  - name: ev_charge_station_level_3
+    type: BIGINT
+  - name: ev_charge_station_level_4
+    type: BIGINT
+  - name: ev_charge_station_level_5
+    type: BIGINT
+  - name: ev_charge_station_level_997
+    type: BIGINT
+  - name: ev_charge_station_level_998
+    type: BIGINT
+  - name: tnc_type
+    type: BIGINT
+  - name: taxi_type
+    type: BIGINT
+  - name: taxi_pay
+    type: BIGINT
+  - name: taxi_cost
+    type: BIGINT
+  - name: transit_type
+    type: BIGINT
+  - name: bike_park_loc
+    type: BIGINT
+  - name: scooter_park_location
+    type: BIGINT
+  - name: num_travelers
+    type: BIGINT
+  - name: num_hh_travelers
+    type: BIGINT
+  - name: num_non_hh_travelers
+    type: BIGINT
+  - name: hh_member_1
+    type: BIGINT
+  - name: hh_member_2
+    type: BIGINT
+  - name: hh_member_3
+    type: BIGINT
+  - name: hh_member_4
+    type: BIGINT
+  - name: hh_member_5
+    type: BIGINT
+  - name: hh_member_6
+    type: BIGINT
+  - name: hh_member_7
+    type: BIGINT
+  - name: hh_member_8
+    type: BIGINT
+  - name: hh_member_9
+    type: BIGINT
+  - name: hh_member_10
+    type: BIGINT
+  - name: hh_member_11
+    type: BIGINT
+  - name: hh_member_12
+    type: BIGINT
+  - name: driver
+    type: BIGINT
+  - name: o_purpose
+    type: BIGINT
+  - name: o_purpose_category
+    type: BIGINT
+  - name: d_purpose
+    type: BIGINT
+  - name: d_purpose_category
+    type: BIGINT
+  - name: d_purpose_category_linked
+    type: BIGINT
+  - name: r_d_purpose_category_linked
+    type: BIGINT
+  - name: work_trip
+    type: BIGINT
+  - name: depart_date
+    type: DATE
+  - name: depart_hour
+    type: BIGINT
+  - name: depart_minute
+    type: BIGINT
+  - name: depart_seconds
+    type: BIGINT
+  - name: r_timeofday
+    type: BIGINT
+  - name: arrive_date
+    type: DATE
+  - name: arrive_hour
+    type: BIGINT
+  - name: arrive_minute
+    type: BIGINT
+  - name: arrive_second
+    type: BIGINT
+  - name: duration_minutes
+    type: BIGINT
+  - name: r_duration_minutes
+    type: BIGINT
+  - name: duration_seconds
+    type: BIGINT
+  - name: distance_miles
+    type: DOUBLE
+  - name: r_distance_miles
+    type: BIGINT
+  - name: dwell_mins
+    type: DOUBLE
+  - name: high_speed_flag
+    type: BIGINT
+  - name: long_distance_flag
+    type: BIGINT
+  - name: o_cms_zone
+    type: VARCHAR
+  - name: d_cms_zone
+    type: VARCHAR
+  - name: unlinked_trip
+    type: BIGINT
+  - name: o_location_type
+    type: BIGINT
+  - name: d_location_type
+    type: BIGINT
+  - name: transit_quality_flag
+    type: VARCHAR
+  - name: mode_type
+    type: BIGINT
+  - name: trip_weight_zonal
+    type: DOUBLE
+  - name: trip_weight_citywide
+    type: DOUBLE
+  - name: added_trip
+    type: BIGINT

@@ -1,0 +1,914 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-dd6w-hnq9`. Regenerate after model-verify.
+key: [respondent_serial, cfmc_case_id, qtimehome1, qtimework1, qzipwork1]
+temporal: starttime_est
+sort: [starttime_est, respondent_serial, cfmc_case_id, qtimehome1, qtimework1, qzipwork1]
+columns:
+  - name: job
+    type: BIGINT
+  - name: uniqueid
+    type: BIGINT
+  - name: respondent_serial
+    type: VARCHAR
+  - name: starttime_est
+    type: DATE
+  - name: finishtime_est
+    type: VARCHAR
+  - name: cfmc_case_id
+    type: VARCHAR
+  - name: qlanguagepref
+    type: BIGINT
+  - name: qgender
+    type: BIGINT
+  - name: qage
+    type: BIGINT
+  - name: qrace
+    type: BIGINT
+  - name: qrace_other6
+    type: VARCHAR
+  - name: qhispanic
+    type: BIGINT
+  - name: qhispanic_other5
+    type: VARCHAR
+  - name: qeducation
+    type: BIGINT
+  - name: qincome
+    type: BIGINT
+  - name: qzipcmb
+    type: VARCHAR
+  - name: qsurveyzone
+    type: BIGINT
+  - name: qborough1
+    type: BIGINT
+  - name: qborough2
+    type: BIGINT
+  - name: qborough3
+    type: BIGINT
+  - name: qborough4
+    type: BIGINT
+  - name: qborough5
+    type: BIGINT
+  - name: qusetravelcode01
+    type: BIGINT
+  - name: qusetravelcode02
+    type: BIGINT
+  - name: qusetravelcode03
+    type: BIGINT
+  - name: qusetravelcode04
+    type: BIGINT
+  - name: qusetravelcode05
+    type: BIGINT
+  - name: qusetravelcode06
+    type: BIGINT
+  - name: qusetravelcode07
+    type: BIGINT
+  - name: qusetravelcode08
+    type: BIGINT
+  - name: qusetravelcode09
+    type: BIGINT
+  - name: qusetravelcode10
+    type: BIGINT
+  - name: qusetravelcode11
+    type: BIGINT
+  - name: qusetravelcode12
+    type: BIGINT
+  - name: qusetravelcode13
+    type: BIGINT
+  - name: qusetravelcode14
+    type: BIGINT
+  - name: qusetravelcode15
+    type: BIGINT
+  - name: qusetravelcode16
+    type: BIGINT
+  - name: qusetravelcode17
+    type: BIGINT
+  - name: qusetravelcode18
+    type: BIGINT
+  - name: qusetravelcode19
+    type: BIGINT
+  - name: qusetravelcode20
+    type: BIGINT
+  - name: qusetravelcode21
+    type: BIGINT
+  - name: qusetravelcode22
+    type: BIGINT
+  - name: qusetravelcode23
+    type: BIGINT
+  - name: qusetravelcode24
+    type: BIGINT
+  - name: qusetravelcode25
+    type: BIGINT
+  - name: qusetravelcode26
+    type: BIGINT
+  - name: qlicense
+    type: BIGINT
+  - name: qcaraccess
+    type: BIGINT
+  - name: qcaraccess_other4
+    type: VARCHAR
+  - name: qcarmany
+    type: VARCHAR
+  - name: qcarchange
+    type: VARCHAR
+  - name: gcarreduce1_qcarreduce1_ma
+    type: VARCHAR
+  - name: gcarreduce1_qcarreduce2_ma
+    type: VARCHAR
+  - name: gcarreduce1_qcarreduce3_ma
+    type: VARCHAR
+  - name: gcarreduce1_qcarreduce4_ma
+    type: VARCHAR
+  - name: gcarreduce1_qcarreduce5_ma
+    type: VARCHAR
+  - name: gcarreduce1_qcarreduce6_ma
+    type: VARCHAR
+  - name: gcarincrease1_qcarincrease1_ma
+    type: VARCHAR
+  - name: gcarincrease1_qcarincrease2_ma
+    type: VARCHAR
+  - name: gcarincrease1_qcarincrease3_ma
+    type: VARCHAR
+  - name: gcarincrease1_qcarincrease4_ma
+    type: VARCHAR
+  - name: gcarincrease1_qcarincrease5_ma
+    type: VARCHAR
+  - name: gcarincrease1_qcarincrease6_ma
+    type: VARCHAR
+  - name: qcarpark1
+    type: VARCHAR
+  - name: qcarpark2
+    type: VARCHAR
+  - name: qcarpark3
+    type: VARCHAR
+  - name: qcarpark4
+    type: VARCHAR
+  - name: qcarpark5
+    type: VARCHAR
+  - name: qcarpark6
+    type: VARCHAR
+  - name: qcarpark7
+    type: VARCHAR
+  - name: qcarpark8
+    type: VARCHAR
+  - name: qcarpark_other6
+    type: VARCHAR
+  - name: qcarparkpay
+    type: VARCHAR
+  - name: qcarparkpay_month
+    type: VARCHAR
+  - name: qcarmiles
+    type: VARCHAR
+  - name: qshare1
+    type: BIGINT
+  - name: qshare2
+    type: BIGINT
+  - name: qshare3
+    type: BIGINT
+  - name: qshare4
+    type: BIGINT
+  - name: qshare5
+    type: BIGINT
+  - name: qshare6
+    type: BIGINT
+  - name: qshare7
+    type: BIGINT
+  - name: qshare8
+    type: BIGINT
+  - name: qshare_other5
+    type: VARCHAR
+  - name: qsharemember
+    type: VARCHAR
+  - name: qsharefreq
+    type: VARCHAR
+  - name: qsharepurpose01
+    type: VARCHAR
+  - name: qsharepurpose02
+    type: VARCHAR
+  - name: qsharepurpose03
+    type: VARCHAR
+  - name: qsharepurpose04
+    type: VARCHAR
+  - name: qsharepurpose05
+    type: VARCHAR
+  - name: qsharepurpose06
+    type: VARCHAR
+  - name: qsharepurpose07
+    type: VARCHAR
+  - name: qsharepurpose08
+    type: VARCHAR
+  - name: qsharepurpose09
+    type: VARCHAR
+  - name: qsharepurpose10
+    type: VARCHAR
+  - name: qsharepurpose11
+    type: VARCHAR
+  - name: qsharepurpose_other9
+    type: VARCHAR
+  - name: qziptravel1
+    type: VARCHAR
+  - name: qziptravel2
+    type: VARCHAR
+  - name: qziptravel3
+    type: VARCHAR
+  - name: qziptravel4
+    type: VARCHAR
+  - name: qziptravel5
+    type: VARCHAR
+  - name: qziptravel6
+    type: VARCHAR
+  - name: qziptravel7
+    type: VARCHAR
+  - name: qziptravel8
+    type: VARCHAR
+  - name: qziptravel9
+    type: VARCHAR
+  - name: qziptravel_other7
+    type: VARCHAR
+  - name: qreachtravel1
+    type: VARCHAR
+  - name: qreachtravel2
+    type: VARCHAR
+  - name: qreachtravel3
+    type: VARCHAR
+  - name: qreachtravel4
+    type: VARCHAR
+  - name: qreachtravel5
+    type: VARCHAR
+  - name: qreachtravel6
+    type: VARCHAR
+  - name: qreachtravel7
+    type: VARCHAR
+  - name: qreachtravel8
+    type: VARCHAR
+  - name: qreachtravel9
+    type: VARCHAR
+  - name: qreachtravel_other7
+    type: VARCHAR
+  - name: qsharetravelcode01
+    type: VARCHAR
+  - name: qsharetravelcode02
+    type: VARCHAR
+  - name: qsharetravelcode03
+    type: VARCHAR
+  - name: qsharetravelcode04
+    type: VARCHAR
+  - name: qsharetravelcode05
+    type: VARCHAR
+  - name: qsharetravelcode06
+    type: VARCHAR
+  - name: qsharetravelcode07
+    type: VARCHAR
+  - name: qsharetravelcode08
+    type: VARCHAR
+  - name: qsharetravelcode09
+    type: VARCHAR
+  - name: qsharetravelcode10
+    type: VARCHAR
+  - name: qsharetravelcode11
+    type: VARCHAR
+  - name: qsharetravelcode12
+    type: VARCHAR
+  - name: qsharetravelcode13
+    type: VARCHAR
+  - name: qsharetravelcode14
+    type: VARCHAR
+  - name: qsharetravelcode15
+    type: VARCHAR
+  - name: qsharetravelcode16
+    type: VARCHAR
+  - name: qsharetravelcode17
+    type: VARCHAR
+  - name: qsharetravelcode18
+    type: VARCHAR
+  - name: qsharetravelcode19
+    type: VARCHAR
+  - name: qsharetravelcode20
+    type: VARCHAR
+  - name: qsharetravelcode21
+    type: VARCHAR
+  - name: qsharetravelcode22
+    type: VARCHAR
+  - name: qsharetravelcode23
+    type: VARCHAR
+  - name: qsharetravelcode24
+    type: VARCHAR
+  - name: qsharetravelcode25
+    type: VARCHAR
+  - name: qsharetravelcode26
+    type: VARCHAR
+  - name: qridehail1
+    type: BIGINT
+  - name: qridehail2
+    type: BIGINT
+  - name: qridehail3
+    type: BIGINT
+  - name: qridehail4
+    type: BIGINT
+  - name: qridehail5
+    type: BIGINT
+  - name: qridehail6
+    type: BIGINT
+  - name: qridehail7
+    type: BIGINT
+  - name: qridehail8
+    type: BIGINT
+  - name: qridehail_freq
+    type: VARCHAR
+  - name: qridehailpurpose01
+    type: VARCHAR
+  - name: qridehailpurpose02
+    type: VARCHAR
+  - name: qridehailpurpose03
+    type: VARCHAR
+  - name: qridehailpurpose04
+    type: VARCHAR
+  - name: qridehailpurpose05
+    type: VARCHAR
+  - name: qridehailpurpose06
+    type: VARCHAR
+  - name: qridehailpurpose07
+    type: VARCHAR
+  - name: qridehailpurpose08
+    type: VARCHAR
+  - name: qridehailpurpose09
+    type: VARCHAR
+  - name: qridehailpurpose10
+    type: VARCHAR
+  - name: qridehailpurpose11
+    type: VARCHAR
+  - name: qridehailpurpose_other9
+    type: VARCHAR
+  - name: qpreridehailcode01
+    type: VARCHAR
+  - name: qpreridehailcode02
+    type: VARCHAR
+  - name: qpreridehailcode03
+    type: VARCHAR
+  - name: qpreridehailcode04
+    type: VARCHAR
+  - name: qpreridehailcode05
+    type: VARCHAR
+  - name: qpreridehailcode06
+    type: VARCHAR
+  - name: qpreridehailcode07
+    type: VARCHAR
+  - name: qpreridehailcode08
+    type: VARCHAR
+  - name: qpreridehailcode09
+    type: VARCHAR
+  - name: qpreridehailcode10
+    type: VARCHAR
+  - name: qpreridehailcode11
+    type: VARCHAR
+  - name: qpreridehailcode12
+    type: VARCHAR
+  - name: qpreridehailcode13
+    type: VARCHAR
+  - name: qpreridehailcode14
+    type: VARCHAR
+  - name: qpreridehailcode15
+    type: VARCHAR
+  - name: qpreridehailcode16
+    type: VARCHAR
+  - name: qpreridehailcode17
+    type: VARCHAR
+  - name: qpreridehailcode18
+    type: VARCHAR
+  - name: qpreridehailcode19
+    type: VARCHAR
+  - name: qpreridehailcode20
+    type: VARCHAR
+  - name: qpreridehailcode21
+    type: VARCHAR
+  - name: qpreridehailcode22
+    type: VARCHAR
+  - name: qpreridehailcode23
+    type: VARCHAR
+  - name: qpreridehailcode24
+    type: VARCHAR
+  - name: qtripplanning1
+    type: BIGINT
+  - name: qtripplanning2
+    type: BIGINT
+  - name: qtripplanning3
+    type: BIGINT
+  - name: qtripplanning4
+    type: BIGINT
+  - name: qtripplanning5
+    type: BIGINT
+  - name: qtripplanning6
+    type: BIGINT
+  - name: qtripplanning7
+    type: BIGINT
+  - name: qtripplanning_other4
+    type: VARCHAR
+  - name: qbikeown
+    type: BIGINT
+  - name: qbikemany
+    type: VARCHAR
+  - name: qbiketype1
+    type: VARCHAR
+  - name: qbiketype2
+    type: VARCHAR
+  - name: qbiketype3
+    type: VARCHAR
+  - name: qbiketype4
+    type: VARCHAR
+  - name: qbiketype5
+    type: VARCHAR
+  - name: qbiketype_other3
+    type: VARCHAR
+  - name: qbikestore1
+    type: VARCHAR
+  - name: qbikestore2
+    type: VARCHAR
+  - name: qbikestore3
+    type: VARCHAR
+  - name: qbikestore4
+    type: VARCHAR
+  - name: qbikestore5
+    type: VARCHAR
+  - name: qbikestore6
+    type: VARCHAR
+  - name: qbikestore7
+    type: VARCHAR
+  - name: qbikestore8
+    type: VARCHAR
+  - name: qbikestore9
+    type: VARCHAR
+  - name: qbikestore_other7
+    type: VARCHAR
+  - name: qbikeride
+    type: BIGINT
+  - name: qbiketo
+    type: BIGINT
+  - name: qbikedays
+    type: VARCHAR
+  - name: qcitibike
+    type: BIGINT
+  - name: qcitibikefreq
+    type: VARCHAR
+  - name: qnocitibike1
+    type: VARCHAR
+  - name: qnocitibike2
+    type: VARCHAR
+  - name: qnocitibike3
+    type: VARCHAR
+  - name: qnocitibike4
+    type: VARCHAR
+  - name: qnocitibike5
+    type: VARCHAR
+  - name: qnocitibike6
+    type: VARCHAR
+  - name: qnocitibike7
+    type: VARCHAR
+  - name: qnocitibike8
+    type: VARCHAR
+  - name: qnocitibike9
+    type: VARCHAR
+  - name: qnocitibike_other7
+    type: VARCHAR
+  - name: qbenefits01
+    type: VARCHAR
+  - name: qbenefits02
+    type: VARCHAR
+  - name: qbenefits03
+    type: VARCHAR
+  - name: qbenefits04
+    type: VARCHAR
+  - name: qbenefits05
+    type: VARCHAR
+  - name: qbenefits06
+    type: VARCHAR
+  - name: qbenefits07
+    type: VARCHAR
+  - name: qbenefits08
+    type: VARCHAR
+  - name: qbenefits09
+    type: VARCHAR
+  - name: qbenefits10
+    type: VARCHAR
+  - name: qbenefits11
+    type: VARCHAR
+  - name: qbenefits12
+    type: VARCHAR
+  - name: qbenefits13
+    type: VARCHAR
+  - name: qbenefits14
+    type: VARCHAR
+  - name: qbenefits_other11
+    type: VARCHAR
+  - name: gfreight1_qfreight1_ma
+    type: BIGINT
+  - name: gfreight1_qfreight2_ma
+    type: BIGINT
+  - name: gfreight1_qfreight3_ma
+    type: BIGINT
+  - name: gfreight1_qfreight4_ma
+    type: BIGINT
+  - name: gfreightnew
+    type: BIGINT
+  - name: qsafety1
+    type: BIGINT
+  - name: qsafety2
+    type: BIGINT
+  - name: qsafety3
+    type: VARCHAR
+  - name: qsafety4
+    type: VARCHAR
+  - name: qsafety5
+    type: VARCHAR
+  - name: qsafety6
+    type: VARCHAR
+  - name: gfocusaa1_qfocusaa1_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa1_ma8
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa2_ma8
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa3_ma8
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa4_ma8
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5_ma8
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa5b_ma8
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma1
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma2
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma3
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma4
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma5
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma6
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma7
+    type: BIGINT
+  - name: gfocusaa1_qfocusaa6_ma8
+    type: BIGINT
+  - name: gimprove1_qimprove1_ma
+    type: BIGINT
+  - name: gimprove1_qimprove2_ma
+    type: BIGINT
+  - name: gimprove1_qimprove3_ma
+    type: BIGINT
+  - name: gimprove1_qimprove4_ma
+    type: BIGINT
+  - name: gimprove1_qimprove5_ma
+    type: BIGINT
+  - name: qnationoe
+    type: BIGINT
+  - name: qlanguageoe
+    type: BIGINT
+  - name: qlanguage2oe
+    type: BIGINT
+  - name: qmarried
+    type: BIGINT
+  - name: qsmartphone
+    type: BIGINT
+  - name: qwelfare1
+    type: BIGINT
+  - name: qwelfare2
+    type: BIGINT
+  - name: qwelfare3
+    type: BIGINT
+  - name: qwelfare4
+    type: BIGINT
+  - name: qwelfare5
+    type: BIGINT
+  - name: qdisability1
+    type: BIGINT
+  - name: qdisability2
+    type: BIGINT
+  - name: qdisability3
+    type: BIGINT
+  - name: qdisability4
+    type: BIGINT
+  - name: qdisability5
+    type: BIGINT
+  - name: qdisability6
+    type: BIGINT
+  - name: qdisability7
+    type: BIGINT
+  - name: qdisability8
+    type: BIGINT
+  - name: qcaretaker
+    type: BIGINT
+  - name: qcare
+    type: BIGINT
+  - name: qbuilding
+    type: BIGINT
+  - name: qrent
+    type: BIGINT
+  - name: qnyc
+    type: BIGINT
+  - name: qchildren
+    type: BIGINT
+  - name: qchildrenenroll
+    type: VARCHAR
+  - name: qchildrenschoolzip1
+    type: VARCHAR
+  - name: qchildrenschoolzip2
+    type: VARCHAR
+  - name: qchildrenschoolzip3
+    type: VARCHAR
+  - name: qchildrenschoolzip4
+    type: VARCHAR
+  - name: qchildschoolsame
+    type: VARCHAR
+  - name: qschooltransitto1
+    type: VARCHAR
+  - name: qschooltransitto2
+    type: VARCHAR
+  - name: qschooltransitto3
+    type: VARCHAR
+  - name: qschooltransitto4
+    type: VARCHAR
+  - name: qschooltransitto5
+    type: VARCHAR
+  - name: qschooltransitto6
+    type: VARCHAR
+  - name: qschooltransitto7
+    type: VARCHAR
+  - name: qschooltransitto_other5
+    type: VARCHAR
+  - name: qschooltransitfrom1
+    type: VARCHAR
+  - name: qschooltransitfrom2
+    type: VARCHAR
+  - name: qschooltransitfrom3
+    type: VARCHAR
+  - name: qschooltransitfrom4
+    type: VARCHAR
+  - name: qschooltransitfrom5
+    type: VARCHAR
+  - name: qschooltransitfrom6
+    type: VARCHAR
+  - name: qschooltransitfrom7
+    type: VARCHAR
+  - name: qschooltransitfrom_other5
+    type: VARCHAR
+  - name: qschooltravelcode01
+    type: VARCHAR
+  - name: qschooltravelcode02
+    type: VARCHAR
+  - name: qschooltravelcode03
+    type: VARCHAR
+  - name: qschooltravelcode04
+    type: VARCHAR
+  - name: qschooltravelcode05
+    type: VARCHAR
+  - name: qschooltravelcode06
+    type: VARCHAR
+  - name: qschooltravelcode07
+    type: VARCHAR
+  - name: qschooltravelcode08
+    type: VARCHAR
+  - name: qschooltravelcode09
+    type: VARCHAR
+  - name: qschooltravelcode10
+    type: VARCHAR
+  - name: qschooltravelcode11
+    type: VARCHAR
+  - name: qschooltravelcode12
+    type: VARCHAR
+  - name: qschooltravelcode13
+    type: VARCHAR
+  - name: qschooltravelcode14
+    type: VARCHAR
+  - name: qschooltravelcode15
+    type: VARCHAR
+  - name: qschooltravelcode16
+    type: VARCHAR
+  - name: qschooltravelcode17
+    type: VARCHAR
+  - name: qschooltravelcode18
+    type: VARCHAR
+  - name: qschooltravelcode19
+    type: VARCHAR
+  - name: qschooltravelcode20
+    type: VARCHAR
+  - name: qschooltravelcode21
+    type: VARCHAR
+  - name: qschooltravelcode22
+    type: VARCHAR
+  - name: qschooltravelcode23
+    type: VARCHAR
+  - name: qschooltravelcode24
+    type: VARCHAR
+  - name: qschooltravelcode25
+    type: VARCHAR
+  - name: qschooltravelcode26
+    type: VARCHAR
+  - name: qschooltravelcode27
+    type: VARCHAR
+  - name: qemployment
+    type: BIGINT
+  - name: qemployment_other10
+    type: VARCHAR
+  - name: gfulltime_qfulltime_ma
+    type: VARCHAR
+  - name: gfulltime_qparttime_ma
+    type: VARCHAR
+  - name: qzipwork1
+    type: VARCHAR
+  - name: qzipwork2
+    type: VARCHAR
+  - name: qzipwork3
+    type: VARCHAR
+  - name: qzipwork4
+    type: VARCHAR
+  - name: qzipwork5
+    type: VARCHAR
+  - name: qzipwork6
+    type: VARCHAR
+  - name: qtimework1
+    type: VARCHAR
+  - name: qtimework2
+    type: VARCHAR
+  - name: qtimework3
+    type: VARCHAR
+  - name: qtimework4
+    type: VARCHAR
+  - name: qtimework5
+    type: VARCHAR
+  - name: qtimework6
+    type: VARCHAR
+  - name: qtimehome1
+    type: VARCHAR
+  - name: qtimehome2
+    type: VARCHAR
+  - name: qtimehome3
+    type: VARCHAR
+  - name: qtimehome4
+    type: VARCHAR
+  - name: qtimehome5
+    type: VARCHAR
+  - name: qtimehome6
+    type: VARCHAR
+  - name: qindustry
+    type: VARCHAR
+  - name: qindustry_other18
+    type: VARCHAR
+  - name: qschool
+    type: BIGINT
+  - name: qlevelschool
+    type: VARCHAR
+  - name: qzipschool
+    type: VARCHAR
+  - name: qwpsurveyzone01
+    type: VARCHAR
+  - name: qwpsurveyzone02
+    type: VARCHAR
+  - name: qwpsurveyzone03
+    type: VARCHAR
+  - name: qwpsurveyzone04
+    type: VARCHAR
+  - name: qwpsurveyzone05
+    type: VARCHAR
+  - name: qwpsurveyzone06
+    type: VARCHAR
+  - name: qwpsurveyzone07
+    type: VARCHAR
+  - name: qwpsurveyzone08
+    type: VARCHAR
+  - name: qwpsurveyzone09
+    type: VARCHAR
+  - name: qwpsurveyzone10
+    type: VARCHAR
+  - name: qnumber_of_trips_taken
+    type: BIGINT
+  - name: filt_number_of_trips
+    type: VARCHAR
+  - name: weekday_filt_trips
+    type: VARCHAR
+  - name: weekday_number_of_trips
+    type: VARCHAR
+  - name: weekend_filt_trips
+    type: VARCHAR
+  - name: weekend_number_of_trips
+    type: VARCHAR
+  - name: qagecode_final1
+    type: BIGINT
+  - name: qagecode_final2
+    type: BIGINT
+  - name: qagecode_final3
+    type: BIGINT
+  - name: qagecode_final4
+    type: BIGINT
+  - name: qagecode_final5
+    type: BIGINT
+  - name: qagecode_final6
+    type: BIGINT
+  - name: qagecode_final7
+    type: BIGINT
+  - name: qday1
+    type: VARCHAR
+  - name: qtemphigh_append
+    type: BIGINT
+  - name: qtemplow_append
+    type: BIGINT
+  - name: qsunrise_append
+    type: VARCHAR
+  - name: qsunset_append
+    type: VARCHAR
+  - name: qprecipitation_append
+    type: DOUBLE
+  - name: qagegender
+    type: VARCHAR
+  - name: allwt
+    type: DOUBLE
+  - name: racewt
+    type: VARCHAR
+  - name: eduwt
+    type: VARCHAR
+  - name: agegenwt
+    type: VARCHAR
+  - name: boroughwt
+    type: VARCHAR

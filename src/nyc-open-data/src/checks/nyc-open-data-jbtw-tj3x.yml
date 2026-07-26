@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-jbtw-tj3x`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [bus_company, month]
+checks:
+  - kind: unique
+    columns: [bus_company, month]
+  - kind: not_null
+    col: bus_company
+  - kind: not_null
+    col: month
+  - kind: row_floor
+    min: 57
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,605 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-u4hi-kt3x`. Regenerate after model-verify.
+key: [dbn, borough, sch_type]
+sort: [dbn, borough, sch_type]
+columns:
+  - name: dbn
+    type: VARCHAR
+  - name: sch_type
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: enrollment
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: principal
+    type: VARCHAR
+  - name: studentsurvey
+    type: BOOLEAN
+  - name: rr_s
+    type: BIGINT
+  - name: rr_t
+    type: BIGINT
+  - name: rr_p
+    type: BIGINT
+  - name: n_s
+    type: BIGINT
+  - name: n_t
+    type: BIGINT
+  - name: n_p
+    type: BIGINT
+  - name: nr_s
+    type: BIGINT
+  - name: nr_t
+    type: BIGINT
+  - name: nr_p
+    type: BIGINT
+  - name: saf_p_10
+    type: DOUBLE
+  - name: com_p_10
+    type: DOUBLE
+  - name: eng_p_10
+    type: DOUBLE
+  - name: aca_p_10
+    type: DOUBLE
+  - name: saf_t_10
+    type: DOUBLE
+  - name: com_t_10
+    type: DOUBLE
+  - name: eng_t_10
+    type: DOUBLE
+  - name: aca_t_10
+    type: DOUBLE
+  - name: saf_s_10
+    type: DOUBLE
+  - name: com_s_10
+    type: DOUBLE
+  - name: eng_s_10
+    type: DOUBLE
+  - name: aca_s_10
+    type: DOUBLE
+  - name: saf_tot_10
+    type: DOUBLE
+  - name: com_tot_10
+    type: DOUBLE
+  - name: eng_tot_10
+    type: DOUBLE
+  - name: aca_tot_10
+    type: DOUBLE
+  - name: p_q2i
+    type: DOUBLE
+  - name: p_q7a
+    type: DOUBLE
+  - name: p_q7b
+    type: DOUBLE
+  - name: p_q7c
+    type: DOUBLE
+  - name: p_q7d
+    type: DOUBLE
+  - name: p_q8a
+    type: DOUBLE
+  - name: p_q8b
+    type: DOUBLE
+  - name: p_q8c
+    type: DOUBLE
+  - name: p_q8d
+    type: DOUBLE
+  - name: p_q8e
+    type: DOUBLE
+  - name: p_q8f
+    type: DOUBLE
+  - name: p_q2b
+    type: DOUBLE
+  - name: p_q2d
+    type: DOUBLE
+  - name: p_q2f
+    type: DOUBLE
+  - name: p_q2g
+    type: DOUBLE
+  - name: p_q2h
+    type: DOUBLE
+  - name: p_q3a
+    type: DOUBLE
+  - name: p_q3b
+    type: DOUBLE
+  - name: p_q4b
+    type: DOUBLE
+  - name: p_q4c
+    type: DOUBLE
+  - name: p_q11c
+    type: DOUBLE
+  - name: p_q2a
+    type: DOUBLE
+  - name: p_q2c
+    type: DOUBLE
+  - name: p_q2e
+    type: DOUBLE
+  - name: p_q3c
+    type: DOUBLE
+  - name: p_q6
+    type: DOUBLE
+  - name: p_q11d
+    type: DOUBLE
+  - name: p_q11e
+    type: DOUBLE
+  - name: p_q5
+    type: DOUBLE
+  - name: p_q4a
+    type: DOUBLE
+  - name: p_q4d
+    type: DOUBLE
+  - name: p_q4e
+    type: VARCHAR
+  - name: p_q11a
+    type: DOUBLE
+  - name: p_q11b
+    type: DOUBLE
+  - name: p_q11f
+    type: DOUBLE
+  - name: p_q1
+    type: VARCHAR
+  - name: p_q3d
+    type: VARCHAR
+  - name: p_q9
+    type: VARCHAR
+  - name: p_q10
+    type: VARCHAR
+  - name: p_q12aa
+    type: VARCHAR
+  - name: p_q12ab
+    type: VARCHAR
+  - name: p_q12ac
+    type: VARCHAR
+  - name: p_q12ad
+    type: VARCHAR
+  - name: p_q12ba
+    type: VARCHAR
+  - name: p_q12bb
+    type: VARCHAR
+  - name: p_q12bc
+    type: VARCHAR
+  - name: p_q12bd
+    type: VARCHAR
+  - name: p_q1_1
+    type: BIGINT
+  - name: p_q1_2
+    type: BIGINT
+  - name: p_q1_3
+    type: BIGINT
+  - name: p_q1_4
+    type: BIGINT
+  - name: p_q1_5
+    type: BIGINT
+  - name: p_q1_6
+    type: BIGINT
+  - name: p_q1_7
+    type: BIGINT
+  - name: p_q1_8
+    type: BIGINT
+  - name: p_q1_9
+    type: BIGINT
+  - name: p_q1_10
+    type: BIGINT
+  - name: p_q1_11
+    type: BIGINT
+  - name: p_q1_12
+    type: BIGINT
+  - name: p_q1_13
+    type: BIGINT
+  - name: p_q1_14
+    type: BIGINT
+  - name: p_q2a_1
+    type: BIGINT
+  - name: p_q2a_2
+    type: BIGINT
+  - name: p_q2a_3
+    type: BIGINT
+  - name: p_q2a_4
+    type: BIGINT
+  - name: p_q2a_5
+    type: BIGINT
+  - name: p_q2b_1
+    type: BIGINT
+  - name: p_q2b_2
+    type: BIGINT
+  - name: p_q2b_3
+    type: BIGINT
+  - name: p_q2b_4
+    type: BIGINT
+  - name: p_q2b_5
+    type: BIGINT
+  - name: p_q2c_1
+    type: BIGINT
+  - name: p_q2c_2
+    type: BIGINT
+  - name: p_q2c_3
+    type: BIGINT
+  - name: p_q2c_4
+    type: BIGINT
+  - name: p_q2c_5
+    type: BIGINT
+  - name: p_q2d_1
+    type: BIGINT
+  - name: p_q2d_2
+    type: BIGINT
+  - name: p_q2d_3
+    type: BIGINT
+  - name: p_q2d_4
+    type: BIGINT
+  - name: p_q2d_5
+    type: BIGINT
+  - name: p_q2e_1
+    type: BIGINT
+  - name: p_q2e_2
+    type: BIGINT
+  - name: p_q2e_3
+    type: BIGINT
+  - name: p_q2e_4
+    type: BIGINT
+  - name: p_q2e_5
+    type: BIGINT
+  - name: p_q2f_1
+    type: BIGINT
+  - name: p_q2f_2
+    type: BIGINT
+  - name: p_q2f_3
+    type: BIGINT
+  - name: p_q2f_4
+    type: BIGINT
+  - name: p_q2f_5
+    type: BIGINT
+  - name: p_q2g_1
+    type: BIGINT
+  - name: p_q2g_2
+    type: BIGINT
+  - name: p_q2g_3
+    type: BIGINT
+  - name: p_q2g_4
+    type: BIGINT
+  - name: p_q2g_5
+    type: BIGINT
+  - name: p_q2h_1
+    type: BIGINT
+  - name: p_q2h_2
+    type: BIGINT
+  - name: p_q2h_3
+    type: BIGINT
+  - name: p_q2h_4
+    type: BIGINT
+  - name: p_q2h_5
+    type: BIGINT
+  - name: p_q2i_1
+    type: BIGINT
+  - name: p_q2i_2
+    type: BIGINT
+  - name: p_q2i_3
+    type: BIGINT
+  - name: p_q2i_4
+    type: BIGINT
+  - name: p_q2i_5
+    type: BIGINT
+  - name: p_q3a_1
+    type: BIGINT
+  - name: p_q3a_2
+    type: BIGINT
+  - name: p_q3a_3
+    type: BIGINT
+  - name: p_q3a_4
+    type: BIGINT
+  - name: p_q3a_5
+    type: BIGINT
+  - name: p_q3b_1
+    type: BIGINT
+  - name: p_q3b_2
+    type: BIGINT
+  - name: p_q3b_3
+    type: BIGINT
+  - name: p_q3b_4
+    type: BIGINT
+  - name: p_q3b_5
+    type: BIGINT
+  - name: p_q3c_1
+    type: BIGINT
+  - name: p_q3c_2
+    type: BIGINT
+  - name: p_q3c_3
+    type: BIGINT
+  - name: p_q3c_4
+    type: BIGINT
+  - name: p_q3c_5
+    type: BIGINT
+  - name: p_q3d_1
+    type: BIGINT
+  - name: p_q3d_2
+    type: BIGINT
+  - name: p_q3d_3
+    type: BIGINT
+  - name: p_q3d_4
+    type: BIGINT
+  - name: p_q3d_5
+    type: BIGINT
+  - name: p_q4a_1
+    type: BIGINT
+  - name: p_q4a_2
+    type: BIGINT
+  - name: p_q4a_3
+    type: BIGINT
+  - name: p_q4a_4
+    type: BIGINT
+  - name: p_q4a_5
+    type: BIGINT
+  - name: p_q4b_1
+    type: BIGINT
+  - name: p_q4b_2
+    type: BIGINT
+  - name: p_q4b_3
+    type: BIGINT
+  - name: p_q4b_4
+    type: BIGINT
+  - name: p_q4b_5
+    type: BIGINT
+  - name: p_q4c_1
+    type: BIGINT
+  - name: p_q4c_2
+    type: BIGINT
+  - name: p_q4c_3
+    type: BIGINT
+  - name: p_q4c_4
+    type: BIGINT
+  - name: p_q4c_5
+    type: BIGINT
+  - name: p_q4d_1
+    type: BIGINT
+  - name: p_q4d_2
+    type: BIGINT
+  - name: p_q4d_3
+    type: BIGINT
+  - name: p_q4d_4
+    type: BIGINT
+  - name: p_q4d_5
+    type: BIGINT
+  - name: p_q4e_1
+    type: VARCHAR
+  - name: p_q4e_2
+    type: VARCHAR
+  - name: p_q4e_3
+    type: VARCHAR
+  - name: p_q4e_4
+    type: VARCHAR
+  - name: p_q4e_5
+    type: VARCHAR
+  - name: p_q5a
+    type: BIGINT
+  - name: p_q5b
+    type: BIGINT
+  - name: p_q5c
+    type: BIGINT
+  - name: p_q5d
+    type: BIGINT
+  - name: p_q5e
+    type: BIGINT
+  - name: p_q5f
+    type: BIGINT
+  - name: p_q5g
+    type: BIGINT
+  - name: p_q5h
+    type: BIGINT
+  - name: p_q5i
+    type: BIGINT
+  - name: p_q5j
+    type: BIGINT
+  - name: p_q6_1
+    type: BIGINT
+  - name: p_q6_2
+    type: BIGINT
+  - name: p_q6_3
+    type: BIGINT
+  - name: p_q6_4
+    type: BIGINT
+  - name: p_q6_5
+    type: BIGINT
+  - name: p_q7a_1
+    type: BIGINT
+  - name: p_q7a_2
+    type: BIGINT
+  - name: p_q7a_3
+    type: BIGINT
+  - name: p_q7a_4
+    type: BIGINT
+  - name: p_q7a_5
+    type: BIGINT
+  - name: p_q7b_1
+    type: BIGINT
+  - name: p_q7b_2
+    type: BIGINT
+  - name: p_q7b_3
+    type: BIGINT
+  - name: p_q7b_4
+    type: BIGINT
+  - name: p_q7b_5
+    type: BIGINT
+  - name: p_q7c_1
+    type: BIGINT
+  - name: p_q7c_2
+    type: BIGINT
+  - name: p_q7c_3
+    type: BIGINT
+  - name: p_q7c_4
+    type: BIGINT
+  - name: p_q7c_5
+    type: BIGINT
+  - name: p_q7d_1
+    type: BIGINT
+  - name: p_q7d_2
+    type: BIGINT
+  - name: p_q7d_3
+    type: BIGINT
+  - name: p_q7d_4
+    type: BIGINT
+  - name: p_q7d_5
+    type: BIGINT
+  - name: p_q8a_1
+    type: BIGINT
+  - name: p_q8a_2
+    type: BIGINT
+  - name: p_q8a_3
+    type: BIGINT
+  - name: p_q8a_4
+    type: BIGINT
+  - name: p_q8a_5
+    type: BIGINT
+  - name: p_q8b_1
+    type: BIGINT
+  - name: p_q8b_2
+    type: BIGINT
+  - name: p_q8b_3
+    type: BIGINT
+  - name: p_q8b_4
+    type: BIGINT
+  - name: p_q8b_5
+    type: BIGINT
+  - name: p_q8c_1
+    type: BIGINT
+  - name: p_q8c_2
+    type: BIGINT
+  - name: p_q8c_3
+    type: BIGINT
+  - name: p_q8c_4
+    type: BIGINT
+  - name: p_q8c_5
+    type: BIGINT
+  - name: p_q8d_1
+    type: BIGINT
+  - name: p_q8d_2
+    type: BIGINT
+  - name: p_q8d_3
+    type: BIGINT
+  - name: p_q8d_4
+    type: BIGINT
+  - name: p_q8d_5
+    type: BIGINT
+  - name: p_q8e_1
+    type: BIGINT
+  - name: p_q8e_2
+    type: BIGINT
+  - name: p_q8e_3
+    type: BIGINT
+  - name: p_q8e_4
+    type: BIGINT
+  - name: p_q8e_5
+    type: BIGINT
+  - name: p_q8f_1
+    type: BIGINT
+  - name: p_q8f_2
+    type: BIGINT
+  - name: p_q8f_3
+    type: BIGINT
+  - name: p_q8f_4
+    type: BIGINT
+  - name: p_q8f_5
+    type: BIGINT
+  - name: p_q9_1
+    type: BIGINT
+  - name: p_q9_2
+    type: BIGINT
+  - name: p_q9_3
+    type: BIGINT
+  - name: p_q9_4
+    type: BIGINT
+  - name: p_q9_5
+    type: BIGINT
+  - name: p_q9_6
+    type: BIGINT
+  - name: p_q9_7
+    type: BIGINT
+  - name: p_q9_8
+    type: BIGINT
+  - name: p_q9_9
+    type: BIGINT
+  - name: p_q9_10
+    type: BIGINT
+  - name: p_q10a
+    type: BIGINT
+  - name: p_q10b
+    type: BIGINT
+  - name: p_q10c
+    type: BIGINT
+  - name: p_q10d
+    type: BIGINT
+  - name: p_q10e
+    type: BIGINT
+  - name: p_q10f
+    type: BIGINT
+  - name: p_q10g
+    type: BIGINT
+  - name: p_q10h
+    type: BIGINT
+  - name: p_q10i
+    type: BIGINT
+  - name: p_q10j
+    type: BIGINT
+  - name: p_q10k
+    type: BIGINT
+  - name: p_q10l
+    type: BIGINT
+  - name: p_q11a_1
+    type: BIGINT
+  - name: p_q11a_2
+    type: BIGINT
+  - name: p_q11a_3
+    type: BIGINT
+  - name: p_q11a_4
+    type: BIGINT
+  - name: p_q11b_1
+    type: BIGINT
+  - name: p_q11b_2
+    type: BIGINT
+  - name: p_q11b_3
+    type: BIGINT
+  - name: p_q11b_4
+    type: BIGINT
+  - name: p_q11c_1
+    type: BIGINT
+  - name: p_q11c_2
+    type: BIGINT
+  - name: p_q11c_3
+    type: BIGINT
+  - name: p_q11c_4
+    type: BIGINT
+  - name: p_q11d_1
+    type: BIGINT
+  - name: p_q11d_2
+    type: BIGINT
+  - name: p_q11d_3
+    type: BIGINT
+  - name: p_q11d_4
+    type: BIGINT
+  - name: p_q11e_1
+    type: BIGINT
+  - name: p_q11e_2
+    type: BIGINT
+  - name: p_q11e_3
+    type: BIGINT
+  - name: p_q11e_4
+    type: BIGINT
+  - name: p_q11f_1
+    type: BIGINT
+  - name: p_q11f_2
+    type: BIGINT
+  - name: p_q11f_3
+    type: BIGINT
+  - name: p_q11f_4
+    type: BIGINT
+  - name: p_q12aa_1
+    type: BIGINT
+  - name: p_q12aa_2
+    type: BIGINT
+  - name: p_q12aa_3
+    type: BIGINT
+  - name: p_q12aa_4
+    type: BIGINT
+  - name: p_q12aa_5
+    type: BIGINT
+  - name: p_q12ab_1
+    type: BIGINT

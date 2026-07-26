@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ru7m-mpyz`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geo_unit, geo_type, construction_started_city_managed, construction_completed_city_managed]
+checks:
+  - kind: unique
+    columns: [geo_unit, geo_type, construction_started_city_managed, construction_completed_city_managed]
+  - kind: not_null
+    col: geo_unit
+  - kind: not_null
+    col: geo_type
+  - kind: not_null
+    col: construction_started_city_managed
+  - kind: not_null
+    col: construction_completed_city_managed
+  - kind: row_floor
+    min: 204
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

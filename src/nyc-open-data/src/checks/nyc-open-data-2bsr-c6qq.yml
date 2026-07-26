@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-2bsr-c6qq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id, nta, nta_code, operated_by, asset_class]
+checks:
+  - kind: unique
+    columns: [id, nta, nta_code, operated_by, asset_class]
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: nta
+  - kind: not_null
+    col: nta_code
+  - kind: not_null
+    col: operated_by
+  - kind: not_null
+    col: asset_class
+  - kind: row_floor
+    min: 51632
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

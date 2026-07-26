@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-bj6m-ydtj`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [contract_registration_date, vendor, percentage_after_waiver, waiver_partialfull]
+temporal: contract_registration_date
+checks:
+  - kind: unique
+    columns: [contract_registration_date, vendor, percentage_after_waiver, waiver_partialfull]
+  - kind: not_null
+    col: contract_registration_date
+  - kind: not_null
+    col: vendor
+  - kind: not_null
+    col: percentage_after_waiver
+  - kind: not_null
+    col: waiver_partialfull
+  - kind: row_floor
+    min: 3
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

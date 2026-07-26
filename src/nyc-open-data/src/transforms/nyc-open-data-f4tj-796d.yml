@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-f4tj-796d`. Regenerate after model-verify.
+key: [occurrence_date, tri_incident_number, yearmonthshort, basisforencounter, forcetype]
+temporal: occurrence_date
+sort: [occurrence_date, tri_incident_number, yearmonthshort, basisforencounter, forcetype]
+columns:
+  - name: tri_incident_number
+    type: BIGINT
+  - name: forcetype
+    type: VARCHAR
+  - name: occurrence_date
+    type: DATE
+  - name: incident_pct
+    type: BIGINT
+  - name: patrol_borough
+    type: VARCHAR
+  - name: yearmonthshort
+    type: VARCHAR
+  - name: basisforencounter
+    type: VARCHAR

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-c5up-ki6j`. Regenerate after model-verify.
+key: [contract_id]
+temporal: contract_end
+sort: [contract_end, contract_id]
+columns:
+  - name: contract_id
+    type: BIGINT
+  - name: organization_id
+    type: BIGINT
+  - name: agency_id
+    type: BIGINT
+  - name: agency_name
+    type: VARCHAR
+  - name: service_id
+    type: BIGINT
+  - name: contract_amount
+    type: DOUBLE
+  - name: contract_end
+    type: DATE
+  - name: contract_start
+    type: DATE
+  - name: contract_number
+    type: VARCHAR
+  - name: fiscal_year
+    type: VARCHAR

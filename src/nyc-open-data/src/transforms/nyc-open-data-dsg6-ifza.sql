@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "center_name",
+    "legal_name",
+    "building",
+    "street",
+    "borough",
+    "zipcode",
+    "phone",
+    "permit_number",
+    "permit_expiration",
+    "status",
+    "age_range",
+    "maximum_capacity",
+    "day_care_id",
+    "program_type",
+    "facility_type",
+    "child_care_type",
+    "building_identification_number",
+    "url",
+    "date_permitted",
+    "actual",
+    "violation_rate_percent",
+    "average_violation_rate_percent",
+    "total_educational_workers",
+    "average_total_educational_workers",
+    "public_health_hazard_violation_rate",
+    "average_public_health_hazard_violation_rate",
+    "critical_violation_rate",
+    "average_critical_violation_rate",
+    "inspection_date",
+    "regulation_summary",
+    "violation_category",
+    "health_code_sub_section",
+    "violation_status",
+    "inspection_summary_result"
+FROM "nyc-open-data-dsg6-ifza"

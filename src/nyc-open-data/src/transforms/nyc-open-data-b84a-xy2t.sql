@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "location_id",
+    "zip_code",
+    "borough",
+    "council_district",
+    "requesting_precinct",
+    "conduct_or_complaint_that_led_to_requested_operation_disorderly_patrons",
+    "conduct_or_complaint_that_led_to_requested_operation_elevated_sound",
+    "conduct_or_complaint_that_led_to_requested_operation_harrassment",
+    "conduct_or_complaint_that_led_to_requested_operation_larceny",
+    "conduct_or_complaint_that_led_to_requested_operation_physical_assault",
+    "conduct_or_complaint_that_led_to_requested_operation_promotion_of_gambling",
+    "conduct_or_complaint_that_led_to_requested_operation_robbery",
+    "conduct_or_complaint_that_led_to_requested_operation_sale_of_alcohol_to_a_minor",
+    "conduct_or_complaint_that_led_to_requested_operation_traffic_issues",
+    "conduct_or_complaint_that_led_to_requested_operation_unlicensed_sale_of_alcohol",
+    "conduct_or_complaint_that_led_to_requested_operation_violent_activity_with_a_weapon",
+    "date_of_inspection",
+    "time_of_visitation_hhmmss",
+    "march_inspection",
+    "inspection_duration_min",
+    "inspectors_from_dep_present",
+    "inspectors_from_dob_present",
+    "inspectors_from_dohmh_present",
+    "inspectors_from_fdny_present",
+    "inspectors_from_nypd_present",
+    "total_inspectors_from_city_government_agencies_present",
+    "summonses_issed_by_dep",
+    "summonses_issed_by_dob",
+    "summonses_issed_by_dohmh",
+    "summonses_issed_by_fdny",
+    "summonses_issed_by_nypd",
+    "total_summonses_issued_by_city_government_agencies",
+    "closure_of_establishment",
+    "closure_duration_min",
+    "written_notices_pursuant_to_admin_code_14181"
+FROM "nyc-open-data-b84a-xy2t"

@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-keep-pkmh`. Regenerate after model-verify.
+key: [tax_id, complaint_id, ccrb_substantiated_officer_disposition]
+temporal: as_of_date
+sort: [as_of_date, tax_id, complaint_id, ccrb_substantiated_officer_disposition]
+columns:
+  - name: as_of_date
+    type: DATE
+  - name: complaint_id
+    type: BIGINT
+  - name: tax_id
+    type: BIGINT
+  - name: ccrb_substantiated_officer_disposition
+    type: VARCHAR
+  - name: board_discipline_recommendation
+    type: VARCHAR
+  - name: nonapu_nypd_penalty_report_date
+    type: DATE
+  - name: officer_is_apu
+    type: BOOLEAN
+  - name: apu_ccrb_trial_recommended_penalty
+    type: VARCHAR
+  - name: apu_trial_commissioner_recommended_penalty
+    type: VARCHAR
+  - name: apu_plea_agreed_penalty
+    type: VARCHAR
+  - name: apu_case_status
+    type: VARCHAR
+  - name: apu_closing_date
+    type: DATE
+  - name: nypd_officer_penalty
+    type: VARCHAR

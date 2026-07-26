@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-hm83-bdp7`. Regenerate after model-verify.
+key: [service_date, provider_name, dftaid]
+temporal: service_date
+sort: [service_date, provider_name, dftaid]
+columns:
+  - name: dftaid
+    type: VARCHAR
+  - name: provider_name
+    type: VARCHAR
+  - name: service_date
+    type: DATE
+  - name: total_daily
+    type: BIGINT
+  - name: breakfast_units
+    type: BIGINT
+  - name: lunch_units
+    type: BIGINT
+  - name: dinner_units
+    type: BIGINT
+  - name: tot_meals
+    type: BIGINT
+  - name: aib_tot
+    type: BIGINT
+  - name: sce_tot
+    type: BIGINT
+  - name: hpp_tot
+    type: BIGINT
+  - name: tot_serv_pp
+    type: BIGINT

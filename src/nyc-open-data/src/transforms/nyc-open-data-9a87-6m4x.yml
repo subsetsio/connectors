@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-9a87-6m4x`. Regenerate after model-verify.
+key: [eo50_approval_date, business_name, business_city, business_state]
+temporal: eo50_approval_date
+sort: [eo50_approval_date, business_name, business_city, business_state]
+columns:
+  - name: eo50_approval_date
+    type: DATE
+  - name: business_name
+    type: VARCHAR
+  - name: business_address
+    type: VARCHAR
+  - name: business_city
+    type: VARCHAR
+  - name: business_state
+    type: VARCHAR
+  - name: business_phone
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: community_board
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: council_district
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

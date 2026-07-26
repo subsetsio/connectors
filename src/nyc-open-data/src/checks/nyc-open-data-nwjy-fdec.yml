@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-nwjy-fdec`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, ratio_of_full_time_licensed_pe_teachers_to_students, school_level, borough]
+checks:
+  - kind: unique
+    columns: [dbn, ratio_of_full_time_licensed_pe_teachers_to_students, school_level, borough]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: ratio_of_full_time_licensed_pe_teachers_to_students
+  - kind: not_null
+    col: school_level
+  - kind: not_null
+    col: borough
+  - kind: row_floor
+    min: 815
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

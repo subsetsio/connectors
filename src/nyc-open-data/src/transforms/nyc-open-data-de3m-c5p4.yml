@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-de3m-c5p4`. Regenerate after model-verify.
+key: [the_geom, location, ntaname, borocd, boroname]
+temporal: date_insta
+sort: [date_insta, the_geom, location, ntaname, borocd, boroname]
+columns:
+  - name: the_geom
+    type: VARCHAR
+  - name: borocode
+    type: BIGINT
+  - name: boroname
+    type: VARCHAR
+  - name: borocd
+    type: VARCHAR
+  - name: coundist
+    type: BIGINT
+  - name: assemdist
+    type: BIGINT
+  - name: stsendist
+    type: BIGINT
+  - name: congdist
+    type: BIGINT
+  - name: location
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: date_insta
+    type: DATE
+  - name: point_x
+    type: DOUBLE
+  - name: point_y
+    type: DOUBLE
+  - name: femafldz
+    type: VARCHAR
+  - name: femafldt
+    type: VARCHAR
+  - name: hrcevac
+    type: BIGINT
+  - name: ntaname
+    type: VARCHAR

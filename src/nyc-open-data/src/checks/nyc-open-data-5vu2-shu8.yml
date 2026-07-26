@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5vu2-shu8`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, school_name, q30_during_the_school_year_have_youattended_a_regularly_scheduled_parentteacher_conference_virtually_or_inperson_with_your_childs_teacher_no, q29_during_the_school_year_have_youattended_a_general_school_meeting_or_school_event_virtually_or_inperson_yes, q29_during_the_school_year_have_youattended_a_general_school_meeting_or_school_event_virtually_or_inperson_no]
+checks:
+  - kind: unique
+    columns: [dbn, school_name, q30_during_the_school_year_have_youattended_a_regularly_scheduled_parentteacher_conference_virtually_or_inperson_with_your_childs_teacher_no, q29_during_the_school_year_have_youattended_a_general_school_meeting_or_school_event_virtually_or_inperson_yes, q29_during_the_school_year_have_youattended_a_general_school_meeting_or_school_event_virtually_or_inperson_no]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: school_name
+  - kind: not_null
+    col: q30_during_the_school_year_have_youattended_a_regularly_scheduled_parentteacher_conference_virtually_or_inperson_with_your_childs_teacher_no
+  - kind: not_null
+    col: q29_during_the_school_year_have_youattended_a_general_school_meeting_or_school_event_virtually_or_inperson_yes
+  - kind: not_null
+    col: q29_during_the_school_year_have_youattended_a_general_school_meeting_or_school_event_virtually_or_inperson_no
+  - kind: row_floor
+    min: 1350
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

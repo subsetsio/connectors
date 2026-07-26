@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-td5q-ry6d`. Regenerate after model-verify.
+key: [license_number]
+temporal: expiration_date
+sort: [expiration_date, license_number]
+columns:
+  - name: license_number
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: expiration_date
+    type: DATE
+  - name: completed_both_training
+    type: BOOLEAN
+  - name: last_date_updated
+    type: DATE
+  - name: last_time_updated
+    type: TIME

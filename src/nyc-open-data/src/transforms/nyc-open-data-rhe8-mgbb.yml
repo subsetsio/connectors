@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-rhe8-mgbb`. Regenerate after model-verify.
+key: [license_number]
+temporal: expiration_date
+sort: [expiration_date, license_number]
+columns:
+  - name: license_number
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: expiration_date
+    type: DATE
+  - name: current_status
+    type: VARCHAR
+  - name: dmv_license_plate_number
+    type: VARCHAR
+  - name: vehicle_vin_number
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: model_year
+    type: BIGINT
+  - name: medallion_type
+    type: VARCHAR
+  - name: agent_number
+    type: VARCHAR
+  - name: agent_name
+    type: VARCHAR
+  - name: agent_telephone_number
+    type: VARCHAR
+  - name: agent_website_address
+    type: VARCHAR
+  - name: agent_address
+    type: VARCHAR
+  - name: last_date_updated
+    type: DATE
+  - name: last_time_updated
+    type: TIME

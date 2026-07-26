@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-3ups-txji`. Regenerate after model-verify.
+key: [contractid, description, vendorname, date, acronym]
+temporal: date
+sort: [date, contractid, description, vendorname, acronym]
+columns:
+  - name: acronym
+    type: VARCHAR
+  - name: vendorname
+    type: VARCHAR
+  - name: contractid
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: amount
+    type: BIGINT
+  - name: cttyp_nm
+    type: VARCHAR
+  - name: awd_meth_nm
+    type: VARCHAR

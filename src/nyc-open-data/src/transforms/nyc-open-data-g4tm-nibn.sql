@@ -1,0 +1,33 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "_year" AS year,
+    "borough",
+    "number_of_residents_who_received_financial_counseling_or_banking_services_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_reported_that_their_credit_scores_were_improved_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_increased_their_credit_scores_by_at_least_35_points_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_reported_that_their_debt_was_reduced_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_decreased_debt_by_at_least_10_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_reported_that_their_savings_increased_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_increased_savings_through_the_financial_empowerment_center_program",
+    "number_of_residents_who_received_financial_counseling_or_banking_services_through_residents_can",
+    "number_of_residents_who_reported_that_their_credit_scores_were_improved_through_residents_can",
+    "number_of_residents_who_reported_that_their_debt_was_reduced_through_residents_can",
+    "number_of_residents_who_reported_that_their_savings_increased_through_residents_can",
+    "number_of_residents_who_received_financial_counseling_or_banking_services_through_la_ventanilla",
+    "number_of_residents_who_reported_that_their_credit_scores_were_improved_through_la_ventanilla",
+    "number_of_residents_through_october_1_2018_who_increased_their_credit_scores_by_at_least_35_points_through_la_ventanilla",
+    "number_of_residents_who_reported_that_their_debt_was_reduced_through_la_ventanilla",
+    "number_of_residents_through_october_1_2018_who_decreased_debt_by_at_least_10_through_la_ventanilla",
+    "number_of_residents_who_reported_that_their_savings_increased_through_la_ventanilla",
+    "number_of_residents_through_october_1_2018_who_increased_savings_through_la_ventanilla",
+    "number_of_residents_who_received_financial_counseling_or_banking_services_through_ready_to_rent",
+    "number_of_residents_who_reported_that_their_credit_scores_were_improved_through_ready_to_rent",
+    "number_of_residents_who_increased_their_credit_scores_by_at_least_35_points_through_ready_to_rent",
+    "number_of_residents_who_reported_that_their_debt_was_reduced_through_ready_to_rent",
+    "number_of_residents_who_decreased_debt_by_at_least_10_through_ready_to_rent",
+    "number_of_residents_who_reported_that_their_savings_increased_through_ready_to_rent",
+    "number_of_residents_who_increased_savings_through_ready_to_rent"
+FROM "nyc-open-data-g4tm-nibn"

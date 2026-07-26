@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-aq7i-eu5q`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [flood_start_datetime_gmt, time_series_depth_values_inches, time_series_depth_timestamps_seconds, sensor_id, sensor_name]
+temporal: flood_start_datetime_gmt
+checks:
+  - kind: unique
+    columns: [flood_start_datetime_gmt, time_series_depth_values_inches, time_series_depth_timestamps_seconds, sensor_id, sensor_name]
+  - kind: not_null
+    col: flood_start_datetime_gmt
+  - kind: not_null
+    col: time_series_depth_values_inches
+  - kind: not_null
+    col: time_series_depth_timestamps_seconds
+  - kind: not_null
+    col: sensor_id
+  - kind: not_null
+    col: sensor_name
+  - kind: row_floor
+    min: 1302
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

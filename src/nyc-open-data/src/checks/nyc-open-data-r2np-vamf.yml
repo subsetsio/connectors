@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-r2np-vamf`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period, subgroup, metric_name, program_target_population, category]
+temporal: period
+checks:
+  - kind: unique
+    columns: [period, subgroup, metric_name, program_target_population, category]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: subgroup
+  - kind: not_null
+    col: metric_name
+  - kind: not_null
+    col: program_target_population
+  - kind: not_null
+    col: category
+  - kind: row_floor
+    min: 3945
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

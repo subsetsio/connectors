@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-j6v2-6uxq`. Regenerate after model-verify.
+key: [atd_number]
+temporal: atdissuedate
+sort: [atdissuedate, atd_number]
+columns:
+  - name: atdid
+    type: BIGINT
+  - name: atd_number
+    type: VARCHAR
+  - name: bblid
+    type: BIGINT
+  - name: violationid
+    type: BIGINT
+  - name: inspectionid
+    type: BIGINT
+  - name: reinspectionid
+    type: BIGINT
+  - name: inspect_date
+    type: DATE
+  - name: atdissuedate
+    type: DATE
+  - name: cb
+    type: BIGINT
+  - name: house_num
+    type: VARCHAR
+  - name: onstname
+    type: VARCHAR
+  - name: atddismissed
+    type: BOOLEAN
+  - name: atddismissedon
+    type: DATE

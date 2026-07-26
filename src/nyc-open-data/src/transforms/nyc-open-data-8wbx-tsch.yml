@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-8wbx-tsch`. Regenerate after model-verify.
+key: [vehicle_license_number]
+temporal: expiration_date
+sort: [expiration_date, vehicle_license_number]
+columns:
+  - name: active
+    type: BOOLEAN
+  - name: vehicle_license_number
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: license_type
+    type: VARCHAR
+  - name: expiration_date
+    type: DATE
+  - name: permit_license_number
+    type: VARCHAR
+  - name: dmv_license_plate_number
+    type: VARCHAR
+  - name: vehicle_vin_number
+    type: VARCHAR
+  - name: wheelchair_accessible
+    type: VARCHAR
+  - name: certification_date
+    type: DATE
+  - name: hack_up_date
+    type: DATE
+  - name: vehicle_year
+    type: BIGINT
+  - name: base_number
+    type: VARCHAR
+  - name: base_name
+    type: VARCHAR
+  - name: base_type
+    type: VARCHAR
+  - name: veh
+    type: VARCHAR
+  - name: base_telephone_number
+    type: VARCHAR
+  - name: website
+    type: VARCHAR
+  - name: base_address
+    type: VARCHAR
+  - name: reason
+    type: VARCHAR
+  - name: order_date
+    type: VARCHAR
+  - name: last_date_updated
+    type: DATE
+  - name: last_time_updated
+    type: TIME

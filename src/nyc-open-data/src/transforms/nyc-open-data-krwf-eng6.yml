@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-krwf-eng6`. Regenerate after model-verify.
+key: [vendor_name, vendor_status]
+temporal: disqualified_from_date
+sort: [disqualified_from_date, vendor_name, vendor_status]
+columns:
+  - name: vendor_status
+    type: VARCHAR
+  - name: vendor_name
+    type: VARCHAR
+  - name: disqualified_from_date
+    type: TIMESTAMP
+  - name: disqualified_to_date
+    type: TIMESTAMP

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-yhuu-4pt3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [expiration_date, permit_license_number, reason]
+temporal: expiration_date
+checks:
+  - kind: unique
+    columns: [expiration_date, permit_license_number, reason]
+  - kind: not_null
+    col: expiration_date
+  - kind: not_null
+    col: permit_license_number
+  - kind: not_null
+    col: reason
+  - kind: row_floor
+    min: 396
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pitm-atqc`. Regenerate after model-verify.
+key: []
+temporal: time_of_submission
+sort: [time_of_submission]
+columns:
+  - name: objectid
+    type: BIGINT
+  - name: globalid
+    type: VARCHAR
+  - name: seating_interest_sidewalkroadwayboth
+    type: VARCHAR
+  - name: restaurant_name
+    type: VARCHAR
+  - name: legal_business_name
+    type: VARCHAR
+  - name: doing_business_as_dba
+    type: VARCHAR
+  - name: building_number
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: business_address
+    type: VARCHAR
+  - name: food_service_establishment_permit
+    type: VARCHAR
+  - name: sidewalk_dimensions_length
+    type: BIGINT
+  - name: sidewalk_dimensions_width
+    type: BIGINT
+  - name: sidewalk_dimensions_area
+    type: BIGINT
+  - name: roadway_dimensions_length
+    type: BIGINT
+  - name: roadway_dimensions_width
+    type: BIGINT
+  - name: roadway_dimensions_area
+    type: BIGINT
+  - name: approved_for_sidewalk_seating
+    type: BOOLEAN
+  - name: approved_for_roadway_seating
+    type: BOOLEAN
+  - name: qualify_alcohol
+    type: BOOLEAN
+  - name: sla_serial_number
+    type: VARCHAR
+  - name: sla_license_type
+    type: VARCHAR
+  - name: landmark_district_or_building
+    type: BOOLEAN
+  - name: landmarkdistrict_terms
+    type: BOOLEAN
+  - name: healthcompliance_terms
+    type: BOOLEAN
+  - name: time_of_submission
+    type: TIMESTAMP
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

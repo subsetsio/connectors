@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ucdy-byxd`. Regenerate after model-verify.
+key: [startdate, projectname, programgroup]
+temporal: startdate
+sort: [startdate, projectname, programgroup]
+columns:
+  - name: projectdwid
+    type: BIGINT
+  - name: projectid
+    type: BIGINT
+  - name: projectname
+    type: VARCHAR
+  - name: programgroup
+    type: VARCHAR
+  - name: startdate
+    type: DATE
+  - name: projectedcompletiondate
+    type: DATE
+  - name: counted_rental_units
+    type: BIGINT
+  - name: counted_homeownership_units
+    type: BIGINT
+  - name: all_counted_units
+    type: BIGINT
+  - name: totalprojectunits
+    type: BIGINT
+  - name: commercialsquarefootage
+    type: BIGINT
+  - name: borrowerlegalentityname
+    type: VARCHAR
+  - name: generalcontractorname
+    type: VARCHAR
+  - name: isdavisbacon
+    type: BOOLEAN
+  - name: issection220nyslaborlaw
+    type: BOOLEAN

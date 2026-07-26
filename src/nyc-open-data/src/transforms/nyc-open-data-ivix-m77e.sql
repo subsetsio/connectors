@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "project_name",
+    "project_description",
+    "stimulus_tracker_id",
+    "funding_category",
+    "funding_source",
+    "stimulus_funding",
+    "displaced_city_funding",
+    "all_other_funding",
+    "award_lead_city_agency",
+    "project_lead_city_agency",
+    "project_status",
+    "of_funds_spent",
+    "date_funds_awarded_by_fedstate",
+    "date_funds_announced_by_nyc",
+    "estimated_start_date",
+    "actual_start_date",
+    "actual_completion_date",
+    "interim_spending_deadline",
+    "of_funds_to_be_spent_by_interim_spending_deadine",
+    "final_spending_deadline",
+    "contract_name",
+    "contract_method",
+    "contract_status",
+    "contract_id",
+    "vendor_name",
+    "contract_start_date",
+    "contract_end_date",
+    "new_or_existing_contract",
+    "revised_contract_start_date",
+    "revised_contract_end_date",
+    "contract_value",
+    "payment_recipient",
+    "payment_type",
+    "payment_date",
+    "payment_description",
+    "payment_id",
+    "payment_value"
+FROM "nyc-open-data-ivix-m77e"

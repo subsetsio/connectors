@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-skyk-mpzq`. Regenerate after model-verify.
+key: [the_geom]
+temporal: desig_date
+sort: [desig_date, the_geom]
+columns:
+  - name: the_geom
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: lp_number
+    type: VARCHAR
+  - name: most_current
+    type: BOOLEAN
+  - name: lm_name
+    type: VARCHAR
+  - name: extension
+    type: BOOLEAN
+  - name: site_status
+    type: VARCHAR
+  - name: last_action
+    type: VARCHAR
+  - name: action_notes
+    type: VARCHAR
+  - name: public_hearing
+    type: VARCHAR
+  - name: other_hearings
+    type: VARCHAR
+  - name: desig_date
+    type: DATE
+  - name: calen_date
+    type: DATE
+  - name: shape_leng
+    type: DOUBLE
+  - name: shape_area
+    type: DOUBLE

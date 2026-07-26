@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-exsg-kpya`. Regenerate after model-verify.
+key: [application_status_date, bic_number]
+temporal: application_status_date
+sort: [application_status_date, bic_number]
+columns:
+  - name: bic_number
+    type: VARCHAR
+  - name: account_name
+    type: VARCHAR
+  - name: trade_name
+    type: VARCHAR
+  - name: application_type
+    type: VARCHAR
+  - name: application_industry
+    type: VARCHAR
+  - name: application_status
+    type: VARCHAR
+  - name: application_status_date
+    type: DATE
+  - name: street
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: renewal_application
+    type: BOOLEAN
+  - name: export_date
+    type: DATE
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

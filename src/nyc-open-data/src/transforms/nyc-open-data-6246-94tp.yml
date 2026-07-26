@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-6246-94tp`. Regenerate after model-verify.
+key: [inspection_date, school_code, inspection_stage_description, inspection_category, observation_description]
+temporal: tco_obtained_date
+sort: [tco_obtained_date, inspection_date, school_code, inspection_stage_description, inspection_category, observation_description]
+columns:
+  - name: inspection_stage_description
+    type: VARCHAR
+  - name: school_code
+    type: VARCHAR
+  - name: borough_name
+    type: VARCHAR
+  - name: tco_obtained_date
+    type: TIMESTAMP
+  - name: inspection_category
+    type: VARCHAR
+  - name: observation_description
+    type: VARCHAR
+  - name: inspection_date
+    type: VARCHAR

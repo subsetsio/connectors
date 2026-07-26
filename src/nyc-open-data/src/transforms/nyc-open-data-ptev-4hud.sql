@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "application_id",
+    "license_number",
+    "applicant",
+    "dbatrade_name",
+    "business_unique_id",
+    "business_category",
+    "application_type",
+    "license_type",
+    "intake_channel",
+    "submission_date",
+    "date_closed",
+    "application_status",
+    "temp_op_letter_issued",
+    "temp_op_letter_expiration",
+    "contact_phone",
+    "address_type",
+    "building_number",
+    "street1",
+    "street2",
+    "street3",
+    "unit_type",
+    "aptsuite",
+    "city",
+    "state",
+    "zip_code",
+    "borough",
+    "community_board",
+    "council_district",
+    "bin",
+    "bbl",
+    "nta",
+    "census_block_2010",
+    "census_tract_2010",
+    "latitude",
+    "longitude"
+FROM "nyc-open-data-ptev-4hud"

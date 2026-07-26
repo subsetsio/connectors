@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5fn4-dr26`. Regenerate after model-verify.
+key: []
+temporal: violation_date
+sort: [violation_date]
+columns:
+  - name: record_id
+    type: VARCHAR
+  - name: related_record_type
+    type: VARCHAR
+  - name: business_unique_id
+    type: VARCHAR
+  - name: business_name
+    type: VARCHAR
+  - name: dbatrade_name
+    type: VARCHAR
+  - name: business_category
+    type: VARCHAR
+  - name: certificate_of_inspection
+    type: VARCHAR
+  - name: inspection_number
+    type: VARCHAR
+  - name: noh_number
+    type: VARCHAR
+  - name: violation_date
+    type: DATE
+  - name: charge
+    type: VARCHAR
+  - name: charge_count
+    type: BIGINT
+  - name: cure_eligible
+    type: BOOLEAN
+  - name: cured
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: guilty
+    type: BIGINT
+  - name: not_guilty
+    type: BIGINT
+  - name: dismissed
+    type: BIGINT

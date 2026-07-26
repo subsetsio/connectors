@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "physicalid",
+    "l_low_hn",
+    "objectid",
+    "the_geom",
+    "l_high_hn",
+    "r_low_hn",
+    "r_high_hn",
+    "l_zip",
+    "r_zip",
+    "stname_lab",
+    "status",
+    "rwjurisdic",
+    "accessible",
+    "nonped",
+    "bike_lane",
+    "boroughcod",
+    "borough_in",
+    "seglocstat",
+    "sandist_in",
+    "lsubsect",
+    "rsubsect",
+    "continuous",
+    "twisted_pa",
+    "segmentlen",
+    "created_by",
+    "created_da",
+    "modified_b",
+    "modified_d",
+    "trafdir",
+    "rw_type",
+    "within_bnd",
+    "collection",
+    "from_level",
+    "to_level_c",
+    "b5sc",
+    "bphys_id",
+    "shape_leng"
+FROM "nyc-open-data-dpb9-ubdh"

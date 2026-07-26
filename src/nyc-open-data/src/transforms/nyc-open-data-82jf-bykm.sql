@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "observationdate",
+    "borough",
+    "pool",
+    "poolid",
+    "sessiontype",
+    "opentoday",
+    "closedreason",
+    "opentime",
+    "lateopen",
+    "lateopenreason",
+    "poolopenpercent",
+    "attendance",
+    "supervisorcount",
+    "lifeguardcount",
+    "pepcount",
+    "nypdcount",
+    "meetingtime",
+    "incident",
+    "incidentcount",
+    "incidentreport",
+    "problem",
+    "problemcount",
+    "arrest",
+    "arrestcount",
+    "chlorinetype",
+    "liquidchlorine",
+    "tabletchlorine",
+    "overnightswimmers",
+    "overnightswimmerscheck",
+    "overnightswimmernum",
+    "pressyes",
+    "breakfasts",
+    "lunches",
+    "temperature",
+    "weatherconditions"
+FROM "nyc-open-data-82jf-bykm"

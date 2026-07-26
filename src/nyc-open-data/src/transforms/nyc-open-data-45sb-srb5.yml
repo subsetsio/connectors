@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-45sb-srb5`. Regenerate after model-verify.
+key: [globalid, tasktype]
+temporal: completeddate
+sort: [completeddate, globalid, tasktype]
+columns:
+  - name: objectid
+    type: BIGINT
+  - name: tasktype
+    type: VARCHAR
+  - name: completeddate
+    type: TIMESTAMP
+  - name: workorderglobalid
+    type: VARCHAR
+  - name: globalid
+    type: VARCHAR
+  - name: crewglobalid
+    type: VARCHAR
+  - name: taskentity
+    type: BIGINT
+  - name: staffcpcc
+    type: DOUBLE
+  - name: staffcp
+    type: DOUBLE
+  - name: staffapsw
+    type: DOUBLE
+  - name: labortime
+    type: DOUBLE
+  - name: traveltime
+    type: DOUBLE
+  - name: staffcpw
+    type: DOUBLE
+  - name: staffforester
+    type: DOUBLE
+  - name: staffgardener
+    type: DOUBLE

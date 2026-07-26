@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-atne-2dki`. Regenerate after model-verify.
+key: [program_entry_date, docket_id]
+temporal: program_entry_date
+sort: [program_entry_date, docket_id]
+columns:
+  - name: program_name
+    type: VARCHAR
+  - name: docket_id
+    type: BIGINT
+  - name: intake_max_severity
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: program_entry_date
+    type: DATE
+  - name: supervision_level
+    type: VARCHAR

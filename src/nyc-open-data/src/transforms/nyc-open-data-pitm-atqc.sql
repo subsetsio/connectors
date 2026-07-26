@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "objectid",
+    "globalid",
+    "seating_interest_sidewalkroadwayboth",
+    "restaurant_name",
+    "legal_business_name",
+    "doing_business_as_dba",
+    "building_number",
+    "street",
+    "borough",
+    "postcode",
+    "business_address",
+    "food_service_establishment_permit",
+    "sidewalk_dimensions_length",
+    "sidewalk_dimensions_width",
+    "sidewalk_dimensions_area",
+    "roadway_dimensions_length",
+    "roadway_dimensions_width",
+    "roadway_dimensions_area",
+    "approved_for_sidewalk_seating",
+    "approved_for_roadway_seating",
+    "qualify_alcohol",
+    "sla_serial_number",
+    "sla_license_type",
+    "landmark_district_or_building",
+    "landmarkdistrict_terms",
+    "healthcompliance_terms",
+    "time_of_submission",
+    "latitude",
+    "longitude",
+    "community_board",
+    "council_district",
+    "census_tract",
+    "bin",
+    "bbl",
+    "nta"
+FROM "nyc-open-data-pitm-atqc"

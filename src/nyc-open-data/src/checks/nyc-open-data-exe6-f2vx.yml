@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-exe6-f2vx`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [of_8th_grade_students_that_received_2_halfunits_of_instruction_in_arts_in_two_different_disciplines]
+checks:
+  - kind: unique
+    columns: [of_8th_grade_students_that_received_2_halfunits_of_instruction_in_arts_in_two_different_disciplines]
+  - kind: not_null
+    col: of_8th_grade_students_that_received_2_halfunits_of_instruction_in_arts_in_two_different_disciplines
+  - kind: row_floor
+    min: 17
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

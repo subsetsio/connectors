@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-98b7-th5j`. Regenerate after model-verify.
+key: [license_no]
+temporal: effective_date
+sort: [effective_date, license_no]
+columns:
+  - name: location
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: license_no
+    type: VARCHAR
+  - name: business_address
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: city_or_town
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: community_board
+    type: BIGINT
+  - name: zip_code
+    type: BIGINT
+  - name: phone_no
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: council_district
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR
+  - name: effective_date
+    type: DATE

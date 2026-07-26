@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-b84a-xy2t`. Regenerate after model-verify.
+key: [date_of_inspection, time_of_visitation_hhmmss, zip_code, location_id, borough]
+temporal: date_of_inspection
+sort: [date_of_inspection, time_of_visitation_hhmmss, zip_code, location_id, borough]
+columns:
+  - name: location_id
+    type: BIGINT
+  - name: zip_code
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: council_district
+    type: BIGINT
+  - name: requesting_precinct
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_disorderly_patrons
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_elevated_sound
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_harrassment
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_larceny
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_physical_assault
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_promotion_of_gambling
+    type: VARCHAR
+  - name: conduct_or_complaint_that_led_to_requested_operation_robbery
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_sale_of_alcohol_to_a_minor
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_traffic_issues
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_unlicensed_sale_of_alcohol
+    type: BIGINT
+  - name: conduct_or_complaint_that_led_to_requested_operation_violent_activity_with_a_weapon
+    type: BIGINT
+  - name: date_of_inspection
+    type: TIMESTAMP
+  - name: time_of_visitation_hhmmss
+    type: VARCHAR
+  - name: march_inspection
+    type: BIGINT
+  - name: inspection_duration_min
+    type: BIGINT
+  - name: inspectors_from_dep_present
+    type: BIGINT
+  - name: inspectors_from_dob_present
+    type: BIGINT
+  - name: inspectors_from_dohmh_present
+    type: BIGINT
+  - name: inspectors_from_fdny_present
+    type: BIGINT
+  - name: inspectors_from_nypd_present
+    type: BIGINT
+  - name: total_inspectors_from_city_government_agencies_present
+    type: BIGINT
+  - name: summonses_issed_by_dep
+    type: BIGINT
+  - name: summonses_issed_by_dob
+    type: BIGINT
+  - name: summonses_issed_by_dohmh
+    type: BIGINT
+  - name: summonses_issed_by_fdny
+    type: BIGINT
+  - name: summonses_issed_by_nypd
+    type: BIGINT
+  - name: total_summonses_issued_by_city_government_agencies
+    type: BIGINT
+  - name: closure_of_establishment
+    type: BOOLEAN
+  - name: closure_duration_min
+    type: BIGINT
+  - name: written_notices_pursuant_to_admin_code_14181
+    type: BIGINT

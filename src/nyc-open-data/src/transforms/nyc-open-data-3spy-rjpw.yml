@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-3spy-rjpw`. Regenerate after model-verify.
+key: [bldg_id]
+temporal: data_as_of
+sort: [data_as_of, bldg_id]
+columns:
+  - name: jur_dist
+    type: BIGINT
+  - name: bldg_id
+    type: VARCHAR
+  - name: building_name
+    type: VARCHAR
+  - name: building_address
+    type: VARCHAR
+  - name: no_of_tcus
+    type: BIGINT
+  - name: enrollment
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR
+  - name: data_as_of
+    type: DATE

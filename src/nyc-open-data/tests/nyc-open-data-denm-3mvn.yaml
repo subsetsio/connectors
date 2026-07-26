@@ -1,2 +1,5 @@
 spec_id: nyc-open-data-denm-3mvn
 status: deferred
+coverage:
+  frozen: true
+  reason: "NYC Open Data catalog-scale snapshot; source tables have heterogeneous update schedules, so this v1 connector verifies row availability without asserting per-table freshness."

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-auj6-ur3j`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date_from, date_to, age_group_of_cash_assistance_application_head_of_household]
+temporal: date_from
+checks:
+  - kind: unique
+    columns: [date_from, date_to, age_group_of_cash_assistance_application_head_of_household]
+  - kind: not_null
+    col: date_from
+  - kind: not_null
+    col: date_to
+  - kind: not_null
+    col: age_group_of_cash_assistance_application_head_of_household
+  - kind: row_floor
+    min: 20
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

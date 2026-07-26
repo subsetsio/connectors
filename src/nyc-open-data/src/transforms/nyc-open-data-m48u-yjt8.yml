@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-m48u-yjt8`. Regenerate after model-verify.
+key: [url]
+temporal: meeting_date
+sort: [meeting_date, url]
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: committee
+    type: VARCHAR
+  - name: meeting_date
+    type: DATE
+  - name: meeting_time
+    type: VARCHAR
+  - name: meeting_location
+    type: VARCHAR
+  - name: note
+    type: VARCHAR
+  - name: agenda_status
+    type: VARCHAR
+  - name: minutes_status
+    type: VARCHAR
+  - name: modified_date
+    type: TIMESTAMP
+  - name: url
+    type: VARCHAR

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-rdxc-q253`. Regenerate after model-verify.
+key: [schedule_date, permit_number, schedule_time]
+temporal: schedule_date
+sort: [schedule_date, permit_number, schedule_time]
+columns:
+  - name: permit_number
+    type: VARCHAR
+  - name: schedule_date
+    type: DATE
+  - name: schedule_time
+    type: VARCHAR
+  - name: base_number
+    type: VARCHAR
+  - name: last_updated_date
+    type: DATE
+  - name: last_updated_time
+    type: TIME

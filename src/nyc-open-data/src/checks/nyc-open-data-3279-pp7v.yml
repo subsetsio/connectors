@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-3279-pp7v`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [oer_project_numbers, projectspecific_document_repository_page, street_name, phase, borough]
+checks:
+  - kind: unique
+    columns: [oer_project_numbers, projectspecific_document_repository_page, street_name, phase, borough]
+  - kind: not_null
+    col: oer_project_numbers
+  - kind: not_null
+    col: projectspecific_document_repository_page
+  - kind: not_null
+    col: street_name
+  - kind: not_null
+    col: phase
+  - kind: not_null
+    col: borough
+  - kind: row_floor
+    min: 1129
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

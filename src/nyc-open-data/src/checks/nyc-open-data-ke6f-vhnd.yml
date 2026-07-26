@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ke6f-vhnd`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, district_attorney_bronx_county, law_department, independent_budget_office]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, district_attorney_bronx_county, law_department, independent_budget_office]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: district_attorney_bronx_county
+  - kind: not_null
+    col: law_department
+  - kind: not_null
+    col: independent_budget_office
+  - kind: row_floor
+    min: 179
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

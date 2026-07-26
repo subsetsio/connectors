@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-cwmx-mvra`. Regenerate after model-verify.
+key: [specimen_date, extract_date]
+temporal: extract_date
+sort: [extract_date, specimen_date]
+columns:
+  - name: extract_date
+    type: DATE
+  - name: specimen_date
+    type: DATE
+  - name: number_tested
+    type: BIGINT
+  - name: number_confirmed
+    type: BIGINT
+  - name: number_hospitalized
+    type: BIGINT
+  - name: number_deaths
+    type: BIGINT

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-gaq9-z3hz`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [district, fiscal_month_number, month_name, zone, fiscal_year]
+checks:
+  - kind: unique
+    columns: [district, fiscal_month_number, month_name, zone, fiscal_year]
+  - kind: not_null
+    col: district
+  - kind: not_null
+    col: fiscal_month_number
+  - kind: not_null
+    col: month_name
+  - kind: not_null
+    col: zone
+  - kind: not_null
+    col: fiscal_year
+  - kind: row_floor
+    min: 1416
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

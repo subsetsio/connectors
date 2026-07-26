@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-t79c-x4dw`. Regenerate after model-verify.
+key: [weighted_register_allocation_if_fsf_fully_funded, total_fsf_allocation_including_foundation_and_collective_bargaining_costs, total_fsf_allocation_at_100_including_foundation_adjusted_for_collective_bargaining_costs, total_fsf_allocation_gap_to_100_including_foundation_adjusted_for_collective_bargaining_costs, nonfsf_budget_allocations]
+sort: [weighted_register_allocation_if_fsf_fully_funded, total_fsf_allocation_including_foundation_and_collective_bargaining_costs, total_fsf_allocation_at_100_including_foundation_adjusted_for_collective_bargaining_costs, total_fsf_allocation_gap_to_100_including_foundation_adjusted_for_collective_bargaining_costs, nonfsf_budget_allocations]
+columns:
+  - name: district
+    type: VARCHAR
+  - name: school_code
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: school_type
+    type: VARCHAR
+  - name: weighted_register_allocation
+    type: VARCHAR
+  - name: weighted_register_allocation_if_fsf_fully_funded
+    type: VARCHAR
+  - name: weighted_register_allocation_gap_to_100
+    type: VARCHAR
+  - name: funded
+    type: VARCHAR
+  - name: foundation_not_included_in_the_funding
+    type: VARCHAR
+  - name: collective_bargaining_for_school_based_staff_not_included_in_the_funding
+    type: VARCHAR
+  - name: total_fsf_allocation_including_foundation_and_collective_bargaining_costs
+    type: VARCHAR
+  - name: total_fsf_allocation_at_100_including_foundation_adjusted_for_collective_bargaining_costs
+    type: VARCHAR
+  - name: total_fsf_allocation_gap_to_100_including_foundation_adjusted_for_collective_bargaining_costs
+    type: VARCHAR
+  - name: total_budget_allocation
+    type: VARCHAR
+  - name: fsf_as_of_total_budget_allocation
+    type: VARCHAR
+  - name: nonfsf_budget_allocations
+    type: VARCHAR

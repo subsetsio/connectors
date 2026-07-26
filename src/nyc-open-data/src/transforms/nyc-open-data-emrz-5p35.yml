@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-emrz-5p35`. Regenerate after model-verify.
+key: [unique_key]
+temporal: invoicedate
+sort: [invoicedate, unique_key]
+columns:
+  - name: invoiceid
+    type: BIGINT
+  - name: invoicesequenceid
+    type: VARCHAR
+  - name: omonumber
+    type: VARCHAR
+  - name: invoicestatus
+    type: VARCHAR
+  - name: invoicedate
+    type: DATE
+  - name: invoicebillamount
+    type: DOUBLE
+  - name: invoicepayamount
+    type: DOUBLE
+  - name: salestax
+    type: DOUBLE
+  - name: adminfee
+    type: DOUBLE
+  - name: paymentid
+    type: BIGINT
+  - name: chargeamount
+    type: DOUBLE
+  - name: datetransferdof
+    type: DATE
+  - name: unique_key
+    type: VARCHAR

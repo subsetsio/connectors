@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-davn-rbxj`. Regenerate after model-verify.
+key: [actual_move_out_date, record]
+temporal: intake_date
+sort: [intake_date, actual_move_out_date, record]
+columns:
+  - name: record
+    type: VARCHAR
+  - name: intake_date
+    type: DATE
+  - name: service_request_category
+    type: VARCHAR
+  - name: service_request_sub_category
+    type: VARCHAR
+  - name: date_of_service_request
+    type: DATE
+  - name: affilation
+    type: VARCHAR
+  - name: branch_of_service
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: actual_move_out_date
+    type: DATE
+  - name: homelessness_status
+    type: VARCHAR
+  - name: referred_to
+    type: VARCHAR
+  - name: service_request_resolution
+    type: VARCHAR
+  - name: service_request_resolution_date
+    type: DATE

@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-uip8-fykc`. Regenerate after model-verify.
+key: [arrest_date, arrest_key]
+temporal: arrest_date
+sort: [arrest_date, arrest_key]
+columns:
+  - name: arrest_key
+    type: BIGINT
+  - name: arrest_date
+    type: DATE
+  - name: pd_cd
+    type: BIGINT
+  - name: pd_desc
+    type: VARCHAR
+  - name: ky_cd
+    type: BIGINT
+  - name: ofns_desc
+    type: VARCHAR
+  - name: law_code
+    type: VARCHAR
+  - name: law_cat_cd
+    type: VARCHAR
+  - name: arrest_boro
+    type: VARCHAR
+  - name: arrest_precinct
+    type: BIGINT
+  - name: jurisdiction_code
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: perp_sex
+    type: VARCHAR
+  - name: perp_race
+    type: VARCHAR
+  - name: x_coord_cd
+    type: BIGINT
+  - name: y_coord_cd
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: location
+    type: VARCHAR

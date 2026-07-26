@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pmsy-ewrc`. Regenerate after model-verify.
+key: [appointment_date, profile_id, command, rank]
+temporal: appointment_date
+sort: [appointment_date, profile_id, command, rank]
+columns:
+  - name: profile_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: rank
+    type: VARCHAR
+  - name: command
+    type: VARCHAR
+  - name: shield
+    type: BIGINT
+  - name: appointment_date
+    type: DATE
+  - name: arrests_total
+    type: BIGINT
+  - name: department_recognitions
+    type: BIGINT
+  - name: export_date
+    type: DATE

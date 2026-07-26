@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pwts-g83w`. Regenerate after model-verify.
+key: [facilityname, address, contact_phone, service_type, borough]
+sort: [facilityname, address, contact_phone, service_type, borough]
+columns:
+  - name: facilityname
+    type: VARCHAR
+  - name: service_type
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: address_2
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: zipcode
+    type: BIGINT
+  - name: website
+    type: VARCHAR
+  - name: email
+    type: VARCHAR
+  - name: contacts_email
+    type: VARCHAR
+  - name: secondary_email
+    type: VARCHAR
+  - name: organization_phone
+    type: VARCHAR
+  - name: contact_phone
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: city_council_district
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

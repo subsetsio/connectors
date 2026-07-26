@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-fpeh-f7ci`. Regenerate after model-verify.
+key: [location, business_legal_name, assumed_names, license_type]
+temporal: license_issue_date
+sort: [license_issue_date, location, business_legal_name, assumed_names, license_type]
+columns:
+  - name: business_legal_name
+    type: VARCHAR
+  - name: assumed_names
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: license_type
+    type: VARCHAR
+  - name: license_status
+    type: VARCHAR
+  - name: license_issue_date
+    type: TIMESTAMP
+  - name: license_expiration_date
+    type: TIMESTAMP
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: council_district
+    type: BIGINT
+  - name: community_board
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR
+  - name: location
+    type: VARCHAR

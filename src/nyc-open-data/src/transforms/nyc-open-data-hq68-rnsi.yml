@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-hq68-rnsi`. Regenerate after model-verify.
+key: [project_id]
+temporal: project_start_date
+sort: [project_start_date, project_id]
+columns:
+  - name: project_id
+    type: BIGINT
+  - name: project_name
+    type: VARCHAR
+  - name: program_group
+    type: VARCHAR
+  - name: project_start_date
+    type: DATE
+  - name: project_completion_date
+    type: DATE
+  - name: extended_affordability_only
+    type: BOOLEAN
+  - name: prevailing_wage_status
+    type: VARCHAR
+  - name: planned_tax_benefit
+    type: VARCHAR
+  - name: extremely_low_income_units
+    type: BIGINT
+  - name: very_low_income_units
+    type: BIGINT
+  - name: low_income_units
+    type: BIGINT
+  - name: moderate_income_units
+    type: BIGINT
+  - name: middle_income_units
+    type: BIGINT
+  - name: other_income_units
+    type: BIGINT
+  - name: counted_rental_units
+    type: BIGINT
+  - name: counted_homeownership_units
+    type: BIGINT
+  - name: all_counted_units
+    type: BIGINT
+  - name: total_units
+    type: BIGINT
+  - name: senior_units
+    type: BIGINT

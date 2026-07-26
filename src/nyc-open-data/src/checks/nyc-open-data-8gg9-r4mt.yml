@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-8gg9-r4mt`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [school_name, dbn, grade_level, program_type]
+checks:
+  - kind: unique
+    columns: [school_name, dbn, grade_level, program_type]
+  - kind: not_null
+    col: school_name
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: grade_level
+  - kind: not_null
+    col: program_type
+  - kind: row_floor
+    min: 6186
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

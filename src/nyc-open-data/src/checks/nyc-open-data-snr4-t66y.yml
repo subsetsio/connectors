@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-snr4-t66y`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [system, gispropnum, name, the_geom, nys_assemb]
+checks:
+  - kind: unique
+    columns: [system, gispropnum, name, the_geom, nys_assemb]
+  - kind: not_null
+    col: system
+  - kind: not_null
+    col: gispropnum
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: the_geom
+  - kind: not_null
+    col: nys_assemb
+  - kind: row_floor
+    min: 7
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

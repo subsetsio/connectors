@@ -1,0 +1,441 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-72r6-mtgs`. Regenerate after model-verify.
+key: [organization_city_agency_division_name, street_addressmailing_address, special_populations_served, adult_volunteers, youth_volunteers]
+sort: [organization_city_agency_division_name, street_addressmailing_address, special_populations_served, adult_volunteers, youth_volunteers]
+columns:
+  - name: organization_city_agency_division_name
+    type: VARCHAR
+  - name: street_addressmailing_address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: year_surveyed
+    type: BIGINT
+  - name: total_vounteers
+    type: BIGINT
+  - name: youth_volunteers
+    type: VARCHAR
+  - name: adult_volunteers
+    type: VARCHAR
+  - name: older_adult_volunteers
+    type: VARCHAR
+  - name: organization_type
+    type: VARCHAR
+  - name: interest_areas
+    type: VARCHAR
+  - name: boroughs_served
+    type: VARCHAR
+  - name: special_populations_served
+    type: VARCHAR
+  - name: bk_bath_beach
+    type: VARCHAR
+  - name: bk_bay_ridge
+    type: VARCHAR
+  - name: bk_bedford
+    type: VARCHAR
+  - name: bk_bensonhurst_east
+    type: VARCHAR
+  - name: bk_bensonhurst_west
+    type: VARCHAR
+  - name: bk_borough_park
+    type: VARCHAR
+  - name: bk_brighton_beach
+    type: VARCHAR
+  - name: bk_brooklyn_heightscobble_hill
+    type: VARCHAR
+  - name: bk_brownsville
+    type: VARCHAR
+  - name: bk_bushwick_north
+    type: VARCHAR
+  - name: bk_bushwick_south
+    type: VARCHAR
+  - name: bk_canarsie
+    type: VARCHAR
+  - name: bk_carroll_gardenscolumbia_streetred_hook
+    type: VARCHAR
+  - name: bk_clinton_hill
+    type: VARCHAR
+  - name: bk_crown_heights_north
+    type: VARCHAR
+  - name: bk_crown_heights_south
+    type: VARCHAR
+  - name: bk_cypress_hillscity_line
+    type: VARCHAR
+  - name: bk_dumbovinegar_hilldowntown_brooklynboerum_hill
+    type: VARCHAR
+  - name: bk_dyker_heights
+    type: VARCHAR
+  - name: bk_east_flatbushfarragut
+    type: VARCHAR
+  - name: bk_east_new_york
+    type: VARCHAR
+  - name: bk_east_new_york_pennsylvania_ave
+    type: VARCHAR
+  - name: bk_east_williamsburg
+    type: VARCHAR
+  - name: bk_erasmus
+    type: VARCHAR
+  - name: bk_flatbush
+    type: VARCHAR
+  - name: bk_flatlands
+    type: VARCHAR
+  - name: bk_fort_greene
+    type: VARCHAR
+  - name: bk_georgetownmarine_parkbergen_beachmill_basin
+    type: VARCHAR
+  - name: bk_gravesend
+    type: VARCHAR
+  - name: bk_greenpoint
+    type: VARCHAR
+  - name: bk_homecrest
+    type: VARCHAR
+  - name: bk_kensingtonocean_parkway
+    type: VARCHAR
+  - name: bk_madison
+    type: VARCHAR
+  - name: bk_midwood
+    type: VARCHAR
+  - name: bk_north_sidesouth_side
+    type: VARCHAR
+  - name: bk_ocean_hill
+    type: VARCHAR
+  - name: bk_ocean_parkway_south
+    type: VARCHAR
+  - name: bk_park_slopegowanus
+    type: VARCHAR
+  - name: bk_parkcemeteryetcbrooklyn
+    type: VARCHAR
+  - name: bk_prospect_heights
+    type: VARCHAR
+  - name: bk_prospect_lefferts_gardenswingate
+    type: VARCHAR
+  - name: bk_rugbyremsen_village
+    type: VARCHAR
+  - name: bk_seagateconey_island
+    type: VARCHAR
+  - name: bk_sheepshead_baygerritsen_beachmanhattan_beach
+    type: VARCHAR
+  - name: bk_starrett_city
+    type: VARCHAR
+  - name: bk_stuyvesant_heights
+    type: VARCHAR
+  - name: bk_sunset_park_east
+    type: VARCHAR
+  - name: bk_sunset_park_west
+    type: VARCHAR
+  - name: bk_west_brighton
+    type: VARCHAR
+  - name: bk_williamsburg
+    type: VARCHAR
+  - name: bk_windsor_terrace
+    type: VARCHAR
+  - name: bx_allertonpelham_gardens
+    type: VARCHAR
+  - name: bx_bedford_parkfordham_north
+    type: VARCHAR
+  - name: bx_belmont
+    type: VARCHAR
+  - name: bx_bronxdale
+    type: VARCHAR
+  - name: bx_claremontbathgate
+    type: VARCHAR
+  - name: bx_coop_city
+    type: VARCHAR
+  - name: bx_crotona_park_east
+    type: VARCHAR
+  - name: bx_east_concourseconcourse_village
+    type: VARCHAR
+  - name: bx_east_tremont
+    type: VARCHAR
+  - name: bx_eastchesteredenwaldbaychester
+    type: VARCHAR
+  - name: bx_fordham_south
+    type: VARCHAR
+  - name: bx_highbridge
+    type: VARCHAR
+  - name: bx_hunts_point
+    type: VARCHAR
+  - name: bx_kingsbridge_heights
+    type: VARCHAR
+  - name: bx_longwood
+    type: VARCHAR
+  - name: bx_melrose_southmott_haven_north
+    type: VARCHAR
+  - name: bx_morrisaniamelrose
+    type: VARCHAR
+  - name: bx_mott_havenport_morris
+    type: VARCHAR
+  - name: bx_mount_hope
+    type: VARCHAR
+  - name: bx_north_riverdalefieldstonriverdale
+    type: VARCHAR
+  - name: bx_norwood
+    type: VARCHAR
+  - name: bx_parkcemeteryetcbronx
+    type: VARCHAR
+  - name: bx_parkchester
+    type: VARCHAR
+  - name: bx_pelham_baycountry_clubcity_island
+    type: VARCHAR
+  - name: bx_pelham_parkway
+    type: VARCHAR
+  - name: bx_rikers_island
+    type: VARCHAR
+  - name: bx_schuylervillethrogs_neckedgewater_park
+    type: VARCHAR
+  - name: bx_soundviewbruckner
+    type: VARCHAR
+  - name: bx_soundviewcastle_hillclason_pointharding_park
+    type: VARCHAR
+  - name: bx_spuyten_duyvilkingsbridge
+    type: VARCHAR
+  - name: bx_university_heightsmorris_heights
+    type: VARCHAR
+  - name: bx_van_cortlandt_village
+    type: VARCHAR
+  - name: bx_van_nestmorris_parkwestchester_square
+    type: VARCHAR
+  - name: bx_west_concourse
+    type: VARCHAR
+  - name: bx_west_farmsbronx_river
+    type: VARCHAR
+  - name: bx_westchesterunionport
+    type: VARCHAR
+  - name: bx_williamsbridgeolinville
+    type: VARCHAR
+  - name: bx_woodlawnwakefield
+    type: VARCHAR
+  - name: mn_battery_park_citylower_manhattan
+    type: VARCHAR
+  - name: mn_central_harlem_northpolo_grounds
+    type: VARCHAR
+  - name: mn_central_harlem_south
+    type: VARCHAR
+  - name: mn_chinatown
+    type: VARCHAR
+  - name: mn_clinton
+    type: VARCHAR
+  - name: mn_east_harlem_north
+    type: VARCHAR
+  - name: mn_east_harlem_south
+    type: VARCHAR
+  - name: mn_east_village
+    type: VARCHAR
+  - name: mn_gramercy
+    type: VARCHAR
+  - name: mn_hamilton_heights
+    type: VARCHAR
+  - name: mn_hudson_yardschelseaflat_ironunion_square
+    type: VARCHAR
+  - name: mn_lenox_hillroosevelt_island
+    type: VARCHAR
+  - name: mn_lincoln_square
+    type: VARCHAR
+  - name: mn_lower_east_side
+    type: VARCHAR
+  - name: mn_manhattanville
+    type: VARCHAR
+  - name: mn_marble_hillinwood
+    type: VARCHAR
+  - name: mn_midtownmidtown_south
+    type: VARCHAR
+  - name: mn_morningside_heights
+    type: VARCHAR
+  - name: mn_murray_hillkips_bay
+    type: VARCHAR
+  - name: mn_parkcemeteryetcmanhattan
+    type: VARCHAR
+  - name: mn_sohotribecacivic_centerlittle_italy
+    type: VARCHAR
+  - name: mn_stuyvesant_towncooper_village
+    type: VARCHAR
+  - name: mn_turtle_bayeast_midtown
+    type: VARCHAR
+  - name: mn_upper_east_sidecarnegie_hill
+    type: VARCHAR
+  - name: mn_upper_west_side
+    type: VARCHAR
+  - name: mn_washington_heights_north
+    type: VARCHAR
+  - name: mn_washington_heights_south
+    type: VARCHAR
+  - name: mn_west_village
+    type: VARCHAR
+  - name: mn_yorkville
+    type: VARCHAR
+  - name: qn_airport
+    type: VARCHAR
+  - name: qn_astoria
+    type: VARCHAR
+  - name: qn_auburndale
+    type: VARCHAR
+  - name: qn_baisley_park
+    type: VARCHAR
+  - name: qn_baysidebayside_hills
+    type: VARCHAR
+  - name: qn_bellerose
+    type: VARCHAR
+  - name: qn_breezy_pointbelle_harborrockaway_parkbroad_channel
+    type: VARCHAR
+  - name: qn_briarwoodjamaica_hills
+    type: VARCHAR
+  - name: qn_cambria_heights
+    type: VARCHAR
+  - name: qn_college_point
+    type: VARCHAR
+  - name: qn_corona
+    type: VARCHAR
+  - name: qn_douglas_manordouglastonlittle_neck
+    type: VARCHAR
+  - name: qn_east_elmhurst
+    type: VARCHAR
+  - name: qn_east_flushing
+    type: VARCHAR
+  - name: qn_elmhurst
+    type: VARCHAR
+  - name: qn_elmhurstmaspeth
+    type: VARCHAR
+  - name: qn_far_rockawaybayswater
+    type: VARCHAR
+  - name: qn_flushing
+    type: VARCHAR
+  - name: qn_forest_hills
+    type: VARCHAR
+  - name: qn_fresh_meadowsutopia
+    type: VARCHAR
+  - name: qn_ft_tottenbay_terraceclearview
+    type: VARCHAR
+  - name: qn_glen_oaksfloral_parknew_hyde_park
+    type: VARCHAR
+  - name: qn_glendale
+    type: VARCHAR
+  - name: qn_hammelsarverneedgemere
+    type: VARCHAR
+  - name: qn_hollis
+    type: VARCHAR
+  - name: qn_hunters_pointsunnysidewest_maspeth
+    type: VARCHAR
+  - name: qn_jackson_heights
+    type: VARCHAR
+  - name: qn_jamaica
+    type: VARCHAR
+  - name: qn_jamaica_estatesholliswood
+    type: VARCHAR
+  - name: qn_kew_gardens
+    type: VARCHAR
+  - name: qn_kew_gardens_hills
+    type: VARCHAR
+  - name: qn_laurelton
+    type: VARCHAR
+  - name: qn_lindenwoodhoward_beach
+    type: VARCHAR
+  - name: qn_maspeth
+    type: VARCHAR
+  - name: qn_middle_village
+    type: VARCHAR
+  - name: qn_murray_hill
+    type: VARCHAR
+  - name: qn_north_corona
+    type: VARCHAR
+  - name: qn_oakland_gardens
+    type: VARCHAR
+  - name: qn_old_astoria
+    type: VARCHAR
+  - name: qn_ozone_park
+    type: VARCHAR
+  - name: qn_parkcemeteryetcqueens
+    type: VARCHAR
+  - name: qn_pomonokflushing_heightshillcrest
+    type: VARCHAR
+  - name: qn_queens_village
+    type: VARCHAR
+  - name: qn_queensboro_hill
+    type: VARCHAR
+  - name: qn_queensbridgeravenswoodlong_island_city
+    type: VARCHAR
+  - name: qn_rego_park
+    type: VARCHAR
+  - name: qn_richmond_hill
+    type: VARCHAR
+  - name: qn_ridgewood
+    type: VARCHAR
+  - name: qn_rosedale
+    type: VARCHAR
+  - name: qn_south_jamaica
+    type: VARCHAR
+  - name: qn_south_ozone_park
+    type: VARCHAR
+  - name: qn_springfield_gardens_north
+    type: VARCHAR
+  - name: qn_springfield_gardens_southbrookville
+    type: VARCHAR
+  - name: qn_st_albans
+    type: VARCHAR
+  - name: qn_steinway
+    type: VARCHAR
+  - name: qn_whitestone
+    type: VARCHAR
+  - name: qn_woodhaven
+    type: VARCHAR
+  - name: qn_woodside
+    type: VARCHAR
+  - name: si_annadalehuguenotprinces_bayeltingville
+    type: VARCHAR
+  - name: si_arden_heights
+    type: VARCHAR
+  - name: si_charlestonrichmond_valleytottenville
+    type: VARCHAR
+  - name: si_grasmerearrocharft_wadsworth
+    type: VARCHAR
+  - name: si_great_kills
+    type: VARCHAR
+  - name: si_grymes_hillcliftonfox_hills
+    type: VARCHAR
+  - name: si_mariners_harborarlingtonport_ivorygraniteville
+    type: VARCHAR
+  - name: si_new_brightonsilver_lake
+    type: VARCHAR
+  - name: si_new_dorpmidland_beach
+    type: VARCHAR
+  - name: si_new_springvillebloomfieldtravis
+    type: VARCHAR
+  - name: si_oakwoodoakwood_beach
+    type: VARCHAR
+  - name: si_old_towndongan_hillssouth_beach
+    type: VARCHAR
+  - name: si_parkcemeteryetcstaten_island
+    type: VARCHAR
+  - name: si_port_richmond
+    type: VARCHAR
+  - name: si_rossvillewoodrow
+    type: VARCHAR
+  - name: si_stapletonrosebank
+    type: VARCHAR
+  - name: si_todt_hillemerson_hillheartland_villagelighthouse_hill
+    type: VARCHAR
+  - name: si_west_new_brightonnew_brightonst_george
+    type: VARCHAR
+  - name: si_westerleigh
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

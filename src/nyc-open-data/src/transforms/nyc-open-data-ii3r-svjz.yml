@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ii3r-svjz`. Regenerate after model-verify.
+key: [case_number, case_year]
+temporal: incident_datetime
+sort: [incident_datetime, case_number, case_year]
+columns:
+  - name: case_year
+    type: BIGINT
+  - name: case_number
+    type: BIGINT
+  - name: incident_datetime
+    type: TIMESTAMP
+  - name: borough
+    type: VARCHAR
+  - name: battalion
+    type: VARCHAR
+  - name: community_district
+    type: VARCHAR
+  - name: precinct
+    type: VARCHAR
+  - name: incident_classification
+    type: VARCHAR
+  - name: cause_fire_description
+    type: VARCHAR
+  - name: fire_code_category
+    type: VARCHAR

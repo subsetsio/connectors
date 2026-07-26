@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5fsg-d8c9`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [bn, school_name, "201011_progress_report_grade", progress_report_type, "200910_progress_report_grade"]
+checks:
+  - kind: unique
+    columns: [bn, school_name, "201011_progress_report_grade", progress_report_type, "200910_progress_report_grade"]
+  - kind: not_null
+    col: bn
+  - kind: not_null
+    col: school_name
+  - kind: not_null
+    col: "201011_progress_report_grade"
+  - kind: not_null
+    col: progress_report_type
+  - kind: not_null
+    col: "200910_progress_report_grade"
+  - kind: row_floor
+    min: 897
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

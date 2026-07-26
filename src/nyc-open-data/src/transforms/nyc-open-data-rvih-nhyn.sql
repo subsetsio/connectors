@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "pops_number",
+    "borough",
+    "borocode",
+    "community_board",
+    "number",
+    "street",
+    "postcode",
+    "building_address_with_zip_code",
+    "tax_block",
+    "tax_lot",
+    "building_name",
+    "building_location",
+    "year_completed",
+    "building_constructed",
+    "public_space_type",
+    "developer",
+    "building_architect",
+    "principal_public_space_designer",
+    "size_required",
+    "hour_of_access_required",
+    "amenities_required",
+    "other_required",
+    "permitted_amenities",
+    "physically_disabled",
+    "latitude",
+    "longitude",
+    "xcoordinate",
+    "ycoordinate",
+    "council_district",
+    "census_tract",
+    "bin",
+    "bbl",
+    "nta",
+    "_location" AS location
+FROM "nyc-open-data-rvih-nhyn"

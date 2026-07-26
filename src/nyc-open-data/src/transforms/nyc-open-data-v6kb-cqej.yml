@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-v6kb-cqej`. Regenerate after model-verify.
+key: [yearmonth, license_class]
+temporal: yearmonth
+sort: [yearmonth, license_class]
+columns:
+  - name: yearmonth
+    type: DATE
+  - name: license_class
+    type: VARCHAR
+  - name: trips_per_day
+    type: BIGINT
+  - name: farebox_per_day
+    type: BIGINT
+  - name: unique_drivers
+    type: BIGINT
+  - name: unique_vehicles
+    type: BIGINT
+  - name: vehicles_per_day
+    type: BIGINT
+  - name: avg_days_vehicles_on_road
+    type: DOUBLE
+  - name: avg_hours_per_day_per_vehicle
+    type: DOUBLE
+  - name: avg_days_drivers_on_road
+    type: DOUBLE
+  - name: avg_hours_per_day_per_driver
+    type: DOUBLE
+  - name: avg_minutes_per_trip
+    type: DOUBLE
+  - name: percent_of_trips_paid_with_credit_card
+    type: BIGINT
+  - name: trips_per_day_shared
+    type: BIGINT

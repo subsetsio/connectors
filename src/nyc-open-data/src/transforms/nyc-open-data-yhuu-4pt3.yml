@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-yhuu-4pt3`. Regenerate after model-verify.
+key: [expiration_date, permit_license_number, reason]
+temporal: expiration_date
+sort: [expiration_date, permit_license_number, reason]
+columns:
+  - name: active
+    type: BOOLEAN
+  - name: permit_license_number
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: expiration_date
+    type: DATE
+  - name: vehicle_license_number
+    type: VARCHAR
+  - name: dmv_license_plate_number
+    type: VARCHAR
+  - name: vehicle_vin_number
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: certification_date
+    type: DATE
+  - name: hack_up_date
+    type: DATE
+  - name: vehicle_year
+    type: BIGINT
+  - name: base_number
+    type: VARCHAR
+  - name: base_name
+    type: VARCHAR
+  - name: base_telephone_number
+    type: VARCHAR
+  - name: base_website
+    type: VARCHAR
+  - name: base_address
+    type: VARCHAR
+  - name: reason
+    type: VARCHAR
+  - name: suspension_date
+    type: VARCHAR
+  - name: last_date_updated
+    type: DATE
+  - name: last_time_updated
+    type: TIME

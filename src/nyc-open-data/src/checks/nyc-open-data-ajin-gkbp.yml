@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ajin-gkbp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [language, community_district_name, borough_community_district_code, borough]
+checks:
+  - kind: unique
+    columns: [language, community_district_name, borough_community_district_code, borough]
+  - kind: not_null
+    col: language
+  - kind: not_null
+    col: community_district_name
+  - kind: not_null
+    col: borough_community_district_code
+  - kind: not_null
+    col: borough
+  - kind: row_floor
+    min: 4012
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

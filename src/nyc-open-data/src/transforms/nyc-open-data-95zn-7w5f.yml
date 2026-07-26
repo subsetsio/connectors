@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-95zn-7w5f`. Regenerate after model-verify.
+key: [nta_code]
+temporal: publication_date
+sort: [publication_date, nta_code]
+columns:
+  - name: publication_date
+    type: DATE
+  - name: nta_code
+    type: VARCHAR
+  - name: nta_name
+    type: VARCHAR
+  - name: ntaabbrev
+    type: VARCHAR
+  - name: baseline
+    type: DOUBLE
+  - name: control_scenario_temperature
+    type: DOUBLE
+  - name: planned_action_temperature
+    type: DOUBLE
+  - name: percent_managed_by_action
+    type: DOUBLE

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-mpw3-7xyh`. Regenerate after model-verify.
+key: [report_date, referral_source_type]
+temporal: report_date
+sort: [report_date, referral_source_type]
+columns:
+  - name: report_date
+    type: DATE
+  - name: referral_source_type
+    type: VARCHAR
+  - name: total_referred
+    type: BIGINT
+  - name: total_ineligible
+    type: BIGINT

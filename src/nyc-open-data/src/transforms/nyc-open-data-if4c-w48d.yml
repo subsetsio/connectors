@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-if4c-w48d`. Regenerate after model-verify.
+key: [the_geom, sip_year]
+temporal: end_date
+sort: [end_date, the_geom, sip_year]
+columns:
+  - name: the_geom
+    type: VARCHAR
+  - name: pjct_name
+    type: VARCHAR
+  - name: sip_year
+    type: BIGINT
+  - name: end_date
+    type: TIMESTAMP
+  - name: shape_leng
+    type: DOUBLE

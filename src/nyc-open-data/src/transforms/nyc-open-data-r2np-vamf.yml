@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-r2np-vamf`. Regenerate after model-verify.
+key: [period, subgroup, metric_name, program_target_population, category]
+temporal: period
+sort: [period, subgroup, metric_name, program_target_population, category]
+columns:
+  - name: metric_name
+    type: VARCHAR
+  - name: program_target_population
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: period_type
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: metric_value
+    type: BIGINT

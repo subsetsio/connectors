@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ayx3-dixq`. Regenerate after model-verify.
+key: [record_id]
+temporal: application_submission_date
+sort: [application_submission_date, record_id]
+columns:
+  - name: record_id
+    type: VARCHAR
+  - name: record_category
+    type: VARCHAR
+  - name: industry
+    type: VARCHAR
+  - name: application_submission_date
+    type: DATE
+  - name: applicant_name
+    type: VARCHAR
+  - name: does_the_organization_currently_hold_an_active_pedicab_business_license
+    type: BOOLEAN
+  - name: license_number
+    type: VARCHAR
+  - name: total_number_of_registered_pedicab_vehicles
+    type: BIGINT
+  - name: desired_number_of_pedicab_units
+    type: BIGINT
+  - name: pedicab_lottery_application_order_number
+    type: BIGINT
+  - name: pedicab_lottery_priority_number
+    type: BIGINT
+  - name: lottery_selection_date
+    type: DATE
+  - name: selected_from_lottery
+    type: BOOLEAN
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: community_district
+    type: BIGINT
+  - name: council_district
+    type: BIGINT

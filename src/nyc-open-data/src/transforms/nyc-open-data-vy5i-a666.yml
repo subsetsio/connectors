@@ -1,0 +1,66 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-vy5i-a666`. Regenerate after model-verify.
+key: [lottery_id]
+temporal: lottery_start_date
+sort: [lottery_start_date, lottery_id]
+columns:
+  - name: lottery_id
+    type: BIGINT
+  - name: lottery_name
+    type: VARCHAR
+  - name: lottery_status
+    type: VARCHAR
+  - name: development_type
+    type: VARCHAR
+  - name: lottery_start_date
+    type: DATE
+  - name: lottery_end_date
+    type: DATE
+  - name: building_count
+    type: BIGINT
+  - name: unit_count
+    type: BIGINT
+  - name: unit_distribution_studio
+    type: BIGINT
+  - name: unit_distribution_1_bedroom
+    type: BIGINT
+  - name: unit_distribution_2_bedrooms
+    type: BIGINT
+  - name: unit_distribution_3_bedrooms
+    type: BIGINT
+  - name: unit_distribution_4_bedroom
+    type: BIGINT
+  - name: applied_income_ami_category_extremely_low_income
+    type: BIGINT
+  - name: applied_income_ami_category_very_low_income
+    type: BIGINT
+  - name: applied_income_ami_category_low_income
+    type: BIGINT
+  - name: applied_income_ami_category_moderate_income
+    type: BIGINT
+  - name: applied_income_ami_category_middle_income
+    type: BIGINT
+  - name: applied_income_ami_category_above_middle_income
+    type: BIGINT
+  - name: lottery_mobility_percentage
+    type: BIGINT
+  - name: lottery_visionhearing_percentage
+    type: BIGINT
+  - name: lottery_community_board_percentage
+    type: BIGINT
+  - name: lottery_municipal_employeemilitary_veteran_percentage
+    type: BIGINT
+  - name: lottery_nycha_percentage
+    type: BIGINT
+  - name: lottery_senior_percentage
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: community_board
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR

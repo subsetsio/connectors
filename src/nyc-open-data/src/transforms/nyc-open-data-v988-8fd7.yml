@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-v988-8fd7`. Regenerate after model-verify.
+key: [published_date, health_event, forecast_description]
+temporal: published_date
+sort: [published_date, health_event, forecast_description]
+columns:
+  - name: published_date
+    type: DATE
+  - name: forecast_year
+    type: BIGINT
+  - name: forecast_description
+    type: VARCHAR
+  - name: health_event
+    type: VARCHAR
+  - name: number_of_avoided_health_events
+    type: BIGINT

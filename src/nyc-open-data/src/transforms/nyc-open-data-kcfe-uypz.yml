@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-kcfe-uypz`. Regenerate after model-verify.
+key: [transaction_id]
+temporal: transaction_date
+sort: [transaction_date, transaction_id]
+columns:
+  - name: transaction_id
+    type: BIGINT
+  - name: contract_number
+    type: VARCHAR
+  - name: work_order_id
+    type: BIGINT
+  - name: line_item_id
+    type: BIGINT
+  - name: item_number
+    type: VARCHAR
+  - name: line_item_description
+    type: VARCHAR
+  - name: unit_of_measure
+    type: VARCHAR
+  - name: unit_price
+    type: DOUBLE
+  - name: units_used
+    type: DOUBLE
+  - name: total_cost
+    type: DOUBLE
+  - name: transaction_date
+    type: TIMESTAMP

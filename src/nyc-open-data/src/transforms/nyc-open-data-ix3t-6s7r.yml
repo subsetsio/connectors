@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ix3t-6s7r`. Regenerate after model-verify.
+key: [org_id, bldg_id, org_name, bldg_name, room_category]
+sort: [org_id, bldg_id, org_name, bldg_name, room_category]
+columns:
+  - name: boro
+    type: VARCHAR
+  - name: csd
+    type: BIGINT
+  - name: city_council_district
+    type: BIGINT
+  - name: bldg_id
+    type: VARCHAR
+  - name: bldg_name
+    type: VARCHAR
+  - name: org_id
+    type: VARCHAR
+  - name: org_name
+    type: VARCHAR
+  - name: room_category
+    type: VARCHAR
+  - name: shared
+    type: BOOLEAN
+  - name: of_rooms
+    type: BIGINT

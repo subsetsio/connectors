@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-mifw-tguq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [site_number, handicap_entrance, street_number, street_name, postcode]
+checks:
+  - kind: unique
+    columns: [site_number, handicap_entrance, street_number, street_name, postcode]
+  - kind: not_null
+    col: site_number
+  - kind: not_null
+    col: handicap_entrance
+  - kind: not_null
+    col: street_number
+  - kind: not_null
+    col: street_name
+  - kind: not_null
+    col: postcode
+  - kind: row_floor
+    min: 615
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

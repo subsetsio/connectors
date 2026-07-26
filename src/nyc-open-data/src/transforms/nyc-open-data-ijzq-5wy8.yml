@@ -1,0 +1,393 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ijzq-5wy8`. Regenerate after model-verify.
+key: [hh_id]
+sort: [hh_id]
+columns:
+  - name: person_id
+    type: BIGINT
+  - name: hh_id
+    type: BIGINT
+  - name: exercise
+    type: BIGINT
+  - name: exercise_sidewalk
+    type: BIGINT
+  - name: exercise_open_street
+    type: BIGINT
+  - name: exercise_plaza
+    type: BIGINT
+  - name: exercise_park
+    type: BIGINT
+  - name: exercise_trail
+    type: BIGINT
+  - name: exercise_home
+    type: BIGINT
+  - name: exercise_other
+    type: BIGINT
+  - name: bike_num_days
+    type: BIGINT
+  - name: bike_purpose_recreation
+    type: BIGINT
+  - name: bike_purpose_grocery
+    type: BIGINT
+  - name: bike_purpose_shopping
+    type: BIGINT
+  - name: bike_purpose_medical
+    type: BIGINT
+  - name: bike_purpose_visit_friend
+    type: BIGINT
+  - name: bike_purpose_work
+    type: BIGINT
+  - name: bike_purpose_work_related
+    type: BIGINT
+  - name: bike_purpose_restaurant
+    type: BIGINT
+  - name: bike_purpose_other
+    type: BIGINT
+  - name: bike_type_owned
+    type: BIGINT
+  - name: bike_type_borrowed
+    type: BIGINT
+  - name: bike_type_bike_share
+    type: BIGINT
+  - name: bike_type_other
+    type: BIGINT
+  - name: shopping_food_in_store
+    type: BIGINT
+  - name: shopping_food_grocery_pick_up
+    type: BIGINT
+  - name: shopping_food_grocery_delivery
+    type: BIGINT
+  - name: shopping_food_restaurant_pick_up
+    type: BIGINT
+  - name: shopping_food_restaurant_delivery
+    type: BIGINT
+  - name: shopping_food_restaurant_dine
+    type: BIGINT
+  - name: delivery_major_retailer
+    type: BIGINT
+  - name: delivery_small_retailer
+    type: BIGINT
+  - name: delivery_home
+    type: BIGINT
+  - name: delivery_work
+    type: BIGINT
+  - name: delivery_other_location
+    type: BIGINT
+  - name: delivery_service
+    type: BIGINT
+  - name: modes_used_household_vehicle
+    type: BIGINT
+  - name: modes_used_other_vehicle
+    type: BIGINT
+  - name: modes_used_tnc
+    type: BIGINT
+  - name: modes_used_bus
+    type: BIGINT
+  - name: modes_used_subway
+    type: BIGINT
+  - name: modes_used_rail
+    type: BIGINT
+  - name: modes_used_ferry
+    type: BIGINT
+  - name: modes_used_walk
+    type: BIGINT
+  - name: modes_used_scooter
+    type: BIGINT
+  - name: trip_purpose_work
+    type: BIGINT
+  - name: trip_purpose_food
+    type: BIGINT
+  - name: trip_purpose_restaurant
+    type: BIGINT
+  - name: trip_purpose_shopping
+    type: BIGINT
+  - name: trip_purpose_social
+    type: BIGINT
+  - name: trip_purpose_exercise
+    type: BIGINT
+  - name: trip_purpose_school
+    type: BIGINT
+  - name: trip_purpose_drop_off
+    type: BIGINT
+  - name: trip_purpose_other
+    type: BIGINT
+  - name: food_mode
+    type: BIGINT
+  - name: errand_mode
+    type: BIGINT
+  - name: medical_appointment
+    type: BIGINT
+  - name: medical_telehealth
+    type: BIGINT
+  - name: medical_other_virtual
+    type: BIGINT
+  - name: medical_postponed
+    type: BIGINT
+  - name: medical_none
+    type: BIGINT
+  - name: medical_mode
+    type: BIGINT
+  - name: modes_used_june_household_vehicle
+    type: BIGINT
+  - name: modes_used_june_other_vehicle
+    type: BIGINT
+  - name: modes_used_june_tnc
+    type: BIGINT
+  - name: modes_used_june_bus
+    type: BIGINT
+  - name: modes_used_june_subway
+    type: BIGINT
+  - name: modes_used_june_rail
+    type: BIGINT
+  - name: modes_used_june_ferry
+    type: BIGINT
+  - name: modes_used_june_walk
+    type: BIGINT
+  - name: modes_used_june_bike
+    type: BIGINT
+  - name: modes_used_june_scooter
+    type: BIGINT
+  - name: modes_used_june_moped
+    type: BIGINT
+  - name: car_use
+    type: BIGINT
+  - name: bike_freq
+    type: BIGINT
+  - name: vehicle_change
+    type: BIGINT
+  - name: reduced_vehicle_cost
+    type: BIGINT
+  - name: reduced_vehicle_parking
+    type: BIGINT
+  - name: reduced_vehicle_no_need
+    type: BIGINT
+  - name: reduced_vehicle_ridehailing
+    type: BIGINT
+  - name: reduced_vehicle_carshare
+    type: BIGINT
+  - name: reduced_vehicle_transit
+    type: BIGINT
+  - name: reduced_vehicle_nyc_driving
+    type: BIGINT
+  - name: reduced_vehicle_other
+    type: BIGINT
+  - name: increased_vehicle_covid_modes
+    type: BIGINT
+  - name: increased_vehicle_covid_needs
+    type: BIGINT
+  - name: increased_vehicle_area
+    type: BIGINT
+  - name: increased_vehicle_moved
+    type: BIGINT
+  - name: increased_vehicle_job
+    type: BIGINT
+  - name: increased_vehicle_unreliable
+    type: BIGINT
+  - name: increased_vehicle_flexibility
+    type: BIGINT
+  - name: increased_vehicle_new_driver
+    type: BIGINT
+  - name: increased_vehicle_transport_hh_member
+    type: BIGINT
+  - name: increased_vehicle_other
+    type: BIGINT
+  - name: vehicle_no_change
+    type: BIGINT
+  - name: employment_before
+    type: BIGINT
+  - name: industry_before
+    type: BIGINT
+  - name: telework_before
+    type: BIGINT
+  - name: employment_status_change
+    type: BIGINT
+  - name: employment
+    type: BIGINT
+  - name: employment_change_new_job
+    type: BIGINT
+  - name: employment_change_laid_off
+    type: BIGINT
+  - name: employment_change_left_job
+    type: BIGINT
+  - name: employment_change_furloughed_with_pay
+    type: BIGINT
+  - name: employment_change_furloughed_without_pay
+    type: BIGINT
+  - name: employment_change_reduced_hours
+    type: BIGINT
+  - name: employment_change_increased_hours
+    type: BIGINT
+  - name: employment_change_pay_cut
+    type: BIGINT
+  - name: employment_change_pay_increased
+    type: BIGINT
+  - name: employment_change_pay_structure
+    type: BIGINT
+  - name: employment_change_none
+    type: BIGINT
+  - name: industry
+    type: BIGINT
+  - name: job_type
+    type: BIGINT
+  - name: work_return
+    type: BIGINT
+  - name: work_return_barriers_child_care
+    type: BIGINT
+  - name: work_return_barriers_vaccine
+    type: BIGINT
+  - name: work_return_barriers_family
+    type: BIGINT
+  - name: work_return_barriers_other
+    type: BIGINT
+  - name: work_return_barriers_none
+    type: BIGINT
+  - name: work_mode
+    type: BIGINT
+  - name: work_covid_protocols_hours
+    type: BIGINT
+  - name: work_covid_protocols_telework
+    type: BIGINT
+  - name: work_covid_protocols_health
+    type: BIGINT
+  - name: work_covid_protocols_common_spaces
+    type: BIGINT
+  - name: work_covid_protocols_mask
+    type: BIGINT
+  - name: work_covid_protocols_other
+    type: BIGINT
+  - name: work_covid_protocols_dont_know
+    type: BIGINT
+  - name: work_covid_protocols_none
+    type: BIGINT
+  - name: telework_future
+    type: BIGINT
+  - name: attitude_transit_bus
+    type: BIGINT
+  - name: attitude_transit_subway
+    type: BIGINT
+  - name: attitude_transit_future
+    type: BIGINT
+  - name: attitude_tnc
+    type: BIGINT
+  - name: attitude_shared_tnc
+    type: BIGINT
+  - name: attitude_telework
+    type: BIGINT
+  - name: attitude_walk
+    type: BIGINT
+  - name: attitude_bike
+    type: BIGINT
+  - name: attitude_drive
+    type: BIGINT
+  - name: attitude_bus
+    type: BIGINT
+  - name: attitude_stay_home
+    type: BIGINT
+  - name: attitude_nyc_surge
+    type: BIGINT
+  - name: attitude_nyc_employment
+    type: BIGINT
+  - name: attitude_nyc_activities
+    type: BIGINT
+  - name: attitude_order
+    type: BIGINT
+  - name: attitude_mask_indoor
+    type: BIGINT
+  - name: attitude_mask_outdoor
+    type: BIGINT
+  - name: changed_home
+    type: BIGINT
+  - name: changed_num_adults
+    type: BIGINT
+  - name: changed_num_children
+    type: BIGINT
+  - name: changed_student
+    type: BIGINT
+  - name: changed_vehicles
+    type: BIGINT
+  - name: changed_other
+    type: BIGINT
+  - name: changed_none
+    type: BIGINT
+  - name: home_cms_zone
+    type: VARCHAR
+  - name: residence_type
+    type: BIGINT
+  - name: move_nyc
+    type: BIGINT
+  - name: move_elsewhere
+    type: BIGINT
+  - name: num_people
+    type: BIGINT
+  - name: age_5_under
+    type: BIGINT
+  - name: age_5_12
+    type: BIGINT
+  - name: age_13_17
+    type: BIGINT
+  - name: age_18_64
+    type: BIGINT
+  - name: age_65_over
+    type: BIGINT
+  - name: student
+    type: BIGINT
+  - name: student_location
+    type: BIGINT
+  - name: num_vehicles
+    type: BIGINT
+  - name: income
+    type: BIGINT
+  - name: race_american_indian_cms
+    type: BIGINT
+  - name: race_asian_cms
+    type: BIGINT
+  - name: race_black_cms
+    type: BIGINT
+  - name: race_native_hawaiian_cms
+    type: BIGINT
+  - name: race_white_cms
+    type: BIGINT
+  - name: race_other_cms
+    type: BIGINT
+  - name: ethnicity_cms
+    type: BIGINT
+  - name: age_cms
+    type: BIGINT
+  - name: education_cms
+    type: BIGINT
+  - name: disability_concentrating_cms
+    type: BIGINT
+  - name: disability_dressing_cms
+    type: BIGINT
+  - name: disability_hearing_cms
+    type: BIGINT
+  - name: disability_mobility_cms
+    type: BIGINT
+  - name: disability_seeing_cms
+    type: BIGINT
+  - name: disability_walking_cms
+    type: BIGINT
+  - name: disability_none_cms
+    type: BIGINT
+  - name: bike_freq_cms
+    type: BIGINT
+  - name: bike_num_days_cms
+    type: BIGINT
+  - name: bike_purpose_appointment_cms
+    type: BIGINT
+  - name: bike_purpose_commute_cms
+    type: BIGINT
+  - name: bike_purpose_errands_cms
+    type: BIGINT
+  - name: bike_purpose_recreation_cms
+    type: BIGINT
+  - name: bike_purpose_transit_cms
+    type: BIGINT
+  - name: bike_purpose_other_cms
+    type: BIGINT
+  - name: work_mode_cms
+    type: BIGINT
+  - name: gender_cms
+    type: BIGINT
+  - name: weight
+    type: DOUBLE

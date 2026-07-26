@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-yvbp-zcpt`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [published_date, description, program_name, fiscal_year, investment_area]
+temporal: published_date
+checks:
+  - kind: unique
+    columns: [published_date, description, program_name, fiscal_year, investment_area]
+  - kind: not_null
+    col: published_date
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: program_name
+  - kind: not_null
+    col: fiscal_year
+  - kind: not_null
+    col: investment_area
+  - kind: row_floor
+    min: 55
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

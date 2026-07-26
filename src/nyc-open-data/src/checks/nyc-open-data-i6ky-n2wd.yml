@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-i6ky-n2wd`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, sy1718_total_removalssuspensions, "5_principal", "2_principal", "3_principal"]
+checks:
+  - kind: unique
+    columns: [dbn, sy1718_total_removalssuspensions, "5_principal", "2_principal", "3_principal"]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: sy1718_total_removalssuspensions
+  - kind: not_null
+    col: "5_principal"
+  - kind: not_null
+    col: "2_principal"
+  - kind: not_null
+    col: "3_principal"
+  - kind: row_floor
+    min: 830
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

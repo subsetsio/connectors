@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "project_id",
+    "project_name",
+    "project_brief",
+    "project_status",
+    "public_status",
+    "ulurp_non",
+    "actions",
+    "ulurp_numbers",
+    "ceqr_type",
+    "ceqr_number",
+    "eas_eis",
+    "ceqr_leadagency",
+    "primary_applicant",
+    "applicant_type",
+    "borough",
+    "community_district",
+    "cc_district",
+    "flood_zone_a",
+    "flood_zone_shadedx",
+    "current_milestone",
+    "current_milestone_date",
+    "current_envmilestone",
+    "current_envmilestone_date",
+    "app_filed_date",
+    "noticed_date",
+    "certified_referred",
+    "approval_date",
+    "completed_date",
+    "mih_flag",
+    "mih_option1",
+    "mih_option2",
+    "mih_workforce",
+    "mih_deepaffordability",
+    "mih_mapped_no_res",
+    "dcp_visibility"
+FROM "nyc-open-data-hgx4-8ukb"

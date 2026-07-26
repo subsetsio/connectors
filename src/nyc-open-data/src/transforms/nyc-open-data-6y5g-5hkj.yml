@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-6y5g-5hkj`. Regenerate after model-verify.
+key: [waiting_list_application_id]
+temporal: selection_date
+sort: [selection_date, waiting_list_application_id]
+columns:
+  - name: waiting_list_application_id
+    type: VARCHAR
+  - name: application_order_number
+    type: BIGINT
+  - name: priority_number
+    type: DOUBLE
+  - name: applicant_name
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: waiting_list_status
+    type: VARCHAR
+  - name: selection_date
+    type: DATE
+  - name: license_application_id
+    type: VARCHAR

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-mpqk-skis`. Regenerate after model-verify.
+key: [report_start_date, number, report_end_date, facility]
+temporal: report_start_date
+sort: [report_start_date, number, report_end_date, facility]
+columns:
+  - name: facility
+    type: VARCHAR
+  - name: report_start_date
+    type: DATE
+  - name: report_end_date
+    type: DATE
+  - name: number
+    type: VARCHAR

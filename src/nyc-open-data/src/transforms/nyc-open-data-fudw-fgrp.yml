@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-fudw-fgrp`. Regenerate after model-verify.
+key: [event_id]
+temporal: date
+sort: [date, event_id]
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: title
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: start_time
+    type: TIME
+  - name: end_time
+    type: TIME
+  - name: location_description
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: snippet
+    type: VARCHAR
+  - name: phone
+    type: VARCHAR
+  - name: email
+    type: VARCHAR
+  - name: cost_free
+    type: BIGINT
+  - name: cost_description
+    type: VARCHAR
+  - name: must_see
+    type: BIGINT
+  - name: url
+    type: VARCHAR
+  - name: notice
+    type: BIGINT

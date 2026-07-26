@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-yunp-vs8g`. Regenerate after model-verify.
+key: [organization_city_agency_division_name, street_addressmailing_address, total_vounteers, special_populations_served, adult_volunteers]
+sort: [organization_city_agency_division_name, street_addressmailing_address, total_vounteers, special_populations_served, adult_volunteers]
+columns:
+  - name: organization_city_agency_division_name
+    type: VARCHAR
+  - name: street_addressmailing_address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: year_surveyed
+    type: BIGINT
+  - name: total_vounteers
+    type: VARCHAR
+  - name: youth_volunteers
+    type: VARCHAR
+  - name: adult_volunteers
+    type: VARCHAR
+  - name: older_adult_volunteers
+    type: VARCHAR
+  - name: organization_type
+    type: VARCHAR
+  - name: interest_areas
+    type: VARCHAR
+  - name: special_populations_served
+    type: VARCHAR
+  - name: boroughs_served
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

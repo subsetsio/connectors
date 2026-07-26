@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-d4iy-9uh7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [address, development_name, sponsor, type, status]
+checks:
+  - kind: unique
+    columns: [address, development_name, sponsor, type, status]
+  - kind: not_null
+    col: address
+  - kind: not_null
+    col: development_name
+  - kind: not_null
+    col: sponsor
+  - kind: not_null
+    col: type
+  - kind: not_null
+    col: status
+  - kind: row_floor
+    min: 268
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

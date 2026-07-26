@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-kegn-anvq`. Regenerate after model-verify.
+key: [request_created_date, request_id]
+temporal: request_created_date
+sort: [request_created_date, request_id]
+columns:
+  - name: request_id
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: request_created_date
+    type: DATE
+  - name: request_submitted_date
+    type: DATE
+  - name: request_due_date
+    type: DATE
+  - name: submission_method
+    type: VARCHAR
+  - name: request_status
+    type: VARCHAR
+  - name: request_close_date
+    type: DATE

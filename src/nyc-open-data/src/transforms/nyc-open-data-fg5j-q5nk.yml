@@ -1,0 +1,159 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-fg5j-q5nk`. Regenerate after model-verify.
+key: [neighborhood_tabulation_area_name_nta_name]
+sort: [neighborhood_tabulation_area_name_nta_name]
+columns:
+  - name: neighborhood_tabulation_area_code_nta_code
+    type: VARCHAR
+  - name: neighborhood_tabulation_area_name_nta_name
+    type: VARCHAR
+  - name: borough_name
+    type: VARCHAR
+  - name: total_population
+    type: BIGINT
+  - name: population_density_per_sq_mi
+    type: DOUBLE
+  - name: total_number_of_households
+    type: BIGINT
+  - name: area_sq_mi
+    type: DOUBLE
+  - name: street_mileage
+    type: BIGINT
+  - name: home_broadband_adoption_percentage_of_households
+    type: DOUBLE
+  - name: home_broadband_adoption_by_quartiles_high_mediumhigh_mediumlow_low
+    type: VARCHAR
+  - name: mobile_broadband_adoption_percentage_of_households
+    type: DOUBLE
+  - name: mobile_broadband_adoption_by_quartiles_high_mediumhigh_mediumlow_low
+    type: VARCHAR
+  - name: mobile_dependent_households_percentage_of_households
+    type: DOUBLE
+  - name: mobile_dependent_households_categorized_by_quartiles_high_mediumhigh_mediumlow_low
+    type: VARCHAR
+  - name: residential_broadband_choice_average_by_nta
+    type: DOUBLE
+  - name: residential_broadband_choice_average_by_quartiles_high_mediumhigh_mediumlow_low
+    type: VARCHAR
+  - name: commercial_fiber_isp_choice_average_by_nta
+    type: DOUBLE
+  - name: commercial_fiber_choice_average_by_quartiles_high_mediumhigh_mediumlow_low
+    type: VARCHAR
+  - name: commercial_fiber_max_isp_choice_by_nta
+    type: BIGINT
+  - name: commercial_fiber_max_isp_choice_by_quartiles_high_mediumhigh_mediumlow_low
+    type: VARCHAR
+  - name: percentage_of_blocks_without_a_commercial_fiber_provider
+    type: DOUBLE
+  - name: percentage_of_blocks_without_a_commercial_fiber_provider_by_quartiles
+    type: VARCHAR
+  - name: percentage_of_blocks_with_isp_reported_speed_availability_of_25_mbps_broadband_speed
+    type: BIGINT
+  - name: percentage_of_blocks_with_isp_reported_speed_availability_of_900_mbps
+    type: DOUBLE
+  - name: number_of_public_computer_centers_with_free_public_wifi
+    type: BIGINT
+  - name: public_wifi_in_nyc_count
+    type: BIGINT
+  - name: number_of_free_public_wifi_access_points_in_a_pedestrian_corridor
+    type: BIGINT
+  - name: available_free_public_wifi_in_a_pedestrian_corridor_yn
+    type: BOOLEAN
+  - name: estimated_number_of_businesses
+    type: BIGINT
+  - name: number_of_households
+    type: BIGINT
+  - name: total_accounts
+    type: BIGINT
+  - name: account_density
+    type: BIGINT
+  - name: account_density_quartile
+    type: VARCHAR
+  - name: population_projections_2050
+    type: BIGINT
+  - name: households_receiving_benefits
+    type: BIGINT
+  - name: estimated_lifeline_eligible_households
+    type: BIGINT
+  - name: supportive_housing_nycdhs
+    type: BIGINT
+  - name: lowincome_housing_nycha
+    type: BIGINT
+  - name: presence_of_ibzs
+    type: BOOLEAN
+  - name: number_of_nycha_buildings
+    type: BIGINT
+  - name: number_of_public_schools
+    type: BIGINT
+  - name: number_of_dcas_buildings
+    type: BIGINT
+  - name: number_of_nyc_hh_buildings
+    type: BIGINT
+  - name: city_buildings_with_high_rooftops_7_floors_capacity_by_quartile
+    type: VARCHAR
+  - name: street_furniture_fdny_call_boxes
+    type: BIGINT
+  - name: street_furniture_parking_pay_stations
+    type: BIGINT
+  - name: street_furniture_bus_stop_shelters
+    type: BIGINT
+  - name: street_furniture_bike_shelters
+    type: BIGINT
+  - name: street_furniture_city_benches
+    type: BIGINT
+  - name: linknyc_kiosks
+    type: BIGINT
+  - name: poles_reserved_by_mobile_telecom_franchisee
+    type: BIGINT
+  - name: pole_with_equipment_installed_by_mobile_telecom_franchise
+    type: BIGINT
+  - name: density_of_poles_reserved_and_with_equipment_installed_for_mobile_telecom_franchise
+    type: DOUBLE
+  - name: mobile_telecom_franchise_pole_density_level_by_quartile
+    type: VARCHAR
+  - name: empire_city_subway_coverage_percentage
+    type: DOUBLE
+  - name: empire_city_subway_coverage_quartile
+    type: VARCHAR
+  - name: percentage_of_households_with_fewer_than_3_broadband_options_available
+    type: DOUBLE
+  - name: number_of_fixed_wireless_providers_available
+    type: BIGINT
+  - name: estimated_aerial_plant_coverage_percentage
+    type: DOUBLE
+  - name: estimated_underground_plant_coverage_percentage
+    type: DOUBLE
+  - name: geographic_variations_in_fiber_delivery_modes_by_nta
+    type: VARCHAR
+  - name: estimated_underground_utility_conflict_volume
+    type: VARCHAR
+  - name: utility_pole_makeready_estimated_required_number_of_moves
+    type: DOUBLE
+  - name: utility_pole_makeready_estimated_relative_volume
+    type: VARCHAR
+  - name: nyc_internet_master_plan_open_access_infrastructure_cost_comparison_coefficient
+    type: DOUBLE
+  - name: nyc_internet_master_plan_open_access_infrastructure_cost_comparison_coefficient_by_quartile
+    type: VARCHAR
+  - name: fiber_drops_estimated_relative_costs
+    type: VARCHAR
+  - name: indoor_cabling_for_multiple_dwelling_units_estimated_relative_costs
+    type: VARCHAR
+  - name: optimal_for_unlicensed_millimeter_wave_fixed_wireless_access_as_a_residential_broadband_solution
+    type: BOOLEAN
+  - name: percentage_optimal_for_unlicensed_millimeter_wave_fixed_wireless_access_as_a_residential_broadband_solution
+    type: DOUBLE
+  - name: estimated_number_of_radio_sites_for_cbrs_coverage
+    type: BIGINT
+  - name: estimated_number_of_radio_sites_for_mmwave_coverage_in_optimal_areas
+    type: BIGINT
+  - name: sample_of_nta_field_surveyed_yn
+    type: BOOLEAN
+  - name: reviewed_for_underground_fibertothepremise_yn
+    type: BOOLEAN
+  - name: reviewed_for_aerial_fibertothepremise_yn
+    type: BOOLEAN
+  - name: reviewed_for_millimeter_wave_fixed_wireless_access_yn
+    type: BOOLEAN
+  - name: field_survey_findings
+    type: VARCHAR

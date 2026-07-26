@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-eccv-9dzr`. Regenerate after model-verify.
+key: [license_number]
+temporal: date
+sort: [date, license_number]
+columns:
+  - name: license_number
+    type: VARCHAR
+  - name: entity_name
+    type: VARCHAR
+  - name: telephone_number
+    type: BIGINT
+  - name: shl_endorsed
+    type: BOOLEAN
+  - name: building
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: type_of_base
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: date
+    type: DATE
+  - name: time
+    type: TIME
+  - name: location
+    type: VARCHAR

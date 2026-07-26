@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-4e3j-75af`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, students_in_temporary_housing_1, students_in_temporary_housing, doubled_up, students_residing_in_shelter]
+checks:
+  - kind: unique
+    columns: [dbn, students_in_temporary_housing_1, students_in_temporary_housing, doubled_up, students_residing_in_shelter]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: students_in_temporary_housing_1
+  - kind: not_null
+    col: students_in_temporary_housing
+  - kind: not_null
+    col: doubled_up
+  - kind: not_null
+    col: students_residing_in_shelter
+  - kind: row_floor
+    min: 853
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

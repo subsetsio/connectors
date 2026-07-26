@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-gcnt-k7eq`. Regenerate after model-verify.
+key: [number_of_applicants, metric, demographic_subtype, report_type, demographic_type]
+temporal: date
+sort: [date, number_of_applicants, metric, demographic_subtype, report_type, demographic_type]
+columns:
+  - name: date
+    type: DATE
+  - name: report_type
+    type: VARCHAR
+  - name: metric
+    type: VARCHAR
+  - name: demographic_type
+    type: VARCHAR
+  - name: demographic_subtype
+    type: VARCHAR
+  - name: number_of_applicants
+    type: VARCHAR

@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-9f5n-qdib`. Regenerate after model-verify.
+key: [evaluation_id, workscope, evaluation_date, provider, nta]
+temporal: data_as_of_date
+sort: [data_as_of_date, evaluation_id, workscope, evaluation_date, provider, nta]
+columns:
+  - name: data_as_of_date
+    type: DATE
+  - name: evaluation_id
+    type: VARCHAR
+  - name: evaluation_name
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: program_type
+    type: VARCHAR
+  - name: workscope
+    type: VARCHAR
+  - name: provider
+    type: VARCHAR
+  - name: evaluation_date
+    type: DATE
+  - name: overall_rating
+    type: VARCHAR
+  - name: program_site
+    type: VARCHAR
+  - name: street_address
+    type: VARCHAR
+  - name: street_address2
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: community_board
+    type: VARCHAR
+  - name: council_district
+    type: VARCHAR
+  - name: census_tract_2010
+    type: VARCHAR
+  - name: nta
+    type: VARCHAR
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT

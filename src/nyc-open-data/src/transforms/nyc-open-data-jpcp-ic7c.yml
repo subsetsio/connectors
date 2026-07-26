@@ -1,0 +1,666 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-jpcp-ic7c`. Regenerate after model-verify.
+key: []
+columns:
+  - name: job
+    type: VARCHAR
+  - name: datacollection_starttime
+    type: VARCHAR
+  - name: uniqueid
+    type: BIGINT
+  - name: qday
+    type: VARCHAR
+  - name: qntacode
+    type: VARCHAR
+  - name: qgender
+    type: VARCHAR
+  - name: qage
+    type: BIGINT
+  - name: qagecode
+    type: VARCHAR
+  - name: qrace
+    type: VARCHAR
+  - name: qhispanic
+    type: VARCHAR
+  - name: qracecode
+    type: VARCHAR
+  - name: qeducation
+    type: VARCHAR
+  - name: qincome
+    type: VARCHAR
+  - name: qsurveyzone
+    type: VARCHAR
+  - name: qziphome
+    type: BIGINT
+  - name: qborough
+    type: VARCHAR
+  - name: qlicense
+    type: VARCHAR
+  - name: qcaraccess
+    type: VARCHAR
+  - name: qcarmanynum
+    type: VARCHAR
+  - name: gcartype1_qcartype1_ma
+    type: VARCHAR
+  - name: gcartype1_qcartype2_ma
+    type: VARCHAR
+  - name: gcartype1_qcartype3_ma
+    type: VARCHAR
+  - name: gcartype1_qcartype4_ma
+    type: VARCHAR
+  - name: qcarhybrid1
+    type: VARCHAR
+  - name: qcarhybrid2
+    type: VARCHAR
+  - name: qcarhybrid3
+    type: VARCHAR
+  - name: qcarhybrid4
+    type: VARCHAR
+  - name: qcarhybrid5
+    type: VARCHAR
+  - name: qcarhybrid6
+    type: VARCHAR
+  - name: qcarchange
+    type: VARCHAR
+  - name: qcarreducea1
+    type: VARCHAR
+  - name: qcarreducea2
+    type: VARCHAR
+  - name: qcarreducea3
+    type: VARCHAR
+  - name: qcarreducea4
+    type: VARCHAR
+  - name: qcarreducea5
+    type: VARCHAR
+  - name: qcarreducea6
+    type: VARCHAR
+  - name: qcarreducea7
+    type: VARCHAR
+  - name: qcarreducea8
+    type: VARCHAR
+  - name: qcarreducea9
+    type: VARCHAR
+  - name: qcarincreasea1
+    type: VARCHAR
+  - name: qcarincreasea2
+    type: VARCHAR
+  - name: qcarincreasea3
+    type: VARCHAR
+  - name: qcarincreasea4
+    type: VARCHAR
+  - name: qcarincreasea5
+    type: VARCHAR
+  - name: qcarincreasea6
+    type: VARCHAR
+  - name: qcarincreasea7
+    type: VARCHAR
+  - name: qcarincreasea8
+    type: VARCHAR
+  - name: qcarincreasea9
+    type: VARCHAR
+  - name: qelectricconsider
+    type: VARCHAR
+  - name: qnoelectric1
+    type: VARCHAR
+  - name: qnoelectric2
+    type: VARCHAR
+  - name: qnoelectric3
+    type: VARCHAR
+  - name: qnoelectric4
+    type: VARCHAR
+  - name: qnoelectric5
+    type: VARCHAR
+  - name: qnoelectric6
+    type: VARCHAR
+  - name: qnoelectric7
+    type: VARCHAR
+  - name: qnoelectric8
+    type: VARCHAR
+  - name: gcarpark1_qcarpark1_ma
+    type: VARCHAR
+  - name: gcarpark1_qcarpark2_ma
+    type: VARCHAR
+  - name: gcarpark1_qcarpark3_ma
+    type: VARCHAR
+  - name: gcarpark1_qcarpark4_ma
+    type: VARCHAR
+  - name: qpaytopark
+    type: VARCHAR
+  - name: qpaytopark_amount
+    type: VARCHAR
+  - name: qshare1
+    type: VARCHAR
+  - name: qshare2
+    type: VARCHAR
+  - name: qshare3
+    type: VARCHAR
+  - name: qshare4
+    type: VARCHAR
+  - name: qshare5
+    type: VARCHAR
+  - name: qshare6
+    type: VARCHAR
+  - name: qshare7
+    type: VARCHAR
+  - name: qshare8
+    type: VARCHAR
+  - name: qsmartphone
+    type: VARCHAR
+  - name: qtripplanapp
+    type: VARCHAR
+  - name: qridehail1
+    type: VARCHAR
+  - name: qridehail2
+    type: VARCHAR
+  - name: qridehail3
+    type: VARCHAR
+  - name: qridehail4
+    type: VARCHAR
+  - name: qridehail5
+    type: VARCHAR
+  - name: qridehail6
+    type: VARCHAR
+  - name: qridehail7
+    type: VARCHAR
+  - name: qridehail8
+    type: VARCHAR
+  - name: qridehail_freq
+    type: VARCHAR
+  - name: qridehailpurpose
+    type: VARCHAR
+  - name: qbikeown
+    type: VARCHAR
+  - name: qbikemany
+    type: VARCHAR
+  - name: qbiketype1
+    type: VARCHAR
+  - name: qbiketype2
+    type: VARCHAR
+  - name: qbiketype3
+    type: VARCHAR
+  - name: qbiketype4
+    type: VARCHAR
+  - name: qbiketype5
+    type: VARCHAR
+  - name: qbikestore1
+    type: VARCHAR
+  - name: qbikestore2
+    type: VARCHAR
+  - name: qbikestore3
+    type: VARCHAR
+  - name: qbikestore4
+    type: VARCHAR
+  - name: qbikestore5
+    type: VARCHAR
+  - name: qbikestore6
+    type: VARCHAR
+  - name: qbikestore7
+    type: VARCHAR
+  - name: qbikestore8
+    type: VARCHAR
+  - name: qbikestore9
+    type: VARCHAR
+  - name: qbikeride
+    type: VARCHAR
+  - name: qbiketo
+    type: VARCHAR
+  - name: qbikedays
+    type: VARCHAR
+  - name: qbikewhy1
+    type: VARCHAR
+  - name: qbikewhy2
+    type: VARCHAR
+  - name: qbikewhy3
+    type: VARCHAR
+  - name: qbikewhy4
+    type: VARCHAR
+  - name: qbikewhy5
+    type: VARCHAR
+  - name: qbikewhy6
+    type: VARCHAR
+  - name: qbikewhy7
+    type: VARCHAR
+  - name: qbikewhy8
+    type: VARCHAR
+  - name: qbikewhynot1
+    type: VARCHAR
+  - name: qbikewhynot2
+    type: VARCHAR
+  - name: qbikewhynot3
+    type: VARCHAR
+  - name: qbikewhynot4
+    type: VARCHAR
+  - name: qbikewhynot5
+    type: VARCHAR
+  - name: qbikewhynot6
+    type: VARCHAR
+  - name: qbikewhynot7
+    type: VARCHAR
+  - name: qbikewhynot8
+    type: VARCHAR
+  - name: qbikestolen
+    type: VARCHAR
+  - name: qcitibike
+    type: VARCHAR
+  - name: qcitibikefreq
+    type: VARCHAR
+  - name: gcitibk1_qcitibikeissues1_ma
+    type: VARCHAR
+  - name: gcitibk1_qcitibikeissues2_ma
+    type: VARCHAR
+  - name: qnocitibike01
+    type: VARCHAR
+  - name: qnocitibike02
+    type: VARCHAR
+  - name: qnocitibike03
+    type: VARCHAR
+  - name: qnocitibike04
+    type: VARCHAR
+  - name: qnocitibike05
+    type: VARCHAR
+  - name: qnocitibike06
+    type: VARCHAR
+  - name: qnocitibike07
+    type: VARCHAR
+  - name: qnocitibike08
+    type: VARCHAR
+  - name: qnocitibike09
+    type: VARCHAR
+  - name: qnocitibike10
+    type: VARCHAR
+  - name: qnocitibike11
+    type: VARCHAR
+  - name: gfreight1b_qfreight1_ma
+    type: VARCHAR
+  - name: gfreight1b_qfreight2_ma
+    type: VARCHAR
+  - name: gfreight1b_qfreight3_ma
+    type: VARCHAR
+  - name: gfreight1b_qfreight4_ma
+    type: VARCHAR
+  - name: qpackagedeliver
+    type: VARCHAR
+  - name: qpostalstore
+    type: VARCHAR
+  - name: qsubwayservice
+    type: VARCHAR
+  - name: qsubwayimpact
+    type: VARCHAR
+  - name: qtransportnosubway01
+    type: VARCHAR
+  - name: qtransportnosubway02
+    type: VARCHAR
+  - name: qtransportnosubway03
+    type: VARCHAR
+  - name: qtransportnosubway04
+    type: VARCHAR
+  - name: qtransportnosubway05
+    type: VARCHAR
+  - name: qtransportnosubway06
+    type: VARCHAR
+  - name: qtransportnosubway07
+    type: VARCHAR
+  - name: qtransportnosubway08
+    type: VARCHAR
+  - name: qtransportnosubway09
+    type: VARCHAR
+  - name: qtransportnosubway10
+    type: VARCHAR
+  - name: qtransportnosubway11
+    type: VARCHAR
+  - name: qbusservice
+    type: VARCHAR
+  - name: qbusimpact
+    type: VARCHAR
+  - name: qtransportnobus01
+    type: VARCHAR
+  - name: qtransportnobus02
+    type: VARCHAR
+  - name: qtransportnobus03
+    type: VARCHAR
+  - name: qtransportnobus04
+    type: VARCHAR
+  - name: qtransportnobus05
+    type: VARCHAR
+  - name: qtransportnobus06
+    type: VARCHAR
+  - name: qtransportnobus07
+    type: VARCHAR
+  - name: qtransportnobus08
+    type: VARCHAR
+  - name: qtransportnobus09
+    type: VARCHAR
+  - name: qtransportnobus10
+    type: VARCHAR
+  - name: qtransportnobus11
+    type: VARCHAR
+  - name: qautovehiclefam
+    type: VARCHAR
+  - name: qautovehiclewill
+    type: VARCHAR
+  - name: qautovehiclesafe
+    type: VARCHAR
+  - name: qmarried
+    type: VARCHAR
+  - name: qwelfare1
+    type: VARCHAR
+  - name: qwelfare2
+    type: VARCHAR
+  - name: qwelfare3
+    type: VARCHAR
+  - name: qwelfare4
+    type: VARCHAR
+  - name: qwelfare5
+    type: VARCHAR
+  - name: qdisability1
+    type: VARCHAR
+  - name: qdisability2
+    type: VARCHAR
+  - name: qdisability3
+    type: VARCHAR
+  - name: qdisability4
+    type: VARCHAR
+  - name: qdisability5
+    type: VARCHAR
+  - name: qdisability6
+    type: VARCHAR
+  - name: qdisability7
+    type: VARCHAR
+  - name: qdisability8
+    type: VARCHAR
+  - name: qdisability9
+    type: VARCHAR
+  - name: qbuildingb
+    type: VARCHAR
+  - name: qrent
+    type: VARCHAR
+  - name: qchildren
+    type: VARCHAR
+  - name: gchild1_qchild1_ma
+    type: VARCHAR
+  - name: gchild1_qchild2_ma
+    type: VARCHAR
+  - name: gchild1_qchild3_ma
+    type: VARCHAR
+  - name: gchild1_qchild4_ma
+    type: VARCHAR
+  - name: qchild1schooladdr
+    type: VARCHAR
+  - name: qchild2schooladdr
+    type: VARCHAR
+  - name: qchild3schooladdr
+    type: VARCHAR
+  - name: qchild4schooladdr
+    type: BIGINT
+  - name: qaccompany
+    type: VARCHAR
+  - name: qschooltravelcode01
+    type: VARCHAR
+  - name: qschooltravelcode02
+    type: VARCHAR
+  - name: qschooltravelcode03
+    type: VARCHAR
+  - name: qschooltravelcode04
+    type: VARCHAR
+  - name: qschooltravelcode05
+    type: VARCHAR
+  - name: qschooltravelcode06
+    type: VARCHAR
+  - name: qschooltravelcode07
+    type: VARCHAR
+  - name: qschooltravelcode08
+    type: VARCHAR
+  - name: qschooltravelcode09
+    type: VARCHAR
+  - name: qschooltravelcode10
+    type: VARCHAR
+  - name: qschooltravelcode11
+    type: VARCHAR
+  - name: qschooltravelcode12
+    type: VARCHAR
+  - name: qschooltravelcode13
+    type: VARCHAR
+  - name: qschooltravelcode14
+    type: VARCHAR
+  - name: qschooltravelcode15
+    type: VARCHAR
+  - name: qschooltravelcode16
+    type: VARCHAR
+  - name: qschooltravelcode17
+    type: VARCHAR
+  - name: qschooltravelcode18
+    type: VARCHAR
+  - name: qschooltravelcode19
+    type: VARCHAR
+  - name: qschooltravelcode20
+    type: VARCHAR
+  - name: qschooltravelcode21
+    type: VARCHAR
+  - name: qschooltravelcode22
+    type: VARCHAR
+  - name: qschooltravelcode23
+    type: VARCHAR
+  - name: qschooltravelcode24
+    type: VARCHAR
+  - name: qschooltravelcode25
+    type: VARCHAR
+  - name: qschooltravelcode26
+    type: VARCHAR
+  - name: qschooltravelcode27
+    type: VARCHAR
+  - name: qschooltransitto1
+    type: VARCHAR
+  - name: qschooltransitto2
+    type: VARCHAR
+  - name: qschooltransitto3
+    type: VARCHAR
+  - name: qschooltransitto4
+    type: VARCHAR
+  - name: qschooltransitto5
+    type: VARCHAR
+  - name: qschooltransitto6
+    type: VARCHAR
+  - name: qschooltransitto7
+    type: VARCHAR
+  - name: qschooltransitfrom1
+    type: VARCHAR
+  - name: qschooltransitfrom2
+    type: VARCHAR
+  - name: qschooltransitfrom3
+    type: VARCHAR
+  - name: qschooltransitfrom4
+    type: VARCHAR
+  - name: qschooltransitfrom5
+    type: VARCHAR
+  - name: qschooltransitfrom6
+    type: VARCHAR
+  - name: qschooltransitfrom7
+    type: VARCHAR
+  - name: qemployment
+    type: VARCHAR
+  - name: qemploymentcode
+    type: VARCHAR
+  - name: qindustry
+    type: VARCHAR
+  - name: gfulltime_qfulltime_ma
+    type: VARCHAR
+  - name: gfulltime_qparttime_ma
+    type: VARCHAR
+  - name: qnumberofjobs
+    type: VARCHAR
+  - name: qworklocation
+    type: VARCHAR
+  - name: qworkfh
+    type: VARCHAR
+  - name: qborough_work1
+    type: VARCHAR
+  - name: qntacode_work
+    type: VARCHAR
+  - name: qtimework
+    type: VARCHAR
+  - name: qtimehome
+    type: VARCHAR
+  - name: qborough_work2
+    type: VARCHAR
+  - name: qntacode_work2
+    type: VARCHAR
+  - name: qtimework2
+    type: VARCHAR
+  - name: qtimehome2
+    type: VARCHAR
+  - name: qborough_work3
+    type: VARCHAR
+  - name: qntacode_work3
+    type: VARCHAR
+  - name: qtimework3
+    type: VARCHAR
+  - name: qtimehome3
+    type: VARCHAR
+  - name: qworktravelcode01
+    type: VARCHAR
+  - name: qworktravelcode02
+    type: VARCHAR
+  - name: qworktravelcode03
+    type: VARCHAR
+  - name: qworktravelcode04
+    type: VARCHAR
+  - name: qworktravelcode05
+    type: VARCHAR
+  - name: qworktravelcode06
+    type: VARCHAR
+  - name: qworktravelcode07
+    type: VARCHAR
+  - name: qworktravelcode08
+    type: VARCHAR
+  - name: qworktravelcode09
+    type: VARCHAR
+  - name: qworktravelcode10
+    type: VARCHAR
+  - name: qworktravelcode11
+    type: VARCHAR
+  - name: qworktravelcode12
+    type: VARCHAR
+  - name: qworktravelcode13
+    type: VARCHAR
+  - name: qworktravelcode14
+    type: VARCHAR
+  - name: qworktravelcode15
+    type: VARCHAR
+  - name: qworktravelcode16
+    type: VARCHAR
+  - name: qworktravelcode17
+    type: VARCHAR
+  - name: qworktravelcode18
+    type: VARCHAR
+  - name: qworktravelcode19
+    type: VARCHAR
+  - name: qworktravelcode20
+    type: VARCHAR
+  - name: qworktravelcode21
+    type: VARCHAR
+  - name: qworktravelcode22
+    type: VARCHAR
+  - name: qworktravelcode23
+    type: VARCHAR
+  - name: qworktravelcode24
+    type: VARCHAR
+  - name: qworktravelcode25
+    type: VARCHAR
+  - name: qworktravelcode26
+    type: VARCHAR
+  - name: qworkcarpark
+    type: VARCHAR
+  - name: qworkparkpay
+    type: VARCHAR
+  - name: qworkbikepark
+    type: VARCHAR
+  - name: qschool
+    type: VARCHAR
+  - name: qlevelschool
+    type: VARCHAR
+  - name: qborough_school
+    type: VARCHAR
+  - name: qntacode_school
+    type: VARCHAR
+  - name: qstudenttravelcode01
+    type: BOOLEAN
+  - name: qstudenttravelcode02
+    type: BOOLEAN
+  - name: qstudenttravelcode03
+    type: BOOLEAN
+  - name: qstudenttravelcode04
+    type: BOOLEAN
+  - name: qstudenttravelcode05
+    type: BOOLEAN
+  - name: qstudenttravelcode06
+    type: BOOLEAN
+  - name: qstudenttravelcode07
+    type: BOOLEAN
+  - name: qstudenttravelcode08
+    type: BOOLEAN
+  - name: qstudenttravelcode09
+    type: BOOLEAN
+  - name: qstudenttravelcode10
+    type: BOOLEAN
+  - name: qstudenttravelcode11
+    type: BOOLEAN
+  - name: qstudenttravelcode12
+    type: BOOLEAN
+  - name: qstudenttravelcode13
+    type: BOOLEAN
+  - name: qstudenttravelcode14
+    type: BOOLEAN
+  - name: qstudenttravelcode15
+    type: BOOLEAN
+  - name: qstudenttravelcode16
+    type: BOOLEAN
+  - name: qstudenttravelcode17
+    type: BOOLEAN
+  - name: qstudenttravelcode18
+    type: BOOLEAN
+  - name: qstudenttravelcode19
+    type: BOOLEAN
+  - name: qstudenttravelcode20
+    type: BOOLEAN
+  - name: qstudenttravelcode21
+    type: BOOLEAN
+  - name: qstudenttravelcode22
+    type: BOOLEAN
+  - name: qstudenttravelcode23
+    type: BOOLEAN
+  - name: qstudenttravelcode24
+    type: BOOLEAN
+  - name: qstudenttravelcode25
+    type: BOOLEAN
+  - name: qstudenttravelcode26
+    type: BOOLEAN
+  - name: qstudentpark
+    type: VARCHAR
+  - name: qstudentparkpay
+    type: VARCHAR
+  - name: qstudentbikepark
+    type: VARCHAR
+  - name: qlanguagepref
+    type: VARCHAR
+  - name: qlanguage2
+    type: VARCHAR
+  - name: qfreight_cmb1
+    type: VARCHAR
+  - name: qfreight_cmb2
+    type: VARCHAR
+  - name: qfreight_cmb3
+    type: VARCHAR
+  - name: qfreight_cmb4
+    type: VARCHAR
+  - name: qfreight_cmb5
+    type: VARCHAR
+  - name: qfreight_cmb6
+    type: VARCHAR
+  - name: qfreight_cmb7
+    type: VARCHAR
+  - name: qfreight_cmb8
+    type: VARCHAR
+  - name: qfreight_cmb9
+    type: VARCHAR
+  - name: allwt
+    type: DOUBLE

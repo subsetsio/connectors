@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-uhvm-6sct`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [scr_intakes, unsubstantiated_investigations, indicated_investigations, cares_cases, acs_referral_to_prevention]
+checks:
+  - kind: unique
+    columns: [scr_intakes, unsubstantiated_investigations, indicated_investigations, cares_cases, acs_referral_to_prevention]
+  - kind: not_null
+    col: scr_intakes
+  - kind: not_null
+    col: unsubstantiated_investigations
+  - kind: not_null
+    col: indicated_investigations
+  - kind: not_null
+    col: cares_cases
+  - kind: not_null
+    col: acs_referral_to_prevention
+  - kind: row_floor
+    min: 182
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

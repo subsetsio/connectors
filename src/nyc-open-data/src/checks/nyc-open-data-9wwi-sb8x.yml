@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-9wwi-sb8x`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [the_geom, system, borough, featurestatus]
+checks:
+  - kind: unique
+    columns: [the_geom, system, borough, featurestatus]
+  - kind: not_null
+    col: the_geom
+  - kind: not_null
+    col: system
+  - kind: not_null
+    col: borough
+  - kind: not_null
+    col: featurestatus
+  - kind: row_floor
+    min: 3428
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

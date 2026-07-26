@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-erra-pzy8`. Regenerate after model-verify.
+key: [incident_id]
+temporal: reported_dt
+sort: [reported_dt, incident_id]
+columns:
+  - name: incident_id
+    type: BIGINT
+  - name: reported_dt
+    type: TIMESTAMP
+  - name: incident_type
+    type: VARCHAR
+  - name: reason
+    type: VARCHAR
+  - name: facility
+    type: VARCHAR

@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-jign-uhe6`. Regenerate after model-verify.
+key: [address, organization_name, target_geographic_area]
+sort: [address, organization_name, target_geographic_area]
+columns:
+  - name: target_geographic_area
+    type: VARCHAR
+  - name: organization_name
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: borough
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

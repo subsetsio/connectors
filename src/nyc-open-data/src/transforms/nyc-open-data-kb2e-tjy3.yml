@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-kb2e-tjy3`. Regenerate after model-verify.
+key: [date_installed, sensor_name]
+temporal: date_installed
+sort: [date_installed, sensor_name]
+columns:
+  - name: sensor_name
+    type: VARCHAR
+  - name: sensor_id
+    type: VARCHAR
+  - name: date_installed
+    type: DATE
+  - name: tidally_influenced
+    type: BOOLEAN
+  - name: date_removed
+    type: DATE
+  - name: street_name
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: zipcode
+    type: BIGINT
+  - name: communityboard
+    type: BIGINT
+  - name: council_district
+    type: VARCHAR
+  - name: census_tract_2020
+    type: BIGINT
+  - name: nta
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: sensor_ground_height_above_local_low_point_inches
+    type: DOUBLE
+  - name: sensor_location
+    type: VARCHAR

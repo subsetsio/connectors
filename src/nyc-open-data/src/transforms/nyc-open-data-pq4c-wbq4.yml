@@ -1,0 +1,60 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pq4c-wbq4`. Regenerate after model-verify.
+key: ["no"]
+temporal: form_submission_date
+sort: [form_submission_date, "no"]
+columns:
+  - name: "no"
+    type: BIGINT
+  - name: form_submission_date
+    type: DATE
+  - name: reported_property_addresses
+    type: VARCHAR
+  - name: reported_borough
+    type: VARCHAR
+  - name: reported_dob_bin_number
+    type: VARCHAR
+  - name: reported_dob_permit_sequence
+    type: VARCHAR
+  - name: reported_units
+    type: BIGINT
+  - name: reported_affordale_units
+    type: BIGINT
+  - name: reported_commencement_date
+    type: DATE
+  - name: reported_anticipated_completion_date
+    type: DATE
+  - name: reported_property_tax_block
+    type: BIGINT
+  - name: reported_property_tax_lots
+    type: VARCHAR
+  - name: reported_affordability_option
+    type: VARCHAR
+  - name: presumed_borough
+    type: VARCHAR
+  - name: presumed_community_board
+    type: BIGINT
+  - name: presumed_council_district
+    type: BIGINT
+  - name: presumed_duplicate
+    type: VARCHAR
+  - name: presumed_duplicate_weight
+    type: DOUBLE
+  - name: presumed_building_units
+    type: BIGINT
+  - name: presumed_building_affordable_units
+    type: BIGINT
+  - name: presumed_lot
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

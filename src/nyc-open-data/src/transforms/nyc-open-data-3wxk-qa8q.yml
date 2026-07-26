@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-3wxk-qa8q`. Regenerate after model-verify.
+key: [date_collected, kit_id_number, received_date, borough]
+temporal: date_collected
+sort: [date_collected, kit_id_number, received_date, borough]
+columns:
+  - name: kit_id_number
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: zipcode
+    type: BIGINT
+  - name: date_collected
+    type: DATE
+  - name: received_date
+    type: DATE
+  - name: first_draw_atthetap_lead_level_gl
+    type: BIGINT
+  - name: first_draw_atthetap_copper_level_mgl
+    type: DOUBLE

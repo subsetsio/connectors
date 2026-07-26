@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-vtjm-ngnu`. Regenerate after model-verify.
+key: [the_geom, segmentid, school_nam, on_street, from_stree]
+temporal: open_date
+sort: [open_date, the_geom, segmentid, school_nam, on_street, from_stree]
+columns:
+  - name: the_geom
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: school_nam
+    type: VARCHAR
+  - name: on_street
+    type: VARCHAR
+  - name: from_stree
+    type: VARCHAR
+  - name: to_street
+    type: VARCHAR
+  - name: open_date
+    type: DATE
+  - name: nhoodname
+    type: VARCHAR
+  - name: segmentid
+    type: VARCHAR
+  - name: shape_leng
+    type: DOUBLE
+  - name: shape_stle
+    type: DOUBLE

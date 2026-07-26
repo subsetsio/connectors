@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-96te-xmyw`. Regenerate after model-verify.
+key: [report_date, building_id]
+temporal: report_date
+sort: [report_date, building_id]
+columns:
+  - name: report_date
+    type: DATE
+  - name: building_id
+    type: VARCHAR
+  - name: dob_violations
+    type: BIGINT
+  - name: hpd_violations
+    type: BIGINT
+  - name: fdny_violations
+    type: BIGINT
+  - name: total_open_violations
+    type: BIGINT

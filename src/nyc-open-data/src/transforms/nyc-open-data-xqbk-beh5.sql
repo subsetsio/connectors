@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "parksid",
+    "inspectionid",
+    "nexttoanothergarden",
+    "totalfencelength",
+    "totalsidewalkarea",
+    "totalsidewalklength",
+    "onsiteservice",
+    "hydrantw_in15ft",
+    "hydrantongardenside",
+    "rainharvesting",
+    "raingallons",
+    "solarpanels",
+    "compostsystem",
+    "composttumblers",
+    "nonfoodplants",
+    "food",
+    "openlawnorcommunalarea",
+    "pavedarea",
+    "treesingarden",
+    "fruittrees",
+    "streettrees",
+    "emptytreepits",
+    "murals",
+    "blankshed",
+    "parkssign",
+    "chickens",
+    "pond",
+    "fishinpond",
+    "turtles",
+    "aquaponics",
+    "farmersmarket",
+    "csapickup",
+    "composting",
+    "greenhouse",
+    "structureforseasonextension"
+FROM "nyc-open-data-xqbk-beh5"

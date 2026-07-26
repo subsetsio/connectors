@@ -1,0 +1,160 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-w9dc-u4ik`. Regenerate after model-verify.
+key: [trip_id]
+temporal: travel_date
+sort: [travel_date, trip_id]
+columns:
+  - name: hh_id
+    type: BIGINT
+  - name: trip_weight
+    type: DOUBLE
+  - name: home_cms_zone
+    type: VARCHAR
+  - name: survey_mode
+    type: BIGINT
+  - name: person_id
+    type: BIGINT
+  - name: person_num
+    type: BIGINT
+  - name: day_num
+    type: BIGINT
+  - name: travel_date
+    type: DATE
+  - name: travel_date_dow
+    type: BIGINT
+  - name: trip_id
+    type: BIGINT
+  - name: trip_num
+    type: BIGINT
+  - name: leg_num
+    type: BIGINT
+  - name: unlinked_trip
+    type: BIGINT
+  - name: linked_trip_num
+    type: BIGINT
+  - name: survey_complete
+    type: BIGINT
+  - name: depart_time
+    type: TIMESTAMP
+  - name: arrive_time
+    type: TIMESTAMP
+  - name: o_cms_zone
+    type: VARCHAR
+  - name: d_cms_zone
+    type: VARCHAR
+  - name: trip_duration
+    type: DOUBLE
+  - name: trip_distance
+    type: DOUBLE
+  - name: o_purpose
+    type: BIGINT
+  - name: o_purpose_category
+    type: BIGINT
+  - name: d_purpose
+    type: BIGINT
+  - name: d_purpose_category
+    type: BIGINT
+  - name: num_non_hh_travelers
+    type: BIGINT
+  - name: num_hh_travelers
+    type: BIGINT
+  - name: num_travelers
+    type: BIGINT
+  - name: hh_member_1
+    type: BIGINT
+  - name: hh_member_2
+    type: BIGINT
+  - name: hh_member_3
+    type: BIGINT
+  - name: hh_member_4
+    type: BIGINT
+  - name: hh_member_5
+    type: BIGINT
+  - name: hh_member_6
+    type: BIGINT
+  - name: hh_member_7
+    type: BIGINT
+  - name: hh_member_8
+    type: BIGINT
+  - name: hh_member_9
+    type: BIGINT
+  - name: hh_member_10
+    type: BIGINT
+  - name: hh_member_11
+    type: BIGINT
+  - name: mode_type
+    type: BIGINT
+  - name: mode_type_detailed
+    type: BIGINT
+  - name: sustainable_mode
+    type: BIGINT
+  - name: mode_1
+    type: BIGINT
+  - name: mode_2
+    type: BIGINT
+  - name: mode_3
+    type: BIGINT
+  - name: mode_4
+    type: BIGINT
+  - name: driver
+    type: BIGINT
+  - name: park_location
+    type: BIGINT
+  - name: park_pay
+    type: BIGINT
+  - name: park_cost
+    type: DOUBLE
+  - name: used_transit
+    type: BIGINT
+  - name: transit_access
+    type: BIGINT
+  - name: transit_egress
+    type: BIGINT
+  - name: taxi_cost
+    type: BIGINT
+  - name: taxi_cost_amount
+    type: DOUBLE
+  - name: bike_park_location
+    type: BIGINT
+  - name: scooter_park_location
+    type: BIGINT
+  - name: analyst_split
+    type: BIGINT
+  - name: analyst_merge
+    type: BIGINT
+  - name: analyst_split_loop
+    type: BIGINT
+  - name: user_merged
+    type: BIGINT
+  - name: user_split
+    type: BIGINT
+  - name: added_trip
+    type: BIGINT
+  - name: high_speed_flag
+    type: BIGINT
+  - name: long_distance_flag
+    type: BIGINT
+  - name: invalid_purpose_flag
+    type: BIGINT
+  - name: o_purpose_imputed
+    type: BIGINT
+  - name: d_purpose_imputed
+    type: BIGINT
+  - name: o_purpose_category_imputed
+    type: BIGINT
+  - name: d_purpose_category_imputed
+    type: BIGINT
+  - name: d_distance_home
+    type: DOUBLE
+  - name: d_distance_work
+    type: DOUBLE
+  - name: d_distance_school
+    type: DOUBLE
+  - name: o_location_type
+    type: BIGINT
+  - name: d_location_type
+    type: BIGINT
+  - name: o_congestion
+    type: BIGINT
+  - name: d_congestion
+    type: BIGINT

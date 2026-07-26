@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-x5ra-hhdw`. Regenerate after model-verify.
+key: [travel_date, hh_id, person_id, cms_zone, day_num]
+temporal: travel_date
+sort: [travel_date, hh_id, person_id, cms_zone, day_num]
+columns:
+  - name: hh_id
+    type: BIGINT
+  - name: day_weight
+    type: DOUBLE
+  - name: cms_zone
+    type: VARCHAR
+  - name: survey_mode
+    type: BIGINT
+  - name: person_id
+    type: BIGINT
+  - name: person_num
+    type: BIGINT
+  - name: day_num
+    type: BIGINT
+  - name: travel_date
+    type: DATE
+  - name: travel_date_dow
+    type: BIGINT
+  - name: day_is_complete
+    type: BIGINT
+  - name: made_trips
+    type: BIGINT
+  - name: num_trips
+    type: BIGINT
+  - name: num_complete_trip_surveys
+    type: BIGINT
+  - name: num_deleted_trips
+    type: BIGINT
+  - name: no_travel_capture
+    type: BIGINT
+  - name: no_travel_no_work
+    type: BIGINT
+  - name: no_travel_telework
+    type: BIGINT
+  - name: no_travel_housework
+    type: BIGINT
+  - name: no_travel_kids_break
+    type: BIGINT
+  - name: no_travel_no_transport
+    type: BIGINT
+  - name: no_travel_sick
+    type: BIGINT
+  - name: no_travel_delivery
+    type: BIGINT
+  - name: no_travel_homeschool
+    type: BIGINT
+  - name: no_travel_weather
+    type: BIGINT
+  - name: no_travel_other
+    type: BIGINT
+  - name: deliver_prepared
+    type: BIGINT
+  - name: deliver_service
+    type: BIGINT
+  - name: deliver_food
+    type: BIGINT
+  - name: deliver_package_home
+    type: BIGINT
+  - name: deliver_package_work
+    type: BIGINT
+  - name: deliver_package_locker
+    type: BIGINT
+  - name: deliver_other
+    type: BIGINT
+  - name: deliver_none
+    type: BIGINT
+  - name: shop_online
+    type: BIGINT
+  - name: telecommute_time
+    type: DOUBLE

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-45sb-srb5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [globalid, tasktype]
+temporal: completeddate
+checks:
+  - kind: unique
+    columns: [globalid, tasktype]
+  - kind: not_null
+    col: globalid
+  - kind: not_null
+    col: tasktype
+  - kind: row_floor
+    min: 129062
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

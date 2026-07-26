@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-bf97-mjsy`. Regenerate after model-verify.
+key: [incident_date, accident_report_id]
+temporal: incident_date
+sort: [incident_date, accident_report_id]
+columns:
+  - name: bin
+    type: BIGINT
+  - name: accident_report_id
+    type: BIGINT
+  - name: incident_date
+    type: DATE
+  - name: record_type_description
+    type: VARCHAR
+  - name: check2_description
+    type: VARCHAR
+  - name: fatality
+    type: BIGINT
+  - name: injury
+    type: BIGINT
+  - name: house_number
+    type: VARCHAR
+  - name: street_name
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: block
+    type: BIGINT
+  - name: lot
+    type: BIGINT
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: VARCHAR
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

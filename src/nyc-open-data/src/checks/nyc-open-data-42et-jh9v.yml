@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-42et-jh9v`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, graduation_201011, graduation_201112, college_enroll_201112, college_enroll_201011]
+checks:
+  - kind: unique
+    columns: [dbn, graduation_201011, graduation_201112, college_enroll_201112, college_enroll_201011]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: graduation_201011
+  - kind: not_null
+    col: graduation_201112
+  - kind: not_null
+    col: college_enroll_201112
+  - kind: not_null
+    col: college_enroll_201011
+  - kind: row_floor
+    min: 211
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-xsj8-452q`. Regenerate after model-verify.
+key: [year, borough, calendar_or_fiscal_year]
+sort: [year, borough, calendar_or_fiscal_year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: calendar_or_fiscal_year
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: supervision_caseload_count
+    type: BIGINT
+  - name: passthrough_count
+    type: BIGINT
+  - name: supervision_intakes
+    type: BIGINT
+  - name: early_discharge_new_requests
+    type: BIGINT
+  - name: early_discharge_requests_approved
+    type: BIGINT
+  - name: early_discharge_requests_disapproved
+    type: BIGINT
+  - name: investigation_charge_felonies
+    type: BIGINT
+  - name: investigation_charge_misdemeanors
+    type: BIGINT
+  - name: disposed_violation_jail
+    type: BIGINT
+  - name: disposed_violation_prison
+    type: BIGINT
+  - name: disposed_violation_restored
+    type: BIGINT
+  - name: disposed_violation_terminated
+    type: BIGINT
+  - name: filed_violation_absconder
+    type: BIGINT
+  - name: filed_violation_rearrests
+    type: BIGINT
+  - name: filed_violation_technical
+    type: BIGINT

@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "facility_pk",
+    "facilityname",
+    "facility_type",
+    "service_category",
+    "service_type",
+    "buildingnumber",
+    "address",
+    "address_2",
+    "borough",
+    "zipcode",
+    "latitude",
+    "longitude",
+    "phone",
+    "community_board",
+    "council_district",
+    "census_tract",
+    "bin",
+    "bbl",
+    "nta",
+    "additionalinfo",
+    "startdate",
+    "enddate",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+    "condoms_male",
+    "fc2_femaleinsertive_condoms",
+    "lubricant",
+    "website",
+    "partnertype",
+    "partnertypedetailed"
+FROM "nyc-open-data-4kpn-sezh"

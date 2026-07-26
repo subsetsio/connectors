@@ -1,0 +1,68 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-upii-frjc`. Regenerate after model-verify.
+key: []
+temporal: date_of_violation
+sort: [date_of_violation]
+columns:
+  - name: violation_number
+    type: VARCHAR
+  - name: bic_number
+    type: BIGINT
+  - name: account_name
+    type: VARCHAR
+  - name: type_of_violation
+    type: VARCHAR
+  - name: violation_phase
+    type: VARCHAR
+  - name: violation_disposition
+    type: VARCHAR
+  - name: account_type
+    type: VARCHAR
+  - name: violation_account_address
+    type: VARCHAR
+  - name: violation_account_city
+    type: VARCHAR
+  - name: violation_account_state
+    type: VARCHAR
+  - name: violation_account_postcode
+    type: VARCHAR
+  - name: borough_of_violation
+    type: VARCHAR
+  - name: date_of_violation
+    type: DATE
+  - name: date_violation_issued
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: maximum_fine
+    type: BIGINT
+  - name: fine_amount
+    type: DOUBLE
+  - name: date_fine_paid
+    type: DATE
+  - name: early_settlement_violation
+    type: BOOLEAN
+  - name: settlement_date
+    type: DATE
+  - name: rule_code
+    type: VARCHAR
+  - name: number_of_counts
+    type: BIGINT
+  - name: description_of_rule
+    type: VARCHAR
+  - name: export_date
+    type: DATE
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

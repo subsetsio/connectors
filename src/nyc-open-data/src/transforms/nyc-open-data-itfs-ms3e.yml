@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-itfs-ms3e`. Regenerate after model-verify.
+key: [schoolname, dbn]
+sort: [schoolname, dbn]
+columns:
+  - name: dbn
+    type: VARCHAR
+  - name: schoolname
+    type: VARCHAR
+  - name: ap_test_takers
+    type: BIGINT
+  - name: total_exams_taken
+    type: BIGINT
+  - name: number_of_exams_with_scores_3_4_or_5
+    type: BIGINT

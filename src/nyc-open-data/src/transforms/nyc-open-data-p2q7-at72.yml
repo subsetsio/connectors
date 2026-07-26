@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-p2q7-at72`. Regenerate after model-verify.
+key: [registration_date, contract_description, epp_product_types, agency]
+temporal: registration_date
+sort: [registration_date, contract_description, epp_product_types, agency]
+columns:
+  - name: agency
+    type: VARCHAR
+  - name: contract_description
+    type: VARCHAR
+  - name: registration_date
+    type: DATE
+  - name: epp_product_types
+    type: VARCHAR
+  - name: products_meets_epp_minimum_standards_yn
+    type: BOOLEAN
+  - name: contract_value
+    type: DOUBLE

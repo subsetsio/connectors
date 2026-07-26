@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-sn5i-xuny`. Regenerate after model-verify.
+key: [dataset]
+temporal: alert_date
+sort: [alert_date, dataset]
+columns:
+  - name: alert_date
+    type: DATE
+  - name: dataset
+    type: VARCHAR
+  - name: dataset_name
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: details
+    type: VARCHAR
+  - name: resolution_date
+    type: TIMESTAMP
+  - name: resolution
+    type: VARCHAR

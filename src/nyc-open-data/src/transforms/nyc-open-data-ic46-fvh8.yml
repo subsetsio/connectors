@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ic46-fvh8`. Regenerate after model-verify.
+key: [neighborhood_tabulation_area, health_events]
+temporal: published_date
+sort: [published_date, neighborhood_tabulation_area, health_events]
+columns:
+  - name: published_date
+    type: DATE
+  - name: neighborhood_tabulation_area
+    type: VARCHAR
+  - name: health_events
+    type: VARCHAR
+  - name: number_of_avoided_health_events_per_nta_resident
+    type: DOUBLE

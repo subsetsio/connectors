@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5awp-wfkt`. Regenerate after model-verify.
+key: [month, community_district_cd, borough]
+temporal: month
+sort: [month, community_district_cd, borough]
+columns:
+  - name: month
+    type: DATE
+  - name: borough
+    type: VARCHAR
+  - name: community_district_cd
+    type: VARCHAR
+  - name: borough_consultation_total_snap_recipients
+    type: BIGINT
+  - name: borough_consultation_total_snap_households
+    type: BIGINT
+  - name: borough_consultation_total_cash_assistance_recipients
+    type: BIGINT
+  - name: borough_consultation_total_cash_assistance_cases
+    type: BIGINT
+  - name: borough_consultation_total_medicaid_only_enrollees
+    type: BIGINT
+  - name: borough_consultation_total_medicaid_enrollees
+    type: BIGINT

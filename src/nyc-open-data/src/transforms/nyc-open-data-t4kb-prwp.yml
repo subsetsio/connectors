@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-t4kb-prwp`. Regenerate after model-verify.
+key: [nycha_development_name]
+temporal: reporting_date
+sort: [reporting_date, nycha_development_name]
+columns:
+  - name: nycha_development_name
+    type: VARCHAR
+  - name: provider
+    type: VARCHAR
+  - name: nycha_total_households
+    type: BIGINT
+  - name: total_big_apple_connect_subscribers
+    type: BIGINT
+  - name: percent_of_enrollment
+    type: DOUBLE
+  - name: borough
+    type: VARCHAR
+  - name: community_board
+    type: VARCHAR
+  - name: city_council_district
+    type: VARCHAR
+  - name: congressional_district
+    type: BIGINT
+  - name: state_senate_district
+    type: VARCHAR
+  - name: state_assembly_district
+    type: VARCHAR
+  - name: reporting_date
+    type: DATE

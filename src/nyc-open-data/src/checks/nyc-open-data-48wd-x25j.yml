@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-48wd-x25j`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, students_with_2_or_more_suspensions_or_removals, demographic_category, report_category, school_year]
+checks:
+  - kind: unique
+    columns: [dbn, students_with_2_or_more_suspensions_or_removals, demographic_category, report_category, school_year]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: students_with_2_or_more_suspensions_or_removals
+  - kind: not_null
+    col: demographic_category
+  - kind: not_null
+    col: report_category
+  - kind: not_null
+    col: school_year
+  - kind: row_floor
+    min: 131768
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

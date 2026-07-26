@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "_name" AS name,
+    "fileorder",
+    "number",
+    "parkprop",
+    "borough",
+    "parkname",
+    "parknumber",
+    "commboard",
+    "council",
+    "_location" AS location,
+    "extant",
+    "dedicated",
+    "_cast" AS cast,
+    "descrip",
+    "dimen",
+    "sponsor",
+    "materials",
+    "foundry",
+    "fabricator",
+    "sculptor",
+    "architect",
+    "donor",
+    "maintain",
+    "contractor",
+    "name2",
+    "name3",
+    "maintainedbyparks",
+    "installation",
+    "rededication",
+    "_cost" AS cost,
+    "categories",
+    "inscribed",
+    "x",
+    "y"
+FROM "nyc-open-data-6rrm-vxj9"

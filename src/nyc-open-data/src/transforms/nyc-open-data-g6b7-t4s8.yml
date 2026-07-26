@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-g6b7-t4s8`. Regenerate after model-verify.
+key: [grade_level, program_type, borough]
+sort: [grade_level, program_type, borough]
+columns:
+  - name: borough
+    type: VARCHAR
+  - name: grade_level
+    type: VARCHAR
+  - name: program_type
+    type: VARCHAR
+  - name: number_of_students
+    type: BIGINT
+  - name: number_of_classes
+    type: BIGINT
+  - name: average_class_size
+    type: DOUBLE

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-2bmr-jdsv`. Regenerate after model-verify.
+key: [pickup_end_date, base_number]
+temporal: pickup_start_date
+sort: [pickup_start_date, pickup_end_date, base_number]
+columns:
+  - name: base_number
+    type: VARCHAR
+  - name: wave_number
+    type: BIGINT
+  - name: base_name
+    type: VARCHAR
+  - name: dba
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: week_number
+    type: BIGINT
+  - name: pickup_start_date
+    type: TIMESTAMP
+  - name: pickup_end_date
+    type: TIMESTAMP
+  - name: total_dispatched_trips
+    type: BIGINT
+  - name: unique_dispatched_vehicle
+    type: BIGINT

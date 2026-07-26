@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-wr4r-bue7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [location, attribute_reference, category, sub_category, need_name]
+checks:
+  - kind: unique
+    columns: [location, attribute_reference, category, sub_category, need_name]
+  - kind: not_null
+    col: location
+  - kind: not_null
+    col: attribute_reference
+  - kind: not_null
+    col: category
+  - kind: not_null
+    col: sub_category
+  - kind: not_null
+    col: need_name
+  - kind: row_floor
+    min: 28386
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

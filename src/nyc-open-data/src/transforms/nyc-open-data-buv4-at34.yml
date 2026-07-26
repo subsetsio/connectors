@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-buv4-at34`. Regenerate after model-verify.
+key: [loangrant_number]
+temporal: funded_date
+sort: [funded_date, loangrant_number]
+columns:
+  - name: publication_date
+    type: BIGINT
+  - name: awarding_agency
+    type: VARCHAR
+  - name: recipient_name
+    type: VARCHAR
+  - name: service_type
+    type: VARCHAR
+  - name: recipient_zip_code
+    type: BIGINT
+  - name: recipient_description
+    type: VARCHAR
+  - name: funding_source
+    type: VARCHAR
+  - name: loangrant_number
+    type: BIGINT
+  - name: loangrant_amount
+    type: DOUBLE
+  - name: funded_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: purpose
+    type: VARCHAR

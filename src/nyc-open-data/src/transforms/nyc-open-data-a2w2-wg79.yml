@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-a2w2-wg79`. Regenerate after model-verify.
+key: [agency, fiscal_year, change_order_type]
+sort: [agency, fiscal_year, change_order_type]
+columns:
+  - name: fiscal_year
+    type: BIGINT
+  - name: change_order_type
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: original_contract_value
+    type: DOUBLE
+  - name: change_order_contract_value
+    type: DOUBLE
+  - name: change_order_contract_in_fiscal_year
+    type: DOUBLE
+  - name: days_processing_in_fiscal_year
+    type: DOUBLE

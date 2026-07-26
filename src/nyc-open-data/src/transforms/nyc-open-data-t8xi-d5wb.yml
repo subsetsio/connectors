@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-t8xi-d5wb`. Regenerate after model-verify.
+key: [response_id]
+temporal: collected_date
+sort: [collected_date, response_id]
+columns:
+  - name: response_id
+    type: VARCHAR
+  - name: gispropnum
+    type: VARCHAR
+  - name: omppropid
+    type: VARCHAR
+  - name: collected_date
+    type: TIMESTAMP
+  - name: time_of_day
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: month_text
+    type: VARCHAR
+  - name: week
+    type: BIGINT
+  - name: group
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: ground_syringes
+    type: BIGINT
+  - name: kiosk_syringes
+    type: DOUBLE
+  - name: total_syringes
+    type: BIGINT
+  - name: kiosk_number
+    type: BIGINT
+  - name: kiosk_type
+    type: VARCHAR
+  - name: precinct
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: property_type
+    type: VARCHAR
+  - name: kiosk_site
+    type: BOOLEAN
+  - name: created_date
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: source
+    type: VARCHAR

@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-c3uy-2p5r`. Regenerate after model-verify.
+key: [start_date, unique_id]
+temporal: start_date
+sort: [start_date, unique_id]
+columns:
+  - name: unique_id
+    type: BIGINT
+  - name: indicator_id
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: measure_info
+    type: VARCHAR
+  - name: geo_type_name
+    type: VARCHAR
+  - name: geo_join_id
+    type: BIGINT
+  - name: geo_place_name
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: data_value
+    type: DOUBLE
+  - name: message
+    type: VARCHAR

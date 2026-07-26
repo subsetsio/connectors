@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-2juy-aj8e`. Regenerate after model-verify.
+key: [startofperiod, endofperiod, latitudelongitude, datasourceid]
+temporal: startofperiod
+sort: [startofperiod, endofperiod, latitudelongitude, datasourceid]
+columns:
+  - name: datasourceid
+    type: VARCHAR
+  - name: startofperiod
+    type: TIMESTAMP
+  - name: endofperiod
+    type: TIMESTAMP
+  - name: locationlatitude
+    type: DOUBLE
+  - name: locationlongitude
+    type: DOUBLE
+  - name: pm2_5concmass1hourmeanvalue
+    type: DOUBLE
+  - name: pm2_5concmassnowcastusepaaqivalue
+    type: BIGINT
+  - name: latitudelongitude
+    type: VARCHAR

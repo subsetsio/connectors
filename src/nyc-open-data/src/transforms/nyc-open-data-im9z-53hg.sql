@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "violation_id",
+    "primary_building_identifier",
+    "primary_boro_identifier",
+    "primary_borough_name",
+    "primary_house_number",
+    "primary_low_house_number",
+    "primary_high_house_number",
+    "primary_street_name",
+    "primary_postcode",
+    "development_name",
+    "tds_number",
+    "stairhall_number",
+    "nycha_address_section_boroid",
+    "nycha_address_section_borough",
+    "nycha_address_section_house_number",
+    "nycha_address_section_street_name",
+    "nycha_address_section_postcode",
+    "apartment",
+    "story",
+    "block",
+    "lot",
+    "violation_description",
+    "_class" AS class,
+    "inspection_date",
+    "approved_date",
+    "order_number",
+    "issued_in_error",
+    "latitude",
+    "longitude",
+    "community_board",
+    "council_district",
+    "bin",
+    "bbl",
+    "census_tract_2020",
+    "neighborhood_tabulation_area_nta_2020"
+FROM "nyc-open-data-im9z-53hg"

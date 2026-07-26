@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-9ck6-2jew`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [address, boroblocklot, condo_section, building_classification, report_year]
+checks:
+  - kind: unique
+    columns: [address, boroblocklot, condo_section, building_classification, report_year]
+  - kind: not_null
+    col: address
+  - kind: not_null
+    col: boroblocklot
+  - kind: not_null
+    col: condo_section
+  - kind: not_null
+    col: building_classification
+  - kind: not_null
+    col: report_year
+  - kind: row_floor
+    min: 15787
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

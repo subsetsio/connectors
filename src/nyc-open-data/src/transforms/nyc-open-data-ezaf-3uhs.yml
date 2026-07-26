@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ezaf-3uhs`. Regenerate after model-verify.
+key: [school_name, dbn, subject, program_type, department]
+sort: [school_name, dbn, subject, program_type, department]
+columns:
+  - name: dbn
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: grade_level
+    type: VARCHAR
+  - name: program_type
+    type: VARCHAR
+  - name: department
+    type: VARCHAR
+  - name: subject
+    type: VARCHAR
+  - name: number_of_students
+    type: BIGINT
+  - name: number_of_classes
+    type: BIGINT
+  - name: average_class_size
+    type: DOUBLE

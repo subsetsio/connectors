@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "_name" AS name,
+    "url",
+    "orgranization_and_program_name",
+    "address",
+    "borough",
+    "zip",
+    "display_physical_address",
+    "phone",
+    "fax",
+    "tty",
+    "website",
+    "hotline_phone",
+    "hotline_hours",
+    "hotline_hours_other",
+    "program_hours",
+    "program_hours_other",
+    "boroughs_served",
+    "language_interpretation_svcs",
+    "language_svcs",
+    "language_other",
+    "wheelchair_access",
+    "fee_svc",
+    "specialized_svcs",
+    "other_specialized_svcs",
+    "svcs_provided",
+    "other_svcs_provided",
+    "latitude",
+    "longitude",
+    "community_board",
+    "council_district",
+    "census_tract",
+    "bin",
+    "bbl",
+    "nta"
+FROM "nyc-open-data-5ziv-wcy4"

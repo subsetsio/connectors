@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-im9z-53hg`. Regenerate after model-verify.
+key: [inspection_date, violation_id]
+temporal: inspection_date
+sort: [inspection_date, violation_id]
+columns:
+  - name: violation_id
+    type: BIGINT
+  - name: primary_building_identifier
+    type: BIGINT
+  - name: primary_boro_identifier
+    type: BIGINT
+  - name: primary_borough_name
+    type: VARCHAR
+  - name: primary_house_number
+    type: VARCHAR
+  - name: primary_low_house_number
+    type: VARCHAR
+  - name: primary_high_house_number
+    type: VARCHAR
+  - name: primary_street_name
+    type: VARCHAR
+  - name: primary_postcode
+    type: BIGINT
+  - name: development_name
+    type: VARCHAR
+  - name: tds_number
+    type: BIGINT
+  - name: stairhall_number
+    type: BIGINT
+  - name: nycha_address_section_boroid
+    type: BIGINT
+  - name: nycha_address_section_borough
+    type: VARCHAR
+  - name: nycha_address_section_house_number
+    type: VARCHAR
+  - name: nycha_address_section_street_name
+    type: VARCHAR
+  - name: nycha_address_section_postcode
+    type: BIGINT
+  - name: apartment
+    type: VARCHAR
+  - name: story
+    type: BIGINT
+  - name: block
+    type: VARCHAR
+  - name: lot
+    type: VARCHAR
+  - name: violation_description
+    type: VARCHAR
+  - name: class
+    type: VARCHAR
+  - name: inspection_date
+    type: DATE
+  - name: approved_date
+    type: DATE
+  - name: order_number
+    type: VARCHAR
+  - name: issued_in_error
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

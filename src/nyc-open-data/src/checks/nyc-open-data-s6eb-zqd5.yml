@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-s6eb-zqd5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [number_of_asian_students_participating_in_psal, percent_of_english_language_learners_psal_participation, number_of_students_entering_9th_grade_in_2019_participating_in_psal, number_of_white_students_participating_in_psal, percent_of_asian_psal_participation]
+checks:
+  - kind: unique
+    columns: [number_of_asian_students_participating_in_psal, percent_of_english_language_learners_psal_participation, number_of_students_entering_9th_grade_in_2019_participating_in_psal, number_of_white_students_participating_in_psal, percent_of_asian_psal_participation]
+  - kind: not_null
+    col: number_of_asian_students_participating_in_psal
+  - kind: not_null
+    col: percent_of_english_language_learners_psal_participation
+  - kind: not_null
+    col: number_of_students_entering_9th_grade_in_2019_participating_in_psal
+  - kind: not_null
+    col: number_of_white_students_participating_in_psal
+  - kind: not_null
+    col: percent_of_asian_psal_participation
+  - kind: row_floor
+    min: 19
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

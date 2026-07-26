@@ -1,0 +1,66 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-t7p9-n9dy`. Regenerate after model-verify.
+key: []
+temporal: week_start_date
+sort: [week_start_date]
+columns:
+  - name: week_start_date
+    type: DATE
+  - name: agency
+    type: VARCHAR
+  - name: final_incident_type
+    type: VARCHAR
+  - name: of_incidents_calculated
+    type: BIGINT
+  - name: call_to_first_pickup
+    type: DOUBLE
+  - name: call_to_pd_calltaker_handoff
+    type: DOUBLE
+  - name: call_to_fdny_pickup
+    type: DOUBLE
+  - name: call_to_fdny_job_creation
+    type: DOUBLE
+  - name: call_to_ems_pickup
+    type: DOUBLE
+  - name: call_to_agency_job_creation
+    type: DOUBLE
+  - name: call_to_agency_dispatch
+    type: DOUBLE
+  - name: call_to_agency_arrival
+    type: DOUBLE
+  - name: call_to_first_arrival_multiagency_incidents
+    type: DOUBLE
+  - name: median_pickup
+    type: DOUBLE
+  - name: median_calltaker_handoff
+    type: DOUBLE
+  - name: median_fdny_pickup
+    type: BIGINT
+  - name: median_fdny_job_creation
+    type: BIGINT
+  - name: median_ems_pickup
+    type: DOUBLE
+  - name: median_ems_job_creation
+    type: DOUBLE
+  - name: median_dispatch
+    type: DOUBLE
+  - name: median_travel
+    type: DOUBLE
+  - name: median_cumulative_first_arrival_multiagency_incidents
+    type: DOUBLE
+  - name: average_travel
+    type: DOUBLE
+  - name: average_dispatch
+    type: DOUBLE
+  - name: average_ems_processing
+    type: DOUBLE
+  - name: average_ems_pickup
+    type: DOUBLE
+  - name: average_calltaker_processing
+    type: DOUBLE
+  - name: average_pickup
+    type: DOUBLE
+  - name: average_fd_pickup
+    type: DOUBLE
+  - name: average_fd_processing
+    type: DOUBLE

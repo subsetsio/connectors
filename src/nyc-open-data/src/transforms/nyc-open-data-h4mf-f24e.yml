@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-h4mf-f24e`. Regenerate after model-verify.
+key: [program_start_date, building_id]
+temporal: program_start_date
+sort: [program_start_date, building_id]
+columns:
+  - name: building_id
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: number
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: total_units
+    type: BIGINT
+  - name: program_start_date
+    type: DATE
+  - name: current_status
+    type: VARCHAR
+  - name: discharge_date
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

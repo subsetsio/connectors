@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-gaq9-z3hz`. Regenerate after model-verify.
+key: [district, fiscal_month_number, month_name, zone, fiscal_year]
+sort: [district, fiscal_month_number, month_name, zone, fiscal_year]
+columns:
+  - name: zone
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: fiscal_month_number
+    type: BIGINT
+  - name: fiscal_year
+    type: BIGINT
+  - name: month_name
+    type: VARCHAR
+  - name: diversion_ratetotal_total_recycling_total_waste
+    type: DOUBLE
+  - name: capture_ratepaper_total_paper_max_paper
+    type: DOUBLE
+  - name: capture_ratemgp_total_mgp_max_mgp
+    type: DOUBLE
+  - name: capture_ratetotal_total_recycling_leaves_recycling_max_paper_max_mgpx100
+    type: DOUBLE

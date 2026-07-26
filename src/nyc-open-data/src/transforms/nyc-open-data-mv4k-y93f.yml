@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-mv4k-y93f`. Regenerate after model-verify.
+key: [summons_key]
+temporal: summons_date
+sort: [summons_date, summons_key]
+columns:
+  - name: summons_key
+    type: BIGINT
+  - name: summons_date
+    type: DATE
+  - name: offense_description
+    type: VARCHAR
+  - name: law_section_number
+    type: VARCHAR
+  - name: law_description
+    type: VARCHAR
+  - name: summons_category_type
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: jurisdiction_code
+    type: BIGINT
+  - name: boro
+    type: VARCHAR
+  - name: precinct_of_occur
+    type: VARCHAR
+  - name: x_coordinate_cd
+    type: BIGINT
+  - name: y_coordinate_cd
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: new_georeferenced_column
+    type: VARCHAR

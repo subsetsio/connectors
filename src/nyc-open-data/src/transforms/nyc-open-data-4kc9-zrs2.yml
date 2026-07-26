@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-4kc9-zrs2`. Regenerate after model-verify.
+key: [neighborhood_tabulation_area_nta, neighborhood_tabulation_area_nta_name, year]
+sort: [neighborhood_tabulation_area_nta, neighborhood_tabulation_area_nta_name, year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta
+    type: VARCHAR
+  - name: neighborhood_tabulation_area_nta_name
+    type: VARCHAR
+  - name: supply_gap_lbs
+    type: DOUBLE
+  - name: food_insecure_percentage
+    type: DOUBLE
+  - name: unemployment_rate
+    type: DOUBLE
+  - name: vulnerable_population_score
+    type: DOUBLE
+  - name: weighted_score
+    type: DOUBLE
+  - name: rank
+    type: BIGINT

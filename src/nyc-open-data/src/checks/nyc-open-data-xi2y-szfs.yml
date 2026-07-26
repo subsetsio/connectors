@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-xi2y-szfs`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [number_of_students, geographic_unit, student_category_1, student_category_2]
+checks:
+  - kind: unique
+    columns: [number_of_students, geographic_unit, student_category_1, student_category_2]
+  - kind: not_null
+    col: number_of_students
+  - kind: not_null
+    col: geographic_unit
+  - kind: not_null
+    col: student_category_1
+  - kind: not_null
+    col: student_category_2
+  - kind: row_floor
+    min: 10610
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

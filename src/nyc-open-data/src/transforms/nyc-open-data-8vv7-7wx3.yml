@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-8vv7-7wx3`. Regenerate after model-verify.
+key: [record_id, notification_title]
+temporal: date_and_time
+sort: [date_and_time, record_id, notification_title]
+columns:
+  - name: record_id
+    type: BIGINT
+  - name: date_and_time
+    type: TIMESTAMP
+  - name: notificationtype
+    type: VARCHAR
+  - name: notification_title
+    type: VARCHAR
+  - name: email_body
+    type: VARCHAR

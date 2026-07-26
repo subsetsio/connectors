@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-wffy-3iyg`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [birth_year, race_or_ethnicity_of_mother, sex_of_infant]
+checks:
+  - kind: unique
+    columns: [birth_year, race_or_ethnicity_of_mother, sex_of_infant]
+  - kind: not_null
+    col: birth_year
+  - kind: not_null
+    col: race_or_ethnicity_of_mother
+  - kind: not_null
+    col: sex_of_infant
+  - kind: row_floor
+    min: 92
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

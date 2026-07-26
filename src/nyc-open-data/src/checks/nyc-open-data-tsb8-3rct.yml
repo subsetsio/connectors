@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-tsb8-3rct`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [hdrsystem_acceptance_date, vendlegal_name, actgline_description]
+temporal: hdrsystem_acceptance_date
+checks:
+  - kind: unique
+    columns: [hdrsystem_acceptance_date, vendlegal_name, actgline_description]
+  - kind: not_null
+    col: hdrsystem_acceptance_date
+  - kind: not_null
+    col: vendlegal_name
+  - kind: not_null
+    col: actgline_description
+  - kind: row_floor
+    min: 81
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

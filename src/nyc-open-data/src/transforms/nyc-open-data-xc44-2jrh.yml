@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-xc44-2jrh`. Regenerate after model-verify.
+key: [school_dbn, date, schoolyear]
+temporal: date
+sort: [date, school_dbn, schoolyear]
+columns:
+  - name: school_dbn
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: schoolyear
+    type: BIGINT
+  - name: enrolled
+    type: BIGINT
+  - name: present
+    type: BIGINT
+  - name: absent
+    type: BIGINT
+  - name: released
+    type: BIGINT

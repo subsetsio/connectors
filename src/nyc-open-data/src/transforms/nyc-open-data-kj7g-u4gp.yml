@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-kj7g-u4gp`. Regenerate after model-verify.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: station_name
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: charge_box_id
+    type: VARCHAR
+  - name: connector_id
+    type: BIGINT
+  - name: driver_id
+    type: VARCHAR
+  - name: id_tag
+    type: VARCHAR
+  - name: connected_time
+    type: TIME
+  - name: disconnected_time
+    type: TIME
+  - name: charge_duration_min
+    type: DOUBLE
+  - name: connected_duration_min
+    type: DOUBLE
+  - name: energy_provided_kwh
+    type: DOUBLE
+  - name: session_status
+    type: VARCHAR
+  - name: invalidity_reason
+    type: VARCHAR

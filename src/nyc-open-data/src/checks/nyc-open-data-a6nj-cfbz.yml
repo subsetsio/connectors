@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-a6nj-cfbz`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [building_id, certification_class, riser_space_for_additional_providers]
+checks:
+  - kind: unique
+    columns: [building_id, certification_class, riser_space_for_additional_providers]
+  - kind: not_null
+    col: building_id
+  - kind: not_null
+    col: certification_class
+  - kind: not_null
+    col: riser_space_for_additional_providers
+  - kind: row_floor
+    min: 161
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

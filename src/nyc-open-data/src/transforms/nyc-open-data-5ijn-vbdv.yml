@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5ijn-vbdv`. Regenerate after model-verify.
+key: [unique_key, complaint_type, agency_acronym, survey_year, satisfaction_response]
+sort: [unique_key, complaint_type, agency_acronym, survey_year, satisfaction_response]
+columns:
+  - name: unique_key
+    type: VARCHAR
+  - name: agency_acronym
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: complaint_type
+    type: VARCHAR
+  - name: descriptor
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: resolution_description
+    type: VARCHAR
+  - name: survey_year
+    type: BIGINT
+  - name: survey_month
+    type: BIGINT
+  - name: satisfaction_response
+    type: VARCHAR
+  - name: dissatisfaction_reason
+    type: VARCHAR

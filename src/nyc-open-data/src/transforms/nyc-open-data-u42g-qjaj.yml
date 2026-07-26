@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-u42g-qjaj`. Regenerate after model-verify.
+key: [agency_name, agency_code, fiscal_year, actualplan, cost_category]
+sort: [agency_name, agency_code, fiscal_year, actualplan, cost_category]
+columns:
+  - name: publication_date
+    type: BIGINT
+  - name: cost_category
+    type: VARCHAR
+  - name: actualplan
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT
+  - name: agency_code
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: total_amount
+    type: BIGINT
+  - name: city_amount
+    type: BIGINT
+  - name: intracity_amount
+    type: BIGINT

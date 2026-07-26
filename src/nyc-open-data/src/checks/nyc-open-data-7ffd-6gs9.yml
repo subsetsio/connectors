@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-7ffd-6gs9`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [feedback_datetime, customer_message, agency_name, status]
+temporal: feedback_datetime
+checks:
+  - kind: unique
+    columns: [feedback_datetime, customer_message, agency_name, status]
+  - kind: not_null
+    col: feedback_datetime
+  - kind: not_null
+    col: customer_message
+  - kind: not_null
+    col: agency_name
+  - kind: not_null
+    col: status
+  - kind: row_floor
+    min: 22
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

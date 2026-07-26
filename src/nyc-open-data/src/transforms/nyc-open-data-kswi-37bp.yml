@@ -1,0 +1,334 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-kswi-37bp`. Regenerate after model-verify.
+key: [release_date, building_id]
+temporal: period_ending_date
+sort: [period_ending_date, release_date, building_id]
+columns:
+  - name: building_id
+    type: BIGINT
+  - name: facility_name
+    type: VARCHAR
+  - name: period_ending_date
+    type: DATE
+  - name: rating
+    type: BIGINT
+  - name: address_1
+    type: VARCHAR
+  - name: address_2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: county
+    type: VARCHAR
+  - name: total_floor_space_sq_ft
+    type: BIGINT
+  - name: facility_type
+    type: VARCHAR
+  - name: last_modified_date
+    type: DATE
+  - name: building_profile_status
+    type: VARCHAR
+  - name: eligibility_for_energy_star
+    type: VARCHAR
+  - name: energy_star_application_status
+    type: VARCHAR
+  - name: years_labeled
+    type: VARCHAR
+  - name: current_rating_1100
+    type: BIGINT
+  - name: target_rating_1100
+    type: BIGINT
+  - name: current_direct_ghg_emissions_mtco2e
+    type: DOUBLE
+  - name: current_indirect_ghg_emissions_mtco2e
+    type: DOUBLE
+  - name: current_total_ghg_emissions_mtco2e
+    type: DOUBLE
+  - name: current_energy_period_ending_date
+    type: DATE
+  - name: current_water_period_ending_date
+    type: DATE
+  - name: current_total_onsite_renewable_electric_use_kwh
+    type: DOUBLE
+  - name: percent_of_electricity_from_onsite_renewable
+    type: DOUBLE
+  - name: total_avoided_ghg_emissions_from_green_power_mtco2e
+    type: DOUBLE
+  - name: total_onsite_electric_generation_kwh
+    type: DOUBLE
+  - name: total_green_power_purchased_mwh
+    type: DOUBLE
+  - name: current_site_energy_intensity_kbtusq_ft
+    type: DOUBLE
+  - name: current_total_site_energy_use_kbtu
+    type: DOUBLE
+  - name: national_average_site_eui_kbtusq_ft
+    type: DOUBLE
+  - name: target_site_energy_intensity_kbtusq_ft
+    type: DOUBLE
+  - name: weather_normalized_site_eui_kbtusq_ft
+    type: DOUBLE
+  - name: electricity_use_kbtu
+    type: DOUBLE
+  - name: electricity_use_kwh
+    type: DOUBLE
+  - name: natural_gas_use_kbtu
+    type: DOUBLE
+  - name: natural_gas_use_therms
+    type: DOUBLE
+  - name: district_steam_use_kbtu
+    type: DOUBLE
+  - name: fuel_oil_2_use_kbtu
+    type: DOUBLE
+  - name: fuel_oil_4_use_kbtu
+    type: DOUBLE
+  - name: fuel_oil_56_use_kbtu
+    type: DOUBLE
+  - name: diesel_2_use_kbtu
+    type: DOUBLE
+  - name: difference_from_national_average_source_energy_per_square_foot
+    type: DOUBLE
+  - name: current_source_energy_intensity_kbtusq_ft
+    type: DOUBLE
+  - name: current_total_source_energy_use_kbtu
+    type: DOUBLE
+  - name: current_weather_normalized_source_energy_intensity_kbtusq_ft
+    type: DOUBLE
+  - name: national_average_source_eui_kbtusq_ft
+    type: DOUBLE
+  - name: bankfinancial_institution_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: bankfinancial_institution_office_airconditioned
+    type: DOUBLE
+  - name: bankfinancial_institution_pc_density
+    type: DOUBLE
+  - name: bankfinancial_institution_weekly_operating_hours
+    type: BIGINT
+  - name: bankfinancial_institution_workers_density
+    type: DOUBLE
+  - name: bankfinancial_institution_workers_on_main_shift
+    type: BIGINT
+  - name: hospital_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: hospital_laboratory_y1_n0
+    type: DOUBLE
+  - name: hospital_laundry_facility_y1_n0
+    type: DOUBLE
+  - name: hospital_maximum_number_of_floors
+    type: BIGINT
+  - name: hospital_number_of_buildings
+    type: BIGINT
+  - name: hospital_number_of_licensed_beds
+    type: BIGINT
+  - name: hotel_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: hotel_number_of_rooms
+    type: BIGINT
+  - name: hotel_onsite_laundry_short_tonsyear
+    type: VARCHAR
+  - name: hotel_percent_cooled
+    type: BIGINT
+  - name: hotel_presence_of_cooking_facilities_y1_n0
+    type: BIGINT
+  - name: house_of_worship_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: house_of_worship_pc_density
+    type: BIGINT
+  - name: house_of_worship_presence_of_cooking_facilities_y1_n0
+    type: BIGINT
+  - name: house_of_worship_weekly_operating_hours
+    type: BIGINT
+  - name: k12_school_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: k12_school_high_school_y1_n0
+    type: BIGINT
+  - name: k12_school_open_weekends_y1_n0
+    type: BIGINT
+  - name: k12_school_pc_density
+    type: DOUBLE
+  - name: k12_school_percent_cooled
+    type: BIGINT
+  - name: k12_school_walkin_refrig_density
+    type: DOUBLE
+  - name: k12_school_presence_of_cooking_facilities_y1_n0
+    type: BIGINT
+  - name: medical_office_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: medical_office_number_of_workers
+    type: BIGINT
+  - name: medical_office_percent_cooled
+    type: DOUBLE
+  - name: medical_office_weekly_operating_hours
+    type: BIGINT
+  - name: multifamily_home_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: multifamily_home_dishwashers_in_each_unit
+    type: DOUBLE
+  - name: multifamily_home_laundry_in_common_area
+    type: DOUBLE
+  - name: multifamily_home_laundry_in_each_unit
+    type: DOUBLE
+  - name: multifamily_home_market_rate_or_affordable_housing
+    type: VARCHAR
+  - name: multifamily_home_number_of_floors
+    type: BIGINT
+  - name: multifamily_home_number_of_units
+    type: BIGINT
+  - name: multifamily_home_percent_cooled
+    type: DOUBLE
+  - name: multifamily_home_percent_of_gross_floor_area_that_is_common_space_only
+    type: DOUBLE
+  - name: multifamily_home_total_number_of_bedrooms
+    type: DOUBLE
+  - name: office_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: office_office_airconditioned
+    type: DOUBLE
+  - name: office_pc_density
+    type: DOUBLE
+  - name: office_weekly_operating_hours
+    type: BIGINT
+  - name: office_workers_density
+    type: DOUBLE
+  - name: other_space_type_name
+    type: VARCHAR
+  - name: other_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: other_number_of_pcs
+    type: BIGINT
+  - name: other_weekly_operating_hours
+    type: BIGINT
+  - name: other_workers_on_main_shift
+    type: BIGINT
+  - name: parking_enclosed_floor_area_sq_ft
+    type: BIGINT
+  - name: parking_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: parking_nonenclosed_floor_area_wroof_sq_ft
+    type: BIGINT
+  - name: parking_open_floor_area_wo_roof_sq_ft
+    type: BIGINT
+  - name: parking_weekly_hours_of_access
+    type: BIGINT
+  - name: residence_hallsdormitories_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: residence_hallsdormitories_percent_cooled
+    type: DOUBLE
+  - name: residence_hallsdormitories_dorm_computer_lab_y1_n0
+    type: DOUBLE
+  - name: residence_hallsdormitories_dorm_dining_hall_y1_n0
+    type: DOUBLE
+  - name: residence_hallsdormitories_number_of_rooms
+    type: BIGINT
+  - name: retail_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: retail_cash_register_density
+    type: DOUBLE
+  - name: retail_exterior_entrance_to_the_public_y1_n0
+    type: BIGINT
+  - name: retail_workers_density
+    type: DOUBLE
+  - name: retail_weekly_operating_hours
+    type: BIGINT
+  - name: retail_walkin_refrig_density
+    type: DOUBLE
+  - name: retail_percent_cooled
+    type: DOUBLE
+  - name: retail_pc_density
+    type: DOUBLE
+  - name: retail_openclosed_refrig_density
+    type: DOUBLE
+  - name: retail_number_of_walkin_refrigerationfreezer_units
+    type: BIGINT
+  - name: retail_number_of_open_or_closed_refrigerationfreezer_cases
+    type: BIGINT
+  - name: supermarketsgrocery_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: supermarketsgrocery_number_of_open_or_closed_refrigerationfreezer_cases
+    type: BIGINT
+  - name: supermarketsgrocery_number_of_registers_andor_personal_computers
+    type: BIGINT
+  - name: supermarketsgrocery_number_of_walkin_refrigerationfreezer_units
+    type: BIGINT
+  - name: supermarketsgrocery_percent_cooled
+    type: DOUBLE
+  - name: supermarketsgrocery_presence_of_cooking_facilities_y1_n0
+    type: DOUBLE
+  - name: supermarketsgrocery_walkin_refrig_density
+    type: DOUBLE
+  - name: supermarketsgrocery_weekly_operating_hours
+    type: BIGINT
+  - name: supermarketsgrocery_workers_density
+    type: DOUBLE
+  - name: swimming_pool_size
+    type: VARCHAR
+  - name: swimming_pool_indoor_outdoor
+    type: VARCHAR
+  - name: swimming_pool_months_in_use
+    type: BIGINT
+  - name: warehouse_refrigerated_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: warehouse_refrigerated_weekly_operating_hours
+    type: BIGINT
+  - name: warehouse_unrefrigerated_percent_heated
+    type: DOUBLE
+  - name: warehouse_refrigerated_workers_density
+    type: BIGINT
+  - name: warehouse_unrefrigerated_distribution_center_y1_n0
+    type: BIGINT
+  - name: warehouse_unrefrigerated_gross_floor_area_sq_ft
+    type: DOUBLE
+  - name: warehouse_unrefrigerated_percent_cooled
+    type: DOUBLE
+  - name: warehouse_unrefrigerated_walkin_refrig_density
+    type: BIGINT
+  - name: warehouse_unrefrigerated_weekly_operating_hours
+    type: BIGINT
+  - name: warehouse_unrefrigerated_workers_density
+    type: BIGINT
+  - name: current_data_center_source_pue
+    type: VARCHAR
+  - name: current_site_pdu_input_energy_kwh
+    type: DOUBLE
+  - name: current_site_ups_output_energy_kwh
+    type: DOUBLE
+  - name: current_source_it_energy_kbtu
+    type: DOUBLE
+  - name: national_average_pue
+    type: DOUBLE
+  - name: data_center_gross_floor_area_sq_ft
+    type: BIGINT
+  - name: data_center_annual_it_energy
+    type: BIGINT
+  - name: data_center_it_energy_configuration
+    type: VARCHAR
+  - name: indoor_water_use_kgal
+    type: DOUBLE
+  - name: indoor_water_use_per_sq_ft_kgal
+    type: DOUBLE
+  - name: total_indoor_and_outdoor_water_use_kgal
+    type: DOUBLE
+  - name: release_date
+    type: TIMESTAMP
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

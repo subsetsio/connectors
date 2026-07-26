@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-xwtc-hedq`. Regenerate after model-verify.
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: VARCHAR
+  - name: confirmed_cases
+    type: BIGINT
+  - name: probable_cases
+    type: BIGINT
+  - name: total_cases
+    type: BIGINT
+  - name: "7day_average_of_confirmed_cases"
+    type: BIGINT
+  - name: "7day_average_of_probable_cases"
+    type: BIGINT
+  - name: "7day_average_of_total_cases"
+    type: BIGINT
+  - name: status
+    type: VARCHAR
+  - name: etldate
+    type: VARCHAR

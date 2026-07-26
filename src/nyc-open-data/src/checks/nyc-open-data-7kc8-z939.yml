@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-7kc8-z939`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [brief_description_of_concession, concession_id_preregistration, concessionaire, registration_date_or_date_sent_to_comptroller_for_registration, start_date]
+checks:
+  - kind: unique
+    columns: [brief_description_of_concession, concession_id_preregistration, concessionaire, registration_date_or_date_sent_to_comptroller_for_registration, start_date]
+  - kind: not_null
+    col: brief_description_of_concession
+  - kind: not_null
+    col: concession_id_preregistration
+  - kind: not_null
+    col: concessionaire
+  - kind: not_null
+    col: registration_date_or_date_sent_to_comptroller_for_registration
+  - kind: not_null
+    col: start_date
+  - kind: row_floor
+    min: 257
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

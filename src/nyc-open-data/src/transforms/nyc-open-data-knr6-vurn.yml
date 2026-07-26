@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-knr6-vurn`. Regenerate after model-verify.
+key: [accident_no]
+temporal: date
+sort: [date, accident_no]
+columns:
+  - name: accident_no
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: time
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: street_name
+    type: VARCHAR
+  - name: injuries_fatalities
+    type: VARCHAR
+  - name: contributing_factors
+    type: VARCHAR

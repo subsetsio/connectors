@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-yphg-6fug`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, enrollment_and_ratios_201920_sy_enrollment, total_guidance_counselors_gc_social_workers_sw_includes_gcs_sws_atrs_school_response_clinicians_high_needs_counselors_high_need_sws_single_shepherds_bridging_the_gap_sws]
+checks:
+  - kind: unique
+    columns: [dbn, enrollment_and_ratios_201920_sy_enrollment, total_guidance_counselors_gc_social_workers_sw_includes_gcs_sws_atrs_school_response_clinicians_high_needs_counselors_high_need_sws_single_shepherds_bridging_the_gap_sws]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: enrollment_and_ratios_201920_sy_enrollment
+  - kind: not_null
+    col: total_guidance_counselors_gc_social_workers_sw_includes_gcs_sws_atrs_school_response_clinicians_high_needs_counselors_high_need_sws_single_shepherds_bridging_the_gap_sws
+  - kind: row_floor
+    min: 800
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

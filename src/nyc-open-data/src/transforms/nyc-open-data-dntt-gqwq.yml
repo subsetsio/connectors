@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-dntt-gqwq`. Regenerate after model-verify.
+key: [inspection_id, damage_id, damage_type_code]
+temporal: inspection_date
+sort: [inspection_date, inspection_id, damage_id, damage_type_code]
+columns:
+  - name: inspection_id
+    type: BIGINT
+  - name: no_violation_found
+    type: BOOLEAN
+  - name: city_do_it
+    type: BOOLEAN
+  - name: owner_will_do_it
+    type: BOOLEAN
+  - name: capital_project_conflict_flag
+    type: BOOLEAN
+  - name: capital_project_conflicts
+    type: VARCHAR
+  - name: cancel
+    type: BOOLEAN
+  - name: inspection_date
+    type: DATE
+  - name: is_311_inspection
+    type: BOOLEAN
+  - name: material_id
+    type: BIGINT
+  - name: pickup_sidewalk
+    type: BOOLEAN
+  - name: curb311
+    type: BOOLEAN
+  - name: pickup_curb
+    type: BOOLEAN
+  - name: other
+    type: BOOLEAN
+  - name: correspondence
+    type: BOOLEAN
+  - name: damage_id
+    type: BIGINT
+  - name: damage_type_code
+    type: VARCHAR

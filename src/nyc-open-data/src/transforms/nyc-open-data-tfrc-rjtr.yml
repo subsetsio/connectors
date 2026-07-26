@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-tfrc-rjtr`. Regenerate after model-verify.
+key: [date, project_id, title, public_private, action]
+temporal: date
+sort: [date, project_id, title, public_private, action]
+columns:
+  - name: date
+    type: DATE
+  - name: project_id
+    type: BIGINT
+  - name: title
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: level_of_review
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: certificate_number
+    type: BIGINT
+  - name: public_private
+    type: VARCHAR
+  - name: action
+    type: VARCHAR
+  - name: project_type
+    type: VARCHAR

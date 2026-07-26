@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-2mby-ccnw`. Regenerate after model-verify.
+key: [ccrb_received_date, complaint_id, close_date, ccrb_complaint_disposition]
+temporal: ccrb_received_date
+sort: [ccrb_received_date, complaint_id, close_date, ccrb_complaint_disposition]
+columns:
+  - name: as_of_date
+    type: BIGINT
+  - name: complaint_id
+    type: BIGINT
+  - name: incident_date
+    type: VARCHAR
+  - name: incident_hour
+    type: BIGINT
+  - name: ccrb_received_date
+    type: TIMESTAMP
+  - name: close_date
+    type: TIMESTAMP
+  - name: borough_of_incident_occurrence
+    type: VARCHAR
+  - name: precinct_of_incident_occurrence
+    type: VARCHAR
+  - name: location_type_of_incident
+    type: VARCHAR
+  - name: reason_for_police_contact
+    type: VARCHAR
+  - name: outcome_of_police_encounter
+    type: VARCHAR
+  - name: ccrb_complaint_disposition
+    type: VARCHAR
+  - name: bwc_evidence
+    type: BOOLEAN
+  - name: video_evidence
+    type: BOOLEAN

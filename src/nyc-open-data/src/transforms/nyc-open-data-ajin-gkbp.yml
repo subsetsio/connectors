@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ajin-gkbp`. Regenerate after model-verify.
+key: [language, community_district_name, borough_community_district_code, borough]
+sort: [language, community_district_name, borough_community_district_code, borough]
+columns:
+  - name: american_community_survey_acs_data_time_period
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: borough_community_district_code
+    type: BIGINT
+  - name: community_district_name
+    type: VARCHAR
+  - name: language
+    type: VARCHAR
+  - name: lep_population_estimate
+    type: BIGINT
+  - name: of_lep_population
+    type: DOUBLE
+  - name: cvalep_population_estimate
+    type: BIGINT
+  - name: of_cvalep_population
+    type: DOUBLE

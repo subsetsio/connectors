@@ -1,0 +1,108 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-fi59-268w`. Regenerate after model-verify.
+key: [maprojid]
+temporal: mindate
+sort: [mindate, maprojid]
+columns:
+  - name: ccpversion
+    type: VARCHAR
+  - name: maprojid
+    type: VARCHAR
+  - name: magencyacro
+    type: VARCHAR
+  - name: magency
+    type: BIGINT
+  - name: magencyname
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: projectid
+    type: VARCHAR
+  - name: mindate
+    type: DATE
+  - name: maxdate
+    type: DATE
+  - name: typecategory
+    type: VARCHAR
+  - name: plannedcommit_ccnonexempt
+    type: BIGINT
+  - name: plannedcommit_ccexempt
+    type: BIGINT
+  - name: plannedcommit_citycost
+    type: BIGINT
+  - name: plannedcommit_nccstate
+    type: BIGINT
+  - name: plannedcommit_nccfederal
+    type: BIGINT
+  - name: plannedcommit_nccother
+    type: BIGINT
+  - name: plannedcommit_noncitycost
+    type: BIGINT
+  - name: plannedcommit_total
+    type: BIGINT
+  - name: adopt_ccnonexempt
+    type: DOUBLE
+  - name: adopt_ccexempt
+    type: BIGINT
+  - name: adopt_citycost
+    type: BIGINT
+  - name: adopt_nccstate
+    type: BIGINT
+  - name: adopt_nccfederal
+    type: BIGINT
+  - name: adopt_nccother
+    type: BIGINT
+  - name: adopt_noncitycost
+    type: DOUBLE
+  - name: adopt_total
+    type: BIGINT
+  - name: allocate_ccnonexempt
+    type: DOUBLE
+  - name: allocate_ccexempt
+    type: DOUBLE
+  - name: allocate_citycost
+    type: DOUBLE
+  - name: allocate_nccstate
+    type: DOUBLE
+  - name: allocate_nccfederal
+    type: DOUBLE
+  - name: allocate_nccother
+    type: DOUBLE
+  - name: allocate_noncitycost
+    type: DOUBLE
+  - name: allocate_total
+    type: DOUBLE
+  - name: commit_ccnonexempt
+    type: DOUBLE
+  - name: commit_ccexempt
+    type: DOUBLE
+  - name: commit_citycost
+    type: DOUBLE
+  - name: commit_nccstate
+    type: DOUBLE
+  - name: commit_nccfederal
+    type: DOUBLE
+  - name: commit_nccother
+    type: DOUBLE
+  - name: commit_noncitycost
+    type: DOUBLE
+  - name: commit_total
+    type: DOUBLE
+  - name: spent_ccnonexempt
+    type: DOUBLE
+  - name: spent_ccexempt
+    type: DOUBLE
+  - name: spent_citycost
+    type: DOUBLE
+  - name: spent_nccstate
+    type: DOUBLE
+  - name: spent_nccfederal
+    type: DOUBLE
+  - name: spent_nccother
+    type: DOUBLE
+  - name: spent_noncitycost
+    type: DOUBLE
+  - name: spent_total
+    type: DOUBLE
+  - name: spent_total_checkbooknyc
+    type: DOUBLE

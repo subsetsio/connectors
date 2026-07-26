@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-mefg-rpis`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [report_date, indicator_name, location_no]
+temporal: report_date
+checks:
+  - kind: unique
+    columns: [report_date, indicator_name, location_no]
+  - kind: not_null
+    col: report_date
+  - kind: not_null
+    col: indicator_name
+  - kind: not_null
+    col: location_no
+  - kind: row_floor
+    min: 5641
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

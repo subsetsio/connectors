@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-hm78-6dwm`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ct2020, ntacode, ntaabbrev, ntaname, cdtaname]
+checks:
+  - kind: unique
+    columns: [ct2020, ntacode, ntaabbrev, ntaname, cdtaname]
+  - kind: not_null
+    col: ct2020
+  - kind: not_null
+    col: ntacode
+  - kind: not_null
+    col: ntaabbrev
+  - kind: not_null
+    col: ntaname
+  - kind: not_null
+    col: cdtaname
+  - kind: row_floor
+    min: 1163
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

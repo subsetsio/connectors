@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-yunp-vs8g`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [organization_city_agency_division_name, street_addressmailing_address, total_vounteers, special_populations_served, adult_volunteers]
+checks:
+  - kind: unique
+    columns: [organization_city_agency_division_name, street_addressmailing_address, total_vounteers, special_populations_served, adult_volunteers]
+  - kind: not_null
+    col: organization_city_agency_division_name
+  - kind: not_null
+    col: street_addressmailing_address
+  - kind: not_null
+    col: total_vounteers
+  - kind: not_null
+    col: special_populations_served
+  - kind: not_null
+    col: adult_volunteers
+  - kind: row_floor
+    min: 272
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

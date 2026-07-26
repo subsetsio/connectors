@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-48pb-zy2g`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [phone]
+checks:
+  - kind: unique
+    columns: [phone]
+  - kind: not_null
+    col: phone
+  - kind: row_floor
+    min: 3
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

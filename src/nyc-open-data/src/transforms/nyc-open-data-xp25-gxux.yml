@@ -1,0 +1,64 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-xp25-gxux`. Regenerate after model-verify.
+key: [street_address]
+temporal: final_submission_a
+sort: [final_submission_a, street_address]
+columns:
+  - name: site_id
+    type: VARCHAR
+  - name: planned_kiosk_type
+    type: VARCHAR
+  - name: installation_status
+    type: VARCHAR
+  - name: ppt_id
+    type: BIGINT
+  - name: legacy_id
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: council_district
+    type: BIGINT
+  - name: community_board
+    type: BIGINT
+  - name: final_submission_a
+    type: DATE
+  - name: gf_permit_application_id
+    type: BIGINT
+  - name: gf_doitt_submitted_to_cb_a
+    type: DATE
+  - name: gf_cb_comment_period_ends_a
+    type: DATE
+  - name: street_address
+    type: VARCHAR
+  - name: cross_street_1
+    type: VARCHAR
+  - name: cross_street_2
+    type: VARCHAR
+  - name: ixn_corner
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: zoning
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: site_in_business_improvement_district_bid
+    type: BOOLEAN
+  - name: bid
+    type: VARCHAR
+  - name: link_in_historic_district
+    type: BIGINT
+  - name: historic_district_name
+    type: VARCHAR
+  - name: neighborhood_tabulation_area_nta
+    type: VARCHAR
+  - name: building_identification_number_bin
+    type: BIGINT
+  - name: boroughblocklot_bbl
+    type: BIGINT
+  - name: census_tract
+    type: VARCHAR
+  - name: location2
+    type: VARCHAR

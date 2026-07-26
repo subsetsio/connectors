@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-6ggx-itps`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [new_york_city_annual_debt_service_expense_dollars_in_millions, fy_2017, fy_2020, fy_2015, fy_2014]
+checks:
+  - kind: unique
+    columns: [new_york_city_annual_debt_service_expense_dollars_in_millions, fy_2017, fy_2020, fy_2015, fy_2014]
+  - kind: not_null
+    col: new_york_city_annual_debt_service_expense_dollars_in_millions
+  - kind: not_null
+    col: fy_2017
+  - kind: not_null
+    col: fy_2020
+  - kind: not_null
+    col: fy_2015
+  - kind: not_null
+    col: fy_2014
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

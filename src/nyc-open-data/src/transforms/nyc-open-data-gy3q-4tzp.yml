@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-gy3q-4tzp`. Regenerate after model-verify.
+key: [permit_number, dcid, program_name, street_address, children_allowed_in_care]
+sort: [permit_number, dcid, program_name, street_address, children_allowed_in_care]
+columns:
+  - name: dcid
+    type: VARCHAR
+  - name: permit_number
+    type: VARCHAR
+  - name: program_name
+    type: VARCHAR
+  - name: facility_type
+    type: VARCHAR
+  - name: program_type
+    type: VARCHAR
+  - name: street_address
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: zip_code
+    type: BIGINT
+  - name: phone_number
+    type: VARCHAR
+  - name: child_age_range
+    type: VARCHAR
+  - name: children_allowed_in_care
+    type: VARCHAR
+  - name: administer_medication
+    type: BOOLEAN
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: VARCHAR
+  - name: census_tract
+    type: VARCHAR
+  - name: nta_code
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE

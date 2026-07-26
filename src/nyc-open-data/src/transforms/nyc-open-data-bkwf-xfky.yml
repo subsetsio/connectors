@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-bkwf-xfky`. Regenerate after model-verify.
+key: [sample_date, sample_number]
+temporal: sample_date
+sort: [sample_date, sample_number]
+columns:
+  - name: sample_number
+    type: BIGINT
+  - name: sample_date
+    type: DATE
+  - name: sample_time
+    type: VARCHAR
+  - name: sample_site
+    type: VARCHAR
+  - name: sample_class
+    type: VARCHAR
+  - name: residual_free_chlorine_mgl
+    type: DOUBLE
+  - name: turbidity_ntu
+    type: VARCHAR
+  - name: fluoride_mgl
+    type: VARCHAR
+  - name: coliform_quantitray_mpn_100ml
+    type: VARCHAR
+  - name: ecoliquantitray_mpn100ml
+    type: VARCHAR

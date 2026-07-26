@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5bsb-haw5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [published_date, description, tracking_category, fiscal_year, climate_priority]
+temporal: published_date
+checks:
+  - kind: unique
+    columns: [published_date, description, tracking_category, fiscal_year, climate_priority]
+  - kind: not_null
+    col: published_date
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: tracking_category
+  - kind: not_null
+    col: fiscal_year
+  - kind: not_null
+    col: climate_priority
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-f4tj-796d`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [occurrence_date, tri_incident_number, yearmonthshort, basisforencounter, forcetype]
+temporal: occurrence_date
+checks:
+  - kind: unique
+    columns: [occurrence_date, tri_incident_number, yearmonthshort, basisforencounter, forcetype]
+  - kind: not_null
+    col: occurrence_date
+  - kind: not_null
+    col: tri_incident_number
+  - kind: not_null
+    col: yearmonthshort
+  - kind: not_null
+    col: basisforencounter
+  - kind: not_null
+    col: forcetype
+  - kind: row_floor
+    min: 29867
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

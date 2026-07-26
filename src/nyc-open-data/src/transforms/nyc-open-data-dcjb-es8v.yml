@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-dcjb-es8v`. Regenerate after model-verify.
+key: [agency_code, agency_name, fiscal_year, funding]
+sort: [agency_code, agency_name, fiscal_year, funding]
+columns:
+  - name: publication_date
+    type: BIGINT
+  - name: fiscal_year
+    type: BIGINT
+  - name: agency_code
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: funding
+    type: VARCHAR
+  - name: headcount
+    type: BIGINT

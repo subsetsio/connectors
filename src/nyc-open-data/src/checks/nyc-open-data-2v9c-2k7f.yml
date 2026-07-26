@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-2v9c-2k7f`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [base_name, base_license_number, year, month_name]
+checks:
+  - kind: unique
+    columns: [base_name, base_license_number, year, month_name]
+  - kind: not_null
+    col: base_name
+  - kind: not_null
+    col: base_license_number
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: month_name
+  - kind: row_floor
+    min: 29635
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

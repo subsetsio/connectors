@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-eg75-mh9k`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [black, asian_1, white_1, math_l3_l4, asian]
+checks:
+  - kind: unique
+    columns: [black, asian_1, white_1, math_l3_l4, asian]
+  - kind: not_null
+    col: black
+  - kind: not_null
+    col: asian_1
+  - kind: not_null
+    col: white_1
+  - kind: not_null
+    col: math_l3_l4
+  - kind: not_null
+    col: asian
+  - kind: row_floor
+    min: 96
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

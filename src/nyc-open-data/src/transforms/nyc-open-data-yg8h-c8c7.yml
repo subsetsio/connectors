@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-yg8h-c8c7`. Regenerate after model-verify.
+key: [program_cip_code, school_name, dbn, program_name, industry_cluster]
+sort: [program_cip_code, school_name, dbn, program_name, industry_cluster]
+columns:
+  - name: dbn
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: cte_designated_high_school
+    type: BOOLEAN
+  - name: program_cip_code
+    type: BIGINT
+  - name: program_name
+    type: VARCHAR
+  - name: industry_cluster
+    type: VARCHAR
+  - name: number_of_industry_partners
+    type: BIGINT
+  - name: is_nysed_approved
+    type: VARCHAR
+  - name: grade_levels_served
+    type: BIGINT
+  - name: enrolled_student_counts
+    type: BIGINT
+  - name: number_of_school_staff_attending_professional_development_events_held_by_cte
+    type: BIGINT

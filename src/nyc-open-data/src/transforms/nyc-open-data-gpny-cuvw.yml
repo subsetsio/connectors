@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-gpny-cuvw`. Regenerate after model-verify.
+key: [month_name, description, borough, agency]
+sort: [month_name, description, borough, agency]
+columns:
+  - name: month_name
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: of_incidents
+    type: BIGINT
+  - name: response_times
+    type: DOUBLE

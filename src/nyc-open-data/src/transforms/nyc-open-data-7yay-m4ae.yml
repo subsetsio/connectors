@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-7yay-m4ae`. Regenerate after model-verify.
+key: [agency_code, agency_name, fiscal_year]
+sort: [agency_code, agency_name, fiscal_year]
+columns:
+  - name: publication_date
+    type: BIGINT
+  - name: fiscal_year
+    type: BIGINT
+  - name: agency_code
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: all_funds
+    type: BIGINT
+  - name: city_fund
+    type: BIGINT
+  - name: remark
+    type: VARCHAR

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5fgn-pgqe`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [admin_district, april_transports, january_transports, june_transports, march_emotionalpsych_transports]
+checks:
+  - kind: unique
+    columns: [admin_district, april_transports, january_transports, june_transports, march_emotionalpsych_transports]
+  - kind: not_null
+    col: admin_district
+  - kind: not_null
+    col: april_transports
+  - kind: not_null
+    col: january_transports
+  - kind: not_null
+    col: june_transports
+  - kind: not_null
+    col: march_emotionalpsych_transports
+  - kind: row_floor
+    min: 17
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

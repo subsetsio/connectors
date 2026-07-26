@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-akzx-fghb`. Regenerate after model-verify.
+key: []
+temporal: encounter_datetime
+sort: [encounter_datetime]
+columns:
+  - name: encounter_datetime
+    type: TIMESTAMP
+  - name: park_area_id
+    type: VARCHAR
+  - name: city_agency
+    type: VARCHAR
+  - name: encounter_type
+    type: VARCHAR
+  - name: simplified_encounter_type
+    type: VARCHAR
+  - name: sd_patronscomplied
+    type: BIGINT
+  - name: sd_patronsnocomply
+    type: BIGINT
+  - name: sd_amenity
+    type: VARCHAR
+  - name: closed_amenity
+    type: VARCHAR
+  - name: closed_patroncount
+    type: BIGINT
+  - name: closed_approach
+    type: BOOLEAN
+  - name: closed_outcome
+    type: BOOLEAN
+  - name: park_borough
+    type: VARCHAR

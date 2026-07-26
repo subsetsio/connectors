@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-jagj-gttd`. Regenerate after model-verify.
+key: []
+temporal: complaint_date
+sort: [complaint_date]
+columns:
+  - name: cmt_corner_id
+    type: BIGINT
+  - name: street_name1
+    type: VARCHAR
+  - name: street_name2
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: community_district
+    type: BIGINT
+  - name: block
+    type: BIGINT
+  - name: lot
+    type: BIGINT
+  - name: complaint_id
+    type: VARCHAR
+  - name: complaint_date
+    type: DATE
+  - name: temp_repair_feasible
+    type: VARCHAR
+  - name: temp_repair_date
+    type: DATE
+  - name: temp_repair_type
+    type: VARCHAR
+  - name: second_temp_repair_needed
+    type: BOOLEAN
+  - name: date_second_temp_repair
+    type: DATE
+  - name: bulkcomplaint
+    type: BOOLEAN

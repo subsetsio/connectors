@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5esv-8c3f`. Regenerate after model-verify.
+key: [year_month, industry]
+temporal: year_month
+sort: [year_month, industry]
+columns:
+  - name: year_month
+    type: DATE
+  - name: industry
+    type: VARCHAR
+  - name: total_crashes
+    type: BIGINT
+  - name: total_crashed_vehicles
+    type: BIGINT
+  - name: crashed_vehicles_any_injury
+    type: BIGINT
+  - name: crashed_vehicles_critical_injury
+    type: BIGINT
+  - name: crashed_vehicles_fatality
+    type: BIGINT

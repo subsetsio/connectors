@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-7t9i-jsfp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [citywide, category, year]
+checks:
+  - kind: unique
+    columns: [citywide, category, year]
+  - kind: not_null
+    col: citywide
+  - kind: not_null
+    col: category
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 163
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

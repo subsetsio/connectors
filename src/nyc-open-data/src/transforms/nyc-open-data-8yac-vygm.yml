@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-8yac-vygm`. Regenerate after model-verify.
+key: [route_start_date, route_number]
+temporal: route_start_date
+sort: [route_start_date, route_number]
+columns:
+  - name: school_year
+    type: VARCHAR
+  - name: route_number
+    type: VARCHAR
+  - name: service_type
+    type: VARCHAR
+  - name: vehicle_typedescription
+    type: VARCHAR
+  - name: route_start_date
+    type: DATE
+  - name: vendor_code
+    type: VARCHAR
+  - name: vendor_name
+    type: VARCHAR
+  - name: vendor_affiliation
+    type: VARCHAR
+  - name: garage_street_address
+    type: VARCHAR
+  - name: garage_city
+    type: VARCHAR
+  - name: garage_state
+    type: VARCHAR
+  - name: garage_zip
+    type: BIGINT
+  - name: xcoordinates
+    type: DOUBLE
+  - name: ycoordinates
+    type: DOUBLE

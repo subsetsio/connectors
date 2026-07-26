@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-f9bf-2cp4`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [school_name, dbn, num_of_sat_test_takers, sat_math_avg_score, sat_critical_reading_avg_score]
+checks:
+  - kind: unique
+    columns: [school_name, dbn, num_of_sat_test_takers, sat_math_avg_score, sat_critical_reading_avg_score]
+  - kind: not_null
+    col: school_name
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: num_of_sat_test_takers
+  - kind: not_null
+    col: sat_math_avg_score
+  - kind: not_null
+    col: sat_critical_reading_avg_score
+  - kind: row_floor
+    min: 239
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

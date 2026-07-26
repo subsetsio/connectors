@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ej3f-9dad`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [transfer_date, transfer_building_id, generating_building_id, generating_project_id]
+temporal: transfer_date
+checks:
+  - kind: unique
+    columns: [transfer_date, transfer_building_id, generating_building_id, generating_project_id]
+  - kind: not_null
+    col: transfer_date
+  - kind: not_null
+    col: transfer_building_id
+  - kind: not_null
+    col: generating_building_id
+  - kind: not_null
+    col: generating_project_id
+  - kind: row_floor
+    min: 251
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

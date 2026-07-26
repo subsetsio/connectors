@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-57p3-pdcj`. Regenerate after model-verify.
+key: [violation_time, evnt_key]
+temporal: violation_date
+sort: [violation_date, violation_time, evnt_key]
+columns:
+  - name: evnt_key
+    type: BIGINT
+  - name: violation_date
+    type: DATE
+  - name: violation_time
+    type: TIME
+  - name: chg_law_cd
+    type: VARCHAR
+  - name: violation_code
+    type: VARCHAR
+  - name: veh_category
+    type: VARCHAR
+  - name: reg_plate_num
+    type: VARCHAR
+  - name: reg_state_cd
+    type: VARCHAR
+  - name: city_nm
+    type: VARCHAR
+  - name: rpt_owning_cmd
+    type: VARCHAR
+  - name: x_coord_cd
+    type: BIGINT
+  - name: y_coord_cd
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: location_point
+    type: VARCHAR
+  - name: juris_cd
+    type: VARCHAR

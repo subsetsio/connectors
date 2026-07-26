@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "unique_id_number",
+    "program_code",
+    "_language" AS language,
+    "program_name",
+    "program_acronym",
+    "page_type",
+    "program_category",
+    "government_agency",
+    "population_served",
+    "age_group",
+    "plain_language_program_name",
+    "program_description",
+    "brief_excerpt",
+    "heads_up",
+    "plain_language_eligibility",
+    "how_to_apply_summary",
+    "how_to_apply_or_enroll_online",
+    "apply_online_call_to_action",
+    "url_of_online_application",
+    "how_to_apply_or_enroll_by_mail",
+    "apply_by_mail_call_to_action",
+    "url_of_pdf_application_forms",
+    "how_to_apply_or_enroll_in_person",
+    "apply_in_person_call_to_action",
+    "office_locations_url",
+    "how_to_apply_or_enroll_by_phone",
+    "required_documents_summary",
+    "get_help_summary",
+    "get_help_in_person",
+    "get_help_online",
+    "get_help_by_email",
+    "get_help_by_calling_other_than_311",
+    "get_help_by_calling_311",
+    "date"
+FROM "nyc-open-data-2j8u-wtju"

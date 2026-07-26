@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-mefg-rpis`. Regenerate after model-verify.
+key: [report_date, indicator_name, location_no]
+temporal: report_date
+sort: [report_date, indicator_name, location_no]
+columns:
+  - name: location_no
+    type: BIGINT
+  - name: report_date
+    type: DATE
+  - name: indicator_name
+    type: VARCHAR
+  - name: indicator_value
+    type: DOUBLE

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-2v9c-2k7f`. Regenerate after model-verify.
+key: [base_name, base_license_number, year, month_name]
+sort: [base_name, base_license_number, year, month_name]
+columns:
+  - name: base_license_number
+    type: VARCHAR
+  - name: base_name
+    type: VARCHAR
+  - name: dba
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: month_name
+    type: VARCHAR
+  - name: total_dispatched_trips
+    type: BIGINT
+  - name: total_dispatched_shared_trips
+    type: BIGINT
+  - name: unique_dispatched_vehicles
+    type: BIGINT

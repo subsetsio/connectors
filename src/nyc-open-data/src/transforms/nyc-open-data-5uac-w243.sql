@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "cmplnt_num",
+    "addr_pct_cd",
+    "boro_nm",
+    "cmplnt_fr_dt",
+    "cmplnt_fr_tm",
+    "cmplnt_to_dt",
+    "cmplnt_to_tm",
+    "crm_atpt_cptd_cd",
+    "hadevelopt",
+    "housing_psa",
+    "jurisdiction_code",
+    "juris_desc",
+    "ky_cd",
+    "law_cat_cd",
+    "loc_of_occur_desc",
+    "ofns_desc",
+    "parks_nm",
+    "patrol_boro",
+    "pd_cd",
+    "pd_desc",
+    "prem_typ_desc",
+    "rpt_dt",
+    "station_name",
+    "susp_age_group",
+    "susp_race",
+    "susp_sex",
+    "transit_district",
+    "vic_age_group",
+    "vic_race",
+    "vic_sex",
+    "x_coord_cd",
+    "y_coord_cd",
+    "latitude",
+    "longitude",
+    "lat_lon",
+    "new_georeferenced_column"
+FROM "nyc-open-data-5uac-w243"

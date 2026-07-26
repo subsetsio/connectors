@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-u42f-se8e`. Regenerate after model-verify.
+key: [applicant_name]
+temporal: application_submission_date
+sort: [application_submission_date, applicant_name]
+columns:
+  - name: record_id
+    type: VARCHAR
+  - name: record_type_category
+    type: VARCHAR
+  - name: record_type_sub_type
+    type: VARCHAR
+  - name: applicant_name
+    type: VARCHAR
+  - name: application_submission_date
+    type: DATE
+  - name: lottery_application_order_number
+    type: BIGINT
+  - name: lottery_application_order_number_district
+    type: BIGINT
+  - name: lottery_priority_number
+    type: BIGINT
+  - name: lottery_selection_date
+    type: DATE
+  - name: selected_from_lottery
+    type: BOOLEAN
+  - name: license_application_number
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: community_district
+    type: BIGINT

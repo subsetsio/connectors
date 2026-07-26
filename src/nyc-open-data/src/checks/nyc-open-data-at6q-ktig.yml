@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-at6q-ktig`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [the_geom, park_name, gispropnum, borough]
+checks:
+  - kind: unique
+    columns: [the_geom, park_name, gispropnum, borough]
+  - kind: not_null
+    col: the_geom
+  - kind: not_null
+    col: park_name
+  - kind: not_null
+    col: gispropnum
+  - kind: not_null
+    col: borough
+  - kind: row_floor
+    min: 1428
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

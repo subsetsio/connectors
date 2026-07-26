@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-phqd-xav8`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [school_name, dbn, building_ids, total_enrollment, hispanic]
+checks:
+  - kind: unique
+    columns: [school_name, dbn, building_ids, total_enrollment, hispanic]
+  - kind: not_null
+    col: school_name
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: building_ids
+  - kind: not_null
+    col: total_enrollment
+  - kind: not_null
+    col: hispanic
+  - kind: row_floor
+    min: 589
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

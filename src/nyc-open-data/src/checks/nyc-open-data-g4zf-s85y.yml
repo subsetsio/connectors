@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-g4zf-s85y`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: ["201415", "201415_5", "201415_6", "201415_11", "201415_15"]
+checks:
+  - kind: unique
+    columns: ["201415", "201415_5", "201415_6", "201415_11", "201415_15"]
+  - kind: not_null
+    col: "201415"
+  - kind: not_null
+    col: "201415_5"
+  - kind: not_null
+    col: "201415_6"
+  - kind: not_null
+    col: "201415_11"
+  - kind: not_null
+    col: "201415_15"
+  - kind: row_floor
+    min: 590
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

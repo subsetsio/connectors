@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-bi53-yph3`. Regenerate after model-verify.
+key: [vio_date, vio_id]
+temporal: vio_date
+sort: [vio_date, vio_id]
+columns:
+  - name: vio_id
+    type: BIGINT
+  - name: acct_num
+    type: BIGINT
+  - name: acct_owner
+    type: VARCHAR
+  - name: violation_num
+    type: VARCHAR
+  - name: vio_law_num
+    type: VARCHAR
+  - name: vio_law_desc
+    type: VARCHAR
+  - name: vio_date
+    type: DATE
+  - name: action
+    type: VARCHAR
+  - name: prem_addr
+    type: VARCHAR
+  - name: bin
+    type: BIGINT
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: postcode
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: number
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: census_tract
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

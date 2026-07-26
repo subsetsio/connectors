@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-87hk-978a`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [administrative_district, total_ems_transports_for_emotionalpsychological_conditions, march_ems_transports_for_emotionalpsychological_conditions, april_ems_transports_for_emotionalpsychological_conditions, january_ems_transports_for_emotionalpsychological_conditions]
+checks:
+  - kind: unique
+    columns: [administrative_district, total_ems_transports_for_emotionalpsychological_conditions, march_ems_transports_for_emotionalpsychological_conditions, april_ems_transports_for_emotionalpsychological_conditions, january_ems_transports_for_emotionalpsychological_conditions]
+  - kind: not_null
+    col: administrative_district
+  - kind: not_null
+    col: total_ems_transports_for_emotionalpsychological_conditions
+  - kind: not_null
+    col: march_ems_transports_for_emotionalpsychological_conditions
+  - kind: not_null
+    col: april_ems_transports_for_emotionalpsychological_conditions
+  - kind: not_null
+    col: january_ems_transports_for_emotionalpsychological_conditions
+  - kind: row_floor
+    min: 18
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

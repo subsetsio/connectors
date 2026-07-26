@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-39qw-754y`. Regenerate after model-verify.
+key: [case_id]
+temporal: case_start_date
+sort: [case_start_date, case_id]
+columns:
+  - name: contact_id
+    type: BIGINT
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postal_code
+    type: BIGINT
+  - name: council_member
+    type: VARCHAR
+  - name: community_board
+    type: BIGINT
+  - name: case_id
+    type: BIGINT
+  - name: case_type
+    type: VARCHAR
+  - name: subtypes
+    type: VARCHAR
+  - name: case_subject
+    type: VARCHAR
+  - name: case_start_date
+    type: DATE
+  - name: case_end_date
+    type: DATE
+  - name: case_status
+    type: VARCHAR

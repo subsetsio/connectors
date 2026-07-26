@@ -1,0 +1,72 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-enfh-gkve`. Regenerate after model-verify.
+key: [globalid, location, councildistrict, department, parentid]
+temporal: acquisitiondate
+sort: [acquisitiondate, globalid, location, councildistrict, department, parentid]
+columns:
+  - name: acquisitiondate
+    type: TIMESTAMP
+  - name: acres
+    type: DOUBLE
+  - name: address
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: class
+    type: VARCHAR
+  - name: communityboard
+    type: DOUBLE
+  - name: councildistrict
+    type: VARCHAR
+  - name: department
+    type: VARCHAR
+  - name: gisobjid
+    type: BIGINT
+  - name: gispropnum
+    type: VARCHAR
+  - name: globalid
+    type: VARCHAR
+  - name: jurisdiction
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: mapped
+    type: VARCHAR
+  - name: name311
+    type: VARCHAR
+  - name: nys_assembly
+    type: DOUBLE
+  - name: nys_senate
+    type: DOUBLE
+  - name: objectid
+    type: BIGINT
+  - name: omppropid
+    type: VARCHAR
+  - name: parentid
+    type: VARCHAR
+  - name: permit
+    type: BOOLEAN
+  - name: permitdistrict
+    type: VARCHAR
+  - name: permitparent
+    type: VARCHAR
+  - name: pip_ratable
+    type: BOOLEAN
+  - name: precinct
+    type: BIGINT
+  - name: retired
+    type: BOOLEAN
+  - name: signname
+    type: VARCHAR
+  - name: subcategory
+    type: VARCHAR
+  - name: typecategory
+    type: VARCHAR
+  - name: us_congress
+    type: BIGINT
+  - name: waterfront
+    type: BOOLEAN
+  - name: zipcode
+    type: VARCHAR
+  - name: multipolygon
+    type: VARCHAR

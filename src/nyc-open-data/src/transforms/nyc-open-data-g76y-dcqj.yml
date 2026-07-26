@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-g76y-dcqj`. Regenerate after model-verify.
+key: [variance_end_datetime, ahv_permit_number, variance_start_datetime]
+temporal: variance_start_datetime
+sort: [variance_start_datetime, variance_end_datetime, ahv_permit_number]
+columns:
+  - name: bin
+    type: BIGINT
+  - name: housenumber
+    type: VARCHAR
+  - name: streetname
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: cbno
+    type: BIGINT
+  - name: job_number
+    type: VARCHAR
+  - name: workpermitnumber
+    type: VARCHAR
+  - name: ahv_permit_number
+    type: VARCHAR
+  - name: ahvpermitstatus
+    type: VARCHAR
+  - name: variancetype
+    type: VARCHAR
+  - name: reasonforvariance
+    type: VARCHAR
+  - name: variance_start_datetime
+    type: TIMESTAMP
+  - name: variance_end_datetime
+    type: TIMESTAMP
+  - name: is_a_residence_within_200feet_of_the_site
+    type: BOOLEAN
+  - name: is_all_the_work_within_an_enclosed_building
+    type: BOOLEAN
+  - name: does_work_involve_full_or_partial_demolition
+    type: BOOLEAN
+  - name: does_any_of_the_work_involve_crane_use
+    type: BOOLEAN
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

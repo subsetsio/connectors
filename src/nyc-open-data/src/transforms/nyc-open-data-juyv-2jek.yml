@@ -1,0 +1,340 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-juyv-2jek`. Regenerate after model-verify.
+key: []
+temporal: hoist_safety_expiration_date
+sort: [hoist_safety_expiration_date]
+columns:
+  - name: job_filing_number
+    type: VARCHAR
+  - name: device_id
+    type: VARCHAR
+  - name: device_type
+    type: VARCHAR
+  - name: device_status
+    type: VARCHAR
+  - name: building_elevator_numbers
+    type: VARCHAR
+  - name: bis_nyc_device_id
+    type: VARCHAR
+  - name: elevator_type
+    type: VARCHAR
+  - name: elevator_sub_type
+    type: VARCHAR
+  - name: physical_address
+    type: VARCHAR
+  - name: only_elevator_in_building
+    type: BOOLEAN
+  - name: occupant_evacuation_elevator
+    type: BOOLEAN
+  - name: meets_the_stretcher_car_requirement
+    type: BOOLEAN
+  - name: device_confirming_with_seismic_complaince
+    type: BOOLEAN
+  - name: fire_emergency_phase
+    type: BOOLEAN
+  - name: destination_dispatch_system
+    type: BOOLEAN
+  - name: fire_service_access_elevator
+    type: BOOLEAN
+  - name: device_in_conjunction_with_mta_station
+    type: BOOLEAN
+  - name: new_hoistway
+    type: BOOLEAN
+  - name: loft_law_building
+    type: BOOLEAN
+  - name: device_job_description
+    type: VARCHAR
+  - name: machine_manufacturer
+    type: VARCHAR
+  - name: machine_model
+    type: VARCHAR
+  - name: machine_type
+    type: VARCHAR
+  - name: type_of_machine_break
+    type: VARCHAR
+  - name: machine_location
+    type: VARCHAR
+  - name: controller_manufacturer
+    type: VARCHAR
+  - name: controller_model
+    type: VARCHAR
+  - name: controller_location
+    type: VARCHAR
+  - name: hoist_rope_qty
+    type: VARCHAR
+  - name: hoist_rope_size
+    type: VARCHAR
+  - name: hoist_rope_ultimate_strength
+    type: VARCHAR
+  - name: hoist_rope_material
+    type: VARCHAR
+  - name: car_counterweight_ropes_qty
+    type: VARCHAR
+  - name: car_counterweight_ropes_size
+    type: VARCHAR
+  - name: car_counterweight_ropes_ultimate_strength
+    type: VARCHAR
+  - name: car_counterweight_ropes_material
+    type: VARCHAR
+  - name: machine_counterweight_ropes_qty
+    type: VARCHAR
+  - name: machine_counterweight_ropes_size
+    type: VARCHAR
+  - name: machine_counterweight_ropes_ultimate_strength
+    type: VARCHAR
+  - name: machine_counterweight_ropes_material
+    type: VARCHAR
+  - name: cargovernor_ropes_qty
+    type: VARCHAR
+  - name: cargovernor_ropes_size
+    type: VARCHAR
+  - name: cargovernor_ropes_ultimate_strength
+    type: VARCHAR
+  - name: cargovernor_ropes_material
+    type: VARCHAR
+  - name: cwtgovernor_ropes_qty
+    type: VARCHAR
+  - name: cwtgovernor_ropes_size
+    type: VARCHAR
+  - name: cwtgovernor_ropes_ultimate_strength
+    type: VARCHAR
+  - name: cwtgovernor_ropes_material
+    type: VARCHAR
+  - name: cargovernor_location
+    type: VARCHAR
+  - name: cargovernor_tripping_speed
+    type: DOUBLE
+  - name: cargovernor_type
+    type: VARCHAR
+  - name: cwtgovernor_location
+    type: VARCHAR
+  - name: cwtgovernor_tripping_speed
+    type: DOUBLE
+  - name: cwtgovernor_type
+    type: VARCHAR
+  - name: powertype
+    type: VARCHAR
+  - name: main_supply_power_type
+    type: VARCHAR
+  - name: travel_from_floor
+    type: VARCHAR
+  - name: travel_to_floor
+    type: VARCHAR
+  - name: total_travelfeet
+    type: DOUBLE
+  - name: number_of_stops
+    type: BIGINT
+  - name: elevator_capacitylbs
+    type: VARCHAR
+  - name: elevator_speedfpm
+    type: BIGINT
+  - name: elevator_control
+    type: VARCHAR
+  - name: mode_of_operation
+    type: VARCHAR
+  - name: load_weighing_device
+    type: BOOLEAN
+  - name: glass_hoistway
+    type: BOOLEAN
+  - name: atruim_elevator
+    type: BOOLEAN
+  - name: regenerative_drive
+    type: BOOLEAN
+  - name: car_safety_type
+    type: VARCHAR
+  - name: car_safety_type_other
+    type: VARCHAR
+  - name: counter_weight_safety_type
+    type: VARCHAR
+  - name: counter_weight_safety_type_other
+    type: VARCHAR
+  - name: car_opening
+    type: VARCHAR
+  - name: car_opening_direction
+    type: VARCHAR
+  - name: car_opening_operation
+    type: VARCHAR
+  - name: contact_type
+    type: VARCHAR
+  - name: elevator_manufacturer
+    type: VARCHAR
+  - name: car_to_counterweight_ratio
+    type: DOUBLE
+  - name: top_emergency_exit_min_area
+    type: BIGINT
+  - name: top_emergency_exit_min_side
+    type: BIGINT
+  - name: car_inside_widthfeet
+    type: BIGINT
+  - name: car_inside_widthinches
+    type: BIGINT
+  - name: car_inside_depthfeet
+    type: BIGINT
+  - name: car_inside_depthinches
+    type: BIGINT
+  - name: car_inside_area
+    type: DOUBLE
+  - name: sized_for_stretcher_requirement
+    type: BOOLEAN
+  - name: glass_car
+    type: BOOLEAN
+  - name: multicompartment
+    type: BOOLEAN
+  - name: hoist_opening
+    type: VARCHAR
+  - name: hoist_direction
+    type: VARCHAR
+  - name: elevator_operation
+    type: VARCHAR
+  - name: elevator_doorfeatures
+    type: VARCHAR
+  - name: interlocks_type
+    type: VARCHAR
+  - name: hoist_manufacturer
+    type: VARCHAR
+  - name: elevator_landing
+    type: VARCHAR
+  - name: number_of_openings_front
+    type: BIGINT
+  - name: number_of_openings_side
+    type: BIGINT
+  - name: number_of_openings_rear
+    type: BIGINT
+  - name: total_number_of_openings
+    type: BIGINT
+  - name: door_monitoring_circuits
+    type: BOOLEAN
+  - name: fire_rated_construction_type
+    type: BOOLEAN
+  - name: self_closing_emergency_doors
+    type: BOOLEAN
+  - name: interlockin_blind_hoistway
+    type: BOOLEAN
+  - name: car_buffer_type
+    type: VARCHAR
+  - name: car_buffer_manufacturer
+    type: VARCHAR
+  - name: car_buffer_engagement_speed
+    type: DOUBLE
+  - name: car_buffer_strokefeet
+    type: BIGINT
+  - name: car_buffer_strokeinches
+    type: DOUBLE
+  - name: car_buffer_reduced_stroke
+    type: BOOLEAN
+  - name: counterweight_buffer
+    type: BOOLEAN
+  - name: counter_weight_buffer_type
+    type: VARCHAR
+  - name: counter_weight_buffer_manufacturer
+    type: VARCHAR
+  - name: counter_weight_buffer_engagement_speed
+    type: DOUBLE
+  - name: counter_weight_buffer_strokefeet
+    type: BIGINT
+  - name: counter_weight_buffer_strokeinches
+    type: DOUBLE
+  - name: compensation_means
+    type: VARCHAR
+  - name: elevator_lengthfeet
+    type: BIGINT
+  - name: elevator_lengthinches
+    type: BIGINT
+  - name: counter_weight_buffer_reduced_stroke
+    type: BOOLEAN
+  - name: occupied_space_below
+    type: BOOLEAN
+  - name: compensation_tie_down
+    type: BOOLEAN
+  - name: counter_weight_guard
+    type: BOOLEAN
+  - name: attendant_operation
+    type: BOOLEAN
+  - name: glass_or_transparent
+    type: BOOLEAN
+  - name: pit_depth
+    type: BIGINT
+  - name: conveyor_configuration
+    type: BIGINT
+  - name: conveyor_safety_device_type
+    type: VARCHAR
+  - name: conveyor_counter_weight_safety_device_type
+    type: VARCHAR
+  - name: hole_less_elevator
+    type: BOOLEAN
+  - name: plunger_type
+    type: VARCHAR
+  - name: car_buffer
+    type: BOOLEAN
+  - name: counter_weight_buffer
+    type: VARCHAR
+  - name: accessibility_lift
+    type: VARCHAR
+  - name: conveyor_type
+    type: VARCHAR
+  - name: machine_jack_type
+    type: VARCHAR
+  - name: overload_device
+    type: BOOLEAN
+  - name: platform_lift_type
+    type: VARCHAR
+  - name: car_hoist_cwt_or_noncwt
+    type: VARCHAR
+  - name: car_hoist_location
+    type: VARCHAR
+  - name: private_residence
+    type: BOOLEAN
+  - name: car_hoist_opening
+    type: VARCHAR
+  - name: hoist_capacity
+    type: BIGINT
+  - name: hoist_car_weight
+    type: VARCHAR
+  - name: hoist_car_manufacturer
+    type: VARCHAR
+  - name: hoist_counter_weighted
+    type: BIGINT
+  - name: hoist_mast_manufacturer
+    type: VARCHAR
+  - name: hoist_safety_serial_number
+    type: VARCHAR
+  - name: hoist_safety_expiration_date
+    type: DATE
+  - name: hoist_model_num
+    type: VARCHAR
+  - name: hoist_safety_capacity
+    type: VARCHAR
+  - name: escalator_energy_saving_functionsleep_mode
+    type: BOOLEAN
+  - name: escalator_angle_of_inclination
+    type: DOUBLE
+  - name: escalator_brake_torque
+    type: DOUBLE
+  - name: escalator_capacitylbs
+    type: DOUBLE
+  - name: flame_heat_smoke_protection_provided
+    type: BOOLEAN
+  - name: escalator_manufacturer
+    type: VARCHAR
+  - name: escalator_model
+    type: VARCHAR
+  - name: escalator_number_of_flat_steps
+    type: BIGINT
+  - name: outdoor_escalator
+    type: BOOLEAN
+  - name: escalator_risefeet
+    type: DOUBLE
+  - name: escalator_riseinches
+    type: DOUBLE
+  - name: escalator_speed
+    type: DOUBLE
+  - name: escalator_step_widthfeet
+    type: DOUBLE
+  - name: escalator_step_widthinches
+    type: DOUBLE
+  - name: escalator_tandem_operation
+    type: BOOLEAN
+  - name: escalator_travel_from_floor
+    type: VARCHAR
+  - name: escalator_travel_to_floor
+    type: VARCHAR

@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pdiy-9ae5`. Regenerate after model-verify.
+key: [expires_on, holder_name, cof_id, cof_type]
+temporal: expires_on
+sort: [expires_on, holder_name, cof_id, cof_type]
+columns:
+  - name: cof_id
+    type: BIGINT
+  - name: cof_num
+    type: BIGINT
+  - name: cof_type
+    type: VARCHAR
+  - name: holder_name
+    type: VARCHAR
+  - name: expires_on
+    type: DATE
+  - name: prem_addr
+    type: VARCHAR
+  - name: bin
+    type: BIGINT
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: postcode
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: number
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: census_tract
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5rw7-99k7`. Regenerate after model-verify.
+key: [date, program_type]
+temporal: date
+sort: [date, program_type]
+columns:
+  - name: date
+    type: DATE
+  - name: program_type
+    type: VARCHAR
+  - name: vacancies_per_day
+    type: BIGINT
+  - name: beds_per_day
+    type: BIGINT
+  - name: vacant_per_day
+    type: DOUBLE

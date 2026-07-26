@@ -1,0 +1,12 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-gk83-aa6y`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+temporal: date_final_cost_report_submitted_to_sed
+checks:
+  - kind: row_floor
+    min: 10305
+regression:
+  row_shrink_tolerance: 0.1
+  temporal_monotonic: true

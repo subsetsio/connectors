@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ru7m-mpyz`. Regenerate after model-verify.
+key: [geo_unit, geo_type, construction_started_city_managed, construction_completed_city_managed]
+sort: [geo_unit, geo_type, construction_started_city_managed, construction_completed_city_managed]
+columns:
+  - name: geo_type
+    type: VARCHAR
+  - name: geo_unit
+    type: VARCHAR
+  - name: active_applicants
+    type: BIGINT
+  - name: applicants_served
+    type: BIGINT
+  - name: checks_issued
+    type: BIGINT
+  - name: dollars_reimbursed
+    type: DOUBLE
+  - name: total_city_managed
+    type: BIGINT
+  - name: construction_started_city_managed
+    type: VARCHAR
+  - name: construction_completed_city_managed
+    type: VARCHAR
+  - name: total_overall_construction
+    type: BIGINT
+  - name: construction_started_overall_construction
+    type: BIGINT
+  - name: construction_completed_overall_construction
+    type: BIGINT

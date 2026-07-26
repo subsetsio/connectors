@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ebb7-mvp5`. Regenerate after model-verify.
+key: [month, communitydistrict, borough_id, borough]
+sort: [month, communitydistrict, borough_id, borough]
+columns:
+  - name: month
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: communitydistrict
+    type: VARCHAR
+  - name: refusetonscollected
+    type: DOUBLE
+  - name: papertonscollected
+    type: DOUBLE
+  - name: mgptonscollected
+    type: DOUBLE
+  - name: resorganicstons
+    type: DOUBLE
+  - name: schoolorganictons
+    type: DOUBLE
+  - name: leavesorganictons
+    type: DOUBLE
+  - name: xmastreetons
+    type: DOUBLE
+  - name: otherorganicstons
+    type: DOUBLE
+  - name: borough_id
+    type: BIGINT

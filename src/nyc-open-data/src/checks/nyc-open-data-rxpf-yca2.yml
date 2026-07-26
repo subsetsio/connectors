@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-rxpf-yca2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [brorough_district_number, borough, no_home_broadband_adoption_by_quartile, no_mobile_broadband_adoption_by_quartile]
+checks:
+  - kind: unique
+    columns: [brorough_district_number, borough, no_home_broadband_adoption_by_quartile, no_mobile_broadband_adoption_by_quartile]
+  - kind: not_null
+    col: brorough_district_number
+  - kind: not_null
+    col: borough
+  - kind: not_null
+    col: no_home_broadband_adoption_by_quartile
+  - kind: not_null
+    col: no_mobile_broadband_adoption_by_quartile
+  - kind: row_floor
+    min: 30
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

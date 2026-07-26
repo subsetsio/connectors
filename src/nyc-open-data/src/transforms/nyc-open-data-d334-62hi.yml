@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-d334-62hi`. Regenerate after model-verify.
+key: [data_as_of, transaction_number_and_type, counterparty]
+temporal: trade_date
+sort: [trade_date, data_as_of, transaction_number_and_type, counterparty]
+columns:
+  - name: issuer
+    type: VARCHAR
+  - name: transaction_number_and_type
+    type: VARCHAR
+  - name: counterparty
+    type: VARCHAR
+  - name: notional_amount
+    type: BIGINT
+  - name: trade_date
+    type: DATE
+  - name: termination_date
+    type: DATE
+  - name: mark_to_market_value
+    type: DOUBLE
+  - name: data_as_of
+    type: DATE

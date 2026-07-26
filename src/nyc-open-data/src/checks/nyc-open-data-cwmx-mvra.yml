@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-cwmx-mvra`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [specimen_date, extract_date]
+temporal: extract_date
+checks:
+  - kind: unique
+    columns: [specimen_date, extract_date]
+  - kind: not_null
+    col: specimen_date
+  - kind: not_null
+    col: extract_date
+  - kind: row_floor
+    min: 88074
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

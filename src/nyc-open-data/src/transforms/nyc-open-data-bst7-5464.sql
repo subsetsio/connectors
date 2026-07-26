@@ -1,0 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "fire_company_type",
+    "fire_company_number",
+    "fire_division",
+    "fire_battalion",
+    "the_geom",
+    "shape_length",
+    "shape_area"
+FROM "nyc-open-data-bst7-5464"

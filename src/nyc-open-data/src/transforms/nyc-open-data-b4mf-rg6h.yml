@@ -1,0 +1,96 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-b4mf-rg6h`. Regenerate after model-verify.
+key: [casenumber]
+temporal: createddate
+sort: [createddate, casenumber]
+columns:
+  - name: createddate
+    type: TIMESTAMP
+  - name: casenumber
+    type: VARCHAR
+  - name: seibelnumber
+    type: VARCHAR
+  - name: casechannel
+    type: VARCHAR
+  - name: casetopic
+    type: VARCHAR
+  - name: caseissue
+    type: VARCHAR
+  - name: caseaddressedto
+    type: VARCHAR
+  - name: clienttype
+    type: VARCHAR
+  - name: translationneeded
+    type: BOOLEAN
+  - name: pressname
+    type: BIGINT
+  - name: initialtranslation
+    type: TIMESTAMP
+  - name: acknowledgetranslation
+    type: VARCHAR
+  - name: nativelanguage
+    type: VARCHAR
+  - name: coordinator
+    type: VARCHAR
+  - name: closeouttranslation
+    type: TIMESTAMP
+  - name: acknowledgesent
+    type: TIMESTAMP
+  - name: locationtype
+    type: VARCHAR
+  - name: locationdetail
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: buildingnumber
+    type: VARCHAR
+  - name: streetname
+    type: VARCHAR
+  - name: fromstreet
+    type: VARCHAR
+  - name: crossstreet
+    type: VARCHAR
+  - name: bridgename
+    type: VARCHAR
+  - name: bridgedirection
+    type: VARCHAR
+  - name: otherbridgename
+    type: VARCHAR
+  - name: highwayname
+    type: VARCHAR
+  - name: directionname
+    type: VARCHAR
+  - name: segmentorexit
+    type: VARCHAR
+  - name: ferrydirection
+    type: VARCHAR
+  - name: ferrydatetime
+    type: TIMESTAMP
+  - name: facilityname
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: maplocation
+    type: VARCHAR
+  - name: communitydistrict
+    type: VARCHAR
+  - name: policeprecinct
+    type: VARCHAR
+  - name: xcoordinate
+    type: BIGINT
+  - name: ycoordinate
+    type: BIGINT
+  - name: zipcode
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: externaltrackingnumber
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: resolutionreason
+    type: VARCHAR
+  - name: closeddate
+    type: DATE

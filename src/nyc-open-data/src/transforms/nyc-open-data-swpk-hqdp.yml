@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-swpk-hqdp`. Regenerate after model-verify.
+key: [nta_name, nta_code, fips_county_code, borough, year]
+sort: [nta_name, nta_code, fips_county_code, borough, year]
+columns:
+  - name: borough
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: fips_county_code
+    type: VARCHAR
+  - name: nta_code
+    type: VARCHAR
+  - name: nta_name
+    type: VARCHAR
+  - name: population
+    type: BIGINT

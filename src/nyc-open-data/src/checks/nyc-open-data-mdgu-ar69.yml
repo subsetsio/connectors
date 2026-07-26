@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-mdgu-ar69`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [organization, purpose, project_location, type, fiscal_year]
+checks:
+  - kind: unique
+    columns: [organization, purpose, project_location, type, fiscal_year]
+  - kind: not_null
+    col: organization
+  - kind: not_null
+    col: purpose
+  - kind: not_null
+    col: project_location
+  - kind: not_null
+    col: type
+  - kind: not_null
+    col: fiscal_year
+  - kind: row_floor
+    min: 110
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

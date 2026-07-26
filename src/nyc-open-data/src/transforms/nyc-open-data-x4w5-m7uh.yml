@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-x4w5-m7uh`. Regenerate after model-verify.
+key: [candidate_id, name, election_cycle, penalty_or_public_funds_still_outstanding]
+temporal: date_draft_audit_report_dar_sent_to_campaign
+sort: [date_draft_audit_report_dar_sent_to_campaign, candidate_id, name, election_cycle, penalty_or_public_funds_still_outstanding]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: candidate_id
+    type: VARCHAR
+  - name: election_cycle
+    type: VARCHAR
+  - name: candidate_program_participation_status
+    type: VARCHAR
+  - name: amount_contributions
+    type: DOUBLE
+  - name: amount_expenditures
+    type: DOUBLE
+  - name: amount_public_funds_received
+    type: BIGINT
+  - name: date_draft_audit_report_dar_sent_to_campaign
+    type: DATE
+  - name: date_final_audit_report_far_sent_to_campaign
+    type: DATE
+  - name: audit_complete_date
+    type: DATE
+  - name: date_final_board_determination_fbd_sent_to_campaign
+    type: DATE
+  - name: penalties
+    type: DOUBLE
+  - name: public_funds_repayment_obligation
+    type: DOUBLE
+  - name: penalties_still_outstanding
+    type: BIGINT
+  - name: public_funds_repayments_still_outstanding
+    type: BIGINT
+  - name: penalty_or_public_funds_still_outstanding
+    type: VARCHAR

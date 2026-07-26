@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-p5v2-fwzn`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [of_students_who_are_receiving_less_than_the_required_amount_of_physical_education_instruction_1, of_students_who_are_receiving_the_required_amount_of_physical_education_instruction_1, of_students_who_are_receiving_the_required_amount_of_physical_education_instruction, of_students_who_have_an_iep_that_recommends_adaptive_physical_education_1, of_students_who_have_an_iep_that_recommends_adaptive_physical_education]
+checks:
+  - kind: unique
+    columns: [of_students_who_are_receiving_less_than_the_required_amount_of_physical_education_instruction_1, of_students_who_are_receiving_the_required_amount_of_physical_education_instruction_1, of_students_who_are_receiving_the_required_amount_of_physical_education_instruction, of_students_who_have_an_iep_that_recommends_adaptive_physical_education_1, of_students_who_have_an_iep_that_recommends_adaptive_physical_education]
+  - kind: not_null
+    col: of_students_who_are_receiving_less_than_the_required_amount_of_physical_education_instruction_1
+  - kind: not_null
+    col: of_students_who_are_receiving_the_required_amount_of_physical_education_instruction_1
+  - kind: not_null
+    col: of_students_who_are_receiving_the_required_amount_of_physical_education_instruction
+  - kind: not_null
+    col: of_students_who_have_an_iep_that_recommends_adaptive_physical_education_1
+  - kind: not_null
+    col: of_students_who_have_an_iep_that_recommends_adaptive_physical_education
+  - kind: row_floor
+    min: 325
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-f7dc-2q9f`. Regenerate after model-verify.
+key: [sample_date, wrrf_abbreviation, wrrf_name, technology]
+temporal: sample_date
+sort: [sample_date, wrrf_abbreviation, wrrf_name, technology]
+columns:
+  - name: sample_date
+    type: DATE
+  - name: test_date
+    type: DATE
+  - name: wrrf_name
+    type: VARCHAR
+  - name: wrrf_abbreviation
+    type: VARCHAR
+  - name: concentration_sarscov2_gene_target_n1_copiesl
+    type: DOUBLE
+  - name: per_capita_sarscov2_load_n1_copies_per_day_per_population
+    type: DOUBLE
+  - name: annotation
+    type: VARCHAR
+  - name: population_served_estimated
+    type: BIGINT
+  - name: technology
+    type: VARCHAR

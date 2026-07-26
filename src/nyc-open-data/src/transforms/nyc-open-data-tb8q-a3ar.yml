@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-tb8q-a3ar`. Regenerate after model-verify.
+key: [vacate_order_number]
+temporal: vacate_effective_date
+sort: [vacate_effective_date, vacate_order_number]
+columns:
+  - name: building_id
+    type: BIGINT
+  - name: registration_id
+    type: BIGINT
+  - name: borough
+    type: VARCHAR
+  - name: number
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: vacate_order_number
+    type: BIGINT
+  - name: primary_vacate_reason
+    type: VARCHAR
+  - name: vacate_type
+    type: VARCHAR
+  - name: vacate_effective_date
+    type: DATE
+  - name: rescind_date
+    type: DATE
+  - name: number_of_vacated_units
+    type: BIGINT
+  - name: postcode
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-k9kq-67vm`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [data_os_of_date, geography, programtype, geography_type]
+temporal: data_os_of_date
+checks:
+  - kind: unique
+    columns: [data_os_of_date, geography, programtype, geography_type]
+  - kind: not_null
+    col: data_os_of_date
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: programtype
+  - kind: not_null
+    col: geography_type
+  - kind: row_floor
+    min: 3248
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-sp7n-275u`. Regenerate after model-verify.
+key: [medallion_number]
+temporal: "3rd_inspection_scheduled_date"
+sort: ["3rd_inspection_scheduled_date", medallion_number]
+columns:
+  - name: medallion_number
+    type: VARCHAR
+  - name: "1st_inspection_dmv_facility_inspection_month"
+    type: VARCHAR
+  - name: "2nd_inspection_scheduled_date"
+    type: DATE
+  - name: "2nd_inspection_scheduled_time"
+    type: VARCHAR
+  - name: "3rd_inspection_scheduled_date"
+    type: DATE
+  - name: "3rd_inspection_scheduled_time"
+    type: VARCHAR
+  - name: fleetagentcode
+    type: VARCHAR
+  - name: agentname
+    type: VARCHAR
+  - name: last_updated_date_time
+    type: VARCHAR

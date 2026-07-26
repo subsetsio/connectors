@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5bsb-haw5`. Regenerate after model-verify.
+key: [published_date, description, tracking_category, fiscal_year, climate_priority]
+temporal: published_date
+sort: [published_date, description, tracking_category, fiscal_year, climate_priority]
+columns:
+  - name: published_date
+    type: DATE
+  - name: climate_priority
+    type: VARCHAR
+  - name: tracking_category
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT
+  - name: fiscal_year_amount
+    type: DOUBLE

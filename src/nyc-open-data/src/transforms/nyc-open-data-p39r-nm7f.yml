@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-p39r-nm7f`. Regenerate after model-verify.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: case_number
+    type: VARCHAR
+  - name: case_name
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: "3way_settlement"
+    type: VARCHAR
+  - name: fine_paid_to_coib
+    type: DOUBLE
+  - name: fine_imposed_by_coib_but_not_paid
+    type: VARCHAR
+  - name: explanation_of_coib_fine
+    type: VARCHAR
+  - name: fine_paid_to_agency
+    type: DOUBLE
+  - name: other_penalty
+    type: VARCHAR
+  - name: other_penalty_value
+    type: DOUBLE
+  - name: suspension_days
+    type: BIGINT
+  - name: suspension_value
+    type: DOUBLE

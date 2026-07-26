@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-gpny-cuvw`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [month_name, description, borough, agency]
+checks:
+  - kind: unique
+    columns: [month_name, description, borough, agency]
+  - kind: not_null
+    col: month_name
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: borough
+  - kind: not_null
+    col: agency
+  - kind: row_floor
+    min: 5661
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

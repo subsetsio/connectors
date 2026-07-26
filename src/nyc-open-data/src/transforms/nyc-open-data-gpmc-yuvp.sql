@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "the_geom",
+    "bin",
+    "bbl",
+    "borough",
+    "block",
+    "lot",
+    "desig_address",
+    "circa",
+    "date_low",
+    "date_high",
+    "date_combo",
+    "alt_date1",
+    "alt_date2",
+    "architect",
+    "hist_owner",
+    "alt_architect",
+    "alt_architect2",
+    "altered",
+    "style1",
+    "style2",
+    "style3",
+    "material1",
+    "material2",
+    "material3",
+    "material4",
+    "material5",
+    "orig_use",
+    "orig_use2",
+    "build_type",
+    "build_type2",
+    "prop_name",
+    "lm_notes",
+    "hist_district",
+    "lm_name",
+    "lm_name2",
+    "shape_leng",
+    "shape_area"
+FROM "nyc-open-data-gpmc-yuvp"

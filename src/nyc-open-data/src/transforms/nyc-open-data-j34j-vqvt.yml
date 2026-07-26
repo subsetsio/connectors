@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-j34j-vqvt`. Regenerate after model-verify.
+key: [averageresponsetime, yearmonth, incidentclassification, incidentborough]
+temporal: averageresponsetime
+sort: [averageresponsetime, yearmonth, incidentclassification, incidentborough]
+columns:
+  - name: yearmonth
+    type: VARCHAR
+  - name: incidentclassification
+    type: VARCHAR
+  - name: incidentborough
+    type: VARCHAR
+  - name: incidentcount
+    type: BIGINT
+  - name: averageresponsetime
+    type: TIME

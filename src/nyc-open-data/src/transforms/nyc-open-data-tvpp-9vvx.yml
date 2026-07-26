@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-tvpp-9vvx`. Regenerate after model-verify.
+key: [end_datetime, event_id]
+temporal: start_datetime
+sort: [start_datetime, end_datetime, event_id]
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: event_name
+    type: VARCHAR
+  - name: start_datetime
+    type: TIMESTAMP
+  - name: end_datetime
+    type: TIMESTAMP
+  - name: event_agency
+    type: VARCHAR
+  - name: event_type
+    type: VARCHAR
+  - name: event_borough
+    type: VARCHAR
+  - name: event_location
+    type: VARCHAR
+  - name: event_street_side
+    type: VARCHAR
+  - name: street_closure_type
+    type: VARCHAR
+  - name: community_board
+    type: VARCHAR
+  - name: police_precinct
+    type: VARCHAR
+  - name: cemsid
+    type: VARCHAR

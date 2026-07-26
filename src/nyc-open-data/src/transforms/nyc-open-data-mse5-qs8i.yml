@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-mse5-qs8i`. Regenerate after model-verify.
+key: [public_wifi_system, opendata_dataset_name]
+temporal: published_date
+sort: [published_date, public_wifi_system, opendata_dataset_name]
+columns:
+  - name: oid
+    type: BIGINT
+  - name: public_wifi_system
+    type: VARCHAR
+  - name: ssid
+    type: VARCHAR
+  - name: provider
+    type: VARCHAR
+  - name: opendata_dataset_name
+    type: VARCHAR
+  - name: hotspot_location_count
+    type: BIGINT
+  - name: pedestrian_corridor_hotspot_count
+    type: BIGINT
+  - name: published_date
+    type: DATE

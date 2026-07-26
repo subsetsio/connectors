@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-npe5-sakb`. Regenerate after model-verify.
+key: [purpose]
+temporal: start_date
+sort: [start_date, purpose]
+columns:
+  - name: agency
+    type: VARCHAR
+  - name: vendor
+    type: VARCHAR
+  - name: purpose
+    type: VARCHAR
+  - name: method
+    type: VARCHAR
+  - name: contract_value
+    type: DOUBLE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE

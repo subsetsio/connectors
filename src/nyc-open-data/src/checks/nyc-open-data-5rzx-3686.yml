@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5rzx-3686`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fleet_name, agency, description, seasonal_flag, critical_fleet_only]
+temporal: date
+checks:
+  - kind: unique
+    columns: [fleet_name, agency, description, seasonal_flag, critical_fleet_only]
+  - kind: not_null
+    col: fleet_name
+  - kind: not_null
+    col: agency
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: seasonal_flag
+  - kind: not_null
+    col: critical_fleet_only
+  - kind: row_floor
+    min: 19
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-jvwx-xnsr`. Regenerate after model-verify.
+key: [date, pool, borough]
+temporal: date
+sort: [date, pool, borough]
+columns:
+  - name: date
+    type: DATE
+  - name: borough
+    type: VARCHAR
+  - name: pool
+    type: VARCHAR
+  - name: attendance
+    type: BIGINT

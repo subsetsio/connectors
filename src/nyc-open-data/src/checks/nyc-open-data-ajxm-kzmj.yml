@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ajxm-kzmj`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [garden_name, propid, size, community_board, jurisdiction]
+checks:
+  - kind: unique
+    columns: [garden_name, propid, size, community_board, jurisdiction]
+  - kind: not_null
+    col: garden_name
+  - kind: not_null
+    col: propid
+  - kind: not_null
+    col: size
+  - kind: not_null
+    col: community_board
+  - kind: not_null
+    col: jurisdiction
+  - kind: row_floor
+    min: 268
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

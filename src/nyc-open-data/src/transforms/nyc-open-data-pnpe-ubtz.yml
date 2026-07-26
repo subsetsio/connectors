@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pnpe-ubtz`. Regenerate after model-verify.
+key: []
+temporal: event_start_date
+sort: [event_start_date]
+columns:
+  - name: event_start_date
+    type: DATE
+  - name: event_start_time
+    type: TIME
+  - name: event_end_time
+    type: TIME
+  - name: borough
+    type: VARCHAR
+  - name: zip_code
+    type: BIGINT
+  - name: primary_language
+    type: VARCHAR
+  - name: list_of_languages
+    type: VARCHAR
+  - name: total_attendees
+    type: BIGINT
+  - name: total_households_reporting_children
+    type: BIGINT
+  - name: number_of_people_receiving_inhouse_immigration_legal_referrals
+    type: BIGINT
+  - name: total_people_requesting_immigration_legal_referrals
+    type: BIGINT

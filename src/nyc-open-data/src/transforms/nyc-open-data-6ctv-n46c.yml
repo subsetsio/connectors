@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-6ctv-n46c`. Regenerate after model-verify.
+key: [file_number]
+temporal: intro_date
+sort: [intro_date, file_number]
+columns:
+  - name: matter_id
+    type: BIGINT
+  - name: status
+    type: VARCHAR
+  - name: file_number
+    type: VARCHAR
+  - name: local_law_number
+    type: VARCHAR
+  - name: primary_sponsor
+    type: VARCHAR
+  - name: committee
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: intro_date
+    type: TIMESTAMP
+  - name: agenda_date
+    type: TIMESTAMP
+  - name: passed_date
+    type: TIMESTAMP
+  - name: enacted_date
+    type: TIMESTAMP
+  - name: previous_file_number
+    type: VARCHAR
+  - name: modified_date
+    type: TIMESTAMP
+  - name: title
+    type: VARCHAR
+  - name: summary
+    type: VARCHAR

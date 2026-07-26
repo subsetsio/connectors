@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5uac-w243`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cmplnt_fr_tm, cmplnt_num]
+temporal: cmplnt_fr_dt
+checks:
+  - kind: unique
+    columns: [cmplnt_fr_tm, cmplnt_num]
+  - kind: not_null
+    col: cmplnt_fr_tm
+  - kind: not_null
+    col: cmplnt_num
+  - kind: row_floor
+    min: 66557
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

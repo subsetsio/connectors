@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5dfs-vnre`. Regenerate after model-verify.
+key: [year, borough, calendar_or_fiscal_year]
+sort: [year, borough, calendar_or_fiscal_year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: calendar_or_fiscal_year
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: supervision_caseload_count
+    type: BIGINT
+  - name: passthrough_count
+    type: BIGINT
+  - name: intakes
+    type: BIGINT
+  - name: supervision_intakes_adjournment_in_contemplation_of_dismissal
+    type: BIGINT
+  - name: supervision_intakes_enhanced_supervision_program
+    type: BIGINT
+  - name: supervision_intakes_juvenile_delinquency
+    type: BIGINT
+  - name: investigation_count
+    type: BIGINT
+  - name: filed_violations
+    type: BIGINT
+  - name: disposed_violation_continued
+    type: BIGINT
+  - name: disposed_violation_discharged
+    type: BIGINT
+  - name: disposed_violation_dismissed
+    type: BIGINT
+  - name: disposed_violation_revoked
+    type: BIGINT
+  - name: diversion_rate_percentage
+    type: DOUBLE

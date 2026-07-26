@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5ucz-vwe8`. Regenerate after model-verify.
+key: [incident_key]
+temporal: occur_date
+sort: [occur_date, incident_key]
+columns:
+  - name: incident_key
+    type: BIGINT
+  - name: occur_date
+    type: DATE
+  - name: occur_time
+    type: TIME
+  - name: boro
+    type: VARCHAR
+  - name: loc_of_occur_desc
+    type: VARCHAR
+  - name: precinct
+    type: BIGINT
+  - name: jurisdiction_code
+    type: BIGINT
+  - name: loc_classfctn_desc
+    type: VARCHAR
+  - name: location_desc
+    type: VARCHAR
+  - name: x_coord_cd
+    type: BIGINT
+  - name: y_coord_cd
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE

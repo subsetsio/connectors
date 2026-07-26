@@ -1,0 +1,254 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-r4c5-ndkx`. Regenerate after model-verify.
+key: []
+temporal: lotstatusdate
+sort: [lotstatusdate]
+columns:
+  - name: lotid
+    type: BIGINT
+  - name: inspectionrequestid
+    type: BIGINT
+  - name: lotno
+    type: VARCHAR
+  - name: privateind
+    type: BIGINT
+  - name: areaid
+    type: BIGINT
+  - name: lotstatusid
+    type: BIGINT
+  - name: lotstatusdate
+    type: TIMESTAMP
+  - name: lotstatusreason
+    type: BIGINT
+  - name: operid
+    type: BIGINT
+  - name: lotentrydate
+    type: TIMESTAMP
+  - name: billingdate
+    type: TIMESTAMP
+  - name: lotbllingtotal
+    type: DOUBLE
+  - name: overriteind
+    type: BIGINT
+  - name: perimeter_ind
+    type: BIGINT
+  - name: fivedayletterno
+    type: BIGINT
+  - name: notes
+    type: VARCHAR
+  - name: psid
+    type: BIGINT
+  - name: dupccu
+    type: VARCHAR
+  - name: activityid
+    type: BIGINT
+  - name: noofaddresses
+    type: BIGINT
+  - name: refno
+    type: VARCHAR
+  - name: lotnjinspectionrequestid
+    type: VARCHAR
+  - name: lotdupinspectionrequestid
+    type: BIGINT
+  - name: lotissysflageddupoverridden
+    type: BIGINT
+  - name: lotissysflagednjoverridden
+    type: BIGINT
+  - name: lotprevstatusidbfrdupornj
+    type: VARCHAR
+  - name: legalnotes
+    type: VARCHAR
+  - name: fieldnotes
+    type: VARCHAR
+  - name: supp_ind
+    type: VARCHAR
+  - name: old_lot_id
+    type: VARCHAR
+  - name: old_status_dd
+    type: VARCHAR
+  - name: old_status_rea_dd
+    type: VARCHAR
+  - name: lotconversion_notes
+    type: VARCHAR
+  - name: ownerlotlcd
+    type: VARCHAR
+  - name: logno
+    type: VARCHAR
+  - name: indexno
+    type: VARCHAR
+  - name: refferedtodohmhdate
+    type: VARCHAR
+  - name: structure
+    type: BIGINT
+  - name: activitydetailid
+    type: BIGINT
+  - name: titleid
+    type: BIGINT
+  - name: hours
+    type: DOUBLE
+  - name: operatorid_detail
+    type: BIGINT
+  - name: detailentrydate
+    type: TIMESTAMP
+  - name: dumpsiteid
+    type: BIGINT
+  - name: vehicleno
+    type: VARCHAR
+  - name: act_date
+    type: TIMESTAMP
+  - name: activityentrydate
+    type: TIMESTAMP
+  - name: abandonedcars
+    type: BIGINT
+  - name: activitystatusid
+    type: BIGINT
+  - name: enddate
+    type: TIMESTAMP
+  - name: activitybllingtotal
+    type: DOUBLE
+  - name: activitystatusdate
+    type: TIMESTAMP
+  - name: total_hrs
+    type: DOUBLE
+  - name: total_tonnage
+    type: DOUBLE
+  - name: total_loads
+    type: DOUBLE
+  - name: s_tires
+    type: BIGINT
+  - name: l_tires
+    type: BIGINT
+  - name: civilian_hrs
+    type: BIGINT
+  - name: fel_tires
+    type: BIGINT
+  - name: uniform_hrs
+    type: BIGINT
+  - name: old_main_lot_id
+    type: VARCHAR
+  - name: startdate
+    type: TIMESTAMP
+  - name: act_old_lot_id
+    type: VARCHAR
+  - name: lotcleaningtotal
+    type: DOUBLE
+  - name: salestax
+    type: DOUBLE
+  - name: isbillgenerated
+    type: BIGINT
+  - name: prefix
+    type: BIGINT
+  - name: house1
+    type: VARCHAR
+  - name: house2
+    type: VARCHAR
+  - name: streetaddress
+    type: VARCHAR
+  - name: requestdate
+    type: VARCHAR
+  - name: lastname
+    type: VARCHAR
+  - name: firstname
+    type: VARCHAR
+  - name: boroid
+    type: BIGINT
+  - name: districtid
+    type: BIGINT
+  - name: note
+    type: VARCHAR
+  - name: ccuyear
+    type: VARCHAR
+  - name: ccuno
+    type: BIGINT
+  - name: userid
+    type: BIGINT
+  - name: requestentrydate
+    type: TIMESTAMP
+  - name: refid
+    type: BIGINT
+  - name: requestsourceid
+    type: BIGINT
+  - name: scanno
+    type: VARCHAR
+  - name: isdeleted
+    type: BIGINT
+  - name: assignedtoinspector
+    type: VARCHAR
+  - name: crossstreetone
+    type: VARCHAR
+  - name: crossstreettwo
+    type: VARCHAR
+  - name: channel
+    type: BIGINT
+  - name: program
+    type: BIGINT
+  - name: area
+    type: BIGINT
+  - name: crmno
+    type: VARCHAR
+  - name: phone
+    type: VARCHAR
+  - name: coordinatex
+    type: BIGINT
+  - name: coordinatey
+    type: BIGINT
+  - name: segmentid
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: block
+    type: VARCHAR
+  - name: requeststatusid
+    type: BIGINT
+  - name: requeststatusreason
+    type: BIGINT
+  - name: requeststatusdate
+    type: TIMESTAMP
+  - name: flp
+    type: BIGINT
+  - name: inspectiondate
+    type: TIMESTAMP
+  - name: inspectorfindings
+    type: VARCHAR
+  - name: isduplicate
+    type: VARCHAR
+  - name: used_prefix
+    type: BIGINT
+  - name: used_house1
+    type: VARCHAR
+  - name: used_house2
+    type: VARCHAR
+  - name: used_streetaddress
+    type: VARCHAR
+  - name: used_crossstreetone
+    type: VARCHAR
+  - name: used_crossstreettwo
+    type: VARCHAR
+  - name: dupinspectionrequestid
+    type: BIGINT
+  - name: njinspectionrequestid
+    type: VARCHAR
+  - name: issysflageddupoverridden
+    type: BIGINT
+  - name: issysflagednjoverridden
+    type: BIGINT
+  - name: zone
+    type: BIGINT
+  - name: importfromscan
+    type: BIGINT
+  - name: copyexistingaddress
+    type: BIGINT
+  - name: old_inspect_id
+    type: VARCHAR
+  - name: block_loc
+    type: VARCHAR
+  - name: used_block_loc
+    type: VARCHAR
+  - name: loc_id
+    type: VARCHAR
+  - name: requestconversion_notes
+    type: VARCHAR
+  - name: originaloverride
+    type: BIGINT
+  - name: usedoverride
+    type: BIGINT

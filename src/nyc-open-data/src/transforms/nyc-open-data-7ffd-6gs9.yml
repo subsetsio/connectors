@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-7ffd-6gs9`. Regenerate after model-verify.
+key: [feedback_datetime, customer_message, agency_name, status]
+temporal: feedback_datetime
+sort: [feedback_datetime, customer_message, agency_name, status]
+columns:
+  - name: feedback_datetime
+    type: TIMESTAMP
+  - name: customer_message
+    type: VARCHAR
+  - name: agency_name
+    type: VARCHAR
+  - name: status
+    type: VARCHAR

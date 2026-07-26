@@ -1,0 +1,929 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-vw9i-7mzq`. Regenerate after model-verify.
+key: [school_name]
+sort: [school_name]
+columns:
+  - name: dbn
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: boro
+    type: VARCHAR
+  - name: overview_paragraph
+    type: VARCHAR
+  - name: school_10th_seats
+    type: VARCHAR
+  - name: academicopportunities1
+    type: VARCHAR
+  - name: academicopportunities2
+    type: VARCHAR
+  - name: academicopportunities3
+    type: VARCHAR
+  - name: academicopportunities4
+    type: VARCHAR
+  - name: academicopportunities5
+    type: VARCHAR
+  - name: ell_programs
+    type: VARCHAR
+  - name: language_classes
+    type: VARCHAR
+  - name: advancedplacement_courses
+    type: VARCHAR
+  - name: diplomaendorsements
+    type: VARCHAR
+  - name: neighborhood
+    type: VARCHAR
+  - name: shared_space
+    type: BOOLEAN
+  - name: campus_name
+    type: VARCHAR
+  - name: building_code
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: phone_number
+    type: VARCHAR
+  - name: fax_number
+    type: VARCHAR
+  - name: school_email
+    type: VARCHAR
+  - name: website
+    type: VARCHAR
+  - name: subway
+    type: VARCHAR
+  - name: bus
+    type: VARCHAR
+  - name: grades2018
+    type: VARCHAR
+  - name: finalgrades
+    type: VARCHAR
+  - name: total_students
+    type: BIGINT
+  - name: start_time
+    type: VARCHAR
+  - name: end_time
+    type: VARCHAR
+  - name: addtl_info1
+    type: VARCHAR
+  - name: extracurricular_activities
+    type: VARCHAR
+  - name: psal_sports_boys
+    type: VARCHAR
+  - name: psal_sports_girls
+    type: VARCHAR
+  - name: psal_sports_coed
+    type: VARCHAR
+  - name: school_sports
+    type: VARCHAR
+  - name: graduation_rate
+    type: VARCHAR
+  - name: attendance_rate
+    type: DOUBLE
+  - name: pct_stu_enough_variety
+    type: DOUBLE
+  - name: college_career_rate
+    type: VARCHAR
+  - name: pct_stu_safe
+    type: DOUBLE
+  - name: girls
+    type: BIGINT
+  - name: boys
+    type: BIGINT
+  - name: pbat
+    type: BIGINT
+  - name: international
+    type: BIGINT
+  - name: specialized
+    type: BIGINT
+  - name: transfer
+    type: BIGINT
+  - name: ptech
+    type: BIGINT
+  - name: earlycollege
+    type: BIGINT
+  - name: geoeligibility
+    type: VARCHAR
+  - name: school_accessibility_description
+    type: BIGINT
+  - name: prgdesc1
+    type: VARCHAR
+  - name: prgdesc2
+    type: VARCHAR
+  - name: prgdesc3
+    type: VARCHAR
+  - name: prgdesc4
+    type: VARCHAR
+  - name: prgdesc5
+    type: VARCHAR
+  - name: prgdesc6
+    type: VARCHAR
+  - name: prgdesc7
+    type: VARCHAR
+  - name: prgdesc8
+    type: VARCHAR
+  - name: prgdesc9
+    type: VARCHAR
+  - name: prgdesc10
+    type: VARCHAR
+  - name: directions1
+    type: VARCHAR
+  - name: directions2
+    type: VARCHAR
+  - name: directions3
+    type: VARCHAR
+  - name: directions4
+    type: VARCHAR
+  - name: directions5
+    type: VARCHAR
+  - name: directions6
+    type: VARCHAR
+  - name: directions7
+    type: VARCHAR
+  - name: directions8
+    type: VARCHAR
+  - name: directions9
+    type: VARCHAR
+  - name: directions10
+    type: VARCHAR
+  - name: requirement1_1
+    type: VARCHAR
+  - name: requirement1_2
+    type: VARCHAR
+  - name: requirement1_3
+    type: VARCHAR
+  - name: requirement1_4
+    type: VARCHAR
+  - name: requirement1_5
+    type: VARCHAR
+  - name: requirement1_6
+    type: VARCHAR
+  - name: requirement1_7
+    type: VARCHAR
+  - name: requirement1_8
+    type: VARCHAR
+  - name: requirement1_9
+    type: VARCHAR
+  - name: requirement1_10
+    type: VARCHAR
+  - name: requirement2_1
+    type: VARCHAR
+  - name: requirement2_2
+    type: VARCHAR
+  - name: requirement2_3
+    type: VARCHAR
+  - name: requirement2_4
+    type: VARCHAR
+  - name: requirement2_5
+    type: VARCHAR
+  - name: requirement2_6
+    type: VARCHAR
+  - name: requirement2_7
+    type: VARCHAR
+  - name: requirement2_8
+    type: VARCHAR
+  - name: requirement2_9
+    type: VARCHAR
+  - name: requirement2_10
+    type: VARCHAR
+  - name: requirement3_1
+    type: VARCHAR
+  - name: requirement3_2
+    type: VARCHAR
+  - name: requirement3_3
+    type: VARCHAR
+  - name: requirement3_4
+    type: VARCHAR
+  - name: requirement3_5
+    type: VARCHAR
+  - name: requirement3_6
+    type: VARCHAR
+  - name: requirement3_7
+    type: VARCHAR
+  - name: requirement3_8
+    type: VARCHAR
+  - name: requirement3_9
+    type: VARCHAR
+  - name: requirement3_10
+    type: VARCHAR
+  - name: requirement4_1
+    type: VARCHAR
+  - name: requirement4_2
+    type: VARCHAR
+  - name: requirement4_3
+    type: VARCHAR
+  - name: requirement4_4
+    type: VARCHAR
+  - name: requirement4_5
+    type: VARCHAR
+  - name: requirement4_6
+    type: VARCHAR
+  - name: requirement4_7
+    type: VARCHAR
+  - name: requirement4_8
+    type: VARCHAR
+  - name: requirement4_9
+    type: VARCHAR
+  - name: requirement4_10
+    type: VARCHAR
+  - name: requirement5_1
+    type: VARCHAR
+  - name: requirement5_2
+    type: VARCHAR
+  - name: requirement5_3
+    type: VARCHAR
+  - name: requirement5_4
+    type: VARCHAR
+  - name: requirement5_5
+    type: VARCHAR
+  - name: requirement5_6
+    type: VARCHAR
+  - name: requirement5_7
+    type: VARCHAR
+  - name: requirement5_8
+    type: VARCHAR
+  - name: requirement5_9
+    type: VARCHAR
+  - name: requirement5_10
+    type: VARCHAR
+  - name: requirement6_1
+    type: VARCHAR
+  - name: requirement6_2
+    type: VARCHAR
+  - name: requirement6_3
+    type: VARCHAR
+  - name: requirement6_4
+    type: VARCHAR
+  - name: requirement6_5
+    type: VARCHAR
+  - name: requirement6_6
+    type: VARCHAR
+  - name: requirement6_7
+    type: VARCHAR
+  - name: requirement6_8
+    type: VARCHAR
+  - name: requirement6_9
+    type: VARCHAR
+  - name: requirement6_10
+    type: VARCHAR
+  - name: requirement7_1
+    type: VARCHAR
+  - name: requirement7_2
+    type: VARCHAR
+  - name: requirement7_3
+    type: VARCHAR
+  - name: requirement7_4
+    type: VARCHAR
+  - name: requirement7_5
+    type: VARCHAR
+  - name: requirement7_6
+    type: VARCHAR
+  - name: requirement7_7
+    type: VARCHAR
+  - name: requirement7_8
+    type: VARCHAR
+  - name: requirement7_9
+    type: VARCHAR
+  - name: requirement7_10
+    type: VARCHAR
+  - name: requirement8_1
+    type: VARCHAR
+  - name: requirement8_2
+    type: VARCHAR
+  - name: requirement8_3
+    type: VARCHAR
+  - name: requirement8_4
+    type: VARCHAR
+  - name: requirement8_5
+    type: VARCHAR
+  - name: requirement8_6
+    type: VARCHAR
+  - name: requirement8_7
+    type: VARCHAR
+  - name: requirement8_8
+    type: VARCHAR
+  - name: requirement8_9
+    type: VARCHAR
+  - name: requirement8_10
+    type: VARCHAR
+  - name: requirement9_1
+    type: VARCHAR
+  - name: requirement9_2
+    type: VARCHAR
+  - name: requirement9_3
+    type: VARCHAR
+  - name: requirement9_4
+    type: VARCHAR
+  - name: requirement9_5
+    type: VARCHAR
+  - name: requirement9_6
+    type: VARCHAR
+  - name: requirement9_7
+    type: VARCHAR
+  - name: requirement9_8
+    type: VARCHAR
+  - name: requirement9_9
+    type: VARCHAR
+  - name: requirement9_10
+    type: VARCHAR
+  - name: requirement10_1
+    type: VARCHAR
+  - name: requirement10_2
+    type: VARCHAR
+  - name: requirement10_3
+    type: VARCHAR
+  - name: requirement10_4
+    type: VARCHAR
+  - name: requirement10_5
+    type: VARCHAR
+  - name: requirement10_6
+    type: VARCHAR
+  - name: requirement10_7
+    type: VARCHAR
+  - name: requirement10_8
+    type: VARCHAR
+  - name: requirement10_9
+    type: VARCHAR
+  - name: requirement10_10
+    type: VARCHAR
+  - name: requirement11_1
+    type: VARCHAR
+  - name: requirement11_2
+    type: VARCHAR
+  - name: requirement11_3
+    type: VARCHAR
+  - name: requirement11_4
+    type: VARCHAR
+  - name: requirement11_5
+    type: VARCHAR
+  - name: requirement11_6
+    type: VARCHAR
+  - name: requirement11_7
+    type: VARCHAR
+  - name: requirement11_8
+    type: VARCHAR
+  - name: requirement11_9
+    type: VARCHAR
+  - name: requirement11_10
+    type: VARCHAR
+  - name: requirement12_1
+    type: VARCHAR
+  - name: requirement12_2
+    type: VARCHAR
+  - name: requirement12_3
+    type: VARCHAR
+  - name: requirement12_4
+    type: VARCHAR
+  - name: requirement12_5
+    type: VARCHAR
+  - name: requirement12_6
+    type: VARCHAR
+  - name: requirement12_7
+    type: VARCHAR
+  - name: requirement12_8
+    type: VARCHAR
+  - name: requirement12_9
+    type: VARCHAR
+  - name: requirement12_10
+    type: VARCHAR
+  - name: offer_rate1
+    type: VARCHAR
+  - name: offer_rate2
+    type: VARCHAR
+  - name: offer_rate3
+    type: VARCHAR
+  - name: offer_rate4
+    type: VARCHAR
+  - name: offer_rate5
+    type: VARCHAR
+  - name: offer_rate6
+    type: VARCHAR
+  - name: offer_rate7
+    type: VARCHAR
+  - name: offer_rate8
+    type: VARCHAR
+  - name: offer_rate9
+    type: VARCHAR
+  - name: offer_rate10
+    type: VARCHAR
+  - name: program1
+    type: VARCHAR
+  - name: program2
+    type: VARCHAR
+  - name: program3
+    type: VARCHAR
+  - name: program4
+    type: VARCHAR
+  - name: program5
+    type: VARCHAR
+  - name: program6
+    type: VARCHAR
+  - name: program7
+    type: VARCHAR
+  - name: program8
+    type: VARCHAR
+  - name: program9
+    type: VARCHAR
+  - name: program10
+    type: VARCHAR
+  - name: code1
+    type: VARCHAR
+  - name: code2
+    type: VARCHAR
+  - name: code3
+    type: VARCHAR
+  - name: code4
+    type: VARCHAR
+  - name: code5
+    type: VARCHAR
+  - name: code6
+    type: VARCHAR
+  - name: code7
+    type: VARCHAR
+  - name: code8
+    type: VARCHAR
+  - name: code9
+    type: VARCHAR
+  - name: code10
+    type: VARCHAR
+  - name: interest1
+    type: VARCHAR
+  - name: interest2
+    type: VARCHAR
+  - name: interest3
+    type: VARCHAR
+  - name: interest4
+    type: VARCHAR
+  - name: interest5
+    type: VARCHAR
+  - name: interest6
+    type: VARCHAR
+  - name: interest7
+    type: VARCHAR
+  - name: interest8
+    type: VARCHAR
+  - name: interest9
+    type: VARCHAR
+  - name: interest10
+    type: VARCHAR
+  - name: method1
+    type: VARCHAR
+  - name: method2
+    type: VARCHAR
+  - name: method3
+    type: VARCHAR
+  - name: method4
+    type: VARCHAR
+  - name: method5
+    type: VARCHAR
+  - name: method6
+    type: VARCHAR
+  - name: method7
+    type: VARCHAR
+  - name: method8
+    type: VARCHAR
+  - name: method9
+    type: VARCHAR
+  - name: method10
+    type: VARCHAR
+  - name: seats9ge1
+    type: BIGINT
+  - name: seats9ge2
+    type: VARCHAR
+  - name: seats9ge3
+    type: VARCHAR
+  - name: seats9ge4
+    type: VARCHAR
+  - name: seats9ge5
+    type: VARCHAR
+  - name: seats9ge6
+    type: VARCHAR
+  - name: seats9ge7
+    type: VARCHAR
+  - name: seats9ge8
+    type: VARCHAR
+  - name: seats9ge9
+    type: VARCHAR
+  - name: seats9ge10
+    type: VARCHAR
+  - name: grade9gefilledflag1
+    type: VARCHAR
+  - name: grade9gefilledflag2
+    type: VARCHAR
+  - name: grade9gefilledflag3
+    type: VARCHAR
+  - name: grade9gefilledflag4
+    type: VARCHAR
+  - name: grade9gefilledflag5
+    type: VARCHAR
+  - name: grade9gefilledflag6
+    type: VARCHAR
+  - name: grade9gefilledflag7
+    type: VARCHAR
+  - name: grade9gefilledflag8
+    type: VARCHAR
+  - name: grade9gefilledflag9
+    type: VARCHAR
+  - name: grade9gefilledflag10
+    type: VARCHAR
+  - name: grade9geapplicants1
+    type: BIGINT
+  - name: grade9geapplicantsperseat1
+    type: DOUBLE
+  - name: grade9geapplicants2
+    type: VARCHAR
+  - name: grade9geapplicantsperseat2
+    type: VARCHAR
+  - name: grade9geapplicants3
+    type: VARCHAR
+  - name: grade9geapplicantsperseat3
+    type: VARCHAR
+  - name: grade9geapplicants4
+    type: VARCHAR
+  - name: grade9geapplicantsperseat4
+    type: VARCHAR
+  - name: grade9geapplicants5
+    type: VARCHAR
+  - name: grade9geapplicantsperseat5
+    type: VARCHAR
+  - name: grade9geapplicants6
+    type: VARCHAR
+  - name: grade9geapplicantsperseat6
+    type: VARCHAR
+  - name: grade9geapplicants7
+    type: VARCHAR
+  - name: grade9geapplicantsperseat7
+    type: VARCHAR
+  - name: grade9geapplicants8
+    type: VARCHAR
+  - name: grade9geapplicantsperseat8
+    type: VARCHAR
+  - name: grade9geapplicants9
+    type: VARCHAR
+  - name: grade9geapplicantsperseat9
+    type: VARCHAR
+  - name: grade9geapplicants10
+    type: VARCHAR
+  - name: grade9geapplicantsperseat10
+    type: VARCHAR
+  - name: seats9swd1
+    type: BIGINT
+  - name: seats9swd2
+    type: VARCHAR
+  - name: seats9swd3
+    type: VARCHAR
+  - name: seats9swd4
+    type: VARCHAR
+  - name: seats9swd5
+    type: VARCHAR
+  - name: seats9swd6
+    type: VARCHAR
+  - name: seats9swd7
+    type: VARCHAR
+  - name: seats9swd8
+    type: VARCHAR
+  - name: seats9swd9
+    type: VARCHAR
+  - name: seats9swd10
+    type: VARCHAR
+  - name: grade9swdfilledflag1
+    type: VARCHAR
+  - name: grade9swdfilledflag2
+    type: VARCHAR
+  - name: grade9swdfilledflag3
+    type: VARCHAR
+  - name: grade9swdfilledflag4
+    type: VARCHAR
+  - name: grade9swdfilledflag5
+    type: VARCHAR
+  - name: grade9swdfilledflag6
+    type: VARCHAR
+  - name: grade9swdfilledflag7
+    type: VARCHAR
+  - name: grade9swdfilledflag8
+    type: VARCHAR
+  - name: grade9swdfilledflag9
+    type: VARCHAR
+  - name: grade9swdfilledflag10
+    type: VARCHAR
+  - name: grade9swdapplicants1
+    type: BIGINT
+  - name: grade9swdapplicantsperseat1
+    type: DOUBLE
+  - name: grade9swdapplicants2
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat2
+    type: VARCHAR
+  - name: grade9swdapplicants3
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat3
+    type: VARCHAR
+  - name: grade9swdapplicants4
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat4
+    type: VARCHAR
+  - name: grade9swdapplicants5
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat5
+    type: VARCHAR
+  - name: grade9swdapplicants6
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat6
+    type: VARCHAR
+  - name: grade9swdapplicants7
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat7
+    type: VARCHAR
+  - name: grade9swdapplicants8
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat8
+    type: VARCHAR
+  - name: grade9swdapplicants9
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat9
+    type: VARCHAR
+  - name: grade9swdapplicants10
+    type: VARCHAR
+  - name: grade9swdapplicantsperseat10
+    type: VARCHAR
+  - name: seats1specialized
+    type: BIGINT
+  - name: seats2specialized
+    type: BIGINT
+  - name: seats3specialized
+    type: BIGINT
+  - name: seats4specialized
+    type: BIGINT
+  - name: seats5specialized
+    type: BIGINT
+  - name: seats6specialized
+    type: BIGINT
+  - name: applicants1specialized
+    type: BIGINT
+  - name: applicants2specialized
+    type: BIGINT
+  - name: applicants3specialized
+    type: BIGINT
+  - name: applicants4specialized
+    type: BIGINT
+  - name: applicants5specialized
+    type: BIGINT
+  - name: applicants6specialized
+    type: BIGINT
+  - name: appperseat1specialized
+    type: BIGINT
+  - name: appperseat2specialized
+    type: BIGINT
+  - name: appperseat3specialized
+    type: BIGINT
+  - name: appperseat4specialized
+    type: BIGINT
+  - name: appperseat5specialized
+    type: BIGINT
+  - name: appperseat6specialized
+    type: BIGINT
+  - name: seats101
+    type: VARCHAR
+  - name: seats102
+    type: VARCHAR
+  - name: seats103
+    type: VARCHAR
+  - name: seats104
+    type: VARCHAR
+  - name: seats105
+    type: VARCHAR
+  - name: seats106
+    type: VARCHAR
+  - name: seats107
+    type: VARCHAR
+  - name: seats108
+    type: BOOLEAN
+  - name: seats109
+    type: BOOLEAN
+  - name: seats1010
+    type: BOOLEAN
+  - name: admissionspriority11
+    type: VARCHAR
+  - name: admissionspriority21
+    type: VARCHAR
+  - name: admissionspriority31
+    type: VARCHAR
+  - name: admissionspriority41
+    type: VARCHAR
+  - name: admissionspriority51
+    type: VARCHAR
+  - name: admissionspriority61
+    type: VARCHAR
+  - name: admissionspriority71
+    type: VARCHAR
+  - name: admissionspriority12
+    type: VARCHAR
+  - name: admissionspriority22
+    type: VARCHAR
+  - name: admissionspriority32
+    type: VARCHAR
+  - name: admissionspriority42
+    type: VARCHAR
+  - name: admissionspriority52
+    type: VARCHAR
+  - name: admissionspriority62
+    type: VARCHAR
+  - name: admissionspriority72
+    type: VARCHAR
+  - name: admissionspriority13
+    type: VARCHAR
+  - name: admissionspriority23
+    type: VARCHAR
+  - name: admissionspriority33
+    type: VARCHAR
+  - name: admissionspriority43
+    type: VARCHAR
+  - name: admissionspriority53
+    type: VARCHAR
+  - name: admissionspriority63
+    type: VARCHAR
+  - name: admissionspriority73
+    type: VARCHAR
+  - name: admissionspriority14
+    type: VARCHAR
+  - name: admissionspriority24
+    type: VARCHAR
+  - name: admissionspriority34
+    type: VARCHAR
+  - name: admissionspriority44
+    type: VARCHAR
+  - name: admissionspriority54
+    type: VARCHAR
+  - name: admissionspriority64
+    type: VARCHAR
+  - name: admissionspriority74
+    type: VARCHAR
+  - name: admissionspriority15
+    type: VARCHAR
+  - name: admissionspriority25
+    type: VARCHAR
+  - name: admissionspriority35
+    type: VARCHAR
+  - name: admissionspriority45
+    type: VARCHAR
+  - name: admissionspriority55
+    type: VARCHAR
+  - name: admissionspriority65
+    type: VARCHAR
+  - name: admissionspriority75
+    type: VARCHAR
+  - name: admissionspriority16
+    type: VARCHAR
+  - name: admissionspriority26
+    type: VARCHAR
+  - name: admissionspriority36
+    type: VARCHAR
+  - name: admissionspriority46
+    type: VARCHAR
+  - name: admissionspriority56
+    type: VARCHAR
+  - name: admissionspriority66
+    type: VARCHAR
+  - name: admissionspriority76
+    type: VARCHAR
+  - name: admissionspriority17
+    type: VARCHAR
+  - name: admissionspriority27
+    type: VARCHAR
+  - name: admissionspriority37
+    type: VARCHAR
+  - name: admissionspriority47
+    type: VARCHAR
+  - name: admissionspriority57
+    type: VARCHAR
+  - name: admissionspriority67
+    type: VARCHAR
+  - name: admissionspriority77
+    type: VARCHAR
+  - name: admissionspriority18
+    type: VARCHAR
+  - name: admissionspriority28
+    type: VARCHAR
+  - name: admissionspriority38
+    type: VARCHAR
+  - name: admissionspriority48
+    type: VARCHAR
+  - name: admissionspriority58
+    type: VARCHAR
+  - name: admissionspriority68
+    type: VARCHAR
+  - name: admissionspriority78
+    type: VARCHAR
+  - name: admissionspriority19
+    type: VARCHAR
+  - name: admissionspriority29
+    type: VARCHAR
+  - name: admissionspriority39
+    type: VARCHAR
+  - name: admissionspriority49
+    type: VARCHAR
+  - name: admissionspriority59
+    type: VARCHAR
+  - name: admissionspriority69
+    type: VARCHAR
+  - name: admissionspriority79
+    type: VARCHAR
+  - name: admissionspriority110
+    type: VARCHAR
+  - name: admissionspriority210
+    type: VARCHAR
+  - name: admissionspriority310
+    type: VARCHAR
+  - name: admissionspriority410
+    type: VARCHAR
+  - name: admissionspriority510
+    type: VARCHAR
+  - name: admissionspriority610
+    type: VARCHAR
+  - name: admissionspriority710
+    type: VARCHAR
+  - name: eligibility1
+    type: VARCHAR
+  - name: eligibility2
+    type: VARCHAR
+  - name: eligibility3
+    type: VARCHAR
+  - name: eligibility4
+    type: VARCHAR
+  - name: eligibility5
+    type: VARCHAR
+  - name: eligibility6
+    type: VARCHAR
+  - name: eligibility7
+    type: VARCHAR
+  - name: eligibility8
+    type: VARCHAR
+  - name: eligibility9
+    type: VARCHAR
+  - name: eligibility10
+    type: BIGINT
+  - name: auditioninformation1
+    type: VARCHAR
+  - name: auditioninformation2
+    type: VARCHAR
+  - name: auditioninformation3
+    type: VARCHAR
+  - name: auditioninformation4
+    type: VARCHAR
+  - name: auditioninformation5
+    type: VARCHAR
+  - name: auditioninformation6
+    type: VARCHAR
+  - name: auditioninformation7
+    type: VARCHAR
+  - name: auditioninformation8
+    type: VARCHAR
+  - name: auditioninformation9
+    type: VARCHAR
+  - name: auditioninformation10
+    type: VARCHAR
+  - name: common_audition1
+    type: BIGINT
+  - name: common_audition2
+    type: BIGINT
+  - name: common_audition3
+    type: BIGINT
+  - name: common_audition4
+    type: BIGINT
+  - name: common_audition5
+    type: BIGINT
+  - name: common_audition6
+    type: BIGINT
+  - name: common_audition7
+    type: BIGINT
+  - name: common_audition8
+    type: VARCHAR
+  - name: common_audition9
+    type: VARCHAR
+  - name: common_audition10
+    type: VARCHAR
+  - name: primary_address_line_1
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: postcode
+    type: BIGINT
+  - name: state_code
+    type: VARCHAR
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

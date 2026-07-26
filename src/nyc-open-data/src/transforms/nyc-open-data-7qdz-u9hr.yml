@@ -1,0 +1,371 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-7qdz-u9hr`. Regenerate after model-verify.
+key: [person_id, hh_id, second_home_county, school_county, work_county]
+sort: [person_id, hh_id, second_home_county, school_county, work_county]
+columns:
+  - name: hh_id
+    type: BIGINT
+  - name: num_trips
+    type: BIGINT
+  - name: num_days_complete
+    type: BIGINT
+  - name: person_id
+    type: BIGINT
+  - name: person_num
+    type: BIGINT
+  - name: is_participant
+    type: BIGINT
+  - name: phone_type
+    type: BIGINT
+  - name: relationship
+    type: BIGINT
+  - name: age
+    type: BIGINT
+  - name: r_age
+    type: BIGINT
+  - name: race_1
+    type: BIGINT
+  - name: race_2
+    type: BIGINT
+  - name: race_3
+    type: BIGINT
+  - name: race_4
+    type: BIGINT
+  - name: race_5
+    type: BIGINT
+  - name: race_6
+    type: BIGINT
+  - name: race_997
+    type: BIGINT
+  - name: race_999
+    type: BIGINT
+  - name: r_race
+    type: BIGINT
+  - name: ethnicity_1
+    type: BIGINT
+  - name: ethnicity_2
+    type: BIGINT
+  - name: ethnicity_3
+    type: BIGINT
+  - name: ethnicity_4
+    type: BIGINT
+  - name: ethnicity_5
+    type: BIGINT
+  - name: ethnicity_997
+    type: BIGINT
+  - name: ethnicity_999
+    type: BIGINT
+  - name: r_ethnicity
+    type: BIGINT
+  - name: gender
+    type: BIGINT
+  - name: can_drive
+    type: BIGINT
+  - name: disability
+    type: BIGINT
+  - name: disability_follow_1
+    type: BIGINT
+  - name: disability_follow_2
+    type: BIGINT
+  - name: disability_follow_3
+    type: BIGINT
+  - name: disability_follow_4
+    type: BIGINT
+  - name: disability_follow_5
+    type: BIGINT
+  - name: disability_follow_6
+    type: BIGINT
+  - name: disability_follow_996
+    type: BIGINT
+  - name: disability_follow_999
+    type: BIGINT
+  - name: education
+    type: BIGINT
+  - name: employment
+    type: BIGINT
+  - name: worker
+    type: BIGINT
+  - name: num_jobs
+    type: BIGINT
+  - name: job_type
+    type: BIGINT
+  - name: industry
+    type: BIGINT
+  - name: work_in_region
+    type: BIGINT
+  - name: work_county
+    type: VARCHAR
+  - name: work_cms_zone
+    type: BIGINT
+  - name: wfh_policy
+    type: BIGINT
+  - name: commute_freq
+    type: BIGINT
+  - name: telework_freq
+    type: BIGINT
+  - name: r_telework_freq
+    type: BIGINT
+  - name: work_mode
+    type: BIGINT
+  - name: r_work_mode
+    type: BIGINT
+  - name: work_mode_own
+    type: BIGINT
+  - name: work_mode_auto
+    type: BIGINT
+  - name: work_park_loc
+    type: BIGINT
+  - name: work_park_pay
+    type: BIGINT
+  - name: work_park_cost
+    type: BIGINT
+  - name: work_park_amount
+    type: VARCHAR
+  - name: work_mode_taxi
+    type: BIGINT
+  - name: work_mode_bus
+    type: BIGINT
+  - name: work_mode_rail
+    type: BIGINT
+  - name: work_mode_ferry
+    type: BIGINT
+  - name: work_mode_bike
+    type: BIGINT
+  - name: work_bike_park
+    type: BIGINT
+  - name: work_mode_scooter
+    type: BIGINT
+  - name: work_scooter_park
+    type: BIGINT
+  - name: student
+    type: BIGINT
+  - name: r_student
+    type: BIGINT
+  - name: school_type
+    type: BIGINT
+  - name: r_school_type
+    type: BIGINT
+  - name: school_in_region
+    type: BIGINT
+  - name: school_county
+    type: VARCHAR
+  - name: school_freq
+    type: BIGINT
+  - name: remote_class_freq
+    type: BIGINT
+  - name: school_mode
+    type: BIGINT
+  - name: school_mode_own
+    type: BIGINT
+  - name: school_mode_auto
+    type: BIGINT
+  - name: school_park_loc
+    type: BIGINT
+  - name: school_park_cost
+    type: BIGINT
+  - name: school_park_amount
+    type: VARCHAR
+  - name: school_mode_taxi
+    type: BIGINT
+  - name: school_mode_bus
+    type: BIGINT
+  - name: school_mode_rail
+    type: BIGINT
+  - name: school_mode_ferry
+    type: BIGINT
+  - name: school_mode_bike
+    type: BIGINT
+  - name: school_bike_park
+    type: BIGINT
+  - name: school_mode_scooter
+    type: BIGINT
+  - name: school_scooter_park
+    type: BIGINT
+  - name: home_park_1
+    type: BIGINT
+  - name: home_park_2
+    type: BIGINT
+  - name: home_park_3
+    type: BIGINT
+  - name: home_park_pay
+    type: BIGINT
+  - name: home_park_cost
+    type: BIGINT
+  - name: home_park_amount
+    type: VARCHAR
+  - name: second_home
+    type: BIGINT
+  - name: second_home_freq
+    type: BIGINT
+  - name: second_home_in_region
+    type: BIGINT
+  - name: second_home_county
+    type: VARCHAR
+  - name: share_1
+    type: BIGINT
+  - name: share_2
+    type: BIGINT
+  - name: share_3
+    type: BIGINT
+  - name: share_4
+    type: BIGINT
+  - name: share_5
+    type: BIGINT
+  - name: share_6
+    type: BIGINT
+  - name: share_996
+    type: BIGINT
+  - name: tnc_freq
+    type: BIGINT
+  - name: tnc_purp
+    type: BIGINT
+  - name: carshare_freq
+    type: BIGINT
+  - name: vehicle
+    type: BIGINT
+  - name: bike_freq
+    type: BIGINT
+  - name: bike_purp_1
+    type: BIGINT
+  - name: bike_purp_2
+    type: BIGINT
+  - name: bike_purp_3
+    type: BIGINT
+  - name: bike_purp_4
+    type: BIGINT
+  - name: bike_purp_5
+    type: BIGINT
+  - name: bike_purp_6
+    type: BIGINT
+  - name: bike_purp_997
+    type: BIGINT
+  - name: no_bike_nyc_1
+    type: BIGINT
+  - name: no_bike_nyc_2
+    type: BIGINT
+  - name: no_bike_nyc_3
+    type: BIGINT
+  - name: no_bike_nyc_4
+    type: BIGINT
+  - name: no_bike_nyc_5
+    type: BIGINT
+  - name: no_bike_nyc_6
+    type: BIGINT
+  - name: no_bike_nyc_7
+    type: BIGINT
+  - name: no_bike_nyc_9
+    type: BIGINT
+  - name: no_bike_nyc_997
+    type: BIGINT
+  - name: no_freq_bike_nyc_1
+    type: BIGINT
+  - name: no_freq_bike_nyc_2
+    type: BIGINT
+  - name: no_freq_bike_nyc_3
+    type: BIGINT
+  - name: no_freq_bike_nyc_4
+    type: BIGINT
+  - name: no_freq_bike_nyc_5
+    type: BIGINT
+  - name: no_freq_bike_nyc_6
+    type: BIGINT
+  - name: no_freq_bike_nyc_997
+    type: BIGINT
+  - name: no_freq_bike_nyc_other
+    type: BIGINT
+  - name: bike_stolen
+    type: BIGINT
+  - name: citi_bike_freq
+    type: BIGINT
+  - name: citi_bike_type
+    type: BIGINT
+  - name: citi_bike_pay
+    type: BIGINT
+  - name: citi_bike_alt_mode
+    type: BIGINT
+  - name: no_bike_share_1
+    type: BIGINT
+  - name: no_bike_share_2
+    type: BIGINT
+  - name: no_bike_share_3
+    type: BIGINT
+  - name: no_bike_share_4
+    type: BIGINT
+  - name: no_bike_share_5
+    type: BIGINT
+  - name: no_bike_share_6
+    type: BIGINT
+  - name: no_bike_share_7
+    type: BIGINT
+  - name: no_bike_share_8
+    type: BIGINT
+  - name: no_bike_share_997
+    type: BIGINT
+  - name: micromobility_devices_204
+    type: BIGINT
+  - name: micromobility_devices_83
+    type: BIGINT
+  - name: micromobility_devices_205
+    type: BIGINT
+  - name: micromobility_devices_73
+    type: BIGINT
+  - name: micromobility_devices_206
+    type: BIGINT
+  - name: micromobility_devices_207
+    type: BIGINT
+  - name: micromobility_devices_996
+    type: BIGINT
+  - name: kid_accompany
+    type: BIGINT
+  - name: kid_mode
+    type: BIGINT
+  - name: r_kid_mode
+    type: BIGINT
+  - name: kid_mode_own
+    type: BIGINT
+  - name: kid_mode_auto
+    type: BIGINT
+  - name: kid_mode_taxi
+    type: BIGINT
+  - name: kid_mode_bus
+    type: BIGINT
+  - name: kid_mode_rail
+    type: BIGINT
+  - name: kid_mode_ferry
+    type: BIGINT
+  - name: kid_access
+    type: BIGINT
+  - name: kid_egress
+    type: BIGINT
+  - name: kid_mode_bike
+    type: BIGINT
+  - name: kid_mode_scooter
+    type: BIGINT
+  - name: harassment
+    type: BIGINT
+  - name: harassment_change_1
+    type: BIGINT
+  - name: harassment_change_2
+    type: BIGINT
+  - name: harassment_change_3
+    type: BIGINT
+  - name: harassment_change_4
+    type: BIGINT
+  - name: harassment_change_5
+    type: BIGINT
+  - name: harassment_change_6
+    type: BIGINT
+  - name: harassment_change_7
+    type: BIGINT
+  - name: harassment_change_8
+    type: BIGINT
+  - name: harassment_change_9
+    type: BIGINT
+  - name: harassment_change_10
+    type: BIGINT
+  - name: harassment_change_996
+    type: BIGINT
+  - name: harassment_change_997
+    type: BIGINT
+  - name: person_weight
+    type: DOUBLE

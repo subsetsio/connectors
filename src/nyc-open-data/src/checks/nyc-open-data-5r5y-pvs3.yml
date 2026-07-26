@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-5r5y-pvs3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [all_average_total_gross_income, all_average_gross_rent, program, statecity_section8_flag]
+checks:
+  - kind: unique
+    columns: [all_average_total_gross_income, all_average_gross_rent, program, statecity_section8_flag]
+  - kind: not_null
+    col: all_average_total_gross_income
+  - kind: not_null
+    col: all_average_gross_rent
+  - kind: not_null
+    col: program
+  - kind: not_null
+    col: statecity_section8_flag
+  - kind: row_floor
+    min: 13
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

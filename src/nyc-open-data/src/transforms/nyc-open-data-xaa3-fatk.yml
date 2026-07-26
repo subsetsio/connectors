@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-xaa3-fatk`. Regenerate after model-verify.
+key: [address_verification_id]
+temporal: verification_date
+sort: [verification_date, address_verification_id]
+columns:
+  - name: address_verification_id
+    type: BIGINT
+  - name: physical_address_id
+    type: BIGINT
+  - name: agency_id
+    type: BIGINT
+  - name: contract_id
+    type: BIGINT
+  - name: verification_date
+    type: TIMESTAMP
+  - name: active
+    type: BIGINT

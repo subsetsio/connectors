@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-jtpv-nuuc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [principal, dbn, n_interaction_k8_all, n_attendance_k8_all, n_chronic_absent_ems_all]
+checks:
+  - kind: unique
+    columns: [principal, dbn, n_interaction_k8_all, n_attendance_k8_all, n_chronic_absent_ems_all]
+  - kind: not_null
+    col: principal
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: n_interaction_k8_all
+  - kind: not_null
+    col: n_attendance_k8_all
+  - kind: not_null
+    col: n_chronic_absent_ems_all
+  - kind: row_floor
+    min: 655
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

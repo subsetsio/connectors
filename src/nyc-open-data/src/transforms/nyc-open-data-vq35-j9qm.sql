@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "tru",
+    "start_date",
+    "end_date",
+    "status_description",
+    "street_activity",
+    "premise_no",
+    "street_name",
+    "borough",
+    "zip_code",
+    "facility_aka",
+    "facility_type",
+    "bin",
+    "block",
+    "lot",
+    "cross_street_on",
+    "cross_street_between",
+    "cross_street_and",
+    "building_owner_name",
+    "contractor_name",
+    "air_monitor_name",
+    "entire_floor",
+    "floor",
+    "section",
+    "acm_type",
+    "acm_amount",
+    "acm_unit",
+    "abatement_type",
+    "procedure_name",
+    "latitude",
+    "longitude",
+    "community_board",
+    "council_district",
+    "census_tract",
+    "bbl",
+    "nta"
+FROM "nyc-open-data-vq35-j9qm"

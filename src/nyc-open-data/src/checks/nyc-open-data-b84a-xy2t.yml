@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-b84a-xy2t`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date_of_inspection, time_of_visitation_hhmmss, zip_code, location_id, borough]
+temporal: date_of_inspection
+checks:
+  - kind: unique
+    columns: [date_of_inspection, time_of_visitation_hhmmss, zip_code, location_id, borough]
+  - kind: not_null
+    col: date_of_inspection
+  - kind: not_null
+    col: time_of_visitation_hhmmss
+  - kind: not_null
+    col: zip_code
+  - kind: not_null
+    col: location_id
+  - kind: not_null
+    col: borough
+  - kind: row_floor
+    min: 27
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

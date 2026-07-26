@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-t3pj-3dgu`. Regenerate after model-verify.
+key: [donation_date, donation_number]
+temporal: donation_date
+sort: [donation_date, donation_number]
+columns:
+  - name: trust_name
+    type: VARCHAR
+  - name: first_name
+    type: VARCHAR
+  - name: last_name
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip
+    type: VARCHAR
+  - name: donation_date
+    type: DATE
+  - name: donation_amount
+    type: VARCHAR
+  - name: refund_date
+    type: DATE
+  - name: refund_amount
+    type: VARCHAR
+  - name: donation_number
+    type: VARCHAR

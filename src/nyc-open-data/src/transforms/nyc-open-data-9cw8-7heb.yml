@@ -1,0 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-9cw8-7heb`. Regenerate after model-verify.
+key: [domain_registration_date, domain_name, nexus_category]
+temporal: domain_registration_date
+sort: [domain_registration_date, domain_name, nexus_category]
+columns:
+  - name: domain_name
+    type: VARCHAR
+  - name: domain_registration_date
+    type: TIMESTAMP
+  - name: nexus_category
+    type: VARCHAR

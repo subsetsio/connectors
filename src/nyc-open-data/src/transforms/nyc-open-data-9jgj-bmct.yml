@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-9jgj-bmct`. Regenerate after model-verify.
+key: [date_received, complaint_number, complaint_status]
+temporal: date_received
+sort: [date_received, complaint_number, complaint_status]
+columns:
+  - name: complaint_number
+    type: VARCHAR
+  - name: incident_address_street_number
+    type: VARCHAR
+  - name: incident_address_street_name
+    type: VARCHAR
+  - name: incident_address
+    type: VARCHAR
+  - name: incident_address_zip
+    type: VARCHAR
+  - name: incident_address_borough
+    type: VARCHAR
+  - name: complaint_type_311
+    type: VARCHAR
+  - name: descriptor_1_311
+    type: VARCHAR
+  - name: complaint_status
+    type: VARCHAR
+  - name: date_received
+    type: TIMESTAMP
+  - name: deleted
+    type: BOOLEAN
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

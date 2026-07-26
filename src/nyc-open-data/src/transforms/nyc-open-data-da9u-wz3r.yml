@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-da9u-wz3r`. Regenerate after model-verify.
+key: [collection_date, row_id]
+temporal: collection_date
+sort: [collection_date, row_id]
+columns:
+  - name: row_id
+    type: BIGINT
+  - name: product_type
+    type: VARCHAR
+  - name: product_name
+    type: VARCHAR
+  - name: metal
+    type: VARCHAR
+  - name: concentration
+    type: DOUBLE
+  - name: units
+    type: VARCHAR
+  - name: manufacturer
+    type: VARCHAR
+  - name: made_in_country
+    type: VARCHAR
+  - name: purchase_country
+    type: VARCHAR
+  - name: collection_date
+    type: DATE
+  - name: investigation_type
+    type: VARCHAR
+  - name: analysis_type
+    type: VARCHAR

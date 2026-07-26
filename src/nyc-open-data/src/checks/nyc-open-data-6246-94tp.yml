@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-6246-94tp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [inspection_date, school_code, inspection_stage_description, inspection_category, observation_description]
+temporal: tco_obtained_date
+checks:
+  - kind: unique
+    columns: [inspection_date, school_code, inspection_stage_description, inspection_category, observation_description]
+  - kind: not_null
+    col: inspection_date
+  - kind: not_null
+    col: school_code
+  - kind: not_null
+    col: inspection_stage_description
+  - kind: not_null
+    col: inspection_category
+  - kind: not_null
+    col: observation_description
+  - kind: row_floor
+    min: 1331
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

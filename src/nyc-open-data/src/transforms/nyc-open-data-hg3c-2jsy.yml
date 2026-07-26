@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-hg3c-2jsy`. Regenerate after model-verify.
+key: [name, opt_code, street_address, school_year, site_type]
+sort: [name, opt_code, street_address, school_year, site_type]
+columns:
+  - name: school_year
+    type: VARCHAR
+  - name: opt_code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: affiliation
+    type: VARCHAR
+  - name: site_type
+    type: VARCHAR
+  - name: street_address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip
+    type: VARCHAR
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE
+  - name: door_to_door_service
+    type: BOOLEAN
+  - name: stop_to_school_service
+    type: BOOLEAN
+  - name: common_carrier_svc_metrocards
+    type: BOOLEAN
+  - name: site_reimbursement
+    type: BOOLEAN
+  - name: mid_day_service
+    type: BOOLEAN
+  - name: d2d_late_day_programs
+    type: BOOLEAN
+  - name: s2s_late_day_programs
+    type: BOOLEAN

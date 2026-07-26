@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-ej3f-9dad`. Regenerate after model-verify.
+key: [transfer_date, transfer_building_id, generating_building_id, generating_project_id]
+temporal: transfer_date
+sort: [transfer_date, transfer_building_id, generating_building_id, generating_project_id]
+columns:
+  - name: generating_project_id
+    type: BIGINT
+  - name: transferred_floor_area
+    type: DOUBLE
+  - name: transfer_date
+    type: DATE
+  - name: generating_building_id
+    type: BIGINT
+  - name: transfer_building_id
+    type: BIGINT

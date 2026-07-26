@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-mn2p-34if`. Regenerate after model-verify.
+key: [estimated_fuel_costs_per_gallon, model, fuel_costs_per_mile, year, make]
+sort: [estimated_fuel_costs_per_gallon, model, fuel_costs_per_mile, year, make]
+columns:
+  - name: year
+    type: BIGINT
+  - name: make
+    type: VARCHAR
+  - name: model
+    type: VARCHAR
+  - name: hybridnonhybrid
+    type: VARCHAR
+  - name: standard_type
+    type: VARCHAR
+  - name: epa_rating_city
+    type: BIGINT
+  - name: vehicle_count
+    type: BIGINT
+  - name: total_actual_miles
+    type: BIGINT
+  - name: total_actual_fuel
+    type: DOUBLE
+  - name: epa_expected_fuel
+    type: DOUBLE
+  - name: actual_fuel_economy_geotab
+    type: DOUBLE
+  - name: percent_difference_actual_to_epa
+    type: DOUBLE
+  - name: estimated_fuel_costs_per_gallon
+    type: VARCHAR
+  - name: fuel_costs_per_mile
+    type: VARCHAR

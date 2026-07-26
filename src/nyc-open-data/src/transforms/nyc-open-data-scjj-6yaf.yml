@@ -1,0 +1,114 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-scjj-6yaf`. Regenerate after model-verify.
+key: [indexnumber, tenantname, floorsuiterequested, ownername, tenantfloor]
+temporal: requestdateofentry
+sort: [requestdateofentry, indexnumber, tenantname, floorsuiterequested, ownername, tenantfloor]
+columns:
+  - name: requestid
+    type: BIGINT
+  - name: indexnumber
+    type: VARCHAR
+  - name: tenantname
+    type: VARCHAR
+  - name: tenantfloor
+    type: VARCHAR
+  - name: tenantbuildingnumber
+    type: VARCHAR
+  - name: tenantstreetname
+    type: VARCHAR
+  - name: tenantcity
+    type: VARCHAR
+  - name: tenantstatecode
+    type: VARCHAR
+  - name: tenantpostcode
+    type: BIGINT
+  - name: tenantborough
+    type: VARCHAR
+  - name: ownername
+    type: VARCHAR
+  - name: ownerfloor
+    type: VARCHAR
+  - name: ownerstreetaddress
+    type: VARCHAR
+  - name: ownercity
+    type: VARCHAR
+  - name: ownerstatecode
+    type: VARCHAR
+  - name: ownerzipcode
+    type: BIGINT
+  - name: floorsuiterequested
+    type: VARCHAR
+  - name: noofbicyclerequested
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: dateofrequest
+    type: DATE
+  - name: requestdateofentry
+    type: DATE
+  - name: implementdate
+    type: DATE
+  - name: planpostdate
+    type: DATE
+  - name: plansubmitdate
+    type: DATE
+  - name: exceptionrequestduedate
+    type: DATE
+  - name: tenantnotificationexceptiondate
+    type: DATE
+  - name: locationofentrances
+    type: VARCHAR
+  - name: routetoelevators
+    type: VARCHAR
+  - name: regularhoursofoperation
+    type: VARCHAR
+  - name: planddatereceived
+    type: DATE
+  - name: alternateparkinglocation
+    type: VARCHAR
+  - name: alternateparkingdescription
+    type: VARCHAR
+  - name: noofbicycleaccomodate
+    type: VARCHAR
+  - name: routetoalternateparking
+    type: VARCHAR
+  - name: parkingexceptiondatereceived
+    type: DOUBLE
+  - name: parkingexceptiondateofentry
+    type: DATE
+  - name: dobdevicenumber
+    type: VARCHAR
+  - name: dateofbuilding
+    type: DATE
+  - name: dateofelevator
+    type: DATE
+  - name: methodofelevator
+    type: VARCHAR
+  - name: selfserviceoroperator
+    type: VARCHAR
+  - name: iscartop
+    type: BOOLEAN
+  - name: iscardoor
+    type: BOOLEAN
+  - name: elevatorexceptiondatereceived
+    type: DATE
+  - name: elevatorexceptionhardcopyreceived
+    type: BOOLEAN
+  - name: elevatorexceptiondateofentry
+    type: DATE
+  - name: requeststatus
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

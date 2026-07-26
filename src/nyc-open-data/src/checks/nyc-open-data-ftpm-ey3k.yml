@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-ftpm-ey3k`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, total_ems_transports, gen_ed_ems_transports, administrative_district, swd_ems_transports]
+checks:
+  - kind: unique
+    columns: [dbn, total_ems_transports, gen_ed_ems_transports, administrative_district, swd_ems_transports]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: total_ems_transports
+  - kind: not_null
+    col: gen_ed_ems_transports
+  - kind: not_null
+    col: administrative_district
+  - kind: not_null
+    col: swd_ems_transports
+  - kind: row_floor
+    min: 905
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

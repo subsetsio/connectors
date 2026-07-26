@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-p2wf-m8zt`. Regenerate after model-verify.
+key: [data_as_of, community_district_name, borough]
+temporal: data_as_of
+sort: [data_as_of, community_district_name, borough]
+columns:
+  - name: borough
+    type: VARCHAR
+  - name: community_district
+    type: BIGINT
+  - name: community_district_name
+    type: VARCHAR
+  - name: tobacco_retail_dealer_cap
+    type: BIGINT
+  - name: active_tobacco_retail_dealer_licenses
+    type: BIGINT
+  - name: trd_available_under_cap
+    type: BIGINT
+  - name: electronic_cigarette_retail_dealer_cap
+    type: BIGINT
+  - name: active_electronic_cigarette_retail_dealer_licenses
+    type: BIGINT
+  - name: ecd_available_under_cap
+    type: BIGINT
+  - name: data_as_of
+    type: DATE

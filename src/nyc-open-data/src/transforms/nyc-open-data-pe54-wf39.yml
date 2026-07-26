@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-pe54-wf39`. Regenerate after model-verify.
+key: [address]
+temporal: data_as_of_date
+sort: [data_as_of_date, address]
+columns:
+  - name: address
+    type: VARCHAR
+  - name: landmark
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: comments
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: borough
+    type: VARCHAR
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: nta
+    type: VARCHAR
+  - name: data_as_of_date
+    type: DATE

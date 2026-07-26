@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-xeqp-qz8h`. Regenerate after model-verify.
+key: []
+temporal: crash_date
+sort: [crash_date]
+columns:
+  - name: collision_id
+    type: BIGINT
+  - name: crash_date
+    type: DATE
+  - name: crash_time
+    type: TIME
+  - name: crash_police_precinct
+    type: BIGINT
+  - name: crash_borough
+    type: VARCHAR
+  - name: total_nonsevere_injuries
+    type: BIGINT
+  - name: total_severe_injuries
+    type: BIGINT
+  - name: total_fatalities
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: on_street
+    type: VARCHAR
+  - name: cross_street
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: highway_reference_marker
+    type: VARCHAR
+  - name: zipcode
+    type: BIGINT
+  - name: similar_fatalities_severe_injuries_3y_lookback
+    type: BIGINT
+  - name: similar_fatalities_all_injuries_3y_lookback
+    type: BIGINT
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: building_identification_number_bin
+    type: BIGINT
+  - name: borough_block_lot_bbl
+    type: BIGINT
+  - name: census_tract_2020
+    type: BIGINT
+  - name: neighborhood_tabulation_area_nta_2020
+    type: VARCHAR

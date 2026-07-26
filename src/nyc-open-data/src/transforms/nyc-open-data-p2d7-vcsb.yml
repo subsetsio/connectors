@@ -1,0 +1,90 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-p2d7-vcsb`. Regenerate after model-verify.
+key: [complaintinquiry_number]
+temporal: export_date
+sort: [export_date, complaintinquiry_number]
+columns:
+  - name: complaintinquiry_number
+    type: VARCHAR
+  - name: license_type
+    type: VARCHAR
+  - name: account_name
+    type: VARCHAR
+  - name: bic_number
+    type: VARCHAR
+  - name: date_complaintinquiry_reported_on
+    type: DATE
+  - name: industry_type
+    type: VARCHAR
+  - name: account_status
+    type: VARCHAR
+  - name: source_of_complaintinquiry
+    type: VARCHAR
+  - name: complaintinquiry_disposition
+    type: VARCHAR
+  - name: complaintinquiry_status
+    type: VARCHAR
+  - name: total_response_time
+    type: DOUBLE
+  - name: complaint_or_inquiry
+    type: VARCHAR
+  - name: nature_of_complaintinquiry
+    type: VARCHAR
+  - name: complaintinquiry_street_address
+    type: VARCHAR
+  - name: complaintinquiry_city
+    type: VARCHAR
+  - name: complaintinquiry_state
+    type: VARCHAR
+  - name: complaintinquiry_zip
+    type: VARCHAR
+  - name: complaintinquiry_borough
+    type: VARCHAR
+  - name: account_focus_of_complaintinquiry
+    type: VARCHAR
+  - name: account_address
+    type: VARCHAR
+  - name: account_city
+    type: VARCHAR
+  - name: account_state
+    type: VARCHAR
+  - name: account_zip
+    type: VARCHAR
+  - name: account_phone
+    type: VARCHAR
+  - name: vehicle_make
+    type: VARCHAR
+  - name: vehicle_model
+    type: VARCHAR
+  - name: vehicle_type
+    type: VARCHAR
+  - name: vehicle_year
+    type: VARCHAR
+  - name: vehicle_color
+    type: VARCHAR
+  - name: contacted_complainant
+    type: BOOLEAN
+  - name: unable_to_contact_complainant
+    type: BOOLEAN
+  - name: method_used_to_contact_complainant
+    type: VARCHAR
+  - name: export_date
+    type: TIMESTAMP
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitide
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-aq7i-eu5q`. Regenerate after model-verify.
+key: [flood_start_datetime_gmt, time_series_depth_values_inches, time_series_depth_timestamps_seconds, sensor_id, sensor_name]
+temporal: flood_start_datetime_gmt
+sort: [flood_start_datetime_gmt, time_series_depth_values_inches, time_series_depth_timestamps_seconds, sensor_id, sensor_name]
+columns:
+  - name: sensor_name
+    type: VARCHAR
+  - name: sensor_id
+    type: VARCHAR
+  - name: flood_start_datetime_gmt
+    type: TIMESTAMP
+  - name: flood_end_datetime_gmt
+    type: TIMESTAMP
+  - name: maximum_flood_depth_inches
+    type: DOUBLE
+  - name: time_to_maximum_flood_depth_minutes
+    type: DOUBLE
+  - name: time_to_drain_from_peak_minutes
+    type: DOUBLE
+  - name: total_duration_minutes
+    type: DOUBLE
+  - name: duration_of_flooding_greater_than_4_inches_minutes
+    type: DOUBLE
+  - name: duration_of_flooding_greater_than_12_inches_minutes
+    type: DOUBLE
+  - name: duration_of_flooding_greater_than_24_inches_minutes
+    type: DOUBLE
+  - name: time_series_depth_values_inches
+    type: VARCHAR
+  - name: time_series_depth_timestamps_seconds
+    type: VARCHAR

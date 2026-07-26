@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-x4sg-2jca`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dbn, ratio_of_full_time_licensed_pe_teachers_to_students_as_of_10312015_ape_teachers_not_included_elementary_early_childhood_and_k8_teachers_providing_physical_education_under_a_common_branch_license_are_not_included, school_level, borough]
+checks:
+  - kind: unique
+    columns: [dbn, ratio_of_full_time_licensed_pe_teachers_to_students_as_of_10312015_ape_teachers_not_included_elementary_early_childhood_and_k8_teachers_providing_physical_education_under_a_common_branch_license_are_not_included, school_level, borough]
+  - kind: not_null
+    col: dbn
+  - kind: not_null
+    col: ratio_of_full_time_licensed_pe_teachers_to_students_as_of_10312015_ape_teachers_not_included_elementary_early_childhood_and_k8_teachers_providing_physical_education_under_a_common_branch_license_are_not_included
+  - kind: not_null
+    col: school_level
+  - kind: not_null
+    col: borough
+  - kind: row_floor
+    min: 815
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

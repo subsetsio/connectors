@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-5w2t-dbac`. Regenerate after model-verify.
+key: [contract_identification_number]
+temporal: original_start_date
+sort: [original_start_date, contract_identification_number]
+columns:
+  - name: awarding_agency
+    type: VARCHAR
+  - name: contract_identification_number
+    type: VARCHAR
+  - name: mwbe_status
+    type: VARCHAR
+  - name: purpose
+    type: VARCHAR
+  - name: vendor_name
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: original_start_date
+    type: DATE
+  - name: original_end_date
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: registration_date
+    type: DATE
+  - name: last_modified_date
+    type: DATE
+  - name: original_contract_amount
+    type: DOUBLE
+  - name: covid_encumbered_amount
+    type: DOUBLE
+  - name: covid_spend_to_date
+    type: DOUBLE
+  - name: funding_type
+    type: VARCHAR
+  - name: award_method
+    type: VARCHAR
+  - name: contract_type
+    type: VARCHAR
+  - name: subcontractors
+    type: VARCHAR

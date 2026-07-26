@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nyc-open-data-dwer-xbgx`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [the_geom, sub_code, feat_code, status]
+checks:
+  - kind: unique
+    columns: [the_geom, sub_code, feat_code, status]
+  - kind: not_null
+    col: the_geom
+  - kind: not_null
+    col: sub_code
+  - kind: not_null
+    col: feat_code
+  - kind: not_null
+    col: status
+  - kind: row_floor
+    min: 5466
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

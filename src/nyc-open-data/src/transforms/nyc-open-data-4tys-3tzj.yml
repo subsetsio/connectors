@@ -1,0 +1,512 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-4tys-3tzj`. Regenerate after model-verify.
+key: []
+temporal: year_ending
+sort: [year_ending]
+columns:
+  - name: property_id
+    type: BIGINT
+  - name: property_name
+    type: VARCHAR
+  - name: parent_property_id
+    type: VARCHAR
+  - name: parent_property_name
+    type: VARCHAR
+  - name: year_ending
+    type: DATE
+  - name: nyc_borough_block_and_lot_bbl
+    type: VARCHAR
+  - name: nyc_building_identification_number_bin
+    type: VARCHAR
+  - name: address_1
+    type: VARCHAR
+  - name: address_2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: primary_property_type_self_selected
+    type: VARCHAR
+  - name: primary_property_type_portfolio_managercalculated
+    type: VARCHAR
+  - name: national_median_reference_property_type
+    type: VARCHAR
+  - name: list_of_all_property_use_types_at_property
+    type: VARCHAR
+  - name: largest_property_use_type
+    type: VARCHAR
+  - name: largest_property_use_type_gross_floor_area_ft2
+    type: VARCHAR
+  - name: "2nd_largest_property_use_type"
+    type: VARCHAR
+  - name: "2nd_largest_property_use_gross_floor_area_ft2"
+    type: VARCHAR
+  - name: "3rd_largest_property_use_type"
+    type: VARCHAR
+  - name: "3rd_largest_property_use_type_gross_floor_area_ft2"
+    type: VARCHAR
+  - name: year_built
+    type: BIGINT
+  - name: number_of_buildings
+    type: BIGINT
+  - name: occupancy
+    type: BIGINT
+  - name: metered_areas_energy
+    type: VARCHAR
+  - name: metered_areas_water
+    type: VARCHAR
+  - name: energy_star_score
+    type: VARCHAR
+  - name: energy_star_certification_years_certified
+    type: VARCHAR
+  - name: energy_star_certification_last_approval_date
+    type: VARCHAR
+  - name: energy_star_certification_eligibility
+    type: VARCHAR
+  - name: site_eui_kbtuft2
+    type: VARCHAR
+  - name: weather_normalized_site_eui_kbtuft2
+    type: VARCHAR
+  - name: national_median_site_eui_kbtuft2
+    type: VARCHAR
+  - name: difference_from_national_median_site_eui
+    type: VARCHAR
+  - name: site_energy_use_kbtu
+    type: VARCHAR
+  - name: weather_normalized_site_energy_use_kbtu
+    type: VARCHAR
+  - name: weather_normalized_site_electricity_intensity_kwhft2
+    type: VARCHAR
+  - name: weather_normalized_site_natural_gas_intensity_thermsft2
+    type: VARCHAR
+  - name: source_eui_kbtuft2
+    type: VARCHAR
+  - name: weather_normalized_source_eui_kbtuft2
+    type: VARCHAR
+  - name: national_median_source_eui_kbtuft2
+    type: VARCHAR
+  - name: difference_from_national_median_source_eui
+    type: VARCHAR
+  - name: source_energy_use_adjusted_to_current_year_kbtu
+    type: VARCHAR
+  - name: source_energy_use_kbtu
+    type: VARCHAR
+  - name: weather_normalized_source_energy_use_kbtu
+    type: VARCHAR
+  - name: fuel_oil_1_use_kbtu
+    type: VARCHAR
+  - name: fuel_oil_2_use_kbtu
+    type: VARCHAR
+  - name: fuel_oil_4_use_kbtu
+    type: VARCHAR
+  - name: fuel_oil_5_6_use_kbtu
+    type: VARCHAR
+  - name: diesel_2_use_kbtu
+    type: VARCHAR
+  - name: kerosene_use_kbtu
+    type: VARCHAR
+  - name: propane_use_kbtu
+    type: VARCHAR
+  - name: district_steam_use_kbtu
+    type: VARCHAR
+  - name: district_hot_water_use_kbtu
+    type: VARCHAR
+  - name: district_chilled_water_use_kbtu
+    type: VARCHAR
+  - name: natural_gas_use_kbtu
+    type: VARCHAR
+  - name: weather_normalized_site_natural_gas_use_therms
+    type: VARCHAR
+  - name: electricity_use_grid_purchase_kbtu
+    type: VARCHAR
+  - name: electricity_use_grid_purchase_kwh
+    type: VARCHAR
+  - name: weather_normalized_site_electricity_kwh
+    type: VARCHAR
+  - name: electricity_use_grid_purchase_and_generated_from_onsite_renewable_systems_kbtu
+    type: VARCHAR
+  - name: electricity_use_generated_from_onsite_renewable_systems_and_used_onsite_kbtu
+    type: VARCHAR
+  - name: electricity_use_generated_from_onsite_renewable_systems_kwh
+    type: VARCHAR
+  - name: electricity_use_generated_from_onsite_renewable_systems_and_exported_kwh
+    type: VARCHAR
+  - name: annual_maximum_demand_kw
+    type: VARCHAR
+  - name: annual_maximum_demand_mmyyyy
+    type: VARCHAR
+  - name: annual_maximum_demand_meter_name_meter_id
+    type: VARCHAR
+  - name: green_power_onsite_kwh
+    type: VARCHAR
+  - name: green_power_offsite_kwh
+    type: VARCHAR
+  - name: avoided_emissions_onsite_green_power_metric_tons_co2e
+    type: VARCHAR
+  - name: avoided_emissions_offsite_green_power_metric_tons_co2e
+    type: VARCHAR
+  - name: total_ghg_emissions_metric_tons_co2e
+    type: VARCHAR
+  - name: direct_ghg_emissions_metric_tons_co2e
+    type: VARCHAR
+  - name: indirect_ghg_emissions_metric_tons_co2e
+    type: VARCHAR
+  - name: national_median_total_ghg_emissions_metric_tons_co2e
+    type: VARCHAR
+  - name: estimated_data_flag_electricity_grid_purchase
+    type: VARCHAR
+  - name: estimated_data_flag_natural_gas
+    type: VARCHAR
+  - name: estimated_data_flag_fuel_oil_no_2
+    type: VARCHAR
+  - name: estimated_data_flag_fuel_oil_no_4
+    type: VARCHAR
+  - name: estimated_data_flag_fuel_oil_no_5_and_no_6
+    type: VARCHAR
+  - name: estimated_data_flag_district_steam
+    type: VARCHAR
+  - name: egrid_output_emissions_rate_kgco2embtu
+    type: VARCHAR
+  - name: net_emissions_metric_tons_co2e
+    type: VARCHAR
+  - name: percent_of_electricity_that_is_green_power
+    type: VARCHAR
+  - name: percent_of_recs_retained
+    type: VARCHAR
+  - name: percent_of_total_electricity_generated_from_onsite_renewable_systems
+    type: VARCHAR
+  - name: costar_property_id
+    type: VARCHAR
+  - name: leed_us_project_id
+    type: VARCHAR
+  - name: ambulatory_surgical_center_gross_floor_area_ft2
+    type: VARCHAR
+  - name: automobile_dealership_gross_floor_area_ft2
+    type: VARCHAR
+  - name: bank_branch_gross_floor_area_ft2
+    type: VARCHAR
+  - name: bank_branch_number_of_computers
+    type: VARCHAR
+  - name: collegeuniversity_gross_floor_area_ft2
+    type: VARCHAR
+  - name: collegeuniversity_number_of_computers
+    type: VARCHAR
+  - name: convention_center_gross_floor_area_ft2
+    type: VARCHAR
+  - name: courthouse_gross_floor_area_ft2
+    type: VARCHAR
+  - name: data_center_gross_floor_area_ft2
+    type: VARCHAR
+  - name: data_center_pdu_input_meter_kwh
+    type: VARCHAR
+  - name: data_center_pdu_output_meter_kwh
+    type: VARCHAR
+  - name: data_center_it_equipment_input_meter_kwh
+    type: VARCHAR
+  - name: data_center_it_site_energy_kwh
+    type: VARCHAR
+  - name: data_center_it_source_energy_kbtu
+    type: VARCHAR
+  - name: data_center_pue
+    type: VARCHAR
+  - name: data_center_national_median_pue
+    type: VARCHAR
+  - name: data_center_ups_output_meter_kwh
+    type: VARCHAR
+  - name: data_center_cooling_equipment_redundancy
+    type: VARCHAR
+  - name: data_center_it_energy_configuration
+    type: VARCHAR
+  - name: data_center_ups_system_redundancy
+    type: VARCHAR
+  - name: distribution_center_gross_floor_area_ft2
+    type: VARCHAR
+  - name: enclosed_mall_gross_floor_area_ft2
+    type: VARCHAR
+  - name: energypower_station_gross_floor_area_ft2
+    type: VARCHAR
+  - name: financial_office_gross_floor_area_ft2
+    type: VARCHAR
+  - name: financial_office_number_of_computers
+    type: VARCHAR
+  - name: financial_office_number_of_workers_on_main_shift
+    type: VARCHAR
+  - name: financial_office_weekly_operating_hours
+    type: VARCHAR
+  - name: financial_office_computer_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: fitness_centerhealth_clubgym_gross_floor_area_ft2
+    type: VARCHAR
+  - name: food_sales_gross_floor_area_ft2
+    type: VARCHAR
+  - name: food_service_gross_floor_area_ft2
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_full_time_equivalent_fte_workers
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_full_time_equivalent_fte_workers_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_gross_floor_area_ft2
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_laboratory
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_licensed_bed_capacity
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_licensed_bed_capacity_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_mri_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_number_of_mri_machines
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_number_of_staffed_beds
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_number_of_workers_on_main_shift_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_percent_that_can_be_cooled
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_percent_that_can_be_heated
+    type: VARCHAR
+  - name: hospital_general_medical_surgical_staffed_bed_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: medical_office_gross_floor_area_ft2
+    type: VARCHAR
+  - name: medical_office_number_of_mri_machines
+    type: VARCHAR
+  - name: medical_office_number_of_workers_on_main_shift
+    type: VARCHAR
+  - name: medical_office_percent_that_can_be_cooled
+    type: VARCHAR
+  - name: medical_office_percent_that_can_be_heated
+    type: VARCHAR
+  - name: medical_office_weekly_operating_hours
+    type: VARCHAR
+  - name: outpatient_rehabilitationphysical_therapy_gross_floor_area_ft2
+    type: VARCHAR
+  - name: urgent_careclinicother_outpatient_gross_floor_area_ft2
+    type: VARCHAR
+  - name: k12_school_gross_floor_area_ft2
+    type: VARCHAR
+  - name: laboratory_gross_floor_area_ft2
+    type: VARCHAR
+  - name: mailing_centerpost_office_gross_floor_area_ft2
+    type: VARCHAR
+  - name: manufacturingindustrial_plant_gross_floor_area_ft2
+    type: VARCHAR
+  - name: movie_theater_gross_floor_area_ft2
+    type: VARCHAR
+  - name: multifamily_housing_gross_floor_area_ft2
+    type: VARCHAR
+  - name: multifamily_housing_government_subsidized_housing
+    type: VARCHAR
+  - name: multifamily_housing_number_of_bedrooms
+    type: VARCHAR
+  - name: multifamily_housing_number_of_laundry_hookups_in_all_units
+    type: VARCHAR
+  - name: multifamily_housing_number_of_laundry_hookups_in_common_areas
+    type: VARCHAR
+  - name: multifamily_housing_total_number_of_residential_living_units
+    type: VARCHAR
+  - name: multifamily_housing_percent_that_can_be_cooled
+    type: VARCHAR
+  - name: multifamily_housing_percent_that_can_be_heated
+    type: VARCHAR
+  - name: multifamily_housing_resident_population_type
+    type: VARCHAR
+  - name: multifamily_housing_number_of_bedrooms_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: multifamily_housing_total_number_of_residential_living_units_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: multifamily_housing_number_of_residential_living_units_in_a_highrise_building_10_or_more_stories
+    type: VARCHAR
+  - name: multifamily_housing_number_of_residential_living_units_in_a_highrise_building_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: multifamily_housing_number_of_residential_living_units_in_a_midrise_building_59_stories
+    type: VARCHAR
+  - name: multifamily_housing_number_of_residential_living_units_in_a_midrise_building_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: office_gross_floor_area_ft2
+    type: VARCHAR
+  - name: office_number_of_computers
+    type: VARCHAR
+  - name: office_number_of_workers_on_main_shift
+    type: VARCHAR
+  - name: office_percent_that_can_be_cooled
+    type: VARCHAR
+  - name: office_percent_that_can_be_heated
+    type: VARCHAR
+  - name: office_weekly_operating_hours
+    type: VARCHAR
+  - name: office_worker_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: museum_gross_floor_area_ft2
+    type: VARCHAR
+  - name: nonrefrigerated_warehouse_gross_floor_area_ft2
+    type: VARCHAR
+  - name: other_gross_floor_area_ft2
+    type: VARCHAR
+  - name: other_weekly_operating_hours
+    type: VARCHAR
+  - name: other_number_of_computers
+    type: VARCHAR
+  - name: other_number_of_workers_on_main_shift
+    type: VARCHAR
+  - name: other_computer_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: performing_arts_gross_floor_area_ft2
+    type: VARCHAR
+  - name: preschooldaycare_gross_floor_area_ft2
+    type: VARCHAR
+  - name: supermarketgrocery_gross_floor_area_ft2
+    type: VARCHAR
+  - name: refrigerated_warehouse_gross_floor_area_ft2
+    type: VARCHAR
+  - name: repair_services_vehicle_shoe_locksmith_etc_gross_floor_area_ft2
+    type: VARCHAR
+  - name: residence_halldormitory_gross_floor_area_ft2
+    type: VARCHAR
+  - name: restaurant_gross_floor_area_ft2
+    type: VARCHAR
+  - name: selfstorage_facility_gross_floor_area_ft2
+    type: VARCHAR
+  - name: senior_care_community_gross_floor_area_ft2
+    type: VARCHAR
+  - name: socialmeeting_hall_gross_floor_area_ft2
+    type: VARCHAR
+  - name: wholesale_clubsupercenter_gross_floor_area_ft2
+    type: VARCHAR
+  - name: worship_facility_gross_floor_area_ft2
+    type: VARCHAR
+  - name: retail_store_gross_floor_area_ft2
+    type: VARCHAR
+  - name: restaurant_worker_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: restaurant_weekly_operating_hours
+    type: VARCHAR
+  - name: retail_store_walkin_refrigeration_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: retail_store_percent_that_can_be_cooled
+    type: VARCHAR
+  - name: retail_store_open_or_closed_refrigeration_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: retail_store_number_of_walkin_refrigerationfreezer_units
+    type: VARCHAR
+  - name: retail_store_number_of_open_or_closed_refrigerationfreezer_units
+    type: VARCHAR
+  - name: parking_gross_floor_area_ft2
+    type: VARCHAR
+  - name: parking_open_parking_lot_size_ft2
+    type: VARCHAR
+  - name: hotel_gross_floor_area_ft2
+    type: VARCHAR
+  - name: hotel_gymfitness_center_floor_area_ft2
+    type: VARCHAR
+  - name: hotel_room_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: hotel_worker_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: hotel_percent_that_can_be_cooled
+    type: VARCHAR
+  - name: estimated_data_flag_municipally_supplied_potable_water_outdoor_use
+    type: VARCHAR
+  - name: alert_data_center_issue_with_estimates_it_configuration_or_it_meter
+    type: VARCHAR
+  - name: alert_gross_floor_area_is_0_ft2
+    type: VARCHAR
+  - name: alert_energy_meter_has_single_entry_more_than_65_days
+    type: VARCHAR
+  - name: alert_energy_meter_has_overlaps
+    type: VARCHAR
+  - name: alert_energy_meter_has_gaps
+    type: VARCHAR
+  - name: alert_energy_meter_has_less_than_12_full_calendar_months_of_data
+    type: VARCHAR
+  - name: alert_energy_no_meters_selected_for_metrics
+    type: VARCHAR
+  - name: alert_property_has_no_uses
+    type: VARCHAR
+  - name: data_quality_checker_run
+    type: BOOLEAN
+  - name: data_quality_checker_date_run
+    type: VARCHAR
+  - name: default_values
+    type: VARCHAR
+  - name: estimated_values_energy
+    type: VARCHAR
+  - name: temporary_values
+    type: BOOLEAN
+  - name: estimated_values_water
+    type: VARCHAR
+  - name: property_gfa_selfreported_ft2
+    type: BIGINT
+  - name: property_gfa_calculated_buildings_and_parking_ft2
+    type: VARCHAR
+  - name: property_gfa_calculated_buildings_ft2
+    type: VARCHAR
+  - name: property_gfa_calculated_parking_ft2
+    type: VARCHAR
+  - name: water_current_date
+    type: VARCHAR
+  - name: water_use_all_water_sources_kgal
+    type: VARCHAR
+  - name: indoor_water_use_all_water_sources_kgal
+    type: VARCHAR
+  - name: indoor_water_use_intensity_all_water_sources_galft2
+    type: VARCHAR
+  - name: outdoor_water_use_all_water_sources_kgal
+    type: VARCHAR
+  - name: municipally_supplied_potable_water_mixed_indooroutdoor_use_kgal
+    type: VARCHAR
+  - name: municipally_supplied_potable_water_indoor_use_kgal
+    type: VARCHAR
+  - name: water_use_intensity_all_water_sources_galft2
+    type: VARCHAR
+  - name: municipally_supplied_potable_water_outdoor_use_kgal
+    type: VARCHAR
+  - name: water_score_multifamily_only
+    type: VARCHAR
+  - name: irrigated_area_ft2
+    type: VARCHAR
+  - name: third_party_certification_date_anticipated
+    type: VARCHAR
+  - name: third_party_certification
+    type: VARCHAR
+  - name: third_party_certification_date_achieved
+    type: VARCHAR
+  - name: supermarketgrocery_open_or_closed_refrigeration_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: convenience_store_with_gas_station_number_of_open_or_closed_refrigerationfreezer_units
+    type: VARCHAR
+  - name: convenience_store_with_gas_station_open_or_closed_refrigeration_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: senior_care_community_living_unit_density_number_per_1000_ft2
+    type: VARCHAR
+  - name: last_modified_date_property
+    type: VARCHAR
+  - name: last_modified_date_electric_meters
+    type: VARCHAR
+  - name: last_modified_date_gas_meters
+    type: VARCHAR
+  - name: last_modified_date_nonelectric_nongas_energy_meters
+    type: VARCHAR
+  - name: last_modified_date_water_meters
+    type: VARCHAR
+  - name: generation_date
+    type: TIMESTAMP
+  - name: release_date
+    type: TIMESTAMP
+  - name: borough
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

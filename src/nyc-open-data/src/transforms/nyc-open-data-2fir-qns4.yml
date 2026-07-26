@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-2fir-qns4`. Regenerate after model-verify.
+key: [last_reported_active_date, tax_id]
+temporal: as_of_date
+sort: [as_of_date, last_reported_active_date, tax_id]
+columns:
+  - name: as_of_date
+    type: DATE
+  - name: tax_id
+    type: BIGINT
+  - name: active_per_last_reported_status
+    type: BOOLEAN
+  - name: last_reported_active_date
+    type: TIMESTAMP
+  - name: officer_first_name
+    type: VARCHAR
+  - name: officer_last_name
+    type: VARCHAR
+  - name: officer_race
+    type: VARCHAR
+  - name: officer_gender
+    type: VARCHAR
+  - name: current_rank_abbreviation
+    type: VARCHAR
+  - name: current_rank
+    type: VARCHAR
+  - name: current_command
+    type: VARCHAR
+  - name: shield_no
+    type: VARCHAR
+  - name: total_complaints
+    type: BIGINT
+  - name: total_substantiated_complaints
+    type: BIGINT

@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-9d9t-bmk7`. Regenerate after model-verify.
+key: [street_address, facility_name, post_code, borough, city]
+sort: [street_address, facility_name, post_code, borough, city]
+columns:
+  - name: borough
+    type: VARCHAR
+  - name: facility_name
+    type: VARCHAR
+  - name: street_address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: post_code
+    type: BIGINT
+  - name: phone_numbers
+    type: VARCHAR
+  - name: comments
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: community_board
+    type: BIGINT
+  - name: council_district
+    type: BIGINT
+  - name: census_tract
+    type: BIGINT
+  - name: bin
+    type: BIGINT
+  - name: bbl
+    type: BIGINT
+  - name: nta
+    type: VARCHAR

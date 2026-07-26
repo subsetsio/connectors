@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "geographic_location",
+    "pop_white",
+    "pop_black",
+    "pop_hispanic",
+    "pop_asian_pac",
+    "pop_amer_indian",
+    "pop_white_female",
+    "pop_black_female",
+    "pop_hispanic_female",
+    "pop_asian_pac_female",
+    "pop_amer_indian_female",
+    "pop_white_male",
+    "pop_black_male",
+    "pop_hispanic_male",
+    "pop_asian_pac_male",
+    "pop_amer_indian_male",
+    "assault_white",
+    "assault_black",
+    "assault_hispanic",
+    "assault_asian_pac",
+    "assault_amer_indian",
+    "assault_white_female",
+    "assault_black_female",
+    "assault_hispanic_female",
+    "assault_asian_pac_female",
+    "assault_amer_indian_female",
+    "assault_white_male",
+    "assault_black_male",
+    "assault_hispanic_male",
+    "assault_asian_pac_male",
+    "assault_amer_indian_male",
+    "expected_assault_white",
+    "expected_assault_black",
+    "expected_assault_hispanic",
+    "expected_assault_asian_pac",
+    "expected_assault_amer_indian"
+FROM "nyc-open-data-sw27-mp7d"

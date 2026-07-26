@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nyc-open-data-peyw-qepe`. Regenerate after model-verify.
+key: [grade, year, borough]
+sort: [grade, year, borough]
+columns:
+  - name: borough
+    type: VARCHAR
+  - name: grade
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: total_days
+    type: BIGINT
+  - name: days_absent
+    type: BIGINT
+  - name: days_present
+    type: BIGINT
+  - name: attendance
+    type: DOUBLE
+  - name: contributing_10_total_days_and_1_pres_day
+    type: BIGINT
+  - name: chronically_absent
+    type: BIGINT
+  - name: chronically_absent_1
+    type: DOUBLE
