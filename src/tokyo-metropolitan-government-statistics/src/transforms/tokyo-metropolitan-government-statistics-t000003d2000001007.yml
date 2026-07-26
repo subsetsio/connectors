@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `tokyo-metropolitan-government-statistics-t000003d2000001007`. Regenerate after model-verify.
+# caution: Each table preserves the source package rows from one or more package resources; use the package and resource metadata columns to distinguish files or API endpoints before aggregating.
+key: [resource_id, resource_url_basename, row_number]
+sort: [resource_id, resource_url_basename, row_number]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: resource_url_basename
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: values
+    type: "MAP(VARCHAR, VARCHAR)"

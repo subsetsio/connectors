@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `tokyo-metropolitan-government-statistics-t000003d0000000051`. Regenerate after model-verify.
+# caution: Each table preserves the source package rows from one or more package resources; use the package and resource metadata columns to distinguish files or API endpoints before aggregating.
+key: [resource_id, resource_url_basename, row_number]
+sort: [resource_id, resource_url_basename, row_number]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: resource_url_basename
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: values
+    type: "STRUCT(\"\u5e74\u6708\" VARCHAR, \"\u88fd\u9020\u5de5\u696d\" VARCHAR, \"\u9244\u92fc\u696d\" VARCHAR, \"\u975e\u9244\u91d1\u5c5e\u5de5\u696d\" VARCHAR, \"\u91d1\u5c5e\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u6c4e\u7528\u30fb\u751f\u7523\u7528\u30fb\u696d\u52d9\u7528\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u6c4e\u7528\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u751f\u7523\u7528\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u696d\u52d9\u7528\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u96fb\u5b50\u90e8\u54c1\u30fb\u30c7\u30d0\u30a4\u30b9\u5de5\u696d\" VARCHAR, \"\u96fb\u6c17\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u60c5\u5831\u901a\u4fe1\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u8f38\u9001\u6a5f\u68b0\u5de5\u696d\" VARCHAR, \"\u7aaf\u696d\u30fb\u571f\u77f3\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u5316\u5b66\u5de5\u696d\" VARCHAR, \"\u30d7\u30e9\u30b9\u30c1\u30c3\u30af\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u7d19\u30fb\u7d19\u52a0\u5de5\u54c1\u5de5\u696d\" VARCHAR, \"\u7e4a\u7dad\u5de5\u696d\" VARCHAR, \"\u98df\u6599\u54c1\u5de5\u696d\" VARCHAR, \"\u5370\u5237\u696d\" VARCHAR, \"\u305d\u306e\u4ed6\u5de5\u696d\" VARCHAR, \"\u30b4\u30e0\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u76ae\u9769\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u5bb6\u5177\u5de5\u696d\" VARCHAR, \"\u6728\u6750\u30fb\u6728\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u305d\u306e\u4ed6\u88fd\u54c1\u5de5\u696d\" VARCHAR, \"\u6700\u7d42\u9700\u8981\u8ca1\" VARCHAR, \"\u6295\u8cc7\u8ca1\" VARCHAR, \"\u8cc7\u672c\u8ca1\" VARCHAR, \"\u5efa\u8a2d\u8ca1\" VARCHAR, \"\u6d88\u8cbb\u8ca1\" VARCHAR, \"\u8010\u4e45\u6d88\u8cbb\u8ca1\" VARCHAR, \"\u975e\u8010\u4e45\u6d88\u8cbb\u8ca1\" VARCHAR, \"\u751f\u7523\u8ca1\" VARCHAR, \"\u9271\u5de5\u696d\u7528\u751f\u7523\u8ca1\" VARCHAR, \"\u305d\u306e\u4ed6\u7528\u751f\u7523\u8ca1\" VARCHAR)"

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `tokyo-metropolitan-government-statistics-t000003d2000000833`. Regenerate after model-verify.
+# caution: Each table preserves the source package rows from one or more package resources; use the package and resource metadata columns to distinguish files or API endpoints before aggregating.
+key: [resource_id, resource_url_basename, row_number]
+sort: [resource_id, resource_url_basename, row_number]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: resource_url_basename
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: values
+    type: "STRUCT(\"\u5730\u57df\u968e\u5c64\" VARCHAR, \"\u5730\u57df\u30b3\u30fc\u30c9\" VARCHAR, \"\u5730\u57df\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4e16\u5e2f\u6570(\u4e16\u5e2f)\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4eba\u53e3\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4eba\u53e3\uff0f\u7537(\u4eba)\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4eba\u53e3\uff0f\u5973(\u4eba)\" VARCHAR, \"\u4eba\u53e3\u5bc6\u5ea61km2\u306b\u3064\u304d\uff08\u4eba/km2\uff09\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4e16\u5e2f\u6570(\u4e16\u5e2f)\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4eba\u53e3\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4eba\u53e3\uff0f\u7537(\u4eba)\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u4eba\u53e3\uff0f\u5973(\u4eba)\" VARCHAR, \"\u5dee\u5f15\u5897\u6e1b\u4eba\u53e3 (\u4eba)\" VARCHAR, \"\u5dee\u5f15\u5897\u6e1b\u7387 (\u4eba\u53e3\u7dcf\u6570)(%)\" VARCHAR, \"\u5e74\u9f62\u968e\u5c64\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u5e74\u9f62\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u7537(\u4eba)\" VARCHAR, \"\u5e73\u621018\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u5973(\u4eba)\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u5e74\u9f62\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u7537(\u4eba)\" VARCHAR, \"\u5e73\u621017\u5e741\u67081\u65e5\u73fe\u5728\uff0f\u5973(\u4eba)\" VARCHAR, \"\u5dee\u5f15\u5897\u6e1b\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u5dee\u5f15\u5897\u6e1b\uff0f\u7537(\u4eba)\" VARCHAR, \"\u5dee\u5f15\u5897\u6e1b\uff0f\u5973(\u4eba)\" VARCHAR, \"\u5dee\u5f15\u5897\u6e1b\u7387(\u4eba\u53e3\u7dcf\u6570)(%)\" VARCHAR, \"\u5e74\u5c11\u4eba\u53e3(0\uff5e14\u6b73)\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u5e74\u5c11\u4eba\u53e3(0\uff5e14\u6b73)\uff0f\u7537(\u4eba)\" VARCHAR, \"\u5e74\u5c11\u4eba\u53e3(0\uff5e14\u6b73)\uff0f\u5973(\u4eba)\" VARCHAR, \"\u751f\u7523\u5e74\u9f62\u4eba\u53e3(15\uff5e64\u6b73)\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u751f\u7523\u5e74\u9f62\u4eba\u53e3(15\uff5e64\u6b73)\uff0f\u7537(\u4eba)\" VARCHAR, \"\u751f\u7523\u5e74\u9f62\u4eba\u53e3(15\uff5e64\u6b73)\uff0f\u5973(\u4eba)\" VARCHAR, \"\u8001\u5e74\u4eba\u53e3(65\u6b73\u4ee5\u4e0a)\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u8001\u5e74\u4eba\u53e3(65\u6b73\u4ee5\u4e0a)\uff0f\u7537(\u4eba)\" VARCHAR, \"\u8001\u5e74\u4eba\u53e3(65\u6b73\u4ee5\u4e0a)\uff0f\u5973(\u4eba)\" VARCHAR, \"\u9762\u7a4d(km2)\" VARCHAR, \"\u7dcf\u4eba\u53e3\u306b\u5360\u3081\u308b\u5272\u5408(%)\" VARCHAR, \"\u4e00\u4e16\u5e2f\u5f53\u305f\u308a\u4eba\u54e1(\u4eba)\" VARCHAR, \"\u753a\u4e01\u6570(\u753a\u4e01\u6570)\" VARCHAR, \"\u753a\u4e01\u5225\u5730\u57df\u968e\u5c64\" VARCHAR, \"\u4e16\u5e2f\u6570(\u4e16\u5e2f)\" VARCHAR, \"\u4eba\u53e3\uff0f\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u4eba\u53e3\uff0f\u7537(\u4eba)\" VARCHAR, \"\u4eba\u53e3\uff0f\u5973(\u4eba)\" VARCHAR, \"\u5e74\u9f62(\u6b73)\" VARCHAR, \"\u7dcf\u6570(\u4eba)\" VARCHAR, \"\u7537(\u4eba)\" VARCHAR, \"\u5973(\u4eba)\" VARCHAR)"

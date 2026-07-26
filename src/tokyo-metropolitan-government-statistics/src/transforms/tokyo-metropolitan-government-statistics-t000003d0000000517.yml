@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `tokyo-metropolitan-government-statistics-t000003d0000000517`. Regenerate after model-verify.
+# caution: Each table preserves the source package rows from one or more package resources; use the package and resource metadata columns to distinguish files or API endpoints before aggregating.
+key: [resource_id, resource_url_basename, row_number]
+sort: [resource_id, resource_url_basename, row_number]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: resource_url_basename
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: values
+    type: "STRUCT(\"\u5730\u57df\u968e\u5c64\" VARCHAR, \"\u5730\u57df\u30b3\u30fc\u30c9\" VARCHAR, \"\u56fd\u30fb\u5730\u57df(\u4eba)\" VARCHAR, \"\u7dcf\u6570\" VARCHAR, \"\u4e2d\u56fd\" VARCHAR, \"\u97d3\u56fd\u30fb\u671d\u9bae\" VARCHAR, \"\u30d5\u30a3\u30ea\u30d4\u30f3\" VARCHAR, \"\u7c73\u56fd\" VARCHAR, \"\u30a4\u30f3\u30c9\" VARCHAR, \"\u30bf\u30a4\" VARCHAR, \"\u82f1\u56fd\" VARCHAR, \"\u30cd\u30d1\u30fc\u30eb\" VARCHAR, \"\u30d5\u30e9\u30f3\u30b9\" VARCHAR, \"\u30df\u30e3\u30f3\u30de\u30fc\" VARCHAR, \"\u305d\u306e\u4ed6\" VARCHAR, \"\u524d\u5e74\u540c\u6708\u3068\u306e\u6bd4\u8f03\uff0f\u7dcf\u6570\" VARCHAR, \"\u524d\u5e74\u540c\u6708\u3068\u306e\u6bd4\u8f03\uff0f\u5897\u6e1b\u6570\" VARCHAR)"

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `tokyo-metropolitan-government-statistics-t000003d2000000707`. Regenerate after model-verify.
+# caution: Each table preserves the source package rows from one or more package resources; use the package and resource metadata columns to distinguish files or API endpoints before aggregating.
+key: [resource_id, resource_url_basename, row_number]
+sort: [resource_id, resource_url_basename, row_number]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: resource_url_basename
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: values
+    type: "STRUCT(\"\u54c1\u76ee\u968e\u5c64\" VARCHAR, \"\u54c1\u76ee\" VARCHAR, Item VARCHAR, \"\u5e73\u621019\u5e74 2007\uff0f\u6570\u91cf Quantity\" VARCHAR, \"\u5e73\u621019\u5e74 2007\uff0f\u91d1\u984d Value\" VARCHAR, \"\u5e73\u621020\u5e74 2008\uff0f\u6570\u91cf Quantity\" VARCHAR, \"\u5e73\u621020\u5e74 2008\uff0f\u91d1\u984d Value\" VARCHAR, \"\u5e73\u621021\u5e74 2009\uff0f\u6570\u91cf Quantity\" VARCHAR, \"\u5e73\u621021\u5e74 2009\uff0f\u91d1\u984d Value\" VARCHAR, \"\u5e74\" VARCHAR, \"Year\" VARCHAR, \"\u9805\u76ee\" VARCHAR, \"\u7dcf\u6570 Total\uff0f\u982d\u6570 Number\uff08\u982d Number\uff09\" VARCHAR, \"\u7dcf\u6570 Total\uff0f\u91cd\u91cf Weight\uff08kg\uff09\" VARCHAR, \"\u7dcf\u6570 Total\uff0f\u91d1\u984d Value\uff08\u5343\u5186 in thousands of yen\uff09\" VARCHAR, \"\u533a\u5206\" VARCHAR, Classification VARCHAR, \"\u6570\u91cf Number\" VARCHAR, \"\u91d1\u984d Value\uff08\u5343\u5186 in thousands of yen\uff09\" VARCHAR, Items VARCHAR, \"\u8a08 Total\" VARCHAR, \"\u5c02\u9580\u5c0f\u58f2\u5e97 Specialty stores(Food)\" VARCHAR, \"\u98df\u6599\u54c1\u7b49\u4e2d\u5fc3\u5e97 Semi-specialty stores(Food)\" VARCHAR, \"\u30b3\u30f3\u30d3\u30cb\u30a8\u30f3\u30b9\u30b9\u30c8\u30a2 Convenience stores\" VARCHAR, \"\u98df\u6599\u54c1\u30b9\u30fc\u30d1\u30fc Food supermarkets\" VARCHAR, \"\u7dcf\u5408\u30b9\u30fc\u30d1\u30fc General supermarkets\" VARCHAR, \"\u767e\u8ca8\u5e97 Department stores\" VARCHAR, \"\u696d\u52d9\u7528 Commercial use(restaurants)\" VARCHAR, \"\u52a0\u5de5\u696d\u8005 Processors\" VARCHAR, \"\u554f\u5c4b\u30fb\u7d0d\u5165\u696d\u8005 Wholesalers\uff0fsuppliers\" VARCHAR, \"\u90fd\u5185\u4e2d\u592e\u5378\u58f2\u5e02\u5834 Central wholesale markets in Tokyo\" VARCHAR, \"\u90fd\u5185\u5730\u65b9\u5378\u58f2\u5e02\u5834 Local wholesale markets in Tokyo\" VARCHAR, \"\u90fd\u5916\u4e2d\u592e\u5378\u58f2\u5e02\u5834 Central wholesale markets outside Tokyo\" VARCHAR, \"\u90fd\u5916\u5730\u65b9\u5378\u58f2\u5e02\u5834 Local wholesale markets outside Tokyo\" VARCHAR, \"\u305d\u306e\u4ed6 Others\" VARCHAR, \"\u4e0d\u660e Unknown\" VARCHAR)"

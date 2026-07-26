@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `tokyo-metropolitan-government-statistics-t000003d0000000137`. Regenerate after model-verify.
+# caution: Each table preserves the source package rows from one or more package resources; use the package and resource metadata columns to distinguish files or API endpoints before aggregating.
+key: [resource_id, resource_url_basename, row_number]
+sort: [resource_id, resource_url_basename, row_number]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: package_id
+    type: UUID
+  - name: package_name
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: resource_url_basename
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: values
+    type: "STRUCT(\"\u9805\u76ee\" VARCHAR, Item VARCHAR, \"\u5e73\u621029\u5e74\u5ea6 Fiscal year 2017\uff0f\u5b9f\u6570 Value\" VARCHAR, \"\u5e73\u621029\u5e74\u5ea6 Fiscal year 2017\uff0f\u69cb\u6210\u6bd4 Percentage Distribution (%)\" VARCHAR, \"\u5e73\u621029\u5e74\u5ea6 Fiscal year 2017\uff0f\u5bfe\u524d\u5e74\u5ea6\u5897\u52a0\u7387 Percent changes from previous fiscal year (%)\" VARCHAR, \"\u5e73\u621030\u5e74\u5ea6 Fiscal year 2018\uff0f\u5b9f\u6570 Value\" VARCHAR, \"\u5e73\u621030\u5e74\u5ea6 Fiscal year 2018\uff0f\u69cb\u6210\u6bd4 Percentage Distribution (%)\" VARCHAR, \"\u5e73\u621030\u5e74\u5ea6 Fiscal year 2018\uff0f\u5bfe\u524d\u5e74\u5ea6\u5897\u52a0\u7387 Percent changes from previous fiscal year (%)\" VARCHAR, \"\u9805\u756a Item number\" VARCHAR, \"\u9805\u76ee\u968e\u5c64\" VARCHAR, \"\u5927\u9805\u76ee\" VARCHAR, \"Major item\" VARCHAR, \"\u5e73\u621018\u5e74\u5ea6 FY 2006\" VARCHAR, \"\u5e73\u621019\u5e74\u5ea6 FY 2007\" VARCHAR, \"\u5e73\u621020\u5e74\u5ea6 FY 2008\" VARCHAR, \"\u5e73\u621021\u5e74\u5ea6 FY 2009\" VARCHAR, \"\u5e73\u621022\u5e74\u5ea6 FY 2010\" VARCHAR, \"\u5e73\u621023\u5e74\u5ea6 FY 2011\" VARCHAR, \"\u5e73\u621024\u5e74\u5ea6 FY 2012\" VARCHAR, \"\u5e73\u621025\u5e74\u5ea6 FY 2013\" VARCHAR, \"\u5e73\u621026\u5e74\u5ea6 FY 2014\" VARCHAR, \"\u5e73\u621027\u5e74\u5ea6 FY 2015\" VARCHAR, \"\u5e73\u621028\u5e74\u5ea6 FY 2016\" VARCHAR, \"\u5e73\u621029\u5e74\u5ea6 FY 2017\" VARCHAR, \"\u5e73\u621030\u5e74\u5ea6 FY 2018\" VARCHAR)"
