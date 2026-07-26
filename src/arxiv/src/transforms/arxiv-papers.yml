@@ -1,7 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# arxiv-papers — full arXiv metadata corpus from the weekly Kaggle snapshot.
+# 2026-07 (problem 085): re-sourced from the frozen 2020-08 GCS mirror to the
+# weekly-refreshed Kaggle dataset. Schema changes, backward-compatible:
+#   - created_date: now the real v1 submission date (day granularity; was
+#     month-granular YYYY-MM-01 derived from the arXiv id — that derivation
+#     survives only as a fallback for records without version metadata)
+#   - new columns: update_date (last metadata-update date per the snapshot),
+#     license (arXiv license URL, null for most pre-2008 submissions)
 key: [arxiv_id]
 temporal: created_date
 sort: [created_date, arxiv_id]
+write_mode: overwrite
 columns:
   - name: arxiv_id
     type: VARCHAR
@@ -25,7 +33,11 @@ columns:
     type: VARCHAR
   - name: comments
     type: VARCHAR
+  - name: license
+    type: VARCHAR
   - name: num_versions
     type: INTEGER
   - name: created_date
+    type: DATE
+  - name: update_date
     type: DATE

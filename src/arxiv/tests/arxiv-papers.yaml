@@ -1,16 +1,24 @@
 spec_id: arxiv-papers
 status: active
-# Raw = the whole-corpus arXiv metadata snapshot from the public GCS bucket
-# (gs://arxiv-dataset, metadata-v5/arxiv-metadata-oai.json), one JSON object per
-# paper. NOT OAI-PMH: that endpoint returns 406 to datacenter IPs, so there is no
-# OAI record header and therefore no `datestamp` / `<created>` field. The node
-# projects each record to a fixed 13-column schema and derives `created_date`
-# (month granularity, YYYY-MM-01) from the YYMM encoded in the arXiv id.
-coverage:
-  frozen: true
-  reason: the public GCS mirror is frozen at the 2020-08 snapshot, so coverage
-    ends mid-2020 — the corpus does not advance, hence no freshness assertion.
+# Raw = the full arXiv metadata corpus streamed from the weekly Kaggle snapshot
+# (Cornell-University/arxiv, arxiv-metadata-oai-snapshot.json — anonymous
+# single-file download endpoint, ~2.9M NDJSON lines). One record per paper.
+# The node projects each record to a fixed 15-column schema; `created_date` is
+# the real v1 submission date (versions[0].created), falling back to the
+# id-derived YYYY-MM-01 for the rare record without version metadata.
+# 2026-07 (problem 085): re-sourced from the frozen 2020-08 GCS mirror — the
+# corpus now advances weekly, hence the freshness assertion below.
 tests:
+  # --- freshness: the anti-085 contract ---
+  - freshness: {col: created_date, reaches: today - 30d}
+    reason: >-
+      arXiv announces new papers every weekday and the Kaggle snapshot
+      refreshes roughly weekly; a max created_date more than 30 days old means
+      the snapshot (or this connector's source URL) has frozen again — the
+      exact failure that went unnoticed for six years as problem 085
+    certainty: 92
+    points_outward: true
+
   # --- presence: fields every snapshot record carries ---
   - not_null: arxiv_id
     reason: the `id` field is mandatory in the arXiv metadata snapshot; a null id means a parse miss on our side and drops the row from the deduped table
@@ -36,24 +44,28 @@ tests:
     certainty: 90
     severity: warn
   - not_null: created_date
-    reason: derived from the YYMM in the arXiv id; a null means the id did not encode a parseable month
+    reason: from versions[0].created, falling back to the YYMM in the arXiv id; a null means neither carried a parseable date
     certainty: 90
     severity: warn
 
-  # --- format: derived date + arXiv id schemes ---
-  - matches: {col: created_date, pattern: '^\d{4}-\d{2}-01$'}
-    reason: created_date is month-granular, always the first of the month (YYYY-MM-01)
+  # --- format: dates + arXiv id schemes ---
+  - matches: {col: created_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: ISO date (day granularity from versions[0].created; fallback rows land on the first of the month)
     certainty: 95
+    severity: warn
+  - matches: {col: update_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: the snapshot's update_date field is an ISO date
+    certainty: 90
     severity: warn
   - matches: {col: arxiv_id, pattern: '^([a-z][a-z.\-]*/\d{7}|\d{4}\.\d{4,5})$'}
     reason: old-scheme ids (archive[.subclass]/YYMMNNN, e.g. supr-con/9609004) and new-scheme ids (YYMM.NNNNN); the id field carries no version suffix
     certainty: 85
     severity: warn
 
-  # --- bounds: derived creation dates fall in arXiv's lifetime ---
-  - between: {col: created_date, lo: '1991-01-01', hi: today}
-    reason: arXiv launched in 1991 and the snapshot is historical, so every derived date is between then and now
-    certainty: 92
+  # --- bounds: creation dates fall in arXiv's lifetime ---
+  - between: {col: created_date, lo: '1986-01-01', hi: today}
+    reason: arXiv launched in 1991 but a few records carry earlier v1 timestamps from retro-imports; nothing should predate the mid-80s or postdate now
+    certainty: 90
   - between: {col: num_versions, lo: 1, hi: 500}
     reason: every paper has at least one version; hundreds is the realistic ceiling
     certainty: 85
@@ -61,19 +73,19 @@ tests:
 
   # --- nullability of optional bibliographic fields ---
   - nullable: {col: doi, max_null_frac: 0.9}
-    reason: most arXiv papers never register a DOI (~48% null observed), but the column should not be entirely null
+    reason: most arXiv papers never register a DOI, but the column should not be entirely null
     certainty: 75
     severity: warn
   - nullable: {col: journal_ref, max_null_frac: 0.9}
-    reason: only published papers carry a journal reference (~61% null observed); the majority are preprints
+    reason: only published papers carry a journal reference; the majority are preprints
     certainty: 75
     severity: warn
   - nullable: {col: comments, max_null_frac: 0.6}
-    reason: author comments are optional (~20% null observed)
+    reason: author comments are optional
     certainty: 70
     severity: warn
 
   # --- scale: the corpus is the whole snapshot, not a slice ---
-  - row_count: {min: 100000}
-    reason: the arXiv corpus is well over a million papers; a truncated download would fall far below this
+  - row_count: {min: 2400000}
+    reason: the current corpus is ~2.9M papers and only grows; far fewer means a truncated download or a regression to an old snapshot
     certainty: 90

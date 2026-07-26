@@ -3,6 +3,9 @@
 # caution: Rows are chart snapshots, not a catalog of all songs; the same song can appear in multiple storefronts and snapshots.
 key: [snapshot_date, storefront, feed_type, rank]
 temporal: snapshot_date
+# merge (not overwrite): each run brings ONE day's chart snapshot; the published
+# table is the accruing daily series, upserted on the snapshot-scoped key.
+write_mode: merge
 sort: [snapshot_date, storefront, feed_type, rank]
 columns:
   - name: snapshot_date

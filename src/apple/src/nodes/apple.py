@@ -4,9 +4,13 @@ Mechanism: the public, unauthenticated v2 RSS Marketing Tools JSON feeds
 (`rss.marketingtools.apple.com/api/v2/{storefront}/{media}/{feed_type}/{limit}/{result_type}.json`).
 One request returns a full chart (up to 100 entries, no pagination). There is
 no incremental/`since` query and the API returns ONLY the current snapshot, so
-the correct shape is a **stateless full re-pull** every run: re-fetch the whole
-cross-storefront corpus for each media and overwrite. The published time series
-is built downstream by snapshotting daily (each run captures `feed.updated`).
+each run is a **stateless full re-pull** of the current day's cross-storefront
+corpus (each run captures `feed.updated` → `snapshot_date`). The published
+tables are the accruing daily series: the transforms declare
+`write_mode: merge` on the snapshot-scoped key, so every run UPSERTS its one-day
+snapshot and history is retained. (Before 2026-07-26 they published with
+overwrite — each day replaced the last; 2026-06-17..2026-07-07 is permanently
+lost, see the table descriptions.)
 
 One download node per media (apps, audio-books, books, music, podcasts). Each
 node sweeps every storefront x feed_type for its media and writes one long-format
@@ -115,7 +119,8 @@ def fetch_media(node_id: str) -> None:
     """Sweep every storefront x feed_type for one media; write one NDJSON asset.
 
     Stateless full re-pull: the source only exposes the current snapshot, so we
-    re-fetch the whole corpus each run and overwrite. The maintain step (later)
+    re-fetch the whole corpus each run; the transform then MERGES the one-day
+    snapshot into the accruing published series. The maintain step (later)
     decides whether this runs at all — if invoked, we fetch.
     """
     asset = node_id                       # the spec id IS the asset name

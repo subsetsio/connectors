@@ -16,13 +16,13 @@ tests:
     reason: US state-level monthly series start in 2001, matching the yearly file's first year.
     certainty: 90
 
-  - freshness: {col: Date, reaches: today - 400d}
+  - freshness: {col: Date, reaches: today - 240d}
     reason: >-
-      Unlike the global and European monthly releases, the US file is not on the
-      twice-monthly cycle: it is rebuilt from EIA data roughly once a year (the
-      file observed in July 2026 was last modified in March 2026 and ended at
-      December 2025). A 400-day bound tolerates that annual rebuild while still
-      catching a file that has been abandoned.
+      The raw asset merges the (frozen, ends 2025-12) bulk CSV with newer months
+      from the US Electricity Data Explorer API, which tracks EIA at roughly a
+      4-5 month lag (observed July 2026: explorer frontier 2026-03). A 240-day
+      bound tolerates that lag plus a couple of slow months while catching a
+      freeze of the explorer feed the way the bulk file froze.
     points_outward: true
     certainty: 80
 

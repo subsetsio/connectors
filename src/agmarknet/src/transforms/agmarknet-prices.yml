@@ -1,6 +1,10 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [state, district, market, commodity, variety, grade, arrival_date]
 temporal: arrival_date
+# merge (not overwrite): the source is a daily snapshot it overwrites in place
+# (no archive). Each run upserts its snapshot on the arrival_date-scoped key so
+# the published table accrues the daily series instead of holding one day.
+write_mode: merge
 sort: [arrival_date, state, district, market, commodity, variety, grade]
 columns:
   - name: state

@@ -6,8 +6,11 @@ Commodities from Various Markets (Mandi)"), fed from the AGMARKNET portal
 (Ministry of Agriculture & Farmers Welfare). It is a daily SNAPSHOT (~18k rows
 for the current arrival_date) that the source overwrites each day — there is no
 historical archive via the API, so each refresh re-pulls the whole current
-snapshot and overwrites the published table. (A longer time series accrues
-naturally as snapshots from successive days land downstream.)
+snapshot. The transform declares `write_mode: merge` on the
+(state..grade, arrival_date) key, so each run UPSERTS its one-day snapshot into
+the published table and the daily series accrues there. Because the source
+keeps no archive, any day the connector does not run is unrecoverable —
+maintenance cadence must stay DAILY (see source.json `maintenance`).
 
 Fetch strategy - why it is not a plain offset crawl
 ---------------------------------------------------
