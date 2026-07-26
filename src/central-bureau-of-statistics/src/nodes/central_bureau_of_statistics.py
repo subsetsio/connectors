@@ -27,10 +27,12 @@ memory — not for resumption; a supervisor interrupt simply restarts the crawl.
 
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+import os
 
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
+    configure_http,
     get,
     save_raw_parquet,
 )
@@ -39,18 +41,36 @@ SERIES_BASE = "https://apis.cbs.gov.il/series"
 INDEX_BASE = "https://api.cbs.gov.il/index"
 
 SLUG = "central-bureau-of-statistics"
+UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+)
+
+_HTTP_CONFIGURED = False
+
+
+def _configure_http():
+    """CBS series API drops some non-browser-looking clients under load."""
+    global _HTTP_CONFIGURED
+    if _HTTP_CONFIGURED:
+        return
+    os.environ.setdefault("HTTP_RETRY_ATTEMPTS", "10")
+    configure_http(headers={"User-Agent": UA, "Accept": "application/json"})
+    _HTTP_CONFIGURED = True
 
 # ---------------------------------------------------------------- HTTP helpers
 
 
 def _get_json(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 420.0), headers={"Connection": "close"})
+    _configure_http()
+    resp = get(url, params=params, timeout=(15.0, 900.0), headers={"Connection": "close"})
     resp.raise_for_status()
     return resp.json()
 
 
 def _get_text(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 420.0), headers={"Connection": "close"})
+    _configure_http()
+    resp = get(url, params=params, timeout=(15.0, 900.0), headers={"Connection": "close"})
     resp.raise_for_status()
     return resp.text
 
