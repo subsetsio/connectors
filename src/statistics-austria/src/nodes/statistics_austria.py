@@ -62,7 +62,12 @@ def _fetch_bytes(url: str) -> bytes:
 def _fetch_json(url: str) -> dict:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
-    return resp.json()
+    if not resp.content.strip():
+        return {}
+    try:
+        return resp.json()
+    except ValueError:
+        return {}
 
 
 def _fetch_optional(url: str):
@@ -248,6 +253,8 @@ def fetch_one(node_id: str) -> None:
     metadata = _fetch_json(f"https://data.statistik.gv.at/ogd/json?dataset={eid}")
     resources = _resource_map(metadata)
     zip_url = resources.get(eid)
+    if not zip_url and eid.startswith("OGDEXT_KLASSDB_"):
+        zip_url = f"{DATA_BASE}/{eid}.zip"
     if zip_url and zip_url.lower().endswith(".zip"):
         rows = _rows_from_zip(eid, zip_url)
     else:
