@@ -3,12 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: ["ci_95_confidence_interval"]
+key: [ci_95_confidence_interval]
 checks:
   - kind: unique
-    columns: ["ci_95_confidence_interval"]
+    columns: [ci_95_confidence_interval]
   - kind: not_null
-    col: "ci_95_confidence_interval"
+    col: ci_95_confidence_interval
   - kind: row_floor
     min: 12
 regression:

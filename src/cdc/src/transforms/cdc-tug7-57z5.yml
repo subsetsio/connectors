@@ -1,0 +1,258 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-tug7-57z5`. Regenerate after model-verify.
+key: []
+columns:
+  - name: geo_id
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: popgroup
+    type: BIGINT
+  - name: popgroup_label
+    type: VARCHAR
+  - name: total_population
+    type: BIGINT
+  - name: households_average_household_size
+    type: DOUBLE
+  - name: households_average_family_size
+    type: DOUBLE
+  - name: school_enrollment_population_3_years_and_over_enrolled_in_school_nursery_school_preschool
+    type: DOUBLE
+  - name: school_enrollment_population_3_years_and_over_enrolled_in_school_kindergarten
+    type: DOUBLE
+  - name: school_enrollment_population_3_years_and_over_enrolled_in_school_elementary_school_grades_1_8
+    type: DOUBLE
+  - name: school_enrollment_population_3_years_and_over_enrolled_in_school_high_school_grades_9_12
+    type: DOUBLE
+  - name: school_enrollment_population_3_years_and_over_enrolled_in_school_college_or_graduate_school
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_less_than_high_school_diploma
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_high_school_graduate_includes_equivalency
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_some_college_or_associate_s_degree
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_bachelor_s_degree
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_graduate_or_professional_degree
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_high_school_graduate_or_higher
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_bachelor_s_degree_or_higher
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_population_5_years_and_over_english_only
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_population_5_years_and_over_language_other_than_english
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_language_other_than_english_speak_english_less_than_very_well
+    type: DOUBLE
+  - name: employment_status_unemployed_unemployment_rate
+    type: DOUBLE
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_households_median_household_income_dollars
+    type: BIGINT
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_median_earnings_dollars_full_time_year_round_workers_male
+    type: BIGINT
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_median_earnings_dollars_full_time_year_round_workers_female
+    type: BIGINT
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_with_private_health_insurance
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_with_public_coverage
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_no_health_insurance_coverage
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_families
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_under_18_years
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_18_years_and_over
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_18_years_and_over_65_years_and_over
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_owner_occupied_housing_units
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_renter_occupied_housing_units
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_average_household_size_of_owner_occupied_unit
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_average_household_size_of_renter_occupied_unit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_1_unit_detached_or_attached
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_2_to_4_units
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_5_or_more_units
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_mobile_home_boat_rv_van_etc
+    type: DOUBLE
+  - name: vehicles_available_occupied_housing_units_none
+    type: DOUBLE
+  - name: vehicles_available_occupied_housing_units_1_or_more
+    type: DOUBLE
+  - name: selected_characteristics_occupied_housing_units_1_01_or_more_occupants_per_room
+    type: DOUBLE
+  - name: selected_monthly_owner_costs_as_a_percentage_of_household_income_in_the_past_12_months_housing_units_with_a_mortgage_excluding_units_where_smoc_cannot_be_computed_less_than_30_percent
+    type: DOUBLE
+  - name: selected_monthly_owner_costs_as_a_percentage_of_household_income_in_the_past_12_months_housing_units_with_a_mortgage_excluding_units_where_smoc_cannot_be_computed_30_percent_or_more
+    type: DOUBLE
+  - name: owner_characteristics_owner_occupied_housing_units_median_value_dollars
+    type: BIGINT
+  - name: gross_rent_as_a_percentage_of_household_income_in_the_past_12_months_occupied_units_paying_rent_excluding_units_where_grapi_cannot_be_computed_less_than_30_percent
+    type: DOUBLE
+  - name: gross_rent_as_a_percentage_of_household_income_in_the_past_12_months_occupied_units_paying_rent_excluding_units_where_grapi_cannot_be_computed_30_percent_or_more
+    type: DOUBLE
+  - name: gross_rent_occupied_units_paying_rent_median_gross_rent_dollars
+    type: BIGINT
+  - name: computers_and_internet_use_total_households_with_a_computer
+    type: DOUBLE
+  - name: computers_and_internet_use_total_households_with_a_broadband_internet_subscription
+    type: DOUBLE
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_median_earnings_dollars_full_time_year_round_workers_male_upper_limit
+    type: BIGINT
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_median_earnings_dollars_full_time_year_round_workers_male_lower_limit
+    type: BIGINT
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_median_earnings_dollars_full_time_year_round_workers_female_upper_limit
+    type: BIGINT
+  - name: income_in_the_past_12_months_in_2022_inflation_adjusted_dollars_median_earnings_dollars_full_time_year_round_workers_female_lower_limit
+    type: BIGINT
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_with_private_health_insurance_upper_limit
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_with_private_health_insurance_lower_limit
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_with_public_coverage_upper_limit
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_with_public_coverage_lower_limit
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_no_health_insurance_coverage_upper_limit
+    type: DOUBLE
+  - name: health_insurance_coverage_civilian_noninstitutionalized_population_no_health_insurance_coverage_lower_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_population_5_years_and_over_english_only_upper_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_population_5_years_and_over_english_only_lower_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_population_5_years_and_over_language_other_than_english_upper_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_population_5_years_and_over_language_other_than_english_lower_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_language_other_than_english_speak_english_less_than_very_well_upper_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_language_other_than_english_speak_english_less_than_very_well_lower_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_language_other_than_english_speak_english_very_well_upper_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_language_other_than_english_speak_english_very_well_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_less_than_high_school_diploma_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_less_than_high_school_diploma_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_high_school_graduate_includes_equivalency_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_high_school_graduate_includes_equivalency_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_some_college_or_associate_s_degree_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_some_college_or_associate_s_degree_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_bachelor_s_degree_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_bachelor_s_degree_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_graduate_or_professional_degree_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_graduate_or_professional_degree_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_high_school_graduate_or_higher_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_high_school_graduate_or_higher_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_bachelor_s_degree_or_higher_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_bachelor_s_degree_or_higher_lower_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_less_than_bachelor_s_degree_upper_limit
+    type: DOUBLE
+  - name: educational_attainment_population_25_years_and_over_less_than_bachelor_s_degree_lower_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_1_unit_detached_or_attached_upper_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_1_unit_detached_or_attached_lower_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_2_to_4_units_upper_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_2_to_4_units_lower_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_5_or_more_units_upper_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_5_or_more_units_lower_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_mobile_home_boat_rv_van_etc_upper_limit
+    type: DOUBLE
+  - name: units_in_structure_occupied_housing_units_mobile_home_boat_rv_van_etc_lower_limit
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_owner_occupied_housing_units_upper_limit
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_owner_occupied_housing_units_lower_limit
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_renter_occupied_housing_units_upper_limit
+    type: DOUBLE
+  - name: housing_tenure_occupied_housing_units_renter_occupied_housing_units_lower_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_upper_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_lower_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_under_18_years_upper_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_under_18_years_lower_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_18_years_and_over_upper_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_all_people_18_years_and_over_lower_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_18_years_and_over_65_years_and_over_upper_limit
+    type: DOUBLE
+  - name: poverty_rates_for_families_and_people_for_whom_poverty_status_is_determined_18_years_and_over_65_years_and_over_lower_limit
+    type: DOUBLE
+  - name: computers_and_internet_use_total_households_with_a_computer_upper_limit
+    type: DOUBLE
+  - name: computers_and_internet_use_total_households_with_a_computer_lower_limit
+    type: DOUBLE
+  - name: computers_and_internet_use_total_households_with_a_broadband_internet_subscription_upper_limit
+    type: DOUBLE
+  - name: computers_and_internet_use_total_households_with_a_broadband_internet_subscription_lower_limit
+    type: DOUBLE
+  - name: vehicles_available_occupied_housing_units_none_upper_limit
+    type: DOUBLE
+  - name: vehicles_available_occupied_housing_units_none_lower_limit
+    type: DOUBLE
+  - name: vehicles_available_occupied_housing_units_1_or_more_upper_limit
+    type: DOUBLE
+  - name: vehicles_available_occupied_housing_units_1_or_more_lower_limit
+    type: DOUBLE
+  - name: language_spoken_at_home_and_ability_to_speak_english_language_other_than_english_speak_english_very_well
+    type: DOUBLE
+  - name: bar_spacer1
+    type: BIGINT
+  - name: bar_spacer2
+    type: BIGINT
+  - name: bar_spacer3
+    type: BIGINT
+  - name: bar_spacer4
+    type: BIGINT
+  - name: bar_spacer5
+    type: BIGINT
+  - name: bar_spacer6
+    type: BIGINT
+  - name: bar_spacer7
+    type: BIGINT
+  - name: bar_spacer8
+    type: BIGINT
+  - name: bar_spacer9
+    type: BIGINT
+  - name: educational_attainment_population_25_years_and_over_less_than_bachelor_s_degree
+    type: DOUBLE
+  - name: selected_characteristics_occupied_housing_units_1_or_less_occupants_per_room
+    type: DOUBLE
