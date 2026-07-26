@@ -1,1 +1,22 @@
-SELECT * FROM "unctad-us.totandcomservicesquarterly"
+SELECT
+  period,
+  period_label,
+  economy,
+  economy_label,
+  flow,
+  flow_label,
+  category,
+  category_label,
+  millions_of_us_at_current_prices AS us_at_current_prices_in_millions,
+  millions_of_us_at_current_prices_footnote AS us_at_current_prices_in_millions_footnote,
+  millions_of_us_at_current_prices_missing_value AS us_at_current_prices_in_millions_missing_value,
+  growth_rate_year_on_year,
+  growth_rate_year_on_year_footnote,
+  growth_rate_year_on_year_missing_value,
+  millions_of_us_at_current_prices_seasonally_adjusted AS us_at_current_prices_seasonally_adjusted_in_millions,
+  millions_of_us_at_current_prices_seasonally_adjusted_footnote AS us_at_current_prices_seasonally_adjusted_in_millions_footnote,
+  millions_of_us_at_current_prices_seasonally_adjusted_missing_value AS us_at_current_prices_seasonally_adjusted_in_millions_missing_value,
+  growth_rate_over_previous_period_seasonally_adjusted,
+  growth_rate_over_previous_period_seasonally_adjusted_footnote,
+  growth_rate_over_previous_period_seasonally_adjusted_missing_value
+FROM "unctad-us.totandcomservicesquarterly"

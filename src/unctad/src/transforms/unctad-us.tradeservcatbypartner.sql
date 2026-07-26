@@ -1,1 +1,23 @@
-SELECT * FROM "unctad-us.tradeservcatbypartner"
+SELECT
+  year,
+  economy,
+  economy_label,
+  partner,
+  partner_label,
+  flow,
+  flow_label,
+  category,
+  category_label,
+  millions_of_us_at_current_prices AS us_at_current_prices_in_millions,
+  millions_of_us_at_current_prices_footnote AS us_at_current_prices_in_millions_footnote,
+  millions_of_us_at_current_prices_missing_value AS us_at_current_prices_in_millions_missing_value,
+  percentage_of_total_world,
+  percentage_of_total_world_footnote,
+  percentage_of_total_world_missing_value,
+  percentage_of_total_trade_in_services,
+  percentage_of_total_trade_in_services_footnote,
+  percentage_of_total_trade_in_services_missing_value,
+  growth_rate_over_previous_period,
+  growth_rate_over_previous_period_footnote,
+  growth_rate_over_previous_period_missing_value
+FROM "unctad-us.tradeservcatbypartner"
