@@ -1,2 +1,10 @@
 spec_id: statistisches-landesamt-sachsen-anhalt-52111-0002
-status: deferred
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: the accepted GENESIS table should contain data rows when the upstream FFCSV export is available; zero rows means the current known upstream outage persists.
+    certainty: 80
+  - freshness: {col: time, reaches: 2020}
+    reason: legal-unit observations by municipality should include recent annual data once the export is restored.
+    certainty: 70
+    points_outward: true

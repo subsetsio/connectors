@@ -15,7 +15,7 @@ SELECT
     "1_variable_attribute_label",
     "2_variable_code",
     "2_variable_label",
-    CAST("2_variable_attribute_code" AS BIGINT) AS 2_variable_attribute_code,
+    CAST("2_variable_attribute_code" AS BIGINT) AS "2_variable_attribute_code",
     "2_variable_attribute_label",
     "3_variable_code",
     "3_variable_label",

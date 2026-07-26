@@ -1,8 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `statistics-austria-ogdext-ehl-1`. Regenerate after model-verify.
 key: [row_number]
-temporal: col_2
-sort: [col_2, row_number]
+temporal: effective_date
+sort: [effective_date, row_number]
 columns:
   - name: source_file
     type: VARCHAR
@@ -14,19 +14,19 @@ columns:
     type: VARCHAR
   - name: c_421754b
     type: VARCHAR
-  - name: col
+  - name: statistics_austria_unit_id
     type: BIGINT
   - name: abbag_abbaumanagementgesellschaft_des_bundes
     type: VARCHAR
-  - name: col_2
+  - name: effective_date
     type: DATE
-  - name: col_3
+  - name: sector_code_numeric
     type: BIGINT
   - name: bund
     type: VARCHAR
-  - name: col_4
+  - name: federal_state
     type: VARCHAR
   - name: d
     type: VARCHAR
-  - name: col_5
+  - name: note
     type: VARCHAR

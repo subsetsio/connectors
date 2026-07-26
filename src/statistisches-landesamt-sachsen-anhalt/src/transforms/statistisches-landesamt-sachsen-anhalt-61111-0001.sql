@@ -11,7 +11,7 @@ SELECT
     CAST("time" AS BIGINT) AS time,
     "1_variable_code",
     "1_variable_label",
-    CAST("1_variable_attribute_code" AS BIGINT) AS 1_variable_attribute_code,
+    CAST("1_variable_attribute_code" AS BIGINT) AS "1_variable_attribute_code",
     "1_variable_attribute_label",
     "2_variable_code",
     "2_variable_label",

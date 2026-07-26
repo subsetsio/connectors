@@ -8,12 +8,12 @@ SELECT
     "s_1311",
     "r091r154x",
     "c_421754b",
-    "col",
+    "col" AS "statistics_austria_unit_id",
     "abbag_abbaumanagementgesellschaft_des_bundes",
-    "col_2",
-    "col_3",
+    "col_2" AS "effective_date",
+    "col_3" AS "sector_code_numeric",
     "bund",
-    "col_4",
+    "col_4" AS "federal_state",
     "d",
-    "col_5"
+    "col_5" AS "note"
 FROM "statistics-austria-ogdext-ehl-1"
