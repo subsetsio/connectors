@@ -28,6 +28,8 @@ def main() -> int:
             "live": True,
             "connectors": lib.sort_rows(rows),
             "needs_attention": sorted(r["slug"] for r in rows if r["needs_attention"]),
+            "gate": lib.gate_drift(r2.get_json(lib.GATE_REPORT_KEY),
+                                   {r["slug"] for r in rows}),
         }
     else:
         doc = lib.R2().get_json(lib.STATUS_KEY)
@@ -44,6 +46,8 @@ def main() -> int:
     print(f"generated: {doc.get('generated_at')}"
           + ("  (live)" if doc.get("live") else ""))
     print(lib.render(doc["connectors"]))
+    if doc.get("gate"):
+        print(lib.render_gate(doc["gate"]))
     return 0
 
 
