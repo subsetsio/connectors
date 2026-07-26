@@ -28,7 +28,7 @@ columns:
   - name: discount
     type: DOUBLE
   - name: retention_withhold
-    type: DOUBLE
+    type: BIGINT
   - name: unadj_benchmark
     type: DOUBLE
   - name: final_benchmark
@@ -37,13 +37,13 @@ columns:
     type: DOUBLE
   - name: cif_cap_risk
     type: DOUBLE
-  - name: heba_up_amt
+  - name: pa_up_amt
     type: BIGINT
-  - name: heba_down_amt
+  - name: pa_down_amt
     type: BIGINT
-  - name: heba_up_mnths
+  - name: pa_up_mnths
     type: BIGINT
-  - name: heba_down_mnths
+  - name: pa_down_mnths
     type: BIGINT
   - name: sav_rate
     type: DOUBLE
@@ -118,7 +118,7 @@ columns:
   - name: hist_by4_esrd_riskscore
     type: VARCHAR
   - name: py_ad_blend_mnths
-    type: VARCHAR
+    type: BIGINT
   - name: py_esrd_blend_mnths
     type: VARCHAR
   - name: py_ad_ratebook_mnths
@@ -130,7 +130,7 @@ columns:
   - name: py_esrd_blend_riskscore
     type: VARCHAR
   - name: py_ad_ratebook_riskscore
-    type: VARCHAR
+    type: DOUBLE
   - name: py_esrd_ratebook_riskscore
     type: VARCHAR
   - name: n_eta
@@ -181,11 +181,13 @@ columns:
     type: VARCHAR
   - name: ssm_spr_scr
     type: VARCHAR
+  - name: cahps_scr
+    type: VARCHAR
   - name: cisep_flag
     type: VARCHAR
   - name: hpp_flag
     type: VARCHAR
-  - name: hdr_adjust
+  - name: dr_adjust
     type: DOUBLE
   - name: bene_cnt
     type: BIGINT
@@ -216,7 +218,7 @@ columns:
   - name: n_ben_race_pi
     type: BIGINT
   - name: n_ben_race_other
-    type: VARCHAR
+    type: BIGINT
   - name: perc_dual
     type: DOUBLE
   - name: perc_lti
@@ -232,7 +234,7 @@ columns:
   - name: expnd_ambupay
     type: DOUBLE
   - name: adm_s_trm_n
-    type: VARCHAR
+    type: BIGINT
   - name: adm_l_trm_n
     type: VARCHAR
   - name: adm_rehab_n
