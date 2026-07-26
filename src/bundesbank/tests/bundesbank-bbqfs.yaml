@@ -1,9 +1,6 @@
-# BBBPS - Profit and loss (IFRS-group)
-spec_id: bundesbank-bbbps
+# BBQFS - Financial Stability
+spec_id: bundesbank-bbqfs
 status: active
-coverage:
-  frozen: true
-  reason: IFRS-group profit-and-loss flow appears discontinued in the current Bundesbank pull; latest observed period is 2021-Q3
 tests:
   - not_null: series_key
     reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
@@ -11,7 +8,7 @@ tests:
     reason: absent observations ('.' and '...') are dropped in the fetch fn, never materialised as nulls; a null here means the parser mis-read a sentinel
   - column_type: {col: value, type: float}
   - column_type: {col: period_start, type: date}
-  - matches: {col: dataflow, pattern: '^BBBPS$'}
+  - matches: {col: dataflow, pattern: '^BBQFS$'}
     reason: one dataflow per asset; a foreign id means the wrong flowRef was fetched into this spec
     certainty: 95
   - unique: [file_key, series_key, time_period]
@@ -19,3 +16,7 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
+  - freshness: {col: period_start, reaches: today - 1100d}
+    certainty: 80
+    points_outward: true
+    reason: financial-stability data can be quarterly or annual with reporting lag; a three-year window catches a retired flow without failing on legitimate lag

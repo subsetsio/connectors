@@ -21,4 +21,4 @@ SELECT
     "category",
     "last_update",
     "attributes"
-FROM "bundesbank-bbbps"
+FROM "bundesbank-bbqfs"

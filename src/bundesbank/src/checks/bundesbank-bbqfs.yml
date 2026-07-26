@@ -1,0 +1,18 @@
+# Initial post-publish audit for `bundesbank-bbqfs`.
+# Regenerate with `hardened compile-checks` after a successful run provides a
+# measured model profile and baseline row count.
+key: [period_start, series_key]
+temporal: period_start
+checks:
+  - kind: unique
+    columns: [period_start, series_key]
+  - kind: not_null
+    col: period_start
+  - kind: not_null
+    col: series_key
+  - kind: row_floor
+    min: 1
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
