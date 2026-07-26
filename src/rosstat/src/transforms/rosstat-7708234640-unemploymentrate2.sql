@@ -5,6 +5,6 @@
 SELECT
     "№ п/п" AS column,
     "Месяц" AS column_2,
-    "2017 год (%)" AS 2017,
-    "2018 год (%)" AS 2018
+    "2017 год (%)" AS "2017",
+    "2018 год (%)" AS "2018"
 FROM "rosstat-7708234640-unemploymentrate2"

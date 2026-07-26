@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unctad-us.tradefoodproccat-proc-rca`. Regenerate after model-verify.
+# caution: The verifier did not find a compact unique grain; treat rows as report-specific statistical observations and filter all relevant dimensions before aggregating.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: processfoodcategory
+    type: VARCHAR
+  - name: processfoodcategory_label
+    type: VARCHAR
+  - name: rca_food_process
+    type: DOUBLE
+  - name: rca_food_process_footnote
+    type: VARCHAR
+  - name: rca_food_process_missing_value
+    type: VARCHAR

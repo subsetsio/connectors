@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unctad-us.inclusivegrowth`. Regenerate after model-verify.
+key: [economy_label, economy, category, category_label]
+temporal: year
+sort: [year, economy_label, economy, category, category_label]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: category_label
+    type: VARCHAR
+  - name: inclusive_growth
+    type: DOUBLE
+  - name: inclusive_growth_footnote
+    type: VARCHAR
+  - name: inclusive_growth_missing_value
+    type: VARCHAR

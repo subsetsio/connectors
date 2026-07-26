@@ -1,10 +1,9 @@
 spec_id: ine-31075
 status: active
+coverage:
+  frozen: true
+  reason: INE DATOS_TABLA currently exposes only historical observations for this table; latest fecha in the 20260725-221828 run is older than the cadence freshness bound, so treat the raw table as a frozen upstream series until INE resumes publication.
 tests:
-  - freshness: {col: fecha, reaches: today - 3y}
-    reason: INE declares this table Anual and has not closed it (no Anyo_Periodo_fin), so a live series must have published an observation within one period plus its publication lag. A failure means INE stopped publishing without marking the series closed - reclassify it to a frozen declaration citing the last observed date, do not widen the bound
-    certainty: 70
-    points_outward: true
   - row_count: {min: 1}
     reason: a valid INE table returns at least one series-observation from DATOS_TABLA; empty raw means the table id no longer resolves
     certainty: 88

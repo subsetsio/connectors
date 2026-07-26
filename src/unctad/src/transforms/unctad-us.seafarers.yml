@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unctad-us.seafarers`. Regenerate after model-verify.
+# caution: The verifier did not find a compact unique grain; treat rows as report-specific statistical observations and filter all relevant dimensions before aggregating.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: seafarertype
+    type: BIGINT
+  - name: seafarertype_label
+    type: VARCHAR
+  - name: absolute_value
+    type: DOUBLE
+  - name: absolute_value_footnote
+    type: VARCHAR
+  - name: absolute_value_missing_value
+    type: VARCHAR
+  - name: percentage_of_total_world
+    type: DOUBLE
+  - name: percentage_of_total_world_footnote
+    type: VARCHAR
+  - name: percentage_of_total_world_missing_value
+    type: VARCHAR

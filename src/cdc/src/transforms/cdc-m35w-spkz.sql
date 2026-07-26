@@ -13,7 +13,7 @@ SELECT
     "Measure short name 2016-2023" AS measure_short_name_2016_2023,
     "PLACES Release 2023" AS places_release_2023,
     "PLACES Release 2022" AS places_release_2022,
-    "PLACES Release year_2021" AS places_release_2021,
+    "PLACES Release 2021" AS places_release_2021,
     "PLACES Release 2020" AS places_release_2020,
     "500 Cities Release 2019" AS cities_500_release_2019,
     "500 Cities Release 2018" AS cities_500_release_2018,

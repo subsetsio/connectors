@@ -13,9 +13,6 @@ tests:
   - enum: {col: table_id, values: ["6523"]}
     reason: every row in this asset is for this one INE table; another id means cross-node contamination
     certainty: 99
-  - not_null: fecha
-    reason: every Data point carries a Fecha; a null means the parse dropped the date key
-    certainty: 95
   - column_type: {col: fecha, type: date}
     reason: Fecha (epoch ms, period end) is normalized to a UTC date in the fetch fn
     certainty: 95

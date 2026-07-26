@@ -4,5 +4,5 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "Субъект Российской Федерации" AS column,
-    "удельный вес численности работников % (2021)" AS 2021
+    "удельный вес численности работников % (2021)" AS "2021"
 FROM "rosstat-7708234640-workingconditionsreg2022"

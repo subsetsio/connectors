@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unctad-us.tradefoodprocbycat`. Regenerate after model-verify.
+# caution: The verifier did not find a compact unique grain; treat rows as report-specific statistical observations and filter all relevant dimensions before aggregating.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: partner
+    type: VARCHAR
+  - name: partner_label
+    type: VARCHAR
+  - name: flow
+    type: VARCHAR
+  - name: flow_label
+    type: VARCHAR
+  - name: processfoodcategory
+    type: VARCHAR
+  - name: processfoodcategory_label
+    type: VARCHAR
+  - name: us_at_current_prices_in_millions
+    type: DOUBLE
+  - name: us_at_current_prices_in_millions_footnote
+    type: VARCHAR
+  - name: us_at_current_prices_in_millions_missing_value
+    type: VARCHAR
+  - name: percentage_of_total_food
+    type: DOUBLE
+  - name: percentage_of_total_food_footnote
+    type: VARCHAR
+  - name: percentage_of_total_food_missing_value
+    type: VARCHAR
+  - name: growth_rate_year_on_year
+    type: DOUBLE
+  - name: growth_rate_year_on_year_footnote
+    type: VARCHAR
+  - name: growth_rate_year_on_year_missing_value
+    type: VARCHAR
+  - name: percentage_of_total_merchandise_trade
+    type: DOUBLE
+  - name: percentage_of_total_merchandise_trade_footnote
+    type: VARCHAR
+  - name: percentage_of_total_merchandise_trade_missing_value
+    type: VARCHAR

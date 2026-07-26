@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unctad-us.biotrademerchmarketindices`. Regenerate after model-verify.
+key: [product, product_label, year, flow, flow_label]
+temporal: year
+sort: [year, product, product_label, flow, flow_label]
+columns:
+  - name: year
+    type: BIGINT
+  - name: product
+    type: VARCHAR
+  - name: product_label
+    type: VARCHAR
+  - name: flow
+    type: VARCHAR
+  - name: flow_label
+    type: VARCHAR
+  - name: market_concentration_index
+    type: DOUBLE
+  - name: market_concentration_index_footnote
+    type: VARCHAR
+  - name: market_concentration_index_missing_value
+    type: VARCHAR
+  - name: structural_change_index
+    type: DOUBLE
+  - name: structural_change_index_footnote
+    type: VARCHAR
+  - name: structural_change_index_missing_value
+    type: VARCHAR

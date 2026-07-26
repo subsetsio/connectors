@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unctad-us.govexpenditures`. Regenerate after model-verify.
+key: [economy_label, economy, year, governmentexpenditure, governmentexpenditure_label]
+temporal: year
+sort: [year, economy_label, economy, governmentexpenditure, governmentexpenditure_label]
+columns:
+  - name: year
+    type: BIGINT
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: governmentexpenditure
+    type: VARCHAR
+  - name: governmentexpenditure_label
+    type: VARCHAR
+  - name: us_dollars_at_current_prices_in_millions
+    type: DOUBLE
+  - name: us_dollars_at_current_prices_in_millions_footnote
+    type: VARCHAR
+  - name: us_dollars_at_current_prices_in_millions_missing_value
+    type: VARCHAR
+  - name: percentage_of_gross_domestic_product
+    type: DOUBLE
+  - name: percentage_of_gross_domestic_product_footnote
+    type: VARCHAR
+  - name: percentage_of_gross_domestic_product_missing_value
+    type: VARCHAR
