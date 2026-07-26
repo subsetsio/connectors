@@ -44,13 +44,13 @@ SLUG = "central-bureau-of-statistics"
 
 
 def _get_json(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 420.0))
+    resp = get(url, params=params, timeout=(10.0, 420.0), headers={"Connection": "close"})
     resp.raise_for_status()
     return resp.json()
 
 
 def _get_text(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 420.0))
+    resp = get(url, params=params, timeout=(10.0, 420.0), headers={"Connection": "close"})
     resp.raise_for_status()
     return resp.text
 
