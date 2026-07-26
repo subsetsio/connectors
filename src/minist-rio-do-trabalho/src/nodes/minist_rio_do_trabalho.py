@@ -455,7 +455,7 @@ def _discover_caged_legacy() -> list:
 
 def _discover_caged_ajustes() -> list:
     """Out-of-deadline CAGED adjustments (CAGED_AJUSTES). Two filename eras under
-    /CAGED_AJUSTES/<dir>/: monthly CAGEDEST_AJUSTES_MMYYYY.7z (2010-2020) and
+    /CAGED_AJUSTES/<dir>/: monthly CAGEDEST_AJUSTES_MMYYYY.7z (2010-2019) and
     annual CAGEDEST_AJUSTES_YYYY.7z (grouped in the 2002a2009 dir). Monthly files
     inject `competencia` (yyyymm); annual aggregates inject `ano` — batch keys
     (6-digit yyyymm vs 4-digit year) never collide."""
@@ -464,10 +464,12 @@ def _discover_caged_ajustes() -> list:
     for year in range(2002, 2010):
         filename = f"CAGEDEST_AJUSTES_{year}.7z"
         out.append((f"{year}", base + "2002a2009/" + quote(filename), {"ano": year, "arquivo_fonte": filename[:-3]}))
-    for comp in _month_ints(2010, 1, 2020, 12):
+    for comp in _month_ints(2010, 1, 2019, 12):
         year, month = divmod(comp, 100)
         filename = f"CAGEDEST_AJUSTES_{month:02d}{year}.7z"
-        out.append((f"{comp}", base + f"{year}/" + quote(filename), {"competencia": comp, "arquivo_fonte": filename[:-3]}))
+        url = base + f"{year}/" + quote(filename)
+        if _ftp_exists(url):
+            out.append((f"{comp}", url, {"competencia": comp, "arquivo_fonte": filename[:-3]}))
     return out
 
 
