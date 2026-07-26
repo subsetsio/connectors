@@ -15,7 +15,7 @@ for free. The large datasets (IndividualAssistanceHousingRegistrantsLargeDisaste
 ~6.4M rows, IpawsArchivedAlerts ~4.9M, FimaNfipClaims ~2.7M, ...) are streamed
 chunk-by-chunk straight to the raw store so peak memory stays bounded regardless
 of file size. On-demand generation for these can be slow and occasionally 503s
-while the server builds the file — covered by the transient-retry decorator.
+while the server builds the file — covered by the transient retry loop.
 
 Scope note — three catalog entities are deliberately EXCLUDED (scored below the
 publish threshold in rank, rule `not_extractable_at_scale`): FimaNfipPolicies
@@ -41,13 +41,11 @@ fundamentally different transport (e.g. an authenticated/bucket mirror, or a
 checkpointed keyset pager budgeted for multi-hour runs).
 """
 
+import shutil
+import tempfile
+import time
+
 import httpx
-from tenacity import (
-    retry,
-    retry_if_exception,
-    stop_after_attempt,
-    wait_exponential,
-)
 from subsets_utils import NodeSpec, get_client, raw_writer
 
 # Entity name -> OpenFEMA API version (the path segment v1/v2/v4). Copied from
@@ -140,7 +138,7 @@ _TRANSIENT_EXC = (
 class _TransientDownload(Exception):
     """A response that arrived intact at the HTTP layer but is not the dataset:
     an Akamai/Drupal HTML error stub served with a 2xx, or a length-mismatched
-    body. Raised so the retry decorator re-fetches instead of writing garbage."""
+    body. Raised so the retry loop re-fetches instead of writing garbage."""
 
 
 def _is_transient(exc: BaseException) -> bool:
@@ -154,20 +152,15 @@ def _is_transient(exc: BaseException) -> bool:
     return False
 
 
-@retry(
-    retry=retry_if_exception(_is_transient),
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(min=10, max=300),
-    reraise=True,
-)
 def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> None:
     """Stream one full-corpus file verbatim into the raw store under `ext`.
 
     raise_for_status() fires BEFORE the raw_writer opens, so a permanent 4xx
-    leaves no partial file. The whole open-write-stream is inside the retried fn
-    so a transient mid-stream failure restarts cleanly (raw_writer overwrites the
-    asset under the same extension; the success-path record_write/print only fire
-    when the stream completes). Memory is bounded by the chunk size, not the file
+    leaves no partial raw object. The download first lands in a local temp file;
+    if OpenFEMA drops the chunked stream mid-body, the next attempt asks for the
+    remaining byte range and appends only when the server returns 206. The raw
+    writer opens only after the local file is complete, so failed attempts do not
+    advance the raw manifest. Memory is bounded by the chunk size, not the file
     size — required for the multi-GB datasets. We use the shared httpx client's
     streaming interface (a public subsets_utils export) because the buffered
     get() would hold the entire file in RAM.
@@ -179,30 +172,86 @@ def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> N
         on-demand corpora instead of the real file;
       - a body shorter than the advertised Content-Length (httpx raises
         RemoteProtocolError itself, but a clean truncation is double-checked).
-    Both clear on a later attempt, so we raise `_TransientDownload` to re-fetch.
+    Both clear on a later attempt, so we raise `_TransientDownload` to retry.
     The retry budget (8 attempts, backoff to 300s) spans ~15 min — enough to ride
     out the 503/HTML-stub windows the heavy datasets show under concurrent load.
     """
     client = get_client()
     # (connect, read) — read timeout is generous: full-file delivery of the
     # largest datasets streams for minutes.
-    headers = {"Accept-Encoding": "identity"}
-    with client.stream("GET", url, params=params, headers=headers, timeout=(15.0, 900.0)) as resp:
-        resp.raise_for_status()
-        ctype = resp.headers.get("content-type", "").lower()
-        if "text/html" in ctype:
-            # Not the dataset — an Akamai/Drupal error page slipped through as 2xx.
-            raise _TransientDownload(f"{node_id}: HTML error stub (content-type={ctype!r})")
-        expected = resp.headers.get("content-length")
-        written = 0
+    base_headers = {"Accept-Encoding": "identity"}
+    expected_total: int | None = None
+    resumable = True
+    last_error: BaseException | None = None
+
+    with tempfile.NamedTemporaryFile(prefix=f"{node_id}.", suffix=f".{ext}") as tmp:
+        for attempt in range(1, 9):
+            offset = tmp.tell()
+            headers = dict(base_headers)
+            if offset and resumable:
+                headers["Range"] = f"bytes={offset}-"
+            elif offset:
+                tmp.seek(0)
+                tmp.truncate(0)
+                offset = 0
+
+            try:
+                with client.stream(
+                    "GET",
+                    url,
+                    params=params,
+                    headers=headers,
+                    timeout=(15.0, 900.0),
+                ) as resp:
+                    if resp.status_code == 416 and expected_total is not None and offset >= expected_total:
+                        break
+                    resp.raise_for_status()
+                    ctype = resp.headers.get("content-type", "").lower()
+                    if "text/html" in ctype:
+                        # Not the dataset — an Akamai/Drupal error page slipped through as 2xx.
+                        raise _TransientDownload(f"{node_id}: HTML error stub (content-type={ctype!r})")
+
+                    if offset and resp.status_code != 206:
+                        # Server ignored Range; restart cleanly rather than appending a duplicate file.
+                        resumable = False
+                        tmp.seek(0)
+                        tmp.truncate(0)
+                        offset = 0
+                    elif resp.status_code == 206:
+                        content_range = resp.headers.get("content-range", "")
+                        if "/" in content_range:
+                            total = content_range.rsplit("/", 1)[-1]
+                            if total.isdigit():
+                                expected_total = int(total)
+
+                    if expected_total is None:
+                        expected = resp.headers.get("content-length")
+                        if expected is not None and expected.isdigit():
+                            expected_total = offset + int(expected)
+
+                    for chunk in resp.iter_bytes(1 << 20):  # 1 MiB
+                        tmp.write(chunk)
+                    tmp.flush()
+
+                written = tmp.tell()
+                if expected_total is None or written >= expected_total:
+                    break
+                raise _TransientDownload(
+                    f"{node_id}: truncated download ({written} of {expected_total} bytes)"
+                )
+            except BaseException as exc:
+                if not _is_transient(exc) or attempt == 8:
+                    raise
+                last_error = exc
+                time.sleep(min(300, 10 * 2 ** (attempt - 1)))
+        else:
+            if last_error is not None:
+                raise last_error
+            raise _TransientDownload(f"{node_id}: download did not complete")
+
+        tmp.seek(0)
         with raw_writer(node_id, ext, mode="wb") as out:
-            for chunk in resp.iter_bytes(1 << 20):  # 1 MiB
-                out.write(chunk)
-                written += len(chunk)
-        if expected is not None and written < int(expected):
-            raise _TransientDownload(
-                f"{node_id}: truncated download ({written} of {expected} bytes)"
-            )
+            shutil.copyfileobj(tmp, out, length=1 << 20)
 
 
 def fetch_one(node_id: str) -> None:
