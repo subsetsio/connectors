@@ -25,9 +25,9 @@ tests:
   certainty: 90
 - between:
     col: year
-    lo: 1900
+    lo: 1800
     hi: 2100
-  reason: GENESIS periods span modern German official statistics; the upper bound is loose on purpose because population and household projections run decades ahead
+  reason: GENESIS periods include historical German official statistics as well as projections; the range catches parsing errors while allowing long-running historical series.
   certainty: 95
 - freshness:
     col: year
