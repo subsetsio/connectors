@@ -1,0 +1,729 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-common-core-of-data-nonfiscal-survey-2015-16-bb63c`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: archive_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: survyear
+    type: VARCHAR
+  - name: fipst
+    type: VARCHAR
+  - name: stabr
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: seaname
+    type: VARCHAR
+  - name: mstreet1
+    type: VARCHAR
+  - name: mstreet2
+    type: VARCHAR
+  - name: mstreet3
+    type: VARCHAR
+  - name: mcity
+    type: VARCHAR
+  - name: mstate
+    type: VARCHAR
+  - name: mzip
+    type: VARCHAR
+  - name: mzip4
+    type: VARCHAR
+  - name: phone
+    type: VARCHAR
+  - name: website
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: pk
+    type: VARCHAR
+  - name: kg
+    type: VARCHAR
+  - name: g01
+    type: VARCHAR
+  - name: g02
+    type: VARCHAR
+  - name: g03
+    type: VARCHAR
+  - name: g04
+    type: VARCHAR
+  - name: g05
+    type: VARCHAR
+  - name: g06
+    type: VARCHAR
+  - name: g07
+    type: VARCHAR
+  - name: g08
+    type: VARCHAR
+  - name: g09
+    type: VARCHAR
+  - name: g10
+    type: VARCHAR
+  - name: g11
+    type: VARCHAR
+  - name: g12
+    type: VARCHAR
+  - name: g13
+    type: VARCHAR
+  - name: ug
+    type: VARCHAR
+  - name: ae
+    type: VARCHAR
+  - name: total
+    type: VARCHAR
+  - name: member
+    type: VARCHAR
+  - name: ampkm
+    type: VARCHAR
+  - name: ampkf
+    type: VARCHAR
+  - name: aspkm
+    type: VARCHAR
+  - name: aspkf
+    type: VARCHAR
+  - name: hipkm
+    type: VARCHAR
+  - name: hipkf
+    type: VARCHAR
+  - name: blpkm
+    type: VARCHAR
+  - name: blpkf
+    type: VARCHAR
+  - name: whpkm
+    type: VARCHAR
+  - name: whpkf
+    type: VARCHAR
+  - name: hppkm
+    type: VARCHAR
+  - name: hppkf
+    type: VARCHAR
+  - name: trpkm
+    type: VARCHAR
+  - name: trpkf
+    type: VARCHAR
+  - name: amkgm
+    type: VARCHAR
+  - name: amkgf
+    type: VARCHAR
+  - name: askgm
+    type: VARCHAR
+  - name: askgf
+    type: VARCHAR
+  - name: hikgm
+    type: VARCHAR
+  - name: hikgf
+    type: VARCHAR
+  - name: blkgm
+    type: VARCHAR
+  - name: blkgf
+    type: VARCHAR
+  - name: whkgm
+    type: VARCHAR
+  - name: whkgf
+    type: VARCHAR
+  - name: hpkgm
+    type: VARCHAR
+  - name: hpkgf
+    type: VARCHAR
+  - name: trkgm
+    type: VARCHAR
+  - name: trkgf
+    type: VARCHAR
+  - name: am01m
+    type: VARCHAR
+  - name: am01f
+    type: VARCHAR
+  - name: as01m
+    type: VARCHAR
+  - name: as01f
+    type: VARCHAR
+  - name: hi01m
+    type: VARCHAR
+  - name: hi01f
+    type: VARCHAR
+  - name: bl01m
+    type: VARCHAR
+  - name: bl01f
+    type: VARCHAR
+  - name: wh01m
+    type: VARCHAR
+  - name: wh01f
+    type: VARCHAR
+  - name: hp01m
+    type: VARCHAR
+  - name: hp01f
+    type: VARCHAR
+  - name: tr01m
+    type: VARCHAR
+  - name: tr01f
+    type: VARCHAR
+  - name: am02m
+    type: VARCHAR
+  - name: am02f
+    type: VARCHAR
+  - name: as02m
+    type: VARCHAR
+  - name: as02f
+    type: VARCHAR
+  - name: hi02m
+    type: VARCHAR
+  - name: hi02f
+    type: VARCHAR
+  - name: bl02m
+    type: VARCHAR
+  - name: bl02f
+    type: VARCHAR
+  - name: wh02m
+    type: VARCHAR
+  - name: wh02f
+    type: VARCHAR
+  - name: hp02m
+    type: VARCHAR
+  - name: hp02f
+    type: VARCHAR
+  - name: tr02m
+    type: VARCHAR
+  - name: tr02f
+    type: VARCHAR
+  - name: am03m
+    type: VARCHAR
+  - name: am03f
+    type: VARCHAR
+  - name: as03m
+    type: VARCHAR
+  - name: as03f
+    type: VARCHAR
+  - name: hi03m
+    type: VARCHAR
+  - name: hi03f
+    type: VARCHAR
+  - name: bl03m
+    type: VARCHAR
+  - name: bl03f
+    type: VARCHAR
+  - name: wh03m
+    type: VARCHAR
+  - name: wh03f
+    type: VARCHAR
+  - name: hp03m
+    type: VARCHAR
+  - name: hp03f
+    type: VARCHAR
+  - name: tr03m
+    type: VARCHAR
+  - name: tr03f
+    type: VARCHAR
+  - name: am04m
+    type: VARCHAR
+  - name: am04f
+    type: VARCHAR
+  - name: as04m
+    type: VARCHAR
+  - name: as04f
+    type: VARCHAR
+  - name: hi04m
+    type: VARCHAR
+  - name: hi04f
+    type: VARCHAR
+  - name: bl04m
+    type: VARCHAR
+  - name: bl04f
+    type: VARCHAR
+  - name: wh04m
+    type: VARCHAR
+  - name: wh04f
+    type: VARCHAR
+  - name: hp04m
+    type: VARCHAR
+  - name: hp04f
+    type: VARCHAR
+  - name: tr04m
+    type: VARCHAR
+  - name: tr04f
+    type: VARCHAR
+  - name: am05m
+    type: VARCHAR
+  - name: am05f
+    type: VARCHAR
+  - name: as05m
+    type: VARCHAR
+  - name: as05f
+    type: VARCHAR
+  - name: hi05m
+    type: VARCHAR
+  - name: hi05f
+    type: VARCHAR
+  - name: bl05m
+    type: VARCHAR
+  - name: bl05f
+    type: VARCHAR
+  - name: wh05m
+    type: VARCHAR
+  - name: wh05f
+    type: VARCHAR
+  - name: hp05m
+    type: VARCHAR
+  - name: hp05f
+    type: VARCHAR
+  - name: tr05m
+    type: VARCHAR
+  - name: tr05f
+    type: VARCHAR
+  - name: am06m
+    type: VARCHAR
+  - name: am06f
+    type: VARCHAR
+  - name: as06m
+    type: VARCHAR
+  - name: as06f
+    type: VARCHAR
+  - name: hi06m
+    type: VARCHAR
+  - name: hi06f
+    type: VARCHAR
+  - name: bl06m
+    type: VARCHAR
+  - name: bl06f
+    type: VARCHAR
+  - name: wh06m
+    type: VARCHAR
+  - name: wh06f
+    type: VARCHAR
+  - name: hp06m
+    type: VARCHAR
+  - name: hp06f
+    type: VARCHAR
+  - name: tr06m
+    type: VARCHAR
+  - name: tr06f
+    type: VARCHAR
+  - name: am07m
+    type: VARCHAR
+  - name: am07f
+    type: VARCHAR
+  - name: as07m
+    type: VARCHAR
+  - name: as07f
+    type: VARCHAR
+  - name: hi07m
+    type: VARCHAR
+  - name: hi07f
+    type: VARCHAR
+  - name: bl07m
+    type: VARCHAR
+  - name: bl07f
+    type: VARCHAR
+  - name: wh07m
+    type: VARCHAR
+  - name: wh07f
+    type: VARCHAR
+  - name: hp07m
+    type: VARCHAR
+  - name: hp07f
+    type: VARCHAR
+  - name: tr07m
+    type: VARCHAR
+  - name: tr07f
+    type: VARCHAR
+  - name: am08m
+    type: VARCHAR
+  - name: am08f
+    type: VARCHAR
+  - name: as08m
+    type: VARCHAR
+  - name: as08f
+    type: VARCHAR
+  - name: hi08m
+    type: VARCHAR
+  - name: hi08f
+    type: VARCHAR
+  - name: bl08m
+    type: VARCHAR
+  - name: bl08f
+    type: VARCHAR
+  - name: wh08m
+    type: VARCHAR
+  - name: wh08f
+    type: VARCHAR
+  - name: hp08m
+    type: VARCHAR
+  - name: hp08f
+    type: VARCHAR
+  - name: tr08m
+    type: VARCHAR
+  - name: tr08f
+    type: VARCHAR
+  - name: am09m
+    type: VARCHAR
+  - name: am09f
+    type: VARCHAR
+  - name: as09m
+    type: VARCHAR
+  - name: as09f
+    type: VARCHAR
+  - name: hi09m
+    type: VARCHAR
+  - name: hi09f
+    type: VARCHAR
+  - name: bl09m
+    type: VARCHAR
+  - name: bl09f
+    type: VARCHAR
+  - name: wh09m
+    type: VARCHAR
+  - name: wh09f
+    type: VARCHAR
+  - name: hp09m
+    type: VARCHAR
+  - name: hp09f
+    type: VARCHAR
+  - name: tr09m
+    type: VARCHAR
+  - name: tr09f
+    type: VARCHAR
+  - name: am10m
+    type: VARCHAR
+  - name: am10f
+    type: VARCHAR
+  - name: as10m
+    type: VARCHAR
+  - name: as10f
+    type: VARCHAR
+  - name: hi10m
+    type: VARCHAR
+  - name: hi10f
+    type: VARCHAR
+  - name: bl10m
+    type: VARCHAR
+  - name: bl10f
+    type: VARCHAR
+  - name: wh10m
+    type: VARCHAR
+  - name: wh10f
+    type: VARCHAR
+  - name: hp10m
+    type: VARCHAR
+  - name: hp10f
+    type: VARCHAR
+  - name: tr10m
+    type: VARCHAR
+  - name: tr10f
+    type: VARCHAR
+  - name: am11m
+    type: VARCHAR
+  - name: am11f
+    type: VARCHAR
+  - name: as11m
+    type: VARCHAR
+  - name: as11f
+    type: VARCHAR
+  - name: hi11m
+    type: VARCHAR
+  - name: hi11f
+    type: VARCHAR
+  - name: bl11m
+    type: VARCHAR
+  - name: bl11f
+    type: VARCHAR
+  - name: wh11m
+    type: VARCHAR
+  - name: wh11f
+    type: VARCHAR
+  - name: hp11m
+    type: VARCHAR
+  - name: hp11f
+    type: VARCHAR
+  - name: tr11m
+    type: VARCHAR
+  - name: tr11f
+    type: VARCHAR
+  - name: am12m
+    type: VARCHAR
+  - name: am12f
+    type: VARCHAR
+  - name: as12m
+    type: VARCHAR
+  - name: as12f
+    type: VARCHAR
+  - name: hi12m
+    type: VARCHAR
+  - name: hi12f
+    type: VARCHAR
+  - name: bl12m
+    type: VARCHAR
+  - name: bl12f
+    type: VARCHAR
+  - name: wh12m
+    type: VARCHAR
+  - name: wh12f
+    type: VARCHAR
+  - name: hp12m
+    type: VARCHAR
+  - name: hp12f
+    type: VARCHAR
+  - name: tr12m
+    type: VARCHAR
+  - name: tr12f
+    type: VARCHAR
+  - name: am13m
+    type: VARCHAR
+  - name: am13f
+    type: VARCHAR
+  - name: as13m
+    type: VARCHAR
+  - name: as13f
+    type: VARCHAR
+  - name: hi13m
+    type: VARCHAR
+  - name: hi13f
+    type: VARCHAR
+  - name: bl13m
+    type: VARCHAR
+  - name: bl13f
+    type: VARCHAR
+  - name: wh13m
+    type: VARCHAR
+  - name: wh13f
+    type: VARCHAR
+  - name: hp13m
+    type: VARCHAR
+  - name: hp13f
+    type: VARCHAR
+  - name: tr13m
+    type: VARCHAR
+  - name: tr13f
+    type: VARCHAR
+  - name: amugm
+    type: VARCHAR
+  - name: amugf
+    type: VARCHAR
+  - name: asugm
+    type: VARCHAR
+  - name: asugf
+    type: VARCHAR
+  - name: hiugm
+    type: VARCHAR
+  - name: hiugf
+    type: VARCHAR
+  - name: blugm
+    type: VARCHAR
+  - name: blugf
+    type: VARCHAR
+  - name: whugm
+    type: VARCHAR
+  - name: whugf
+    type: VARCHAR
+  - name: hpugm
+    type: VARCHAR
+  - name: hpugf
+    type: VARCHAR
+  - name: trugm
+    type: VARCHAR
+  - name: trugf
+    type: VARCHAR
+  - name: amaem
+    type: VARCHAR
+  - name: amaef
+    type: VARCHAR
+  - name: asaem
+    type: VARCHAR
+  - name: asaef
+    type: VARCHAR
+  - name: hiaem
+    type: VARCHAR
+  - name: hiaef
+    type: VARCHAR
+  - name: blaem
+    type: VARCHAR
+  - name: blaef
+    type: VARCHAR
+  - name: whaem
+    type: VARCHAR
+  - name: whaef
+    type: VARCHAR
+  - name: hpaem
+    type: VARCHAR
+  - name: hpaef
+    type: VARCHAR
+  - name: traem
+    type: VARCHAR
+  - name: traef
+    type: VARCHAR
+  - name: am
+    type: VARCHAR
+  - name: amalm
+    type: VARCHAR
+  - name: amalf
+    type: VARCHAR
+  - name: as
+    type: VARCHAR
+  - name: asalm
+    type: VARCHAR
+  - name: asalf
+    type: VARCHAR
+  - name: hi
+    type: VARCHAR
+  - name: hialm
+    type: VARCHAR
+  - name: hialf
+    type: VARCHAR
+  - name: bl
+    type: VARCHAR
+  - name: blalm
+    type: VARCHAR
+  - name: blalf
+    type: VARCHAR
+  - name: wh
+    type: VARCHAR
+  - name: whalm
+    type: VARCHAR
+  - name: whalf
+    type: VARCHAR
+  - name: hp
+    type: VARCHAR
+  - name: hpalm
+    type: VARCHAR
+  - name: hpalf
+    type: VARCHAR
+  - name: tr
+    type: VARCHAR
+  - name: tralm
+    type: VARCHAR
+  - name: tralf
+    type: VARCHAR
+  - name: ipk
+    type: VARCHAR
+  - name: ikg
+    type: VARCHAR
+  - name: ig01
+    type: VARCHAR
+  - name: ig02
+    type: VARCHAR
+  - name: ig03
+    type: VARCHAR
+  - name: ig04
+    type: VARCHAR
+  - name: ig05
+    type: VARCHAR
+  - name: ig06
+    type: VARCHAR
+  - name: ig07
+    type: VARCHAR
+  - name: ig08
+    type: VARCHAR
+  - name: ig09
+    type: VARCHAR
+  - name: ig10
+    type: VARCHAR
+  - name: ig11
+    type: VARCHAR
+  - name: ig12
+    type: VARCHAR
+  - name: ig13
+    type: VARCHAR
+  - name: iug
+    type: VARCHAR
+  - name: iae
+    type: VARCHAR
+  - name: itotal
+    type: VARCHAR
+  - name: imember
+    type: VARCHAR
+  - name: schsup
+    type: VARCHAR
+  - name: sectch
+    type: VARCHAR
+  - name: staff
+    type: VARCHAR
+  - name: elmgui
+    type: VARCHAR
+  - name: kgtch
+    type: VARCHAR
+  - name: leasup
+    type: VARCHAR
+  - name: para
+    type: VARCHAR
+  - name: secgui
+    type: VARCHAR
+  - name: corsup
+    type: VARCHAR
+  - name: elmtch
+    type: VARCHAR
+  - name: libsup
+    type: VARCHAR
+  - name: schadm
+    type: VARCHAR
+  - name: stusup
+    type: VARCHAR
+  - name: gui
+    type: VARCHAR
+  - name: leaadm
+    type: VARCHAR
+  - name: libspe
+    type: VARCHAR
+  - name: othsup
+    type: VARCHAR
+  - name: pktch
+    type: VARCHAR
+  - name: ugtch
+    type: VARCHAR
+  - name: tottch
+    type: VARCHAR
+  - name: totgui
+    type: VARCHAR
+  - name: ischsup
+    type: VARCHAR
+  - name: isectch
+    type: VARCHAR
+  - name: istaff
+    type: VARCHAR
+  - name: ielmgui
+    type: VARCHAR
+  - name: ikgtch
+    type: VARCHAR
+  - name: ileasup
+    type: VARCHAR
+  - name: ipara
+    type: VARCHAR
+  - name: isecgui
+    type: VARCHAR
+  - name: icorsup
+    type: VARCHAR
+  - name: ielmtch
+    type: VARCHAR
+  - name: ilibsup
+    type: VARCHAR
+  - name: ischadm
+    type: VARCHAR
+  - name: istusup
+    type: VARCHAR
+  - name: igui
+    type: VARCHAR
+  - name: ileaadm
+    type: VARCHAR
+  - name: ilibspe
+    type: VARCHAR
+  - name: iothsup
+    type: VARCHAR
+  - name: ipktch
+    type: VARCHAR
+  - name: iugtch
+    type: VARCHAR
+  - name: itottch
+    type: VARCHAR
+  - name: itotgui
+    type: VARCHAR

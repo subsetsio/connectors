@@ -1,0 +1,10 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-education-service-learning-and-community-service-in-k-12-public-schools-1999-4acd3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+checks:
+  - kind: row_floor
+    min: 915
+regression:
+  row_shrink_tolerance: 0.1

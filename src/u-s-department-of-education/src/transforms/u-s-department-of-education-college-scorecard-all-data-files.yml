@@ -1,0 +1,227 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-college-scorecard-all-data-files`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: subsets_record_type
+    type: VARCHAR
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: error
+    type: VARCHAR
+  - name: archive_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: unitid
+    type: VARCHAR
+  - name: opeid6
+    type: VARCHAR
+  - name: instnm
+    type: VARCHAR
+  - name: control
+    type: VARCHAR
+  - name: main
+    type: VARCHAR
+  - name: cipcode
+    type: VARCHAR
+  - name: cipdesc
+    type: VARCHAR
+  - name: credlev
+    type: VARCHAR
+  - name: creddesc
+    type: VARCHAR
+  - name: ipedscount1
+    type: VARCHAR
+  - name: ipedscount2
+    type: VARCHAR
+  - name: debt_all_stgp_any_n
+    type: VARCHAR
+  - name: debt_all_stgp_any_mean
+    type: VARCHAR
+  - name: debt_all_stgp_any_mdn
+    type: VARCHAR
+  - name: debt_all_stgp_eval_n
+    type: VARCHAR
+  - name: debt_all_stgp_eval_mean
+    type: VARCHAR
+  - name: debt_all_stgp_eval_mdn
+    type: VARCHAR
+  - name: debt_all_pp_any_n
+    type: VARCHAR
+  - name: debt_all_pp_any_mean
+    type: VARCHAR
+  - name: debt_all_pp_any_mdn
+    type: VARCHAR
+  - name: debt_all_pp_eval_n
+    type: VARCHAR
+  - name: debt_all_pp_eval_mean
+    type: VARCHAR
+  - name: debt_all_pp_eval_mdn
+    type: VARCHAR
+  - name: debt_male_stgp_any_n
+    type: VARCHAR
+  - name: debt_male_stgp_any_mean
+    type: VARCHAR
+  - name: debt_male_stgp_any_mdn
+    type: VARCHAR
+  - name: debt_male_stgp_eval_n
+    type: VARCHAR
+  - name: debt_male_stgp_eval_mean
+    type: VARCHAR
+  - name: debt_male_stgp_eval_mdn
+    type: VARCHAR
+  - name: debt_male_pp_any_n
+    type: VARCHAR
+  - name: debt_male_pp_any_mean
+    type: VARCHAR
+  - name: debt_male_pp_any_mdn
+    type: VARCHAR
+  - name: debt_male_pp_eval_n
+    type: VARCHAR
+  - name: debt_male_pp_eval_mean
+    type: VARCHAR
+  - name: debt_male_pp_eval_mdn
+    type: VARCHAR
+  - name: debt_notmale_stgp_any_n
+    type: VARCHAR
+  - name: debt_notmale_stgp_any_mean
+    type: VARCHAR
+  - name: debt_notmale_stgp_any_mdn
+    type: VARCHAR
+  - name: debt_notmale_stgp_eval_n
+    type: VARCHAR
+  - name: debt_notmale_stgp_eval_mean
+    type: VARCHAR
+  - name: debt_notmale_stgp_eval_mdn
+    type: VARCHAR
+  - name: debt_notmale_pp_any_n
+    type: VARCHAR
+  - name: debt_notmale_pp_any_mean
+    type: VARCHAR
+  - name: debt_notmale_pp_any_mdn
+    type: VARCHAR
+  - name: debt_notmale_pp_eval_n
+    type: VARCHAR
+  - name: debt_notmale_pp_eval_mean
+    type: VARCHAR
+  - name: debt_notmale_pp_eval_mdn
+    type: VARCHAR
+  - name: debt_pell_stgp_any_n
+    type: VARCHAR
+  - name: debt_pell_stgp_any_mean
+    type: VARCHAR
+  - name: debt_pell_stgp_any_mdn
+    type: VARCHAR
+  - name: debt_pell_stgp_eval_n
+    type: VARCHAR
+  - name: debt_pell_stgp_eval_mean
+    type: VARCHAR
+  - name: debt_pell_stgp_eval_mdn
+    type: VARCHAR
+  - name: debt_pell_pp_any_n
+    type: VARCHAR
+  - name: debt_pell_pp_any_mean
+    type: VARCHAR
+  - name: debt_pell_pp_any_mdn
+    type: VARCHAR
+  - name: debt_pell_pp_eval_n
+    type: VARCHAR
+  - name: debt_pell_pp_eval_mean
+    type: VARCHAR
+  - name: debt_pell_pp_eval_mdn
+    type: VARCHAR
+  - name: debt_nopell_stgp_any_n
+    type: VARCHAR
+  - name: debt_nopell_stgp_any_mean
+    type: VARCHAR
+  - name: debt_nopell_stgp_any_mdn
+    type: VARCHAR
+  - name: debt_nopell_stgp_eval_n
+    type: VARCHAR
+  - name: debt_nopell_stgp_eval_mean
+    type: VARCHAR
+  - name: debt_nopell_stgp_eval_mdn
+    type: VARCHAR
+  - name: debt_nopell_pp_any_n
+    type: VARCHAR
+  - name: debt_nopell_pp_any_mean
+    type: VARCHAR
+  - name: debt_nopell_pp_any_mdn
+    type: VARCHAR
+  - name: debt_nopell_pp_eval_n
+    type: VARCHAR
+  - name: debt_nopell_pp_eval_mean
+    type: VARCHAR
+  - name: debt_nopell_pp_eval_mdn
+    type: VARCHAR
+  - name: debt_all_pp_any_mdn10yrpay
+    type: VARCHAR
+  - name: debt_all_pp_eval_mdn10yrpay
+    type: VARCHAR
+  - name: debt_all_stgp_any_mdn10yrpay
+    type: VARCHAR
+  - name: debt_all_stgp_eval_mdn10yrpay
+    type: VARCHAR
+  - name: earn_count_nwne_hi_1yr
+    type: VARCHAR
+  - name: earn_cntover150_hi_1yr
+    type: VARCHAR
+  - name: earn_count_wne_hi_1yr
+    type: VARCHAR
+  - name: earn_mdn_hi_1yr
+    type: VARCHAR
+  - name: earn_count_nwne_hi_2yr
+    type: VARCHAR
+  - name: earn_cntover150_hi_2yr
+    type: VARCHAR
+  - name: earn_count_wne_hi_2yr
+    type: VARCHAR
+  - name: earn_mdn_hi_2yr
+    type: VARCHAR
+  - name: bbrr2_fed_comp_n
+    type: VARCHAR
+  - name: bbrr2_fed_comp_dflt
+    type: VARCHAR
+  - name: bbrr2_fed_comp_dlnq
+    type: VARCHAR
+  - name: bbrr2_fed_comp_fbr
+    type: VARCHAR
+  - name: bbrr2_fed_comp_dfr
+    type: VARCHAR
+  - name: bbrr2_fed_comp_noprog
+    type: VARCHAR
+  - name: bbrr2_fed_comp_makeprog
+    type: VARCHAR
+  - name: bbrr2_fed_comp_paidinfull
+    type: VARCHAR
+  - name: bbrr2_fed_comp_discharge
+    type: VARCHAR
+  - name: bbrr3_fed_comp_n
+    type: VARCHAR
+  - name: bbrr3_fed_comp_dflt
+    type: VARCHAR
+  - name: bbrr3_fed_comp_dlnq
+    type: VARCHAR
+  - name: bbrr3_fed_comp_fbr
+    type: VARCHAR
+  - name: bbrr3_fed_comp_dfr
+    type: VARCHAR
+  - name: bbrr3_fed_comp_noprog
+    type: VARCHAR
+  - name: bbrr3_fed_comp_makeprog
+    type: VARCHAR
+  - name: bbrr3_fed_comp_paidinfull
+    type: VARCHAR
+  - name: bbrr3_fed_comp_discharge
+    type: VARCHAR

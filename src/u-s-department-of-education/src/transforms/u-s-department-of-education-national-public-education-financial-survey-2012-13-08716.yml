@@ -1,0 +1,653 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-national-public-education-financial-survey-2012-13-08716`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: archive_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: survyear_fips_stabr_stname_r1a_r1b_r1c_r1d_r1e_r1f_r1g_r1h_r1i_r1j_r1k_r1l_r1m_r1n_str1_r2_r3_r4a_r4b_r4c_r4d_str4_r5_tr_e11_e12_e13_e14_e15_e16_e17_e18_ste1_e11a_e11b_e11c_e11d_e2_e212_e213_e214_e215_e216_e217_e218_te21_e222_e223_e224_e225_e226_e227_e228_te22_e232_e233_e234_e235_e236_e237_e238_te23_e242_e243_e244_e245_e246_e247_e248_te24_e252_e253_e254_e255_e256_e257_e258_te25_e262_e263_e264_e265_e266_e267_e268_te26_ste22_ste23_ste24_ste25_ste26_ste27_ste28_ste2t_e3a11_e3a12_e3a13_e3a14_e3a2_e3a16_e3a1_e3b11_e3b12_e3b13_e3b14_e3b2_e3b16_e3b1_ste3_e4a1_e4a2_e4b1_e4b2_e4c1_e4c2_e4d_e4e1_e4e2_ste4_te5_e61_e62_e63_ste6_e7a1_e7a2_ste7_e81_e82_e9a_e9b_e9c_e9d_e91_ste9_te10_te11_x12c_x12d_x12e_x12f_tx12_nce13_ada_a14a_a14b_ppe15_membr12_arraste1_arrate5_arrae81z_arrate10_arraste6_arratleiz_arraste4_ir1a_ir1b_ir1c_ir1d_ir1e_ir1f_ir1g_ir1h_ir1i_ir1j_ir1k_ir1l_ir1m_ir1n_istr1_ir2_ir3_ir4a_ir4b_ir4c_ir4d_istr4_ir5_itr_ie11_ie12_ie13_ie14_ie15_ie16_ie17_ie18_iste1_ie11a_ie11b_ie11c_ie11d_ie2_ie212_ie213_ie214_ie215_ie216_ie217_ie218_ite21_ie222_ie223_ie224_ie225_ie226_ie227_ie228_ite22_ie232_ie233_ie234_ie235_ie236_ie237_ie238_ite23_ie242_ie243_ie244_ie245_ie246_ie247_ie248_ite24_ie252_ie253_ie254_ie255_ie256_ie257_ie258_ite25_ie262_ie263_ie264_ie265_ie266_ie267_ie268_ite26_iste22_iste23_iste24_iste25_iste26_iste27_iste28_iste2t_ie3a11_ie3a12_ie3a13_ie3a14_ie3a2_ie3a16_ie3a1_ie3b11_ie3b12_ie3b13_ie3b14_ie3b2_ie3b16_ie3b1_iste3_ie4a1_ie4a2_ie4b1_ie4b2_ie4c1_ie4c2_ie4d_ie4e1_ie4e2_iste4_ite5_ie61_ie62_ie63_iste6_ie7a1_ie7a2_iste7_ie81_ie82_ie9a_ie9b_ie9c_ie9d_ie91_iste9_ite10_ite11_ix12c_ix12d_ix12e_ix12f_itx12_ince13_iada_ia14a_ia14b_ippe15_imembr12_iarraste1_iarrate5_iarrae81z_iarrate10_iarraste6_iarratleiz_iarraste4
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: survyear
+    type: VARCHAR
+  - name: fips
+    type: VARCHAR
+  - name: stabr
+    type: VARCHAR
+  - name: stname
+    type: VARCHAR
+  - name: r1a
+    type: VARCHAR
+  - name: r1b
+    type: VARCHAR
+  - name: r1c
+    type: VARCHAR
+  - name: r1d
+    type: VARCHAR
+  - name: r1e
+    type: VARCHAR
+  - name: r1f
+    type: VARCHAR
+  - name: r1g
+    type: VARCHAR
+  - name: r1h
+    type: VARCHAR
+  - name: r1i
+    type: VARCHAR
+  - name: r1j
+    type: VARCHAR
+  - name: r1k
+    type: VARCHAR
+  - name: r1l
+    type: VARCHAR
+  - name: r1m
+    type: VARCHAR
+  - name: r1n
+    type: VARCHAR
+  - name: str1
+    type: VARCHAR
+  - name: r2
+    type: VARCHAR
+  - name: r3
+    type: VARCHAR
+  - name: r4a
+    type: VARCHAR
+  - name: r4b
+    type: VARCHAR
+  - name: r4c
+    type: VARCHAR
+  - name: r4d
+    type: VARCHAR
+  - name: str4
+    type: VARCHAR
+  - name: r5
+    type: VARCHAR
+  - name: tr
+    type: VARCHAR
+  - name: e11
+    type: VARCHAR
+  - name: e12
+    type: VARCHAR
+  - name: e13
+    type: VARCHAR
+  - name: e14
+    type: VARCHAR
+  - name: e15
+    type: VARCHAR
+  - name: e16
+    type: VARCHAR
+  - name: e17
+    type: VARCHAR
+  - name: e18
+    type: VARCHAR
+  - name: ste1
+    type: VARCHAR
+  - name: e11a
+    type: VARCHAR
+  - name: e11b
+    type: VARCHAR
+  - name: e11c
+    type: VARCHAR
+  - name: e11d
+    type: VARCHAR
+  - name: e2
+    type: VARCHAR
+  - name: e212
+    type: VARCHAR
+  - name: e213
+    type: VARCHAR
+  - name: e214
+    type: VARCHAR
+  - name: e215
+    type: VARCHAR
+  - name: e216
+    type: VARCHAR
+  - name: e217
+    type: VARCHAR
+  - name: e218
+    type: VARCHAR
+  - name: te21
+    type: VARCHAR
+  - name: e222
+    type: VARCHAR
+  - name: e223
+    type: VARCHAR
+  - name: e224
+    type: VARCHAR
+  - name: e225
+    type: VARCHAR
+  - name: e226
+    type: VARCHAR
+  - name: e227
+    type: VARCHAR
+  - name: e228
+    type: VARCHAR
+  - name: te22
+    type: VARCHAR
+  - name: e232
+    type: VARCHAR
+  - name: e233
+    type: VARCHAR
+  - name: e234
+    type: VARCHAR
+  - name: e235
+    type: VARCHAR
+  - name: e236
+    type: VARCHAR
+  - name: e237
+    type: VARCHAR
+  - name: e238
+    type: VARCHAR
+  - name: te23
+    type: VARCHAR
+  - name: e242
+    type: VARCHAR
+  - name: e243
+    type: VARCHAR
+  - name: e244
+    type: VARCHAR
+  - name: e245
+    type: VARCHAR
+  - name: e246
+    type: VARCHAR
+  - name: e247
+    type: VARCHAR
+  - name: e248
+    type: VARCHAR
+  - name: te24
+    type: VARCHAR
+  - name: e252
+    type: VARCHAR
+  - name: e253
+    type: VARCHAR
+  - name: e254
+    type: VARCHAR
+  - name: e255
+    type: VARCHAR
+  - name: e256
+    type: VARCHAR
+  - name: e257
+    type: VARCHAR
+  - name: e258
+    type: VARCHAR
+  - name: te25
+    type: VARCHAR
+  - name: e262
+    type: VARCHAR
+  - name: e263
+    type: VARCHAR
+  - name: e264
+    type: VARCHAR
+  - name: e265
+    type: VARCHAR
+  - name: e266
+    type: VARCHAR
+  - name: e267
+    type: VARCHAR
+  - name: e268
+    type: VARCHAR
+  - name: te26
+    type: VARCHAR
+  - name: ste22
+    type: VARCHAR
+  - name: ste23
+    type: VARCHAR
+  - name: ste24
+    type: VARCHAR
+  - name: ste25
+    type: VARCHAR
+  - name: ste26
+    type: VARCHAR
+  - name: ste27
+    type: VARCHAR
+  - name: ste28
+    type: VARCHAR
+  - name: ste2t
+    type: VARCHAR
+  - name: e3a11
+    type: VARCHAR
+  - name: e3a12
+    type: VARCHAR
+  - name: e3a13
+    type: VARCHAR
+  - name: e3a14
+    type: VARCHAR
+  - name: e3a2
+    type: VARCHAR
+  - name: e3a16
+    type: VARCHAR
+  - name: e3a1
+    type: VARCHAR
+  - name: e3b11
+    type: VARCHAR
+  - name: e3b12
+    type: VARCHAR
+  - name: e3b13
+    type: VARCHAR
+  - name: e3b14
+    type: VARCHAR
+  - name: e3b2
+    type: VARCHAR
+  - name: e3b16
+    type: VARCHAR
+  - name: e3b1
+    type: VARCHAR
+  - name: ste3
+    type: VARCHAR
+  - name: e4a1
+    type: VARCHAR
+  - name: e4a2
+    type: VARCHAR
+  - name: e4b1
+    type: VARCHAR
+  - name: e4b2
+    type: VARCHAR
+  - name: e4c1
+    type: VARCHAR
+  - name: e4c2
+    type: VARCHAR
+  - name: e4d
+    type: VARCHAR
+  - name: e4e1
+    type: VARCHAR
+  - name: e4e2
+    type: VARCHAR
+  - name: ste4
+    type: VARCHAR
+  - name: te5
+    type: VARCHAR
+  - name: e61
+    type: VARCHAR
+  - name: e62
+    type: VARCHAR
+  - name: e63
+    type: VARCHAR
+  - name: ste6
+    type: VARCHAR
+  - name: e7a1
+    type: VARCHAR
+  - name: e7a2
+    type: VARCHAR
+  - name: ste7
+    type: VARCHAR
+  - name: e81
+    type: VARCHAR
+  - name: e82
+    type: VARCHAR
+  - name: e9a
+    type: VARCHAR
+  - name: e9b
+    type: VARCHAR
+  - name: e9c
+    type: VARCHAR
+  - name: e9d
+    type: VARCHAR
+  - name: e91
+    type: VARCHAR
+  - name: ste9
+    type: VARCHAR
+  - name: te10
+    type: VARCHAR
+  - name: te11
+    type: VARCHAR
+  - name: x12c
+    type: VARCHAR
+  - name: x12d
+    type: VARCHAR
+  - name: x12e
+    type: VARCHAR
+  - name: x12f
+    type: VARCHAR
+  - name: tx12
+    type: VARCHAR
+  - name: nce13
+    type: VARCHAR
+  - name: ada
+    type: VARCHAR
+  - name: a14a
+    type: VARCHAR
+  - name: a14b
+    type: VARCHAR
+  - name: ppe15
+    type: VARCHAR
+  - name: membr12
+    type: VARCHAR
+  - name: arraste1
+    type: VARCHAR
+  - name: arrate5
+    type: VARCHAR
+  - name: arrae81z
+    type: VARCHAR
+  - name: arrate10
+    type: VARCHAR
+  - name: arraste6
+    type: VARCHAR
+  - name: arratleiz
+    type: VARCHAR
+  - name: arraste4
+    type: VARCHAR
+  - name: ir1a
+    type: VARCHAR
+  - name: ir1b
+    type: VARCHAR
+  - name: ir1c
+    type: VARCHAR
+  - name: ir1d
+    type: VARCHAR
+  - name: ir1e
+    type: VARCHAR
+  - name: ir1f
+    type: VARCHAR
+  - name: ir1g
+    type: VARCHAR
+  - name: ir1h
+    type: VARCHAR
+  - name: ir1i
+    type: VARCHAR
+  - name: ir1j
+    type: VARCHAR
+  - name: ir1k
+    type: VARCHAR
+  - name: ir1l
+    type: VARCHAR
+  - name: ir1m
+    type: VARCHAR
+  - name: ir1n
+    type: VARCHAR
+  - name: istr1
+    type: VARCHAR
+  - name: ir2
+    type: VARCHAR
+  - name: ir3
+    type: VARCHAR
+  - name: ir4a
+    type: VARCHAR
+  - name: ir4b
+    type: VARCHAR
+  - name: ir4c
+    type: VARCHAR
+  - name: ir4d
+    type: VARCHAR
+  - name: istr4
+    type: VARCHAR
+  - name: ir5
+    type: VARCHAR
+  - name: itr
+    type: VARCHAR
+  - name: ie11
+    type: VARCHAR
+  - name: ie12
+    type: VARCHAR
+  - name: ie13
+    type: VARCHAR
+  - name: ie14
+    type: VARCHAR
+  - name: ie15
+    type: VARCHAR
+  - name: ie16
+    type: VARCHAR
+  - name: ie17
+    type: VARCHAR
+  - name: ie18
+    type: VARCHAR
+  - name: iste1
+    type: VARCHAR
+  - name: ie11a
+    type: VARCHAR
+  - name: ie11b
+    type: VARCHAR
+  - name: ie11c
+    type: VARCHAR
+  - name: ie11d
+    type: VARCHAR
+  - name: ie2
+    type: VARCHAR
+  - name: ie212
+    type: VARCHAR
+  - name: ie213
+    type: VARCHAR
+  - name: ie214
+    type: VARCHAR
+  - name: ie215
+    type: VARCHAR
+  - name: ie216
+    type: VARCHAR
+  - name: ie217
+    type: VARCHAR
+  - name: ie218
+    type: VARCHAR
+  - name: ite21
+    type: VARCHAR
+  - name: ie222
+    type: VARCHAR
+  - name: ie223
+    type: VARCHAR
+  - name: ie224
+    type: VARCHAR
+  - name: ie225
+    type: VARCHAR
+  - name: ie226
+    type: VARCHAR
+  - name: ie227
+    type: VARCHAR
+  - name: ie228
+    type: VARCHAR
+  - name: ite22
+    type: VARCHAR
+  - name: ie232
+    type: VARCHAR
+  - name: ie233
+    type: VARCHAR
+  - name: ie234
+    type: VARCHAR
+  - name: ie235
+    type: VARCHAR
+  - name: ie236
+    type: VARCHAR
+  - name: ie237
+    type: VARCHAR
+  - name: ie238
+    type: VARCHAR
+  - name: ite23
+    type: VARCHAR
+  - name: ie242
+    type: VARCHAR
+  - name: ie243
+    type: VARCHAR
+  - name: ie244
+    type: VARCHAR
+  - name: ie245
+    type: VARCHAR
+  - name: ie246
+    type: VARCHAR
+  - name: ie247
+    type: VARCHAR
+  - name: ie248
+    type: VARCHAR
+  - name: ite24
+    type: VARCHAR
+  - name: ie252
+    type: VARCHAR
+  - name: ie253
+    type: VARCHAR
+  - name: ie254
+    type: VARCHAR
+  - name: ie255
+    type: VARCHAR
+  - name: ie256
+    type: VARCHAR
+  - name: ie257
+    type: VARCHAR
+  - name: ie258
+    type: VARCHAR
+  - name: ite25
+    type: VARCHAR
+  - name: ie262
+    type: VARCHAR
+  - name: ie263
+    type: VARCHAR
+  - name: ie264
+    type: VARCHAR
+  - name: ie265
+    type: VARCHAR
+  - name: ie266
+    type: VARCHAR
+  - name: ie267
+    type: VARCHAR
+  - name: ie268
+    type: VARCHAR
+  - name: ite26
+    type: VARCHAR
+  - name: iste22
+    type: VARCHAR
+  - name: iste23
+    type: VARCHAR
+  - name: iste24
+    type: VARCHAR
+  - name: iste25
+    type: VARCHAR
+  - name: iste26
+    type: VARCHAR
+  - name: iste27
+    type: VARCHAR
+  - name: iste28
+    type: VARCHAR
+  - name: iste2t
+    type: VARCHAR
+  - name: ie3a11
+    type: VARCHAR
+  - name: ie3a12
+    type: VARCHAR
+  - name: ie3a13
+    type: VARCHAR
+  - name: ie3a14
+    type: VARCHAR
+  - name: ie3a2
+    type: VARCHAR
+  - name: ie3a16
+    type: VARCHAR
+  - name: ie3a1
+    type: VARCHAR
+  - name: ie3b11
+    type: VARCHAR
+  - name: ie3b12
+    type: VARCHAR
+  - name: ie3b13
+    type: VARCHAR
+  - name: ie3b14
+    type: VARCHAR
+  - name: ie3b2
+    type: VARCHAR
+  - name: ie3b16
+    type: VARCHAR
+  - name: ie3b1
+    type: VARCHAR
+  - name: iste3
+    type: VARCHAR
+  - name: ie4a1
+    type: VARCHAR
+  - name: ie4a2
+    type: VARCHAR
+  - name: ie4b1
+    type: VARCHAR
+  - name: ie4b2
+    type: VARCHAR
+  - name: ie4c1
+    type: VARCHAR
+  - name: ie4c2
+    type: VARCHAR
+  - name: ie4d
+    type: VARCHAR
+  - name: ie4e1
+    type: VARCHAR
+  - name: ie4e2
+    type: VARCHAR
+  - name: iste4
+    type: VARCHAR
+  - name: ite5
+    type: VARCHAR
+  - name: ie61
+    type: VARCHAR
+  - name: ie62
+    type: VARCHAR
+  - name: ie63
+    type: VARCHAR
+  - name: iste6
+    type: VARCHAR
+  - name: ie7a1
+    type: VARCHAR
+  - name: ie7a2
+    type: VARCHAR
+  - name: iste7
+    type: VARCHAR
+  - name: ie81
+    type: VARCHAR
+  - name: ie82
+    type: VARCHAR
+  - name: ie9a
+    type: VARCHAR
+  - name: ie9b
+    type: VARCHAR
+  - name: ie9c
+    type: VARCHAR
+  - name: ie9d
+    type: VARCHAR
+  - name: ie91
+    type: VARCHAR
+  - name: iste9
+    type: VARCHAR
+  - name: ite10
+    type: VARCHAR
+  - name: ite11
+    type: VARCHAR
+  - name: ix12c
+    type: VARCHAR
+  - name: ix12d
+    type: VARCHAR
+  - name: ix12e
+    type: VARCHAR
+  - name: ix12f
+    type: VARCHAR
+  - name: itx12
+    type: VARCHAR
+  - name: ince13
+    type: VARCHAR
+  - name: iada
+    type: VARCHAR
+  - name: ia14a
+    type: VARCHAR
+  - name: ia14b
+    type: VARCHAR
+  - name: ippe15
+    type: VARCHAR
+  - name: imembr12
+    type: VARCHAR
+  - name: iarraste1
+    type: VARCHAR
+  - name: iarrate5
+    type: VARCHAR
+  - name: iarrae81z
+    type: VARCHAR
+  - name: iarrate10
+    type: VARCHAR
+  - name: iarraste6
+    type: VARCHAR
+  - name: iarratleiz
+    type: VARCHAR
+  - name: iarraste4
+    type: VARCHAR

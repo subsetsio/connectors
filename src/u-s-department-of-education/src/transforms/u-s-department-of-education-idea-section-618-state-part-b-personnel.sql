@@ -1,0 +1,46 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+SELECT
+    "package_id",
+    "package_title",
+    "resource_id",
+    "resource_name",
+    "resource_format",
+    "resource_position",
+    "row_number",
+    "Extraction Date:" AS extraction_date,
+    "3/5/2025" AS 3_5_2025,
+    "Unnamed: 2" AS unnamed_2,
+    "Unnamed: 3" AS unnamed_3,
+    "Unnamed: 4" AS unnamed_4,
+    "Unnamed: 5" AS unnamed_5,
+    "Unnamed: 6" AS unnamed_6,
+    "Unnamed: 7" AS unnamed_7,
+    "Unnamed: 8" AS unnamed_8,
+    "2/21/2024" AS 2_21_2024,
+    "5/24/2023" AS 5_24_2023,
+    "5/25/2022" AS 5_25_2022,
+    "5/26/2021" AS 5_26_2021,
+    "5/27/2020" AS 5_27_2020,
+    "Unnamed: 9" AS unnamed_9,
+    "Unnamed: 10" AS unnamed_10,
+    "Unnamed: 11" AS unnamed_11,
+    "Unnamed: 12" AS unnamed_12,
+    "5/29/2019" AS 5_29_2019,
+    "5/31/17" AS 5_31_17,
+    "5/31/2017" AS 5_31_2017,
+    "6/6/2016" AS 6_6_2016,
+    "6/4/2015" AS 6_4_2015,
+    "6/5/2014" AS 6_5_2014,
+    "6/12/2013" AS 6_12_2013,
+    "Created" AS created,
+    "7/23/2012" AS 7_23_2012,
+    "9/2/2011" AS 9_2_2011,
+    "10/18/2010" AS 10_18_2010,
+    "1/19/2010" AS 1_19_2010,
+    "11/10/2008" AS 11_10_2008,
+    "9/24/2007" AS 9_24_2007
+FROM "u-s-department-of-education-idea-section-618-state-part-b-personnel"

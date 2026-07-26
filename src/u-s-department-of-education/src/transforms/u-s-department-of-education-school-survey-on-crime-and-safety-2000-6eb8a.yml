@@ -1,0 +1,913 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-school-survey-on-crime-and-safety-2000-6eb8a`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: "1001_1_1_1_2_2_2_2_1_2_2_2_2_2_1_1_2_2_2_1_2_2_1_1_2_1_1_1_1_1_1_1_1_1_2_1_1_1_1_2_1_1_2_2_2_2_2_2_2_2_1_1_2_1_1_3_1_3_3_3_3_3_3_2_3_3_1_1_2_2_1_1_1_1_1_1_1_1_1_1_1_1_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_5_4_5_5_5_5_5_2_4_4_2_3_2_4_4_3_3_4_3_3_3_4_3_4_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_3_2_10_3_2_0_30_70_4_9_1_9_3_9_3_1_5_60_25_8_17_5_23_5_1_3_1_1_4_7_4_1_3_1_0_0_0_0_0_0_0_0_0_0_0_0_9_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_2_1_371_1578169_2700273_4955871_6017272_5103271_2122872_2990571_7801272_1393572_7980972_8098872_9965873_5588372_1833473_3717873_2265571_9115274_1559474_30332_73_201274_3751372_4488969_8309272_3410574_4344272_2636471_02533_073_5186872_1426672_8979675_34802_71_982573_5526472_4910873_5966873_36414_72_675871_4963970_8805772_9374373_3516273_6736173_2040872_0898971_0814872_6881572_8650171_6333170_9203673_62161_133_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0"
+    type: VARCHAR
+  - name: wesid
+    type: VARCHAR
+  - name: q_resp
+    type: VARCHAR
+  - name: q1a
+    type: VARCHAR
+  - name: q1b
+    type: VARCHAR
+  - name: q1c
+    type: VARCHAR
+  - name: q1d
+    type: VARCHAR
+  - name: q1e
+    type: VARCHAR
+  - name: q1f
+    type: VARCHAR
+  - name: q1g
+    type: VARCHAR
+  - name: q1h
+    type: VARCHAR
+  - name: q1i
+    type: VARCHAR
+  - name: q1j
+    type: VARCHAR
+  - name: q1k
+    type: VARCHAR
+  - name: q1l
+    type: VARCHAR
+  - name: q1m
+    type: VARCHAR
+  - name: q1n
+    type: VARCHAR
+  - name: q1o
+    type: VARCHAR
+  - name: q1p
+    type: VARCHAR
+  - name: q1q
+    type: VARCHAR
+  - name: q1r
+    type: VARCHAR
+  - name: q1s
+    type: VARCHAR
+  - name: q1t
+    type: VARCHAR
+  - name: q1u
+    type: VARCHAR
+  - name: q2a
+    type: VARCHAR
+  - name: q2b
+    type: VARCHAR
+  - name: q2c
+    type: VARCHAR
+  - name: q2d
+    type: VARCHAR
+  - name: q2e
+    type: VARCHAR
+  - name: q3
+    type: VARCHAR
+  - name: q4a
+    type: VARCHAR
+  - name: q4b
+    type: VARCHAR
+  - name: q4c
+    type: VARCHAR
+  - name: q4d
+    type: VARCHAR
+  - name: q4e
+    type: VARCHAR
+  - name: q4f
+    type: VARCHAR
+  - name: q4g
+    type: VARCHAR
+  - name: q4h
+    type: VARCHAR
+  - name: q5a
+    type: VARCHAR
+  - name: q5b
+    type: VARCHAR
+  - name: q5c
+    type: VARCHAR
+  - name: q5d
+    type: VARCHAR
+  - name: q6
+    type: VARCHAR
+  - name: q7a
+    type: VARCHAR
+  - name: q7b
+    type: VARCHAR
+  - name: q7c
+    type: VARCHAR
+  - name: q8a
+    type: VARCHAR
+  - name: q8b
+    type: VARCHAR
+  - name: q8c
+    type: VARCHAR
+  - name: q8d
+    type: VARCHAR
+  - name: q8e
+    type: VARCHAR
+  - name: q8ecode
+    type: VARCHAR
+  - name: q9a
+    type: VARCHAR
+  - name: q10
+    type: VARCHAR
+  - name: q11a
+    type: VARCHAR
+  - name: q11b
+    type: VARCHAR
+  - name: q12a
+    type: VARCHAR
+  - name: q12b
+    type: VARCHAR
+  - name: q12c
+    type: VARCHAR
+  - name: q12d
+    type: VARCHAR
+  - name: q12e
+    type: VARCHAR
+  - name: q12f
+    type: VARCHAR
+  - name: q12g
+    type: VARCHAR
+  - name: q12h
+    type: VARCHAR
+  - name: q12i
+    type: VARCHAR
+  - name: q12j
+    type: VARCHAR
+  - name: q12k
+    type: VARCHAR
+  - name: q12l
+    type: VARCHAR
+  - name: q12m
+    type: VARCHAR
+  - name: q12n
+    type: VARCHAR
+  - name: q13
+    type: VARCHAR
+  - name: q14a1
+    type: VARCHAR
+  - name: q14a2
+    type: VARCHAR
+  - name: q14a3
+    type: VARCHAR
+  - name: q14b1
+    type: VARCHAR
+  - name: q14b2
+    type: VARCHAR
+  - name: q14b3
+    type: VARCHAR
+  - name: q14c1
+    type: VARCHAR
+  - name: q14c2
+    type: VARCHAR
+  - name: q14c3
+    type: VARCHAR
+  - name: q14d1
+    type: VARCHAR
+  - name: q14d2
+    type: VARCHAR
+  - name: q14d3
+    type: VARCHAR
+  - name: q15
+    type: VARCHAR
+  - name: q15a
+    type: VARCHAR
+  - name: q15b
+    type: VARCHAR
+  - name: q16a1
+    type: VARCHAR
+  - name: q16a2
+    type: VARCHAR
+  - name: q16a3
+    type: VARCHAR
+  - name: q16a4
+    type: VARCHAR
+  - name: q16b1
+    type: VARCHAR
+  - name: q16b2
+    type: VARCHAR
+  - name: q16b3
+    type: VARCHAR
+  - name: q16b4
+    type: VARCHAR
+  - name: q16c1_1
+    type: VARCHAR
+  - name: q16c1_2
+    type: VARCHAR
+  - name: q16c1_3
+    type: VARCHAR
+  - name: q16c1_4
+    type: VARCHAR
+  - name: q16c2_1
+    type: VARCHAR
+  - name: q16c2_2
+    type: VARCHAR
+  - name: q16c2_3
+    type: VARCHAR
+  - name: q16c2_4
+    type: VARCHAR
+  - name: q16d1_1
+    type: VARCHAR
+  - name: q16d1_2
+    type: VARCHAR
+  - name: q16d1_3
+    type: VARCHAR
+  - name: q16d1_4
+    type: VARCHAR
+  - name: q16d2_1
+    type: VARCHAR
+  - name: q16d2_2
+    type: VARCHAR
+  - name: q16d2_3
+    type: VARCHAR
+  - name: q16d2_4
+    type: VARCHAR
+  - name: q16e1_1
+    type: VARCHAR
+  - name: q16e1_2
+    type: VARCHAR
+  - name: q16e1_3
+    type: VARCHAR
+  - name: q16e1_4
+    type: VARCHAR
+  - name: q16e2_1
+    type: VARCHAR
+  - name: q16e2_2
+    type: VARCHAR
+  - name: q16e2_3
+    type: VARCHAR
+  - name: q16e2_4
+    type: VARCHAR
+  - name: q16f1
+    type: VARCHAR
+  - name: q16f2
+    type: VARCHAR
+  - name: q16f3
+    type: VARCHAR
+  - name: q16f4
+    type: VARCHAR
+  - name: q16g1
+    type: VARCHAR
+  - name: q16g2
+    type: VARCHAR
+  - name: q16g3
+    type: VARCHAR
+  - name: q16g4
+    type: VARCHAR
+  - name: q16h1
+    type: VARCHAR
+  - name: q16h2
+    type: VARCHAR
+  - name: q16h3
+    type: VARCHAR
+  - name: q16h4
+    type: VARCHAR
+  - name: q16i1
+    type: VARCHAR
+  - name: q16i2
+    type: VARCHAR
+  - name: q16i4
+    type: VARCHAR
+  - name: q16j1
+    type: VARCHAR
+  - name: q16j2
+    type: VARCHAR
+  - name: q16j4
+    type: VARCHAR
+  - name: q16k1
+    type: VARCHAR
+  - name: q16k2
+    type: VARCHAR
+  - name: q16k3
+    type: VARCHAR
+  - name: q16k4
+    type: VARCHAR
+  - name: q16l1
+    type: VARCHAR
+  - name: q16l2
+    type: VARCHAR
+  - name: q16l3
+    type: VARCHAR
+  - name: q16l4
+    type: VARCHAR
+  - name: q18
+    type: VARCHAR
+  - name: q19a
+    type: VARCHAR
+  - name: q19b
+    type: VARCHAR
+  - name: q19c
+    type: VARCHAR
+  - name: q19d
+    type: VARCHAR
+  - name: q19e
+    type: VARCHAR
+  - name: q19f
+    type: VARCHAR
+  - name: q19g
+    type: VARCHAR
+  - name: q20a
+    type: VARCHAR
+  - name: q20b
+    type: VARCHAR
+  - name: q20c
+    type: VARCHAR
+  - name: q20d
+    type: VARCHAR
+  - name: q20e1
+    type: VARCHAR
+  - name: q20e2
+    type: VARCHAR
+  - name: q20f1
+    type: VARCHAR
+  - name: q20f2
+    type: VARCHAR
+  - name: q20g
+    type: VARCHAR
+  - name: q20h1
+    type: VARCHAR
+  - name: q20h2
+    type: VARCHAR
+  - name: q20i
+    type: VARCHAR
+  - name: q20j
+    type: VARCHAR
+  - name: q20k
+    type: VARCHAR
+  - name: q20l
+    type: VARCHAR
+  - name: q20m
+    type: VARCHAR
+  - name: q20n
+    type: VARCHAR
+  - name: q21a1
+    type: VARCHAR
+  - name: q21a2
+    type: VARCHAR
+  - name: q21a3
+    type: VARCHAR
+  - name: q21a4
+    type: VARCHAR
+  - name: q21a5
+    type: VARCHAR
+  - name: q21b1
+    type: VARCHAR
+  - name: q21b2
+    type: VARCHAR
+  - name: q21b3
+    type: VARCHAR
+  - name: q21b4
+    type: VARCHAR
+  - name: q21b5
+    type: VARCHAR
+  - name: q21c1
+    type: VARCHAR
+  - name: q21c2
+    type: VARCHAR
+  - name: q21c3
+    type: VARCHAR
+  - name: q21c4
+    type: VARCHAR
+  - name: q21c5
+    type: VARCHAR
+  - name: q21d1
+    type: VARCHAR
+  - name: q21d2
+    type: VARCHAR
+  - name: q21d3
+    type: VARCHAR
+  - name: q21d4
+    type: VARCHAR
+  - name: q21d5
+    type: VARCHAR
+  - name: q21e1
+    type: VARCHAR
+  - name: q21e2
+    type: VARCHAR
+  - name: q21e3
+    type: VARCHAR
+  - name: q21f1
+    type: VARCHAR
+  - name: q21f2
+    type: VARCHAR
+  - name: q21f3
+    type: VARCHAR
+  - name: q21g1
+    type: VARCHAR
+  - name: q21g2
+    type: VARCHAR
+  - name: q21g3
+    type: VARCHAR
+  - name: q21h1
+    type: VARCHAR
+  - name: q21h2
+    type: VARCHAR
+  - name: q21h3
+    type: VARCHAR
+  - name: q21i1
+    type: VARCHAR
+  - name: q21i2
+    type: VARCHAR
+  - name: q21i3
+    type: VARCHAR
+  - name: q21j1
+    type: VARCHAR
+  - name: q21j2
+    type: VARCHAR
+  - name: q21j3
+    type: VARCHAR
+  - name: q21k1
+    type: VARCHAR
+  - name: q21k2
+    type: VARCHAR
+  - name: q21k3
+    type: VARCHAR
+  - name: enroll
+    type: VARCHAR
+  - name: pctfree
+    type: VARCHAR
+  - name: q24b
+    type: VARCHAR
+  - name: q24c
+    type: VARCHAR
+  - name: pctmale
+    type: VARCHAR
+  - name: q24e
+    type: VARCHAR
+  - name: q24f
+    type: VARCHAR
+  - name: q24g
+    type: VARCHAR
+  - name: q25
+    type: VARCHAR
+  - name: catg_fte
+    type: VARCHAR
+  - name: q26b1
+    type: VARCHAR
+  - name: q26b2
+    type: VARCHAR
+  - name: q26c1
+    type: VARCHAR
+  - name: q26c2
+    type: VARCHAR
+  - name: q27
+    type: VARCHAR
+  - name: q28
+    type: VARCHAR
+  - name: q29
+    type: VARCHAR
+  - name: q30a
+    type: VARCHAR
+  - name: q30b
+    type: VARCHAR
+  - name: q31a1
+    type: VARCHAR
+  - name: q31a2
+    type: VARCHAR
+  - name: q31b1
+    type: VARCHAR
+  - name: q31b2
+    type: VARCHAR
+  - name: q31c1
+    type: VARCHAR
+  - name: q31c2
+    type: VARCHAR
+  - name: access
+    type: VARCHAR
+  - name: monitor
+    type: VARCHAR
+  - name: parinv
+    type: VARCHAR
+  - name: crisplan
+    type: VARCHAR
+  - name: stucomp
+    type: VARCHAR
+  - name: schlcomp
+    type: VARCHAR
+  - name: regpol
+    type: VARCHAR
+  - name: limits
+    type: VARCHAR
+  - name: numdeath
+    type: VARCHAR
+  - name: incident
+    type: VARCHAR
+  - name: polinc
+    type: VARCHAR
+  - name: hatecrim
+    type: VARCHAR
+  - name: ganginc
+    type: VARCHAR
+  - name: violinc
+    type: VARCHAR
+  - name: polincv
+    type: VARCHAR
+  - name: hatecrmv
+    type: VARCHAR
+  - name: gangincv
+    type: VARCHAR
+  - name: serviol
+    type: VARCHAR
+  - name: serpolv
+    type: VARCHAR
+  - name: serhatev
+    type: VARCHAR
+  - name: sergangv
+    type: VARCHAR
+  - name: sratio
+    type: VARCHAR
+  - name: q21a6p
+    type: VARCHAR
+  - name: q21b6p
+    type: VARCHAR
+  - name: q21c6p
+    type: VARCHAR
+  - name: q21d6p
+    type: VARCHAR
+  - name: q21e6p
+    type: VARCHAR
+  - name: q21f6p
+    type: VARCHAR
+  - name: q21g6p
+    type: VARCHAR
+  - name: q21h6p
+    type: VARCHAR
+  - name: q21i6p
+    type: VARCHAR
+  - name: q21j6p
+    type: VARCHAR
+  - name: q21k6p
+    type: VARCHAR
+  - name: q21a6
+    type: VARCHAR
+  - name: q21b6
+    type: VARCHAR
+  - name: q21c6
+    type: VARCHAR
+  - name: q21d6
+    type: VARCHAR
+  - name: pctminor
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: urban
+    type: VARCHAR
+  - name: fwt
+    type: VARCHAR
+  - name: fwt1
+    type: VARCHAR
+  - name: fwt2
+    type: VARCHAR
+  - name: fwt3
+    type: VARCHAR
+  - name: fwt4
+    type: VARCHAR
+  - name: fwt5
+    type: VARCHAR
+  - name: fwt6
+    type: VARCHAR
+  - name: fwt7
+    type: VARCHAR
+  - name: fwt8
+    type: VARCHAR
+  - name: fwt9
+    type: VARCHAR
+  - name: fwt10
+    type: VARCHAR
+  - name: fwt11
+    type: VARCHAR
+  - name: fwt12
+    type: VARCHAR
+  - name: fwt13
+    type: VARCHAR
+  - name: fwt14
+    type: VARCHAR
+  - name: fwt15
+    type: VARCHAR
+  - name: fwt16
+    type: VARCHAR
+  - name: fwt17
+    type: VARCHAR
+  - name: fwt18
+    type: VARCHAR
+  - name: fwt19
+    type: VARCHAR
+  - name: fwt20
+    type: VARCHAR
+  - name: fwt21
+    type: VARCHAR
+  - name: fwt22
+    type: VARCHAR
+  - name: fwt23
+    type: VARCHAR
+  - name: fwt24
+    type: VARCHAR
+  - name: fwt25
+    type: VARCHAR
+  - name: fwt26
+    type: VARCHAR
+  - name: fwt27
+    type: VARCHAR
+  - name: fwt28
+    type: VARCHAR
+  - name: fwt29
+    type: VARCHAR
+  - name: fwt30
+    type: VARCHAR
+  - name: fwt31
+    type: VARCHAR
+  - name: fwt32
+    type: VARCHAR
+  - name: fwt33
+    type: VARCHAR
+  - name: fwt34
+    type: VARCHAR
+  - name: fwt35
+    type: VARCHAR
+  - name: fwt36
+    type: VARCHAR
+  - name: fwt37
+    type: VARCHAR
+  - name: fwt38
+    type: VARCHAR
+  - name: fwt39
+    type: VARCHAR
+  - name: fwt40
+    type: VARCHAR
+  - name: fwt41
+    type: VARCHAR
+  - name: fwt42
+    type: VARCHAR
+  - name: fwt43
+    type: VARCHAR
+  - name: fwt44
+    type: VARCHAR
+  - name: fwt45
+    type: VARCHAR
+  - name: fwt46
+    type: VARCHAR
+  - name: fwt47
+    type: VARCHAR
+  - name: fwt48
+    type: VARCHAR
+  - name: fwt49
+    type: VARCHAR
+  - name: fwt50
+    type: VARCHAR
+  - name: str_socs
+    type: VARCHAR
+  - name: q2a_fl
+    type: VARCHAR
+  - name: q2b_fl
+    type: VARCHAR
+  - name: q2d_fl
+    type: VARCHAR
+  - name: q2e_fl
+    type: VARCHAR
+  - name: q9a_fl
+    type: VARCHAR
+  - name: q10_fl
+    type: VARCHAR
+  - name: q13_fl
+    type: VARCHAR
+  - name: q14a1_fl
+    type: VARCHAR
+  - name: q14a2_fl
+    type: VARCHAR
+  - name: q14a3_fl
+    type: VARCHAR
+  - name: q14b1_fl
+    type: VARCHAR
+  - name: q14b2_fl
+    type: VARCHAR
+  - name: q14b3_fl
+    type: VARCHAR
+  - name: q14c1_fl
+    type: VARCHAR
+  - name: q14c2_fl
+    type: VARCHAR
+  - name: q14c3_fl
+    type: VARCHAR
+  - name: q14d1_fl
+    type: VARCHAR
+  - name: q14d2_fl
+    type: VARCHAR
+  - name: q14d3_fl
+    type: VARCHAR
+  - name: q15_fl
+    type: VARCHAR
+  - name: q15a_fl
+    type: VARCHAR
+  - name: q15b_fl
+    type: VARCHAR
+  - name: q16b2_fl
+    type: VARCHAR
+  - name: q16b3_fl
+    type: VARCHAR
+  - name: q16b4_fl
+    type: VARCHAR
+  - name: q16c12fl
+    type: VARCHAR
+  - name: q16c13fl
+    type: VARCHAR
+  - name: q16c14fl
+    type: VARCHAR
+  - name: q16c22fl
+    type: VARCHAR
+  - name: q16c23fl
+    type: VARCHAR
+  - name: q16c24fl
+    type: VARCHAR
+  - name: q16d12fl
+    type: VARCHAR
+  - name: q16d13fl
+    type: VARCHAR
+  - name: q16d14fl
+    type: VARCHAR
+  - name: q16d22fl
+    type: VARCHAR
+  - name: q16d23fl
+    type: VARCHAR
+  - name: q16d24fl
+    type: VARCHAR
+  - name: q16e12fl
+    type: VARCHAR
+  - name: q16e13fl
+    type: VARCHAR
+  - name: q16e14fl
+    type: VARCHAR
+  - name: q16e22fl
+    type: VARCHAR
+  - name: q16e23fl
+    type: VARCHAR
+  - name: q16e24fl
+    type: VARCHAR
+  - name: q16f2_fl
+    type: VARCHAR
+  - name: q16f3_fl
+    type: VARCHAR
+  - name: q16f4_fl
+    type: VARCHAR
+  - name: q16g2_fl
+    type: VARCHAR
+  - name: q16g3_fl
+    type: VARCHAR
+  - name: q16g4_fl
+    type: VARCHAR
+  - name: q16h2_fl
+    type: VARCHAR
+  - name: q16h3_fl
+    type: VARCHAR
+  - name: q16h4_fl
+    type: VARCHAR
+  - name: q16i2_fl
+    type: VARCHAR
+  - name: q16i4_fl
+    type: VARCHAR
+  - name: q16j2_fl
+    type: VARCHAR
+  - name: q16j4_fl
+    type: VARCHAR
+  - name: q16k2_fl
+    type: VARCHAR
+  - name: q16k3_fl
+    type: VARCHAR
+  - name: q16k4_fl
+    type: VARCHAR
+  - name: q16l2_fl
+    type: VARCHAR
+  - name: q16l3_fl
+    type: VARCHAR
+  - name: q16l4_fl
+    type: VARCHAR
+  - name: q19a_fl
+    type: VARCHAR
+  - name: q19b_fl
+    type: VARCHAR
+  - name: q19c_fl
+    type: VARCHAR
+  - name: q19d_fl
+    type: VARCHAR
+  - name: q19e_fl
+    type: VARCHAR
+  - name: q19f_fl
+    type: VARCHAR
+  - name: q19g_fl
+    type: VARCHAR
+  - name: q21a1_fl
+    type: VARCHAR
+  - name: q21a2_fl
+    type: VARCHAR
+  - name: q21a3_fl
+    type: VARCHAR
+  - name: q21a4_fl
+    type: VARCHAR
+  - name: q21a5_fl
+    type: VARCHAR
+  - name: q21b1_fl
+    type: VARCHAR
+  - name: q21b2_fl
+    type: VARCHAR
+  - name: q21b3_fl
+    type: VARCHAR
+  - name: q21b4_fl
+    type: VARCHAR
+  - name: q21b5_fl
+    type: VARCHAR
+  - name: q21c1_fl
+    type: VARCHAR
+  - name: q21c2_fl
+    type: VARCHAR
+  - name: q21c3_fl
+    type: VARCHAR
+  - name: q21c4_fl
+    type: VARCHAR
+  - name: q21c5_fl
+    type: VARCHAR
+  - name: q21d1_fl
+    type: VARCHAR
+  - name: q21d2_fl
+    type: VARCHAR
+  - name: q21d3_fl
+    type: VARCHAR
+  - name: q21d4_fl
+    type: VARCHAR
+  - name: q21d5_fl
+    type: VARCHAR
+  - name: q21e1_fl
+    type: VARCHAR
+  - name: q21e2_fl
+    type: VARCHAR
+  - name: q21e3_fl
+    type: VARCHAR
+  - name: q21f1_fl
+    type: VARCHAR
+  - name: q21f2_fl
+    type: VARCHAR
+  - name: q21f3_fl
+    type: VARCHAR
+  - name: q21g1_fl
+    type: VARCHAR
+  - name: q21g2_fl
+    type: VARCHAR
+  - name: q21g3_fl
+    type: VARCHAR
+  - name: q21h1_fl
+    type: VARCHAR
+  - name: q21h2_fl
+    type: VARCHAR
+  - name: q21h3_fl
+    type: VARCHAR
+  - name: q21i1_fl
+    type: VARCHAR
+  - name: q21i2_fl
+    type: VARCHAR
+  - name: q21i3_fl
+    type: VARCHAR
+  - name: q21j1_fl
+    type: VARCHAR
+  - name: q21j2_fl
+    type: VARCHAR
+  - name: q21j3_fl
+    type: VARCHAR
+  - name: q21k1_fl
+    type: VARCHAR
+  - name: q21k2_fl
+    type: VARCHAR
+  - name: q21k3_fl
+    type: VARCHAR
+  - name: q24b_fl
+    type: VARCHAR
+  - name: q24c_fl
+    type: VARCHAR
+  - name: q24e_fl
+    type: VARCHAR
+  - name: q24f_fl
+    type: VARCHAR
+  - name: q24g_fl
+    type: VARCHAR
+  - name: q26a1_fl
+    type: VARCHAR
+  - name: q26a2_fl
+    type: VARCHAR
+  - name: q29_fl
+    type: VARCHAR
+  - name: regpolfl
+    type: VARCHAR
+  - name: q8etext
+    type: VARCHAR

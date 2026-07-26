@@ -1,0 +1,419 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-academic-libraries-survey-2004-232c0`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: archive_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: unitid
+    type: VARCHAR
+  - name: instnm
+    type: VARCHAR
+  - name: addr
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: stabbr
+    type: VARCHAR
+  - name: zip
+    type: VARCHAR
+  - name: fips
+    type: VARCHAR
+  - name: act
+    type: VARCHAR
+  - name: obereg
+    type: VARCHAR
+  - name: ein
+    type: VARCHAR
+  - name: duns
+    type: VARCHAR
+  - name: opeid
+    type: VARCHAR
+  - name: opeflag
+    type: VARCHAR
+  - name: webaddr
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: iclevel
+    type: VARCHAR
+  - name: control
+    type: VARCHAR
+  - name: hloffer
+    type: VARCHAR
+  - name: ugoffer
+    type: VARCHAR
+  - name: groffer
+    type: VARCHAR
+  - name: fpoffer
+    type: VARCHAR
+  - name: hdegoffr
+    type: VARCHAR
+  - name: deggrant
+    type: VARCHAR
+  - name: pctmin1
+    type: VARCHAR
+  - name: pctmin2
+    type: VARCHAR
+  - name: pctmin3
+    type: VARCHAR
+  - name: pctmin4
+    type: VARCHAR
+  - name: hbcu
+    type: VARCHAR
+  - name: hospital
+    type: VARCHAR
+  - name: medical
+    type: VARCHAR
+  - name: tribal
+    type: VARCHAR
+  - name: carnegie
+    type: VARCHAR
+  - name: locale
+    type: VARCHAR
+  - name: openpubl
+    type: VARCHAR
+  - name: datsrc
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: editst
+    type: VARCHAR
+  - name: editdate
+    type: VARCHAR
+  - name: impute
+    type: VARCHAR
+  - name: impdate
+    type: VARCHAR
+  - name: partaflag1
+    type: VARCHAR
+  - name: partbflag1
+    type: VARCHAR
+  - name: partbflag2
+    type: VARCHAR
+  - name: partcflag1
+    type: VARCHAR
+  - name: partcflag2
+    type: VARCHAR
+  - name: partdflag1
+    type: VARCHAR
+  - name: partdflag2
+    type: VARCHAR
+  - name: parteflag1
+    type: VARCHAR
+  - name: parteflag2
+    type: VARCHAR
+  - name: parteflag3
+    type: VARCHAR
+  - name: partfflag1
+    type: VARCHAR
+  - name: ncesdate
+    type: VARCHAR
+  - name: fteused
+    type: VARCHAR
+  - name: fteflag
+    type: VARCHAR
+  - name: elgcoll
+    type: VARCHAR
+  - name: elgstaff
+    type: VARCHAR
+  - name: elgsched
+    type: VARCHAR
+  - name: elgphys
+    type: VARCHAR
+  - name: finsupp
+    type: VARCHAR
+  - name: cyparch
+    type: VARCHAR
+  - name: unitidx
+    type: VARCHAR
+  - name: libshar1
+    type: JSON
+  - name: libname1
+    type: JSON
+  - name: libshar2
+    type: JSON
+  - name: libname2
+    type: JSON
+  - name: libshar3
+    type: JSON
+  - name: libname3
+    type: JSON
+  - name: xbranches
+    type: VARCHAR
+  - name: branches
+    type: VARCHAR
+  - name: xstlibs
+    type: VARCHAR
+  - name: stlibs
+    type: VARCHAR
+  - name: xstothpro
+    type: VARCHAR
+  - name: stothpro
+    type: VARCHAR
+  - name: xstlibpro
+    type: VARCHAR
+  - name: stlibpro
+    type: VARCHAR
+  - name: xstoth
+    type: VARCHAR
+  - name: stoth
+    type: VARCHAR
+  - name: xstasst
+    type: VARCHAR
+  - name: stasst
+    type: VARCHAR
+  - name: xsttot
+    type: VARCHAR
+  - name: sttot
+    type: VARCHAR
+  - name: xswlibpro
+    type: VARCHAR
+  - name: swlibpro
+    type: VARCHAR
+  - name: xswoth
+    type: VARCHAR
+  - name: swoth
+    type: VARCHAR
+  - name: xswasst
+    type: VARCHAR
+  - name: swasst
+    type: VARCHAR
+  - name: xswtot
+    type: VARCHAR
+  - name: swtot
+    type: VARCHAR
+  - name: xfringeyn
+    type: VARCHAR
+  - name: fringeyn
+    type: VARCHAR
+  - name: xfringe
+    type: VARCHAR
+  - name: fringe
+    type: VARCHAR
+  - name: xexbks
+    type: VARCHAR
+  - name: exbks
+    type: VARCHAR
+  - name: xexelbks
+    type: VARCHAR
+  - name: exelbks
+    type: VARCHAR
+  - name: xexaud
+    type: VARCHAR
+  - name: exaud
+    type: VARCHAR
+  - name: xexcuser
+    type: VARCHAR
+  - name: excuser
+    type: VARCHAR
+  - name: xexelser
+    type: VARCHAR
+  - name: exelser
+    type: VARCHAR
+  - name: xexdel
+    type: VARCHAR
+  - name: exdel
+    type: VARCHAR
+  - name: xexpres
+    type: VARCHAR
+  - name: expres
+    type: VARCHAR
+  - name: xexothir
+    type: VARCHAR
+  - name: exothir
+    type: VARCHAR
+  - name: xexcomp
+    type: VARCHAR
+  - name: excomp
+    type: VARCHAR
+  - name: xexbib
+    type: VARCHAR
+  - name: exbib
+    type: VARCHAR
+  - name: xexoth
+    type: VARCHAR
+  - name: exoth
+    type: VARCHAR
+  - name: xextot
+    type: VARCHAR
+  - name: extot
+    type: VARCHAR
+  - name: xcolelyn
+    type: VARCHAR
+  - name: colelyn
+    type: VARCHAR
+  - name: xcolbksa
+    type: VARCHAR
+  - name: colbksa
+    type: VARCHAR
+  - name: xcolebksa
+    type: VARCHAR
+  - name: colebksa
+    type: VARCHAR
+  - name: xcolmicra
+    type: VARCHAR
+  - name: colmicra
+    type: VARCHAR
+  - name: xcolauda
+    type: VARCHAR
+  - name: colauda
+    type: VARCHAR
+  - name: xcolsera
+    type: VARCHAR
+  - name: colsera
+    type: VARCHAR
+  - name: xcolelrefa
+    type: VARCHAR
+  - name: colelrefa
+    type: VARCHAR
+  - name: xcolbksh
+    type: VARCHAR
+  - name: colbksh
+    type: VARCHAR
+  - name: xcolebksh
+    type: VARCHAR
+  - name: colebksh
+    type: VARCHAR
+  - name: xcolmicrh
+    type: VARCHAR
+  - name: colmicrh
+    type: VARCHAR
+  - name: xcolaudh
+    type: VARCHAR
+  - name: colaudh
+    type: VARCHAR
+  - name: xcolserh
+    type: VARCHAR
+  - name: colserh
+    type: VARCHAR
+  - name: xcolelrefh
+    type: VARCHAR
+  - name: colelrefh
+    type: VARCHAR
+  - name: xilpret
+    type: VARCHAR
+  - name: ilpret
+    type: VARCHAR
+  - name: xilpnon
+    type: VARCHAR
+  - name: ilpnon
+    type: VARCHAR
+  - name: xilptot
+    type: VARCHAR
+  - name: ilptot
+    type: VARCHAR
+  - name: xilrret
+    type: VARCHAR
+  - name: ilrret
+    type: VARCHAR
+  - name: xilrnon
+    type: VARCHAR
+  - name: ilrnon
+    type: VARCHAR
+  - name: xilrtot
+    type: VARCHAR
+  - name: ilrtot
+    type: VARCHAR
+  - name: xdocdel
+    type: VARCHAR
+  - name: docdel
+    type: VARCHAR
+  - name: xcrgen
+    type: VARCHAR
+  - name: crgen
+    type: VARCHAR
+  - name: xcrrsv
+    type: VARCHAR
+  - name: crrsv
+    type: VARCHAR
+  - name: xpresen
+    type: VARCHAR
+  - name: presen
+    type: VARCHAR
+  - name: xattend
+    type: VARCHAR
+  - name: attend
+    type: VARCHAR
+  - name: xhours
+    type: VARCHAR
+  - name: hours
+    type: VARCHAR
+  - name: xgatect
+    type: VARCHAR
+  - name: gatect
+    type: VARCHAR
+  - name: xreftrans
+    type: VARCHAR
+  - name: reftrans
+    type: VARCHAR
+  - name: xdocdigyn
+    type: VARCHAR
+  - name: docdigyn
+    type: VARCHAR
+  - name: xlibrefyn
+    type: VARCHAR
+  - name: librefyn
+    type: VARCHAR
+  - name: xtechyn
+    type: VARCHAR
+  - name: techyn
+    type: VARCHAR
+  - name: xthesyn
+    type: VARCHAR
+  - name: thesyn
+    type: VARCHAR
+  - name: xcnsubyn
+    type: VARCHAR
+  - name: cnsubyn
+    type: VARCHAR
+  - name: xcnpartyn
+    type: VARCHAR
+  - name: cnpartyn
+    type: VARCHAR
+  - name: xcnfullyn
+    type: VARCHAR
+  - name: cnfullyn
+    type: VARCHAR
+  - name: xcnprtlyn
+    type: VARCHAR
+  - name: cnprtlyn
+    type: VARCHAR
+  - name: xcnothryn
+    type: VARCHAR
+  - name: cnothryn
+    type: VARCHAR
+  - name: xinflitdefyn
+    type: VARCHAR
+  - name: inflitdefyn
+    type: VARCHAR
+  - name: xinflitmisyn
+    type: VARCHAR
+  - name: inflitmisyn
+    type: VARCHAR
+  - name: xinflitplnyn
+    type: VARCHAR
+  - name: inflitplnyn
+    type: VARCHAR
+  - name: xinflitcomyn
+    type: VARCHAR
+  - name: inflitcomyn
+    type: VARCHAR
+  - name: column
+    type: VARCHAR
+  - name: column_2
+    type: VARCHAR

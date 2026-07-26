@@ -1,0 +1,10 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-education-awards-title-iii-parts-a-and-f-programs-american-indian-tribally-controlled-colleges-and-u-6e9b4`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+checks:
+  - kind: row_floor
+    min: 8
+regression:
+  row_shrink_tolerance: 0.1

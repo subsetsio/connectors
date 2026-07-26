@@ -1,0 +1,145 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-program-reviews`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+temporal: close_date
+sort: [close_date]
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: spd_code
+    type: VARCHAR
+  - name: school_participation_division
+    type: VARCHAR
+  - name: ope_id
+    type: VARCHAR
+  - name: institution_name
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: st
+    type: VARCHAR
+  - name: elig
+    type: VARCHAR
+  - name: close_date
+    type: TIMESTAMP
+  - name: link_to_fprd
+    type: VARCHAR
+  - name: prn
+    type: VARCHAR
+  - name: review_yr
+    type: VARCHAR
+  - name: review_award_yr1
+    type: VARCHAR
+  - name: review_award_yr2
+    type: VARCHAR
+  - name: review_award_yr3
+    type: VARCHAR
+  - name: fprd_date
+    type: TIMESTAMP
+  - name: edl_date
+    type: TIMESTAMP
+  - name: fprd_edl_date
+    type: TIMESTAMP
+  - name: qtr_edl_fprd_issued
+    type: VARCHAR
+  - name: "2113"
+    type: VARCHAR
+  - name: "2431"
+    type: VARCHAR
+  - name: "2113_or_2431"
+    type: VARCHAR
+  - name: final_audit_determinations_fads
+    type: VARCHAR
+  - name: unnamed_1
+    type: VARCHAR
+  - name: unnamed_2
+    type: VARCHAR
+  - name: unnamed_3
+    type: VARCHAR
+  - name: unnamed_4
+    type: VARCHAR
+  - name: unnamed_5
+    type: VARCHAR
+  - name: unnamed_6
+    type: VARCHAR
+  - name: unnamed_7
+    type: VARCHAR
+  - name: unnamed_8
+    type: VARCHAR
+  - name: unnamed_9
+    type: VARCHAR
+  - name: fprds_summary_by_month_for_the_fy_2020_date_as_of_08_03_2020
+    type: VARCHAR
+  - name: unnamed_10
+    type: VARCHAR
+  - name: unnamed_11
+    type: VARCHAR
+  - name: unnamed_12
+    type: VARCHAR
+  - name: unnamed_13
+    type: VARCHAR
+  - name: unnamed_14
+    type: VARCHAR
+  - name: unnamed_15
+    type: VARCHAR
+  - name: unnamed_16
+    type: VARCHAR
+  - name: final_program_review_determinations_fprds
+    type: VARCHAR
+  - name: unnamed_0
+    type: VARCHAR
+  - name: clery_findings
+    type: VARCHAR
+  - name: fprds_summary_by_month_for_the_fy_2019_date_as_of_10_02_2019
+    type: VARCHAR
+  - name: audit_information
+    type: VARCHAR
+  - name: program_reviews_summary_by_month_for_the_fy_2018_date_as_of_11_05_2018
+    type: VARCHAR
+  - name: program_reviews
+    type: VARCHAR
+  - name: file_location
+    type: VARCHAR
+  - name: firstschool_name
+    type: VARCHAR
+  - name: institution_name_1
+    type: VARCHAR
+  - name: opeid
+    type: VARCHAR
+  - name: city_1
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: program_review_control_number
+    type: VARCHAR
+  - name: year_s_reviewed
+    type: VARCHAR
+  - name: fiscal_year_issued
+    type: VARCHAR
+  - name: school_name
+    type: VARCHAR
+  - name: part_86_2431
+    type: VARCHAR
+  - name: count_of_notes_12_27_13
+    type: VARCHAR
+  - name: clery
+    type: JSON
+  - name: notes_12_27_13
+    type: VARCHAR
+  - name: notes_12_30_13
+    type: VARCHAR

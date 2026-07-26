@@ -1,0 +1,551 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-acs-ed-2013-2017-children-enrolled-public-demographic-characteristics-cdp05`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: statefp
+    type: VARCHAR
+  - name: geoid
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: cdp05_1e
+    type: VARCHAR
+  - name: cdp05_1em
+    type: VARCHAR
+  - name: cdp05_2e
+    type: VARCHAR
+  - name: cdp05_2em
+    type: VARCHAR
+  - name: cdp05_2p
+    type: VARCHAR
+  - name: cdp05_2pm
+    type: VARCHAR
+  - name: cdp05_3e
+    type: VARCHAR
+  - name: cdp05_3em
+    type: VARCHAR
+  - name: cdp05_3p
+    type: VARCHAR
+  - name: cdp05_3pm
+    type: VARCHAR
+  - name: cdp05_4e
+    type: VARCHAR
+  - name: cdp05_4em
+    type: VARCHAR
+  - name: cdp05_4p
+    type: VARCHAR
+  - name: cdp05_4pm
+    type: VARCHAR
+  - name: cdp05_5e
+    type: VARCHAR
+  - name: cdp05_5em
+    type: VARCHAR
+  - name: cdp05_5p
+    type: VARCHAR
+  - name: cdp05_5pm
+    type: VARCHAR
+  - name: cdp05_6e
+    type: VARCHAR
+  - name: cdp05_6em
+    type: VARCHAR
+  - name: cdp05_6p
+    type: VARCHAR
+  - name: cdp05_6pm
+    type: VARCHAR
+  - name: cdp05_7e
+    type: VARCHAR
+  - name: cdp05_7em
+    type: VARCHAR
+  - name: cdp05_7p
+    type: VARCHAR
+  - name: cdp05_7pm
+    type: VARCHAR
+  - name: cdp05_8e
+    type: VARCHAR
+  - name: cdp05_8em
+    type: VARCHAR
+  - name: cdp05_8p
+    type: VARCHAR
+  - name: cdp05_8pm
+    type: VARCHAR
+  - name: cdp05_9e
+    type: VARCHAR
+  - name: cdp05_9em
+    type: VARCHAR
+  - name: cdp05_9p
+    type: VARCHAR
+  - name: cdp05_9pm
+    type: VARCHAR
+  - name: cdp05_10e
+    type: VARCHAR
+  - name: cdp05_10em
+    type: VARCHAR
+  - name: cdp05_10p
+    type: VARCHAR
+  - name: cdp05_10pm
+    type: VARCHAR
+  - name: cdp05_11e
+    type: VARCHAR
+  - name: cdp05_11em
+    type: VARCHAR
+  - name: cdp05_11p
+    type: VARCHAR
+  - name: cdp05_11pm
+    type: VARCHAR
+  - name: cdp05_12e
+    type: VARCHAR
+  - name: cdp05_12em
+    type: VARCHAR
+  - name: cdp05_12p
+    type: VARCHAR
+  - name: cdp05_12pm
+    type: VARCHAR
+  - name: cdp05_13e
+    type: VARCHAR
+  - name: cdp05_13em
+    type: VARCHAR
+  - name: cdp05_13p
+    type: VARCHAR
+  - name: cdp05_13pm
+    type: VARCHAR
+  - name: cdp05_14e
+    type: VARCHAR
+  - name: cdp05_14em
+    type: VARCHAR
+  - name: cdp05_15e
+    type: VARCHAR
+  - name: cdp05_15em
+    type: VARCHAR
+  - name: cdp05_15p
+    type: VARCHAR
+  - name: cdp05_15pm
+    type: VARCHAR
+  - name: cdp05_16e
+    type: VARCHAR
+  - name: cdp05_16em
+    type: VARCHAR
+  - name: cdp05_16p
+    type: VARCHAR
+  - name: cdp05_16pm
+    type: VARCHAR
+  - name: cdp05_17e
+    type: VARCHAR
+  - name: cdp05_17em
+    type: VARCHAR
+  - name: cdp05_17p
+    type: VARCHAR
+  - name: cdp05_17pm
+    type: VARCHAR
+  - name: cdp05_18e
+    type: VARCHAR
+  - name: cdp05_18em
+    type: VARCHAR
+  - name: cdp05_18p
+    type: VARCHAR
+  - name: cdp05_18pm
+    type: VARCHAR
+  - name: cdp05_19e
+    type: VARCHAR
+  - name: cdp05_19em
+    type: VARCHAR
+  - name: cdp05_19p
+    type: VARCHAR
+  - name: cdp05_19pm
+    type: VARCHAR
+  - name: cdp05_20e
+    type: VARCHAR
+  - name: cdp05_20em
+    type: VARCHAR
+  - name: cdp05_20p
+    type: VARCHAR
+  - name: cdp05_20pm
+    type: VARCHAR
+  - name: cdp05_21e
+    type: VARCHAR
+  - name: cdp05_21em
+    type: VARCHAR
+  - name: cdp05_21p
+    type: VARCHAR
+  - name: cdp05_21pm
+    type: VARCHAR
+  - name: cdp05_22e
+    type: VARCHAR
+  - name: cdp05_22em
+    type: VARCHAR
+  - name: cdp05_22p
+    type: VARCHAR
+  - name: cdp05_22pm
+    type: VARCHAR
+  - name: cdp05_23e
+    type: VARCHAR
+  - name: cdp05_23em
+    type: VARCHAR
+  - name: cdp05_23p
+    type: VARCHAR
+  - name: cdp05_23pm
+    type: VARCHAR
+  - name: cdp05_24e
+    type: VARCHAR
+  - name: cdp05_24em
+    type: VARCHAR
+  - name: cdp05_24p
+    type: VARCHAR
+  - name: cdp05_24pm
+    type: VARCHAR
+  - name: cdp05_25e
+    type: VARCHAR
+  - name: cdp05_25em
+    type: VARCHAR
+  - name: cdp05_25p
+    type: VARCHAR
+  - name: cdp05_25pm
+    type: VARCHAR
+  - name: cdp05_26e
+    type: VARCHAR
+  - name: cdp05_26em
+    type: VARCHAR
+  - name: cdp05_26p
+    type: VARCHAR
+  - name: cdp05_26pm
+    type: VARCHAR
+  - name: cdp05_27e
+    type: VARCHAR
+  - name: cdp05_27em
+    type: VARCHAR
+  - name: cdp05_27p
+    type: VARCHAR
+  - name: cdp05_27pm
+    type: VARCHAR
+  - name: cdp05_28e
+    type: VARCHAR
+  - name: cdp05_28em
+    type: VARCHAR
+  - name: cdp05_28p
+    type: VARCHAR
+  - name: cdp05_28pm
+    type: VARCHAR
+  - name: cdp05_29e
+    type: VARCHAR
+  - name: cdp05_29em
+    type: VARCHAR
+  - name: cdp05_29p
+    type: VARCHAR
+  - name: cdp05_29pm
+    type: VARCHAR
+  - name: cdp05_30e
+    type: VARCHAR
+  - name: cdp05_30em
+    type: VARCHAR
+  - name: cdp05_30p
+    type: VARCHAR
+  - name: cdp05_30pm
+    type: VARCHAR
+  - name: cdp05_31e
+    type: VARCHAR
+  - name: cdp05_31em
+    type: VARCHAR
+  - name: cdp05_31p
+    type: VARCHAR
+  - name: cdp05_31pm
+    type: VARCHAR
+  - name: cdp05_32e
+    type: VARCHAR
+  - name: cdp05_32em
+    type: VARCHAR
+  - name: cdp05_32p
+    type: VARCHAR
+  - name: cdp05_32pm
+    type: VARCHAR
+  - name: cdp05_33e
+    type: VARCHAR
+  - name: cdp05_33em
+    type: VARCHAR
+  - name: cdp05_33p
+    type: VARCHAR
+  - name: cdp05_33pm
+    type: VARCHAR
+  - name: cdp05_34e
+    type: VARCHAR
+  - name: cdp05_34em
+    type: VARCHAR
+  - name: cdp05_34p
+    type: VARCHAR
+  - name: cdp05_34pm
+    type: VARCHAR
+  - name: cdp05_35e
+    type: VARCHAR
+  - name: cdp05_35em
+    type: VARCHAR
+  - name: cdp05_35p
+    type: VARCHAR
+  - name: cdp05_35pm
+    type: VARCHAR
+  - name: cdp05_36e
+    type: VARCHAR
+  - name: cdp05_36em
+    type: VARCHAR
+  - name: cdp05_36p
+    type: VARCHAR
+  - name: cdp05_36pm
+    type: VARCHAR
+  - name: cdp05_37e
+    type: VARCHAR
+  - name: cdp05_37em
+    type: VARCHAR
+  - name: cdp05_37p
+    type: VARCHAR
+  - name: cdp05_37pm
+    type: VARCHAR
+  - name: cdp05_38e
+    type: VARCHAR
+  - name: cdp05_38em
+    type: VARCHAR
+  - name: cdp05_38p
+    type: VARCHAR
+  - name: cdp05_38pm
+    type: VARCHAR
+  - name: cdp05_39e
+    type: VARCHAR
+  - name: cdp05_39em
+    type: VARCHAR
+  - name: cdp05_39p
+    type: VARCHAR
+  - name: cdp05_39pm
+    type: VARCHAR
+  - name: cdp05_40e
+    type: VARCHAR
+  - name: cdp05_40em
+    type: VARCHAR
+  - name: cdp05_40p
+    type: VARCHAR
+  - name: cdp05_40pm
+    type: VARCHAR
+  - name: cdp05_41e
+    type: VARCHAR
+  - name: cdp05_41em
+    type: VARCHAR
+  - name: cdp05_41p
+    type: VARCHAR
+  - name: cdp05_41pm
+    type: VARCHAR
+  - name: cdp05_42e
+    type: VARCHAR
+  - name: cdp05_42em
+    type: VARCHAR
+  - name: cdp05_42p
+    type: VARCHAR
+  - name: cdp05_42pm
+    type: VARCHAR
+  - name: cdp05_43e
+    type: VARCHAR
+  - name: cdp05_43em
+    type: VARCHAR
+  - name: cdp05_43p
+    type: VARCHAR
+  - name: cdp05_43pm
+    type: VARCHAR
+  - name: cdp05_44e
+    type: VARCHAR
+  - name: cdp05_44em
+    type: VARCHAR
+  - name: cdp05_45e
+    type: VARCHAR
+  - name: cdp05_45em
+    type: VARCHAR
+  - name: cdp05_45p
+    type: VARCHAR
+  - name: cdp05_45pm
+    type: VARCHAR
+  - name: cdp05_46e
+    type: VARCHAR
+  - name: cdp05_46em
+    type: VARCHAR
+  - name: cdp05_46p
+    type: VARCHAR
+  - name: cdp05_46pm
+    type: VARCHAR
+  - name: cdp05_47e
+    type: VARCHAR
+  - name: cdp05_47em
+    type: VARCHAR
+  - name: cdp05_47p
+    type: VARCHAR
+  - name: cdp05_47pm
+    type: VARCHAR
+  - name: cdp05_48e
+    type: VARCHAR
+  - name: cdp05_48em
+    type: VARCHAR
+  - name: cdp05_48p
+    type: VARCHAR
+  - name: cdp05_48pm
+    type: VARCHAR
+  - name: cdp05_49e
+    type: VARCHAR
+  - name: cdp05_49em
+    type: VARCHAR
+  - name: cdp05_49p
+    type: VARCHAR
+  - name: cdp05_49pm
+    type: VARCHAR
+  - name: cdp05_50e
+    type: VARCHAR
+  - name: cdp05_50em
+    type: VARCHAR
+  - name: cdp05_50p
+    type: VARCHAR
+  - name: cdp05_50pm
+    type: VARCHAR
+  - name: cdp05_51e
+    type: VARCHAR
+  - name: cdp05_51em
+    type: VARCHAR
+  - name: cdp05_52e
+    type: VARCHAR
+  - name: cdp05_52em
+    type: VARCHAR
+  - name: cdp05_52p
+    type: VARCHAR
+  - name: cdp05_52pm
+    type: VARCHAR
+  - name: cdp05_53e
+    type: VARCHAR
+  - name: cdp05_53em
+    type: VARCHAR
+  - name: cdp05_53p
+    type: VARCHAR
+  - name: cdp05_53pm
+    type: VARCHAR
+  - name: cdp05_54e
+    type: VARCHAR
+  - name: cdp05_54em
+    type: VARCHAR
+  - name: cdp05_54p
+    type: VARCHAR
+  - name: cdp05_54pm
+    type: VARCHAR
+  - name: cdp05_55e
+    type: VARCHAR
+  - name: cdp05_55em
+    type: VARCHAR
+  - name: cdp05_55p
+    type: VARCHAR
+  - name: cdp05_55pm
+    type: VARCHAR
+  - name: cdp05_56e
+    type: VARCHAR
+  - name: cdp05_56em
+    type: VARCHAR
+  - name: cdp05_56p
+    type: VARCHAR
+  - name: cdp05_56pm
+    type: VARCHAR
+  - name: cdp05_57e
+    type: VARCHAR
+  - name: cdp05_57em
+    type: VARCHAR
+  - name: cdp05_57p
+    type: VARCHAR
+  - name: cdp05_57pm
+    type: VARCHAR
+  - name: cdp05_58e
+    type: VARCHAR
+  - name: cdp05_58em
+    type: VARCHAR
+  - name: cdp05_58p
+    type: VARCHAR
+  - name: cdp05_58pm
+    type: VARCHAR
+  - name: cdp05_59e
+    type: VARCHAR
+  - name: cdp05_59em
+    type: VARCHAR
+  - name: cdp05_59p
+    type: VARCHAR
+  - name: cdp05_59pm
+    type: VARCHAR
+  - name: cdp05_60e
+    type: VARCHAR
+  - name: cdp05_60em
+    type: VARCHAR
+  - name: cdp05_60p
+    type: VARCHAR
+  - name: cdp05_60pm
+    type: VARCHAR
+  - name: cdp05_61e
+    type: VARCHAR
+  - name: cdp05_61em
+    type: VARCHAR
+  - name: cdp05_61p
+    type: VARCHAR
+  - name: cdp05_61pm
+    type: VARCHAR
+  - name: cdp05_62e
+    type: VARCHAR
+  - name: cdp05_62em
+    type: VARCHAR
+  - name: cdp05_62p
+    type: VARCHAR
+  - name: cdp05_62pm
+    type: VARCHAR
+  - name: cdp05_63e
+    type: VARCHAR
+  - name: cdp05_63em
+    type: VARCHAR
+  - name: cdp05_63p
+    type: VARCHAR
+  - name: cdp05_63pm
+    type: VARCHAR
+  - name: cdp05_64e
+    type: VARCHAR
+  - name: cdp05_64em
+    type: VARCHAR
+  - name: cdp05_64p
+    type: VARCHAR
+  - name: cdp05_64pm
+    type: VARCHAR
+  - name: cdp05_65e
+    type: VARCHAR
+  - name: cdp05_65em
+    type: VARCHAR
+  - name: cdp05_65p
+    type: VARCHAR
+  - name: cdp05_65pm
+    type: VARCHAR
+  - name: cdp05_66e
+    type: VARCHAR
+  - name: cdp05_66em
+    type: VARCHAR
+  - name: cdp05_66p
+    type: VARCHAR
+  - name: cdp05_66pm
+    type: VARCHAR
+  - name: shape_length
+    type: VARCHAR
+  - name: shape_area
+    type: VARCHAR
+  - name: objectid
+    type: VARCHAR
+  - name: ncesid
+    type: VARCHAR
+  - name: stateabbrev
+    type: VARCHAR
+  - name: subsets_record_type
+    type: VARCHAR
+  - name: error
+    type: VARCHAR

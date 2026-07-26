@@ -1,0 +1,735 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-workforce-innovation-and-opportunity-act-wioa-state-plans-2a6f1`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: state_name
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: career_services_participants_served
+    type: VARCHAR
+  - name: career_services_participants_exited
+    type: VARCHAR
+  - name: career_services_funds_expended
+    type: VARCHAR
+  - name: career_services_cost_per_served
+    type: VARCHAR
+  - name: training_services_participants_served
+    type: VARCHAR
+  - name: training_services_participants_exited
+    type: VARCHAR
+  - name: training_services_funds_expended
+    type: VARCHAR
+  - name: training_services_cost_per_served
+    type: VARCHAR
+  - name: percent_enrolled_in_more_than_one_core_program
+    type: VARCHAR
+  - name: state_name_1
+    type: VARCHAR
+  - name: state_code_1
+    type: VARCHAR
+  - name: total_statewide_total_participants_served
+    type: VARCHAR
+  - name: total_statewide_total_participants_exited
+    type: VARCHAR
+  - name: total_statewide_target_employment_q2_number
+    type: VARCHAR
+  - name: total_statewide_target_employment_q2_rate
+    type: VARCHAR
+  - name: total_statewide_target_employment_q4_number
+    type: VARCHAR
+  - name: total_statewide_target_employment_q4_rate
+    type: VARCHAR
+  - name: total_statewide_target_median_earnings
+    type: VARCHAR
+  - name: total_statewide_target_credential_number
+    type: VARCHAR
+  - name: total_statewide_target_credential_rate
+    type: VARCHAR
+  - name: total_statewide_target_measurable_skills_number
+    type: VARCHAR
+  - name: total_statewide_target_measurable_skills_rate
+    type: VARCHAR
+  - name: total_statewide_actual_employment_q2_number
+    type: VARCHAR
+  - name: total_statewide_actual_employment_q2_rate
+    type: VARCHAR
+  - name: total_statewide_actual_employment_q4_number
+    type: VARCHAR
+  - name: total_statewide_actual_employment_q4_rate
+    type: VARCHAR
+  - name: total_statewide_actual_median_earnings
+    type: VARCHAR
+  - name: total_statewide_actual_credential_number
+    type: VARCHAR
+  - name: total_statewide_actual_credential_rate
+    type: VARCHAR
+  - name: total_statewide_actual_measurable_skills_number
+    type: VARCHAR
+  - name: total_statewide_actual_measurable_skills_rate
+    type: VARCHAR
+  - name: sex_female_total_participants_served
+    type: VARCHAR
+  - name: sex_female_total_participants_exited
+    type: VARCHAR
+  - name: sex_female_employment_q2_number
+    type: VARCHAR
+  - name: sex_female_employment_q2_rate
+    type: VARCHAR
+  - name: sex_female_employment_q4_number
+    type: VARCHAR
+  - name: sex_female_employment_q4_rate
+    type: VARCHAR
+  - name: sex_female_median_earnings
+    type: VARCHAR
+  - name: sex_female_credential_number
+    type: VARCHAR
+  - name: sex_female_credential_rate
+    type: VARCHAR
+  - name: sex_female_measurable_skills_number
+    type: VARCHAR
+  - name: sex_female_measurable_skills_rate
+    type: VARCHAR
+  - name: sex_male_total_participants_served
+    type: VARCHAR
+  - name: sex_male_total_participants_exited
+    type: VARCHAR
+  - name: sex_male_employment_q2_number
+    type: VARCHAR
+  - name: sex_male_employment_q2_rate
+    type: VARCHAR
+  - name: sex_male_employment_q4_number
+    type: VARCHAR
+  - name: sex_male_employment_q4_rate
+    type: VARCHAR
+  - name: sex_male_median_earnings
+    type: VARCHAR
+  - name: sex_male_credential_number
+    type: VARCHAR
+  - name: sex_male_credential_rate
+    type: VARCHAR
+  - name: sex_male_measurable_skills_number
+    type: VARCHAR
+  - name: sex_male_measurable_skills_rate
+    type: VARCHAR
+  - name: age_younger_than_16_total_participants_served
+    type: VARCHAR
+  - name: age_younger_than_16_total_participants_exited
+    type: VARCHAR
+  - name: age_younger_than_16_employment_q2_number
+    type: VARCHAR
+  - name: age_younger_than_16_employment_q2_rate
+    type: VARCHAR
+  - name: age_younger_than_16_employment_q4_number
+    type: VARCHAR
+  - name: age_younger_than_16_employment_q4_rate
+    type: VARCHAR
+  - name: age_younger_than_16_median_earnings
+    type: VARCHAR
+  - name: age_younger_than_16_credential_number
+    type: VARCHAR
+  - name: age_younger_than_16_credential_rate
+    type: VARCHAR
+  - name: age_younger_than_16_measurable_skills_number
+    type: VARCHAR
+  - name: age_younger_than_16_measurable_skills_rate
+    type: VARCHAR
+  - name: age_16_to_18_total_participants_served
+    type: VARCHAR
+  - name: age_16_to_18_total_participants_exited
+    type: VARCHAR
+  - name: age_16_to_18_employment_q2_number
+    type: VARCHAR
+  - name: age_16_to_18_employment_q2_rate
+    type: VARCHAR
+  - name: age_16_to_18_employment_q4_number
+    type: VARCHAR
+  - name: age_16_to_18_employment_q4_rate
+    type: VARCHAR
+  - name: age_16_to_18_median_earnings
+    type: VARCHAR
+  - name: age_16_to_18_credential_number
+    type: VARCHAR
+  - name: age_16_to_18_credential_rate
+    type: VARCHAR
+  - name: age_16_to_18_measurable_skills_number
+    type: VARCHAR
+  - name: age_16_to_18_measurable_skills_rate
+    type: VARCHAR
+  - name: age_19_to_24_total_participants_served
+    type: VARCHAR
+  - name: age_19_to_24_total_participants_exited
+    type: VARCHAR
+  - name: age_19_to_24_employment_q2_number
+    type: VARCHAR
+  - name: age_19_to_24_employment_q2_rate
+    type: VARCHAR
+  - name: age_19_to_24_employment_q4_number
+    type: VARCHAR
+  - name: age_19_to_24_employment_q4_rate
+    type: VARCHAR
+  - name: age_19_to_24_median_earnings
+    type: VARCHAR
+  - name: age_19_to_24_credential_number
+    type: VARCHAR
+  - name: age_19_to_24_credential_rate
+    type: VARCHAR
+  - name: age_19_to_24_measurable_skills_number
+    type: VARCHAR
+  - name: age_19_to_24_measurable_skills_rate
+    type: VARCHAR
+  - name: age_25_to_44_total_participants_served
+    type: VARCHAR
+  - name: age_25_to_44_total_participants_exited
+    type: VARCHAR
+  - name: age_25_to_44_employment_q2_number
+    type: VARCHAR
+  - name: age_25_to_44_employment_q2_rate
+    type: VARCHAR
+  - name: age_25_to_44_employment_q4_number
+    type: VARCHAR
+  - name: age_25_to_44_employment_q4_rate
+    type: VARCHAR
+  - name: age_25_to_44_median_earnings
+    type: VARCHAR
+  - name: age_25_to_44_credential_number
+    type: VARCHAR
+  - name: age_25_to_44_credential_rate
+    type: VARCHAR
+  - name: age_25_to_44_measurable_skills_number
+    type: VARCHAR
+  - name: age_25_to_44_measurable_skills_rate
+    type: VARCHAR
+  - name: age_45_to_54_total_participants_served
+    type: VARCHAR
+  - name: age_45_to_54_total_participants_exited
+    type: VARCHAR
+  - name: age_45_to_54_employment_q2_number
+    type: VARCHAR
+  - name: age_45_to_54_employment_q2_rate
+    type: VARCHAR
+  - name: age_45_to_54_employment_q4_number
+    type: VARCHAR
+  - name: age_45_to_54_employment_q4_rate
+    type: VARCHAR
+  - name: age_45_to_54_median_earnings
+    type: VARCHAR
+  - name: age_45_to_54_credential_number
+    type: VARCHAR
+  - name: age_45_to_54_credential_rate
+    type: VARCHAR
+  - name: age_45_to_54_measurable_skills_number
+    type: VARCHAR
+  - name: age_45_to_54_measurable_skills_rate
+    type: VARCHAR
+  - name: age_55_to_59_total_participants_served
+    type: VARCHAR
+  - name: age_55_to_59_total_participants_exited
+    type: VARCHAR
+  - name: age_55_to_59_employment_q2_number
+    type: VARCHAR
+  - name: age_55_to_59_employment_q2_rate
+    type: VARCHAR
+  - name: age_55_to_59_employment_q4_number
+    type: VARCHAR
+  - name: age_55_to_59_employment_q4_rate
+    type: VARCHAR
+  - name: age_55_to_59_median_earnings
+    type: VARCHAR
+  - name: age_55_to_59_credential_number
+    type: VARCHAR
+  - name: age_55_to_59_credential_rate
+    type: VARCHAR
+  - name: age_55_to_59_measurable_skills_number
+    type: VARCHAR
+  - name: age_55_to_59_measurable_skills_rate
+    type: VARCHAR
+  - name: age_60_and_older_total_participants_served
+    type: VARCHAR
+  - name: age_60_and_older_total_participants_exited
+    type: VARCHAR
+  - name: age_60_and_older_employment_q2_number
+    type: VARCHAR
+  - name: age_60_and_older_employment_q2_rate
+    type: VARCHAR
+  - name: age_60_and_older_employment_q4_number
+    type: VARCHAR
+  - name: age_60_and_older_employment_q4_rate
+    type: VARCHAR
+  - name: age_60_and_older_median_earnings
+    type: VARCHAR
+  - name: age_60_and_older_credential_number
+    type: VARCHAR
+  - name: age_60_and_older_credential_rate
+    type: VARCHAR
+  - name: age_60_and_older_measurable_skills_number
+    type: VARCHAR
+  - name: age_60_and_older_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_american_indian_alaskan_native_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_asian_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_asian_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_asian_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_asian_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_asian_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_asian_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_asian_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_asian_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_asian_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_asian_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_asian_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_black_african_american_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_hispanic_latino_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_native_hawaiian_pacific_islander_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_white_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_white_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_white_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_white_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_white_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_white_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_white_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_white_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_white_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_white_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_white_measurable_skills_rate
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_total_participants_served
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_total_participants_exited
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_employment_q2_number
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_employment_q2_rate
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_employment_q4_number
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_employment_q4_rate
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_median_earnings
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_credential_number
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_credential_rate
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_measurable_skills_number
+    type: VARCHAR
+  - name: ethnicity_race_more_than_one_race_measurable_skills_rate
+    type: VARCHAR
+  - name: displaced_homemakers_total_participant_number
+    type: VARCHAR
+  - name: displaced_homemakers_total_participants_served
+    type: VARCHAR
+  - name: displaced_homemakers_employment_q2_number
+    type: VARCHAR
+  - name: displaced_homemakers_employment_q2_rate
+    type: VARCHAR
+  - name: displaced_homemakers_employment_q4_number
+    type: VARCHAR
+  - name: displaced_homemakers_employment_q4_rate
+    type: VARCHAR
+  - name: displaced_homemakers_median_earnings
+    type: VARCHAR
+  - name: displaced_homemakers_credential_number
+    type: VARCHAR
+  - name: displaced_homemakers_credential_rate
+    type: VARCHAR
+  - name: displaced_homemakers_measurable_skills_number
+    type: VARCHAR
+  - name: displaced_homemakers_measurable_skills_rate
+    type: VARCHAR
+  - name: english_language_learners_total_participants_served
+    type: VARCHAR
+  - name: english_language_learners_total_participants_exited
+    type: VARCHAR
+  - name: english_language_learners_employment_q2_number
+    type: VARCHAR
+  - name: english_language_learners_employment_q2_rate
+    type: VARCHAR
+  - name: english_language_learners_employment_q4_number
+    type: VARCHAR
+  - name: english_language_learners_employment_q4_rate
+    type: VARCHAR
+  - name: english_language_learners_median_earnings
+    type: VARCHAR
+  - name: english_language_learners_credential_number
+    type: VARCHAR
+  - name: english_language_learners_credential_rate
+    type: VARCHAR
+  - name: english_language_learners_measurable_skills_number
+    type: VARCHAR
+  - name: english_language_learners_measurable_skills_rate
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_total_participants_served
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_total_participants_exited
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_employment_q2_number
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_employment_q2_rate
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_employment_q4_number
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_employment_q4_rate
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_median_earnings
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_credential_number
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_credential_rate
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_measurable_skills_number
+    type: VARCHAR
+  - name: exhausting_tanf_within_2_years_measurable_skills_rate
+    type: VARCHAR
+  - name: ex_offenders_total_participants_served
+    type: VARCHAR
+  - name: ex_offenders_total_participants_exited
+    type: VARCHAR
+  - name: ex_offenders_employment_q2_number
+    type: VARCHAR
+  - name: ex_offenders_employment_q2_rate
+    type: VARCHAR
+  - name: ex_offenders_employment_q4_number
+    type: VARCHAR
+  - name: ex_offenders_employment_q4_rate
+    type: VARCHAR
+  - name: ex_offenders_median_earnings
+    type: VARCHAR
+  - name: ex_offenders_credential_number
+    type: VARCHAR
+  - name: ex_offenders_credential_rate
+    type: VARCHAR
+  - name: ex_offenders_measurable_skills_number
+    type: VARCHAR
+  - name: ex_offenders_measurable_skills_rate
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_total_participants_served
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_total_participants_exited
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_employment_q2_number
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_employment_q2_rate
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_employment_q4_number
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_employment_q4_rate
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_median_earnings
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_credential_number
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_credential_rate
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_measurable_skills_number
+    type: VARCHAR
+  - name: homeless_individuals_runaway_youth_measurable_skills_rate
+    type: VARCHAR
+  - name: long_term_unemployed_total_participants_served
+    type: VARCHAR
+  - name: long_term_unemployed_total_participants_exited
+    type: VARCHAR
+  - name: long_term_unemployed_employment_q2_number
+    type: VARCHAR
+  - name: long_term_unemployed_employment_q2_rate
+    type: VARCHAR
+  - name: long_term_unemployed_employment_q4_number
+    type: VARCHAR
+  - name: long_term_unemployed_employment_q4_rate
+    type: VARCHAR
+  - name: long_term_unemployed_median_earnings
+    type: VARCHAR
+  - name: long_term_unemployed_credential_number
+    type: VARCHAR
+  - name: long_term_unemployed_credential_rate
+    type: VARCHAR
+  - name: long_term_unemployed_measurable_skills_number
+    type: VARCHAR
+  - name: long_term_unemployed_measurable_skills_rate
+    type: VARCHAR
+  - name: low_income_individuals_total_participants_served
+    type: VARCHAR
+  - name: low_income_individuals_total_participants_exited
+    type: VARCHAR
+  - name: low_income_individuals_employment_q2_number
+    type: VARCHAR
+  - name: low_income_individuals_employment_q2_rate
+    type: VARCHAR
+  - name: low_income_individuals_employment_q4_number
+    type: VARCHAR
+  - name: low_income_individuals_employment_q4_rate
+    type: VARCHAR
+  - name: low_income_individuals_median_earnings
+    type: VARCHAR
+  - name: low_income_individuals_credential_number
+    type: VARCHAR
+  - name: low_income_individuals_credential_rate
+    type: VARCHAR
+  - name: low_income_individuals_measurable_skills_number
+    type: VARCHAR
+  - name: low_income_individuals_measurable_skills_rate
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_total_participants_served
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_total_participants_exited
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_employment_q2_number
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_employment_q2_rate
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_employment_q4_number
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_employment_q4_rate
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_median_earnings
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_credential_number
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_credential_rate
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_measurable_skills_number
+    type: VARCHAR
+  - name: migrant_and_seasonal_farmworkers_measurable_skills_rate
+    type: VARCHAR
+  - name: individuals_with_disabilities_total_participants_served
+    type: VARCHAR
+  - name: individuals_with_disabilities_total_participants_exited
+    type: VARCHAR
+  - name: individuals_with_disabilities_employment_q2_number
+    type: VARCHAR
+  - name: individuals_with_disabilities_employment_q2_rate
+    type: VARCHAR
+  - name: individuals_with_disabilities_employment_q4_number
+    type: VARCHAR
+  - name: individuals_with_disabilities_employment_q4_rate
+    type: VARCHAR
+  - name: individuals_with_disabilities_median_earnings
+    type: VARCHAR
+  - name: individuals_with_disabilities_credential_number
+    type: VARCHAR
+  - name: individuals_with_disabilities_credential_rate
+    type: VARCHAR
+  - name: individuals_with_disabilities_measurable_skills_number
+    type: VARCHAR
+  - name: individuals_with_disabilities_measurable_skills_rate
+    type: VARCHAR
+  - name: single_parents_total_participants_served
+    type: VARCHAR
+  - name: single_parents_total_participants_exited
+    type: VARCHAR
+  - name: single_parents_employment_q2_number
+    type: VARCHAR
+  - name: single_parents_employment_q2_rate
+    type: VARCHAR
+  - name: single_parents_employment_q4_number
+    type: VARCHAR
+  - name: single_parents_employment_q4_rate
+    type: VARCHAR
+  - name: single_parents_median_earnings
+    type: VARCHAR
+  - name: single_parents_credential_number
+    type: VARCHAR
+  - name: single_parents_credential_rate
+    type: VARCHAR
+  - name: single_parents_measurable_skills_number
+    type: VARCHAR
+  - name: single_parents_measurable_skills_rate
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_total_participants_served
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_total_participants_exited
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_employment_q2_number
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_employment_q2_rate
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_employment_q4_number
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_employment_q4_rate
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_median_earnings
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_credential_number
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_credential_rate
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_measurable_skills_number
+    type: VARCHAR
+  - name: youth_in_foster_care_or_aged_out_of_system_measurable_skills_rate
+    type: VARCHAR
+  - name: educational_functioning_level_gain_total_skills_gain
+    type: VARCHAR
+  - name: secondary_school_diploma_total_skills_gain
+    type: VARCHAR
+  - name: secondary_postsecondary_transcript_total_skills_gain
+    type: VARCHAR
+  - name: training_milestone_total_skills_gain
+    type: VARCHAR
+  - name: skills_progression_total_skills_gain
+    type: VARCHAR
+  - name: unnamed_79
+    type: VARCHAR
+  - name: unnamed_80
+    type: VARCHAR
+  - name: unnamed_81
+    type: VARCHAR
+  - name: unnamed_82
+    type: VARCHAR
+  - name: unnamed_83
+    type: VARCHAR
+  - name: unnamed_84
+    type: VARCHAR
+  - name: unnamed_85
+    type: VARCHAR
+  - name: unnamed_86
+    type: VARCHAR
+  - name: unnamed_87
+    type: VARCHAR
+  - name: unnamed_88
+    type: VARCHAR
+  - name: unnamed_89
+    type: VARCHAR
+  - name: unnamed_90
+    type: VARCHAR
+  - name: unnamed_91
+    type: VARCHAR
+  - name: unnamed_92
+    type: VARCHAR
+  - name: unnamed_93
+    type: VARCHAR
+  - name: unnamed_94
+    type: VARCHAR
+  - name: unnamed_95
+    type: VARCHAR
+  - name: unnamed_96
+    type: VARCHAR
+  - name: unnamed_97
+    type: VARCHAR
+  - name: unnamed_98
+    type: VARCHAR
+  - name: unnamed_99
+    type: VARCHAR
+  - name: unnamed_100
+    type: VARCHAR

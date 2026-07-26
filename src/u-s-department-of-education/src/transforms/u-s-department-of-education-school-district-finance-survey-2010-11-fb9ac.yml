@@ -1,0 +1,591 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-school-district-finance-survey-2010-11-fb9ac`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: archive_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: leaid
+    type: VARCHAR
+  - name: censusid
+    type: VARCHAR
+  - name: fipst
+    type: VARCHAR
+  - name: conum
+    type: VARCHAR
+  - name: csa
+    type: VARCHAR
+  - name: cbsa
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: stname
+    type: VARCHAR
+  - name: stabbr
+    type: VARCHAR
+  - name: schlev
+    type: VARCHAR
+  - name: agchrt
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: ccdnf
+    type: VARCHAR
+  - name: cenfile
+    type: VARCHAR
+  - name: gslo
+    type: VARCHAR
+  - name: gshi
+    type: VARCHAR
+  - name: v33
+    type: VARCHAR
+  - name: membersch
+    type: VARCHAR
+  - name: totalrev
+    type: VARCHAR
+  - name: tfedrev
+    type: VARCHAR
+  - name: c14
+    type: VARCHAR
+  - name: c15
+    type: VARCHAR
+  - name: c16
+    type: VARCHAR
+  - name: c17
+    type: VARCHAR
+  - name: c19
+    type: VARCHAR
+  - name: b11
+    type: VARCHAR
+  - name: c20
+    type: VARCHAR
+  - name: c25
+    type: VARCHAR
+  - name: c36
+    type: VARCHAR
+  - name: b10
+    type: VARCHAR
+  - name: b12
+    type: VARCHAR
+  - name: b13
+    type: VARCHAR
+  - name: tstrev
+    type: VARCHAR
+  - name: c01
+    type: VARCHAR
+  - name: c04
+    type: VARCHAR
+  - name: c05
+    type: VARCHAR
+  - name: c06
+    type: VARCHAR
+  - name: c07
+    type: VARCHAR
+  - name: c08
+    type: VARCHAR
+  - name: c09
+    type: VARCHAR
+  - name: c10
+    type: VARCHAR
+  - name: c11
+    type: VARCHAR
+  - name: c12
+    type: VARCHAR
+  - name: c13
+    type: VARCHAR
+  - name: c35
+    type: VARCHAR
+  - name: c38
+    type: VARCHAR
+  - name: c39
+    type: VARCHAR
+  - name: tlocrev
+    type: VARCHAR
+  - name: t02
+    type: VARCHAR
+  - name: t06
+    type: VARCHAR
+  - name: t09
+    type: VARCHAR
+  - name: t15
+    type: VARCHAR
+  - name: t40
+    type: VARCHAR
+  - name: t99
+    type: VARCHAR
+  - name: d11
+    type: VARCHAR
+  - name: d23
+    type: VARCHAR
+  - name: a07
+    type: VARCHAR
+  - name: a08
+    type: VARCHAR
+  - name: a09
+    type: VARCHAR
+  - name: a11
+    type: VARCHAR
+  - name: a13
+    type: VARCHAR
+  - name: a15
+    type: VARCHAR
+  - name: a20
+    type: VARCHAR
+  - name: a40
+    type: VARCHAR
+  - name: u11
+    type: VARCHAR
+  - name: u22
+    type: VARCHAR
+  - name: u30
+    type: VARCHAR
+  - name: u50
+    type: VARCHAR
+  - name: u97
+    type: VARCHAR
+  - name: c24
+    type: VARCHAR
+  - name: totalexp
+    type: VARCHAR
+  - name: tcurelsc
+    type: VARCHAR
+  - name: tcurinst
+    type: VARCHAR
+  - name: e13
+    type: VARCHAR
+  - name: v91
+    type: VARCHAR
+  - name: v92
+    type: VARCHAR
+  - name: tcurssvc
+    type: VARCHAR
+  - name: e17
+    type: VARCHAR
+  - name: e07
+    type: VARCHAR
+  - name: e08
+    type: VARCHAR
+  - name: e09
+    type: VARCHAR
+  - name: v40
+    type: VARCHAR
+  - name: v45
+    type: VARCHAR
+  - name: v90
+    type: VARCHAR
+  - name: v85
+    type: VARCHAR
+  - name: tcuroth
+    type: VARCHAR
+  - name: e11
+    type: VARCHAR
+  - name: v60
+    type: VARCHAR
+  - name: v65
+    type: VARCHAR
+  - name: tnonelse
+    type: VARCHAR
+  - name: v70
+    type: VARCHAR
+  - name: v75
+    type: VARCHAR
+  - name: v80
+    type: VARCHAR
+  - name: tcapout
+    type: VARCHAR
+  - name: f12
+    type: VARCHAR
+  - name: g15
+    type: VARCHAR
+  - name: k09
+    type: VARCHAR
+  - name: k10
+    type: VARCHAR
+  - name: k11
+    type: VARCHAR
+  - name: l12
+    type: VARCHAR
+  - name: m12
+    type: VARCHAR
+  - name: q11
+    type: VARCHAR
+  - name: i86
+    type: VARCHAR
+  - name: z32
+    type: VARCHAR
+  - name: z33
+    type: VARCHAR
+  - name: z35
+    type: VARCHAR
+  - name: z36
+    type: VARCHAR
+  - name: z37
+    type: VARCHAR
+  - name: z38
+    type: VARCHAR
+  - name: v11
+    type: VARCHAR
+  - name: v13
+    type: VARCHAR
+  - name: v15
+    type: VARCHAR
+  - name: v17
+    type: VARCHAR
+  - name: v21
+    type: VARCHAR
+  - name: v23
+    type: VARCHAR
+  - name: v37
+    type: VARCHAR
+  - name: v29
+    type: VARCHAR
+  - name: z34
+    type: VARCHAR
+  - name: v10
+    type: VARCHAR
+  - name: v12
+    type: VARCHAR
+  - name: v14
+    type: VARCHAR
+  - name: v16
+    type: VARCHAR
+  - name: v18
+    type: VARCHAR
+  - name: v22
+    type: VARCHAR
+  - name: v24
+    type: VARCHAR
+  - name: v38
+    type: VARCHAR
+  - name: v30
+    type: VARCHAR
+  - name: v32
+    type: VARCHAR
+  - name: v93
+    type: VARCHAR
+  - name: "19h"
+    type: VARCHAR
+  - name: "21f"
+    type: VARCHAR
+  - name: "31f"
+    type: VARCHAR
+  - name: "41f"
+    type: VARCHAR
+  - name: "61v"
+    type: VARCHAR
+  - name: "66v"
+    type: VARCHAR
+  - name: w01
+    type: VARCHAR
+  - name: w31
+    type: VARCHAR
+  - name: w61
+    type: VARCHAR
+  - name: hr1
+    type: VARCHAR
+  - name: he1
+    type: VARCHAR
+  - name: he2
+    type: VARCHAR
+  - name: weight
+    type: VARCHAR
+  - name: fl_v33
+    type: VARCHAR
+  - name: fl_membersch
+    type: VARCHAR
+  - name: fl_c14
+    type: VARCHAR
+  - name: fl_c15
+    type: VARCHAR
+  - name: fl_c16
+    type: VARCHAR
+  - name: fl_c17
+    type: VARCHAR
+  - name: fl_c19
+    type: VARCHAR
+  - name: fl_b11
+    type: VARCHAR
+  - name: fl_c20
+    type: VARCHAR
+  - name: fl_c25
+    type: VARCHAR
+  - name: fl_c36
+    type: VARCHAR
+  - name: fl_b10
+    type: VARCHAR
+  - name: fl_b12
+    type: VARCHAR
+  - name: fl_b13
+    type: VARCHAR
+  - name: fl_c01
+    type: VARCHAR
+  - name: fl_c04
+    type: VARCHAR
+  - name: fl_c05
+    type: VARCHAR
+  - name: fl_c06
+    type: VARCHAR
+  - name: fl_c07
+    type: VARCHAR
+  - name: fl_c08
+    type: VARCHAR
+  - name: fl_c09
+    type: VARCHAR
+  - name: fl_c10
+    type: VARCHAR
+  - name: fl_c11
+    type: VARCHAR
+  - name: fl_c12
+    type: VARCHAR
+  - name: fl_c13
+    type: VARCHAR
+  - name: fl_c35
+    type: VARCHAR
+  - name: fl_c38
+    type: VARCHAR
+  - name: fl_c39
+    type: VARCHAR
+  - name: fl_t02
+    type: VARCHAR
+  - name: fl_t06
+    type: VARCHAR
+  - name: fl_t09
+    type: VARCHAR
+  - name: fl_t15
+    type: VARCHAR
+  - name: fl_t40
+    type: VARCHAR
+  - name: fl_t99
+    type: VARCHAR
+  - name: fl_d11
+    type: VARCHAR
+  - name: fl_d23
+    type: VARCHAR
+  - name: fl_a07
+    type: VARCHAR
+  - name: fl_a08
+    type: VARCHAR
+  - name: fl_a09
+    type: VARCHAR
+  - name: fl_a11
+    type: VARCHAR
+  - name: fl_a13
+    type: VARCHAR
+  - name: fl_a15
+    type: VARCHAR
+  - name: fl_a20
+    type: VARCHAR
+  - name: fl_a40
+    type: VARCHAR
+  - name: fl_u11
+    type: VARCHAR
+  - name: fl_u22
+    type: VARCHAR
+  - name: fl_u30
+    type: VARCHAR
+  - name: fl_u50
+    type: VARCHAR
+  - name: fl_u97
+    type: VARCHAR
+  - name: fl_c24
+    type: VARCHAR
+  - name: fl_e13
+    type: VARCHAR
+  - name: fl_v91
+    type: VARCHAR
+  - name: fl_v92
+    type: VARCHAR
+  - name: fl_e17
+    type: VARCHAR
+  - name: fl_e07
+    type: VARCHAR
+  - name: fl_e08
+    type: VARCHAR
+  - name: fl_e09
+    type: VARCHAR
+  - name: fl_v40
+    type: VARCHAR
+  - name: fl_v45
+    type: VARCHAR
+  - name: fl_v90
+    type: VARCHAR
+  - name: fl_v85
+    type: VARCHAR
+  - name: fl_e11
+    type: VARCHAR
+  - name: fl_v60
+    type: VARCHAR
+  - name: fl_v65
+    type: VARCHAR
+  - name: fl_v70
+    type: VARCHAR
+  - name: fl_v75
+    type: VARCHAR
+  - name: fl_v80
+    type: VARCHAR
+  - name: fl_f12
+    type: VARCHAR
+  - name: fl_g15
+    type: VARCHAR
+  - name: fl_k09
+    type: VARCHAR
+  - name: fl_k10
+    type: VARCHAR
+  - name: fl_k11
+    type: VARCHAR
+  - name: fl_l12
+    type: VARCHAR
+  - name: fl_m12
+    type: VARCHAR
+  - name: fl_q11
+    type: VARCHAR
+  - name: fl_i86
+    type: VARCHAR
+  - name: fl_z32
+    type: VARCHAR
+  - name: fl_z33
+    type: VARCHAR
+  - name: fl_z35
+    type: VARCHAR
+  - name: fl_z36
+    type: VARCHAR
+  - name: fl_z37
+    type: VARCHAR
+  - name: fl_z38
+    type: VARCHAR
+  - name: fl_v11
+    type: VARCHAR
+  - name: fl_v13
+    type: VARCHAR
+  - name: fl_v15
+    type: VARCHAR
+  - name: fl_v17
+    type: VARCHAR
+  - name: fl_v21
+    type: VARCHAR
+  - name: fl_v23
+    type: VARCHAR
+  - name: fl_v37
+    type: VARCHAR
+  - name: fl_v29
+    type: VARCHAR
+  - name: fl_z34
+    type: VARCHAR
+  - name: fl_v10
+    type: VARCHAR
+  - name: fl_v12
+    type: VARCHAR
+  - name: fl_v14
+    type: VARCHAR
+  - name: fl_v16
+    type: VARCHAR
+  - name: fl_v18
+    type: VARCHAR
+  - name: fl_v22
+    type: VARCHAR
+  - name: fl_v24
+    type: VARCHAR
+  - name: fl_v38
+    type: VARCHAR
+  - name: fl_v30
+    type: VARCHAR
+  - name: fl_v32
+    type: VARCHAR
+  - name: fl_v93
+    type: VARCHAR
+  - name: fl_19h
+    type: VARCHAR
+  - name: fl_21f
+    type: VARCHAR
+  - name: fl_31f
+    type: VARCHAR
+  - name: fl_41f
+    type: VARCHAR
+  - name: fl_61v
+    type: VARCHAR
+  - name: fl_66v
+    type: VARCHAR
+  - name: fl_w01
+    type: VARCHAR
+  - name: fl_w31
+    type: VARCHAR
+  - name: fl_w61
+    type: VARCHAR
+  - name: fl_hr1
+    type: VARCHAR
+  - name: fl_he1
+    type: VARCHAR
+  - name: fl_he2
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: table_d_1_frequencies_of_categorical_variables_fiscal_year_2011
+    type: VARCHAR
+  - name: unnamed_1
+    type: VARCHAR
+  - name: unnamed_2
+    type: VARCHAR
+  - name: unnamed_3
+    type: VARCHAR
+  - name: unnamed_4
+    type: VARCHAR
+  - name: table_d_2_number_of_districts_with_zero_and_positive_values_for_revenues_by_revenue_source_and_state_fiscal_year_2011
+    type: VARCHAR
+  - name: unnamed_5
+    type: VARCHAR
+  - name: unnamed_6
+    type: VARCHAR
+  - name: unnamed_7
+    type: VARCHAR
+  - name: unnamed_8
+    type: VARCHAR
+  - name: unnamed_9
+    type: VARCHAR
+  - name: unnamed_10
+    type: VARCHAR
+  - name: unnamed_11
+    type: VARCHAR
+  - name: table_d_3_number_of_districts_with_zero_and_positive_values_for_current_elementary_secondary_expenditures_by_type_of_expenditure_and
+    type: VARCHAR
+  - name: table_d_4_number_of_districts_with_zero_and_positive_values_for_expenditures_and_membership_by_type_of_expenditure_and_state_fiscal
+    type: VARCHAR
+  - name: table_d_5_number_of_districts_and_minimum_maximum_and_mean_of_districts_local_revenues_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_6_number_of_districts_and_minimum_maximum_and_mean_of_districts_state_revenues_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_7_number_of_districts_and_minimum_maximum_and_mean_of_districts_federal_revenues_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_8_number_of_districts_and_minimum_maximum_and_mean_of_districts_total_revenues_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_9_number_of_districts_and_minimum_maximum_and_mean_of_districts_current_expenditures_for_instruction_by_state_fiscal_year
+    type: VARCHAR
+  - name: table_d_10_number_of_districts_and_minimum_maximum_and_mean_of_districts_current_expenditures_for_support_services_by_state_fiscal
+    type: VARCHAR
+  - name: table_d_11_number_of_districts_and_minimum_maximum_and_mean_of_districts_other_current_expenditures_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_12_number_of_districts_and_minimum_maximum_and_mean_of_districts_total_current_expenditures_for_elementary_secondary
+    type: VARCHAR
+  - name: table_d_13_number_of_districts_and_minimum_maximum_and_mean_of_districts_capital_outlays_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_14_number_of_districts_and_minimum_maximum_and_mean_of_districts_non_elementary_secondary_expenditures_by_state_fiscal
+    type: VARCHAR
+  - name: table_d_15_number_of_districts_and_minimum_maximum_and_mean_of_districts_total_expenditures_by_state_fiscal_year_2011
+    type: VARCHAR
+  - name: table_d_16_number_of_districts_and_minimum_maximum_and_mean_of_continuous_variables_fiscal_year_2011
+    type: VARCHAR

@@ -1,0 +1,44 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+SELECT
+    "package_id",
+    "package_title",
+    "resource_id",
+    "resource_name",
+    "resource_format",
+    "resource_position",
+    "archive_member",
+    "row_number",
+    "LEAID CENSUSID FIPST CONUM CSA CBSA NAME STNAME STABBR SCHLEV AGCHRT YEAR CCDNF CENFILE GSLO GSHI V33 TOTALREV TFEDREV C14 C15 C16 C17 C18 C19 B11 C20 C25 C36 B10 B12 B13 TSTREV C01 C04 C05 C06 C07 C08 C09 C10 C11 C12 C13 C35 C38 C39 TLOCREV T02 T06 T09 T15 T40 T99 D11 D23 A07 A08 A09 A11 A13 A15 A20 A40 U11 U22 U30 U50 U97 C24 TOTALEXP TCURELSC TCURINST E13 V91 V92 TCURSSVC E17 E07 E08 E09 V40 V45 V90 V85 TCUROTH E11 V60 V65 TNONELSE V70 V75 V80 TCAPOUT F12 G15 K09 K10 K11 L12 M12 Q11 I86 Z32 Z33 Z35 Z36 Z37 Z38 V11 V13 V15 V17 V21 V23 V37 V29 Z34 V10 V12 V14 V16 V18 V22 V24 V38 V30 V32 V93 _19H _21F _31F _41F _61V _66V W01 W31 W61 WEIGHT FL_V33 FL_C14 FL_C15 FL_C16 FL_C17 FL_C18 FL_C19 FL_B11 FL_C20 FL_C25 FL_C36 FL_B10 FL_B12 FL_B13 FL_C01 FL_C04 FL_C05 FL_C06 FL_C07 FL_C08 FL_C09 FL_C10 FL_C11 FL_C12 FL_C13 FL_C35 FL_C38 FL_C39 FL_T02 FL_T06 FL_T09 FL_T15 FL_T40 FL_T99 FL_D11 FL_D23 FL_A07 FL_A08 FL_A09 FL_A11 FL_A13 FL_A15 FL_A20 FL_A40 FL_U11 FL_U22 FL_U30 FL_U50 FL_U97 FL_C24 FL_E13 FL_V91 FL_V92 FL_E17 FL_E07 FL_E08 FL_E09 FL_V40 FL_V45 FL_V90 FL_V85 FL_E11 FL_V60 FL_V65 FL_V70 FL_V75 FL_V80 FL_F12 FL_G15 FL_K09 FL_K10 FL_K11 FL_L12 FL_M12 FL_Q11 FL_I86 FL_Z32 FL_Z33 FL_Z35 FL_Z36 FL_Z37 FL_Z38 FL_V11 FL_V13 FL_V15 FL_V17 FL_V21 FL_V23 FL_V37 FL_V29 FL_Z34 FL_V10 FL_V12 FL_V14 FL_V16 FL_V18 FL_V22 FL_V24 FL_V38 FL_V30 FL_V32 FL_V93 FL_19H FL_21F FL_31F FL_41F FL_61V FL_66V FL_W01 FL_W31 FL_W61" AS leaid_censusid_fipst_conum_csa_cbsa_name_stname_stabbr_schlev_agchrt_year_ccdnf_cenfile_gslo_gshi_v33_totalrev_tfedrev_c14_c15_c16_c17_c18_c19_b11_c20_c25_c36_b10_b12_b13_tstrev_c01_c04_c05_c06_c07_c08_c09_c10_c11_c12_c13_c35_c38_c39_tlocrev_t02_t06_t09_t15_t40_t99_d11_d23_a07_a08_a09_a11_a13_a15_a20_a40_u11_u22_u30_u50_u97_c24_totalexp_tcurelsc_tcurinst_e13_v91_v92_tcurssvc_e17_e07_e08_e09_v40_v45_v90_v85_tcuroth_e11_v60_v65_tnonelse_v70_v75_v80_tcapout_f12_g15_k09_k10_k11_l12_m12_q11_i86_z32_z33_z35_z36_z37_z38_v11_v13_v15_v17_v21_v23_v37_v29_z34_v10_v12_v14_v16_v18_v22_v24_v38_v30_v32_v93_19h_21f_31f_41f_61v_66v_w01_w31_w61_weight_fl_v33_fl_c14_fl_c15_fl_c16_fl_c17_fl_c18_fl_c19_fl_b11_fl_c20_fl_c25_fl_c36_fl_b10_fl_b12_fl_b13_fl_c01_fl_c04_fl_c05_fl_c06_fl_c07_fl_c08_fl_c09_fl_c10_fl_c11_fl_c12_fl_c13_fl_c35_fl_c38_fl_c39_fl_t02_fl_t06_fl_t09_fl_t15_fl_t40_fl_t99_fl_d11_fl_d23_fl_a07_fl_a08_fl_a09_fl_a11_fl_a13_fl_a15_fl_a20_fl_a40_fl_u11_fl_u22_fl_u30_fl_u50_fl_u97_fl_c24_fl_e13_fl_v91_fl_v92_fl_e17_fl_e07_fl_e08_fl_e09_fl_v40_fl_v45_fl_v90_fl_v85_fl_e11_fl_v60_fl_v65_fl_v70_fl_v75_fl_v80_fl_f12_fl_g15_fl_k09_fl_k10_fl_k11_fl_l12_fl_m12_fl_q11_fl_i86_fl_z32_fl_z33_fl_z35_fl_z36_fl_z37_fl_z38_fl_v11_fl_v13_fl_v15_fl_v17_fl_v21_fl_v23_fl_v37_fl_v29_fl_z34_fl_v10_fl_v12_fl_v14_fl_v16_fl_v18_fl_v22_fl_v24_fl_v38_fl_v30_fl_v32_fl_v93_fl_19h_fl_21f_fl_31f_fl_41f_fl_61v_fl_66v_fl_w01_fl_w31_fl_w61,
+    "sheet_name",
+    "Table D-1. Frequencies of categorical variables: Fiscal year 2007" AS table_d_1_frequencies_of_categorical_variables_fiscal_year_2007,
+    "Unnamed: 1" AS unnamed_1,
+    "Unnamed: 2" AS unnamed_2,
+    "Unnamed: 3" AS unnamed_3,
+    "Unnamed: 4" AS unnamed_4,
+    "Table D-2. Number of districts with zero and nonzero values for revenues, by revenue source and state: Fiscal year 2007" AS table_d_2_number_of_districts_with_zero_and_nonzero_values_for_revenues_by_revenue_source_and_state_fiscal_year_2007,
+    "Unnamed: 5" AS unnamed_5,
+    "Unnamed: 6" AS unnamed_6,
+    "Unnamed: 7" AS unnamed_7,
+    "Unnamed: 8" AS unnamed_8,
+    "Unnamed: 9" AS unnamed_9,
+    "Unnamed: 10" AS unnamed_10,
+    "Unnamed: 11" AS unnamed_11,
+    "Table D-3. Number of districts with zero and nonzero values for current elementary/secondary expenditures, by type of expenditure and" AS table_d_3_number_of_districts_with_zero_and_nonzero_values_for_current_elementary_secondary_expenditures_by_type_of_expenditure_and,
+    "Table D-4. Number of districts with zero and nonzero values for expenditures and membership, by type of expenditure and state: Fiscal" AS table_d_4_number_of_districts_with_zero_and_nonzero_values_for_expenditures_and_membership_by_type_of_expenditure_and_state_fiscal,
+    "Table D-5. Number of districts and minimum, maximum, and mean of districts' local revenues, by state: Fiscal year 2007" AS table_d_5_number_of_districts_and_minimum_maximum_and_mean_of_districts_local_revenues_by_state_fiscal_year_2007,
+    "Table D-6. Number of districts and minimum, maximum, and mean of districts' state revenues, by state: Fiscal year 2007" AS table_d_6_number_of_districts_and_minimum_maximum_and_mean_of_districts_state_revenues_by_state_fiscal_year_2007,
+    "Table D-7. Number of districts and minimum, maximum, and mean of districts' federal revenues, by state: Fiscal year 2007" AS table_d_7_number_of_districts_and_minimum_maximum_and_mean_of_districts_federal_revenues_by_state_fiscal_year_2007,
+    "Table D-8. Number of districts and minimum, maximum, and mean of districts' total revenues, by state: Fiscal year 2007" AS table_d_8_number_of_districts_and_minimum_maximum_and_mean_of_districts_total_revenues_by_state_fiscal_year_2007,
+    "Table D-9. Number of districts and minimum, maximum, and mean of districts' current expenditures for instruction, by state: Fiscal year" AS table_d_9_number_of_districts_and_minimum_maximum_and_mean_of_districts_current_expenditures_for_instruction_by_state_fiscal_year,
+    "Table D-10. Number of districts and minimum, maximum, and mean of districts' current expenditures for support services, by state: Fiscal" AS table_d_10_number_of_districts_and_minimum_maximum_and_mean_of_districts_current_expenditures_for_support_services_by_state_fiscal,
+    "Table D-11. Number of districts and minimum, maximum, and mean of districts' other current expenditures, by state: Fiscal year 2007" AS table_d_11_number_of_districts_and_minimum_maximum_and_mean_of_districts_other_current_expenditures_by_state_fiscal_year_2007,
+    "Table D-12. Number of districts and minimum, maximum, and mean of districts' total current expenditures, by state: Fiscal year 2007" AS table_d_12_number_of_districts_and_minimum_maximum_and_mean_of_districts_total_current_expenditures_by_state_fiscal_year_2007,
+    "Table D-13. Number of districts and minimum, maximum, and mean of districts' capital outlays, by state: Fiscal year 2007" AS table_d_13_number_of_districts_and_minimum_maximum_and_mean_of_districts_capital_outlays_by_state_fiscal_year_2007,
+    "Table D-14. Number of districts and minimum, maximum, and mean of districts' non-elementary/secondary expenditures, by state: Fiscal" AS table_d_14_number_of_districts_and_minimum_maximum_and_mean_of_districts_non_elementary_secondary_expenditures_by_state_fiscal,
+    "Table D-15. Number of districts and minimum, maximum, and mean of districts' total expenditures, by state: Fiscal year 2007" AS table_d_15_number_of_districts_and_minimum_maximum_and_mean_of_districts_total_expenditures_by_state_fiscal_year_2007,
+    "Table D-16. Number of districts and minimum, maximum, and mean of continuous variables: Fiscal year 2007" AS table_d_16_number_of_districts_and_minimum_maximum_and_mean_of_continuous_variables_fiscal_year_2007
+FROM "u-s-department-of-education-school-district-finance-survey-2006-07-f9058"

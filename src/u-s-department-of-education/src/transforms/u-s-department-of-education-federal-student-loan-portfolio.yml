@@ -1,0 +1,167 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-federal-student-loan-portfolio`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: federal_student_aid_portfolio_summary
+    type: VARCHAR
+  - name: unnamed_1
+    type: VARCHAR
+  - name: unnamed_2
+    type: VARCHAR
+  - name: unnamed_3
+    type: VARCHAR
+  - name: unnamed_4
+    type: VARCHAR
+  - name: unnamed_5
+    type: VARCHAR
+  - name: unnamed_6
+    type: VARCHAR
+  - name: unnamed_7
+    type: VARCHAR
+  - name: unnamed_8
+    type: VARCHAR
+  - name: unnamed_9
+    type: VARCHAR
+  - name: portfolio_by_loan_type
+    type: VARCHAR
+  - name: unnamed_10
+    type: VARCHAR
+  - name: unnamed_11
+    type: VARCHAR
+  - name: unnamed_12
+    type: VARCHAR
+  - name: unnamed_13
+    type: VARCHAR
+  - name: unnamed_14
+    type: VARCHAR
+  - name: unnamed_15
+    type: VARCHAR
+  - name: federal_student_loan_portfolio_by_borrower_age
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_federal_student_loan_portfolio_by_borrower_age_report
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_borrower_age
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_direct_loan_portfolio_by_borrower_age_report
+    type: VARCHAR
+  - name: income_driven_portfolio_by_borrower_age
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_idr_portfolio_by_borrower_age_report
+    type: VARCHAR
+  - name: federal_student_loan_portfolio_by_borrower_debt_size
+    type: VARCHAR
+  - name: unnamed_16
+    type: VARCHAR
+  - name: unnamed_17
+    type: VARCHAR
+  - name: unnamed_18
+    type: VARCHAR
+  - name: unnamed_19
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_federal_student_loan_portfolio_by_borrower_debt_size_report
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_borrower_debt_size
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_direct_loan_portfolio_by_borrower_debt_size_report
+    type: VARCHAR
+  - name: income_driven_portfolio_by_borrower_debt_size
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_idr_portfolio_by_borrower_debt_size_report
+    type: VARCHAR
+  - name: federal_student_loan_portfolio_by_borrower_location
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_federal_student_loan_portfolio_by_borrower_location_report
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_borrower_location
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_direct_loan_portfolio_by_borrower_location_report
+    type: VARCHAR
+  - name: income_driven_portfolio_by_borrower_location
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_idr_portfolio_by_borrower_location_report
+    type: VARCHAR
+  - name: federal_student_loan_portfolio_by_school_type
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_portfolio_by_school_type_report
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_school_type
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_direct_loan_portfolio_by_school_type_report
+    type: VARCHAR
+  - name: income_driven_portfolio_by_school_type
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_idr_portfolio_by_school_type_report
+    type: VARCHAR
+  - name: federal_student_loan_portfolio_by_borrower_age_and_debt_size
+    type: VARCHAR
+  - name: federal_student_loan_portfolio_by_borrower_location_and_debt_size
+    type: VARCHAR
+  - name: portfolio_by_borrower_location_and_age
+    type: VARCHAR
+  - name: location_of_federal_family_education_loan_ffel_program_loans
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_location_of_federal_family_education_loan_ffel_program_loans
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_loan_status
+    type: VARCHAR
+  - name: federal_family_education_loan_ffel_portfolio_by_loan_status
+    type: VARCHAR
+  - name: ed_held_federal_family_education_loan_ffel_portfolio_by_loan_status
+    type: VARCHAR
+  - name: federally_managed_portfolio_by_loan_status
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_portfolio_by_loan_status_reports
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_deferment_type
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_direct_loan_dl_portfolio_by_deferment_type
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_forbearance_type
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_direct_loan_portfolio_by_forbearance_type
+    type: VARCHAR
+  - name: federal_family_education_loan_ffel_portfolio_by_deferment_type
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_federal_family_education_loan_ffel_portfolio_by_deferment_type
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_repayment_plan
+    type: VARCHAR
+  - name: unnamed_20
+    type: VARCHAR
+  - name: unnamed_21
+    type: VARCHAR
+  - name: income_driven_repayment_plans_by_partial_financial_hardship
+    type: VARCHAR
+  - name: ed_held_federal_family_education_loan_ffel_portfolio_by_repayment_plan
+    type: VARCHAR
+  - name: federally_managed_portfolio_by_repayment_plan
+    type: VARCHAR
+  - name: unnamed_22
+    type: VARCHAR
+  - name: unnamed_23
+    type: VARCHAR
+  - name: this_tab_provides_definitions_for_the_portfolio_by_repayment_plan_reports
+    type: VARCHAR
+  - name: direct_loan_portfolio_by_delinquency_status
+    type: VARCHAR
+  - name: ed_held_federal_family_education_loan_ffel_portfolio_by_delinquency_status
+    type: VARCHAR
+  - name: federally_managed_portfolio_by_delinquency_status
+    type: VARCHAR

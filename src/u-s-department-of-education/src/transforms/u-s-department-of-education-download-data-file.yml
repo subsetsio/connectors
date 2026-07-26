@@ -1,0 +1,3925 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-download-data-file`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: archive_member
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: order
+    type: VARCHAR
+  - name: excel_column_finder
+    type: VARCHAR
+  - name: field_name
+    type: VARCHAR
+  - name: field_description
+    type: VARCHAR
+  - name: module
+    type: VARCHAR
+  - name: lea_state
+    type: VARCHAR
+  - name: lea_state_name
+    type: VARCHAR
+  - name: leaid
+    type: VARCHAR
+  - name: lea_name
+    type: VARCHAR
+  - name: lea_address
+    type: VARCHAR
+  - name: lea_city
+    type: VARCHAR
+  - name: lea_zip
+    type: VARCHAR
+  - name: cjj
+    type: VARCHAR
+  - name: lea_enr
+    type: VARCHAR
+  - name: lea_enr_nonleafac
+    type: VARCHAR
+  - name: lea_schools
+    type: VARCHAR
+  - name: lea_crcoord_sex_ind
+    type: VARCHAR
+  - name: lea_crcoord_rac_ind
+    type: VARCHAR
+  - name: lea_crcoord_dis_ind
+    type: VARCHAR
+  - name: lea_crcoord_sex_fn
+    type: VARCHAR
+  - name: lea_crcoord_sex_ln
+    type: VARCHAR
+  - name: lea_crcoord_sex_ph
+    type: VARCHAR
+  - name: lea_crcoord_sex_em
+    type: VARCHAR
+  - name: lea_crcoord_rac_fn
+    type: VARCHAR
+  - name: lea_crcoord_rac_ln
+    type: VARCHAR
+  - name: lea_crcoord_rac_ph
+    type: VARCHAR
+  - name: lea_crcoord_rac_em
+    type: VARCHAR
+  - name: lea_crcoord_dis_fn
+    type: VARCHAR
+  - name: lea_crcoord_dis_ln
+    type: VARCHAR
+  - name: lea_crcoord_dis_ph
+    type: VARCHAR
+  - name: lea_crcoord_dis_em
+    type: VARCHAR
+  - name: lea_desegplan
+    type: VARCHAR
+  - name: lea_hbpolicy_ind
+    type: VARCHAR
+  - name: lea_hbpolicyurl_ind
+    type: VARCHAR
+  - name: lea_hbpolicy_url
+    type: VARCHAR
+  - name: lea_ece_ind
+    type: VARCHAR
+  - name: lea_ece_nonidea
+    type: VARCHAR
+  - name: lea_ps_ind
+    type: VARCHAR
+  - name: lea_ps_fulldayfree
+    type: VARCHAR
+  - name: lea_ps_fulldaycost
+    type: VARCHAR
+  - name: lea_ps_partdayfree
+    type: VARCHAR
+  - name: lea_ps_partdaycost
+    type: VARCHAR
+  - name: lea_psenr_nonidea_a3
+    type: VARCHAR
+  - name: lea_psenr_nonidea_a4
+    type: VARCHAR
+  - name: lea_psenr_nonidea_a5
+    type: VARCHAR
+  - name: lea_psenr_a2
+    type: VARCHAR
+  - name: lea_psenr_a3
+    type: VARCHAR
+  - name: lea_psenr_a4
+    type: VARCHAR
+  - name: lea_psenr_a5
+    type: VARCHAR
+  - name: lea_pselig_all
+    type: VARCHAR
+  - name: lea_pselig_idea
+    type: VARCHAR
+  - name: lea_pselig_titlei
+    type: VARCHAR
+  - name: lea_pselig_lowinc
+    type: VARCHAR
+  - name: lea_kg_ind
+    type: VARCHAR
+  - name: lea_kg_fulldayfree
+    type: VARCHAR
+  - name: lea_kg_fulldaycost
+    type: VARCHAR
+  - name: lea_kg_partdayfree
+    type: VARCHAR
+  - name: lea_kg_partdaycost
+    type: VARCHAR
+  - name: lea_ged_ind
+    type: VARCHAR
+  - name: lea_gedpart_hi_m
+    type: VARCHAR
+  - name: lea_gedpart_hi_f
+    type: VARCHAR
+  - name: lea_gedpart_am_m
+    type: VARCHAR
+  - name: lea_gedpart_am_f
+    type: VARCHAR
+  - name: lea_gedpart_as_m
+    type: VARCHAR
+  - name: lea_gedpart_as_f
+    type: VARCHAR
+  - name: lea_gedpart_hp_m
+    type: VARCHAR
+  - name: lea_gedpart_hp_f
+    type: VARCHAR
+  - name: lea_gedpart_bl_m
+    type: VARCHAR
+  - name: lea_gedpart_bl_f
+    type: VARCHAR
+  - name: lea_gedpart_wh_m
+    type: VARCHAR
+  - name: lea_gedpart_wh_f
+    type: VARCHAR
+  - name: lea_gedpart_tr_m
+    type: VARCHAR
+  - name: lea_gedpart_tr_f
+    type: VARCHAR
+  - name: tot_gedpart_m
+    type: VARCHAR
+  - name: tot_gedpart_f
+    type: VARCHAR
+  - name: lea_gedpart_lep_m
+    type: VARCHAR
+  - name: lea_gedpart_lep_f
+    type: VARCHAR
+  - name: lea_gedpart_idea_m
+    type: VARCHAR
+  - name: lea_gedpart_idea_f
+    type: VARCHAR
+  - name: lea_gedcred_hi_m
+    type: VARCHAR
+  - name: lea_gedcred_hi_f
+    type: VARCHAR
+  - name: lea_gedcred_am_m
+    type: VARCHAR
+  - name: lea_gedcred_am_f
+    type: VARCHAR
+  - name: lea_gedcred_as_m
+    type: VARCHAR
+  - name: lea_gedcred_as_f
+    type: VARCHAR
+  - name: lea_gedcred_hp_m
+    type: VARCHAR
+  - name: lea_gedcred_hp_f
+    type: VARCHAR
+  - name: lea_gedcred_bl_m
+    type: VARCHAR
+  - name: lea_gedcred_bl_f
+    type: VARCHAR
+  - name: lea_gedcred_wh_m
+    type: VARCHAR
+  - name: lea_gedcred_wh_f
+    type: VARCHAR
+  - name: lea_gedcred_tr_m
+    type: VARCHAR
+  - name: lea_gedcred_tr_f
+    type: VARCHAR
+  - name: tot_gedcred_m
+    type: VARCHAR
+  - name: tot_gedcred_f
+    type: VARCHAR
+  - name: lea_gedcred_lep_m
+    type: VARCHAR
+  - name: lea_gedcred_lep_f
+    type: VARCHAR
+  - name: lea_gedcred_idea_m
+    type: VARCHAR
+  - name: lea_gedcred_idea_f
+    type: VARCHAR
+  - name: lea_disted_ind
+    type: VARCHAR
+  - name: lea_distedenr_hi_m
+    type: VARCHAR
+  - name: lea_distedenr_hi_f
+    type: VARCHAR
+  - name: lea_distedenr_am_m
+    type: VARCHAR
+  - name: lea_distedenr_am_f
+    type: VARCHAR
+  - name: lea_distedenr_as_m
+    type: VARCHAR
+  - name: lea_distedenr_as_f
+    type: VARCHAR
+  - name: lea_distedenr_hp_m
+    type: VARCHAR
+  - name: lea_distedenr_hp_f
+    type: VARCHAR
+  - name: lea_distedenr_bl_m
+    type: VARCHAR
+  - name: lea_distedenr_bl_f
+    type: VARCHAR
+  - name: lea_distedenr_wh_m
+    type: VARCHAR
+  - name: lea_distedenr_wh_f
+    type: VARCHAR
+  - name: lea_distedenr_tr_m
+    type: VARCHAR
+  - name: lea_distedenr_tr_f
+    type: VARCHAR
+  - name: tot_distedenr_m
+    type: VARCHAR
+  - name: tot_distedenr_f
+    type: VARCHAR
+  - name: lea_distedenr_lep_m
+    type: VARCHAR
+  - name: lea_distedenr_lep_f
+    type: VARCHAR
+  - name: lea_distedenr_idea_m
+    type: VARCHAR
+  - name: lea_distedenr_idea_f
+    type: VARCHAR
+  - name: schid
+    type: VARCHAR
+  - name: sch_name
+    type: VARCHAR
+  - name: combokey
+    type: VARCHAR
+  - name: jj
+    type: VARCHAR
+  - name: sch_grade_ps
+    type: VARCHAR
+  - name: sch_grade_kg
+    type: VARCHAR
+  - name: sch_grade_g01
+    type: VARCHAR
+  - name: sch_grade_g02
+    type: VARCHAR
+  - name: sch_grade_g03
+    type: VARCHAR
+  - name: sch_grade_g04
+    type: VARCHAR
+  - name: sch_grade_g05
+    type: VARCHAR
+  - name: sch_grade_g06
+    type: VARCHAR
+  - name: sch_grade_g07
+    type: VARCHAR
+  - name: sch_grade_g08
+    type: VARCHAR
+  - name: sch_grade_g09
+    type: VARCHAR
+  - name: sch_grade_g10
+    type: VARCHAR
+  - name: sch_grade_g11
+    type: VARCHAR
+  - name: sch_grade_g12
+    type: VARCHAR
+  - name: sch_grade_ug
+    type: VARCHAR
+  - name: sch_ugdetail_es
+    type: VARCHAR
+  - name: sch_ugdetail_ms
+    type: VARCHAR
+  - name: sch_ugdetail_hs
+    type: VARCHAR
+  - name: sch_status_sped
+    type: VARCHAR
+  - name: sch_status_magnet
+    type: VARCHAR
+  - name: sch_status_charter
+    type: VARCHAR
+  - name: sch_status_alt
+    type: VARCHAR
+  - name: sch_magnetdetail
+    type: VARCHAR
+  - name: sch_altfocus
+    type: VARCHAR
+  - name: sch_psenr_nonidea_a3
+    type: VARCHAR
+  - name: sch_psenr_nonidea_a4
+    type: VARCHAR
+  - name: sch_psenr_nonidea_a5
+    type: VARCHAR
+  - name: sch_psenr_hi_m
+    type: VARCHAR
+  - name: sch_psenr_hi_f
+    type: VARCHAR
+  - name: sch_psenr_am_m
+    type: VARCHAR
+  - name: sch_psenr_am_f
+    type: VARCHAR
+  - name: sch_psenr_as_m
+    type: VARCHAR
+  - name: sch_psenr_as_f
+    type: VARCHAR
+  - name: sch_psenr_hp_m
+    type: VARCHAR
+  - name: sch_psenr_hp_f
+    type: VARCHAR
+  - name: sch_psenr_bl_m
+    type: VARCHAR
+  - name: sch_psenr_bl_f
+    type: VARCHAR
+  - name: sch_psenr_wh_m
+    type: VARCHAR
+  - name: sch_psenr_wh_f
+    type: VARCHAR
+  - name: sch_psenr_tr_m
+    type: VARCHAR
+  - name: sch_psenr_tr_f
+    type: VARCHAR
+  - name: tot_psenr_m
+    type: VARCHAR
+  - name: tot_psenr_f
+    type: VARCHAR
+  - name: sch_psenr_lep_m
+    type: VARCHAR
+  - name: sch_psenr_lep_f
+    type: VARCHAR
+  - name: sch_psenr_idea_m
+    type: VARCHAR
+  - name: sch_psenr_idea_f
+    type: VARCHAR
+  - name: sch_enr_hi_m
+    type: VARCHAR
+  - name: sch_enr_hi_f
+    type: VARCHAR
+  - name: sch_enr_am_m
+    type: VARCHAR
+  - name: sch_enr_am_f
+    type: VARCHAR
+  - name: sch_enr_as_m
+    type: VARCHAR
+  - name: sch_enr_as_f
+    type: VARCHAR
+  - name: sch_enr_hp_m
+    type: VARCHAR
+  - name: sch_enr_hp_f
+    type: VARCHAR
+  - name: sch_enr_bl_m
+    type: VARCHAR
+  - name: sch_enr_bl_f
+    type: VARCHAR
+  - name: sch_enr_wh_m
+    type: VARCHAR
+  - name: sch_enr_wh_f
+    type: VARCHAR
+  - name: sch_enr_tr_m
+    type: VARCHAR
+  - name: sch_enr_tr_f
+    type: VARCHAR
+  - name: tot_enr_m
+    type: VARCHAR
+  - name: tot_enr_f
+    type: VARCHAR
+  - name: sch_enr_lep_m
+    type: VARCHAR
+  - name: sch_enr_lep_f
+    type: VARCHAR
+  - name: sch_enr_504_m
+    type: VARCHAR
+  - name: sch_enr_504_f
+    type: VARCHAR
+  - name: sch_enr_idea_m
+    type: VARCHAR
+  - name: sch_enr_idea_f
+    type: VARCHAR
+  - name: sch_lepenr_hi_m
+    type: VARCHAR
+  - name: sch_lepenr_hi_f
+    type: VARCHAR
+  - name: sch_lepenr_am_m
+    type: VARCHAR
+  - name: sch_lepenr_am_f
+    type: VARCHAR
+  - name: sch_lepenr_as_m
+    type: VARCHAR
+  - name: sch_lepenr_as_f
+    type: VARCHAR
+  - name: sch_lepenr_hp_m
+    type: VARCHAR
+  - name: sch_lepenr_hp_f
+    type: VARCHAR
+  - name: sch_lepenr_bl_m
+    type: VARCHAR
+  - name: sch_lepenr_bl_f
+    type: VARCHAR
+  - name: sch_lepenr_wh_m
+    type: VARCHAR
+  - name: sch_lepenr_wh_f
+    type: VARCHAR
+  - name: sch_lepenr_tr_m
+    type: VARCHAR
+  - name: sch_lepenr_tr_f
+    type: VARCHAR
+  - name: tot_lepenr_m
+    type: VARCHAR
+  - name: tot_lepenr_f
+    type: VARCHAR
+  - name: sch_lepprogenr_hi_m
+    type: VARCHAR
+  - name: sch_lepprogenr_hi_f
+    type: VARCHAR
+  - name: sch_lepprogenr_am_m
+    type: VARCHAR
+  - name: sch_lepprogenr_am_f
+    type: VARCHAR
+  - name: sch_lepprogenr_as_m
+    type: VARCHAR
+  - name: sch_lepprogenr_as_f
+    type: VARCHAR
+  - name: sch_lepprogenr_hp_m
+    type: VARCHAR
+  - name: sch_lepprogenr_hp_f
+    type: VARCHAR
+  - name: sch_lepprogenr_bl_m
+    type: VARCHAR
+  - name: sch_lepprogenr_bl_f
+    type: VARCHAR
+  - name: sch_lepprogenr_wh_m
+    type: VARCHAR
+  - name: sch_lepprogenr_wh_f
+    type: VARCHAR
+  - name: sch_lepprogenr_tr_m
+    type: VARCHAR
+  - name: sch_lepprogenr_tr_f
+    type: VARCHAR
+  - name: tot_lepprogenr_m
+    type: VARCHAR
+  - name: tot_lepprogenr_f
+    type: VARCHAR
+  - name: sch_lepprogenr_idea_m
+    type: VARCHAR
+  - name: sch_lepprogenr_idea_f
+    type: VARCHAR
+  - name: sch_ideaenr_hi_m
+    type: VARCHAR
+  - name: sch_ideaenr_hi_f
+    type: VARCHAR
+  - name: sch_ideaenr_am_m
+    type: VARCHAR
+  - name: sch_ideaenr_am_f
+    type: VARCHAR
+  - name: sch_ideaenr_as_m
+    type: VARCHAR
+  - name: sch_ideaenr_as_f
+    type: VARCHAR
+  - name: sch_ideaenr_hp_m
+    type: VARCHAR
+  - name: sch_ideaenr_hp_f
+    type: VARCHAR
+  - name: sch_ideaenr_bl_m
+    type: VARCHAR
+  - name: sch_ideaenr_bl_f
+    type: VARCHAR
+  - name: sch_ideaenr_wh_m
+    type: VARCHAR
+  - name: sch_ideaenr_wh_f
+    type: VARCHAR
+  - name: sch_ideaenr_tr_m
+    type: VARCHAR
+  - name: sch_ideaenr_tr_f
+    type: VARCHAR
+  - name: tot_ideaenr_m
+    type: VARCHAR
+  - name: tot_ideaenr_f
+    type: VARCHAR
+  - name: sch_ideaenr_lep_m
+    type: VARCHAR
+  - name: sch_ideaenr_lep_f
+    type: VARCHAR
+  - name: sch_504enr_hi_m
+    type: VARCHAR
+  - name: sch_504enr_hi_f
+    type: VARCHAR
+  - name: sch_504enr_am_m
+    type: VARCHAR
+  - name: sch_504enr_am_f
+    type: VARCHAR
+  - name: sch_504enr_as_m
+    type: VARCHAR
+  - name: sch_504enr_as_f
+    type: VARCHAR
+  - name: sch_504enr_hp_m
+    type: VARCHAR
+  - name: sch_504enr_hp_f
+    type: VARCHAR
+  - name: sch_504enr_bl_m
+    type: VARCHAR
+  - name: sch_504enr_bl_f
+    type: VARCHAR
+  - name: sch_504enr_wh_m
+    type: VARCHAR
+  - name: sch_504enr_wh_f
+    type: VARCHAR
+  - name: sch_504enr_tr_m
+    type: VARCHAR
+  - name: sch_504enr_tr_f
+    type: VARCHAR
+  - name: tot_504enr_m
+    type: VARCHAR
+  - name: tot_504enr_f
+    type: VARCHAR
+  - name: sch_504enr_lep_m
+    type: VARCHAR
+  - name: sch_504enr_lep_f
+    type: VARCHAR
+  - name: sch_gt_ind
+    type: VARCHAR
+  - name: sch_gtenr_hi_m
+    type: VARCHAR
+  - name: sch_gtenr_hi_f
+    type: VARCHAR
+  - name: sch_gtenr_am_m
+    type: VARCHAR
+  - name: sch_gtenr_am_f
+    type: VARCHAR
+  - name: sch_gtenr_as_m
+    type: VARCHAR
+  - name: sch_gtenr_as_f
+    type: VARCHAR
+  - name: sch_gtenr_hp_m
+    type: VARCHAR
+  - name: sch_gtenr_hp_f
+    type: VARCHAR
+  - name: sch_gtenr_bl_m
+    type: VARCHAR
+  - name: sch_gtenr_bl_f
+    type: VARCHAR
+  - name: sch_gtenr_wh_m
+    type: VARCHAR
+  - name: sch_gtenr_wh_f
+    type: VARCHAR
+  - name: sch_gtenr_tr_m
+    type: VARCHAR
+  - name: sch_gtenr_tr_f
+    type: VARCHAR
+  - name: tot_gtenr_m
+    type: VARCHAR
+  - name: tot_gtenr_f
+    type: VARCHAR
+  - name: sch_gtenr_lep_m
+    type: VARCHAR
+  - name: sch_gtenr_lep_f
+    type: VARCHAR
+  - name: sch_gtenr_idea_m
+    type: VARCHAR
+  - name: sch_gtenr_idea_f
+    type: VARCHAR
+  - name: sch_dual_ind
+    type: VARCHAR
+  - name: sch_dualenr_hi_m
+    type: VARCHAR
+  - name: sch_dualenr_hi_f
+    type: VARCHAR
+  - name: sch_dualenr_am_m
+    type: VARCHAR
+  - name: sch_dualenr_am_f
+    type: VARCHAR
+  - name: sch_dualenr_as_m
+    type: VARCHAR
+  - name: sch_dualenr_as_f
+    type: VARCHAR
+  - name: sch_dualenr_hp_m
+    type: VARCHAR
+  - name: sch_dualenr_hp_f
+    type: VARCHAR
+  - name: sch_dualenr_bl_m
+    type: VARCHAR
+  - name: sch_dualenr_bl_f
+    type: VARCHAR
+  - name: sch_dualenr_wh_m
+    type: VARCHAR
+  - name: sch_dualenr_wh_f
+    type: VARCHAR
+  - name: sch_dualenr_tr_m
+    type: VARCHAR
+  - name: sch_dualenr_tr_f
+    type: VARCHAR
+  - name: tot_dual_m
+    type: VARCHAR
+  - name: tot_dual_f
+    type: VARCHAR
+  - name: sch_dualenr_lep_m
+    type: VARCHAR
+  - name: sch_dualenr_lep_f
+    type: VARCHAR
+  - name: sch_dualenr_idea_m
+    type: VARCHAR
+  - name: sch_dualenr_idea_f
+    type: VARCHAR
+  - name: sch_creditrecovery_ind
+    type: VARCHAR
+  - name: sch_creditrecoveryenr
+    type: VARCHAR
+  - name: sch_algclasses_gs0708
+    type: VARCHAR
+  - name: sch_algcert_gs0708
+    type: VARCHAR
+  - name: sch_algenr_g07_ind
+    type: VARCHAR
+  - name: sch_algenr_g07
+    type: VARCHAR
+  - name: sch_algenr_g08_ind
+    type: VARCHAR
+  - name: sch_algenr_g08_hi_m
+    type: VARCHAR
+  - name: sch_algenr_g08_hi_f
+    type: VARCHAR
+  - name: sch_algenr_g08_am_m
+    type: VARCHAR
+  - name: sch_algenr_g08_am_f
+    type: VARCHAR
+  - name: sch_algenr_g08_as_m
+    type: VARCHAR
+  - name: sch_algenr_g08_as_f
+    type: VARCHAR
+  - name: sch_algenr_g08_hp_m
+    type: VARCHAR
+  - name: sch_algenr_g08_hp_f
+    type: VARCHAR
+  - name: sch_algenr_g08_bl_m
+    type: VARCHAR
+  - name: sch_algenr_g08_bl_f
+    type: VARCHAR
+  - name: sch_algenr_g08_wh_m
+    type: VARCHAR
+  - name: sch_algenr_g08_wh_f
+    type: VARCHAR
+  - name: sch_algenr_g08_tr_m
+    type: VARCHAR
+  - name: sch_algenr_g08_tr_f
+    type: VARCHAR
+  - name: tot_algenr_g08_m
+    type: VARCHAR
+  - name: tot_algenr_g08_f
+    type: VARCHAR
+  - name: sch_algenr_g08_lep_m
+    type: VARCHAR
+  - name: sch_algenr_g08_lep_f
+    type: VARCHAR
+  - name: sch_algenr_g08_idea_m
+    type: VARCHAR
+  - name: sch_algenr_g08_idea_f
+    type: VARCHAR
+  - name: sch_mathclasses_alg
+    type: VARCHAR
+  - name: sch_mathcert_alg
+    type: VARCHAR
+  - name: sch_algenr_gs0910_hi_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_hi_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_am_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_am_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_as_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_as_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_hp_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_hp_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_bl_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_bl_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_wh_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_wh_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_tr_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_tr_f
+    type: VARCHAR
+  - name: tot_algenr_gs0910_m
+    type: VARCHAR
+  - name: tot_algenr_gs0910_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_lep_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_lep_f
+    type: VARCHAR
+  - name: sch_algenr_gs0910_idea_m
+    type: VARCHAR
+  - name: sch_algenr_gs0910_idea_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_hi_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_hi_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_am_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_am_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_as_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_as_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_hp_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_hp_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_bl_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_bl_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_wh_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_wh_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_tr_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_tr_f
+    type: VARCHAR
+  - name: tot_algenr_gs1112_m
+    type: VARCHAR
+  - name: tot_algenr_gs1112_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_lep_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_lep_f
+    type: VARCHAR
+  - name: sch_algenr_gs1112_idea_m
+    type: VARCHAR
+  - name: sch_algenr_gs1112_idea_f
+    type: VARCHAR
+  - name: sch_algpass_g07
+    type: VARCHAR
+  - name: sch_algpass_g08_hi_m
+    type: VARCHAR
+  - name: sch_algpass_g08_hi_f
+    type: VARCHAR
+  - name: sch_algpass_g08_am_m
+    type: VARCHAR
+  - name: sch_algpass_g08_am_f
+    type: VARCHAR
+  - name: sch_algpass_g08_as_m
+    type: VARCHAR
+  - name: sch_algpass_g08_as_f
+    type: VARCHAR
+  - name: sch_algpass_g08_hp_m
+    type: VARCHAR
+  - name: sch_algpass_g08_hp_f
+    type: VARCHAR
+  - name: sch_algpass_g08_bl_m
+    type: VARCHAR
+  - name: sch_algpass_g08_bl_f
+    type: VARCHAR
+  - name: sch_algpass_g08_wh_m
+    type: VARCHAR
+  - name: sch_algpass_g08_wh_f
+    type: VARCHAR
+  - name: sch_algpass_g08_tr_m
+    type: VARCHAR
+  - name: sch_algpass_g08_tr_f
+    type: VARCHAR
+  - name: tot_algpass_g08_m
+    type: VARCHAR
+  - name: tot_algpass_g08_f
+    type: VARCHAR
+  - name: sch_algpass_g08_lep_m
+    type: VARCHAR
+  - name: sch_algpass_g08_lep_f
+    type: VARCHAR
+  - name: sch_algpass_g08_idea_m
+    type: VARCHAR
+  - name: sch_algpass_g08_idea_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_hi_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_hi_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_am_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_am_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_as_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_as_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_hp_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_hp_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_bl_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_bl_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_wh_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_wh_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_tr_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_tr_f
+    type: VARCHAR
+  - name: tot_algpass_gs0910_m
+    type: VARCHAR
+  - name: tot_algpass_gs0910_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_lep_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_lep_f
+    type: VARCHAR
+  - name: sch_algpass_gs0910_idea_m
+    type: VARCHAR
+  - name: sch_algpass_gs0910_idea_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_hi_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_hi_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_am_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_am_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_as_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_as_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_hp_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_hp_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_bl_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_bl_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_wh_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_wh_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_tr_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_tr_f
+    type: VARCHAR
+  - name: tot_algpass_gs1112_m
+    type: VARCHAR
+  - name: tot_algpass_gs1112_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_lep_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_lep_f
+    type: VARCHAR
+  - name: sch_algpass_gs1112_idea_m
+    type: VARCHAR
+  - name: sch_algpass_gs1112_idea_f
+    type: VARCHAR
+  - name: sch_geomenr_g08_ind
+    type: VARCHAR
+  - name: sch_geomenr_g08
+    type: VARCHAR
+  - name: sch_mathcert_geom
+    type: VARCHAR
+  - name: sch_mathclasses_geom
+    type: VARCHAR
+  - name: sch_mathenr_geom_hi_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_hi_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_am_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_am_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_as_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_as_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_hp_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_hp_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_bl_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_bl_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_wh_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_wh_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_tr_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_tr_f
+    type: VARCHAR
+  - name: tot_geom_m
+    type: VARCHAR
+  - name: tot_geom_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_lep_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_lep_f
+    type: VARCHAR
+  - name: sch_mathenr_geom_idea_m
+    type: VARCHAR
+  - name: sch_mathenr_geom_idea_f
+    type: VARCHAR
+  - name: sch_mathclasses_alg2
+    type: VARCHAR
+  - name: sch_mathcert_alg2
+    type: VARCHAR
+  - name: sch_mathenr_alg2_hi_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_hi_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_am_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_am_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_as_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_as_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_hp_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_hp_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_bl_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_bl_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_wh_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_wh_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_tr_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_tr_f
+    type: VARCHAR
+  - name: tot_mathenr_alg2_m
+    type: VARCHAR
+  - name: tot_mathenr_alg2_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_lep_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_lep_f
+    type: VARCHAR
+  - name: sch_mathenr_alg2_idea_m
+    type: VARCHAR
+  - name: sch_mathenr_alg2_idea_f
+    type: VARCHAR
+  - name: sch_mathclasses_calc
+    type: VARCHAR
+  - name: sch_mathcert_calc
+    type: VARCHAR
+  - name: sch_mathenr_calc_hi_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_hi_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_am_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_am_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_as_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_as_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_hp_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_hp_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_bl_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_bl_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_wh_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_wh_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_tr_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_tr_f
+    type: VARCHAR
+  - name: tot_mathenr_calc_m
+    type: VARCHAR
+  - name: tot_mathenr_calc_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_lep_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_lep_f
+    type: VARCHAR
+  - name: sch_mathenr_calc_idea_m
+    type: VARCHAR
+  - name: sch_mathenr_calc_idea_f
+    type: VARCHAR
+  - name: sch_mathclasses_advm
+    type: VARCHAR
+  - name: sch_mathcert_advm
+    type: VARCHAR
+  - name: sch_mathenr_advm_hi_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_hi_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_am_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_am_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_as_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_as_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_hp_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_hp_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_bl_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_bl_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_wh_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_wh_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_tr_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_tr_f
+    type: VARCHAR
+  - name: tot_mathenr_advm_m
+    type: VARCHAR
+  - name: tot_mathenr_advm_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_lep_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_lep_f
+    type: VARCHAR
+  - name: sch_mathenr_advm_idea_m
+    type: VARCHAR
+  - name: sch_mathenr_advm_idea_f
+    type: VARCHAR
+  - name: sch_sciclasses_biol
+    type: VARCHAR
+  - name: sch_sciccert_biol
+    type: VARCHAR
+  - name: sch_scienr_biol_hi_m
+    type: VARCHAR
+  - name: sch_scienr_biol_hi_f
+    type: VARCHAR
+  - name: sch_scienr_biol_am_m
+    type: VARCHAR
+  - name: sch_scienr_biol_am_f
+    type: VARCHAR
+  - name: sch_scienr_biol_as_m
+    type: VARCHAR
+  - name: sch_scienr_biol_as_f
+    type: VARCHAR
+  - name: sch_scienr_biol_hp_m
+    type: VARCHAR
+  - name: sch_scienr_biol_hp_f
+    type: VARCHAR
+  - name: sch_scienr_biol_bl_m
+    type: VARCHAR
+  - name: sch_scienr_biol_bl_f
+    type: VARCHAR
+  - name: sch_scienr_biol_wh_m
+    type: VARCHAR
+  - name: sch_scienr_biol_wh_f
+    type: VARCHAR
+  - name: sch_scienr_biol_tr_m
+    type: VARCHAR
+  - name: sch_scienr_biol_tr_f
+    type: VARCHAR
+  - name: tot_scienr_biol_m
+    type: VARCHAR
+  - name: tot_scienr_biol_f
+    type: VARCHAR
+  - name: sch_scienr_biol_lep_m
+    type: VARCHAR
+  - name: sch_scienr_biol_lep_f
+    type: VARCHAR
+  - name: sch_scienr_biol_idea_m
+    type: VARCHAR
+  - name: sch_scienr_biol_idea_f
+    type: VARCHAR
+  - name: sch_sciclasses_chem
+    type: VARCHAR
+  - name: sch_sciccert_chem
+    type: VARCHAR
+  - name: sch_scienr_chem_hi_m
+    type: VARCHAR
+  - name: sch_scienr_chem_hi_f
+    type: VARCHAR
+  - name: sch_scienr_chem_am_m
+    type: VARCHAR
+  - name: sch_scienr_chem_am_f
+    type: VARCHAR
+  - name: sch_scienr_chem_as_m
+    type: VARCHAR
+  - name: sch_scienr_chem_as_f
+    type: VARCHAR
+  - name: sch_scienr_chem_hp_m
+    type: VARCHAR
+  - name: sch_scienr_chem_hp_f
+    type: VARCHAR
+  - name: sch_scienr_chem_bl_m
+    type: VARCHAR
+  - name: sch_scienr_chem_bl_f
+    type: VARCHAR
+  - name: sch_scienr_chem_wh_m
+    type: VARCHAR
+  - name: sch_scienr_chem_wh_f
+    type: VARCHAR
+  - name: sch_scienr_chem_tr_m
+    type: VARCHAR
+  - name: sch_scienr_chem_tr_f
+    type: VARCHAR
+  - name: tot_scienr_chem_m
+    type: VARCHAR
+  - name: tot_scienr_chem_f
+    type: VARCHAR
+  - name: sch_scienr_chem_lep_m
+    type: VARCHAR
+  - name: sch_scienr_chem_lep_f
+    type: VARCHAR
+  - name: sch_scienr_chem_idea_m
+    type: VARCHAR
+  - name: sch_scienr_chem_idea_f
+    type: VARCHAR
+  - name: sch_sciclasses_phys
+    type: VARCHAR
+  - name: sch_sciccert_phys
+    type: VARCHAR
+  - name: sch_scienr_phys_hi_m
+    type: VARCHAR
+  - name: sch_scienr_phys_hi_f
+    type: VARCHAR
+  - name: sch_scienr_phys_am_m
+    type: VARCHAR
+  - name: sch_scienr_phys_am_f
+    type: VARCHAR
+  - name: sch_scienr_phys_as_m
+    type: VARCHAR
+  - name: sch_scienr_phys_as_f
+    type: VARCHAR
+  - name: sch_scienr_phys_hp_m
+    type: VARCHAR
+  - name: sch_scienr_phys_hp_f
+    type: VARCHAR
+  - name: sch_scienr_phys_bl_m
+    type: VARCHAR
+  - name: sch_scienr_phys_bl_f
+    type: VARCHAR
+  - name: sch_scienr_phys_wh_m
+    type: VARCHAR
+  - name: sch_scienr_phys_wh_f
+    type: VARCHAR
+  - name: sch_scienr_phys_tr_m
+    type: VARCHAR
+  - name: sch_scienr_phys_tr_f
+    type: VARCHAR
+  - name: tot_scienr_phys_m
+    type: VARCHAR
+  - name: tot_scienr_phys_f
+    type: VARCHAR
+  - name: sch_scienr_phys_lep_m
+    type: VARCHAR
+  - name: sch_scienr_phys_lep_f
+    type: VARCHAR
+  - name: sch_scienr_phys_idea_m
+    type: VARCHAR
+  - name: sch_scienr_phys_idea_f
+    type: VARCHAR
+  - name: sch_ssclasses_ind
+    type: VARCHAR
+  - name: sch_ssclasses_algg_m
+    type: VARCHAR
+  - name: sch_ssclasses_algg_f
+    type: VARCHAR
+  - name: tot_ssclasses_algg
+    type: VARCHAR
+  - name: sch_ssclasses_othm_m
+    type: VARCHAR
+  - name: sch_ssclasses_othm_f
+    type: VARCHAR
+  - name: tot_ssclasses_othm
+    type: VARCHAR
+  - name: sch_ssclasses_sci_m
+    type: VARCHAR
+  - name: sch_ssclasses_sci_f
+    type: VARCHAR
+  - name: tot_ssclasses_sci
+    type: VARCHAR
+  - name: sch_ssclasses_engl_m
+    type: VARCHAR
+  - name: sch_ssclasses_engl_f
+    type: VARCHAR
+  - name: tot_ssclasses_engl
+    type: VARCHAR
+  - name: sch_ssclasses_otha_m
+    type: VARCHAR
+  - name: sch_ssclasses_otha_f
+    type: VARCHAR
+  - name: tot_ssclasses_otha
+    type: VARCHAR
+  - name: sch_apenr_ind
+    type: VARCHAR
+  - name: sch_apcourses
+    type: VARCHAR
+  - name: sch_apsel
+    type: VARCHAR
+  - name: sch_apenr_hi_m
+    type: VARCHAR
+  - name: sch_apenr_hi_f
+    type: VARCHAR
+  - name: sch_apenr_am_m
+    type: VARCHAR
+  - name: sch_apenr_am_f
+    type: VARCHAR
+  - name: sch_apenr_as_m
+    type: VARCHAR
+  - name: sch_apenr_as_f
+    type: VARCHAR
+  - name: sch_apenr_hp_m
+    type: VARCHAR
+  - name: sch_apenr_hp_f
+    type: VARCHAR
+  - name: sch_apenr_bl_m
+    type: VARCHAR
+  - name: sch_apenr_bl_f
+    type: VARCHAR
+  - name: sch_apenr_wh_m
+    type: VARCHAR
+  - name: sch_apenr_wh_f
+    type: VARCHAR
+  - name: sch_apenr_tr_m
+    type: VARCHAR
+  - name: sch_apenr_tr_f
+    type: VARCHAR
+  - name: tot_apenr_m
+    type: VARCHAR
+  - name: tot_apenr_f
+    type: VARCHAR
+  - name: sch_apenr_lep_m
+    type: VARCHAR
+  - name: sch_apenr_lep_f
+    type: VARCHAR
+  - name: sch_apenr_idea_m
+    type: VARCHAR
+  - name: sch_apenr_idea_f
+    type: VARCHAR
+  - name: sch_apmathenr_ind
+    type: VARCHAR
+  - name: sch_apmathenr_hi_m
+    type: VARCHAR
+  - name: sch_apmathenr_hi_f
+    type: VARCHAR
+  - name: sch_apmathenr_am_m
+    type: VARCHAR
+  - name: sch_apmathenr_am_f
+    type: VARCHAR
+  - name: sch_apmathenr_as_m
+    type: VARCHAR
+  - name: sch_apmathenr_as_f
+    type: VARCHAR
+  - name: sch_apmathenr_hp_m
+    type: VARCHAR
+  - name: sch_apmathenr_hp_f
+    type: VARCHAR
+  - name: sch_apmathenr_bl_m
+    type: VARCHAR
+  - name: sch_apmathenr_bl_f
+    type: VARCHAR
+  - name: sch_apmathenr_wh_m
+    type: VARCHAR
+  - name: sch_apmathenr_wh_f
+    type: VARCHAR
+  - name: sch_apmathenr_tr_m
+    type: VARCHAR
+  - name: sch_apmathenr_tr_f
+    type: VARCHAR
+  - name: tot_apmathenr_m
+    type: VARCHAR
+  - name: tot_apmathenr_f
+    type: VARCHAR
+  - name: sch_apmathenr_lep_m
+    type: VARCHAR
+  - name: sch_apmathenr_lep_f
+    type: VARCHAR
+  - name: sch_apmathenr_idea_m
+    type: VARCHAR
+  - name: sch_apmathenr_idea_f
+    type: VARCHAR
+  - name: sch_apscienr_ind
+    type: VARCHAR
+  - name: sch_apscienr_hi_m
+    type: VARCHAR
+  - name: sch_apscienr_hi_f
+    type: VARCHAR
+  - name: sch_apscienr_am_m
+    type: VARCHAR
+  - name: sch_apscienr_am_f
+    type: VARCHAR
+  - name: sch_apscienr_as_m
+    type: VARCHAR
+  - name: sch_apscienr_as_f
+    type: VARCHAR
+  - name: sch_apscienr_hp_m
+    type: VARCHAR
+  - name: sch_apscienr_hp_f
+    type: VARCHAR
+  - name: sch_apscienr_bl_m
+    type: VARCHAR
+  - name: sch_apscienr_bl_f
+    type: VARCHAR
+  - name: sch_apscienr_wh_m
+    type: VARCHAR
+  - name: sch_apscienr_wh_f
+    type: VARCHAR
+  - name: sch_apscienr_tr_m
+    type: VARCHAR
+  - name: sch_apscienr_tr_f
+    type: VARCHAR
+  - name: tot_apscienr_m
+    type: VARCHAR
+  - name: tot_apscienr_f
+    type: VARCHAR
+  - name: sch_apscienr_lep_m
+    type: VARCHAR
+  - name: sch_apscienr_lep_f
+    type: VARCHAR
+  - name: sch_apscienr_idea_m
+    type: VARCHAR
+  - name: sch_apscienr_idea_f
+    type: VARCHAR
+  - name: sch_apothenr_ind
+    type: VARCHAR
+  - name: sch_apothenr_hi_m
+    type: VARCHAR
+  - name: sch_apothenr_hi_f
+    type: VARCHAR
+  - name: sch_apothenr_am_m
+    type: VARCHAR
+  - name: sch_apothenr_am_f
+    type: VARCHAR
+  - name: sch_apothenr_as_m
+    type: VARCHAR
+  - name: sch_apothenr_as_f
+    type: VARCHAR
+  - name: sch_apothenr_hp_m
+    type: VARCHAR
+  - name: sch_apothenr_hp_f
+    type: VARCHAR
+  - name: sch_apothenr_bl_m
+    type: VARCHAR
+  - name: sch_apothenr_bl_f
+    type: VARCHAR
+  - name: sch_apothenr_wh_m
+    type: VARCHAR
+  - name: sch_apothenr_wh_f
+    type: VARCHAR
+  - name: sch_apothenr_tr_m
+    type: VARCHAR
+  - name: sch_apothenr_tr_f
+    type: VARCHAR
+  - name: tot_apothenr_m
+    type: VARCHAR
+  - name: tot_apothenr_f
+    type: VARCHAR
+  - name: sch_apothenr_lep_m
+    type: VARCHAR
+  - name: sch_apothenr_lep_f
+    type: VARCHAR
+  - name: sch_apothenr_idea_m
+    type: VARCHAR
+  - name: sch_apothenr_idea_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_hi_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_hi_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_am_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_am_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_as_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_as_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_hp_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_hp_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_bl_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_bl_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_wh_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_wh_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_tr_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_tr_f
+    type: VARCHAR
+  - name: tot_apexam_oneormore_m
+    type: VARCHAR
+  - name: tot_apexam_oneormore_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_lep_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_lep_f
+    type: VARCHAR
+  - name: sch_apexam_oneormore_idea_m
+    type: VARCHAR
+  - name: sch_apexam_oneormore_idea_f
+    type: VARCHAR
+  - name: sch_apexam_none_hi_m
+    type: VARCHAR
+  - name: sch_apexam_none_hi_f
+    type: VARCHAR
+  - name: sch_apexam_none_am_m
+    type: VARCHAR
+  - name: sch_apexam_none_am_f
+    type: VARCHAR
+  - name: sch_apexam_none_as_m
+    type: VARCHAR
+  - name: sch_apexam_none_as_f
+    type: VARCHAR
+  - name: sch_apexam_none_hp_m
+    type: VARCHAR
+  - name: sch_apexam_none_hp_f
+    type: VARCHAR
+  - name: sch_apexam_none_bl_m
+    type: VARCHAR
+  - name: sch_apexam_none_bl_f
+    type: VARCHAR
+  - name: sch_apexam_none_wh_m
+    type: VARCHAR
+  - name: sch_apexam_none_wh_f
+    type: VARCHAR
+  - name: sch_apexam_none_tr_m
+    type: VARCHAR
+  - name: sch_apexam_none_tr_f
+    type: VARCHAR
+  - name: tot_apexam_none_m
+    type: VARCHAR
+  - name: tot_apexam_none_f
+    type: VARCHAR
+  - name: sch_apexam_none_lep_m
+    type: VARCHAR
+  - name: sch_apexam_none_lep_f
+    type: VARCHAR
+  - name: sch_apexam_none_idea_m
+    type: VARCHAR
+  - name: sch_apexam_none_idea_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_hi_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_hi_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_am_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_am_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_as_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_as_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_hp_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_hp_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_bl_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_bl_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_wh_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_wh_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_tr_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_tr_f
+    type: VARCHAR
+  - name: tot_appass_oneormore_m
+    type: VARCHAR
+  - name: tot_appass_oneormore_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_lep_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_lep_f
+    type: VARCHAR
+  - name: sch_appass_oneormore_idea_m
+    type: VARCHAR
+  - name: sch_appass_oneormore_idea_f
+    type: VARCHAR
+  - name: sch_appass_none_hi_m
+    type: VARCHAR
+  - name: sch_appass_none_hi_f
+    type: VARCHAR
+  - name: sch_appass_none_am_m
+    type: VARCHAR
+  - name: sch_appass_none_am_f
+    type: VARCHAR
+  - name: sch_appass_none_as_m
+    type: VARCHAR
+  - name: sch_appass_none_as_f
+    type: VARCHAR
+  - name: sch_appass_none_hp_m
+    type: VARCHAR
+  - name: sch_appass_none_hp_f
+    type: VARCHAR
+  - name: sch_appass_none_bl_m
+    type: VARCHAR
+  - name: sch_appass_none_bl_f
+    type: VARCHAR
+  - name: sch_appass_none_wh_m
+    type: VARCHAR
+  - name: sch_appass_none_wh_f
+    type: VARCHAR
+  - name: sch_appass_none_tr_m
+    type: VARCHAR
+  - name: sch_appass_none_tr_f
+    type: VARCHAR
+  - name: tot_appass_none_m
+    type: VARCHAR
+  - name: tot_appass_none_f
+    type: VARCHAR
+  - name: sch_appass_none_lep_m
+    type: VARCHAR
+  - name: sch_appass_none_lep_f
+    type: VARCHAR
+  - name: sch_appass_none_idea_m
+    type: VARCHAR
+  - name: sch_appass_none_idea_f
+    type: VARCHAR
+  - name: sch_ibenr_ind
+    type: VARCHAR
+  - name: sch_ibenr_hi_m
+    type: VARCHAR
+  - name: sch_ibenr_hi_f
+    type: VARCHAR
+  - name: sch_ibenr_am_m
+    type: VARCHAR
+  - name: sch_ibenr_am_f
+    type: VARCHAR
+  - name: sch_ibenr_as_m
+    type: VARCHAR
+  - name: sch_ibenr_as_f
+    type: VARCHAR
+  - name: sch_ibenr_hp_m
+    type: VARCHAR
+  - name: sch_ibenr_hp_f
+    type: VARCHAR
+  - name: sch_ibenr_bl_m
+    type: VARCHAR
+  - name: sch_ibenr_bl_f
+    type: VARCHAR
+  - name: sch_ibenr_wh_m
+    type: VARCHAR
+  - name: sch_ibenr_wh_f
+    type: VARCHAR
+  - name: sch_ibenr_tr_m
+    type: VARCHAR
+  - name: sch_ibenr_tr_f
+    type: VARCHAR
+  - name: tot_ibenr_m
+    type: VARCHAR
+  - name: tot_ibenr_f
+    type: VARCHAR
+  - name: sch_ibenr_lep_m
+    type: VARCHAR
+  - name: sch_ibenr_lep_f
+    type: VARCHAR
+  - name: sch_ibenr_idea_m
+    type: VARCHAR
+  - name: sch_ibenr_idea_f
+    type: VARCHAR
+  - name: sch_satact_hi_m
+    type: VARCHAR
+  - name: sch_satact_hi_f
+    type: VARCHAR
+  - name: sch_satact_am_m
+    type: VARCHAR
+  - name: sch_satact_am_f
+    type: VARCHAR
+  - name: sch_satact_as_m
+    type: VARCHAR
+  - name: sch_satact_as_f
+    type: VARCHAR
+  - name: sch_satact_hp_m
+    type: VARCHAR
+  - name: sch_satact_hp_f
+    type: VARCHAR
+  - name: sch_satact_bl_m
+    type: VARCHAR
+  - name: sch_satact_bl_f
+    type: VARCHAR
+  - name: sch_satact_wh_m
+    type: VARCHAR
+  - name: sch_satact_wh_f
+    type: VARCHAR
+  - name: sch_satact_tr_m
+    type: VARCHAR
+  - name: sch_satact_tr_f
+    type: VARCHAR
+  - name: tot_satact_m
+    type: VARCHAR
+  - name: tot_satact_f
+    type: VARCHAR
+  - name: sch_satact_lep_m
+    type: VARCHAR
+  - name: sch_satact_lep_f
+    type: VARCHAR
+  - name: sch_satact_idea_m
+    type: VARCHAR
+  - name: sch_satact_idea_f
+    type: VARCHAR
+  - name: sch_corpinstances_ind
+    type: VARCHAR
+  - name: sch_psdisc_corp_hi_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_hi_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_am_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_am_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_as_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_as_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_hp_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_hp_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_bl_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_bl_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_wh_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_wh_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_tr_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_tr_f
+    type: VARCHAR
+  - name: tot_psdisc_corp_m
+    type: VARCHAR
+  - name: tot_psdisc_corp_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_lep_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_lep_f
+    type: VARCHAR
+  - name: sch_psdisc_corp_idea_m
+    type: VARCHAR
+  - name: sch_psdisc_corp_idea_f
+    type: VARCHAR
+  - name: sch_pscorpinstances_all
+    type: VARCHAR
+  - name: sch_pscorpinstances_idea
+    type: VARCHAR
+  - name: sch_discwodis_corp_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_am_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_am_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_as_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_as_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_corp_m
+    type: VARCHAR
+  - name: tot_discwodis_corp_f
+    type: VARCHAR
+  - name: sch_discwodis_corp_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_corp_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_corp_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_corp_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_corp_504_m
+    type: VARCHAR
+  - name: sch_discwdis_corp_504_f
+    type: VARCHAR
+  - name: sch_corpinstances_wodis
+    type: VARCHAR
+  - name: sch_corpinstances_wdis
+    type: VARCHAR
+  - name: sch_psdisc_singoos_hi_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_hi_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_am_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_am_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_as_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_as_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_hp_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_hp_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_bl_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_bl_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_wh_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_wh_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_tr_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_tr_f
+    type: VARCHAR
+  - name: tot_psdisc_singoos_m
+    type: VARCHAR
+  - name: tot_psdisc_singoos_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_lep_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_lep_f
+    type: VARCHAR
+  - name: sch_psdisc_singoos_idea_m
+    type: VARCHAR
+  - name: sch_psdisc_singoos_idea_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_hi_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_hi_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_am_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_am_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_as_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_as_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_hp_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_hp_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_bl_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_bl_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_wh_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_wh_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_tr_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_tr_f
+    type: VARCHAR
+  - name: tot_psdisc_multoos_m
+    type: VARCHAR
+  - name: tot_psdisc_multoos_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_lep_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_lep_f
+    type: VARCHAR
+  - name: sch_psdisc_multoos_idea_m
+    type: VARCHAR
+  - name: sch_psdisc_multoos_idea_f
+    type: VARCHAR
+  - name: sch_psoosinstances_all
+    type: VARCHAR
+  - name: sch_psoosinstances_idea
+    type: VARCHAR
+  - name: sch_discwodis_iss_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_am_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_am_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_as_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_as_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_iss_m
+    type: VARCHAR
+  - name: tot_discwodis_iss_f
+    type: VARCHAR
+  - name: sch_discwodis_iss_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_iss_lep_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_am_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_am_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_as_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_as_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_singoos_m
+    type: VARCHAR
+  - name: tot_discwodis_singoos_f
+    type: VARCHAR
+  - name: sch_discwodis_singoos_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_singoos_lep_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_am_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_am_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_as_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_as_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_multoos_m
+    type: VARCHAR
+  - name: tot_discwodis_multoos_f
+    type: VARCHAR
+  - name: sch_discwodis_multoos_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_multoos_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_iss_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_iss_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_iss_504_m
+    type: VARCHAR
+  - name: sch_discwdis_iss_504_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_singoos_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_singoos_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_singoos_504_m
+    type: VARCHAR
+  - name: sch_discwdis_singoos_504_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_multoos_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_multoos_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_multoos_504_m
+    type: VARCHAR
+  - name: sch_discwdis_multoos_504_f
+    type: VARCHAR
+  - name: sch_oosinstances_wodis
+    type: VARCHAR
+  - name: sch_oosinstances_idea
+    type: VARCHAR
+  - name: sch_oosinstances_504
+    type: VARCHAR
+  - name: sch_daysmissed_hi_m
+    type: VARCHAR
+  - name: sch_daysmissed_hi_f
+    type: VARCHAR
+  - name: sch_daysmissed_am_m
+    type: VARCHAR
+  - name: sch_daysmissed_am_f
+    type: VARCHAR
+  - name: sch_daysmissed_as_m
+    type: VARCHAR
+  - name: sch_daysmissed_as_f
+    type: VARCHAR
+  - name: sch_daysmissed_hp_m
+    type: VARCHAR
+  - name: sch_daysmissed_hp_f
+    type: VARCHAR
+  - name: sch_daysmissed_bl_m
+    type: VARCHAR
+  - name: sch_daysmissed_bl_f
+    type: VARCHAR
+  - name: sch_daysmissed_wh_m
+    type: VARCHAR
+  - name: sch_daysmissed_wh_f
+    type: VARCHAR
+  - name: sch_daysmissed_tr_m
+    type: VARCHAR
+  - name: sch_daysmissed_tr_f
+    type: VARCHAR
+  - name: tot_daysmissed_m
+    type: VARCHAR
+  - name: tot_daysmissed_f
+    type: VARCHAR
+  - name: sch_daysmissed_lep_m
+    type: VARCHAR
+  - name: sch_daysmissed_lep_f
+    type: VARCHAR
+  - name: sch_daysmissed_504_m
+    type: VARCHAR
+  - name: sch_daysmissed_504_f
+    type: VARCHAR
+  - name: sch_daysmissed_idea_m
+    type: VARCHAR
+  - name: sch_daysmissed_idea_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_hi_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_hi_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_am_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_am_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_as_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_as_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_hp_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_hp_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_bl_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_bl_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_wh_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_wh_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_tr_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_tr_f
+    type: VARCHAR
+  - name: tot_psdisc_exp_m
+    type: VARCHAR
+  - name: tot_psdisc_exp_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_lep_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_lep_f
+    type: VARCHAR
+  - name: sch_psdisc_exp_idea_m
+    type: VARCHAR
+  - name: sch_psdisc_exp_idea_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_am_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_am_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_as_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_as_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_expwe_m
+    type: VARCHAR
+  - name: tot_discwodis_expwe_f
+    type: VARCHAR
+  - name: sch_discwodis_expwe_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_expwe_lep_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_am_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_am_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_as_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_as_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_expwoe_m
+    type: VARCHAR
+  - name: tot_discwodis_expwoe_f
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_expwoe_lep_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_am_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_am_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_as_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_as_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_expzt_m
+    type: VARCHAR
+  - name: tot_discwodis_expzt_f
+    type: VARCHAR
+  - name: sch_discwodis_expzt_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_expzt_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_expwe_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_expwe_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_expwe_504_m
+    type: VARCHAR
+  - name: sch_discwdis_expwe_504_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_expwoe_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_expwoe_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_504_m
+    type: VARCHAR
+  - name: sch_discwdis_expwoe_504_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_expzt_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_expzt_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_expzt_504_m
+    type: VARCHAR
+  - name: sch_discwdis_expzt_504_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_am_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_am_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_as_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_as_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_tfralt_m
+    type: VARCHAR
+  - name: tot_discwodis_tfralt_f
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_tfralt_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_tfralt_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_tfralt_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_504_m
+    type: VARCHAR
+  - name: sch_discwdis_tfralt_504_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_am_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_am_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_as_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_as_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_ref_m
+    type: VARCHAR
+  - name: tot_discwodis_ref_f
+    type: VARCHAR
+  - name: sch_discwodis_ref_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_ref_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_ref_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_ref_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_ref_504_m
+    type: VARCHAR
+  - name: sch_discwdis_ref_504_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_hi_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_hi_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_am_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_am_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_as_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_as_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_hp_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_hp_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_bl_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_bl_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_wh_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_wh_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_tr_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_tr_f
+    type: VARCHAR
+  - name: tot_discwodis_arr_m
+    type: VARCHAR
+  - name: tot_discwodis_arr_f
+    type: VARCHAR
+  - name: sch_discwodis_arr_lep_m
+    type: VARCHAR
+  - name: sch_discwodis_arr_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_hi_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_hi_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_am_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_am_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_as_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_as_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_hp_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_hp_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_bl_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_bl_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_wh_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_wh_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_tr_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_idea_tr_f
+    type: VARCHAR
+  - name: tot_discwdis_arr_idea_m
+    type: VARCHAR
+  - name: tot_discwdis_arr_idea_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_lep_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_lep_f
+    type: VARCHAR
+  - name: sch_discwdis_arr_504_m
+    type: VARCHAR
+  - name: sch_discwdis_arr_504_f
+    type: VARCHAR
+  - name: sch_firearm_ind
+    type: VARCHAR
+  - name: sch_homicide_ind
+    type: VARCHAR
+  - name: sch_offense_rape
+    type: VARCHAR
+  - name: sch_offense_batt
+    type: VARCHAR
+  - name: sch_offense_robww
+    type: VARCHAR
+  - name: sch_offense_robwx
+    type: VARCHAR
+  - name: sch_offense_robwow
+    type: VARCHAR
+  - name: sch_offense_attww
+    type: VARCHAR
+  - name: sch_offense_attwx
+    type: VARCHAR
+  - name: sch_offense_attwow
+    type: VARCHAR
+  - name: sch_offense_thrww
+    type: VARCHAR
+  - name: sch_offense_thrwx
+    type: VARCHAR
+  - name: sch_offense_thrwow
+    type: VARCHAR
+  - name: sch_offense_posswx
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_hi_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_hi_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_am_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_am_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_as_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_as_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_hp_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_hp_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_bl_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_bl_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_wh_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_wh_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_tr_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_tr_f
+    type: VARCHAR
+  - name: tot_rs_nonidea_mech_m
+    type: VARCHAR
+  - name: tot_rs_nonidea_mech_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_lep_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_lep_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_504_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_mech_504_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_hi_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_hi_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_am_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_am_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_as_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_as_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_hp_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_hp_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_bl_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_bl_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_wh_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_wh_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_tr_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_tr_f
+    type: VARCHAR
+  - name: tot_rs_nonidea_phys_m
+    type: VARCHAR
+  - name: tot_rs_nonidea_phys_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_lep_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_lep_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_504_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_phys_504_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_hi_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_hi_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_am_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_am_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_as_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_as_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_hp_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_hp_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_bl_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_bl_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_wh_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_wh_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_tr_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_tr_f
+    type: VARCHAR
+  - name: tot_rs_nonidea_secl_m
+    type: VARCHAR
+  - name: tot_rs_nonidea_secl_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_504_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_504_f
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_lep_m
+    type: VARCHAR
+  - name: sch_rs_nonidea_secl_lep_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_hi_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_hi_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_am_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_am_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_as_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_as_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_hp_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_hp_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_bl_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_bl_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_wh_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_wh_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_tr_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_tr_f
+    type: VARCHAR
+  - name: tot_rs_idea_mech_m
+    type: VARCHAR
+  - name: tot_rs_idea_mech_f
+    type: VARCHAR
+  - name: sch_rs_idea_mech_lep_m
+    type: VARCHAR
+  - name: sch_rs_idea_mech_lep_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_hi_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_hi_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_am_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_am_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_as_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_as_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_hp_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_hp_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_bl_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_bl_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_wh_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_wh_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_tr_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_tr_f
+    type: VARCHAR
+  - name: tot_rs_idea_phys_m
+    type: VARCHAR
+  - name: tot_rs_idea_phys_f
+    type: VARCHAR
+  - name: sch_rs_idea_phys_lep_m
+    type: VARCHAR
+  - name: sch_rs_idea_phys_lep_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_hi_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_hi_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_am_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_am_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_as_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_as_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_hp_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_hp_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_bl_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_bl_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_wh_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_wh_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_tr_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_tr_f
+    type: VARCHAR
+  - name: tot_rs_idea_secl_m
+    type: VARCHAR
+  - name: tot_rs_idea_secl_f
+    type: VARCHAR
+  - name: sch_rs_idea_secl_lep_m
+    type: VARCHAR
+  - name: sch_rs_idea_secl_lep_f
+    type: VARCHAR
+  - name: sch_rsinstances_mech_wodis
+    type: VARCHAR
+  - name: sch_rsinstances_mech_idea
+    type: VARCHAR
+  - name: sch_rsinstances_mech_504
+    type: VARCHAR
+  - name: sch_rsinstances_phys_wodis
+    type: VARCHAR
+  - name: sch_rsinstances_phys_idea
+    type: VARCHAR
+  - name: sch_rsinstances_phys_504
+    type: VARCHAR
+  - name: sch_rsinstances_secl_wodis
+    type: VARCHAR
+  - name: sch_rsinstances_secl_idea
+    type: VARCHAR
+  - name: sch_rsinstances_secl_504
+    type: VARCHAR
+  - name: sch_hballegations_sex
+    type: VARCHAR
+  - name: sch_hballegations_rac
+    type: VARCHAR
+  - name: sch_hballegations_dis
+    type: VARCHAR
+  - name: sch_hballegations_ori
+    type: VARCHAR
+  - name: sch_hballegations_rel
+    type: VARCHAR
+  - name: sch_hbreported_sex_hi_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_hi_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_am_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_am_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_as_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_as_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_hp_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_hp_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_bl_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_bl_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_wh_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_wh_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_tr_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_tr_f
+    type: VARCHAR
+  - name: tot_hbreported_sex_m
+    type: VARCHAR
+  - name: tot_hbreported_sex_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_lep_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_lep_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_idea_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_idea_f
+    type: VARCHAR
+  - name: sch_hbreported_sex_504_m
+    type: VARCHAR
+  - name: sch_hbreported_sex_504_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_hi_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_hi_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_am_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_am_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_as_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_as_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_hp_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_hp_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_bl_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_bl_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_wh_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_wh_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_tr_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_tr_f
+    type: VARCHAR
+  - name: tot_hbreported_rac_m
+    type: VARCHAR
+  - name: tot_hbreported_rac_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_lep_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_lep_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_idea_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_idea_f
+    type: VARCHAR
+  - name: sch_hbreported_rac_504_m
+    type: VARCHAR
+  - name: sch_hbreported_rac_504_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_hi_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_hi_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_am_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_am_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_as_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_as_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_hp_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_hp_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_bl_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_bl_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_wh_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_wh_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_tr_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_tr_f
+    type: VARCHAR
+  - name: tot_hbreported_dis_m
+    type: VARCHAR
+  - name: tot_hbreported_dis_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_lep_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_lep_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_idea_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_idea_f
+    type: VARCHAR
+  - name: sch_hbreported_dis_504_m
+    type: VARCHAR
+  - name: sch_hbreported_dis_504_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_hi_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_hi_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_am_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_am_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_as_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_as_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_hp_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_hp_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_bl_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_bl_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_wh_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_wh_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_tr_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_tr_f
+    type: VARCHAR
+  - name: tot_hbdisciplined_sex_m
+    type: VARCHAR
+  - name: tot_hbdisciplined_sex_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_lep_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_lep_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_idea_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_idea_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_504_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_sex_504_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_hi_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_hi_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_am_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_am_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_as_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_as_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_hp_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_hp_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_bl_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_bl_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_wh_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_wh_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_tr_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_tr_f
+    type: VARCHAR
+  - name: tot_hbdisciplined_rac_m
+    type: VARCHAR
+  - name: tot_hbdisciplined_rac_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_lep_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_lep_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_idea_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_idea_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_504_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_rac_504_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_hi_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_hi_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_am_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_am_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_as_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_as_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_hp_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_hp_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_bl_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_bl_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_wh_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_wh_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_tr_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_tr_f
+    type: VARCHAR
+  - name: tot_hbdisciplined_dis_m
+    type: VARCHAR
+  - name: tot_hbdisciplined_dis_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_lep_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_lep_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_idea_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_idea_f
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_504_m
+    type: VARCHAR
+  - name: sch_hbdisciplined_dis_504_f
+    type: VARCHAR
+  - name: sch_absent_hi_m
+    type: VARCHAR
+  - name: sch_absent_hi_f
+    type: VARCHAR
+  - name: sch_absent_am_m
+    type: VARCHAR
+  - name: sch_absent_am_f
+    type: VARCHAR
+  - name: sch_absent_as_m
+    type: VARCHAR
+  - name: sch_absent_as_f
+    type: VARCHAR
+  - name: sch_absent_hp_m
+    type: VARCHAR
+  - name: sch_absent_hp_f
+    type: VARCHAR
+  - name: sch_absent_bl_m
+    type: VARCHAR
+  - name: sch_absent_bl_f
+    type: VARCHAR
+  - name: sch_absent_wh_m
+    type: VARCHAR
+  - name: sch_absent_wh_f
+    type: VARCHAR
+  - name: sch_absent_tr_m
+    type: VARCHAR
+  - name: sch_absent_tr_f
+    type: VARCHAR
+  - name: tot_absent_m
+    type: VARCHAR
+  - name: tot_absent_f
+    type: VARCHAR
+  - name: sch_absent_lep_m
+    type: VARCHAR
+  - name: sch_absent_lep_f
+    type: VARCHAR
+  - name: sch_absent_504_m
+    type: VARCHAR
+  - name: sch_absent_504_f
+    type: VARCHAR
+  - name: sch_absent_idea_m
+    type: VARCHAR
+  - name: sch_absent_idea_f
+    type: VARCHAR
+  - name: sch_ret_kg_ind
+    type: VARCHAR
+  - name: sch_ret_g01_ind
+    type: VARCHAR
+  - name: sch_ret_g02_ind
+    type: VARCHAR
+  - name: sch_ret_g03_ind
+    type: VARCHAR
+  - name: sch_ret_g04_ind
+    type: VARCHAR
+  - name: sch_ret_g05_ind
+    type: VARCHAR
+  - name: sch_ret_g06_ind
+    type: VARCHAR
+  - name: sch_ret_g07_ind
+    type: VARCHAR
+  - name: sch_ret_g08_ind
+    type: VARCHAR
+  - name: sch_ret_g09_ind
+    type: VARCHAR
+  - name: sch_ret_g10_ind
+    type: VARCHAR
+  - name: sch_ret_g11_ind
+    type: VARCHAR
+  - name: sch_ret_g12_ind
+    type: VARCHAR
+  - name: sch_ret_kg_hi_m
+    type: VARCHAR
+  - name: sch_ret_kg_hi_f
+    type: VARCHAR
+  - name: sch_ret_kg_am_m
+    type: VARCHAR
+  - name: sch_ret_kg_am_f
+    type: VARCHAR
+  - name: sch_ret_kg_as_m
+    type: VARCHAR
+  - name: sch_ret_kg_as_f
+    type: VARCHAR
+  - name: sch_ret_kg_hp_m
+    type: VARCHAR
+  - name: sch_ret_kg_hp_f
+    type: VARCHAR
+  - name: sch_ret_kg_bl_m
+    type: VARCHAR
+  - name: sch_ret_kg_bl_f
+    type: VARCHAR
+  - name: sch_ret_kg_wh_m
+    type: VARCHAR
+  - name: sch_ret_kg_wh_f
+    type: VARCHAR
+  - name: sch_ret_kg_tr_m
+    type: VARCHAR
+  - name: sch_ret_kg_tr_f
+    type: VARCHAR
+  - name: tot_ret_kg_m
+    type: VARCHAR
+  - name: tot_ret_kg_f
+    type: VARCHAR
+  - name: sch_ret_kg_lep_m
+    type: VARCHAR
+  - name: sch_ret_kg_lep_f
+    type: VARCHAR
+  - name: sch_ret_kg_idea_m
+    type: VARCHAR
+  - name: sch_ret_kg_idea_f
+    type: VARCHAR
+  - name: sch_ret_kg_504_m
+    type: VARCHAR
+  - name: sch_ret_kg_504_f
+    type: VARCHAR
+  - name: sch_ret_g01_hi_m
+    type: VARCHAR
+  - name: sch_ret_g01_hi_f
+    type: VARCHAR
+  - name: sch_ret_g01_am_m
+    type: VARCHAR
+  - name: sch_ret_g01_am_f
+    type: VARCHAR
+  - name: sch_ret_g01_as_m
+    type: VARCHAR
+  - name: sch_ret_g01_as_f
+    type: VARCHAR
+  - name: sch_ret_g01_hp_m
+    type: VARCHAR
+  - name: sch_ret_g01_hp_f
+    type: VARCHAR
+  - name: sch_ret_g01_bl_m
+    type: VARCHAR
+  - name: sch_ret_g01_bl_f
+    type: VARCHAR
+  - name: sch_ret_g01_wh_m
+    type: VARCHAR
+  - name: sch_ret_g01_wh_f
+    type: VARCHAR
+  - name: sch_ret_g01_tr_m
+    type: VARCHAR
+  - name: sch_ret_g01_tr_f
+    type: VARCHAR
+  - name: tot_ret_g01_m
+    type: VARCHAR
+  - name: tot_ret_g01_f
+    type: VARCHAR
+  - name: sch_ret_g01_lep_m
+    type: VARCHAR
+  - name: sch_ret_g01_lep_f
+    type: VARCHAR
+  - name: sch_ret_g01_idea_m
+    type: VARCHAR
+  - name: sch_ret_g01_idea_f
+    type: VARCHAR
+  - name: sch_ret_g01_504_m
+    type: VARCHAR
+  - name: sch_ret_g01_504_f
+    type: VARCHAR
+  - name: sch_ret_g02_hi_m
+    type: VARCHAR
+  - name: sch_ret_g02_hi_f
+    type: VARCHAR
+  - name: sch_ret_g02_am_m
+    type: VARCHAR
+  - name: sch_ret_g02_am_f
+    type: VARCHAR
+  - name: sch_ret_g02_as_m
+    type: VARCHAR
+  - name: sch_ret_g02_as_f
+    type: VARCHAR
+  - name: sch_ret_g02_hp_m
+    type: VARCHAR
+  - name: sch_ret_g02_hp_f
+    type: VARCHAR
+  - name: sch_ret_g02_bl_m
+    type: VARCHAR
+  - name: sch_ret_g02_bl_f
+    type: VARCHAR
+  - name: sch_ret_g02_wh_m
+    type: VARCHAR
+  - name: sch_ret_g02_wh_f
+    type: VARCHAR
+  - name: sch_ret_g02_tr_m
+    type: VARCHAR
+  - name: sch_ret_g02_tr_f
+    type: VARCHAR
+  - name: tot_ret_g02_m
+    type: VARCHAR
+  - name: tot_ret_g02_f
+    type: VARCHAR
+  - name: sch_ret_g02_lep_m
+    type: VARCHAR
+  - name: sch_ret_g02_lep_f
+    type: VARCHAR
+  - name: sch_ret_g02_idea_m
+    type: VARCHAR
+  - name: sch_ret_g02_idea_f
+    type: VARCHAR
+  - name: sch_ret_g02_504_m
+    type: VARCHAR
+  - name: sch_ret_g02_504_f
+    type: VARCHAR
+  - name: sch_ret_g03_hi_m
+    type: VARCHAR
+  - name: sch_ret_g03_hi_f
+    type: VARCHAR
+  - name: sch_ret_g03_am_m
+    type: VARCHAR
+  - name: sch_ret_g03_am_f
+    type: VARCHAR
+  - name: sch_ret_g03_as_m
+    type: VARCHAR
+  - name: sch_ret_g03_as_f
+    type: VARCHAR
+  - name: sch_ret_g03_hp_m
+    type: VARCHAR
+  - name: sch_ret_g03_hp_f
+    type: VARCHAR
+  - name: sch_ret_g03_bl_m
+    type: VARCHAR
+  - name: sch_ret_g03_bl_f
+    type: VARCHAR
+  - name: sch_ret_g03_wh_m
+    type: VARCHAR
+  - name: sch_ret_g03_wh_f
+    type: VARCHAR
+  - name: sch_ret_g03_tr_m
+    type: VARCHAR
+  - name: sch_ret_g03_tr_f
+    type: VARCHAR
+  - name: tot_ret_g03_m
+    type: VARCHAR
+  - name: tot_ret_g03_f
+    type: VARCHAR
+  - name: sch_ret_g03_lep_m
+    type: VARCHAR
+  - name: sch_ret_g03_lep_f
+    type: VARCHAR
+  - name: sch_ret_g03_idea_m
+    type: VARCHAR
+  - name: sch_ret_g03_idea_f
+    type: VARCHAR
+  - name: sch_ret_g03_504_m
+    type: VARCHAR
+  - name: sch_ret_g03_504_f
+    type: VARCHAR
+  - name: sch_ret_g04_hi_m
+    type: VARCHAR
+  - name: sch_ret_g04_hi_f
+    type: VARCHAR
+  - name: sch_ret_g04_am_m
+    type: VARCHAR
+  - name: sch_ret_g04_am_f
+    type: VARCHAR
+  - name: sch_ret_g04_as_m
+    type: VARCHAR
+  - name: sch_ret_g04_as_f
+    type: VARCHAR
+  - name: sch_ret_g04_hp_m
+    type: VARCHAR
+  - name: sch_ret_g04_hp_f
+    type: VARCHAR
+  - name: sch_ret_g04_bl_m
+    type: VARCHAR
+  - name: sch_ret_g04_bl_f
+    type: VARCHAR
+  - name: sch_ret_g04_wh_m
+    type: VARCHAR
+  - name: sch_ret_g04_wh_f
+    type: VARCHAR
+  - name: sch_ret_g04_tr_m
+    type: VARCHAR
+  - name: sch_ret_g04_tr_f
+    type: VARCHAR
+  - name: tot_ret_g04_m
+    type: VARCHAR
+  - name: tot_ret_g04_f
+    type: VARCHAR
+  - name: sch_ret_g04_lep_m
+    type: VARCHAR
+  - name: sch_ret_g04_lep_f
+    type: VARCHAR
+  - name: sch_ret_g04_idea_m
+    type: VARCHAR
+  - name: sch_ret_g04_idea_f
+    type: VARCHAR
+  - name: sch_ret_g04_504_m
+    type: VARCHAR
+  - name: sch_ret_g04_504_f
+    type: VARCHAR
+  - name: sch_ret_g05_hi_m
+    type: VARCHAR
+  - name: sch_ret_g05_hi_f
+    type: VARCHAR
+  - name: sch_ret_g05_am_m
+    type: VARCHAR
+  - name: sch_ret_g05_am_f
+    type: VARCHAR
+  - name: sch_ret_g05_as_m
+    type: VARCHAR
+  - name: sch_ret_g05_as_f
+    type: VARCHAR
+  - name: sch_ret_g05_hp_m
+    type: VARCHAR
+  - name: sch_ret_g05_hp_f
+    type: VARCHAR
+  - name: sch_ret_g05_bl_m
+    type: VARCHAR
+  - name: sch_ret_g05_bl_f
+    type: VARCHAR
+  - name: sch_ret_g05_wh_m
+    type: VARCHAR
+  - name: sch_ret_g05_wh_f
+    type: VARCHAR
+  - name: sch_ret_g05_tr_m
+    type: VARCHAR
+  - name: sch_ret_g05_tr_f
+    type: VARCHAR
+  - name: tot_ret_g05_m
+    type: VARCHAR
+  - name: tot_ret_g05_f
+    type: VARCHAR
+  - name: sch_ret_g05_lep_m
+    type: VARCHAR
+  - name: sch_ret_g05_lep_f
+    type: VARCHAR
+  - name: sch_ret_g05_idea_m
+    type: VARCHAR
+  - name: sch_ret_g05_idea_f
+    type: VARCHAR
+  - name: sch_ret_g05_504_m
+    type: VARCHAR
+  - name: sch_ret_g05_504_f
+    type: VARCHAR
+  - name: sch_ret_g06_hi_m
+    type: VARCHAR
+  - name: sch_ret_g06_hi_f
+    type: VARCHAR
+  - name: sch_ret_g06_am_m
+    type: VARCHAR
+  - name: sch_ret_g06_am_f
+    type: VARCHAR
+  - name: sch_ret_g06_as_m
+    type: VARCHAR
+  - name: sch_ret_g06_as_f
+    type: VARCHAR
+  - name: sch_ret_g06_hp_m
+    type: VARCHAR
+  - name: sch_ret_g06_hp_f
+    type: VARCHAR
+  - name: sch_ret_g06_bl_m
+    type: VARCHAR
+  - name: sch_ret_g06_bl_f
+    type: VARCHAR
+  - name: sch_ret_g06_wh_m
+    type: VARCHAR
+  - name: sch_ret_g06_wh_f
+    type: VARCHAR
+  - name: sch_ret_g06_tr_m
+    type: VARCHAR
+  - name: sch_ret_g06_tr_f
+    type: VARCHAR
+  - name: tot_ret_g06_m
+    type: VARCHAR
+  - name: tot_ret_g06_f
+    type: VARCHAR
+  - name: sch_ret_g06_lep_m
+    type: VARCHAR
+  - name: sch_ret_g06_lep_f
+    type: VARCHAR
+  - name: sch_ret_g06_idea_m
+    type: VARCHAR
+  - name: sch_ret_g06_idea_f
+    type: VARCHAR
+  - name: sch_ret_g06_504_m
+    type: VARCHAR
+  - name: sch_ret_g06_504_f
+    type: VARCHAR
+  - name: sch_ret_g07_hi_m
+    type: VARCHAR
+  - name: sch_ret_g07_hi_f
+    type: VARCHAR
+  - name: sch_ret_g07_am_m
+    type: VARCHAR
+  - name: sch_ret_g07_am_f
+    type: VARCHAR
+  - name: sch_ret_g07_as_m
+    type: VARCHAR
+  - name: sch_ret_g07_as_f
+    type: VARCHAR
+  - name: sch_ret_g07_hp_m
+    type: VARCHAR
+  - name: sch_ret_g07_hp_f
+    type: VARCHAR
+  - name: sch_ret_g07_bl_m
+    type: VARCHAR
+  - name: sch_ret_g07_bl_f
+    type: VARCHAR
+  - name: sch_ret_g07_wh_m
+    type: VARCHAR
+  - name: sch_ret_g07_wh_f
+    type: VARCHAR
+  - name: sch_ret_g07_tr_m
+    type: VARCHAR
+  - name: sch_ret_g07_tr_f
+    type: VARCHAR
+  - name: tot_ret_g07_m
+    type: VARCHAR
+  - name: tot_ret_g07_f
+    type: VARCHAR
+  - name: sch_ret_g07_lep_m
+    type: VARCHAR
+  - name: sch_ret_g07_lep_f
+    type: VARCHAR
+  - name: sch_ret_g07_idea_m
+    type: VARCHAR
+  - name: sch_ret_g07_idea_f
+    type: VARCHAR
+  - name: sch_ret_g07_504_m
+    type: VARCHAR
+  - name: sch_ret_g07_504_f
+    type: VARCHAR
+  - name: sch_ret_g08_hi_m
+    type: VARCHAR
+  - name: sch_ret_g08_hi_f
+    type: VARCHAR
+  - name: sch_ret_g08_am_m
+    type: VARCHAR
+  - name: sch_ret_g08_am_f
+    type: VARCHAR
+  - name: sch_ret_g08_as_m
+    type: VARCHAR
+  - name: sch_ret_g08_as_f
+    type: VARCHAR
+  - name: sch_ret_g08_hp_m
+    type: VARCHAR
+  - name: sch_ret_g08_hp_f
+    type: VARCHAR
+  - name: sch_ret_g08_bl_m
+    type: VARCHAR
+  - name: sch_ret_g08_bl_f
+    type: VARCHAR
+  - name: sch_ret_g08_wh_m
+    type: VARCHAR
+  - name: sch_ret_g08_wh_f
+    type: VARCHAR
+  - name: sch_ret_g08_tr_m
+    type: VARCHAR
+  - name: sch_ret_g08_tr_f
+    type: VARCHAR
+  - name: tot_ret_g08_m
+    type: VARCHAR
+  - name: tot_ret_g08_f
+    type: VARCHAR
+  - name: sch_ret_g08_lep_m
+    type: VARCHAR
+  - name: sch_ret_g08_lep_f
+    type: VARCHAR
+  - name: sch_ret_g08_idea_m
+    type: VARCHAR
+  - name: sch_ret_g08_idea_f
+    type: VARCHAR
+  - name: sch_ret_g08_504_m
+    type: VARCHAR
+  - name: sch_ret_g08_504_f
+    type: VARCHAR
+  - name: sch_ret_g09_hi_m
+    type: VARCHAR
+  - name: sch_ret_g09_hi_f
+    type: VARCHAR
+  - name: sch_ret_g09_am_m
+    type: VARCHAR
+  - name: sch_ret_g09_am_f
+    type: VARCHAR
+  - name: sch_ret_g09_as_m
+    type: VARCHAR
+  - name: sch_ret_g09_as_f
+    type: VARCHAR
+  - name: sch_ret_g09_hp_m
+    type: VARCHAR
+  - name: sch_ret_g09_hp_f
+    type: VARCHAR
+  - name: sch_ret_g09_bl_m
+    type: VARCHAR
+  - name: sch_ret_g09_bl_f
+    type: VARCHAR
+  - name: sch_ret_g09_wh_m
+    type: VARCHAR
+  - name: sch_ret_g09_wh_f
+    type: VARCHAR
+  - name: sch_ret_g09_tr_m
+    type: VARCHAR
+  - name: sch_ret_g09_tr_f
+    type: VARCHAR
+  - name: tot_ret_g09_m
+    type: VARCHAR
+  - name: tot_ret_g09_f
+    type: VARCHAR
+  - name: sch_ret_g09_lep_m
+    type: VARCHAR
+  - name: sch_ret_g09_lep_f
+    type: VARCHAR
+  - name: sch_ret_g09_idea_m
+    type: VARCHAR
+  - name: sch_ret_g09_idea_f
+    type: VARCHAR
+  - name: sch_ret_g09_504_m
+    type: VARCHAR
+  - name: sch_ret_g09_504_f
+    type: VARCHAR
+  - name: sch_ret_g10_hi_m
+    type: VARCHAR
+  - name: sch_ret_g10_hi_f
+    type: VARCHAR
+  - name: sch_ret_g10_am_m
+    type: VARCHAR
+  - name: sch_ret_g10_am_f
+    type: VARCHAR
+  - name: sch_ret_g10_as_m
+    type: VARCHAR
+  - name: sch_ret_g10_as_f
+    type: VARCHAR
+  - name: sch_ret_g10_hp_m
+    type: VARCHAR
+  - name: sch_ret_g10_hp_f
+    type: VARCHAR
+  - name: sch_ret_g10_bl_m
+    type: VARCHAR
+  - name: sch_ret_g10_bl_f
+    type: VARCHAR
+  - name: sch_ret_g10_wh_m
+    type: VARCHAR
+  - name: sch_ret_g10_wh_f
+    type: VARCHAR
+  - name: sch_ret_g10_tr_m
+    type: VARCHAR
+  - name: sch_ret_g10_tr_f
+    type: VARCHAR
+  - name: tot_ret_g10_m
+    type: VARCHAR
+  - name: tot_ret_g10_f
+    type: VARCHAR
+  - name: sch_ret_g10_lep_m
+    type: VARCHAR
+  - name: sch_ret_g10_lep_f
+    type: VARCHAR
+  - name: sch_ret_g10_idea_m
+    type: VARCHAR
+  - name: sch_ret_g10_idea_f
+    type: VARCHAR
+  - name: sch_ret_g10_504_m
+    type: VARCHAR
+  - name: sch_ret_g10_504_f
+    type: VARCHAR
+  - name: sch_ret_g11_hi_m
+    type: VARCHAR
+  - name: sch_ret_g11_hi_f
+    type: VARCHAR
+  - name: sch_ret_g11_am_m
+    type: VARCHAR
+  - name: sch_ret_g11_am_f
+    type: VARCHAR
+  - name: sch_ret_g11_as_m
+    type: VARCHAR
+  - name: sch_ret_g11_as_f
+    type: VARCHAR
+  - name: sch_ret_g11_hp_m
+    type: VARCHAR
+  - name: sch_ret_g11_hp_f
+    type: VARCHAR
+  - name: sch_ret_g11_bl_m
+    type: VARCHAR
+  - name: sch_ret_g11_bl_f
+    type: VARCHAR
+  - name: sch_ret_g11_wh_m
+    type: VARCHAR
+  - name: sch_ret_g11_wh_f
+    type: VARCHAR
+  - name: sch_ret_g11_tr_m
+    type: VARCHAR
+  - name: sch_ret_g11_tr_f
+    type: VARCHAR
+  - name: tot_ret_g11_m
+    type: VARCHAR
+  - name: tot_ret_g11_f
+    type: VARCHAR
+  - name: sch_ret_g11_lep_m
+    type: VARCHAR
+  - name: sch_ret_g11_lep_f
+    type: VARCHAR
+  - name: sch_ret_g11_idea_m
+    type: VARCHAR
+  - name: sch_ret_g11_idea_f
+    type: VARCHAR
+  - name: sch_ret_g11_504_m
+    type: VARCHAR
+  - name: sch_ret_g11_504_f
+    type: VARCHAR
+  - name: sch_ret_g12_hi_m
+    type: VARCHAR
+  - name: sch_ret_g12_hi_f
+    type: VARCHAR
+  - name: sch_ret_g12_am_m
+    type: VARCHAR
+  - name: sch_ret_g12_am_f
+    type: VARCHAR
+  - name: sch_ret_g12_as_m
+    type: VARCHAR
+  - name: sch_ret_g12_as_f
+    type: VARCHAR
+  - name: sch_ret_g12_hp_m
+    type: VARCHAR
+  - name: sch_ret_g12_hp_f
+    type: VARCHAR
+  - name: sch_ret_g12_bl_m
+    type: VARCHAR
+  - name: sch_ret_g12_bl_f
+    type: VARCHAR
+  - name: sch_ret_g12_wh_m
+    type: VARCHAR
+  - name: sch_ret_g12_wh_f
+    type: VARCHAR
+  - name: sch_ret_g12_tr_m
+    type: VARCHAR
+  - name: sch_ret_g12_tr_f
+    type: VARCHAR
+  - name: tot_ret_g12_m
+    type: VARCHAR
+  - name: tot_ret_g12_f
+    type: VARCHAR
+  - name: sch_ret_g12_lep_m
+    type: VARCHAR
+  - name: sch_ret_g12_lep_f
+    type: VARCHAR
+  - name: sch_ret_g12_idea_m
+    type: VARCHAR
+  - name: sch_ret_g12_idea_f
+    type: VARCHAR
+  - name: sch_ret_g12_504_m
+    type: VARCHAR
+  - name: sch_ret_g12_504_f
+    type: VARCHAR
+  - name: sch_ssathletics_ind
+    type: VARCHAR
+  - name: sch_sssports_m
+    type: VARCHAR
+  - name: sch_sssports_f
+    type: VARCHAR
+  - name: tot_sssports
+    type: VARCHAR
+  - name: sch_ssteams_m
+    type: VARCHAR
+  - name: sch_ssteams_f
+    type: VARCHAR
+  - name: tot_ssteams
+    type: VARCHAR
+  - name: sch_sspart_m
+    type: VARCHAR
+  - name: sch_sspart_f
+    type: VARCHAR
+  - name: tot_sspart
+    type: VARCHAR
+  - name: sch_sal_totpers_wofed
+    type: VARCHAR
+  - name: sch_fte_teach_wofed
+    type: VARCHAR
+  - name: sch_sal_teach_wofed
+    type: VARCHAR
+  - name: sch_npe_wofed
+    type: VARCHAR
+  - name: sch_fte_aid_wofed
+    type: VARCHAR
+  - name: sch_sal_aid_wofed
+    type: VARCHAR
+  - name: sch_fte_sup_wofed
+    type: VARCHAR
+  - name: sch_sal_sup_wofed
+    type: VARCHAR
+  - name: sch_fte_adm_wofed
+    type: VARCHAR
+  - name: sch_sal_adm_wofed
+    type: VARCHAR
+  - name: sch_sal_teach_wfed
+    type: VARCHAR
+  - name: sch_fte_aid_wfed
+    type: VARCHAR
+  - name: sch_sal_aid_wfed
+    type: VARCHAR
+  - name: sch_fte_sup_wfed
+    type: VARCHAR
+  - name: sch_sal_sup_wfed
+    type: VARCHAR
+  - name: sch_fte_adm_wfed
+    type: VARCHAR
+  - name: sch_sal_adm_wfed
+    type: VARCHAR
+  - name: sch_sal_totpers_wfed
+    type: VARCHAR
+  - name: sch_npe_wfed
+    type: VARCHAR
+  - name: sch_fteteach_tot
+    type: VARCHAR
+  - name: sch_fteteach_cert
+    type: VARCHAR
+  - name: sch_fteteach_notcert
+    type: VARCHAR
+  - name: sch_fteteach_fy
+    type: VARCHAR
+  - name: sch_fteteach_sy
+    type: VARCHAR
+  - name: sch_teachers_curr_tot
+    type: VARCHAR
+  - name: sch_teachers_prev_tot
+    type: VARCHAR
+  - name: sch_ftecounselors
+    type: VARCHAR
+  - name: sch_fteteach_absent
+    type: VARCHAR
+  - name: sch_ftesecurity_leo
+    type: VARCHAR
+  - name: sch_ftesecurity_gua
+    type: VARCHAR
+  - name: sch_fteservices_nur
+    type: VARCHAR
+  - name: sch_fteservices_psy
+    type: VARCHAR
+  - name: sch_fteservices_soc
+    type: VARCHAR
+  - name: sch_jjtype
+    type: VARCHAR
+  - name: sch_jjsydays
+    type: VARCHAR
+  - name: sch_jjhours
+    type: VARCHAR
+  - name: sch_jjpart_lt15
+    type: VARCHAR
+  - name: sch_jjpart_15t30
+    type: VARCHAR
+  - name: sch_jjpart_31t90
+    type: VARCHAR
+  - name: sch_jjpart_91t180
+    type: VARCHAR
+  - name: sch_jjpart_ov180
+    type: VARCHAR

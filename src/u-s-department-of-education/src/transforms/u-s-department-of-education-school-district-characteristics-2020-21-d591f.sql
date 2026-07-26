@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+SELECT
+    "_subsets_record_type" AS subsets_record_type,
+    "package_id",
+    "package_title",
+    "resource_id",
+    "resource_name",
+    "resource_format",
+    "resource_position",
+    "error",
+    "row_number",
+    "OBJECTID" AS objectid,
+    "SURVYEAR" AS survyear,
+    "STABR" AS stabr,
+    "STATENAME" AS statename,
+    "LEAID" AS leaid,
+    "ST_LEAID" AS st_leaid,
+    "LEA_NAME" AS lea_name,
+    "LSTREET1" AS lstreet1,
+    "LSTREET2" AS lstreet2,
+    "LCITY" AS lcity,
+    "LSTATE" AS lstate,
+    "LZIP" AS lzip,
+    "LZIP4" AS lzip4,
+    "LEA_TYPE_TEXT" AS lea_type_text,
+    "LEA_TYPE" AS lea_type,
+    "GSLO" AS gslo,
+    "GSHI" AS gshi,
+    "SY_STATUS_TEXT" AS sy_status_text,
+    "SCH" AS sch,
+    "MEMBER" AS member,
+    "TOTTCH" AS tottch,
+    "STUTERATIO" AS stuteratio,
+    "LOCALE" AS locale,
+    "LOCALE_TEXT" AS locale_text,
+    "CONAME" AS coname,
+    "COID" AS coid,
+    "PHONE" AS phone,
+    "Lat" AS lat,
+    "Long" AS long,
+    "Shape_Length" AS shape_length,
+    "Shape_Area" AS shape_area
+FROM "u-s-department-of-education-school-district-characteristics-2020-21-d591f"

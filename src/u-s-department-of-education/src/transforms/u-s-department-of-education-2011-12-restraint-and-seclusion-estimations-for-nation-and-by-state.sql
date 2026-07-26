@@ -1,0 +1,48 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+SELECT
+    "package_id",
+    "package_title",
+    "resource_id",
+    "resource_name",
+    "resource_format",
+    "resource_position",
+    "sheet_name",
+    "row_number",
+    "Unnamed: 0" AS unnamed_0,
+    "Number and percentage of public school students with and without disabilities subjected to seclusion, by race/ethnicity, whether with disabilities served under IDEA or Section 504, and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_students_with_and_without_disabilities_subjected_to_seclusion_by_race_ethnicity_whether_with_disabilities_served_under_idea_or_section_504_and_english_proficiency_by_state_school_year_2011_12,
+    "Unnamed: 2" AS unnamed_2,
+    "Unnamed: 3" AS unnamed_3,
+    "Unnamed: 4" AS unnamed_4,
+    "Unnamed: 5" AS unnamed_5,
+    "Unnamed: 6" AS unnamed_6,
+    "Unnamed: 7" AS unnamed_7,
+    "Unnamed: 8" AS unnamed_8,
+    "Unnamed: 9" AS unnamed_9,
+    "Unnamed: 10" AS unnamed_10,
+    "Unnamed: 11" AS unnamed_11,
+    "Unnamed: 12" AS unnamed_12,
+    "Unnamed: 13" AS unnamed_13,
+    "Unnamed: 14" AS unnamed_14,
+    "Unnamed: 15" AS unnamed_15,
+    "Unnamed: 16" AS unnamed_16,
+    "Unnamed: 17" AS unnamed_17,
+    "Unnamed: 18" AS unnamed_18,
+    "Unnamed: 19" AS unnamed_19,
+    "Unnamed: 20" AS unnamed_20,
+    "Unnamed: 21" AS unnamed_21,
+    "Unnamed: 22" AS unnamed_22,
+    "Unnamed: 23" AS unnamed_23,
+    "Unnamed: 24" AS unnamed_24,
+    "Number and percentage of public school male students with and without disabilities subjected to seclusion, by race/ethnicity, whether with disabilities served under IDEA or Section 504, and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_male_students_with_and_without_disabilities_subjected_to_seclusion_by_race_ethnicity_whether_with_disabilities_served_under_idea_or_section_504_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school female students with and without disabilities subjected to seclusion, by race/ethnicity, whether with disabilities served under IDEA or Section 504, and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_female_students_with_and_without_disabilities_subjected_to_seclusion_by_race_ethnicity_whether_with_disabilities_served_under_idea_or_section_504_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school students with disabilities served under IDEA subjected to seclusion, by race/ethnicity and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_students_with_disabilities_served_under_idea_subjected_to_seclusion_by_race_ethnicity_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school male students with disabilities served under IDEA subjected to seclusion, by race/ethnicity and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_male_students_with_disabilities_served_under_idea_subjected_to_seclusion_by_race_ethnicity_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school female students with disabilities served under IDEA subjected to seclusion, by race/ethnicity and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_female_students_with_disabilities_served_under_idea_subjected_to_seclusion_by_race_ethnicity_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school students not served under IDEA subjected to seclusion, by race/ethnicity, whether served under Section 504, and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_students_not_served_under_idea_subjected_to_seclusion_by_race_ethnicity_whether_served_under_section_504_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school male students not served under IDEA subjected to seclusion, by race/ethnicity, whether served under Section 504, and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_male_students_not_served_under_idea_subjected_to_seclusion_by_race_ethnicity_whether_served_under_section_504_and_english_proficiency_by_state_school_year_2011_12,
+    "Number and percentage of public school female students not served under IDEA subjected to seclusion, by race/ethnicity, whether served under Section 504, and English proficiency, by state: School Year 2011-12" AS number_and_percentage_of_public_school_female_students_not_served_under_idea_subjected_to_seclusion_by_race_ethnicity_whether_served_under_section_504_and_english_proficiency_by_state_school_year_2011_12
+FROM "u-s-department-of-education-2011-12-restraint-and-seclusion-estimations-for-nation-and-by-state"

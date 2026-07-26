@@ -1,0 +1,479 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-edfacts-assessment-2011-12-864b7`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: stnam
+    type: VARCHAR
+  - name: fipst
+    type: VARCHAR
+  - name: leaid
+    type: VARCHAR
+  - name: leanm
+    type: VARCHAR
+  - name: ncessch
+    type: VARCHAR
+  - name: schnam11
+    type: VARCHAR
+  - name: all_mth00numvalid_1112
+    type: VARCHAR
+  - name: all_mth00pctprof_1112
+    type: VARCHAR
+  - name: mam_mth00numvalid_1112
+    type: VARCHAR
+  - name: mam_mth00pctprof_1112
+    type: VARCHAR
+  - name: mas_mth00numvalid_1112
+    type: VARCHAR
+  - name: mas_mth00pctprof_1112
+    type: VARCHAR
+  - name: mbl_mth00numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth00pctprof_1112
+    type: VARCHAR
+  - name: mhi_mth00numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth00pctprof_1112
+    type: VARCHAR
+  - name: mtr_mth00numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth00pctprof_1112
+    type: VARCHAR
+  - name: mwh_mth00numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth00pctprof_1112
+    type: VARCHAR
+  - name: f_mth00numvalid_1112
+    type: VARCHAR
+  - name: f_mth00pctprof_1112
+    type: VARCHAR
+  - name: m_mth00numvalid_1112
+    type: VARCHAR
+  - name: m_mth00pctprof_1112
+    type: VARCHAR
+  - name: cwd_mth00numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth00pctprof_1112
+    type: VARCHAR
+  - name: ecd_mth00numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth00pctprof_1112
+    type: VARCHAR
+  - name: lep_mth00numvalid_1112
+    type: VARCHAR
+  - name: lep_mth00pctprof_1112
+    type: VARCHAR
+  - name: hom_mth00numvalid_1112
+    type: VARCHAR
+  - name: hom_mth00pctprof_1112
+    type: VARCHAR
+  - name: mig_mth00numvalid_1112
+    type: VARCHAR
+  - name: mig_mth00pctprof_1112
+    type: VARCHAR
+  - name: all_mth03numvalid_1112
+    type: VARCHAR
+  - name: all_mth03pctprof_1112
+    type: VARCHAR
+  - name: all_mth04numvalid_1112
+    type: VARCHAR
+  - name: all_mth04pctprof_1112
+    type: VARCHAR
+  - name: all_mth05numvalid_1112
+    type: VARCHAR
+  - name: all_mth05pctprof_1112
+    type: VARCHAR
+  - name: all_mth06numvalid_1112
+    type: VARCHAR
+  - name: all_mth06pctprof_1112
+    type: VARCHAR
+  - name: all_mth07numvalid_1112
+    type: VARCHAR
+  - name: all_mth07pctprof_1112
+    type: VARCHAR
+  - name: all_mth08numvalid_1112
+    type: VARCHAR
+  - name: all_mth08pctprof_1112
+    type: VARCHAR
+  - name: all_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: all_mthhspctprof_1112
+    type: VARCHAR
+  - name: mam_mth03numvalid_1112
+    type: VARCHAR
+  - name: mam_mth03pctprof_1112
+    type: VARCHAR
+  - name: mam_mth04numvalid_1112
+    type: VARCHAR
+  - name: mam_mth04pctprof_1112
+    type: VARCHAR
+  - name: mam_mth05numvalid_1112
+    type: VARCHAR
+  - name: mam_mth05pctprof_1112
+    type: VARCHAR
+  - name: mam_mth06numvalid_1112
+    type: VARCHAR
+  - name: mam_mth06pctprof_1112
+    type: VARCHAR
+  - name: mam_mth07numvalid_1112
+    type: VARCHAR
+  - name: mam_mth07pctprof_1112
+    type: VARCHAR
+  - name: mam_mth08numvalid_1112
+    type: VARCHAR
+  - name: mam_mth08pctprof_1112
+    type: VARCHAR
+  - name: mam_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mam_mthhspctprof_1112
+    type: VARCHAR
+  - name: mas_mth03numvalid_1112
+    type: VARCHAR
+  - name: mas_mth03pctprof_1112
+    type: VARCHAR
+  - name: mas_mth04numvalid_1112
+    type: VARCHAR
+  - name: mas_mth04pctprof_1112
+    type: VARCHAR
+  - name: mas_mth05numvalid_1112
+    type: VARCHAR
+  - name: mas_mth05pctprof_1112
+    type: VARCHAR
+  - name: mas_mth06numvalid_1112
+    type: VARCHAR
+  - name: mas_mth06pctprof_1112
+    type: VARCHAR
+  - name: mas_mth07numvalid_1112
+    type: VARCHAR
+  - name: mas_mth07pctprof_1112
+    type: VARCHAR
+  - name: mas_mth08numvalid_1112
+    type: VARCHAR
+  - name: mas_mth08pctprof_1112
+    type: VARCHAR
+  - name: mas_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mas_mthhspctprof_1112
+    type: VARCHAR
+  - name: mbl_mth03numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth03pctprof_1112
+    type: VARCHAR
+  - name: mbl_mth04numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth04pctprof_1112
+    type: VARCHAR
+  - name: mbl_mth05numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth05pctprof_1112
+    type: VARCHAR
+  - name: mbl_mth06numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth06pctprof_1112
+    type: VARCHAR
+  - name: mbl_mth07numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth07pctprof_1112
+    type: VARCHAR
+  - name: mbl_mth08numvalid_1112
+    type: VARCHAR
+  - name: mbl_mth08pctprof_1112
+    type: VARCHAR
+  - name: mbl_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mbl_mthhspctprof_1112
+    type: VARCHAR
+  - name: mhi_mth03numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth03pctprof_1112
+    type: VARCHAR
+  - name: mhi_mth04numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth04pctprof_1112
+    type: VARCHAR
+  - name: mhi_mth05numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth05pctprof_1112
+    type: VARCHAR
+  - name: mhi_mth06numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth06pctprof_1112
+    type: VARCHAR
+  - name: mhi_mth07numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth07pctprof_1112
+    type: VARCHAR
+  - name: mhi_mth08numvalid_1112
+    type: VARCHAR
+  - name: mhi_mth08pctprof_1112
+    type: VARCHAR
+  - name: mhi_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mhi_mthhspctprof_1112
+    type: VARCHAR
+  - name: mtr_mth03numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth03pctprof_1112
+    type: VARCHAR
+  - name: mtr_mth04numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth04pctprof_1112
+    type: VARCHAR
+  - name: mtr_mth05numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth05pctprof_1112
+    type: VARCHAR
+  - name: mtr_mth06numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth06pctprof_1112
+    type: VARCHAR
+  - name: mtr_mth07numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth07pctprof_1112
+    type: VARCHAR
+  - name: mtr_mth08numvalid_1112
+    type: VARCHAR
+  - name: mtr_mth08pctprof_1112
+    type: VARCHAR
+  - name: mtr_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mtr_mthhspctprof_1112
+    type: VARCHAR
+  - name: mwh_mth03numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth03pctprof_1112
+    type: VARCHAR
+  - name: mwh_mth04numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth04pctprof_1112
+    type: VARCHAR
+  - name: mwh_mth05numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth05pctprof_1112
+    type: VARCHAR
+  - name: mwh_mth06numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth06pctprof_1112
+    type: VARCHAR
+  - name: mwh_mth07numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth07pctprof_1112
+    type: VARCHAR
+  - name: mwh_mth08numvalid_1112
+    type: VARCHAR
+  - name: mwh_mth08pctprof_1112
+    type: VARCHAR
+  - name: mwh_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mwh_mthhspctprof_1112
+    type: VARCHAR
+  - name: f_mth03numvalid_1112
+    type: VARCHAR
+  - name: f_mth03pctprof_1112
+    type: VARCHAR
+  - name: f_mth04numvalid_1112
+    type: VARCHAR
+  - name: f_mth04pctprof_1112
+    type: VARCHAR
+  - name: f_mth05numvalid_1112
+    type: VARCHAR
+  - name: f_mth05pctprof_1112
+    type: VARCHAR
+  - name: f_mth06numvalid_1112
+    type: VARCHAR
+  - name: f_mth06pctprof_1112
+    type: VARCHAR
+  - name: f_mth07numvalid_1112
+    type: VARCHAR
+  - name: f_mth07pctprof_1112
+    type: VARCHAR
+  - name: f_mth08numvalid_1112
+    type: VARCHAR
+  - name: f_mth08pctprof_1112
+    type: VARCHAR
+  - name: f_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: f_mthhspctprof_1112
+    type: VARCHAR
+  - name: m_mth03numvalid_1112
+    type: VARCHAR
+  - name: m_mth03pctprof_1112
+    type: VARCHAR
+  - name: m_mth04numvalid_1112
+    type: VARCHAR
+  - name: m_mth04pctprof_1112
+    type: VARCHAR
+  - name: m_mth05numvalid_1112
+    type: VARCHAR
+  - name: m_mth05pctprof_1112
+    type: VARCHAR
+  - name: m_mth06numvalid_1112
+    type: VARCHAR
+  - name: m_mth06pctprof_1112
+    type: VARCHAR
+  - name: m_mth07numvalid_1112
+    type: VARCHAR
+  - name: m_mth07pctprof_1112
+    type: VARCHAR
+  - name: m_mth08numvalid_1112
+    type: VARCHAR
+  - name: m_mth08pctprof_1112
+    type: VARCHAR
+  - name: m_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: m_mthhspctprof_1112
+    type: VARCHAR
+  - name: cwd_mth03numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth03pctprof_1112
+    type: VARCHAR
+  - name: cwd_mth04numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth04pctprof_1112
+    type: VARCHAR
+  - name: cwd_mth05numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth05pctprof_1112
+    type: VARCHAR
+  - name: cwd_mth06numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth06pctprof_1112
+    type: VARCHAR
+  - name: cwd_mth07numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth07pctprof_1112
+    type: VARCHAR
+  - name: cwd_mth08numvalid_1112
+    type: VARCHAR
+  - name: cwd_mth08pctprof_1112
+    type: VARCHAR
+  - name: cwd_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: cwd_mthhspctprof_1112
+    type: VARCHAR
+  - name: ecd_mth03numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth03pctprof_1112
+    type: VARCHAR
+  - name: ecd_mth04numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth04pctprof_1112
+    type: VARCHAR
+  - name: ecd_mth05numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth05pctprof_1112
+    type: VARCHAR
+  - name: ecd_mth06numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth06pctprof_1112
+    type: VARCHAR
+  - name: ecd_mth07numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth07pctprof_1112
+    type: VARCHAR
+  - name: ecd_mth08numvalid_1112
+    type: VARCHAR
+  - name: ecd_mth08pctprof_1112
+    type: VARCHAR
+  - name: ecd_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: ecd_mthhspctprof_1112
+    type: VARCHAR
+  - name: lep_mth03numvalid_1112
+    type: VARCHAR
+  - name: lep_mth03pctprof_1112
+    type: VARCHAR
+  - name: lep_mth04numvalid_1112
+    type: VARCHAR
+  - name: lep_mth04pctprof_1112
+    type: VARCHAR
+  - name: lep_mth05numvalid_1112
+    type: VARCHAR
+  - name: lep_mth05pctprof_1112
+    type: VARCHAR
+  - name: lep_mth06numvalid_1112
+    type: VARCHAR
+  - name: lep_mth06pctprof_1112
+    type: VARCHAR
+  - name: lep_mth07numvalid_1112
+    type: VARCHAR
+  - name: lep_mth07pctprof_1112
+    type: VARCHAR
+  - name: lep_mth08numvalid_1112
+    type: VARCHAR
+  - name: lep_mth08pctprof_1112
+    type: VARCHAR
+  - name: lep_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: lep_mthhspctprof_1112
+    type: VARCHAR
+  - name: hom_mth03numvalid_1112
+    type: VARCHAR
+  - name: hom_mth03pctprof_1112
+    type: VARCHAR
+  - name: hom_mth04numvalid_1112
+    type: VARCHAR
+  - name: hom_mth04pctprof_1112
+    type: VARCHAR
+  - name: hom_mth05numvalid_1112
+    type: VARCHAR
+  - name: hom_mth05pctprof_1112
+    type: VARCHAR
+  - name: hom_mth06numvalid_1112
+    type: VARCHAR
+  - name: hom_mth06pctprof_1112
+    type: VARCHAR
+  - name: hom_mth07numvalid_1112
+    type: VARCHAR
+  - name: hom_mth07pctprof_1112
+    type: VARCHAR
+  - name: hom_mth08numvalid_1112
+    type: VARCHAR
+  - name: hom_mth08pctprof_1112
+    type: VARCHAR
+  - name: hom_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: hom_mthhspctprof_1112
+    type: VARCHAR
+  - name: mig_mth03numvalid_1112
+    type: VARCHAR
+  - name: mig_mth03pctprof_1112
+    type: VARCHAR
+  - name: mig_mth04numvalid_1112
+    type: VARCHAR
+  - name: mig_mth04pctprof_1112
+    type: VARCHAR
+  - name: mig_mth05numvalid_1112
+    type: VARCHAR
+  - name: mig_mth05pctprof_1112
+    type: VARCHAR
+  - name: mig_mth06numvalid_1112
+    type: VARCHAR
+  - name: mig_mth06pctprof_1112
+    type: VARCHAR
+  - name: mig_mth07numvalid_1112
+    type: VARCHAR
+  - name: mig_mth07pctprof_1112
+    type: VARCHAR
+  - name: mig_mth08numvalid_1112
+    type: VARCHAR
+  - name: mig_mth08pctprof_1112
+    type: VARCHAR
+  - name: mig_mthhsnumvalid_1112
+    type: VARCHAR
+  - name: mig_mthhspctprof_1112
+    type: VARCHAR

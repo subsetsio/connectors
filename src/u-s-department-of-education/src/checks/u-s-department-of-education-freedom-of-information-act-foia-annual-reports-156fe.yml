@@ -1,0 +1,12 @@
+# compiled by `hardened compile-checks` — post-publish audit of `u-s-department-of-education-freedom-of-information-act-foia-annual-reports-156fe`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+temporal: original_received_date
+checks:
+  - kind: row_floor
+    min: 5268
+regression:
+  row_shrink_tolerance: 0.1
+  temporal_monotonic: true

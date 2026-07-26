@@ -1,0 +1,911 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-acs-ed-2013-2017-total-population-economic-characteristics-dp03-f2f29`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: row_number
+    type: BIGINT
+  - name: statefp
+    type: VARCHAR
+  - name: geoid
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: dp03_1e
+    type: VARCHAR
+  - name: dp03_1em
+    type: VARCHAR
+  - name: dp03_2e
+    type: VARCHAR
+  - name: dp03_2em
+    type: VARCHAR
+  - name: dp03_2p
+    type: VARCHAR
+  - name: dp03_2pm
+    type: VARCHAR
+  - name: dp03_3e
+    type: VARCHAR
+  - name: dp03_3em
+    type: VARCHAR
+  - name: dp03_3p
+    type: VARCHAR
+  - name: dp03_3pm
+    type: VARCHAR
+  - name: dp03_4e
+    type: VARCHAR
+  - name: dp03_4em
+    type: VARCHAR
+  - name: dp03_4p
+    type: VARCHAR
+  - name: dp03_4pm
+    type: VARCHAR
+  - name: dp03_5e
+    type: VARCHAR
+  - name: dp03_5em
+    type: VARCHAR
+  - name: dp03_5p
+    type: VARCHAR
+  - name: dp03_5pm
+    type: VARCHAR
+  - name: dp03_6e
+    type: VARCHAR
+  - name: dp03_6em
+    type: VARCHAR
+  - name: dp03_6p
+    type: VARCHAR
+  - name: dp03_6pm
+    type: VARCHAR
+  - name: dp03_7e
+    type: VARCHAR
+  - name: dp03_7em
+    type: VARCHAR
+  - name: dp03_7p
+    type: VARCHAR
+  - name: dp03_7pm
+    type: VARCHAR
+  - name: dp03_8e
+    type: VARCHAR
+  - name: dp03_8em
+    type: VARCHAR
+  - name: dp03_9p
+    type: VARCHAR
+  - name: dp03_9pm
+    type: VARCHAR
+  - name: dp03_10e
+    type: VARCHAR
+  - name: dp03_10em
+    type: VARCHAR
+  - name: dp03_11e
+    type: VARCHAR
+  - name: dp03_11em
+    type: VARCHAR
+  - name: dp03_11p
+    type: VARCHAR
+  - name: dp03_11pm
+    type: VARCHAR
+  - name: dp03_12e
+    type: VARCHAR
+  - name: dp03_12em
+    type: VARCHAR
+  - name: dp03_12p
+    type: VARCHAR
+  - name: dp03_12pm
+    type: VARCHAR
+  - name: dp03_13e
+    type: VARCHAR
+  - name: dp03_13em
+    type: VARCHAR
+  - name: dp03_13p
+    type: VARCHAR
+  - name: dp03_13pm
+    type: VARCHAR
+  - name: dp03_14e
+    type: VARCHAR
+  - name: dp03_14em
+    type: VARCHAR
+  - name: dp03_15e
+    type: VARCHAR
+  - name: dp03_15em
+    type: VARCHAR
+  - name: dp03_15p
+    type: VARCHAR
+  - name: dp03_15pm
+    type: VARCHAR
+  - name: dp03_16e
+    type: VARCHAR
+  - name: dp03_16em
+    type: VARCHAR
+  - name: dp03_17e
+    type: VARCHAR
+  - name: dp03_17em
+    type: VARCHAR
+  - name: dp03_17p
+    type: VARCHAR
+  - name: dp03_17pm
+    type: VARCHAR
+  - name: dp03_18e
+    type: VARCHAR
+  - name: dp03_18em
+    type: VARCHAR
+  - name: dp03_19e
+    type: VARCHAR
+  - name: dp03_19em
+    type: VARCHAR
+  - name: dp03_19p
+    type: VARCHAR
+  - name: dp03_19pm
+    type: VARCHAR
+  - name: dp03_20e
+    type: VARCHAR
+  - name: dp03_20em
+    type: VARCHAR
+  - name: dp03_20p
+    type: VARCHAR
+  - name: dp03_20pm
+    type: VARCHAR
+  - name: dp03_21e
+    type: VARCHAR
+  - name: dp03_21em
+    type: VARCHAR
+  - name: dp03_21p
+    type: VARCHAR
+  - name: dp03_21pm
+    type: VARCHAR
+  - name: dp03_22e
+    type: VARCHAR
+  - name: dp03_22em
+    type: VARCHAR
+  - name: dp03_22p
+    type: VARCHAR
+  - name: dp03_22pm
+    type: VARCHAR
+  - name: dp03_23e
+    type: VARCHAR
+  - name: dp03_23em
+    type: VARCHAR
+  - name: dp03_23p
+    type: VARCHAR
+  - name: dp03_23pm
+    type: VARCHAR
+  - name: dp03_24e
+    type: VARCHAR
+  - name: dp03_24em
+    type: VARCHAR
+  - name: dp03_24p
+    type: VARCHAR
+  - name: dp03_24pm
+    type: VARCHAR
+  - name: dp03_25e
+    type: VARCHAR
+  - name: dp03_25em
+    type: VARCHAR
+  - name: dp03_26e
+    type: VARCHAR
+  - name: dp03_26em
+    type: VARCHAR
+  - name: dp03_27e
+    type: VARCHAR
+  - name: dp03_27em
+    type: VARCHAR
+  - name: dp03_27p
+    type: VARCHAR
+  - name: dp03_27pm
+    type: VARCHAR
+  - name: dp03_28e
+    type: VARCHAR
+  - name: dp03_28em
+    type: VARCHAR
+  - name: dp03_28p
+    type: VARCHAR
+  - name: dp03_28pm
+    type: VARCHAR
+  - name: dp03_29e
+    type: VARCHAR
+  - name: dp03_29em
+    type: VARCHAR
+  - name: dp03_29p
+    type: VARCHAR
+  - name: dp03_29pm
+    type: VARCHAR
+  - name: dp03_30e
+    type: VARCHAR
+  - name: dp03_30em
+    type: VARCHAR
+  - name: dp03_30p
+    type: VARCHAR
+  - name: dp03_30pm
+    type: VARCHAR
+  - name: dp03_31e
+    type: VARCHAR
+  - name: dp03_31em
+    type: VARCHAR
+  - name: dp03_31p
+    type: VARCHAR
+  - name: dp03_31pm
+    type: VARCHAR
+  - name: dp03_32e
+    type: VARCHAR
+  - name: dp03_32em
+    type: VARCHAR
+  - name: dp03_33e
+    type: VARCHAR
+  - name: dp03_33em
+    type: VARCHAR
+  - name: dp03_33p
+    type: VARCHAR
+  - name: dp03_33pm
+    type: VARCHAR
+  - name: dp03_34e
+    type: VARCHAR
+  - name: dp03_34em
+    type: VARCHAR
+  - name: dp03_34p
+    type: VARCHAR
+  - name: dp03_34pm
+    type: VARCHAR
+  - name: dp03_35e
+    type: VARCHAR
+  - name: dp03_35em
+    type: VARCHAR
+  - name: dp03_35p
+    type: VARCHAR
+  - name: dp03_35pm
+    type: VARCHAR
+  - name: dp03_36e
+    type: VARCHAR
+  - name: dp03_36em
+    type: VARCHAR
+  - name: dp03_36p
+    type: VARCHAR
+  - name: dp03_36pm
+    type: VARCHAR
+  - name: dp03_37e
+    type: VARCHAR
+  - name: dp03_37em
+    type: VARCHAR
+  - name: dp03_37p
+    type: VARCHAR
+  - name: dp03_37pm
+    type: VARCHAR
+  - name: dp03_38e
+    type: VARCHAR
+  - name: dp03_38em
+    type: VARCHAR
+  - name: dp03_38p
+    type: VARCHAR
+  - name: dp03_38pm
+    type: VARCHAR
+  - name: dp03_39e
+    type: VARCHAR
+  - name: dp03_39em
+    type: VARCHAR
+  - name: dp03_39p
+    type: VARCHAR
+  - name: dp03_39pm
+    type: VARCHAR
+  - name: dp03_40e
+    type: VARCHAR
+  - name: dp03_40em
+    type: VARCHAR
+  - name: dp03_40p
+    type: VARCHAR
+  - name: dp03_40pm
+    type: VARCHAR
+  - name: dp03_41e
+    type: VARCHAR
+  - name: dp03_41em
+    type: VARCHAR
+  - name: dp03_41p
+    type: VARCHAR
+  - name: dp03_41pm
+    type: VARCHAR
+  - name: dp03_42e
+    type: VARCHAR
+  - name: dp03_42em
+    type: VARCHAR
+  - name: dp03_42p
+    type: VARCHAR
+  - name: dp03_42pm
+    type: VARCHAR
+  - name: dp03_43e
+    type: VARCHAR
+  - name: dp03_43em
+    type: VARCHAR
+  - name: dp03_43p
+    type: VARCHAR
+  - name: dp03_43pm
+    type: VARCHAR
+  - name: dp03_44e
+    type: VARCHAR
+  - name: dp03_44em
+    type: VARCHAR
+  - name: dp03_44p
+    type: VARCHAR
+  - name: dp03_44pm
+    type: VARCHAR
+  - name: dp03_45e
+    type: VARCHAR
+  - name: dp03_45em
+    type: VARCHAR
+  - name: dp03_45p
+    type: VARCHAR
+  - name: dp03_45pm
+    type: VARCHAR
+  - name: dp03_46e
+    type: VARCHAR
+  - name: dp03_46em
+    type: VARCHAR
+  - name: dp03_47e
+    type: VARCHAR
+  - name: dp03_47em
+    type: VARCHAR
+  - name: dp03_47p
+    type: VARCHAR
+  - name: dp03_47pm
+    type: VARCHAR
+  - name: dp03_48e
+    type: VARCHAR
+  - name: dp03_48em
+    type: VARCHAR
+  - name: dp03_48p
+    type: VARCHAR
+  - name: dp03_48pm
+    type: VARCHAR
+  - name: dp03_49e
+    type: VARCHAR
+  - name: dp03_49em
+    type: VARCHAR
+  - name: dp03_49p
+    type: VARCHAR
+  - name: dp03_49pm
+    type: VARCHAR
+  - name: dp03_50e
+    type: VARCHAR
+  - name: dp03_50em
+    type: VARCHAR
+  - name: dp03_50p
+    type: VARCHAR
+  - name: dp03_50pm
+    type: VARCHAR
+  - name: dp03_51e
+    type: VARCHAR
+  - name: dp03_51em
+    type: VARCHAR
+  - name: dp03_52e
+    type: VARCHAR
+  - name: dp03_52em
+    type: VARCHAR
+  - name: dp03_52p
+    type: VARCHAR
+  - name: dp03_52pm
+    type: VARCHAR
+  - name: dp03_53e
+    type: VARCHAR
+  - name: dp03_53em
+    type: VARCHAR
+  - name: dp03_53p
+    type: VARCHAR
+  - name: dp03_53pm
+    type: VARCHAR
+  - name: dp03_54e
+    type: VARCHAR
+  - name: dp03_54em
+    type: VARCHAR
+  - name: dp03_54p
+    type: VARCHAR
+  - name: dp03_54pm
+    type: VARCHAR
+  - name: dp03_55e
+    type: VARCHAR
+  - name: dp03_55em
+    type: VARCHAR
+  - name: dp03_55p
+    type: VARCHAR
+  - name: dp03_55pm
+    type: VARCHAR
+  - name: dp03_56e
+    type: VARCHAR
+  - name: dp03_56em
+    type: VARCHAR
+  - name: dp03_56p
+    type: VARCHAR
+  - name: dp03_56pm
+    type: VARCHAR
+  - name: dp03_57e
+    type: VARCHAR
+  - name: dp03_57em
+    type: VARCHAR
+  - name: dp03_57p
+    type: VARCHAR
+  - name: dp03_57pm
+    type: VARCHAR
+  - name: dp03_58e
+    type: VARCHAR
+  - name: dp03_58em
+    type: VARCHAR
+  - name: dp03_58p
+    type: VARCHAR
+  - name: dp03_58pm
+    type: VARCHAR
+  - name: dp03_59e
+    type: VARCHAR
+  - name: dp03_59em
+    type: VARCHAR
+  - name: dp03_59p
+    type: VARCHAR
+  - name: dp03_59pm
+    type: VARCHAR
+  - name: dp03_60e
+    type: VARCHAR
+  - name: dp03_60em
+    type: VARCHAR
+  - name: dp03_60p
+    type: VARCHAR
+  - name: dp03_60pm
+    type: VARCHAR
+  - name: dp03_61e
+    type: VARCHAR
+  - name: dp03_61em
+    type: VARCHAR
+  - name: dp03_61p
+    type: VARCHAR
+  - name: dp03_61pm
+    type: VARCHAR
+  - name: dp03_62e
+    type: VARCHAR
+  - name: dp03_62em
+    type: VARCHAR
+  - name: dp03_63e
+    type: VARCHAR
+  - name: dp03_63em
+    type: VARCHAR
+  - name: dp03_64e
+    type: VARCHAR
+  - name: dp03_64em
+    type: VARCHAR
+  - name: dp03_64p
+    type: VARCHAR
+  - name: dp03_64pm
+    type: VARCHAR
+  - name: dp03_65e
+    type: VARCHAR
+  - name: dp03_65em
+    type: VARCHAR
+  - name: dp03_66e
+    type: VARCHAR
+  - name: dp03_66em
+    type: VARCHAR
+  - name: dp03_66p
+    type: VARCHAR
+  - name: dp03_66pm
+    type: VARCHAR
+  - name: dp03_67e
+    type: VARCHAR
+  - name: dp03_67em
+    type: VARCHAR
+  - name: dp03_68e
+    type: VARCHAR
+  - name: dp03_68em
+    type: VARCHAR
+  - name: dp03_68p
+    type: VARCHAR
+  - name: dp03_68pm
+    type: VARCHAR
+  - name: dp03_69e
+    type: VARCHAR
+  - name: dp03_69em
+    type: VARCHAR
+  - name: dp03_70e
+    type: VARCHAR
+  - name: dp03_70em
+    type: VARCHAR
+  - name: dp03_70p
+    type: VARCHAR
+  - name: dp03_70pm
+    type: VARCHAR
+  - name: dp03_71e
+    type: VARCHAR
+  - name: dp03_71em
+    type: VARCHAR
+  - name: dp03_72e
+    type: VARCHAR
+  - name: dp03_72em
+    type: VARCHAR
+  - name: dp03_72p
+    type: VARCHAR
+  - name: dp03_72pm
+    type: VARCHAR
+  - name: dp03_73e
+    type: VARCHAR
+  - name: dp03_73em
+    type: VARCHAR
+  - name: dp03_74e
+    type: VARCHAR
+  - name: dp03_74em
+    type: VARCHAR
+  - name: dp03_74p
+    type: VARCHAR
+  - name: dp03_74pm
+    type: VARCHAR
+  - name: dp03_75e
+    type: VARCHAR
+  - name: dp03_75em
+    type: VARCHAR
+  - name: dp03_76e
+    type: VARCHAR
+  - name: dp03_76em
+    type: VARCHAR
+  - name: dp03_76p
+    type: VARCHAR
+  - name: dp03_76pm
+    type: VARCHAR
+  - name: dp03_77e
+    type: VARCHAR
+  - name: dp03_77em
+    type: VARCHAR
+  - name: dp03_77p
+    type: VARCHAR
+  - name: dp03_77pm
+    type: VARCHAR
+  - name: dp03_78e
+    type: VARCHAR
+  - name: dp03_78em
+    type: VARCHAR
+  - name: dp03_78p
+    type: VARCHAR
+  - name: dp03_78pm
+    type: VARCHAR
+  - name: dp03_79e
+    type: VARCHAR
+  - name: dp03_79em
+    type: VARCHAR
+  - name: dp03_79p
+    type: VARCHAR
+  - name: dp03_79pm
+    type: VARCHAR
+  - name: dp03_80e
+    type: VARCHAR
+  - name: dp03_80em
+    type: VARCHAR
+  - name: dp03_80p
+    type: VARCHAR
+  - name: dp03_80pm
+    type: VARCHAR
+  - name: dp03_81e
+    type: VARCHAR
+  - name: dp03_81em
+    type: VARCHAR
+  - name: dp03_81p
+    type: VARCHAR
+  - name: dp03_81pm
+    type: VARCHAR
+  - name: dp03_82e
+    type: VARCHAR
+  - name: dp03_82em
+    type: VARCHAR
+  - name: dp03_82p
+    type: VARCHAR
+  - name: dp03_82pm
+    type: VARCHAR
+  - name: dp03_83e
+    type: VARCHAR
+  - name: dp03_83em
+    type: VARCHAR
+  - name: dp03_83p
+    type: VARCHAR
+  - name: dp03_83pm
+    type: VARCHAR
+  - name: dp03_84e
+    type: VARCHAR
+  - name: dp03_84em
+    type: VARCHAR
+  - name: dp03_84p
+    type: VARCHAR
+  - name: dp03_84pm
+    type: VARCHAR
+  - name: dp03_85e
+    type: VARCHAR
+  - name: dp03_85em
+    type: VARCHAR
+  - name: dp03_85p
+    type: VARCHAR
+  - name: dp03_85pm
+    type: VARCHAR
+  - name: dp03_86e
+    type: VARCHAR
+  - name: dp03_86em
+    type: VARCHAR
+  - name: dp03_87e
+    type: VARCHAR
+  - name: dp03_87em
+    type: VARCHAR
+  - name: dp03_88e
+    type: VARCHAR
+  - name: dp03_88em
+    type: VARCHAR
+  - name: dp03_89e
+    type: VARCHAR
+  - name: dp03_89em
+    type: VARCHAR
+  - name: dp03_90e
+    type: VARCHAR
+  - name: dp03_90em
+    type: VARCHAR
+  - name: dp03_91e
+    type: VARCHAR
+  - name: dp03_91em
+    type: VARCHAR
+  - name: dp03_92e
+    type: VARCHAR
+  - name: dp03_92em
+    type: VARCHAR
+  - name: dp03_93e
+    type: VARCHAR
+  - name: dp03_93em
+    type: VARCHAR
+  - name: dp03_94e
+    type: VARCHAR
+  - name: dp03_94em
+    type: VARCHAR
+  - name: dp03_95e
+    type: VARCHAR
+  - name: dp03_95em
+    type: VARCHAR
+  - name: dp03_96e
+    type: VARCHAR
+  - name: dp03_96em
+    type: VARCHAR
+  - name: dp03_96p
+    type: VARCHAR
+  - name: dp03_96pm
+    type: VARCHAR
+  - name: dp03_97e
+    type: VARCHAR
+  - name: dp03_97em
+    type: VARCHAR
+  - name: dp03_97p
+    type: VARCHAR
+  - name: dp03_97pm
+    type: VARCHAR
+  - name: dp03_98e
+    type: VARCHAR
+  - name: dp03_98em
+    type: VARCHAR
+  - name: dp03_98p
+    type: VARCHAR
+  - name: dp03_98pm
+    type: VARCHAR
+  - name: dp03_99e
+    type: VARCHAR
+  - name: dp03_99em
+    type: VARCHAR
+  - name: dp03_99p
+    type: VARCHAR
+  - name: dp03_99pm
+    type: VARCHAR
+  - name: dp03_100e
+    type: VARCHAR
+  - name: dp03_100em
+    type: VARCHAR
+  - name: dp03_101e
+    type: VARCHAR
+  - name: dp03_101em
+    type: VARCHAR
+  - name: dp03_101p
+    type: VARCHAR
+  - name: dp03_101pm
+    type: VARCHAR
+  - name: dp03_102e
+    type: VARCHAR
+  - name: dp03_102em
+    type: VARCHAR
+  - name: dp03_103e
+    type: VARCHAR
+  - name: dp03_103em
+    type: VARCHAR
+  - name: dp03_104e
+    type: VARCHAR
+  - name: dp03_104em
+    type: VARCHAR
+  - name: dp03_105e
+    type: VARCHAR
+  - name: dp03_105em
+    type: VARCHAR
+  - name: dp03_105p
+    type: VARCHAR
+  - name: dp03_105pm
+    type: VARCHAR
+  - name: dp03_106e
+    type: VARCHAR
+  - name: dp03_106em
+    type: VARCHAR
+  - name: dp03_106p
+    type: VARCHAR
+  - name: dp03_106pm
+    type: VARCHAR
+  - name: dp03_107e
+    type: VARCHAR
+  - name: dp03_107em
+    type: VARCHAR
+  - name: dp03_107p
+    type: VARCHAR
+  - name: dp03_107pm
+    type: VARCHAR
+  - name: dp03_108e
+    type: VARCHAR
+  - name: dp03_108em
+    type: VARCHAR
+  - name: dp03_108p
+    type: VARCHAR
+  - name: dp03_108pm
+    type: VARCHAR
+  - name: dp03_109e
+    type: VARCHAR
+  - name: dp03_109em
+    type: VARCHAR
+  - name: dp03_110e
+    type: VARCHAR
+  - name: dp03_110em
+    type: VARCHAR
+  - name: dp03_110p
+    type: VARCHAR
+  - name: dp03_110pm
+    type: VARCHAR
+  - name: dp03_111e
+    type: VARCHAR
+  - name: dp03_111em
+    type: VARCHAR
+  - name: dp03_111p
+    type: VARCHAR
+  - name: dp03_111pm
+    type: VARCHAR
+  - name: dp03_112e
+    type: VARCHAR
+  - name: dp03_112em
+    type: VARCHAR
+  - name: dp03_112p
+    type: VARCHAR
+  - name: dp03_112pm
+    type: VARCHAR
+  - name: dp03_113e
+    type: VARCHAR
+  - name: dp03_113em
+    type: VARCHAR
+  - name: dp03_113p
+    type: VARCHAR
+  - name: dp03_113pm
+    type: VARCHAR
+  - name: dp03_114e
+    type: VARCHAR
+  - name: dp03_114em
+    type: VARCHAR
+  - name: dp03_115e
+    type: VARCHAR
+  - name: dp03_115em
+    type: VARCHAR
+  - name: dp03_115p
+    type: VARCHAR
+  - name: dp03_115pm
+    type: VARCHAR
+  - name: dp03_116e
+    type: VARCHAR
+  - name: dp03_116em
+    type: VARCHAR
+  - name: dp03_116p
+    type: VARCHAR
+  - name: dp03_116pm
+    type: VARCHAR
+  - name: dp03_117e
+    type: VARCHAR
+  - name: dp03_117em
+    type: VARCHAR
+  - name: dp03_117p
+    type: VARCHAR
+  - name: dp03_117pm
+    type: VARCHAR
+  - name: dp03_118e
+    type: VARCHAR
+  - name: dp03_118em
+    type: VARCHAR
+  - name: dp03_118p
+    type: VARCHAR
+  - name: dp03_118pm
+    type: VARCHAR
+  - name: dp03_119p
+    type: VARCHAR
+  - name: dp03_119pm
+    type: VARCHAR
+  - name: dp03_120p
+    type: VARCHAR
+  - name: dp03_120pm
+    type: VARCHAR
+  - name: dp03_121p
+    type: VARCHAR
+  - name: dp03_121pm
+    type: VARCHAR
+  - name: dp03_122p
+    type: VARCHAR
+  - name: dp03_122pm
+    type: VARCHAR
+  - name: dp03_123p
+    type: VARCHAR
+  - name: dp03_123pm
+    type: VARCHAR
+  - name: dp03_124p
+    type: VARCHAR
+  - name: dp03_124pm
+    type: VARCHAR
+  - name: dp03_125p
+    type: VARCHAR
+  - name: dp03_125pm
+    type: VARCHAR
+  - name: dp03_126p
+    type: VARCHAR
+  - name: dp03_126pm
+    type: VARCHAR
+  - name: dp03_127p
+    type: VARCHAR
+  - name: dp03_127pm
+    type: VARCHAR
+  - name: dp03_128p
+    type: VARCHAR
+  - name: dp03_128pm
+    type: VARCHAR
+  - name: dp03_129p
+    type: VARCHAR
+  - name: dp03_129pm
+    type: VARCHAR
+  - name: dp03_130p
+    type: VARCHAR
+  - name: dp03_130pm
+    type: VARCHAR
+  - name: dp03_131p
+    type: VARCHAR
+  - name: dp03_131pm
+    type: VARCHAR
+  - name: dp03_132p
+    type: VARCHAR
+  - name: dp03_132pm
+    type: VARCHAR
+  - name: dp03_133p
+    type: VARCHAR
+  - name: dp03_133pm
+    type: VARCHAR
+  - name: dp03_134p
+    type: VARCHAR
+  - name: dp03_134pm
+    type: VARCHAR
+  - name: dp03_135p
+    type: VARCHAR
+  - name: dp03_135pm
+    type: VARCHAR
+  - name: dp03_136p
+    type: VARCHAR
+  - name: dp03_136pm
+    type: VARCHAR
+  - name: dp03_137p
+    type: VARCHAR
+  - name: dp03_137pm
+    type: VARCHAR
+  - name: shape_length
+    type: VARCHAR
+  - name: shape_area
+    type: VARCHAR
+  - name: objectid
+    type: VARCHAR
+  - name: ncesid
+    type: VARCHAR
+  - name: stateabbrev
+    type: VARCHAR

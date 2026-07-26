@@ -1,0 +1,213 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `u-s-department-of-education-prior-year-reap-master-eligibility-spreadsheets`. Regenerate after model-verify.
+# caution: Catalog-level dataset may contain mixed measures, geography levels, or reporting periods; inspect column definitions before aggregating.
+key: []
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: package_title
+    type: VARCHAR
+  - name: resource_id
+    type: UUID
+  - name: resource_name
+    type: VARCHAR
+  - name: resource_format
+    type: VARCHAR
+  - name: resource_position
+    type: BIGINT
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: unnamed_0
+    type: VARCHAR
+  - name: unnamed_1
+    type: VARCHAR
+  - name: reap_fiscal_year_2022_eligibility_summary
+    type: VARCHAR
+  - name: unnamed_3
+    type: VARCHAR
+  - name: unnamed_4
+    type: VARCHAR
+  - name: as_of
+    type: VARCHAR
+  - name: "2022_04_04_00_00_00"
+    type: VARCHAR
+  - name: unnamed_7
+    type: VARCHAR
+  - name: unnamed_8
+    type: VARCHAR
+  - name: unnamed_9
+    type: VARCHAR
+  - name: unnamed_10
+    type: VARCHAR
+  - name: unnamed_11
+    type: VARCHAR
+  - name: unnamed_12
+    type: VARCHAR
+  - name: unnamed_13
+    type: VARCHAR
+  - name: unnamed_14
+    type: VARCHAR
+  - name: unnamed_15
+    type: VARCHAR
+  - name: unnamed_16
+    type: VARCHAR
+  - name: unnamed_17
+    type: VARCHAR
+  - name: nces_school_district_id
+    type: VARCHAR
+  - name: state_id
+    type: VARCHAR
+  - name: district_name
+    type: VARCHAR
+  - name: mailing_address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: st
+    type: VARCHAR
+  - name: zip
+    type: VARCHAR
+  - name: zip_4
+    type: VARCHAR
+  - name: phone
+    type: VARCHAR
+  - name: agency_type
+    type: VARCHAR
+  - name: srsa_eligible
+    type: VARCHAR
+  - name: rlis_eligible
+    type: VARCHAR
+  - name: rlis_eligible_based_on_hold_harmless
+    type: VARCHAR
+  - name: dual_eligible_for_both_srsa_and_rlis
+    type: VARCHAR
+  - name: srsa_estimated_allocation
+    type: VARCHAR
+  - name: rlis_estimated_allocation
+    type: VARCHAR
+  - name: srsa_application_received
+    type: VARCHAR
+  - name: final_program_cohort
+    type: VARCHAR
+  - name: school_locale_codes_srsa_and_rlis
+    type: VARCHAR
+  - name: defined_as_rural_by_state_srsa_and_rlis
+    type: VARCHAR
+  - name: srsa_rural_locale_codes_of_41_42_or_43
+    type: VARCHAR
+  - name: average_daily_attendance_srsa_small
+    type: VARCHAR
+  - name: county_pop_density_10_srsa_small
+    type: VARCHAR
+  - name: rlis_rural_locale_codes_of_32_33_41_42_or_43
+    type: VARCHAR
+  - name: pct_of_children_from_families_with_incomes_below_the_poverty_line_rlis_low_income
+    type: VARCHAR
+  - name: state_provided_saipe_equivalent_poverty_data_rlis_low_income
+    type: VARCHAR
+  - name: lea_met_rlis_low_income_criteria
+    type: VARCHAR
+  - name: fy20_title_iia_amount
+    type: VARCHAR
+  - name: fy20_title_iv_a_amount
+    type: VARCHAR
+  - name: primary_lea_contact_fname
+    type: VARCHAR
+  - name: primary_lea_contact_lname
+    type: VARCHAR
+  - name: secondary_lea_contact_fname
+    type: VARCHAR
+  - name: secondary_lea_contact_lname
+    type: VARCHAR
+  - name: future_leas
+    type: VARCHAR
+  - name: virtual_designation
+    type: VARCHAR
+  - name: duns
+    type: VARCHAR
+  - name: uei
+    type: VARCHAR
+  - name: nces_lea_id
+    type: VARCHAR
+  - name: school_locale_codes_fy22
+    type: VARCHAR
+  - name: defined_as_rural_by_state_fy22
+    type: VARCHAR
+  - name: average_daily_attendance_fy22
+    type: VARCHAR
+  - name: state_provided_saipe_equivalent_poverty_data_fy22
+    type: VARCHAR
+  - name: final_designation_for_fy22_rlis_and_hh
+    type: VARCHAR
+  - name: final_cohort_fy22
+    type: VARCHAR
+  - name: total_rlis_amount_received_from_state_for_fy_2019
+    type: VARCHAR
+  - name: field_name
+    type: VARCHAR
+  - name: worksheet_tab
+    type: VARCHAR
+  - name: column
+    type: VARCHAR
+  - name: data_source
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: reap_fiscal_year_2023_eligibility_summary
+    type: VARCHAR
+  - name: unnamed_2
+    type: VARCHAR
+  - name: as_of_02_26_2024
+    type: VARCHAR
+  - name: unnamed_6
+    type: VARCHAR
+  - name: state_lea_id
+    type: VARCHAR
+  - name: local_educational_agency_lea_name
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: fy_2023_srsa_eligible
+    type: VARCHAR
+  - name: fy_2023_rlis_eligible
+    type: VARCHAR
+  - name: fy_2023_rlis_eligible_based_on_hold_harmless
+    type: VARCHAR
+  - name: fy_2023_dual_eligible
+    type: VARCHAR
+  - name: fy_2023_srsa_application_received
+    type: VARCHAR
+  - name: fy_2023_final_program
+    type: VARCHAR
+  - name: school_locale_codes
+    type: VARCHAR
+  - name: defined_as_rural_by_state
+    type: VARCHAR
+  - name: average_daily_attendance
+    type: VARCHAR
+  - name: county_population_density_10
+    type: VARCHAR
+  - name: pct_of_children_from_families_with_incomes_below_the_poverty_line_saipe
+    type: VARCHAR
+  - name: state_provided_saipe_equivalent_poverty_data
+    type: VARCHAR
+  - name: fy_2021_title_ii_a_allocation_amount
+    type: VARCHAR
+  - name: fy_2021_title_iv_a_allocation_amount
+    type: VARCHAR
+  - name: primary_lea_contact_first_name
+    type: VARCHAR
+  - name: primary_lea_contact_last_name
+    type: VARCHAR
+  - name: secondary_lea_contact_first_name
+    type: VARCHAR
+  - name: secondary_lea_contact_last_name
+    type: VARCHAR
+  - name: fy_2023_srsa_pr_award_number
+    type: VARCHAR
+  - name: fy_2023_srsa_allocation
+    type: VARCHAR
+  - name: unnamed_31
+    type: VARCHAR
