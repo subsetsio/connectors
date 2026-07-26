@@ -9,6 +9,6 @@ SELECT
     "Season" AS season,
     "Personnel Type" AS personnel_type,
     CAST("Estimate (%)" AS DOUBLE) AS estimate,
-    "95% CI (%)" AS 95_ci,
+    "95% CI (%)" AS ci_95,
     CAST("Sample Size" AS BIGINT) AS sample_size
 FROM "cdc-xerk-pcm8"

@@ -10,6 +10,6 @@ SELECT
     "Dimension Type" AS dimension_type,
     "Dimension" AS dimension,
     "Estimate (%)" AS estimate,
-    "95% CI (%)" AS 95_ci,
+    "95% CI (%)" AS ci_95,
     CAST("Sample Size" AS BIGINT) AS sample_size
 FROM "cdc-h7pm-wmjc"

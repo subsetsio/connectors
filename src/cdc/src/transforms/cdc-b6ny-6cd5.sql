@@ -7,7 +7,7 @@ SELECT
     "Month" AS month,
     "Previous_flu_Season" AS previous_flu_season,
     "Jurisdiction" AS jurisdiction,
-    CAST("2025_26_estimate" AS DOUBLE) AS 2025_26_estimate,
+    CAST("estimate_2025_26" AS DOUBLE) AS estimate_2025_26,
     "Previous_Estimate" AS previous_estimate,
     "Difference_in_season_estimate" AS difference_in_season_estimate,
     "Numerator" AS numerator,

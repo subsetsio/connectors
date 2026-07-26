@@ -10,7 +10,7 @@ SELECT
     "Demographic" AS demographic,
     "Vaccination Status and Intent" AS vaccination_status_and_intent,
     CAST("Estimate (%)" AS DOUBLE) AS estimate,
-    "95% CI (%)" AS 95_ci,
+    "95% CI (%)" AS ci_95,
     CAST("Sample Size" AS BIGINT) AS sample_size,
     CAST("Suppression Flag" AS BIGINT) AS suppression_flag
 FROM "cdc-muep-c3qd"

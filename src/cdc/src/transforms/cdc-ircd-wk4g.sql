@@ -15,7 +15,7 @@ SELECT
     "Data Type" AS data_type,
     "Data Type Label" AS data_type_label,
     CAST("Data Value" AS DOUBLE) AS data_value,
-    "95 % CI" AS 95_ci,
+    "95 % CI" AS ci_95,
     CAST("Lower CI" AS DOUBLE) AS lower_ci,
     CAST("Upper CI" AS DOUBLE) AS upper_ci,
     "FIPS" AS fips,

@@ -8,7 +8,7 @@ SELECT
     CAST("Indicator Category" AS BIGINT) AS indicator_category,
     "Indicator Category Label" AS indicator_category_label,
     CAST("Estimate" AS DOUBLE) AS estimate,
-    "95% Confidence Interval" AS 95_confidence_interval,
+    "95% Confidence Interval" AS ci_95_confidence_interval,
     CAST("Sample Size" AS BIGINT) AS sample_size,
     CAST("Suppressed Flag" AS BIGINT) AS suppressed_flag,
     "Timeframe" AS timeframe
