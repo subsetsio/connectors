@@ -1,15 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    series_name                          AS series_id,
-    CAST(time_period AS DATE)            AS date,
-    CAST(obs_value AS DOUBLE)            AS value,
-    frequency,
-    unit,
-    CAST(unit_mult AS DOUBLE)            AS unit_multiplier,
-    NULLIF(currency, 'NA')               AS currency,
-    short_description,
-    long_description,
-    series_attributes
+    "release",
+    "dataset_id",
+    "series_name",
+    CAST("freq_code" AS BIGINT) AS freq_code,
+    "frequency",
+    "unit",
+    CAST("unit_mult" AS BIGINT) AS unit_mult,
+    "currency",
+    "short_description",
+    "long_description",
+    "series_attributes",
+    strptime("time_period", '%Y-%m-%d')::DATE AS time_period,
+    "obs_value",
+    "obs_status"
 FROM "federal-reserve-h15"
-WHERE obs_status = 'A'
-  AND obs_value IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY series_name, time_period) = 1

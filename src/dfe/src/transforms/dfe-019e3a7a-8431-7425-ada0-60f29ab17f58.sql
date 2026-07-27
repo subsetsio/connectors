@@ -20,7 +20,7 @@ SELECT
     "disadvantage_status",
     "breakdown_topic",
     "breakdown",
-    "cohort",
+    "cohort_count",
     "destination_group",
     "destination_description",
     "pupil_percent",

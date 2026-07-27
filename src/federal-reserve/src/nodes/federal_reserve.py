@@ -37,7 +37,6 @@ import pyarrow.parquet as pq
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     raw_parquet_writer,
@@ -251,35 +250,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per release. Uniform template: parse-and-type the
-# raw observations, derive a DATE, drop missing values. Same shape every release
-# because the raw schema is fixed across releases.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                release,
-                series_name,
-                freq_code,
-                frequency,
-                unit,
-                unit_mult,
-                currency,
-                short_description,
-                long_description,
-                series_attributes,
-                time_period,
-                TRY_CAST(time_period AS DATE) AS date,
-                obs_value AS value,
-                obs_status
-            FROM "{s.id}"
-            WHERE obs_value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

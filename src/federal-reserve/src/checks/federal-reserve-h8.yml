@@ -3,15 +3,17 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [series_id, date]
-temporal: date
+key: [dataset_id, series_name, time_period]
+temporal: time_period
 checks:
   - kind: unique
-    columns: [series_id, date]
+    columns: [dataset_id, series_name, time_period]
   - kind: not_null
-    col: series_id
+    col: dataset_id
   - kind: not_null
-    col: date
+    col: series_name
+  - kind: not_null
+    col: time_period
   - kind: row_floor
     min: 486516
 regression:

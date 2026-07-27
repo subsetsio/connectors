@@ -5,8 +5,8 @@ tests:
   - unique: feature_id
     reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
     certainty: 95
-  - row_count: {min: 1800000}
-    reason: floor set well under the count observed while authoring; a drop means partial loss
+  - row_count: {min: 1200000}
+    reason: ECCC restated the live climate-monthly catalog from ~1.91M to ~1.27M rows in July 2026; this floor remains below the advertised corpus while catching partial loss
     certainty: 90
   - not_null: CLIMATE_IDENTIFIER
   - unique: [CLIMATE_IDENTIFIER, LOCAL_YEAR, LOCAL_MONTH]
