@@ -119,6 +119,13 @@ def _cache_state_bytes(asset: str, data: Optional[bytes]) -> None:
 def _load_state_raw(asset: str) -> dict:
     """Load state including underscore-prefixed reserved keys (e.g. _metadata).
     Internal: used by record_completion and save_state's merge path."""
+    # During the dual-write rollout, a kernel pointer is authoritative when it
+    # exists; legacy state JSON remains the fallback for assets not migrated or
+    # not yet written by a kernel-enabled run.
+    from . import state_kernel
+    projected = state_kernel.projected_state(asset)
+    if projected is not None:
+        return projected
     if _STATE_CACHE is not None and asset in _STATE_CACHE:
         data = _STATE_CACHE[asset]
     else:
@@ -173,6 +180,8 @@ def save_state(asset: str, state_data: dict) -> str:
         **state_data,
         "_metadata": merged_meta,
     }
+    from . import state_kernel
+    state_kernel.record_state_snapshot(asset, payload)
     uri = state_uri(asset)
     data = json.dumps(payload, indent=2).encode("utf-8")
     _write_bytes(uri, data)
@@ -208,6 +217,8 @@ def record_completion(asset: str) -> str:
         **user_keys,
         "_metadata": merged_meta,
     }
+    from . import state_kernel
+    state_kernel.record_state_snapshot(asset, payload)
     uri = state_uri(asset)
     data = json.dumps(payload, indent=2).encode("utf-8")
     _write_bytes(uri, data)

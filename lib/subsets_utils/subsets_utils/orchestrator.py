@@ -632,6 +632,26 @@ class DAG:
         if result["status"] == "done" and not task_state.get("outcome"):
             task_state["outcome"] = self._resolve_outcome(task_id, raw_outcome)
 
+        # One immutable operation record at the existing supervisor commit
+        # boundary. Connector functions remain unaware of the state backend;
+        # their child-process tracking snapshot supplies the evidence refs.
+        from . import state_kernel
+        spec = self._specs[task_id]
+        if isinstance(spec, CheckNodeSpec):
+            operation, stage = "runtime_check", "model"
+        elif isinstance(spec, SqlNodeSpec):
+            operation, stage = "publish", "model"
+        else:
+            operation, stage = "runtime_node", "download"
+        if result["status"] == "failed":
+            kernel_outcome = "failed"
+        elif result.get("needs_continuation"):
+            kernel_outcome = "needs_continuation"
+        else:
+            kernel_outcome = "succeeded"
+        state_kernel.record_node_result(
+            task_id, result, operation=operation, stage=stage, outcome=kernel_outcome)
+
     def _resolve_outcome(self, task_id: str, raw_outcome: str | None) -> str:
         """Classify a successfully-executed node's run outcome.
 

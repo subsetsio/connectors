@@ -13,7 +13,9 @@ Authoring order is download → maintain. Before maintain has run, there are
 no MaintainSpecs and every NodeSpec executes. That's the right default for
 the first crawl.
 """
+import os
 import sys
+import time
 from pathlib import Path
 
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
@@ -23,6 +25,11 @@ from subsets_utils import load_nodes, validate_environment, run_health_tests
 
 
 def main():
+    # Stamp the leg's start so node subprocesses (spawned children inherit the
+    # env) can measure the time left before the DAG deadline and hand a huge
+    # table off for a continuation leg instead of being killed mid-fetch.
+    # setdefault: one value per leg process, inherited unchanged by every node.
+    os.environ.setdefault("BOI_RUN_STARTED_AT", str(time.time()))
     validate_environment()
     workflow = load_nodes()
     workflow.run()

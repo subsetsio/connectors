@@ -36,7 +36,7 @@ columns:
   - name: firebehaviorgeneral
     type: VARCHAR
   - name: firebehaviorgeneral1
-    type: JSON
+    type: VARCHAR
   - name: firebehaviorgeneral2
     type: VARCHAR
   - name: firebehaviorgeneral3
@@ -144,17 +144,17 @@ columns:
   - name: poolandownerkind
     type: VARCHAR
   - name: poolegaldescprincipalmeridian
-    type: JSON
+    type: VARCHAR
   - name: poolegaldescqtr
     type: JSON
   - name: poolegaldescqtrqtr
     type: JSON
   - name: poolegaldescrange
-    type: JSON
+    type: VARCHAR
   - name: poolegaldescsection
-    type: JSON
+    type: BIGINT
   - name: poolegaldesctownship
-    type: JSON
+    type: VARCHAR
   - name: poopredictiveserviceareaid
     type: VARCHAR
   - name: pooprotectingagency
@@ -190,9 +190,9 @@ columns:
   - name: iscpxchild
     type: BIGINT
   - name: cpxname
-    type: VARCHAR
+    type: JSON
   - name: cpxid
-    type: VARCHAR
+    type: JSON
   - name: sourceglobalid
     type: VARCHAR
   - name: globalid

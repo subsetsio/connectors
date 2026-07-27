@@ -117,8 +117,14 @@ def maybe_retrigger(run_id: str) -> bool:
     # The single-repo connectors workflow requires `slug`; carry the DAG
     # params too so the continuation run resumes with identical scope.
     inputs = {"run_id": run_id, "slug": get_connector_name()}
-    for env_key, input_key in (("DAG_TARGET", "dag_target"),
-                               ("DAG_ON_FAILURE", "dag_on_failure")):
+    for env_key, input_key in (
+        ("DAG_TARGET", "dag_target"),
+        ("DAG_ON_FAILURE", "dag_on_failure"),
+        ("SUBSETS_RESET_CHECK_BASELINE", "subsets_reset_check_baseline"),
+        ("R2_PREFIX", "r2_prefix"),
+        ("SUBSETS_STATE_KERNEL_ENABLED", "state_kernel_enabled"),
+        ("SUBSETS_STATE_KERNEL_ROOT", "state_kernel_root"),
+    ):
         val = os.environ.get(env_key)
         if val:
             inputs[input_key] = val

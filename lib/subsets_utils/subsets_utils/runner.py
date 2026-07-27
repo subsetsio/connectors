@@ -339,6 +339,12 @@ _CONNECTOR_GLOBAL_NAMES = (
     "R2_ACCESS_KEY_ID",
     "R2_SECRET_ACCESS_KEY",
     "R2_BUCKET_NAME",
+    # Namespace/protocol selectors are not credentials, but they must survive
+    # the bundled-secret scrub whenever an installation also stores them as
+    # Actions secrets. Losing one mid-run would split evidence across roots.
+    "R2_PREFIX",
+    "SUBSETS_STATE_KERNEL_ENABLED",
+    "SUBSETS_STATE_KERNEL_ROOT",
 )
 
 

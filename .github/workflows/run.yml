@@ -25,6 +25,18 @@ on:
         description: "Set SUBSETS_RESET_CHECK_BASELINE=1 for one post-publish audit run"
         required: false
         type: string
+      r2_prefix:
+        description: "Optional isolated R2 namespace (for state-kernel/E2E runs)"
+        required: false
+        type: string
+      state_kernel_enabled:
+        description: "Enable immutable state-kernel dual writes (1/0)"
+        required: false
+        type: string
+      state_kernel_root:
+        description: "Optional explicit state-kernel root (normally s3://...)"
+        required: false
+        type: string
 
 concurrency:
   group: run-${{ inputs.slug }}
@@ -72,6 +84,9 @@ jobs:
           DAG_TARGET: ${{ inputs.dag_target }}
           DAG_ON_FAILURE: ${{ inputs.dag_on_failure }}
           SUBSETS_RESET_CHECK_BASELINE: ${{ inputs.subsets_reset_check_baseline }}
+          R2_PREFIX: ${{ inputs.r2_prefix }}
+          SUBSETS_STATE_KERNEL_ENABLED: ${{ inputs.state_kernel_enabled }}
+          SUBSETS_STATE_KERNEL_ROOT: ${{ inputs.state_kernel_root }}
           # Single-repo: every Actions secret arrives as one JSON blob, but it
           # is consumed by the TRUSTED supervisor (subsets_utils.runner) only.
           # The supervisor scrubs every blob key from the connector subprocess
@@ -93,11 +108,19 @@ jobs:
           RESOLVED_RUN_ID: ${{ steps.run.outputs.resolved_run_id }}
           DAG_TARGET: ${{ inputs.dag_target }}
           DAG_ON_FAILURE: ${{ inputs.dag_on_failure }}
+          SUBSETS_RESET_CHECK_BASELINE: ${{ inputs.subsets_reset_check_baseline }}
+          R2_PREFIX: ${{ inputs.r2_prefix }}
+          SUBSETS_STATE_KERNEL_ENABLED: ${{ inputs.state_kernel_enabled }}
+          SUBSETS_STATE_KERNEL_ROOT: ${{ inputs.state_kernel_root }}
         run: |
           set -e
           args=(-f "slug=$SLUG" -f "run_id=$RESOLVED_RUN_ID")
           [ -n "$DAG_TARGET" ] && args+=(-f "dag_target=$DAG_TARGET")
           [ -n "$DAG_ON_FAILURE" ] && args+=(-f "dag_on_failure=$DAG_ON_FAILURE")
+          [ -n "$SUBSETS_RESET_CHECK_BASELINE" ] && args+=(-f "subsets_reset_check_baseline=$SUBSETS_RESET_CHECK_BASELINE")
+          [ -n "$R2_PREFIX" ] && args+=(-f "r2_prefix=$R2_PREFIX")
+          [ -n "$SUBSETS_STATE_KERNEL_ENABLED" ] && args+=(-f "state_kernel_enabled=$SUBSETS_STATE_KERNEL_ENABLED")
+          [ -n "$SUBSETS_STATE_KERNEL_ROOT" ] && args+=(-f "state_kernel_root=$SUBSETS_STATE_KERNEL_ROOT")
           for i in 1 2 3; do
             if gh workflow run run.yml --repo "$GITHUB_REPOSITORY" "${args[@]}"; then
               echo "Fallback retrigger dispatched (attempt $i)"

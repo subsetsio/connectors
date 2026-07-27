@@ -1,0 +1,38 @@
+spec_id: arxiv-categories
+status: active
+# Raw = arXiv's current subject taxonomy from https://arxiv.org/category_taxonomy.
+# One row per category, with its group/archive context and description.
+tests:
+  - row_count: {min: 150}
+    reason: arXiv's public taxonomy currently contains more than 150 subject categories across eight groups
+    certainty: 90
+
+  - unique: category_id
+    reason: category ids such as cs.AI and astro-ph.CO are the taxonomy grain
+    certainty: 98
+
+  - not_null: category_id
+    reason: every taxonomy row is keyed by an arXiv category id
+    certainty: 98
+  - not_null: category_name
+    reason: every category has a display name in the taxonomy
+    certainty: 98
+  - not_null: group_name
+    reason: the taxonomy groups categories into top-level subject areas
+    certainty: 95
+  - not_null: archive_id
+    reason: every category belongs to an archive prefix
+    certainty: 95
+  - not_null: description
+    reason: the taxonomy page carries a paragraph for every category, sometimes a placeholder
+    certainty: 90
+    severity: warn
+
+  - matches: {col: category_id, pattern: '^[a-z][a-z0-9-]*(\.[A-Z]{2})?$'}
+    reason: arXiv category ids are either legacy archive ids or archive.subcategory codes
+    certainty: 90
+    severity: warn
+
+  - distinct_count: {col: group_name, min: 8}
+    reason: the taxonomy spans the standard arXiv groups, including CS, math, physics, q-bio, q-fin, stat, eess, and econ
+    certainty: 90

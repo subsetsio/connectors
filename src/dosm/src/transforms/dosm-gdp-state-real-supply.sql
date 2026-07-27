@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 SELECT
     "series",
-    "date",
+    CAST("date" AS TIMESTAMP) AS "date",
     "state",
     "sector",
     "value"

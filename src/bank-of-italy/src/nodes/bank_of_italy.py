@@ -70,12 +70,51 @@ delta query (each CUBE carries LAST_UPD, but there is no server-side
 statistics — are therefore picked up for free. No MAINTAIN_SPECS: the only
 freshness signal is per-series LAST_UPD, and reading it costs one HTTP call per
 table, i.e. the same round trips a refetch costs, so gating on it buys nothing.
+
+Convergence (2026-07-26, problems 089/007). Two failure modes wedged the
+continuation chain for 17 days and both are handled here rather than by
+retrying harder:
+
+  * A multi-chunk table that could not finish inside one leg used to restart
+    from chunk 0 every leg (the single `raw_writer` covered the whole table).
+    Chunked tables now write one NAMED raw fragment per chunk
+    (`part-<idx>`), check the leg's remaining time between chunks, and return
+    True (the orchestrator's pagination hand-off) when the per-node slice of
+    the budget is spent — the staged fragments commit, and the next leg
+    resumes past them via `list_raw_fragments` scoped to this run_id. This is
+    the statistics-denmark pattern; the chain guard reads the growing raw
+    listing as progress.
+  * The rekey of the biggest multidimensional cubes is INFEASIBLE upstream:
+    InfoStat computes the rekeyed pivot server-side and 500s after ~360s
+    (measured on TDB20290, 502k cells, from a cold IP with zero load — it is
+    deterministic, not rate limiting; date-range and pagination hints in
+    TABLEREQUEST are ignored). The old retry stack (6 transient_retry x 4
+    http-client attempts x 600s read timeout) turned each such cube into a
+    multi-hour burn that ate the whole leg. Now: HTTP-layer retries are
+    disabled for this connector (HTTP_RETRY_ATTEMPTS=1 — the decorators here
+    own the policy), the rekey request gets ONE slow attempt (a 500 after
+    >120s of server compute is the ceiling, not a lapsed session, and raises
+    RekeyInfeasible immediately), and a single-series cube whose observation
+    count already exceeds REKEY_MAX_SINGLE_SERIES fails before issuing the
+    doomed request at all. Cubes that prove infeasible are `waive-spec`
+    material (precedent: tdb10295).
 """
 
 import json
+import os
+import time
 
 from constants import TABLE_BY_SPEC
-from subsets_utils import NodeSpec, get, post, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get, list_raw_fragments, post, raw_writer, transient_retry
+from subsets_utils import raw_manifest
+
+# The shared http client retries 429/5xx and transient network errors
+# HTTP_RETRY_ATTEMPTS times per request. InfoStat's failure modes are either
+# cheap (lapsed session — reseed and go) or deterministic (the rekey compute
+# ceiling), so blind per-request retries only multiply the burn; the
+# decorators in this module own the whole retry policy. setdefault: an
+# operator can still override per run.
+os.environ.setdefault("HTTP_RETRY_ATTEMPTS", "1")
 
 SLUG = "bank-of-italy"
 HOME = "https://infostat.bancaditalia.it/inquiry/home"
@@ -85,10 +124,61 @@ HOME = "https://infostat.bancaditalia.it/inquiry/home"
 OBS_BUDGET = 300_000
 MAX_SERIES_PER_CALL = 200
 
+# Cubes whose default layout drops dimensions must be re-requested rekeyed,
+# and the rekeyed pivot is a server-side compute that hard-500s at ~360s.
+# tdb10224 (124k cells) completes; TDB20290 (502k) does not. Chunks for
+# rekey-class tables are sized to this smaller budget, and a SINGLE series
+# past REKEY_MAX_SINGLE_SERIES is failed upfront as upstream-impractical
+# instead of burning a leg discovering it again.
+REKEY_OBS_BUDGET = 100_000
+REKEY_MAX_SINGLE_SERIES = 200_000
+
 # A single series that alone blows this many observations means the source grew
 # a shape we have never seen (the current worst is ~368k). Raise rather than
 # silently OOM or truncate.
 MAX_OBS_PER_SERIES = 2_000_000
+
+# Leg-budget continuation (see module docstring). One node may spend at most
+# _LEG_FRACTION of the leg's DAG_TIME_BUDGET, and never schedule a new chunk
+# request inside the last _DEADLINE_MARGIN_S before the parent's deadline.
+_RUN_STARTED_AT_ENV = "BOI_RUN_STARTED_AT"  # exported by src/main.py per leg
+_DEFAULT_TIME_BUDGET_S = 20_700.0
+_LEG_FRACTION = 0.5
+_DEADLINE_MARGIN_S = 15 * 60
+
+
+class RekeyInfeasible(RuntimeError):
+    """The rekeyed pivot for this cube exceeds InfoStat's server compute
+    ceiling — permanent for the cube at its current size; waive-spec it."""
+
+
+def _leg_deadline() -> float:
+    """`time.time()` after which this node must stop starting new chunk
+    requests, commit what it has, and hand off for a continuation leg."""
+    try:
+        budget = float(os.environ.get("DAG_TIME_BUDGET", "") or 0) or _DEFAULT_TIME_BUDGET_S
+    except ValueError:
+        budget = _DEFAULT_TIME_BUDGET_S
+    nominal = budget * _LEG_FRACTION
+    try:
+        started = float(os.environ.get(_RUN_STARTED_AT_ENV, "") or 0) or None
+    except ValueError:
+        started = None
+    if started is None:
+        return time.time() + nominal
+    remaining = budget - max(0.0, time.time() - started) - _DEADLINE_MARGIN_S
+    return time.time() + max(0.0, min(nominal, remaining))
+
+
+def _current_run_fragments(asset: str) -> set[str]:
+    """Named fragments of this asset already COMMITTED under this run_id —
+    the resume done-set. Never a directory listing (an uncommitted object
+    does not exist; see list_raw_fragments)."""
+    run_id = os.environ.get("RUN_ID", "unknown")
+    return {
+        key for key, meta in list_raw_fragments(asset, "ndjson.gz").items()
+        if meta.get("run_id") == run_id
+    }
 
 _CUBEID, _VALUE = "CUBEID", "VALORE"
 # Date columns, most authoritative first. Standard tables carry DATA_OSS; the
@@ -117,8 +207,8 @@ def _seed_session() -> None:
     get(HOME, params={"service": "HOMEPAGE"}, timeout=(10.0, 60.0))
 
 
-@transient_retry()
-def _service(service: str, data, timeout=(10.0, 600.0)):
+@transient_retry(attempts=4, min_wait=2, max_wait=30)
+def _service(service: str, data, timeout=(10.0, 480.0)):
     resp = post(HOME, params={"calltype": "asin", "service": service}, data=data, timeout=timeout)
     if resp.status_code == 500:
         # "Risorsa Protetta" — the session lapsed. Reseed, then let the retry fire.
@@ -126,6 +216,34 @@ def _service(service: str, data, timeout=(10.0, 600.0)):
     resp.raise_for_status()
     body = resp.content.decode("utf-8-sig").strip()
     return json.loads(body) if body else None
+
+
+def _service_rekey(data) -> dict | None:
+    """The rekey POST, with its own policy instead of the layered retries.
+
+    A 500 answered FAST is a lapsed session — reseed and try once more. A 500
+    after minutes of server compute is InfoStat's pivot ceiling (measured:
+    ~360s then 500, deterministically, for cubes past ~200k cells) — retrying
+    is pure burn, so it raises RekeyInfeasible immediately."""
+    for attempt in (1, 2):
+        started = time.monotonic()
+        resp = post(HOME, params={"calltype": "asin", "service": "PROSPETTODATI"},
+                    data=data, timeout=(10.0, 480.0))
+        if resp.status_code == 500:
+            elapsed = time.monotonic() - started
+            if elapsed > 120.0:
+                raise RekeyInfeasible(
+                    f"rekeyed PROSPETTODATI computed for {elapsed:.0f}s then 500 — "
+                    "the cube exceeds InfoStat's server-side pivot ceiling "
+                    "(upstream-impractical; waive-spec this table)"
+                )
+            _seed_session()
+            if attempt == 2:
+                resp.raise_for_status()
+            continue
+        resp.raise_for_status()
+        body = resp.content.decode("utf-8-sig").strip()
+        return json.loads(body) if body else None
 
 
 def _resolve_table(table_id: str) -> dict:
@@ -159,10 +277,10 @@ def _member_series(node: dict) -> list[str]:
 _NOT_A_LAYOUT = {"result", "graphResponse", "descriptions"}
 
 
-def _post_prospetto(cube_ids: list[str], extra: dict | None = None) -> dict:
+def _post_prospetto(cube_ids: list[str], extra: dict | None = None, *, rekey: bool = False) -> dict:
     body = {"CUBEIDS": ";".join(cube_ids), "VIEW_MODE": "table", "GRAPH_MODE": "false"}
     body.update(extra or {})
-    payload = _service("PROSPETTODATI", body)
+    payload = _service_rekey(body) if rekey else _service("PROSPETTODATI", body)
     if (payload or {}).get("GRAPHDATA") is None:
         raise RuntimeError(f"PROSPETTODATI returned no GRAPHDATA for {len(cube_ids)} series")
     return payload
@@ -187,7 +305,8 @@ def _rekey(cube_ids: list[str], payload: dict) -> dict:
     axis["AXIS_OUT"] = []
     axis["AXIS_FILTERS"] = []
     rekeyed = _post_prospetto(
-        cube_ids, {"TABLEREQUEST": json.dumps(layout), "keepTableRequest": "true"}
+        cube_ids, {"TABLEREQUEST": json.dumps(layout), "keepTableRequest": "true"},
+        rekey=True,
     )
     still_dropped = _dropped_dims(rekeyed)
     if still_dropped:
@@ -195,6 +314,9 @@ def _rekey(cube_ids: list[str], payload: dict) -> dict:
             f"PROSPETTODATI kept {still_dropped} off the pivot axes after a rekey — "
             "its observations would be unattributable"
         )
+    # Tag the payload so callers can tell the cube is rekey-class even though
+    # the rekeyed response itself no longer shows dropped dims.
+    rekeyed["_REKEYED"] = True
     return rekeyed
 
 
@@ -254,10 +376,16 @@ def _split_composite(values: dict) -> dict:
 
 
 def _chunk_size(table_id: str, cube_ids: list[str]) -> tuple[int, dict]:
-    """Size the chunk to OBS_BUDGET by measuring one series first.
+    """Size the chunk by measuring one series first (OBS_BUDGET, or the
+    smaller REKEY_OBS_BUDGET when the probe shows the cube needs a rekey).
 
     Returns the chunk size and the probe's payload, so the probe is not wasted.
-    """
+    The probe runs BEFORE the infeasibility check on purpose: a rekey-class
+    single series past REKEY_MAX_SINGLE_SERIES fails here in ~1 cheap request
+    instead of discovering the server's pivot ceiling the slow way. NOTE the
+    probe itself is rekeyed by `_prospetto`; for a single-member cube past the
+    ceiling that one rekey attempt raises RekeyInfeasible first — also fine,
+    also fast."""
     probe = _prospetto(cube_ids[:1])
     per_series = len(probe["GRAPHDATA"].get("observations", [])) or 1
     if per_series > MAX_OBS_PER_SERIES:
@@ -265,7 +393,16 @@ def _chunk_size(table_id: str, cube_ids: list[str]) -> tuple[int, dict]:
             f"{table_id}: one series carries {per_series} observations, past the "
             f"{MAX_OBS_PER_SERIES} ceiling — the source changed shape"
         )
-    return max(1, min(MAX_SERIES_PER_CALL, OBS_BUDGET // per_series)), probe
+    rekey_class = bool(probe.get("_REKEYED"))
+    budget = REKEY_OBS_BUDGET if rekey_class else OBS_BUDGET
+    if rekey_class and per_series > REKEY_MAX_SINGLE_SERIES:
+        raise RekeyInfeasible(
+            f"{table_id}: a single series carries {per_series} rekey-class "
+            f"observations (> {REKEY_MAX_SINGLE_SERIES}) — the rekeyed pivot "
+            "exceeds InfoStat's server ceiling (upstream-impractical; "
+            "waive-spec this table)"
+        )
+    return max(1, min(MAX_SERIES_PER_CALL, budget // per_series)), probe
 
 
 def _clean(raw):
@@ -344,7 +481,24 @@ def _schema(payload: dict, label_dims: list[str]) -> list[str]:
     return sorted(keys)
 
 
-def fetch_one(node_id: str) -> None:
+def _write_payload(asset: str, table_id: str, payload: dict, schema: list[str],
+                   label_dims: list[str], fragment: str | None) -> int:
+    """Stream one payload's rows to a raw NDJSON object (whole asset when
+    `fragment` is None, a named fragment otherwise). Returns rows written."""
+    written = 0
+    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip", fragment=fragment) as out:
+        for row in _rows(table_id, payload, schema, label_dims):
+            out.write(json.dumps(row, separators=(",", ":")) + "\n")
+            written += 1
+    return written
+
+
+def fetch_one(node_id: str) -> bool | None:
+    """Fetch one table. Returns True when this node's slice of the leg budget
+    is spent with chunks still unfetched — the orchestrator's pagination
+    hand-off: the fragments staged so far commit, the run finalizes as
+    needs_continuation, and the next leg (same run_id) resumes past them.
+    Returns None when the table is fully drained."""
     asset = node_id
     table_id = TABLE_BY_SPEC[node_id.removeprefix(f"{SLUG}-")]
     if table_id in UPSTREAM_IMPRACTICAL_TABLES:
@@ -353,29 +507,76 @@ def fetch_one(node_id: str) -> None:
         )
 
     _seed_session()
-    cube_ids = _member_series(_resolve_table(table_id))
+    # Sorted for a deterministic chunk -> fragment mapping across legs. A
+    # membership change BETWEEN legs of one run can shift chunk boundaries
+    # (accepted risk, same as statistics-denmark: upstream adds mid-run are
+    # rare, and the next full run re-pulls everything anyway).
+    cube_ids = sorted(_member_series(_resolve_table(table_id)))
     if not cube_ids:
         raise RuntimeError(f"{table_id}: table resolved but exposes no member series")
 
     size, probe = _chunk_size(table_id, cube_ids)
+    chunks = [cube_ids[start:start + size] for start in range(0, len(cube_ids), size)]
 
+    # Schema fixed from the probe so every fragment of the asset carries the
+    # same column set (DuckDB reads them as one relation). Standard tables
+    # have one key-set table-wide and DOMAINELEMENTS is cube-level, so the
+    # probe's single series determines both; drift raises in `_rows`.
+    label_dims = _label_dims(probe)
+    schema = _schema(probe, label_dims)
+
+    if len(chunks) == 1:
+        # Single-chunk table (the 175 light tables and the registry tables):
+        # one whole-asset write, exactly the pre-2026-07-26 behavior. The
+        # registry tables vary keys row-to-row, so their schema comes from the
+        # full payload rather than the probe.
+        payload = probe if size == 1 else _prospetto(chunks[0])
+        label_dims = _label_dims(payload)
+        schema = _schema(payload, label_dims)
+        written = _write_payload(asset, table_id, payload, schema, label_dims, None)
+        if not written:
+            raise RuntimeError(
+                f"{table_id}: {len(cube_ids)} series resolved but no observations returned"
+            )
+        return None
+
+    done = _current_run_fragments(asset)
+    if not done:
+        # Fresh (re)fetch of a chunked table: stage removal of the asset's
+        # previous manifest entry (a prior run's whole-asset object, or stale
+        # part-* keys from a run with more chunks) so the committed fragment
+        # set is exactly this run's chunks — never a mix of vintages. Ops are
+        # applied in order on node success: delete first, then this run's
+        # puts. Objects themselves are untouched (run-scoped, gc-raw's job).
+        raw_manifest.stage_delete(asset, "ndjson.gz")
+    deadline = _leg_deadline()
     written = 0
-    schema = label_dims = None
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
-        for start in range(0, len(cube_ids), size):
-            chunk = cube_ids[start : start + size]
-            # The probe already fetched the first series; reuse it when it is the
-            # whole first chunk, otherwise re-request the chunk as a unit.
-            payload = probe if (start == 0 and size == 1) else _prospetto(chunk)
-            if schema is None:
-                label_dims = _label_dims(payload)
-                schema = _schema(payload, label_dims)
-            for row in _rows(table_id, payload, schema, label_dims):
-                out.write(json.dumps(row, separators=(",", ":")) + "\n")
-                written += 1
+    requests_this_leg = 0
+    for idx, chunk in enumerate(chunks):
+        fragment = f"part-{idx:05d}"
+        if fragment in done:
+            continue
+        # Out of this leg's slice with chunks still to fetch: commit what
+        # landed and request a continuation leg. Always make at least one
+        # request first so every leg advances (guards the chain-guard
+        # no-progress brake).
+        if requests_this_leg and time.time() >= deadline:
+            print(f"  -> {table_id}: leg budget spent at chunk {idx}/{len(chunks)} "
+                  f"— committing {requests_this_leg} fragment(s) and requesting continuation")
+            return True
+        payload = probe if (idx == 0 and size == 1) else _prospetto(chunk)
+        requests_this_leg += 1
+        if payload["GRAPHDATA"].get("observations"):
+            written += _write_payload(asset, table_id, payload, schema, label_dims, fragment)
+        # else: no fragment written — an empty NDJSON object would break the
+        # multi-file DuckDB read; the chunk is simply re-asked next leg (cheap).
+        time.sleep(0.5)  # be polite: InfoStat load-sheds under sustained hammering
 
-    if not written:
-        raise RuntimeError(f"{table_id}: {len(cube_ids)} series resolved but no observations returned")
+    if not written and not done:
+        raise RuntimeError(
+            f"{table_id}: {len(cube_ids)} series resolved but no observations returned"
+        )
+    return None
 
 
 DOWNLOAD_SPECS = [
