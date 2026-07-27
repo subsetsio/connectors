@@ -1,0 +1,26 @@
+# arxiv-categories — arXiv subject taxonomy reference table.
+key: [category_id]
+sort: [group_name, archive_id, category_id]
+write_mode: overwrite
+columns:
+  - name: category_id
+    type: VARCHAR
+    description: arXiv subject category identifier, such as cs.AI or astro-ph.CO
+  - name: category_name
+    type: VARCHAR
+    description: arXiv display name for the subject category
+  - name: group_name
+    type: VARCHAR
+    description: top-level arXiv subject group containing the category
+  - name: archive_id
+    type: VARCHAR
+    description: arXiv archive prefix containing the category
+  - name: archive_name
+    type: VARCHAR
+    description: arXiv archive display name containing the category
+  - name: description
+    type: VARCHAR
+    description: arXiv taxonomy description for the category
+  - name: source_url
+    type: VARCHAR
+    description: URL of the arXiv taxonomy page used for the raw fetch
