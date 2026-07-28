@@ -77,6 +77,11 @@ def fetch_one(node_id: str) -> None:
     cat_id = _category_from_node(node_id)
 
     series_list = _fetch_category(cat_id)
+    if not series_list:
+        raise RuntimeError(
+            f"UHERO/DBEDT category {cat_id} returned no series; "
+            "the category id may have been renumbered upstream"
+        )
 
     columns = {c: [] for c in _COLUMNS}
     for s in series_list:
@@ -109,6 +114,11 @@ def fetch_one(node_id: str) -> None:
                 columns[k].append(v)
             columns["date"].append(_str(date))
             columns["value"].append(_str(value))
+
+    if not columns["series_id"]:
+        raise RuntimeError(
+            f"UHERO/DBEDT category {cat_id} returned series but no lvl observations"
+        )
 
     table = pa.table(columns, schema=_SCHEMA)
     save_raw_parquet(table, asset)
