@@ -13,13 +13,15 @@ from __future__ import annotations
 
 import io
 import math
+import os
 from datetime import date, datetime, time
 
 import pandas as pd
 import pyarrow as pa
+import pyarrow.parquet as pq
 
 from constants import ENTITY_IDS, ENTITY_METADATA
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, get_fs, raw_asset_exists, save_raw_parquet
 
 SLUG = "hungarian-national-bank"
 BASE_URL = "https://statisztika.mnb.hu"
@@ -158,6 +160,47 @@ def _unavailable_rows(entity_id: str, status_code: int, url: str) -> list[dict]:
     ]
 
 
+def _is_unavailable_table(table: pa.Table) -> bool:
+    if table.num_rows != 1 or "cell_type" not in table.column_names:
+        return False
+    values = table.column("cell_type").to_pylist()
+    return values == ["unavailable"]
+
+
+def _previous_available_raw(node_id: str) -> pa.Table | None:
+    bucket = os.environ.get("R2_BUCKET_NAME")
+    if not bucket:
+        return None
+
+    prefix = os.environ.get("R2_PREFIX", "").strip("/")
+    root_key = f"{prefix}/{SLUG}" if prefix else SLUG
+    root = f"s3://{bucket}/{root_key}/runs"
+    current_run_id = os.environ.get("RUN_ID")
+
+    try:
+        fs = get_fs(root)
+        fs.invalidate_cache()
+        matches = fs.glob(f"{root}/*/raw/{node_id}.parquet")
+    except Exception as exc:
+        print(f"  -> {node_id}: could not scan previous raw files: {exc}")
+        return None
+
+    for match in sorted(matches, reverse=True):
+        path = match if str(match).startswith("s3://") else f"s3://{match}"
+        if current_run_id and f"/runs/{current_run_id}/" in path:
+            continue
+        try:
+            with fs.open(path, "rb") as fh:
+                table = pq.read_table(fh)
+        except Exception as exc:
+            print(f"  -> {node_id}: could not read previous raw {path}: {exc}")
+            continue
+        if table.num_rows and not _is_unavailable_table(table):
+            print(f"  -> {node_id}: restoring previous raw workbook from {path}")
+            return table
+    return None
+
+
 def fetch_workbook_cells(node_id: str) -> None:
     entity_id = _entity_from_node_id(node_id)
     meta = ENTITY_METADATA[entity_id]
@@ -167,6 +210,13 @@ def fetch_workbook_cells(node_id: str) -> None:
     url = file_url if str(file_url).startswith("http") else f"{BASE_URL}{file_url}"
     resp = get(url, timeout=(10.0, 300.0))
     if resp.status_code == 404:
+        previous = _previous_available_raw(node_id)
+        if previous is not None:
+            save_raw_parquet(previous, node_id)
+            return
+        if raw_asset_exists(node_id, "parquet"):
+            print(f"  -> {entity_id}: workbook unavailable at {url}; keeping existing raw parquet")
+            return
         save_raw_parquet(
             pa.Table.from_pylist(_unavailable_rows(entity_id, resp.status_code, url), schema=CELL_SCHEMA),
             node_id,
