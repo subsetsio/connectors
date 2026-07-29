@@ -30,6 +30,7 @@ alone identifies the page — no per-entity URL map needed.
 
 import html as _html
 import re
+import time
 
 import pyarrow as pa
 
@@ -162,6 +163,19 @@ def _parse_rows(html_text: str):
     return rows
 
 
+def _fetch_rows_with_retry(url: str, *, attempts: int = 3):
+    rows = []
+    html_text = ""
+    for attempt in range(1, attempts + 1):
+        html_text = _fetch_html(url)
+        rows = _parse_rows(html_text)
+        if rows:
+            return rows
+        if attempt < attempts:
+            time.sleep(float(attempt))
+    return rows
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     slug = node_id[len("kff-"):]
@@ -193,8 +207,7 @@ def fetch_one(node_id: str) -> None:
         return
 
     url = _URL.format(slug=slug)
-    html_text = _fetch_html(url)
-    rows = _parse_rows(html_text)
+    rows = _fetch_rows_with_retry(url)
     if not rows:
         if slug in _WAIVED_NON_TABULAR_ENTITY_IDS:
             print(f"{asset}: waived non-tabular KFF page; no raw table written")
@@ -214,4 +227,5 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+    if eid not in _WAIVED_NON_TABULAR_ENTITY_IDS
 ]
