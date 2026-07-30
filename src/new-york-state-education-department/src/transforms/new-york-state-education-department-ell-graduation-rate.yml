@@ -1,8 +1,8 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `new-york-state-education-department-ell-graduation-rate`. Regenerate after model-verify.
 # caution: Graduation outcome counts are subgroup aggregates; avoid adding overlapping subgroup rows together.
-key: [institution_id, entity_name, entity_cd, subgroup_name]
-sort: [institution_id, entity_name, entity_cd, subgroup_name]
+key: [report_year, institution_id, entity_name, entity_cd, subgroup_name]
+sort: [report_year, institution_id, entity_name, entity_cd, subgroup_name]
 columns:
   - name: report_year
     type: BIGINT
