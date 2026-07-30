@@ -16,10 +16,10 @@ tests:
     reason: every query is filtered to Event.Mode is Aviation
     certainty: 95
   - at_least:
-      col: cm_fatalInjuryCount
+      col: cm_injuryOnboardCount
       expr: 0
-    reason: injury counts are non-negative
-    certainty: 95
+    reason: Query/Main exposes onboard injury counts and they are non-negative
+    certainty: 90
   - freshness:
       col: cm_eventDate
       reaches: today - 45d

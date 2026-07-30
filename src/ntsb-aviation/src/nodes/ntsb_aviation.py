@@ -1,39 +1,30 @@
 """NTSB Aviation Accident Database connector.
 
-Mechanism: carol_rest — the CAROL public "Download Data (JSON)" backend
-(POST https://data.ntsb.gov/carol-main-public/api/Query/FileExport). The
-response is a ZIP whose cases<ts>.json holds a JSON array of case objects, one
-per aviation investigation, with a nested `cm_vehicles` array (one object per
-aircraft).
+Mechanism: carol_rest via the CAROL public query API
+(`POST /api/Query/Main`). The older FileExport endpoint returns richer nested
+case JSON, but it fails in production with repeated upstream 500/524 errors.
+Query/Main is the reliable source-backed surface documented in research.
 
-Fetch shape: stateless full re-pull. The corpus (~150k cases, 1962-present) is
-pulled year-by-year — a single date-bounded request returns an entire year's
-cases at once (the server ignores ResultSetSize and returns all matches from the
-offset), so we walk one request per calendar year. Cheap enough (~1 min) to
-re-pull in full every run, which picks up revisions/late corrections for free.
-
-Two published tables, each its own independent download (the 1:1
-download<->entity contract means each re-pulls the corpus):
-  - accidents : one row per case (top-level fields, cm_vehicles dropped)
-  - aircraft  : one row per vehicle (cm_vehicles exploded, keyed back to case)
+Fetch shape: stateless full re-pull. The accidents node pages through all
+aviation cases once and writes one case-summary row per investigation. The
+aircraft node depends on that raw asset and explodes Query/Main's aircraft
+summary arrays (registration, make, model) into one row per listed aircraft.
 """
 
-import io
-import json
+from __future__ import annotations
+
 import time
-import zipfile
-from datetime import datetime, timezone
+from itertools import zip_longest
+from typing import Any
 
-from subsets_utils import NodeSpec, is_transient, post, save_raw_ndjson
+from subsets_utils import NodeSpec, load_raw_ndjson, post, save_raw_ndjson
 
-FILE_EXPORT_URL = "https://data.ntsb.gov/carol-main-public/api/Query/FileExport"
+BASE_URL = "https://data.ntsb.gov/carol-main-public"
+CREATE_SESSION_URL = f"{BASE_URL}/api/Session/CreateSession"
+QUERY_MAIN_URL = f"{BASE_URL}/api/Query/Main"
 
-# CAROL sits behind Cloudflare, which intermittently 403s datacenter IPs (e.g.
-# CI runners) with a bot challenge even though the request is valid. A
-# browser-like UA + Referer lowers that suspicion, and 403/429/5xx are retried
-# with backoff (a transient edge challenge usually clears on a later edge hit).
-_REQUEST_HEADERS = {
-    "Accept": "*/*",
+REQUEST_HEADERS = {
+    "Accept": "application/json, text/plain, */*",
     "Accept-Language": "en-US,en;q=0.9",
     "Content-Type": "application/json",
     "Origin": "https://data.ntsb.gov",
@@ -43,227 +34,204 @@ _REQUEST_HEADERS = {
         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     ),
 }
-_RETRYABLE_STATUS = {403, 429, 500, 502, 503, 504}
-_MAX_ATTEMPTS = 7
-# Polite spacing between requests. CAROL's Cloudflare flags datacenter IPs that
-# burst the API; keeping the per-IP rate low (~one request every ~1.5s, well
-# under a request/sec) keeps the whole-corpus crawl below that threshold.
-_REQUEST_SPACING_S = 1.5
 
-# CAROL aviation coverage starts in 1962. Upper bound is the current year.
-START_YEAR = 1962
-# Sentinel page size: the server returns every match from the offset regardless,
-# so this only acts as the "is there more?" threshold for the safety loop.
-PAGE_SIZE = 100_000
+PAGE_SIZE = 500
+REQUEST_SPACING_S = 0.25
+ACCIDENTS_ASSET_ID = "ntsb-aviation-accidents"
 
 
-def _selected_option(field_name, column, input_type):
+def _first(values: list[Any] | None) -> Any:
+    if not values:
+        return None
+    return values[0]
+
+
+def _create_session() -> int:
+    resp = post(
+        CREATE_SESSION_URL,
+        content="null",
+        headers=REQUEST_HEADERS,
+        timeout=(10.0, 30.0),
+    )
+    resp.raise_for_status()
+    return int(resp.json())
+
+
+def _query_payload(session_id: int, offset: int) -> dict[str, Any]:
     return {
-        "FieldName": field_name,
-        "Columns": [column],
-        "InputType": input_type,
-        "RuleType": 0,
-        "TargetCollection": "cases",
-    }
-
-
-def _year_payload(year, offset):
-    return {
+        "ResultSetSize": PAGE_SIZE,
+        "ResultSetOffset": offset,
         "QueryGroups": [
             {
                 "QueryRules": [
                     {
-                        "RuleType": "Simple",
-                        "Values": [f"{year}-01-01"],
-                        "Columns": ["Event.EventDate"],
-                        "Operator": "is on or after",
-                        "selectedOption": _selected_option(
-                            "EventDate", "Event.EventDate", "Date"
-                        ),
-                    },
-                    {
-                        "RuleType": "Simple",
-                        "Values": [f"{year}-12-31"],
-                        "Columns": ["Event.EventDate"],
-                        "Operator": "is on or before",
-                        "selectedOption": _selected_option(
-                            "EventDate", "Event.EventDate", "Date"
-                        ),
-                    },
-                    {
-                        "RuleType": "Simple",
+                        "FieldName": "Mode",
+                        "RuleType": 0,
                         "Values": ["Aviation"],
                         "Columns": ["Event.Mode"],
-                        "Operator": "is",
-                        "selectedOption": _selected_option(
-                            "Mode", "Event.Mode", "Dropdown"
-                        ),
-                    },
+                        "Operator": "contains",
+                    }
                 ],
-                "AndOr": "and",
+                "AndOr": "And",
             }
         ],
-        "AndOr": "and",
         "TargetCollection": "cases",
-        "ExportFormat": "data",
-        "SessionId": 1,
-        "ResultSetSize": PAGE_SIZE,
-        "ResultSetOffset": offset,
-        "SortDescending": False,
+        "AndOr": "And",
+        "SortColumn": None,
+        "SortDescending": True,
+        "SessionId": session_id,
     }
 
 
-def _post_year(year, offset):
-    """POST one year's FileExport, retrying transient network errors and
-    retryable HTTP statuses (incl. Cloudflare 403) with exponential backoff."""
-    last = None
-    for attempt in range(_MAX_ATTEMPTS):
-        try:
-            resp = post(
-                FILE_EXPORT_URL,
-                json=_year_payload(year, offset),
-                headers=_REQUEST_HEADERS,
-                timeout=(10.0, 180.0),
-            )
-        except Exception as exc:  # noqa: BLE001 - classified via is_transient
-            if is_transient(exc) and attempt < _MAX_ATTEMPTS - 1:
-                last = exc
-                time.sleep(min(4 * 2 ** attempt, 90))
-                continue
-            raise
-        if resp.status_code in _RETRYABLE_STATUS and attempt < _MAX_ATTEMPTS - 1:
-            last = RuntimeError(
-                f"HTTP {resp.status_code} from FileExport (year={year}, offset={offset})"
-            )
-            time.sleep(min(4 * 2 ** attempt, 90))
-            continue
-        resp.raise_for_status()
-        zf = zipfile.ZipFile(io.BytesIO(resp.content))
-        name = next(n for n in zf.namelist() if n.endswith(".json"))
-        data = json.loads(zf.read(name))
-        if not isinstance(data, list):
-            raise TypeError(f"expected JSON array, got {type(data).__name__}")
-        return data
-    raise RuntimeError(
-        f"FileExport failed after {_MAX_ATTEMPTS} attempts (year={year}): {last}"
+def _query_page(session_id: int, offset: int) -> dict[str, Any]:
+    resp = post(
+        QUERY_MAIN_URL,
+        json=_query_payload(session_id, offset),
+        headers=REQUEST_HEADERS,
+        timeout=(10.0, 60.0),
     )
+    resp.raise_for_status()
+    data = resp.json()
+    if not isinstance(data, dict) or not isinstance(data.get("Results"), list):
+        raise TypeError("CAROL Query/Main returned an unexpected response shape")
+    return data
 
 
-def _iter_all_cases():
-    """Yield every aviation case, walking one request per calendar year."""
-    end_year = datetime.now(tz=timezone.utc).year
-    first = True
-    for year in range(START_YEAR, end_year + 1):
-        offset = 0
-        while True:
-            if not first:
-                time.sleep(_REQUEST_SPACING_S)
-            first = False
-            batch = _post_year(year, offset)
-            if not batch:
-                break
-            for case in batch:
-                yield case
-            if len(batch) < PAGE_SIZE:
-                break
-            offset += len(batch)
+def _field_values(result: dict[str, Any]) -> dict[str, list[Any]]:
+    fields = result.get("Fields") or []
+    values: dict[str, list[Any]] = {}
+    for field in fields:
+        if not isinstance(field, dict):
+            continue
+        name = field.get("FieldName")
+        if isinstance(name, str):
+            raw_values = field.get("Values") or []
+            values[name] = raw_values if isinstance(raw_values, list) else [raw_values]
+    return values
 
 
-# Case-level scalar fields we publish (everything except the nested vehicles).
-_CASE_FIELDS = (
-    "cm_mkey",
-    "cm_ntsbNum",
-    "cm_eventDate",
-    "cm_eventType",
-    "cm_mode",
-    "cm_city",
-    "cm_state",
-    "cm_country",
-    "cm_Latitude",
-    "cm_Longitude",
-    "airportId",
-    "airportName",
-    "accidentSiteCondition",
-    "cm_highestInjury",
-    "cm_injuryOnboardCount",
-    "cm_fatalInjuryCount",
-    "cm_seriousInjuryCount",
-    "cm_minorInjuryCount",
-    "cm_onboard_None",
-    "cm_onboard_Total",
-    "cm_HazmatInvolved",
-    "cm_hasSafetyRec",
-    "cm_agency",
-    "cm_launch",
-    "cm_closed",
-    "cm_completionStatus",
-    "cm_mostRecentReportType",
-    "cm_recentReportPublishDate",
-    "cm_originalPublishedDate",
-)
+def _case_row(result: dict[str, Any]) -> dict[str, Any]:
+    values = _field_values(result)
+    return {
+        "cm_mkey": _first(values.get("Mkey")),
+        "cm_ntsbNum": _first(values.get("NtsbNo")),
+        "cm_eventDate": _first(values.get("EventDate")),
+        "cm_eventType": _first(values.get("EventType")),
+        "cm_mode": _first(values.get("Mode")),
+        "cm_city": _first(values.get("City")),
+        "cm_state": _first(values.get("State")),
+        "cm_country": _first(values.get("Country")),
+        "cm_Latitude": None,
+        "cm_Longitude": None,
+        "airportId": None,
+        "airportName": None,
+        "accidentSiteCondition": None,
+        "cm_highestInjury": _first(values.get("HighestInjuryLevel")),
+        "cm_injuryOnboardCount": _first(values.get("InjuryOnboardCount")),
+        "cm_injuryOngroundCount": _first(values.get("InjuryOngroundCount")),
+        "cm_fatalInjuryCount": None,
+        "cm_seriousInjuryCount": None,
+        "cm_minorInjuryCount": None,
+        "cm_onboard_None": None,
+        "cm_onboard_Total": None,
+        "cm_HazmatInvolved": None,
+        "cm_hasSafetyRec": _first(values.get("HasSafetyRec")),
+        "cm_agency": None,
+        "cm_launch": None,
+        "cm_closed": None,
+        "cm_completionStatus": _first(values.get("CompletionStatus")),
+        "cm_mostRecentReportType": _first(values.get("MostRecentReportType"))
+        or _first(values.get("ReportType")),
+        "cm_recentReportPublishDate": _first(values.get("ReportDate")),
+        "cm_originalPublishedDate": _first(values.get("OriginalPublishedDate")),
+        "report_number": _first(values.get("ReportNumber"))
+        or _first(values.get("ReportNo")),
+        "docket_publish_date": _first(values.get("DocketPublishDate")),
+        "ev_id": _first(values.get("EV_ID")),
+        "rep_gen_flag": _first(values.get("RepGenFlag")),
+        "vehicle_registration_numbers": values.get("N#") or [],
+        "vehicle_makes": values.get("VehicleMake") or [],
+        "vehicle_models": values.get("VehicleModel") or [],
+    }
 
-# Vehicle-level scalar fields (drop the nested cm_events / cm_injuries arrays).
-_VEHICLE_FIELDS = (
-    "cm_vehicleNum",
-    "DamageLevel",
-    "ExplosionType",
-    "FireType",
-    "aircraftCategory",
-    "make",
-    "model",
-    "amateurBuilt",
-    "numberOfEngines",
-    "registrationNumber",
-    "SerialNumber",
-    "operatorName",
-    "registeredOwner",
-    "gaFlight",
-    "flightOperationType",
-    "flightScheduledType",
-    "flightServiceType",
-    "flightTerminalType",
-    "regulationFlightConductedUnder",
-    "airMedical",
-    "airMedicalType",
-    "revenueSightseeing",
-    "secondPilotPresent",
-)
+
+def _iter_case_rows():
+    session_id = _create_session()
+    offset = 0
+    total: int | None = None
+    while total is None or offset < total:
+        page = _query_page(session_id, offset)
+        results = page["Results"]
+        if total is None:
+            total_value = page.get("ResultListCount")
+            total = int(total_value) if total_value is not None else 0
+        if not results:
+            break
+        for result in results:
+            yield _case_row(result)
+        offset += len(results)
+        if len(results) < PAGE_SIZE:
+            break
+        time.sleep(REQUEST_SPACING_S)
 
 
 def fetch_accidents(node_id: str) -> None:
-    asset = node_id
-    rows = [
-        {k: case.get(k) for k in _CASE_FIELDS}
-        for case in _iter_all_cases()
-    ]
+    rows = list(_iter_case_rows())
     if not rows:
         raise RuntimeError("CAROL returned no aviation cases")
-    save_raw_ndjson(rows, asset)
+    save_raw_ndjson(rows, node_id)
 
 
 def fetch_aircraft(node_id: str) -> None:
-    asset = node_id
     rows = []
-    for case in _iter_all_cases():
-        mkey = case.get("cm_mkey")
-        ntsb_num = case.get("cm_ntsbNum")
-        event_date = case.get("cm_eventDate")
-        for vehicle in case.get("cm_vehicles") or []:
-            if not isinstance(vehicle, dict):
-                continue
-            row = {
-                "cm_mkey": mkey,
-                "cm_ntsbNum": ntsb_num,
-                "cm_eventDate": event_date,
-            }
-            row.update({k: vehicle.get(k) for k in _VEHICLE_FIELDS})
-            rows.append(row)
+    for case in load_raw_ndjson(ACCIDENTS_ASSET_ID):
+        registrations = case.get("vehicle_registration_numbers") or []
+        makes = case.get("vehicle_makes") or []
+        models = case.get("vehicle_models") or []
+        for vehicle_num, (registration, make, model) in enumerate(
+            zip_longest(registrations, makes, models), start=1
+        ):
+            rows.append(
+                {
+                    "cm_mkey": case.get("cm_mkey"),
+                    "cm_ntsbNum": case.get("cm_ntsbNum"),
+                    "cm_eventDate": case.get("cm_eventDate"),
+                    "cm_vehicleNum": vehicle_num,
+                    "DamageLevel": None,
+                    "ExplosionType": None,
+                    "FireType": None,
+                    "aircraftCategory": None,
+                    "make": make,
+                    "model": model,
+                    "amateurBuilt": None,
+                    "numberOfEngines": None,
+                    "registrationNumber": registration,
+                    "SerialNumber": None,
+                    "operatorName": None,
+                    "registeredOwner": None,
+                    "gaFlight": None,
+                    "flightOperationType": None,
+                    "flightScheduledType": None,
+                    "flightServiceType": None,
+                    "flightTerminalType": None,
+                    "regulationFlightConductedUnder": None,
+                    "airMedical": None,
+                    "airMedicalType": None,
+                    "revenueSightseeing": None,
+                    "secondPilotPresent": None,
+                }
+            )
     if not rows:
-        raise RuntimeError("CAROL returned no aircraft vehicles")
-    save_raw_ndjson(rows, asset)
+        raise RuntimeError("CAROL returned no aircraft summary values")
+    save_raw_ndjson(rows, node_id)
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id="ntsb-aviation-accidents", fn=fetch_accidents, kind="download"),
-    NodeSpec(id="ntsb-aviation-aircraft", fn=fetch_aircraft, kind="download"),
+    NodeSpec(id=ACCIDENTS_ASSET_ID, fn=fetch_accidents, kind="download"),
+    NodeSpec(
+        id="ntsb-aviation-aircraft",
+        fn=fetch_aircraft,
+        kind="download",
+        deps=(ACCIDENTS_ASSET_ID,),
+    ),
 ]
