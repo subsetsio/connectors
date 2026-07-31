@@ -8,5 +8,7 @@ checks:
   - kind: row_floor
     min: 223285
 regression:
-  row_shrink_tolerance: 0.1
+  # HAPI food-security rows are IPC assessment/projection slices; upstream
+  # restatements can legitimately remove a full cycle while freshness advances.
+  row_shrink_tolerance: 0.25
   temporal_monotonic: true
