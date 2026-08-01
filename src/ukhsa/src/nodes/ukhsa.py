@@ -109,14 +109,29 @@ def _child_collection(item_url):
     *collection* URL, e.g. [{"sub_themes": ".../sub_themes/"}]; the collection
     URL then returns the real [{name, link}] listing. The root /themes/ is a
     collection already and is handled by _listing directly."""
-    resp = _get_json(item_url)
+    try:
+        resp = _get_json(item_url)
+    except httpx.HTTPStatusError as e:
+        code = e.response.status_code
+        if code == 429 or 500 <= code < 600:
+            raise
+        print(f"  ! skipping child collection {item_url}: HTTP {code}")
+        return []
     direct = _listing(resp)
     if direct:
         return direct
     if isinstance(resp, list) and resp and isinstance(resp[0], dict):
         for v in resp[0].values():
-            if isinstance(v, str) and v.startswith("http"):
+            if not (isinstance(v, str) and v.startswith("http")):
+                continue
+            try:
                 return _listing(_get_json(v))
+            except httpx.HTTPStatusError as e:
+                code = e.response.status_code
+                if code == 429 or 500 <= code < 600:
+                    raise
+                print(f"  ! skipping child collection {v}: HTTP {code}")
+                return []
     return []
 
 
