@@ -139,8 +139,6 @@ ENTITY_IDS = [
     'NodeID4131',
     'NodeID4133',
     'NodeID4134',
-    'NodeID4135',
-    'NodeID4136',
     'NodeID4151',
     'NodeID4239',
     'NodeID4657',

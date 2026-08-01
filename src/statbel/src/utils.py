@@ -11,7 +11,10 @@ import csv
 import datetime as dt
 import gzip
 import io
+import os
 import re
+import sqlite3
+import tempfile
 import zipfile
 from functools import lru_cache
 
@@ -107,8 +110,12 @@ def resolve_download_urls(entity_id: str) -> list[str]:
     by_ext = {}
     for u in urls:
         fn = u.rstrip("/").rsplit("/", 1)[-1]
-        by_ext.setdefault(_ext_of(fn), u)
-    candidates = [by_ext[ext] for ext in TABULAR_EXT if ext in by_ext]
+        by_ext.setdefault(_ext_of(fn), []).append(u)
+    candidates = [
+        u
+        for ext in TABULAR_EXT
+        for u in by_ext.get(ext, [])
+    ]
     if not candidates:
         raise RuntimeError(
             f"{entity_id}: no tabular distribution; have {sorted(by_ext)}"
@@ -133,15 +140,60 @@ def _extract_text(url: str, raw: bytes) -> str:
     if low.endswith(".zip"):  # .zip, .txt.zip, .csv.zip
         with zipfile.ZipFile(io.BytesIO(raw)) as zf:
             members = [n for n in zf.namelist() if not n.endswith("/")]
-            # Prefer a .txt / .csv member; else the largest file.
-            members.sort(key=lambda n: (
-                not n.lower().endswith((".txt", ".csv")),
-                -zf.getinfo(n).file_size,
-            ))
-            if not members:
-                raise RuntimeError(f"empty zip: {url}")
-            return _decode(zf.read(members[0]))
+            text_members = [
+                n for n in members
+                if n.lower().endswith((".txt", ".csv"))
+            ]
+            if not text_members:
+                raise RuntimeError(f"zip has no delimited text member: {url}")
+            text_members.sort(key=lambda n: -zf.getinfo(n).file_size)
+            return _decode(zf.read(text_members[0]))
     return _decode(raw)
+
+
+def _sqlite_rows(raw: bytes) -> list[dict]:
+    """Read Statbel's zipped SQLite mirrors as rows of strings.
+
+    These mirrors often include code tables plus a denormalized `VF_*` view.
+    Prefer that view when available; it is the source's own joined table.
+    """
+    path = None
+    with tempfile.NamedTemporaryFile(suffix=".sqlite", delete=False) as fh:
+        fh.write(raw)
+        path = fh.name
+    try:
+        con = sqlite3.connect(path)
+        try:
+            objects = [
+                name for (name,) in con.execute(
+                    """
+                    SELECT name
+                    FROM sqlite_master
+                    WHERE type IN ('table', 'view')
+                      AND name NOT LIKE 'sqlite_%'
+                    ORDER BY name
+                    """
+                )
+            ]
+            if not objects:
+                raise RuntimeError("sqlite database has no user tables or views")
+            preferred = (
+                [n for n in objects if n.upper().startswith("VF_")]
+                or [n for n in objects if n.upper().startswith("TF_")]
+                or objects
+            )
+            table = preferred[0]
+            cur = con.execute(f'SELECT * FROM "{table}"')
+            cols = _sanitize_columns([d[0] for d in cur.description or []])
+            return [
+                {cols[i]: _cell_str(value) for i, value in enumerate(row)}
+                for row in cur.fetchall()
+            ]
+        finally:
+            con.close()
+    finally:
+        if path:
+            os.unlink(path)
 
 
 def _sniff_delimiter(header: str) -> str:
@@ -214,6 +266,17 @@ def _rows_from_xlsx(url: str, raw: bytes) -> list[dict]:
 
 
 def _rows_from_delimited(url: str, raw: bytes) -> list[dict]:
+    if url.lower().endswith(".zip"):
+        with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+            members = [n for n in zf.namelist() if not n.endswith("/")]
+            sqlite_members = [
+                n for n in members
+                if n.lower().endswith((".sqlite", ".sqlite3", ".db"))
+            ]
+            if sqlite_members:
+                sqlite_members.sort(key=lambda n: -zf.getinfo(n).file_size)
+                return _sqlite_rows(zf.read(sqlite_members[0]))
+
     text = _extract_text(url, raw)
     # Normalise newlines and drop a leading BOM if any survived.
     text = text.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
