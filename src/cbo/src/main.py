@@ -26,6 +26,19 @@ def main():
     validate_environment()
     workflow = load_nodes()
     workflow.run()
+    pending_checks = [
+        spec.id
+        for spec in workflow._specs.values()
+        if spec.kind == "check"
+        and workflow.state[spec.id]["status"] == "pending"
+        and all(workflow.state[dep]["status"] == "done" for dep in spec.deps)
+    ]
+    if pending_checks:
+        print(
+            "[cbo] Re-running DAG scheduler for ready post-publish checks: "
+            + ", ".join(pending_checks)
+        )
+        workflow.run()
     # Model-authored health tests run here — post-DAG, in-connector — so data
     # access resolves identically whether the run is local or on GitHub Actions.
     run_health_tests(Path(__file__).resolve().parent.parent)
