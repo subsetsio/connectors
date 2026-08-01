@@ -4,6 +4,11 @@ One download node per rank-accepted DiDo datafile. DiDo datafiles are
 heterogeneous tabular exports, so the raw stage types each CSV here, once,
 and saves parquet — it does not preserve the source CSV bytes.
 
+Some DiDo datafiles only keep the latest monthly millesime export addressable:
+when the current month advances, the previous `csv?millesime=YYYY-MM` can start
+returning 404. Resolve the current millesime from the datafile metadata at run
+time, with the generated catalog value as a fallback if the metadata omits it.
+
 Why: `read_csv_auto` types a column from a 20480-row prefix sample by default,
 and DiDo writes the literal string `secret` into otherwise-numeric measure
 columns (CONSO, PDL) for statistically suppressed values — often tens of
@@ -60,9 +65,16 @@ def _save_csv_as_parquet(content: bytes, node_id: str) -> None:
         os.unlink(tmp)
 
 
+def _current_millesime(rid: str) -> str:
+    resp = get(f"{BASE}/datafiles/{rid}", timeout=(10.0, 60.0))
+    resp.raise_for_status()
+    millesime = resp.json().get("millesime")
+    return millesime or ENTITY_MILLESIMES[rid]
+
+
 def fetch_one(node_id: str) -> None:
     rid = SPEC_TO_RID[node_id]
-    millesime = ENTITY_MILLESIMES[rid]
+    millesime = _current_millesime(rid)
     url = f"{BASE}/datafiles/{rid}/csv"
     resp = get(url, params={"millesime": millesime}, timeout=(10.0, 900.0))
     resp.raise_for_status()
