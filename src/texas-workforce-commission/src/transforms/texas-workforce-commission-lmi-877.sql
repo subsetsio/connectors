@@ -6,9 +6,9 @@ SELECT
     "source_file",
     "sheet_name",
     "row_number",
-    "c001",
-    "c002",
-    "c003",
-    "c004",
-    "c005"
+    "c001" AS workbook_field_001,
+    "c002" AS workbook_field_002,
+    "c003" AS workbook_field_003,
+    "c004" AS workbook_field_004,
+    "c005" AS workbook_field_005
 FROM "texas-workforce-commission-lmi-877"

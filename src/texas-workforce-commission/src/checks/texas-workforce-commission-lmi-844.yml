@@ -3,14 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [row_number, c001, sheet_name]
+key: [row_number, workbook_field_001, sheet_name]
 checks:
   - kind: unique
-    columns: [row_number, c001, sheet_name]
+    columns: [row_number, workbook_field_001, sheet_name]
   - kind: not_null
     col: row_number
   - kind: not_null
-    col: c001
+    col: workbook_field_001
   - kind: not_null
     col: sheet_name
   - kind: row_floor

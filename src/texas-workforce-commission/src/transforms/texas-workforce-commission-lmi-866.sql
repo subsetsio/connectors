@@ -6,7 +6,7 @@ SELECT
     "source_file",
     "sheet_name",
     "row_number",
-    "c001",
-    "c002",
-    "c003"
+    "c001" AS workbook_field_001,
+    "c002" AS workbook_field_002,
+    "c003" AS workbook_field_003
 FROM "texas-workforce-commission-lmi-866"
