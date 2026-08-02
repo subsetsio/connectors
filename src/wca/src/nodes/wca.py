@@ -9,6 +9,7 @@ dependent node is retried in isolation, it materializes the full export again.
 
 from __future__ import annotations
 
+import os
 import tempfile
 import zipfile
 from pathlib import Path
@@ -16,7 +17,7 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.csv as pacsv
 
-from subsets_utils import NodeSpec, get, raw_asset_exists, raw_parquet_writer
+from subsets_utils import NodeSpec, get, list_raw_fragments, raw_parquet_writer
 
 EXPORT_METADATA_URL = "https://www.worldcubeassociation.org/api/v0/export/public"
 BOOTSTRAP_SPEC_ID = "wca-championships"
@@ -136,14 +137,24 @@ def _materialize_all_tables() -> None:
         zip_path.unlink(missing_ok=True)
 
 
+def _asset_fetched_this_run(asset_id: str) -> bool:
+    run_id = os.environ.get("RUN_ID")
+    if not run_id:
+        return False
+    fragments = list_raw_fragments(asset_id, "parquet")
+    return bool(fragments) and all(
+        fragment.get("run_id") == run_id for fragment in fragments.values()
+    )
+
+
 def fetch_table(node_id: str) -> None:
     if node_id not in TABLE_BY_SPEC_ID:
         raise ValueError(f"unknown WCA table spec id: {node_id}")
-    if raw_asset_exists(node_id, "parquet"):
+    if node_id != BOOTSTRAP_SPEC_ID and _asset_fetched_this_run(node_id):
         print(f"WCA: {node_id} already materialized by the bootstrap node")
         return
     _materialize_all_tables()
-    if not raw_asset_exists(node_id, "parquet"):
+    if not _asset_fetched_this_run(node_id):
         raise RuntimeError(f"{node_id} was not materialized from the WCA export")
 
 
