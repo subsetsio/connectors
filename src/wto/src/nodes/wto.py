@@ -207,7 +207,9 @@ def _fresh(asset: str, url: str) -> bool:
 # Every file is overwritten in place at a stable URL and serves Last-Modified, so
 # the signature is the freshness signal. `wto-tismos` is absent deliberately: it
 # spans two URLs and one asset carries only one signature, and at ~6.5MB the
-# unconditional refetch is cheap.
+# unconditional refetch is cheap. `wto-tismos-fats` is also cheap and is left
+# unconditional so its transform/check chain crosses a normal child completion
+# boundary even when the source file is unchanged.
 MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id="wto-merchandise-values-annual",
@@ -228,10 +230,5 @@ MAINTAIN_SPECS = [
         asset_id="wto-batis-bpm6",
         description="OECD-WTO BaTiS BPM6, annual vintage (last published 2025-12); observed via Last-Modified on the daily_update_e zip. Skipping an unchanged vintage avoids a ~509MB refetch.",
         check=lambda aid: _fresh(aid, _BATIS[0]),
-    ),
-    MaintainSpec(
-        asset_id="wto-tismos-fats",
-        description="TISMOS FATS addendum, a frozen 2005-2017 historical corpus (inferred - no published cadence); observed via Last-Modified on the daily_update_e CSV.",
-        check=lambda aid: _fresh(aid, _TISMOS_FATS[0]),
     ),
 ]
