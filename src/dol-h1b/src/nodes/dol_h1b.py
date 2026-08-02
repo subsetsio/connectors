@@ -145,6 +145,7 @@ TEXT_COLS = [
 BATCH_ROWS = 100_000          # rows per parquet write — bounds peak memory
 MIN_XLSX_BYTES = 50_000       # smaller than this is an error/challenge page
 CHUNK = 1 << 20               # 1MB download chunks
+REFRESH_MARKER_FRAGMENT = "refresh-marker"
 
 
 class _Transient(Exception):
@@ -356,6 +357,13 @@ def fetch_disclosures(node_id: str) -> None:
             "schema_version": STATE_VERSION,
             "completed": sorted(completed),
         })
+
+    # Touch the committed raw manifest on no-op recurring runs. The runtime can
+    # otherwise skip the unchanged transform and leave its dependent checks node
+    # pending. A zero-row fragment changes only the manifest fingerprint; it
+    # contributes no rows to raw tests or the published table.
+    with raw_parquet_writer(asset_base, SCHEMA, fragment=REFRESH_MARKER_FRAGMENT) as writer:
+        writer.write_table(pa.table({name: [] for name in SCHEMA.names}, schema=SCHEMA))
 
 
 DOWNLOAD_SPECS = [
