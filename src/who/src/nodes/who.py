@@ -171,7 +171,7 @@ def fetch_values(node_id: str) -> None:
     with raw_parquet_writer(node_id, _VALUES_SCHEMA) as writer:
         for i, code in enumerate(codes):
             try:
-                rows = fetch_odata(f"{BASE}/{code}")
+                rows = fetch_odata(f"{BASE}/{code}", fallback_page_size=1000)
             except httpx.HTTPStatusError as e:
                 # Permanent client errors can occur for withdrawn indicator codes.
                 if _is_permanent_client_error(e):
