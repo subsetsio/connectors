@@ -90,6 +90,7 @@ ASSET_CONVERT = pacsv.ConvertOptions(
     strings_can_be_null=True,
 )
 ASSET_READ = pacsv.ReadOptions(block_size=1 << 24)  # 16 MB blocks
+MAX_MALFORMED_SOURCE_ROWS_PER_MEMBER = 100
 
 # (aggregation function, source column) -> output column. Descriptors are
 # constant per source so "min" just carries the value; emissions/activity sum;
@@ -281,6 +282,36 @@ def _members(zf, infix, *, confidence=False):
     return out
 
 
+class _MalformedRowCounter:
+    def __init__(self, member):
+        self.member = member
+        self.count = 0
+
+    def __call__(self, row):
+        self.count += 1
+        if self.count > MAX_MALFORMED_SOURCE_ROWS_PER_MEMBER:
+            return "error"
+        return "skip"
+
+
+def _read_source_csv(fh, member, convert_options):
+    """Read a source-level CSV, tolerating a bounded number of malformed rows."""
+    malformed = _MalformedRowCounter(member)
+    parse_options = pacsv.ParseOptions(invalid_row_handler=malformed)
+    try:
+        table = pacsv.read_csv(
+            fh,
+            read_options=ASSET_READ,
+            parse_options=parse_options,
+            convert_options=convert_options,
+        )
+    except pa.ArrowInvalid as exc:
+        raise pa.ArrowInvalid(f"{member}: {exc}") from exc
+    if malformed.count:
+        print(f"  skipped {malformed.count} malformed row(s) in {member}")
+    return table
+
+
 def fetch_country_emissions(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     cols = COUNTRY_EMISSIONS_SCHEMA.names
@@ -387,10 +418,7 @@ def fetch_asset_emissions(node_id: str) -> None:
                 with zipfile.ZipFile(path) as zf:
                     for member in _members(zf, "_emissions_sources_"):
                         with zf.open(member) as fh:
-                            tbl = pacsv.read_csv(
-                                fh, read_options=ASSET_READ,
-                                convert_options=ASSET_CONVERT,
-                            )
+                            tbl = _read_source_csv(fh, member, ASSET_CONVERT)
                         if tbl.num_rows == 0:
                             continue
                         annual = _aggregate_member_to_annual(tbl)
@@ -419,10 +447,7 @@ def fetch_asset_confidence(node_id: str) -> None:
                 with zipfile.ZipFile(path) as zf:
                     for member in _members(zf, "_emissions_sources_", confidence=True):
                         with zf.open(member) as fh:
-                            tbl = pacsv.read_csv(
-                                fh, read_options=ASSET_READ,
-                                convert_options=CONFIDENCE_CONVERT,
-                            )
+                            tbl = _read_source_csv(fh, member, CONFIDENCE_CONVERT)
                         if tbl.num_rows == 0:
                             continue
                         annual = _aggregate_confidence_to_annual(tbl)
