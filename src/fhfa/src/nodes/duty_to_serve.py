@@ -19,6 +19,37 @@ from utils import _df_to_string_parquet, _get
 ELIGIBILITY_PAGE = "https://www.fhfa.gov/data/duty-to-serve/eligibility-data"
 PERFORMANCE_PAGE = "https://www.fhfa.gov/data/duty-to-serve/performance-data"
 
+DUTY_TO_SERVE_OPTIONAL_COLUMNS = [
+    "msa2018",
+    "msa2015",
+    "qct2023",
+    "qct2024",
+    "rcap2024",
+    "acp2024",
+    "qct_2021",
+    "qct_2022",
+    "rcap_2022",
+    "acp_2022",
+    "qct2019",
+    "qct2020",
+    "recap2020",
+    "acp2020",
+    "qct2017",
+    "qct2018",
+    "recap2018",
+    "acp2018",
+    "reporting_date",
+    "agency_file",
+    "institution_name",
+    "address",
+    "city",
+    "fhfa_sfi_number",
+    "rssd_id",
+    "fdic_cert_number",
+    "ncua_cu_number",
+    "fca_inst_number",
+]
+
 
 def _absolute(href: str) -> str:
     return href if href.startswith("http") else f"https://www.fhfa.gov{href}"
@@ -121,6 +152,9 @@ def fetch_duty_to_serve(node_id: str) -> None:
     for url in _zip_links(PERFORMANCE_PAGE):
         frames.extend(_frames_from_zip(url, "performance"))
     combined = pd.concat(frames, ignore_index=True, sort=False)
+    for col in DUTY_TO_SERVE_OPTIONAL_COLUMNS:
+        if col not in combined.columns:
+            combined[col] = None
     _df_to_string_parquet(combined, node_id)
 
 

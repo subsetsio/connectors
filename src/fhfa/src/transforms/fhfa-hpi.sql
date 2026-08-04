@@ -14,5 +14,6 @@ SELECT
     CAST("period" AS BIGINT) AS period,
     "index_nsa",
     "index_sa",
-    "H" AS h
+    "rstderr",
+    "note"
 FROM "fhfa-hpi"
