@@ -4,12 +4,14 @@ Two machine-readable surfaces (see research):
 
 * idda_bulk_csv  — Income Distributions and Dynamics in America (IDDA), a joint
   Minneapolis Fed / U.S. Census Bureau dataset. Five statistical modules, each
-  published as one Delta table. Per module we fetch the `<module>_all_data.csv`
-  superset (US + all states, both income types) and the `na_<module>_all_data.csv`
-  native-area file, and union them with DuckDB `union_by_name` (the native files
-  omit the top-tail percentile columns, so geography is a value, not a schema
-  split). The two largest modules are ~200 MB / ~2M rows, so we stream DuckDB
-  record batches straight into a Parquet writer to bound memory.
+  published as one Delta table. Per module we fetch the documented component
+  CSVs (US/state x W-2/1040, plus 1-/5-year horizons for mobility modules) and
+  the native-area all-data file, then union them with DuckDB `union_by_name`.
+  This avoids relying on the giant `<module>_all_data.csv` convenience files,
+  which have produced transient 502s in production. The native files omit the
+  top-tail percentile columns, so geography is a value, not a schema split. The
+  two largest modules are ~200 MB / ~2M rows, so we stream DuckDB record batches
+  straight into a Parquet writer to bound memory.
 
 * cpi_scrape     — two static-HTML historical CPI tables (1800- and 1913-),
   parsed with pandas.read_html and unioned into one table with a `series`
@@ -49,6 +51,11 @@ IDDA_MODULES = {
     "transition-matrix": "transition_matrix",
 }
 
+IDDA_GEOS = ("us", "state")
+IDDA_INCOME_TYPES = ("w2", "1040")
+IDDA_HORIZONS = ("1", "5")
+IDDA_HORIZON_MODULES = {"inc_change_distributions", "transition_matrix"}
+
 CPI_PAGES = [
     (
         "cpi_1800",
@@ -81,11 +88,11 @@ def _download_text(url: str) -> str:
 # IDDA modules
 # --------------------------------------------------------------------------- #
 def fetch_idda_module(node_id: str) -> None:
-    """Fetch one IDDA module: the all_data superset + the native-area file,
+    """Fetch one IDDA module: component files + the native-area file,
     unioned by column name and streamed to a single Parquet raw asset."""
     asset = node_id
     module = node_id[len(PREFIX):].replace("-", "_")
-    variants = [f"{module}_all_data", f"na_{module}_all_data"]
+    variants = _idda_variants(module)
 
     with tempfile.TemporaryDirectory() as tmp:
         local_paths = []
@@ -113,6 +120,19 @@ def fetch_idda_module(node_id: str) -> None:
                     writer.write_batch(batch)
         finally:
             con.close()
+
+
+def _idda_variants(module: str) -> list[str]:
+    variants = []
+    for geo in IDDA_GEOS:
+        for income_type in IDDA_INCOME_TYPES:
+            base = f"{module}_{geo}_{income_type}"
+            if module in IDDA_HORIZON_MODULES:
+                variants.extend(f"{base}_{horizon}" for horizon in IDDA_HORIZONS)
+            else:
+                variants.append(base)
+    variants.append(f"na_{module}_all_data")
+    return variants
 
 
 # --------------------------------------------------------------------------- #

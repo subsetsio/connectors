@@ -15,7 +15,7 @@ tests:
     points_outward: true
     severity: warn
   - enum: {col: geo_var, values: [usst, state, native_areas]}
-    reason: union of the all_data (US+states) and na_all_data (native areas) files
+    reason: union of the US/state component files and na_all_data native-area file
     certainty: 85
   - not_null: pctl50
   - row_count: {min: 50000}
