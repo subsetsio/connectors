@@ -21,8 +21,7 @@ tests:
     reason: FEWS NET market prices are a continuing time-series feed; latest price periods should remain within roughly a quarter.
     certainty: 80
     points_outward: true
-  - row_count: {min: 1000000}
-    reason: the global price corpus is ~4.1M observations
-    certainty: 70
-    severity: warn
-    points_outward: true
+  - row_count: {min: 3500000}
+    reason: the global price corpus is over 4M observations; materially smaller pulls indicate pagination/source truncation
+    certainty: 85
+    severity: block

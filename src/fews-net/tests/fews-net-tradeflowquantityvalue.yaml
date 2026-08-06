@@ -14,8 +14,7 @@ tests:
     reason: FEWS NET cross-border trade flows are a continuing time-series feed; latest periods should remain within roughly a quarter.
     certainty: 80
     points_outward: true
-  - row_count: {min: 50000}
-    reason: the global cross-border trade corpus is ~249k flow records
-    certainty: 70
-    severity: warn
-    points_outward: true
+  - row_count: {min: 200000}
+    reason: the global cross-border trade corpus is about 249k flow records; smaller pulls indicate a truncated fetch
+    certainty: 85
+    severity: block

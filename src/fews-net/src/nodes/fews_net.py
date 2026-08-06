@@ -24,7 +24,7 @@ JSON only — see research.
 
 import json
 
-from subsets_utils import NodeSpec, get, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get, raw_writer
 
 BASE = "https://fdw.fews.net/api"
 PAGE_SIZE = 100000  # server caps the real page below this; we follow it via offset
@@ -46,11 +46,13 @@ DOMAINS = {
 }
 
 
-@transient_retry()
 def _get_json(url: str, params: dict) -> dict:
     resp = get(url, params=params, timeout=(10.0, 300.0))
     resp.raise_for_status()
-    return resp.json()
+    data = resp.json()
+    if not isinstance(data, dict):
+        raise RuntimeError(f"{url}: expected a JSON object, got {type(data).__name__}")
+    return data
 
 
 def _country_codes() -> list[str]:
@@ -64,23 +66,43 @@ def _iter_pages(endpoint: str, fields: str, extra: dict | None = None):
     """Yield rows from one datapoint endpoint via offset pagination.
 
     Re-sends every param (incl. `fields`) on each request so the projection is
-    stable across pages. Terminates on an empty page or once offset reaches the
-    server-reported count, whichever comes first.
+    stable across pages. The FDW API reports a `count`; treat an empty page
+    before that count as a failed download, not a successful short read.
     """
     url = f"{BASE}/{endpoint}/"
     base = {"format": "json", "fields": fields, "page_size": PAGE_SIZE}
     if extra:
         base.update(extra)
     offset = 0
+    expected_count = None
     while True:
         data = _get_json(url, {**base, "offset": offset})
+        count = data.get("count")
+        if count is not None:
+            if not isinstance(count, int):
+                raise RuntimeError(f"{endpoint}: non-integer count at offset {offset}: {count!r}")
+            if expected_count is None:
+                expected_count = count
+            elif count != expected_count:
+                raise RuntimeError(
+                    f"{endpoint}: count changed during pagination "
+                    f"({expected_count} -> {count})"
+                )
         rows = data.get("results") or []
         if not rows:
+            if expected_count is not None and offset < expected_count:
+                raise RuntimeError(
+                    f"{endpoint}: empty page at offset {offset} before "
+                    f"reported count {expected_count}"
+                )
             return
         yield from rows
         offset += len(rows)
-        count = data.get("count")
-        if count is not None and offset >= count:
+        if expected_count is not None and offset >= expected_count:
+            if offset != expected_count:
+                raise RuntimeError(
+                    f"{endpoint}: read {offset} rows, expected {expected_count}"
+                )
             return
 
 
@@ -101,8 +123,8 @@ def fetch_one(node_id: str) -> None:
                 f.write(json.dumps(row, separators=(",", ":")))
                 f.write("\n")
                 n += 1
-    if n == 0:
-        raise RuntimeError(f"{asset}: fetched 0 rows")
+        if n == 0:
+            raise RuntimeError(f"{asset}: fetched 0 rows")
     print(f"  {asset}: wrote {n:,} rows")
 
 

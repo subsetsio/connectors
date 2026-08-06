@@ -24,8 +24,7 @@ tests:
     reason: FEWS NET classifications are refreshed on a recurring outlook/update cadence; the projection window should reach the current quarter.
     certainty: 80
     points_outward: true
-  - row_count: {min: 100000}
-    reason: Kenya alone returns ~157k rows, so the global pull is larger still
-    certainty: 70
-    severity: warn
-    points_outward: true
+  - row_count: {min: 1000000}
+    reason: the global IPC phase corpus has more than one million classifications; a smaller pull indicates a truncated country/pagination run
+    certainty: 80
+    severity: block
