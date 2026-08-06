@@ -175,6 +175,8 @@ META = {
 @transient_retry(min_wait=2, max_wait=60)
 def _get_page(url: str, params: dict) -> dict:
     resp = get(url, params=params, timeout=(10.0, 120.0))
+    if resp.status_code == 404:
+        return {"_http_404": True}
     resp.raise_for_status()
     return resp.json()
 
@@ -186,6 +188,10 @@ def _fetch_segment(url: str, base_params: dict) -> list:
     for _ in range(MAX_PAGES):
         params = dict(base_params, offset=offset)
         data = _get_page(url, params)
+        if data.get("_http_404"):
+            if rows:
+                return rows
+            raise RuntimeError(f"HKMA API 404 for {url} params={params}")
         header = data.get("header", {})
         if not header.get("success"):
             # 200-with-error or 4xx surfaced as a clean envelope: a permanent
@@ -196,7 +202,10 @@ def _fetch_segment(url: str, base_params: dict) -> list:
             )
         records = data.get("result", {}).get("records", []) or []
         rows.extend(records)
-        if len(records) < PAGE_SIZE:
+        datasize = data.get("result", {}).get("datasize")
+        if isinstance(datasize, str) and datasize.isdigit():
+            datasize = int(datasize)
+        if len(records) < PAGE_SIZE or (isinstance(datasize, int) and offset + len(records) >= datasize):
             return rows
         offset += PAGE_SIZE
         time.sleep(0.1)  # courtesy pause; API documents no rate limit
