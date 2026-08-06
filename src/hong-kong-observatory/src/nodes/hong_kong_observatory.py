@@ -56,24 +56,28 @@ RYES_THROTTLE_S = 0.4  # polite delay between per-date RYES requests
 # --------------------------------------------------------------------------- #
 # HTTP helpers
 # --------------------------------------------------------------------------- #
-@transient_retry()
-def _fetch_text(params) -> str:
-    resp = get(BASE, params=params, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp.text
-
-
-def _ryes_retryable(exc):
-    """RYES blocks on sustained request volume with HTTP 403, which clears after
-    a pause — so we retry 403 (with long backoff) on top of the usual transient
-    set. The per-request throttle below keeps us under the block threshold."""
+def _hko_retryable(exc):
+    """HKO blocks sustained request volume with HTTP 403, which clears after a
+    pause, so retry 403 with long backoff on top of usual transient failures."""
     if is_transient(exc):
         return True
     return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 403
 
 
 @retry(
-    retry=retry_if_exception(_ryes_retryable),
+    retry=retry_if_exception(_hko_retryable),
+    wait=wait_exponential(multiplier=2, min=4, max=120),
+    stop=stop_after_attempt(8),
+    reraise=True,
+)
+def _fetch_text(params) -> str:
+    resp = get(BASE, params=params, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.text
+
+
+@retry(
+    retry=retry_if_exception(_hko_retryable),
     wait=wait_exponential(multiplier=2, min=4, max=120),
     stop=stop_after_attempt(8),
     reraise=True,
