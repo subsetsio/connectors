@@ -17,7 +17,7 @@ SELECT
     "sex",
     "year_of_birth",
     "official_title",
-    "date_of_appointment",
-    "end_of_appointment",
+    TRY_CAST(NULLIF("date_of_appointment", '') AS TIMESTAMP) AS date_of_appointment,
+    TRY_CAST(NULLIF("end_of_appointment", '') AS TIMESTAMP) AS end_of_appointment,
     "is_vacant"
 FROM "inter-parliamentary-union-report-women-speakers"
