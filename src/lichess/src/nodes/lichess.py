@@ -30,6 +30,7 @@ PUZZLE_SCHEMA = pa.schema(
         ("Themes", pa.string()),
         ("GameUrl", pa.string()),
         ("OpeningTags", pa.string()),
+        ("DailyDate", pa.int64()),
     ]
 )
 

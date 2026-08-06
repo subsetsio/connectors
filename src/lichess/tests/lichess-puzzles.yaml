@@ -27,3 +27,9 @@ tests:
   - at_least: {col: NbPlays, expr: 0}
     reason: play counts are non-negative
     certainty: 95
+  - column_type: {col: DailyDate, type: integer}
+    reason: Lichess documents DailyDate as a Unix timestamp in milliseconds for featured daily puzzles
+    certainty: 95
+  - at_least: {col: DailyDate, expr: 0}
+    reason: DailyDate timestamps are non-negative Unix epoch millisecond values when present
+    certainty: 90

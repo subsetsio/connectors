@@ -32,3 +32,9 @@ columns:
   - name: opening_tags
     type: VARCHAR
     description: Space-separated opening tags associated with the puzzle, when available.
+  - name: daily_date_ms
+    type: BIGINT
+    description: Unix timestamp in milliseconds for the date the puzzle was featured as the Lichess daily puzzle, when applicable.
+  - name: daily_date
+    type: TIMESTAMP
+    description: Timestamp derived from daily_date_ms for puzzles featured as the Lichess daily puzzle; NULL for ordinary puzzle rows.
