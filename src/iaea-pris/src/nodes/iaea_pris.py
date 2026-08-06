@@ -1,239 +1,282 @@
 """IAEA PRIS — Power Reactor Information System connector.
 
-PRIS exposes no API, no CSV/JSON/SDMX, and no bulk export — only server-rendered
-ASP.NET HTML pages. Per-reactor detail pages live at a stable URL keyed by a
-sequential integer id:
+PRIS migrated its legacy ASP.NET reactor detail pages to the public
+pris-stats.iaea.org application. Reactor metadata is available from JSON
+endpoints in that app; annual performance rows are served from the embedded
+PowerBI model behind the PRIS data browser.
 
-    https://pris.iaea.org/pris/CountryStatistics/ReactorDetails.aspx?current=N
-
-Each page is one self-contained HTML doc carrying BOTH the reactor's static
-specification block (id-stamped <span> fields) AND its annual operating-history
-table (one row per year). We publish two subsets, each its own download node:
+We keep the original published raw schemas stable:
 
   * iaea-pris-reactors      — one row per reactor (specifications)
   * iaea-pris-performance   — one row per (reactor, year) (annual time series)
-
-Both subsets come from the same set of pages; with two independent download
-nodes the site is scraped once per node (the harness has no shared-state channel
-between download nodes). The corpus is small (~720 reactors), so a full re-scrape
-per node is cheap and is the simplest correct shape.
-
-Enumeration: ids are sparse — valid ids run 1..~1124 today with internal gaps up
-to ~44 wide, and *unassigned* ids return HTTP 500 (not 404). So we iterate from
-1, treat any non-200 as "no such reactor" (a gap), and stop only after a long run
-of consecutive misses (comfortably wider than the largest observed gap). New
-reactors get appended at the growing edge, so this adapts to growth without a
-hardcoded count cap. An absolute id ceiling guards against a runaway loop and
-RAISES if hit.
-
-No incremental query parameter exists — full corpus re-scrape each refresh. The
-maintain step (authored later) decides whether a node runs on a given refresh;
-if a fetch fn is invoked, it fetches.
-
-TLS note: the IAEA host negotiates a cipher that OpenSSL 3's default
-SECLEVEL=2 rejects (handshake closes with EOF), while curl/browsers succeed. We
-must lower to SECLEVEL=1. subsets_utils.configure_http does not wire a custom
-SSL context through to its httpx client, so we install a SECLEVEL=1 client onto
-the http_client module once per process; all requests still flow through
-subsets_utils.get (logging/tracking preserved).
 """
 
-import re
-import ssl
+from __future__ import annotations
+
+import json
 from datetime import datetime
 
-import httpx
 import pyarrow as pa
 
-from subsets_utils import get, http_client, save_raw_parquet, transient_retry
+from subsets_utils import get, post, save_raw_parquet, transient_retry
 
-BASE_URL = "https://pris.iaea.org/pris/CountryStatistics/ReactorDetails.aspx"
-SPAN_PREFIX = "MainContent_MainContent_"
-
-# Enumeration bounds. Largest gap observed between consecutive valid ids is ~44;
-# 120 consecutive misses is a safe "we're past the end" signal with headroom for
-# growth. HARD_MAX_ID is a runaway safety ceiling — hitting it RAISES.
-CONSEC_MISS_STOP = 120
-HARD_MAX_ID = 6000
-
-_CLIENT_READY = False
-
-
-def _ensure_client() -> None:
-    """Install a SECLEVEL=1 httpx client onto subsets_utils.http_client.
-
-    The IAEA TLS endpoint requires a cipher rejected by OpenSSL 3's default
-    security level. configure_http() cannot pass a custom SSL context, so we set
-    the module client directly. Requests still go through subsets_utils.get, so
-    request logging/tracking is unaffected. Idempotent per process.
-    """
-    global _CLIENT_READY
-    if _CLIENT_READY:
-        return
-    ctx = ssl.create_default_context()
-    ctx.set_ciphers("DEFAULT@SECLEVEL=1")
-    client = httpx.Client(
-        timeout=httpx.Timeout(connect=15.0, read=120.0, write=120.0, pool=15.0),
-        follow_redirects=True,
-        verify=ctx,
-        headers={"User-Agent": "subsets.io-connector/1.0 (+https://subsets.io)"},
-    )
-    if http_client._client is not None:
-        try:
-            http_client._client.close()
-        except Exception:
-            pass
-    http_client._client = client
-    _CLIENT_READY = True
+API_BASE = "https://pris-stats.iaea.org"
+POWERBI_CLUSTER = "https://wabi-north-europe-j-primary-redirect.analysis.windows.net"
+DATA_BROWSER_ELECTRICITY_REPORT_ID = "12749967-8d91-46cd-a792-093b776499c2"
+ANNUAL_ENTITY = "Fact_ReactorAnnualProduction"
+ANNUAL_FIELDS = [
+    "ReactorId",
+    "Year",
+    "Energy",
+    "NetElecCapacity",
+    "HoursOnline",
+    "OperatingFactor",
+    "AvailFactor",
+    "LoadFactor",
+]
 
 
 @transient_retry()
-def _fetch_page(rid: int) -> httpx.Response:
-    """Fetch one reactor page. Returns the response for ANY HTTP status.
-
-    Only genuine transient failures retry: network/transport errors raise out of
-    get() (caught by transient_retry), and 429 is re-raised to trigger a retry.
-    HTTP 404/500 are NOT retried — for this source they mean "id not assigned"
-    (a gap), which the caller treats as a miss. raise_for_status on 5xx would
-    turn every gap into a fatal retry storm, so we deliberately do not call it.
-    """
-    resp = get(BASE_URL, params={"current": rid}, timeout=(15.0, 120.0))
-    if resp.status_code == 429:
-        resp.raise_for_status()  # transient -> retried by the decorator
-    return resp
+def _get_json(url: str, **kwargs):
+    resp = get(url, timeout=(15.0, 120.0), **kwargs)
+    resp.raise_for_status()
+    return resp.json()
 
 
-def _iter_reactor_docs():
-    """Yield (reactor_id, lxml_doc) for every valid reactor page, in id order."""
-    from lxml import html as lxml_html
+@transient_retry()
+def _post_json(url: str, **kwargs):
+    resp = post(url, timeout=(15.0, 120.0), **kwargs)
+    resp.raise_for_status()
+    return resp.json()
 
-    _ensure_client()
-    rid = 0
-    consecutive_misses = 0
-    while True:
-        rid += 1
-        if rid > HARD_MAX_ID:
-            raise RuntimeError(
-                f"reactor id scan exceeded HARD_MAX_ID={HARD_MAX_ID} without "
-                f"hitting {CONSEC_MISS_STOP} consecutive misses — source layout "
-                f"likely changed; refusing to loop unbounded."
-            )
-        resp = _fetch_page(rid)
-        if resp.status_code != 200:
-            consecutive_misses += 1
-            if consecutive_misses >= CONSEC_MISS_STOP:
-                return
+
+def _api_json(path: str):
+    return _get_json(f"{API_BASE}{path}")
+
+
+def _items(payload) -> list[dict]:
+    if isinstance(payload, dict):
+        items = payload.get("items", [])
+        if isinstance(items, list):
+            return items
+    raise RuntimeError("unexpected PRIS API payload shape")
+
+
+def _as_float(value):
+    if value in (None, "", "NC"):
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _as_int(value):
+    if value in (None, ""):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _iso_date(value):
+    if not value:
+        return None
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return None
+        if text.startswith("/Date("):
+            try:
+                millis = int(text.removeprefix("/Date(").split(")")[0])
+                return datetime.utcfromtimestamp(millis / 1000).date().isoformat()
+            except (ValueError, OSError):
+                return None
+        return text[:10]
+    return None
+
+
+def _all_reactor_records() -> list[dict]:
+    countries = _items(_api_json("/country/countries/"))
+    by_id: dict[int, dict] = {}
+    for country in countries:
+        code = country.get("countryCode")
+        if not code:
             continue
-        consecutive_misses = 0
-        yield rid, lxml_html.fromstring(resp.text)
+        for record in _items(_api_json(f"/reactor/reactors-by-code/{code}")):
+            rid = _as_int(record.get("id"))
+            if rid is not None:
+                by_id[rid] = record
+
+    if not by_id:
+        raise RuntimeError("PRIS reactor API returned no reactor records")
+
+    detailed: list[dict] = []
+    for rid in sorted(by_id):
+        detail = _api_json(f"/reactor/reactor-by-id/{rid}")
+        if isinstance(detail, dict):
+            merged = dict(by_id[rid])
+            merged.update(detail)
+            detailed.append(merged)
+        else:
+            detailed.append(by_id[rid])
+    return detailed
 
 
-# ---------------------------------------------------------------------------
-# Parsing helpers
-# ---------------------------------------------------------------------------
-
-_UNIT_RE = re.compile(r"\s*(TW\.h|GW\.h|MWe|MWt|MW|h)\s*$")
-_YEAR_RE = re.compile(r"\d{4}")
-
-
-def _span(doc, name: str):
-    els = doc.xpath(f"//span[@id='{SPAN_PREFIX}{name}']")
-    if not els:
-        return None
-    txt = " ".join((els[0].text_content() or "").split())
-    return txt or None
-
-
-def _num(s):
-    """Parse a numeric field, stripping unit suffixes / %. 'NC', '', non-numeric -> None."""
-    if not s:
-        return None
-    s = s.replace("%", "").replace(",", "").strip()
-    s = _UNIT_RE.sub("", s).strip()
-    try:
-        return float(s)
-    except ValueError:
-        return None
-
-
-def _date(s):
-    """Parse 'DD Mon, YYYY' (e.g. '25 Oct, 2008') to an ISO date string, else None."""
-    if not s:
-        return None
-    try:
-        return datetime.strptime(s, "%d %b, %Y").date().isoformat()
-    except ValueError:
-        return None
-
-
-def _country(doc):
-    """(country_name, country_code) from the single CountryDetails anchor, or (None, None)."""
-    for a in doc.xpath("//a[@href]"):
-        m = re.search(r"CountryDetails\.aspx\?current=([A-Za-z]{2})", a.get("href") or "")
-        if m:
-            name = " ".join((a.text_content() or "").split())
-            return (name or None), m.group(1).upper()
-    return None, None
-
-
-def _parse_specs(doc, rid: int) -> dict:
-    country, code = _country(doc)
+def _reactor_row(record: dict) -> dict:
+    lifetime = record.get("lifetimeFactor") if isinstance(record.get("lifetimeFactor"), dict) else {}
     return {
-        "reactor_id": rid,
-        "name": _span(doc, "lblReactorName"),
-        "alternate_name": _span(doc, "lblAlternateName"),
-        "country": country,
-        "country_code": code,
-        "status": _span(doc, "lblReactorStatus"),
-        "reactor_type": _span(doc, "lblType"),
-        "model": _span(doc, "lblModel"),
-        "reference_unit_power_mwe": _num(_span(doc, "lblNetCapacity")),
-        "design_net_capacity_mwe": _num(_span(doc, "lblDesignNetCapacity")),
-        "gross_capacity_mwe": _num(_span(doc, "lblGrossCapacity")),
-        "thermal_capacity_mwt": _num(_span(doc, "lblThermalCapacity")),
-        "construction_start_date": _date(_span(doc, "lblConstructionStartDate")),
-        "first_criticality_date": _date(_span(doc, "lblFirstCriticality")),
-        "first_grid_connection_date": _date(_span(doc, "lblGridConnectionDate")),
-        "commercial_operation_date": _date(_span(doc, "lblCommercialOperationDate")),
-        "long_term_shutdown_date": _date(_span(doc, "lblLongTermShutdownDate")),
-        "permanent_shutdown_date": _date(_span(doc, "lblPermanentShutdownDate")),
-        "lifetime_electricity_supplied_twh": _num(_span(doc, "lblGeneration")),
-        "lifetime_operation_factor_pct": _num(_span(doc, "lblOperatingFactor")),
-        "lifetime_energy_availability_factor_pct": _num(_span(doc, "lblEAF")),
-        "lifetime_load_factor_pct": _num(_span(doc, "lblLoadFactor")),
+        "reactor_id": _as_int(record.get("id")),
+        "name": record.get("unitName"),
+        "alternate_name": record.get("alternateName"),
+        "country": record.get("countryName"),
+        "country_code": record.get("countryCode"),
+        "status": record.get("statusName"),
+        "reactor_type": record.get("typeCode") or record.get("typeName"),
+        "model": record.get("model"),
+        "reference_unit_power_mwe": _as_float(record.get("netElectricalCapacity")),
+        "design_net_capacity_mwe": _as_float(record.get("designNetElectricalCapacity")),
+        "gross_capacity_mwe": _as_float(record.get("grossElectricalCapacity")),
+        "thermal_capacity_mwt": _as_float(record.get("thermalPower")),
+        "construction_start_date": _iso_date(record.get("constructionDate")),
+        "first_criticality_date": _iso_date(record.get("criticalityDate")),
+        "first_grid_connection_date": _iso_date(record.get("gridDate")),
+        "commercial_operation_date": _iso_date(record.get("commercialDate")),
+        "long_term_shutdown_date": _iso_date(record.get("latestSuspendedOperationsDate")),
+        "permanent_shutdown_date": _iso_date(record.get("shutdownDate")),
+        "lifetime_electricity_supplied_twh": _as_float(lifetime.get("lifetimeGeneration")),
+        "lifetime_operation_factor_pct": _as_float(lifetime.get("operatingFactor")),
+        "lifetime_energy_availability_factor_pct": _as_float(lifetime.get("availabilityFactor")),
+        "lifetime_load_factor_pct": _as_float(lifetime.get("loadFactor")),
     }
 
 
-def _parse_performance(doc, rid: int) -> list:
-    """Rows from the annual operating-history table.
+def _powerbi_context(report_id: str) -> dict:
+    raw = _api_json(f"/databrowser/report-by-id/{report_id}")
+    embed = json.loads(raw) if isinstance(raw, str) else raw
+    token = embed["EmbedToken"]["Token"]
+    headers = {
+        "Authorization": f"EmbedToken {token}",
+        "Origin": "https://app.powerbi.com",
+        "Referer": "https://app.powerbi.com/",
+        "x-powerbi-hostenv": "Embed for Customers",
+    }
+    exploration = _get_json(
+        f"{POWERBI_CLUSTER}/explore/reports/{report_id}/modelsAndExploration"
+        "?preferReadOnlySession=true&skipQueryData=true",
+        headers=headers,
+    )
+    return {
+        "model_id": exploration["models"][0]["id"],
+        "capacity_uri": exploration["exploration"]["capacityUri"].rstrip("/"),
+        "mwc_token": exploration["exploration"]["mwcToken"],
+    }
 
-    Layout (9 data cells): year, electricity_supplied[GW.h], reference_unit_power[MW],
-    annual_time_on_line[h], operation_factor[%], energy_availability_factor annual[%],
-    energy_availability_factor cumulative[%], load_factor annual[%], load_factor
-    cumulative[%]. We keep the ANNUAL figures (cols 5,7) and drop the running
-    cumulative columns. Note/ditto rows ('Data Not Provided', '"') have !=9 cells
-    and are skipped.
-    """
+
+def _qes_query(entity: str, fields: list[str], top_count: int) -> dict:
+    ctx = _powerbi_context(DATA_BROWSER_ELECTRICITY_REPORT_ID)
+    select = [
+        {
+            "Column": {
+                "Expression": {"SourceRef": {"Source": "f"}},
+                "Property": field,
+            },
+            "Name": f"{entity}.{field}",
+            "NativeReferenceName": field,
+        }
+        for field in fields
+    ]
+    body = {
+        "version": "1.0.0",
+        "queries": [
+            {
+                "Query": {
+                    "Commands": [
+                        {
+                            "SemanticQueryDataShapeCommand": {
+                                "Query": {
+                                    "Version": 2,
+                                    "From": [{"Name": "f", "Entity": entity, "Type": 0}],
+                                    "Select": select,
+                                },
+                                "Binding": {
+                                    "Primary": {
+                                        "Groupings": [{"Projections": list(range(len(fields)))}]
+                                    },
+                                    "DataReduction": {
+                                        "DataVolume": 3,
+                                        "Primary": {"Top": {"Count": top_count}},
+                                    },
+                                },
+                                "ExecutionMetricsKind": 1,
+                            }
+                        }
+                    ]
+                },
+                "CacheKey": f"subsets-{entity}",
+                "QueryId": "",
+            }
+        ],
+        "cancelQueries": [],
+        "modelId": ctx["model_id"],
+        "userPreferredLocale": "en-US",
+        "allowLongRunningQueries": True,
+    }
+    headers = {
+        "Authorization": f"MWCToken {ctx['mwc_token']}",
+        "Origin": "https://app.powerbi.com",
+        "Referer": "https://app.powerbi.com/",
+        "x-powerbi-hostenv": "Embed for Customers",
+    }
+    return _post_json(f"{ctx['capacity_uri']}/query", headers=headers, json=body)
+
+
+def _dsr_rows(payload: dict) -> list[list]:
+    try:
+        encoded = payload["results"][0]["result"]["data"]["dsr"]["DS"][0]["PH"][0]["DM0"]
+    except (KeyError, IndexError, TypeError) as exc:
+        raise RuntimeError("unexpected PowerBI QES payload shape") from exc
+
+    decoded: list[list] = []
+    previous = [None] * len(ANNUAL_FIELDS)
+    for row in encoded:
+        values = row.get("C", [])
+        repeated = row.get("R", 0)
+        out = []
+        value_index = 0
+        for idx in range(len(ANNUAL_FIELDS)):
+            if repeated & (1 << idx):
+                out.append(previous[idx])
+            else:
+                value = values[value_index] if value_index < len(values) else None
+                out.append(value)
+                value_index += 1
+        previous = out
+        decoded.append(out)
+    return decoded
+
+
+def _performance_rows() -> list[dict]:
+    payload = _qes_query(ANNUAL_ENTITY, ANNUAL_FIELDS, top_count=50000)
     rows = []
-    for t in doc.xpath("//table"):
-        header = [" ".join((c.text_content() or "").split()) for c in t.xpath(".//tr[1]/*")]
-        if not header or header[0] != "Year":
+    for values in _dsr_rows(payload):
+        rid = _as_int(values[0])
+        year = _as_int(values[1])
+        if rid is None or year is None:
             continue
-        for tr in t.xpath(".//tr"):
-            cells = [" ".join((c.text_content() or "").split()) for c in tr.xpath("./td | ./th")]
-            if len(cells) != 9 or not _YEAR_RE.fullmatch(cells[0]):
-                continue
-            rows.append({
-                "reactor_id": rid,
-                "year": int(cells[0]),
-                "electricity_supplied_gwh": _num(cells[1]),
-                "reference_unit_power_mw": _num(cells[2]),
-                "annual_time_on_line_h": _num(cells[3]),
-                "operation_factor_pct": _num(cells[4]),
-                "energy_availability_factor_pct": _num(cells[5]),
-                "load_factor_pct": _num(cells[7]),
-            })
-        break
+        rows.append({
+            "reactor_id": rid,
+            "year": year,
+            "electricity_supplied_gwh": _as_float(values[2]),
+            "reference_unit_power_mw": _as_float(values[3]),
+            "annual_time_on_line_h": _as_float(values[4]),
+            "operation_factor_pct": _as_float(values[5]),
+            "energy_availability_factor_pct": _as_float(values[6]),
+            "load_factor_pct": _as_float(values[7]),
+        })
+    if not rows:
+        raise RuntimeError("PowerBI annual production query returned no rows")
     return rows
 
 
@@ -283,16 +326,13 @@ PERFORMANCE_SCHEMA = pa.schema([
 # ---------------------------------------------------------------------------
 
 def fetch_reactors(node_id: str) -> None:
-    rows = [_parse_specs(doc, rid) for rid, doc in _iter_reactor_docs()]
+    rows = [_reactor_row(record) for record in _all_reactor_records()]
     table = pa.Table.from_pylist(rows, schema=REACTORS_SCHEMA)
     save_raw_parquet(table, node_id)
 
 
 def fetch_performance(node_id: str) -> None:
-    rows = []
-    for rid, doc in _iter_reactor_docs():
-        rows.extend(_parse_performance(doc, rid))
-    table = pa.Table.from_pylist(rows, schema=PERFORMANCE_SCHEMA)
+    table = pa.Table.from_pylist(_performance_rows(), schema=PERFORMANCE_SCHEMA)
     save_raw_parquet(table, node_id)
 
 
