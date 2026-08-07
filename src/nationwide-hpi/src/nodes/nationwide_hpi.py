@@ -73,6 +73,15 @@ ENTITY_IDS = [
     "uk-house-prices-adjusted-for-inflation",
 ]
 
+URL_SLUGS = {
+    # Nationwide shortened these property-type download URLs in August 2026,
+    # but the old asset ids remain the stable dataset identities.
+    "detached-post-1991": "detached",
+    "flats-post-1991": "flats",
+    "semi-detached-post-1991": "semi-det",
+    "terraced-post-1991": "terraced",
+}
+
 SCHEMA = pa.schema(
     [
         ("date", pa.date32()),
@@ -90,7 +99,8 @@ SCHEMA = pa.schema(
 
 @transient_retry()
 def _download_xlsx(slug: str) -> bytes:
-    resp = get(f"{BASE}/{slug}", headers=DOWNLOAD_HEADERS, timeout=(10.0, 120.0))
+    url_slug = URL_SLUGS.get(slug, slug)
+    resp = get(f"{BASE}/{url_slug}", headers=DOWNLOAD_HEADERS, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.content
 
