@@ -1,10 +1,9 @@
 """Argo Program connector.
 
-The accepted Argo entities are ERDDAP datasets. Their measurement payloads are
-large enough to exceed the connector runner's per-node timeout when requested as
-full CSV tables, so the raw download stage captures the stable ERDDAP dataset
-metadata surface for each accepted entity. The transform stage publishes these
-as dataset variable catalogs.
+The accepted Argo entities are ERDDAP datasets. Their payloads include large
+gridded/profile tables, so the raw download stage captures the stable ERDDAP
+dataset metadata surface for each accepted entity. The transform stage publishes
+these as dataset variable catalogs.
 """
 
 import pyarrow as pa
@@ -14,11 +13,11 @@ from subsets_utils import NodeSpec, get, save_raw_parquet
 ERDDAP = "https://erddap.ifremer.fr/erddap"
 
 DATASETS = {
-    "argo-program-argofloats": "ArgoFloats",
     "argo-program-argofloats-index": "ArgoFloats-index",
     "argo-program-argofloats-reference": "ArgoFloats-reference",
-    "argo-program-argofloats-synthetic-bgc": "ArgoFloats-synthetic-BGC",
     "argo-program-oacp-argo-global": "OACP-Argo-Global",
+    "argo-program-oacp-argo-natl": "OACP-Argo-NATL",
+    "argo-program-pcm-argo": "PCM-Argo",
 }
 
 SCHEMA = pa.schema(
