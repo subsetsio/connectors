@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `nhs-england-covid-19-hospital-activity`. Regenerate after model-verify.
 # caution: Rows combine hospital activity measures by date and reporting series; filter to compatible series before aggregation.
-key: [period, series, sheet]
+key: []
 temporal: period
-sort: [period, series, sheet]
+sort: [period]
 columns:
   - name: source_file
     type: VARCHAR

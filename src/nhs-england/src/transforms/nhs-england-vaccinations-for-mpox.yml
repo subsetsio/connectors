@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `nhs-england-vaccinations-for-mpox`. Regenerate after model-verify.
 # caution: This extract is keyed by source series label; compare only compatible vaccination measures.
-key: [series]
+key: [period, series, source_file, sheet]
 temporal: period
-sort: [period, series]
+sort: [period, series, source_file, sheet]
 columns:
   - name: source_file
     type: VARCHAR

@@ -58,6 +58,10 @@ _NON_DATA_RE = re.compile(
     r"quality[-_ ]?statement|revisions[-_ ]?policy|annex)",
     re.I,
 )
+_METADATA_SERIES_RE = re.compile(
+    r"^(title:|notes?:|source:|contents|background|copyright)\b",
+    re.I,
+)
 _TIME_SERIES_RE = re.compile(r"time[-_ ]?series", re.I)
 _XLS_RE = re.compile(r"\.xlsx?($|\?)", re.I)
 _PATH_DATE_RE = re.compile(r"/uploads/sites/\d+/(\d{4})/(\d{2})/")
@@ -156,7 +160,11 @@ def select_files(slug: str, files: list[str]) -> list[str]:
 # --- value helpers -----------------------------------------------------------
 
 def _is_date(v) -> bool:
-    return isinstance(v, (dt.datetime, dt.date)) and not isinstance(v, bool)
+    return (
+        isinstance(v, (dt.datetime, dt.date))
+        and not isinstance(v, bool)
+        and not pd.isna(v)
+    )
 
 
 def _two_digit_year(y: int) -> int:
@@ -414,11 +422,18 @@ def tidy_sheet(raw: pd.DataFrame, source_file: str, sheet: str) -> list[dict]:
         rows = _tidy_year_quarter(raw)
     if not rows:
         rows = _tidy_point_in_time(raw, source_file, sheet)
-    return [
-        {"source_file": source_file, "sheet": sheet,
-         "series": series, "period": period, "value": value}
-        for series, period, value in rows
-    ]
+    out = []
+    for series, period, value in rows:
+        if _METADATA_SERIES_RE.search(_clean(series)):
+            continue
+        out.append({
+            "source_file": source_file,
+            "sheet": sheet,
+            "series": series,
+            "period": period,
+            "value": value,
+        })
+    return out
 
 
 def iter_sheets(url: str):
