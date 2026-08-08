@@ -4,8 +4,8 @@
 # (for matrix climate-normals datasets) the data-file `prefix` to select.
 #
 # Anonymous public open-data key (Authorization header, raw, no "Bearer").
-# Expires 2026-07-01; override via env KNMI_API_KEY (registered/bulk key).
-ANON_API_KEY = "eyJvcmciOiI1ZTU1NGUxOTI3NGE5NjAwMDEyYTNlYjEiLCJpZCI6ImVlNDFjMWI0MjlkODQ2MThiNWI4ZDViZDAyMTM2YTM3IiwiaCI6Im11cm11cjEyOCJ9"
+# Expires 2027-08-01; override via env KNMI_API_KEY (registered/bulk key).
+ANON_API_KEY = "eyJvcmciOiI1ZTU1NGUxOTI3NGE5NjAwMDEyYTNlYjEiLCJpZCI6IjUzYTg1ZDBhMmQ5YzRkYzJiYWNlNzQ4NTQ2Zjk4ODExIiwiaCI6Im11cm11cjEyOCJ9"
 
 CONFIG = {
     "aardbevingen-cijfers-1": {
